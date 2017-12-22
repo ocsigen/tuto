@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title> Mini-tutorial: client-server widgets </title><meta charset="utf8"/><link rel="stylesheet" href="/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1> Mini-tutorial: client-server widgets </h1><p>This short tutorial is an example of client-server Eliom application.
+It gives an example of client-server widgets.
+</p><p>It is probably a good starting point if you know OCaml well, and want
+to quickly learn how to write a client-server Eliom application with a
+short example and concise explanations.  For more detailed explanations, see
+the
+<span><a class="ocsforge_doclink_tuto" href="/tuto/6.1/manual/application.html">&quot;graffiti&quot; tutorial</a></span>,
+or read the manuals.
+</p><p>The goal is to show that, unlike many JavaScript libraries that build
+their widgets programmatically (by instantiating classes or calling
+functions), Eliom enables server-side widget generation, before
+sending them to the client. Pages can thus be indexed by search
+engines.
+</p><p>This tutorial also shows that it is possible to use the same code to
+build the widget either on client or server side.
+</p><p>We choose a very simple widget, that could be the base for example for
+implementing a drop-down menu. It consists of several boxes with a
+title and a content. Clicking on the title opens or closes the
+content. Furthermore, it is possible to group some of the boxes
+together to make them behave like radio buttons: when you open one of
+them, the previously opened one is closed.
+</p><p class="screenshot"><img src="/tuto/6.1/manual/files/tutorial/tutowidgets/ex-final.png" alt="screenshot"/>
+</p><h2> First step: define an application with a basic service </h2><p>The following code defines a client-server Web application with only
+one service, registered at URL <span class="teletype">/</span> (the root of the website).
+</p><p>The code also defines a client-side application (section
+<span class="teletype"> [%%client ... ] </span>)
+that appends a client-side generated widget to the page.
+Section <span class="teletype"> [%%shared ... ] </span> is compiled on both the server and the
+client-side programs.
+Inside such a section, you can write <span class="teletype"> let%server </span> or
+<span class="teletype"> let%client </span> to override <span class="teletype"> [%%shared ... ] </span>
+and define a server-only or client-only value (similarly for
+<span class="teletype"> [%%server ... ] </span> and <span class="teletype"> [%%client ... ] </span>).
+</p><pre class=""><code class="language-ocaml translatable">module Ex_app =
+  Eliom_registration.App (struct
+    let application_name = &quot;ex&quot;
+    let global_data_path = None
+  end)
+
+let _ = Eliom_content.Html.D.(
+  Ex_app.create
+    ~path:(Eliom_service.Path [&quot;&quot;])
+    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    (fun () () -&gt;
+       Lwt.return
+         (Eliom_tools.D.html ~title:&quot;tutowidgets&quot; ~css:[[&quot;css&quot;; &quot;ex.css&quot;]]
+            (body [h2 [pcdata &quot;Welcome to Ocsigen!&quot;]])))
+)
+
+[%%client
+let mywidget s1 s2 = Eliom_content.Html.D.(
+  let button  = div ~a:[a_class [&quot;button&quot;]] [pcdata s1] in
+  let content = div ~a:[a_class [&quot;content&quot;]] [pcdata s2] in
+  div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
+)
+
+let _ =
+  let%lwt _ = Lwt_js_events.onload () in
+  Dom.appendChild
+    (Dom_html.document##.body)
+    (Eliom_content.Html.To_dom.of_element (mywidget &quot;Click me&quot; &quot;Hello!&quot;));
+  Lwt.return ()
+]</code></pre><p>To compile it, first create a project by calling
+</p><pre>  eliom-distillery -name ex -template basic.ppx
+</pre><p>The name of the project must match the name given to the functor
+<span class="teletype">Eliom_registration.App</span>.
+</p><p>After you adapt the file <span class="teletype">ex.eliom</span>,
+you can compile by calling <span class="teletype">make</span>,
+and run the server by calling <span class="teletype">make test.byte</span>.
+Download the
+<a href="/tuto/6.1/manual/files/tutorial/tutowidgets/ex.css" class="ocsimore_phrasing_link">CSS file</a>
+and place it in directory <span class="teletype">static/css</span>.
+Then open a browser window and go to URL <span class="teletype">http://localhost:8080</span>.
+</p><p class="screenshot"><img src="/tuto/6.1/manual/files/tutorial/tutowidgets/ex1.png" alt="screenshot"/>
+</p><h3> More explanations</h3><p>This section gives very quick explanations on the rest of the program.
+For more detailed explanations, see the tutorial for the graffiti app
+or the manual of each of the projects.
+</p><ul><li> The client side program is sent with the first page belonging to the
+application (registered through module <span class="teletype">Ex_app</span>).
+</li><li> The <span class="teletype">##</span> is used to call a JS method from OCaml
+and <span class="teletype">##.</span> to access a JS object field
+(See Js_of_ocaml's documentation:
+<span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/2.8.4/api/Ppx_js.html">Ppx_js</a></span>).
+</li><li> If there are several services in your application, the client-side
+program will be sent only with the first page, and will not stop if
+you go to another page of the application.
+</li><li> <span class="teletype">Lwt</span> is the concurrent library used to program threads on both
+client and server sides. The syntax <span class="teletype">let%lwt a = e1 in e2</span>
+allows waiting (without blocking the rest of the program) for an Lwt
+thread to terminate before continuing. <span class="teletype">e2</span> must ben a Lwt
+thread itself. <span class="teletype">Lwt.return</span> enables creating an
+already-terminated Lwt thread.
+</li><li> <span class="teletype">Lwt_js_events</span> defines a convenient way to program
+interface events (mouse, keyboard, ...).
+</li></ul><p><span class="teletype">Lwt_js_events.onload</span> is a Lwt thread that waits until the page
+is loaded. There are similar functions to wait for other events, e.g.,
+for a click on an element of the page, or for a key press.
+</p><h2> Second step: bind the button </h2><p>To make the widget work, we must bind the click event.
+Replace function <span class="teletype">mywidget</span> by the following lines:
+</p><pre class=""><code class="language-ocaml translatable">let%client switch_visibility elt =
+  let elt = Eliom_content.Html.To_dom.of_element elt in
+  if Js.to_bool (elt##.classList##contains (Js.string &quot;hidden&quot;)) then
+    elt##.classList##remove (Js.string &quot;hidden&quot;)
+  else
+    elt##.classList##add (Js.string &quot;hidden&quot;)
+
+let%client mywidget s1 s2 = Elim_content.Html.D.(
+  let button  = div ~a:[a_class [&quot;button&quot;]] [pcdata s1] in
+  let content = div ~a:[a_class [&quot;content&quot;]] [pcdata s2] in
+  Lwt.async (fun () -&gt;
+    Lwt_js_events.clicks (To_dom.of_element button)
+      (fun _ _ -&gt; switch_visibility content; Lwt.return ()));
+  div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
+)</code></pre><ul><li> Once again, we use <span class="teletype">Lwt_js_events</span>. Function <span class="teletype">clicks</span> is
+used to bind a handler to clicks on a specific element.
+</li><li> Function <span class="teletype">async</span> runs an <span class="teletype">Lwt</span> thread asynchronously
+(without waiting for its result).
+</li><li> <span class="teletype">Lwt_js_events.clicks elt f</span> calls function <span class="teletype">f</span> for each
+mouseclick on element <span class="teletype">elt</span>.
+</li><li> <span class="teletype">Eliom_content.Html.To_dom.of_element</span>, <span class="teletype">Js.string</span> and <span class="teletype">Js.to_bool</span> are
+conversion functions between OCaml values and JS values.
+</li></ul><h2> Third step: Generating the widget on server side </h2><p>The following version of the program shows how to generate the widget
+on server side, before sending it to the client.
+</p><p>The code is exactly the same, with the following modifications:
+</p><ul><li> We place function <span class="teletype">mywidget</span> out of client section.
+</li><li> The portion of code that must be run on client side (binding the
+click event) is written as a <em>client value</em>, inside
+<span class="teletype"> [%client (... : unit) ] </span>.
+This code will be executed by the client-side program when it
+receives the page. Note that you must give the type (here
+<span class="teletype">unit</span>), as the type inference for client values is currently
+very limited. The client section may refer to server side values,
+using the <span class="teletype">~%x</span> syntax. These values will be serialized and sent
+to the client automatically with the page.
+</li><li> We include the widget on the server side generated page instead of
+adding it to the page from client side.
+</li></ul><pre class=""><code class="language-ocaml translatable">module Ex_app =
+  Eliom_registration.App (struct
+    let application_name = &quot;ex&quot;
+    let global_data_path = None
+  end)
+
+let%client switch_visibility elt =
+  let elt = Eliom_content.Html.To_dom.of_element elt in
+  if Js.to_bool (elt##.classList##(contains (Js.string &quot;hidden&quot;))) then
+    elt##.classList##remove (Js.string &quot;hidden&quot;)
+  else
+    elt##.classList##add (Js.string &quot;hidden&quot;)
+
+let mywidget s1 s2 = Eliom_content.Html.D.(
+  let button  = div ~a:[a_class [&quot;button&quot;]] [pcdata s1] in
+  let content = div ~a:[a_class [&quot;content&quot;]] [pcdata s2] in
+  let _ = [%client
+    (Lwt.async (fun () -&gt;
+       Lwt_js_events.clicks (To_dom.of_element ~%button)
+         (fun _ _ -&gt; switch_visibility ~%content; Lwt.return ()))
+     : unit)
+  ] in
+  div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
+)
+
+let _ = Eliom_content.Html.D.(
+  Ex_app.create
+    ~path:(Eliom_service.Path [&quot;&quot;])
+    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    (fun () () -&gt;
+       Lwt.return
+         (Eliom_tools.D.html ~title:&quot;ex&quot; ~css:[[&quot;css&quot;; &quot;ex.css&quot;]]
+            (body [h2 [pcdata &quot;Welcome to Ocsigen!&quot;];
+                   mywidget &quot;Click me&quot; &quot;Hello!&quot;])))
+)</code></pre><h2> Fourth step: widget usable either on client or server sides </h2><p>If you make function <span class="teletype">mywidget</span> <em>shared</em>, it will be available
+both on server and client sides:
+</p><pre class=""><code class="language-ocaml translatable">let%shared mywidget s1 s2 =
+  ...</code></pre><p class="screenshot"><img src="/tuto/6.1/manual/files/tutorial/tutowidgets/ex2.png" alt="screenshot"/>
+</p><h2> Fifth step: close last window when opening a new one </h2><p>To implement this, we record a client-side reference to a function for
+closing the currently opened window.
+</p><pre class=""><code class="language-ocaml translatable">module Ex_app =
+  Eliom_registration.App (struct
+    let application_name = &quot;ex&quot;
+    let global_data_path = None
+  end)
+
+let%client close_last = ref (fun () -&gt; ())
+
+let%client switch_visibility elt =
+  let elt = Eliom_content.Html.To_dom.of_element elt in
+  if Js.to_bool (elt##.classList##(contains (Js.string &quot;hidden&quot;))) then
+    elt##.classList##remove (Js.string &quot;hidden&quot;)
+  else
+    elt##.classList##add (Js.string &quot;hidden&quot;)
+
+let%shared mywidget s1 s2 = Eliom_content.Html.D.(
+  let button  = div ~a:[a_class [&quot;button&quot;]] [pcdata s1] in
+  let content = div ~a:[a_class [&quot;content&quot;]] [pcdata s2] in
+  let _ = [%client
+    (Lwt.async (fun () -&gt;
+       Lwt_js_events.clicks (Eliom_content.Html.To_dom.of_element ~%button) (fun _ _ -&gt;
+	 !close_last ();
+	 close_last := (fun () -&gt; switch_visibility ~%content);
+	 switch_visibility ~%content;
+	 Lwt.return ()
+       ))
+     : unit)
+  ] in
+  div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
+)
+
+let _ = Eliom_content.Html.D.(
+  Ex_app.create
+    ~path:(Eliom_service.Path [&quot;&quot;])
+    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    (fun () () -&gt;
+      let _ =
+	[%client
+	    (Dom.appendChild
+	       (Dom_html.document##.body)
+               (Eliom_content.Html.To_dom.of_element (mywidget &quot;Click me&quot; &quot;client side&quot;))
+               : unit)
+	] in
+      Lwt.return
+        (Eliom_tools.D.html ~title:&quot;ex&quot; ~css:[[&quot;css&quot;; &quot;ex.css&quot;]]
+           (body [
+             h2 [pcdata &quot;Welcome to Ocsigen!&quot;];
+             mywidget &quot;Click me&quot; &quot;server side&quot;;
+             mywidget &quot;Click me&quot; &quot;server side&quot;;
+             mywidget &quot;Click me&quot; &quot;server side&quot;
+           ])))
+)</code></pre><h2> Last step: several sets of widgets </h2><p>Now we want to enable several sets of widgets in the same page. A
+single reference no longer suffices. In the following version, the
+server-side program asks the client-side program to generate two
+different references, by calling function <span class="teletype">new_set</span>. This function
+returns what we call a <em>client value</em>.  On server side, it is not
+evaluated, and it has an abstract type.
+</p><pre class=""><code class="language-ocaml translatable">module Ex_app =
+  Eliom_registration.App (struct
+    let application_name = &quot;ex&quot;
+    let global_data_path = None
+  end)
+
+let new_set () = [%client ( ref (fun () -&gt; ()) : (unit -&gt; unit) ref)]
+
+let%client switch_visibility elt =
+  let elt = Eliom_content.Html.To_dom.of_element elt in
+  if Js.to_bool (elt##.classList##(contains (Js.string &quot;hidden&quot;))) then
+    elt##.classList##remove (Js.string &quot;hidden&quot;)
+  else
+    elt##.classList##add (Js.string &quot;hidden&quot;)
+
+let%shared mywidget set s1 s2 = Eliom_content.Html.D.(
+  let button  = div ~a:[a_class [&quot;button&quot;]] [pcdata s1] in
+  let content = div ~a:[a_class [&quot;content&quot;; &quot;hidden&quot;]] [pcdata s2] in
+  let _ = [%client
+    (Lwt.async (fun () -&gt;
+       Lwt_js_events.clicks (Eliom_content.Html.To_dom.of_element ~%button) (fun _ _ -&gt;
+         ! ~%set ();
+         ~%set := (fun () -&gt; switch_visibility ~%content);
+         switch_visibility ~%content;
+	 Lwt.return ()))
+       : unit)]
+  in
+  div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
+)
+
+let _ = Eliom_content.Html.D.(
+  Ex_app.create
+    ~path:(Eliom_service.Path [&quot;&quot;])
+    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    (fun () () -&gt;
+      let set1 = new_set () in
+      let set2 = new_set () in
+      let _ = [%client (
+	Dom.appendChild
+	  (Dom_html.document##.body)
+	  (Eliom_content.Html.To_dom.of_element (mywidget ~%set2 &quot;Click me&quot; &quot;client side&quot;))
+	  : unit)
+	      ] in
+      Lwt.return
+        (Eliom_tools.D.html ~title:&quot;ex&quot; ~css:[[&quot;css&quot;; &quot;ex.css&quot;]]
+           (body [
+             h2 [pcdata &quot;Welcome to Ocsigen!&quot;];
+             mywidget set1 &quot;Click me&quot; &quot;server side&quot;;
+             mywidget set1 &quot;Click me&quot; &quot;server side&quot;;
+             mywidget set2 &quot;Click me&quot; &quot;server side&quot;
+           ])))
+)</code></pre><p class="screenshot"><img src="/tuto/6.1/manual/files/tutorial/tutowidgets/ex-final.png" alt="screenshot"/>
+</p><h2> And now? </h2><h3>Calling server functions</h3><p>An important feature missing from this tutorial is the ability
+to call server functions from the client-side program (&quot;server functions&quot;).
+You can find a quick description of this
+<span><a class="ocsforge_doclink_tuto" href="/tuto/6.1/manual/how-to-call-a-server-side-function-from-client-side.html">in this mini HOWTO</a></span> or
+in <a href="/eliom/manual/clientserver-communication.html" class="ocsimore_phrasing_link">Eliom's manual</a>.
+</p><h3>Services</h3><p>For many applications, you will need several services. By default,
+client-side Eliom programs do not stop when you follow a link or send
+a form. This enables combining rich client side features (playing
+music, animations, stateful applications ...)  with traditional Web
+interaction (links, forms, bookmarks, back button ...).  Eliom
+proposes several ways to identify services, either by the URL (and
+parameters), or by a session identifier (we call this kind of service
+a <em>coservice</em>). Eliom also allows creating new (co-)services
+dynamically, for example coservices depending on previous interaction
+with a user. More information on the service identification mechanism
+in <a href="/eliom/manual/server-services.html" class="ocsimore_phrasing_link">Eliom's manual</a>.
+</p><h3>Sessions</h3><p>Eliom also offers a rich session mechanism, with <em>scopes</em>
+(see <a href="/eliom/manual/server-state.html" class="ocsimore_phrasing_link">Eliom's manual</a>).
+</p></body></html>

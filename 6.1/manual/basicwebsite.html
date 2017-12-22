@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Writing a basic Web site in OCaml</title><meta charset="utf8"/><link rel="stylesheet" href="/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><header><h1>Writing a basic Web site in OCaml</h1></header><p><em>The code of this tutorial has been tested against Eliom 6.0.</em> <br/>
+</p><p>In this tutorial, we will show how to use the Ocsigen framework
+(mainly Eliom) to write a lightweight Web site by generating pages
+using OCaml functions. The goal is to show that,
+even though Eliom makes it possible to write complete client-server
+Web and mobile apps,
+you can still use Eliom even if you don't need all these features (for example if you don't want HTML type checking or client-side features). Besides, this will allow you to extend your Web site in a full Web application if you need, later on. This tutorial is also a good overview of the basics of Eliom.
+</p><h2 id="service"> A service generating a page <a class="backref" href="#service">&#182;</a></h2><p>The following code shows how to create a service that answers
+for requests at URL <span class="teletype">http://.../aaa/bbb</span>, by invoking an
+Ocaml function <span class="teletype">f</span> of type:
+</p><pre class=""><code class="language-ocaml translatable">f : (string * string) list -&gt; unit -&gt; string Lwt.t</code></pre><p>Function <span class="teletype">f</span> generates HTML as a string, taking as argument the list of URL parameters (GET parameters).
+</p><pre class=""><code class="language-ocaml translatable">let f _ () =
+  Lwt.return &quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;Hello world&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Welcome&lt;/body&gt;&lt;/html&gt;&quot;
+
+let main_service =
+  Eliom_registration.Html_text.create
+    ~path:(Eliom_service.Path [&quot;aaa&quot;; &quot;bbb&quot;])
+    ~meth:(Eliom_service.Get Eliom_parameter.any)
+    f</code></pre><p><span class="teletype">Eliom_service.Get Eliom_parameter.any</span> means that the service uses the GET method and takes any GET parameter.
+</p><p>We recommend to use the program <span class="teletype">eliom-distillery</span>
+to generate a template for your application (a Makefile and a default
+configuration file for Ocsigen Server).
+</p><pre class="manually-translated"><code class="language-shell">$ eliom-distillery -name mysite -template basic.ppx -target-directory mysite</code></pre><p>Modify file <span class="teletype">mysite.eliom</span> to include the piece of code above,
+instead of the default one.
+Then compile and run the server by doing:
+</p><pre class="manually-translated"><code class="language-shell">$ make test.byte</code></pre><p>Your page is now available at URL <a href="http://localhost:8080/aaa/bbb" class="ocsimore_phrasing_link"><span class="teletype">http://localhost:8080/aaa/bbb</span></a>.
+</p><p>If you dont want to use the Makefile provided by eliom-distillery,
+just replace <span class="teletype">mysite.eliom</span> by a file <span class="teletype">mysite.ml</span>,
+compile and run with
+</p><pre class="manually-translated"><code class="language-shell">$ ocamlfind ocamlc -package eliom.server -thread -c mysite.ml
+$ ocsigenserver -c mysite.conf</code></pre><p>where mysite.conf is adapted from
+<span class="teletype">local/etc/mysite/mysite-test.conf</span>
+by replacing mysite.cma by your cmo.
+</p><h2 id="post"> POST service <a class="backref" href="#post">&#182;</a></h2><p>Services using the POST HTTP method can be created and registered using the function
+<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_registration.Html.html#VALcreate">Eliom_registration.​Html.​create</a></span>.
+</p><pre class=""><code class="language-ocaml translatable">let g getp postp = Lwt.return (&quot;t = &quot; ^ (string_of_int postp))
+
+let post_service =
+  Eliom_registration.Html_text.create
+    ~path:(Eliom_service.Path [&quot;&quot;])
+    ~meth:(Eliom_service.Post (Eliom_parameter.any,Eliom_parameter.int &quot;t&quot;))
+    g</code></pre><p>What if the user comes back later without POST parameters, for example
+because he put a bookmark on this URL?
+This may produce an error, to prevent this from happening we can
+create a service without POST parameters using the same URL as the first one,
+which will be used whenever the POST parameters are not provided.
+</p><pre class=""><code class="language-ocaml translatable">let g' getp postp = Lwt.return &quot;...&quot;
+
+let post_service =
+  Eliom_registration.Html_text.create
+    ~path:(Eliom_service.Path [&quot;&quot;])
+    ~meth:(Eliom_service.Get Eliom_parameter.any)
+    g'</code></pre><h2 id="misc"> Going further <a class="backref" href="#misc">&#182;</a></h2><p>That is probably all you need for a very basic Web site in OCaml.
+</p><p>Instead of generating HTML in OCaml strings, we highly recommend to use
+<em>typed HTML</em>. It is very easy to use, once you have learned the basics,
+and helps a lot to efficiently write modular and valid HTML.
+To do this, use module
+<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_registration.Html.html">Eliom_registration.​Html</a></span>
+instead of
+<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_registration.Html_text.html">Eliom_registration.​Html_text</a></span>.
+See this
+<span><a class="ocsforge_doclink_tuto" href="/tuto/6.1/manual/application.html#tyxml">tutorial</a></span>
+for more information, a comprehensive documentation
+<span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.1.0/manual/intro.html">here</a></span>,
+and a more advanced manual
+<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/manual/clientserver-html.html">here</a></span>.
+</p><p>Have a look at Eliom's API documentation to see other kinds of services,
+for example <span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_registration.Redirection.html">Eliom_registration.​Redirection</a></span>
+to create HTTP redirections.
+</p><p>Eliom also has a way to typecheck forms and GET or POST parameters.
+By giving a description of the parameters your service expects,
+Eliom will check their presence automatically, and convert them
+for you to OCaml types.
+See
+<span><a class="ocsforge_doclink_tuto" href="/tuto/6.1/manual/interaction.html">this tutorial</a></span>
+and <span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/manual/server-params.html">this manual page</a></span>.
+</p><p>Eliom also has other ways to identify services (besides just the PATH
+in the URL). For example Eliom can identify a service just by a parameter
+(whatever the path is). This is called <em>non-attached coservices</em> and
+this makes it possible for instance to have the same feature on every page
+(for example a connection service).
+See
+<span><a class="ocsforge_doclink_tuto" href="/tuto/6.1/manual/interaction.html">this tutorial</a></span>
+and <span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/manual/server-services.html">this manual page</a></span>.
+</p><p>One of the main features of Eliom is the ability to write complete
+Web and mobile applications in OCaml. Annotations are used to
+separate the code to be executed server-side from the client code.
+Client functions are translated into Javascript using
+<a href="/js_of_ocaml/2.8.4/manual/overview.html" class="ocsimore_phrasing_link">Ocsigen Js_of_ocaml</a>.
+See
+<span><a class="ocsforge_doclink_tuto" href="/tuto/6.1/manual/tutowidgets.html">this tutorial</a></span> for
+a quick introduction,
+or <span><a class="ocsforge_doclink_tuto" href="/tuto/6.1/manual/application.html">this one</a></span> for a
+more comprehensive one.
+You can also have a look at
+<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/manual/clientserver-applications.html">this manual page</a></span>.
+</p><p>Another interesting feature of Eliom is its session model, that uses a
+very simple interface to record session data server-side.
+It is even possible to choose
+the <em>scope</em> of this data: either a browser, or a tab, or even a group
+of browsers (belonging for instance to a same user).
+See
+<span><a class="ocsforge_doclink_tuto" href="/tuto/6.1/manual/interaction.html#eref">this section</a></span>
+and the beginning of
+<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/manual/server-state.html">this manual page</a></span>.
+</p><p>We suggest to continue your reading by one of these tutorials:
+</p><ul><li> <span><a class="ocsforge_doclink_tuto" href="/tuto/6.1/manual/tutowidgets.html">A quick start tutorial for client-server Eliom applications</a></span> (for the people already familiar with OCaml, Lwt, etc.)
+</li><li> <span><a class="ocsforge_doclink_tuto" href="/tuto/6.1/manual/application.html">A step by step tutorial for client-server Eliom applications</a></span>
+</li><li> <span><a class="ocsforge_doclink_tuto" href="/tuto/6.1/manual/interaction.html">A tutorial on server side dynamic Web site</a></span>
+</li></ul></body></html>

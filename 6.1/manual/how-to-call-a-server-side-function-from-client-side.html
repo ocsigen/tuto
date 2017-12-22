@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>How to call a server-side function from client-side?</title><meta charset="utf8"/><link rel="stylesheet" href="/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1>How to call a server-side function from client-side?</h1><p>It is possible to call server-side functions in client-side code using
+the <span class="teletype">~%</span> syntax. For security reasons, these functions must first
+be declared explicitely as &quot;server functions&quot; (with the type of their
+argument).
+</p><pre class=""><code class="language-ocaml translatable">let f x = ...
+
+let%client f_rpc = ~%(server_function [%derive.json: int] f)
+
+...
+
+[%client ... f_rpc 4 ... ]</code></pre><p>Server functions are just syntactic sugar for pathless services
+returning OCaml values.
+</p><p>Note that you need to install <span class="teletype">ppx_deriving</span>, and load our JSON
+<span class="teletype">ppx_deriving</span> plugin in your project. The plugin is available as
+the Ocamlfind package <span class="teletype">js_of_ocaml.deriving.ppx</span>.
+</p><p>If the function takes a more complex type, this type must have been
+declared with <span class="teletype">ppx_deriving</span>. For example,
+</p><pre class=""><code class="language-ocaml translatable">type t = int * string [@@deriving json]</code></pre><p>Our infrastructure provides server-side data validation of the data
+sent, and prevents malformed data from crashing the server.
+</p></body></html>

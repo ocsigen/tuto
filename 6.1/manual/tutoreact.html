@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title> Client server reactive application with Ocsigen</title><meta charset="utf8"/><link rel="stylesheet" href="/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1> Client server reactive application with Ocsigen</h1><p>This is a short tutorial showing how to implement a simple reactive
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title> Client server reactive application with Ocsigen</title><meta charset="utf8"/><link rel="stylesheet" href="file:///home/balat/ocsigen/ocsigen.github.io/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1> Client server reactive application with Ocsigen</h1><p>This is a short tutorial showing how to implement a simple reactive
 client-server application using Js_of_ocaml, Eliom and
 Ocsigen Start.
 </p><p>Our application displays a list of items to connected users (for
@@ -184,7 +184,7 @@ implementing this kind of applications very concisely:
 </li><li> Reactive pages
 </li></ul><p>In the following section, we will implement the notification system.
 </p><h3> Client-server cache</h3><p>The module
-<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_cscache.html">Eliom_cscache</a></span>
+<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_cscache">Eliom_cscache</a></span>
 implements a cache of data, that is, an association table where you
 will put the data of your application on client side. For the sake of
 uniformity (as we want to use it in shared sections), the
@@ -192,7 +192,7 @@ cache is also implemented on the server side, with scope
 &quot;request&quot;. This avoids retrieving the same data from the database
 twice for the same request.
 </p><p>Create a client-server cache by calling the function
-<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_cscache.html#VALcreate">Eliom_cscache.​create</a></span>
+<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_cscache#VALcreate">Eliom_cscache.​create</a></span>
 from server side. Client version of a cache <span class="teletype">c</span> created by this function
 will be accessible as <span class="teletype">~%c</span>.
 </p><p>Implement a function <span class="teletype">get_data</span> to fetch the
@@ -220,20 +220,20 @@ which extends <span class="teletype">React</span> to deal with incremental updat
 lists. Have a look at the documentation of the above modules if you
 are not familiar with FRP.
 </p><p>The client-side module
-<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/client/Eliom_content.Html.R.html">Eliom_content.​Html.​R</a></span>
+<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/client/Eliom_content.Html.R">Eliom_content.​Html.​R</a></span>
 enables defining reactive page elements.
 </p><p>The module
-<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_shared.html">Eliom_shared</a></span>
+<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_shared">Eliom_shared</a></span>
 enables defining shared (client-side) reactive signals from server
 side. To do that, it is using <em>shared values</em>, that is, values that
 contain both a server-side and a client-side value. The server-side
 module
-<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_content.Html.R.html">Eliom_content.​Html.​R</a></span>
+<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_content.Html.R">Eliom_content.​Html.​R</a></span>
 enables constructing HTML5 elements that get updated automatically
 based on the signals in <span class="teletype">Eliom_shared</span>. The modules
-<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_shared.React.html">Eliom_shared.​React</a></span>
+<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_shared.React">Eliom_shared.​React</a></span>
 and
-<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_shared.ReactiveData.html">Eliom_shared.​ReactiveData</a></span>
+<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_shared.ReactiveData">Eliom_shared.​ReactiveData</a></span>
 implement interfaces very similar to <span class="teletype">React</span> and
 <span class="teletype">ReactiveData</span>, but operate on shared signals.
 </p><h3> Implementation of the reactive interface</h3><p><span class="teletype">display_message</span> now needs to take its data from the cache, and

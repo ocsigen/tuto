@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Traditional web interaction in a client-server app</title><meta charset="utf8"/><link rel="stylesheet" href="/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1>Traditional web interaction in a client-server app</h1><p><em>The code of this tutorial has been tested with Eliom 6.0.</em> <br/>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Traditional web interaction in a client-server app</title><meta charset="utf8"/><link rel="stylesheet" href="file:///home/balat/ocsigen/ocsigen.github.io/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1>Traditional web interaction in a client-server app</h1><p><em>The code of this tutorial has been tested with Eliom 6.0.</em> <br/>
 </p><h2>Multi-user collaborative drawing application</h2><p>We now want to turn our collaborative drawing application into a
 multi-user one. Each user will have their own drawing, where everyone
 can draw, and the owner will have the ability to save the drawing they
@@ -55,8 +55,8 @@ let stop_drawing { message_thread; drawing_thread } =
   (* cancelling this thread also close the bus *)
   Lwt.cancel drawing_thread</code></pre><p><span class="teletype">Lwt.cancel t</span> stops thread t. In this case it also closes the
 bus on which t is listening. For more informations see the
-<span><a class="ocsforge_doclink_lwt" href="/lwt/3.1.0/manual/manual.html">Lwt programming guide </a></span> and
-<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/client/Eliom_bus.html">Eliom_bus</a></span>.
+<span><a class="ocsforge_doclink_lwt" href="/lwt/3.1.0/manual/manual">Lwt programming guide </a></span> and
+<span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/client/Eliom_bus">Eliom_bus</a></span>.
 </p><pre class=""><code class="language-ocaml translatable">let launch_client_canvas bus image_elt canvas_elt slider =
   let canvas = Html.To_dom.of_canvas canvas_elt in
   let ctx = canvas##(getContext (Dom_html._2d_)) in
@@ -233,7 +233,7 @@ page change. Since clicking on links in an Eliom application do not
 reload the entire page, already loaded libraries stay loaded. But if
 we simply add a script to each page, it will be loaded each time.
 We usually don't want that.
-</p><p>Using <span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_content.Html.Id.html#VALcreate_global_elt">Eliom_content.​Html.​Id.​create_global_elt</a></span> we can create an xml node
+</p><p>Using <span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_content.Html.Id#VALcreate_global_elt">Eliom_content.​Html.​Id.​create_global_elt</a></span> we can create an xml node
 manipulated 'by reference'. If a reference to a script node is
 included in a page, it will only be loaded the first time it appears
 in the header. This is the case for <span class="teletype">oclosure_script</span> above.</p></aside><h4><span class="teletype">graffiti.eliom</span></h4><p>Here is the code that mixes client and server parts.
@@ -256,7 +256,7 @@ side effects in a client value.
      in
      Eliom_client.onunload (fun () -&gt; stop_drawing canceller; None)
      : unit)
-  ]</code></pre><p>The function registered by <span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/client/Eliom_service.html#VALonunload">Eliom_service.​onunload</a></span> will be called when
+  ]</code></pre><p>The function registered by <span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/client/Eliom_service#VALonunload">Eliom_service.​onunload</a></span> will be called when
 the page change inside the application.
 </p><p>And we finally register the service sending a drawing:
 </p><pre class=""><code class="language-ocaml translatable">let counter = ref 0
@@ -410,5 +410,5 @@ to <span class="teletype">disconnect_box</span>
 </p><pre class=""><code class="language-ocaml translatable">[h1 [pcdata name];
        disconnect_box ();
        choose_drawing_form ();
-       canvas;])</code></pre><p><a href="/tuto/6.1/manual/interaction.html" class="ocsimore_phrasing_link">prev</a>
+       canvas;])</code></pre><p><a href="/tuto/6.1/manual/interaction" class="ocsimore_phrasing_link">prev</a>
 </p></body></html>

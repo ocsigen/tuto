@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title> Mini-tutorial: client-server widgets </title><meta charset="utf8"/><link rel="stylesheet" href="/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1> Mini-tutorial: client-server widgets </h1><p>This short tutorial is an example of client-server Eliom application.
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title> Mini-tutorial: client-server widgets </title><meta charset="utf8"/><link rel="stylesheet" href="file:///home/balat/ocsigen/ocsigen.github.io/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1> Mini-tutorial: client-server widgets </h1><p>This short tutorial is an example of client-server Eliom application.
 It gives an example of client-server widgets.
 </p><p>It is probably a good starting point if you know OCaml well, and want
 to quickly learn how to write a client-server Eliom application with a
 short example and concise explanations.  For more detailed explanations, see
 the
-<span><a class="ocsforge_doclink_tuto" href="/tuto/6.1/manual/application.html">&quot;graffiti&quot; tutorial</a></span>,
+<span><a class="ocsforge_doclink_tuto" href="/tuto/6.1/manual/application">&quot;graffiti&quot; tutorial</a></span>,
 or read the manuals.
 </p><p>The goal is to show that, unlike many JavaScript libraries that build
 their widgets programmatically (by instantiating classes or calling
@@ -81,7 +81,7 @@ application (registered through module <span class="teletype">Ex_app</span>).
 </li><li> The <span class="teletype">##</span> is used to call a JS method from OCaml
 and <span class="teletype">##.</span> to access a JS object field
 (See Js_of_ocaml's documentation:
-<span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/2.8.4/api/Ppx_js.html">Ppx_js</a></span>).
+<span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/2.8.4/api/Ppx_js">Ppx_js</a></span>).
 </li><li> If there are several services in your application, the client-side
 program will be sent only with the first page, and will not stop if
 you go to another page of the application.
@@ -287,8 +287,8 @@ let _ = Eliom_content.Html.D.(
 </p><h2> And now? </h2><h3>Calling server functions</h3><p>An important feature missing from this tutorial is the ability
 to call server functions from the client-side program (&quot;server functions&quot;).
 You can find a quick description of this
-<span><a class="ocsforge_doclink_tuto" href="/tuto/6.1/manual/how-to-call-a-server-side-function-from-client-side.html">in this mini HOWTO</a></span> or
-in <a href="/eliom/manual/clientserver-communication.html" class="ocsimore_phrasing_link">Eliom's manual</a>.
+<span><a class="ocsforge_doclink_tuto" href="/tuto/6.1/manual/how-to-call-a-server-side-function-from-client-side">in this mini HOWTO</a></span> or
+in <a href="/eliom/manual/clientserver-communication" class="ocsimore_phrasing_link">Eliom's manual</a>.
 </p><h3>Services</h3><p>For many applications, you will need several services. By default,
 client-side Eliom programs do not stop when you follow a link or send
 a form. This enables combining rich client side features (playing
@@ -299,7 +299,7 @@ parameters), or by a session identifier (we call this kind of service
 a <em>coservice</em>). Eliom also allows creating new (co-)services
 dynamically, for example coservices depending on previous interaction
 with a user. More information on the service identification mechanism
-in <a href="/eliom/manual/server-services.html" class="ocsimore_phrasing_link">Eliom's manual</a>.
+in <a href="/eliom/manual/server-services" class="ocsimore_phrasing_link">Eliom's manual</a>.
 </p><h3>Sessions</h3><p>Eliom also offers a rich session mechanism, with <em>scopes</em>
-(see <a href="/eliom/manual/server-state.html" class="ocsimore_phrasing_link">Eliom's manual</a>).
+(see <a href="/eliom/manual/server-state" class="ocsimore_phrasing_link">Eliom's manual</a>).
 </p></body></html>

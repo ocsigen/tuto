@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Introduction</title><meta charset="utf8"/><link rel="stylesheet" href="/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1>Introduction</h1><p>This tutorial is an overview of the main features of the Ocsigen
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Introduction</title><meta charset="utf8"/><link rel="stylesheet" href="file:///home/balat/ocsigen/ocsigen.github.io/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1>Introduction</h1><p>This tutorial is an overview of the main features of the Ocsigen
 framework.  It explains how to program web sites and client-server Web
 applications in <em>OCaml</em> using <em>Eliom</em>, <em>Lwt</em>, <em>Js_of_ocaml</em>
 and other libraries of the Ocsigen project.  Read it to understand the
@@ -11,7 +11,7 @@ particular, you need to have the interfaces (cmi) installed for all
 these packages (the <span class="monospace">-dev</span>-packages in some distributions).
 The best way to install OCaml (on MacOS, Linux ...) is to use the Opam
 package manager.
-The <a href="/install.html" class="ocsimore_phrasing_link">installation is described here</a>.
+The <a href="/install" class="ocsimore_phrasing_link">installation is described here</a>.
 </p><p>We recommend to register to our
 <a href="https://sympa.inria.fr/sympa/subscribe/ocsigen" class="ocsimore_phrasing_link">mailing list</a>
 where you can ask your questions and get news from the project.
@@ -24,17 +24,17 @@ software projects.
 </p><h2>Overview of the tutorial</h2><p>The tutorial is divided into several parts, mostly independant:
 </p><div class="tutocase"><p>Quick start
 </p><dl><dt> Your first cross-platform client-server app in 5 minutes
-</dt><dd>Read this <a href="/tuto/6.1/manual/start.html" class="ocsimore_phrasing_link">tutorial</a></dd></dl></div><p><br/>
+</dt><dd>Read this <a href="/tuto/6.1/manual/start" class="ocsimore_phrasing_link">tutorial</a></dd></dl></div><p><br/>
 </p><div class="tutocase"><p>Quick start: the basics
 </p><dl><dt> A short tutorial explaining how to write a dynamic Web site by generating pages using OCaml functions
-</dt><dd>Read tutorial <a href="/tuto/6.1/manual/basicwebsite.html" class="ocsimore_phrasing_link">Basic web site</a></dd></dl></div><p><br/>
+</dt><dd>Read tutorial <a href="/tuto/6.1/manual/basicwebsite" class="ocsimore_phrasing_link">Basic web site</a></dd></dl></div><p><br/>
 </p><div class="tutocase"><dl><dt>If you want a quick introduction to client-server Web programming with Eliom
-</dt><dd>Read tutorial <a href="/tuto/6.1/manual/tutowidgets.html" class="ocsimore_phrasing_link">Eliom apps basics: writing client server widgets</a></dd></dl></div><p>It shows on an example the client-server syntax,
+</dt><dd>Read tutorial <a href="/tuto/6.1/manual/tutowidgets" class="ocsimore_phrasing_link">Eliom apps basics: writing client server widgets</a></dd></dl></div><p>It shows on an example the client-server syntax,
 and is a good starting point for understanding Eliom's client-server features.
 </p><p><br/>
 </p><div class="tutocase"><dl><dt>If you want a full step-by-step tutorial on how to write a client-server Web application
-</dt><dd>Read tutorial <a href="/tuto/6.1/manual/application.html" class="ocsimore_phrasing_link">Client-server application</a></dd></dl></div><p>It describes step by step how to write a client/server
-<a href="/graffiti/.html" class="ocsimore_phrasing_link">collaborative drawing application</a>. You will learn,
+</dt><dd>Read tutorial <a href="/tuto/6.1/manual/application" class="ocsimore_phrasing_link">Client-server application</a></dd></dl></div><p>It describes step by step how to write a client/server
+<a href="/graffiti/" class="ocsimore_phrasing_link">collaborative drawing application</a>. You will learn,
 from the very beginning, how to:
 </p><ul><li> Create new <em>services</em>
 </li><li> Output <em>valid HTML</em>
@@ -45,10 +45,10 @@ from the very beginning, how to:
 </li><li> Create services with <em>non-HTML output</em>
 </li></ul><p><br/>
 </p><div class="tutocase"><dl><dt>If you want to build mobile applications:
-</dt><dd>Read tutorial <a href="/tuto/6.1/manual/mobile.html" class="ocsimore_phrasing_link">Mobile applications with Ocsigen</a></dd></dl></div><p>The tutorial describes how to build a mobile app (e.g., for Android)
+</dt><dd>Read tutorial <a href="/tuto/6.1/manual/mobile" class="ocsimore_phrasing_link">Mobile applications with Ocsigen</a></dd></dl></div><p>The tutorial describes how to build a mobile app (e.g., for Android)
 with the same codebase as for your Web application.
 </p><div class="tutocase"><dl><dt>If you want to write a more traditional Web site, with pages, forms, and sessions:
-</dt><dd>Read tutorial <a href="/tuto/6.1/manual/interaction.html" class="ocsimore_phrasing_link">Service based Web programming</a></dd></dl></div><p>This tutorial is devoted to server side programming.
+</dt><dd>Read tutorial <a href="/tuto/6.1/manual/interaction" class="ocsimore_phrasing_link">Service based Web programming</a></dd></dl></div><p>This tutorial is devoted to server side programming.
 It shows how to
 create a new Web site with several pages and user connection.
 You will learn how to:
@@ -68,9 +68,9 @@ and Eliom.
 </p><div class="tutocase"><p><a href="http://www.irill.org/videos/oups-december-2014/Ocsigen" class="ocsimore_phrasing_link">OUPS meeting at IRILL</a>
 </p><dl><dt>A short talk, in english, that shows how to write a small client-server reactive application with Js_of_ocaml and Eliom.
 </dt><dd>Look at <a href="http://www.irill.org/videos/oups-december-2014/Ocsigen" class="ocsimore_phrasing_link">this video</a>
-and read this <a href="/tuto/6.1/manual/tutoreact.html" class="ocsimore_phrasing_link">tutorial</a>.</dd></dl></div><p>It describes the most recent features of Eliom.
+and read this <a href="/tuto/6.1/manual/tutoreact" class="ocsimore_phrasing_link">tutorial</a>.</dd></dl></div><p>It describes the most recent features of Eliom.
 </p><div class="tutocase"><dl><dt>If you want to learn more details about Ocsigen
-</dt><dd>Read tutorial <a href="/tuto/6.1/manual/misc.html" class="ocsimore_phrasing_link">Miscellaneous features</a></dd></dl></div><p>We will mix the client-server drawing application
+</dt><dd>Read tutorial <a href="/tuto/6.1/manual/misc" class="ocsimore_phrasing_link">Miscellaneous features</a></dd></dl></div><p>We will mix the client-server drawing application
 with the session mechanism and user management
 to produce a multi-user collaborative drawing
 application.  In this chapter, you will learn how to:
@@ -81,7 +81,7 @@ application.  In this chapter, you will learn how to:
 </li><li> Connect with external accounts (<em>openID</em>)
 </li><li> Add an Atom feed
 </li></ul><div class="tutocase"><dl><dt>If you want to have quickly a full application with user management (registration, activation emails, authentication)
-</dt><dd> Have a look at <a href="/ocsigen-start/1.0/manual/intro.html" class="ocsimore_phrasing_link">Ocsigen-start</a>.</dd></dl></div><p>Ocsigen-start is a library and a template for Eliom distillery that
+</dt><dd> Have a look at <a href="/ocsigen-start/1.0/manual/intro" class="ocsimore_phrasing_link">Ocsigen-start</a>.</dd></dl></div><p>Ocsigen-start is a library and a template for Eliom distillery that
 contains a working Eliom application with user and right
 management.
 </p><div class="tutocase"><p>You will also find some other tutorials in the menu on the left.
@@ -101,40 +101,40 @@ applications, for example:
 </li><li> the database query library Macaque,
 </li><li> the Js_of_ocaml compiler (from Ocaml bytecode to JavaScript),
 </li><li> Ocsigen Server, a full-featured Web server.
-</li></ul><p><img src="/resources/images/ocsigen-zoo.png.html" alt="The Ocsigen Zoo" style="width:100%;"/>
+</li></ul><p><img src="/resources/images/ocsigen-zoo.png" alt="The Ocsigen Zoo" style="width:100%;"/>
 </p><h3>Ocsigen Server</h3><p><em>Ocsigen Server</em> is a full featured Web server written in modular way.
 It implements most features of the HTTP protocol, and has a powerful
 extension mechanism that make easy to plug your own OCaml modules
 for generating pages. Many extensions are already written:
-</p><dl><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/staticmod.html">Staticmod</a></span>
+</p><dl><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/staticmod">Staticmod</a></span>
 </dt><dd>    to serve static files.
-</dd><dt><a href="/eliom/6.2/manual/intro.html" class="ocsimore_phrasing_link">Eliom</a>
+</dd><dt><a href="/eliom/6.2/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
 </dt><dd>    to create reliable client/server Web applications
 or Web sites in OCaml using advanced high level concepts.
-</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/extendconfiguration.html">Extendconfiguration</a></span>
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/extendconfiguration">Extendconfiguration</a></span>
 </dt><dd>    allows for more options in the configuration file.
-</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/accesscontrol.html">Accesscontrol</a></span>
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/accesscontrol">Accesscontrol</a></span>
 </dt><dd>    allows to restrict the access to the sites from the config file (to request coming from a subnet, containing some headers, etc.).
-</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/authbasic.html">Authbasic</a></span>
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/authbasic">Authbasic</a></span>
 </dt><dd>    allows to restrict the access to the sites from the config file using Basic HTTP Authentication.
-</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/cgimod.html">CGImod</a></span>
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/cgimod">CGImod</a></span>
 </dt><dd>    serves CGI scripts. It may also be used to serve PHP through CGI.
-</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/deflatemod.html">Deflatemod</a></span>
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/deflatemod">Deflatemod</a></span>
 </dt><dd>    used to compress data before sending to the client.
-</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/redirectmod.html">Redirectmod</a></span>
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/redirectmod">Redirectmod</a></span>
 </dt><dd>    sets redirections towards other Web sites from the configuration file.
-</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/revproxy.html">Revproxy</a></span>
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/revproxy">Revproxy</a></span>
 </dt><dd>    a reverse proxy for Ocsigen Server.
 It allows to ask another server to handle the request.
-</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/rewritemod.html">Rewritemod</a></span>
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/rewritemod">Rewritemod</a></span>
 </dt><dd>    changes in incoming requests before sending them to other extensions.
-</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/outputfilter.html">Outputfilter</a></span>
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/outputfilter">Outputfilter</a></span>
 </dt><dd>    rewrites some parts of the output before sending it to the client.
-</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/userconf.html">Userconf</a></span>
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/userconf">Userconf</a></span>
 </dt><dd>    allows users to have their own configuration files.
-</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/comet.html">Comet</a></span>
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/comet">Comet</a></span>
 </dt><dd>    facilitates server to client communications.
-</dd></dl><p>Ocsigen server has a <span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/config.html">sophisticated configuration</a></span> file mechanism allowing
+</dd></dl><p>Ocsigen server has a <span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.8/manual/config">sophisticated configuration</a></span> file mechanism allowing
 complex configurations of sites.
 </p><h3>Eliom</h3><p>Eliom is an extension for <em>Ocsigen Server</em>
 that allows the creation of reliable client/server Web applications
@@ -162,5 +162,5 @@ All your Web sites must be written in Lwt-compatible way!
 </li></ul><h3>Ocsigen-start</h3><p><em>Ocsigen-start</em> is a library and a template of Eliom application,
 with many common features like
 user registration, login box, notification system, etc.
-</p><p><a href="/tuto/6.1/manual/application.html" class="ocsimore_phrasing_link">next</a>
+</p><p><a href="/tuto/6.1/manual/application" class="ocsimore_phrasing_link">next</a>
 </p></body></html>

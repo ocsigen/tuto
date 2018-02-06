@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Implementing Web Interaction Using Eliom</title><meta charset="utf8"/><link rel="stylesheet" href="/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1>Implementing Web Interaction Using Eliom</h1><p><em>The code of this tutorial has been tested with Eliom 6.0.</em> <br/>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Implementing Web Interaction Using Eliom</title><meta charset="utf8"/><link rel="stylesheet" href="/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/js/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1>Implementing Web Interaction Using Eliom</h1><p><em>The code of this tutorial has been tested with Eliom 6.0.</em> <br/>
 </p><p>This chapter of the tutorial explains how to create a small web site
 with several pages, users, sessions, and other elements of classical
 web development.  Then, in next chapter, we will incorporate the
@@ -308,7 +308,7 @@ to the browser).
                   ~input_type:`Submit ~value:&quot;Connect&quot;
                   Form.string
                ]]) ())
-)</code></pre><p>... and replace the registration of the main service and the connection service by:
+)</code></pre><p>... and replace the registration of the main service and the connection service by:
 </p><pre class=""><code class="language-ocaml translatable">Eliom_registration.Html.register
     ~service:main_service
     (fun () () -&gt;
@@ -684,7 +684,7 @@ scope <span class="teletype">Eliom_common.request_scope</span>.
         then div ((p [em [pcdata &quot;Wrong user or password&quot;]])::l)
         else div l
     )
-)</code></pre><p>... and modify the <span class="teletype">connection_service</span> handler:
+)</code></pre><p>... and modify the <span class="teletype">connection_service</span> handler:
 </p><pre class=""><code class="language-ocaml translatable">Eliom_registration.Action.register
     ~service:connection_service
     (fun () (name, password) -&gt;

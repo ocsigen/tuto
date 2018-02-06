@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title> Client server reactive application with Ocsigen</title><meta charset="utf8"/><link rel="stylesheet" href="/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1> Client server reactive application with Ocsigen</h1><p>This is a short tutorial showing how to implement a simple reactive
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title> Client server reactive application with Ocsigen</title><meta charset="utf8"/><link rel="stylesheet" href="/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/js/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1> Client server reactive application with Ocsigen</h1><p>This is a short tutorial showing how to implement a simple reactive
 client-server application using Js_of_ocaml, Eliom and
 Ocsigen Start.
 </p><p>Our application displays a list of items to connected users (for
@@ -36,7 +36,7 @@ activation links will be printed on the console.
 </p><h2> Display messages from db</h2><p>To make this example more realistic, suppose that we do not want to
 display all the messages in the database, but only a few of them (for
 example the list of messages in a thread in a forum, the blog posts of
-one user . . .).
+one user . . .).
 </p><p>In this tutorial we will not implement the database part. We suppose
 you have a module <span class="teletype">Db</span> with these functions:
 </p><pre class=""><code class="language-ocaml translatable">[%%server.start]

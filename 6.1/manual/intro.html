@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Introduction</title><meta charset="utf8"/><link rel="stylesheet" href="/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1>Introduction</h1><p>This tutorial is an overview of the main features of the Ocsigen
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Introduction</title><meta charset="utf8"/><link rel="stylesheet" href="/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/js/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><h1>Introduction</h1><p>This tutorial is an overview of the main features of the Ocsigen
 framework.  It explains how to program web sites and client-server Web
 applications in <em>OCaml</em> using <em>Eliom</em>, <em>Lwt</em>, <em>Js_of_ocaml</em>
 and other libraries of the Ocsigen project.  Read it to understand the
@@ -74,7 +74,7 @@ and read this <a href="/tuto/6.1/manual/tutoreact" class="ocsimore_phrasing_link
 with the session mechanism and user management
 to produce a multi-user collaborative drawing
 application.  In this chapter, you will learn how to:
-</p><ul><li> Integrate a typical Web interaction (links, forms, …) with a client side program.
+</p><ul><li> Integrate a typical Web interaction (links, forms, …) with a client side program.
 </li><li> Use <em>Macaque</em> for type-safe database interaction
 </li><li> Add <em>sounds or videos</em> to your application
 </li><li> Change pages <em>without stopping the client side program</em>
@@ -146,7 +146,7 @@ from all other Web programming tools.
 </p><h4>A client/server application in one piece of code!</h4><p>One of the most significant features of Eliom is that it allows you to write the client- <em>and</em> server-side of a Web application as a single program. The client side parts are automatically extracted and compiled into JavaScript to be executed in the browser. The communication between the server is straightforward (in both directions!), as you can use server side values in the client side code, and vice verse.
 </p><p>Note that client side features can be mixed with traditional Web interaction
 (links, forms, bookmarks, back button ...)
-</p><h4>Security</h4><p>Eliom helps you to make your Web application secure by automatically addressing several common security issues (code injection, session fixation ...) and by providing features to implement very secure behaviours (avoiding for example &quot;cross-site request forgery&quot;).<br/>
+</p><h4>Security</h4><p>Eliom helps you to make your Web application secure by automatically addressing several common security issues (code injection, session fixation ...) and by providing features to implement very secure behaviours (avoiding for example &quot;cross-site request forgery&quot;).<br/>
 </p><h3>Lwt</h3><p><em>Lwt</em> is a cooperative thread library for OCaml.
 It provides an alternative to the more usual preemptive threads approach
 for programming concurrent applications, that avoids most problems of concurrent

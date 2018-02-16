@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Writing a client/server Eliom application</title><meta charset="utf8"/><link rel="stylesheet" href="/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="/js/client.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script></head><body><header><h1>Writing a client/server Eliom application</h1></header><p><em>The code of this tutorial has been tested against Eliom 6.0.</em> <br/>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Writing a client/server Eliom application</title><meta charset="utf8"/><link rel="stylesheet" href="/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script><script src="/js/client.js"></script></head><body><header><h1>Writing a client/server Eliom application</h1></header><p><em>The code of this tutorial has been tested against Eliom 6.0.</em> <br/>
 </p><p>In this chapter, we will write a <a href="/graffiti/" class="ocsimore_phrasing_link">collaborative
 drawing application</a>. It is a client/server web application
 displaying an area where users can draw using the mouse, and see what
@@ -16,7 +16,7 @@ very simple project called <span class="teletype">graffiti</span> in the directo
 </p><pre class="manually-translated"><code class="language-shell">$ eliom-distillery -name graffiti -template basic.ppx -target-directory graffiti</code></pre><h3>My first page</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Services<br/>Configuration file<br/>Static validation of HTML</p></aside><p>Our web application consists of a single page for now. Let's start by
 creating a very basic page. We define the service that will implement
 this page by the following declaration:
-</p><pre class=""><code class="language-ocaml translatable">open Eliom_content.Html.D (* provides functions to create HTML nodes *)
+</p><pre class="server" class=""><code class="language-ocaml translatable">open Eliom_content.Html.D (* provides functions to create HTML nodes *)
 
 let main_service =
   Eliom_registration.Html.create
@@ -121,13 +121,13 @@ all we wanted to do was return HTML. But we actually want a service
 that corresponds to a full Eliom application with client and server
 parts. To do so, we need to create our own registration module by
 using the functor <span class="teletype">Eliom_registration.App</span>:
-</p><pre class=""><code class="language-ocaml translatable">module Graffiti_app =
+</p><pre class="server" class=""><code class="language-ocaml translatable">module Graffiti_app =
   Eliom_registration.App (struct
       let application_name = &quot;graffiti&quot;
       let global_data_path = None
     end)</code></pre><p>It is now possible to use <span class="teletype">Graffiti_app</span> for registering our main
 service (now at URL <span class="teletype">/</span>):
-</p><pre class=""><code class="language-ocaml translatable">let main_service =
+</p><pre class="server" class=""><code class="language-ocaml translatable">let main_service =
   Graffiti_app.create
     ~path:(Eliom_servie.Path [&quot;&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
@@ -141,7 +141,7 @@ server and client code in the same file. We start by a very basic
 program, that will display a message to the user by calling the
 JavaScript function <span class="teletype">alert</span>. Add the following lines to the
 program:
-</p><pre class=""><code class="language-ocaml translatable">let%client _ = Eliom_lib.alert &quot;Hello!&quot;</code></pre><p>After running again <span class="teletype">make test.byte</span>, and visiting
+</p><pre class="client" class=""><code class="language-ocaml translatable">let%client _ = Eliom_lib.alert &quot;Hello!&quot;</code></pre><p>After running again <span class="teletype">make test.byte</span>, and visiting
 <a href="http://localhost:8080/" class="ocsimore_phrasing_link">http://localhost:8080/</a>, the browser will load the file
 <span class="teletype">graffiti.js</span>, and open an alert-box.
 </p><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Splitting the code into server and client parts</h5></header><p>At the very toplevel of your source file (i.e. <em>not</em> inside modules
@@ -195,7 +195,7 @@ Converting an HTML value to a portion of page (a.k.a. Dom node)<br/>
 Manipulating HTML node 'by reference'</p></aside><p>The client side process is not strictly separated from the server
 side.  We can access some server variables from the client code. For
 instance:
-</p><pre class=""><code class="language-ocaml translatable">let count = ref 0
+</p><pre class="server" class=""><code class="language-ocaml translatable">let count = ref 0
 
 let main_service =
   Graffiti_app.create
@@ -238,25 +238,25 @@ drawing primitive is defined in the client-side function called
 client-side function <span class="teletype"> init_client </span>, which just draws a single
 line for now.
 </p><p>Here is the (full) new version of the program:
-</p><pre class=""><code class="language-ocaml translatable">[%%shared
+</p><pre class="shared" class=""><code class="language-ocaml translatable">[%%shared
   (* Modules opened in the shared-section are available in client-
      and server-code *)
   open Eliom_content.Html.D
   open Lwt
-]</code></pre><pre class=""><code class="language-ocaml translatable">module Graffiti_app =
+]</code></pre><pre class="server" class=""><code class="language-ocaml translatable">module Graffiti_app =
   Eliom_registration.App (
     struct
       let application_name = &quot;graffiti&quot;
       let global_data_path = None
-    end)</code></pre><pre class=""><code class="language-ocaml translatable">let%shared width  = 700
-let%shared height = 400</code></pre><pre class=""><code class="language-ocaml translatable">let%client draw ctx ((r, g, b), size, (x1, y1), (x2, y2)) =
+    end)</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">let%shared width  = 700
+let%shared height = 400</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client draw ctx ((r, g, b), size, (x1, y1), (x2, y2)) =
   let color = CSS.Color.string_of_t (CSS.Color.rgb r g b) in
   ctx##.strokeStyle := (Js.string color);
   ctx##.lineWidth := float size;
   ctx##beginPath;
   ctx##(moveTo (float x1) (float y1));
   ctx##(lineTo (float x2) (float y2));
-  ctx##stroke</code></pre><pre class=""><code class="language-ocaml translatable">let canvas_elt =
+  ctx##stroke</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let canvas_elt =
   canvas ~a:[a_width width; a_height height]
     [pcdata &quot;your browser doesn't support canvas&quot;]
 
@@ -264,11 +264,11 @@ let page () =
   html
      (head (title (pcdata &quot;Graffiti&quot;)) [])
      (body [h1 [pcdata &quot;Graffiti&quot;];
-            canvas_elt])</code></pre><pre class=""><code class="language-ocaml translatable">let%client init_client () =
+            canvas_elt])</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client init_client () =
   let canvas = Eliom_content.Html.To_dom.of_canvas ~%canvas_elt in
   let ctx = canvas##(getContext (Dom_html._2d_)) in
   ctx##.lineCap := Js.string &quot;round&quot;;
-  draw ctx ((0, 0, 0), 12, (10, 10), (200, 100))</code></pre><pre class=""><code class="language-ocaml translatable">let main_service =
+  draw ctx ((0, 0, 0), 12, (10, 10), (200, 100))</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let main_service =
   Graffiti_app.create
     ~path:(Eliom_service.Path [&quot;&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
@@ -296,7 +296,7 @@ as the JavaScript equivalent, hence not satisfactory. Js_of_ocaml's
 library provides a much easier way to do that with the help of Lwt.
 </p><p>Replace the <span class="teletype">init_client</span> of the previous example by the
 following piece of code, then compile and draw!
-</p><pre class=""><code class="language-ocaml translatable">let%client init_client () =
+</p><pre class="client" class=""><code class="language-ocaml translatable">let%client init_client () =
 
   let canvas = Eliom_content.Html.To_dom.of_canvas ~%canvas_elt in
   let ctx = canvas##(getContext (Dom_html._2d_)) in
@@ -395,7 +395,7 @@ following:
 </li><li> Dispatch the coordinates to all connected users.
 </li></ul><p>We first declare a type, shared by the server and the client,
 describing the color (as RGB values) and coordinates of drawn lines.
-</p><pre class=""><code class="language-ocaml translatable">[%%shared
+</p><pre class="shared" class=""><code class="language-ocaml translatable">[%%shared
   type messages =
     ((int * int * int) * int * (int * int) * (int * int))
     [@@deriving json]
@@ -411,15 +411,15 @@ containing exclusively basic types, or other types annotated with
 </p><p>Then we create an Eliom bus to broadcast drawing events to all client
 with the function <span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_bus#VALcreate">Eliom_bus.​create</a></span>. This function take as parameter the type of
 values carried by the bus.
-</p><pre class=""><code class="language-ocaml translatable">let bus = Eliom_bus.create [%derive.json: messages]</code></pre><p>To write draw commands into the bus, we just replace the function
+</p><pre class="server" class=""><code class="language-ocaml translatable">let bus = Eliom_bus.create [%derive.json: messages]</code></pre><p>To write draw commands into the bus, we just replace the function
 <span class="teletype">line</span> in <span class="teletype">init_client</span> by:
-</p><pre class=""><code class="language-ocaml translatable">let line ev =
+</p><pre class="client" class=""><code class="language-ocaml translatable">let line ev =
   let v = compute_line ev in
   let _ = Eliom_bus.write ~%bus v in
   draw ctx v;
   Lwt.return () in</code></pre><p>Finally, to interpret the draw orders read on the bus, we add the
 following line at the end of function <span class="teletype">init_client</span>:
-</p><pre class=""><code class="language-ocaml translatable">Lwt.async (fun () -&gt; Lwt_stream.iter (draw ctx) (Eliom_bus.stream ~%bus))</code></pre><p>Now you can try the program using two browser windows to see that the
+</p><pre class="client" class=""><code class="language-ocaml translatable">Lwt.async (fun () -&gt; Lwt_stream.iter (draw ctx) (Eliom_bus.stream ~%bus))</code></pre><p>Now you can try the program using two browser windows to see that the
 lines are drawn on both windows.
 </p><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Communication channels</h5></header><p>Eliom provides multiple ways for the server to send unsolicited data
 to the client:
@@ -444,13 +444,13 @@ opam install ocsigen-widgets
 <span class="teletype">CLIENT_PACKAGES</span>:
 </p><pre class="manually-translated"><code class="language-makefile">CLIENT_PACKAGES := ... ocsigen-widgets.client</code></pre><p>To create the widget, we add the following code in the
 <span class="teletype">init_client</span> immediately after canvas configuration:
-</p><pre class=""><code class="language-ocaml translatable">(* Color of the brush *)
+</p><pre class="client" class=""><code class="language-ocaml translatable">(* Color of the brush *)
 let colorpicker = Ow_color_picker.create ~width:150 () in
 Ow_color_picker.append_at (Dom_html.document##.body) colorpicker;
 Ow_color_picker.init_handler colorpicker;</code></pre><p>We subsequently add a simple HTML slider to change the size of the
 brush. Near the <span class="teletype">canvas_elt</span> definition, simply add the following
 code:
-</p><pre class=""><code class="language-ocaml translatable">let slider =
+</p><pre class="server" class=""><code class="language-ocaml translatable">let slider =
   Eliom_content.Html.D.Form.input
     ~a:[
       Html.D.a_id &quot;slider&quot;;
@@ -462,19 +462,19 @@ code:
 an integer value. This kind of input can only be associated to
 services taking an integer as parameter.
 </p><p>We then add the slider to the page body, as follows:
-</p><pre class=""><code class="language-ocaml translatable">let page () =
+</p><pre class="server" class=""><code class="language-ocaml translatable">let page () =
   (html
     (head (title (pcdata &quot;Graffiti&quot;)) [])
     (body [h1 [pcdata &quot;Graffiti&quot;];
            canvas_elt;
            div [slider]] ))</code></pre><p>To change the size and the color of the brush, we replace the last
 line of the function <span class="teletype">compute_line</span> in <span class="teletype">init_client</span> by:
-</p><pre class=""><code class="language-ocaml translatable">let rgb = Ow_color_picker.get_rgb colorpicker in
+</p><pre class="client" class=""><code class="language-ocaml translatable">let rgb = Ow_color_picker.get_rgb colorpicker in
 let size_slider = Eliom_content.Html.To_dom.of_input ~%slider in
 let size = int_of_string (Js.to_string size_slider##.value) in
 (rgb, size, (oldx, oldy), (!x, !y))</code></pre><p>Finally, we need to add a stylesheet in the headers of our page. To
 easily create the <span class="teletype">head</span> HTML element, we use the function <span><a class="ocsforge_doclink_eliom" href="/eliom/6.2/api/server/Eliom_tools.F#VALhead">Eliom_tools.​F.​head</a></span>:
-</p><pre class=""><code class="language-ocaml translatable">let page () =
+</p><pre class="server" class=""><code class="language-ocaml translatable">let page () =
   html
     (Eliom_tools.F.head
        ~title:&quot;Graffiti&quot;
@@ -499,7 +499,7 @@ available as <span class="teletype">cairo2</span> via OPAM). Second, add it to t
 <span class="teletype">SERVER_PACKAGES</span> in your <span class="teletype">Makefile.options</span>: </p><pre class="manually-translated"><code class="language-makefile">SERVER_PACKAGES := ... cairo2</code></pre><p>The <span class="teletype">draw_server</span> function below is the equivalent of the
 <span class="teletype">draw</span> function on the server side and the <span class="teletype">image_string</span>
 function outputs the PNG image in a string.
-</p><pre class=""><code class="language-ocaml translatable">let draw_server, image_string =
+</p><pre class="server" class=""><code class="language-ocaml translatable">let draw_server, image_string =
 
   let surface = Cairo.Image.create Cairo.Image.ARGB32 ~width ~height in
   let ctx = Cairo.create surface in
@@ -531,7 +531,7 @@ function outputs the PNG image in a string.
    ))
 
 let _ = Lwt_stream.iter draw_server (Eliom_bus.stream bus)</code></pre><p>We also define a service that sends the picture:
-</p><pre class=""><code class="language-ocaml translatable">let imageservice =
+</p><pre class="server" class=""><code class="language-ocaml translatable">let imageservice =
   Eliom_registration.String.create
     ~path:(Eliom_service.Path [&quot;image&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
@@ -554,7 +554,7 @@ and reload the current page (or not). We will see an example of actions
 in the next chapter.</li></ul></aside><p>We now want to load the initial image once the canvas is created.  Add
 the following lines just between the creation of the canvas context and the
 creation of the slider:
-</p><pre class=""><code class="language-ocaml translatable">(* The initial image: *)
+</p><pre class="server" class=""><code class="language-ocaml translatable">(* The initial image: *)
 let img = Eliom_content.Html.To_dom.of_img
     (img ~alt:&quot;canvas&quot;
        ~src:(make_uri ~service:~%imageservice ())

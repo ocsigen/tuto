@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Introduction</title><meta charset="utf8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><link rel="stylesheet" href="/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script><script src="/js/client.js"></script></head><body class="tuto 2.0"><div class="project-page"><div class="page-header"><p class="logo-ocsigen"><a href="/" class="ocsimore_phrasing_link"><img src="/img/ocsigen-white.svg" alt="Ocsigen"/></a>
+</p><p class="logo-subproject">Doc
+</p><ul class="mainmenu"><li class="mainmenu-home"><a href="/" class="ocsimore_phrasing_link">Home</a>
+</li><li class="mainmenu-doc mainmenu-current"><a href="/tuto/6.2/manual/intro" class="ocsimore_phrasing_link">Doc</a>
+</li><li><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
+</li><li><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
+</li><li><a href="/lwt/3.2.1/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
+</li><li><a href="/tyxml/4.1.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
+</li><li><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
+</li></ul><div class="how-drawer"><input id="how-drawer-toggle" type="checkbox"/><label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label><nav class="how-drawer-content"><ul class="drawermainmenu"><li class="drawermainmenu-home"><a href="/" class="ocsimore_phrasing_link">Home</a>
+</li><li class="drawermainmenu-doc drawermainmenu-current"><a href="/tuto/6.2/manual/intro" class="ocsimore_phrasing_link">Doc</a>
+</li><li><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
+</li><li><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
+</li><li><a href="/ocsigenserver/2.9/manual/quickstart" class="ocsimore_phrasing_link">Server</a>
+</li><li><a href="/lwt/3.2.1/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
+</li><li><a href="/tyxml/4.1.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
+</li><li><a href="/ocsigen-toolkit/1.1.0/manual/intro" class="ocsimore_phrasing_link">Toolkit</a>
+</li><li><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
+</li><li class="drawermainmenu-page"><a href="/projects" class="ocsimore_phrasing_link">Other projects</a>
+</li><li class="drawermainmenu-page"><a href="/papers" class="ocsimore_phrasing_link">Research papers</a>
+</li><li class="drawermainmenu-page"><a href="/credits" class="ocsimore_phrasing_link">Who does Ocsigen?</a>
+</li></ul><div class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="/tuto/2.0/manual/intro" class="ocsimore_phrasing_link">Introduction</a></h2><h2><a href="/tuto/2.0/manual/application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="/tuto/2.0/manual/interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="/tuto/2.0/manual/misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2></div></nav></div></div><button id="reason">Switch to </button><div class="twocols"><div class="leftcol"><div class="how-versions"><input id="how-versions-toggle" type="checkbox"/><label for="how-versions-toggle" class="how-versions-current">Version 2.0</label><div class="how-versions-all"><a href="/tuto/dev/manual/intro">dev</a><a href="/tuto/6.2/manual/intro">6.2</a><a href="/tuto/6.1/manual/intro">6.1</a><a href="/tuto/6.0/manual/intro">6.0</a><a href="/tuto/5.0/manual/intro">5.0</a><a href="/tuto/4.2/manual/intro">4.2</a><a href="/tuto/4.1/manual/intro">4.1</a><a href="/tuto/4.0/manual/intro">4.0</a><a href="/tuto/3.0/manual/intro">3.0</a><a href="/tuto/2.2/manual/intro">2.2</a><span class="how-versions-all-current">2.0</span></div></div><form id="search"><input name="q" id="q" placeholder="search ..."/><button>Search</button></form><div class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="/tuto/2.0/manual/intro" class="ocsimore_phrasing_link">Introduction</a></h2><h2><a href="/tuto/2.0/manual/application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="/tuto/2.0/manual/interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="/tuto/2.0/manual/misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2></div></div><div class="rightcol"><h1>Introduction</h1><p>This tutorial is an overview of the main features of the Ocsigen framework.
+It explains how to program Web sites and client-server Web applications in
+<em>OCaml</em> using <em>Eliom</em>, <em>Lwt</em>, <em>Js_of_ocaml</em> and the other
+software of the Ocsigen project.
+Read it to understand the basics, 
+then refer to each project's manual for more detail.
+</p><p><em>Warning:</em> This programming guide assumes you know the <em>OCaml</em>
+language, and that you have a working installation of <em>Ocsigen
+server</em>, <em>Eliom</em>, <em>Lwt</em>, <em>Js_of_ocaml</em>, (and <em>O'Closure</em> for
+some examples). In particular, you need to have the interfaces (cmi)
+installed for all these packages. They are sometimes in separate
+packages (&quot;<span class="teletype">-dev</span>&quot; packages in Debian/Ubuntu). We recommend to use
+the packages from your distribution if they are available. If not, try
+to install all OCaml related packages with the bundle we provide, or using
+<a href="http://godi.camlcity.org" class="ocsimore_phrasing_link">Godi</a>. If it does not work, please report
+the problem to the package maintainers. We recommend to use the source
+packages only if you want to test unreleased features from development
+versions.
+</p><p>The first section of this introduction lists our main
+software projects. The second section is an overview of the tutorial.
+In the following chapters, we will show how to build
+step by step a small client/server Web application.
+</p><aside class="wip"><header><h5>Work in progress</h5></header><p>Manuals are permanently under evolution.
+Please report any error, mistake, and send us your comments and suggestions!</p></aside><p>
+</p><h2>Ocsigen software projects</h2><p>Most projects are independent and can be used for non Eliom-releated
+applications, for example:
+</p><ul><li> the cooperative threading library Lwt,
+</li><li> the TyXML library for generating typed XML,
+</li><li> the database query library Macaque,
+</li><li> the Js_of_ocaml compiler (from Ocaml bytecode to Javascript),
+</li><li> the O'Closure library, a binding for the Google closure Javascript widget
+library to be used with Js_of_ocaml,
+</li><li> the Ocsigen server Web server.
+</li></ul><h3>Ocsigen server</h3><p><em>Ocsigen server</em> is a full featured Web server written in modular way.
+It implements most features of the HTTP protocol, and has a very powerful
+extension mechanism that make very easy to plug your own OCaml modules
+for generating pages. Many extensions are already written:
+</p><dl><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.9/manual/staticmod">Staticmod</a></span>
+</dt><dd>    is an extension to serve static files. 
+</dd><dt><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
+</dt><dd>    is an extension to create reliable client/server Web applications 
+or Web sites in OCaml using advanced high level concepts. 
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.9/manual/extendconfiguration">Extendconfiguration</a></span>
+</dt><dd>    allows for more options in the configuration file. 
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.9/manual/accesscontrol">Accesscontrol</a></span>
+</dt><dd>    allows to restrict the access to the sites from the config file (to request coming from a subnet, containing some headers, etc.). 
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.9/manual/authbasic">Authbasic</a></span>
+</dt><dd>    allows to restrict the access to the sites from the config file using Basic HTTP Authentication. 
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.9/manual/cgimod">CGImod</a></span>
+</dt><dd>    is an extension to serve CGI scripts. It may also be used to serve PHP through CGI. 
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.9/manual/deflatemod">Deflatemod</a></span>
+</dt><dd>    is an extension used to compress data before sending to the client. 
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.9/manual/redirectmod">Redirectmod</a></span>
+</dt><dd>    is an extension to set redirections towards other Web sites from the configuration file. 
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.9/manual/revproxy">Revproxy</a></span>
+</dt><dd>    is a reverse proxy for Ocsigen server.
+It allows to ask another server to handle the request. 
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.9/manual/rewritemod">Rewritemod</a></span>
+</dt><dd>    is a module to make changes in incoming requests before sending them to other extensions. 
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.9/manual/outputfilter">Outputfilter</a></span>
+</dt><dd>    allows to rewrite some parts of the output before sending it to the client. 
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.9/manual/userconf">Userconf</a></span>
+</dt><dd>    allows users to have their own configuration files. 
+</dd><dt><span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.9/manual/comet">Comet</a></span>
+</dt><dd>    makes server to client communications possible.
+</dd></dl><p>Ocsigen server has a sophisticated configuration file mechanism allowing
+complex configurations of sites.
+</p><h3>Eliom</h3><p>
+Eliom is an extension for <em>Ocsigen server</em>
+that allows the creation of reliable client/server Web applications (or traditional dynamic Websites) in OCaml.
+It implements many new concepts, and as a result, its approach to application development is very different 
+from all other Web programming tools.
+</p><h4>Expressiveness</h4><p>Eliom enables the creation of complex Web sites in very few lines of code, by providing high level programming primitives for many aspects of Web programming: communication between the client and the server, implementation of complex Web interaction, sessions, etc.
+</p><h4>Static typing</h4><p>Eliom also improves the stability of your application by  making extensive use of OCaml's static typing. The compiler checks many things for you, helping you to remove many bugs. For example, the validity of pages (e.g. well-formed HTML) is checked at compile time!  Moreover, Eliom also statically checks, for example, that your Web site does not contain broken links or that the parameters in a link or a form correspond to the service it leads to (and many other things).
+</p><h4>A client/server application in one piece of code!</h4><p>But one of the most significant features of Eliom is that it allows to program both sides of a Web application as a single program. The client side parts are automatically extracted and compiled into Javascript to be executed in the browser. The communication between the server is straightforward (in both directions!), as you can use server side values in the client side code.
+</p><p>Note that client side features can be mixed with traditional Web interaction
+(links, forms, bookmarks, back button ...)
+</p><h4>Security</h4><p>Eliom helps you to make your Web application secure by automatically addressing several common security issues (code injection, session fixation ...) and by providing features to implement very secure behaviours (avoiding for example &quot;cross-site request forgery&quot;).<br/>
+</p><h3>Lwt</h3><p><em>Lwt</em> is a cooperative thread library for OCaml.
+It provides an alternative to the more usual preemptive threads approach
+for programming concurrent applications, that avoids most problems of concurrent
+data access and deadlocks.
+It is used by Ocsigen server and Eliom and has now become a standard way to
+implement concurrent applications in OCaml.
+All your Web sites must be written in Lwt-compatible way!
+</p><h3>Js_of_ocaml</h3><p><em>Js_of_ocaml</em> is a compiler of OCaml bytecode to Javascript. It makes it possible to run Ocaml programs in a Web browser. Its key features are the following:
+</p><ul><li> The whole language, and most of the standard library are supported.
+</li><li> The compiler is easy to install: it only depends on Findlib and Lwt.
+</li><li> The generated code is independant of Eliom and the Ocsigen server. You can use it with any Web server.
+</li><li> You can use a standard installation of OCaml to compile your programs. In particular, you do not have to recompile a library to use it with Js_of_ocaml. You just have to link your program with a specific library to interface with the browser APIs.
+</li></ul><h3>Macaque</h3><p><em>Macaque</em> is a library for safe and flexible database queries
+using comprehensions.
+</p><h3>O'Closure</h3><p><em>O'Closure</em> is a binding for the Google Closure Javascript widget library.
+It makes possible to write dynamic user interfaces for Web pages in OCaml
+using Js_of_ocaml.
+</p><h2>Overview of the tutorial</h2><p>The goal of this tutorial is to give an overview of the
+features the Ocsigen framework brings to build Web applications. It
+will allow you to understand the philosophy of Eliom (the Web
+programming framework in OCaml), and are also a good starting point to
+understand other libraries of the Ocsigen project: Lwt, Macaque, etc.
+</p><p>Theses chapters do not aim at exhaustiveness but many references
+towards other chapters are made all along the text, so that you can
+learn the concepts in detail if you want to.
+</p><p>We assume the reader has a good knowledge of the Objective Caml
+language.<br/>
+</p><p>Next chapter is a tutorial for writing a small client/server
+<a href="/graffiti/" class="ocsimore_phrasing_link">collaborative drawing application</a>. You will learn
+how to:
+</p><ul><li> Create new <em>services</em>
+</li><li> Output <em>valid HTML</em>
+</li><li> Send <em>OCaml code</em> to be executed <em>on the client</em>
+</li><li> Call <em>Javascript methods</em> from OCaml
+</li><li> Catch <em>mouse events</em>
+</li><li> <em>Communicate</em> with the server, in both directions
+</li><li> Use the <em>O'Closure</em> widget library
+</li><li> Create services with <em>non-HTML output</em>
+</li></ul><p>The following chapter is devoted to server side programming.  We will
+create a new Web site with several pages and user connection. In this
+chapter, you will learn how to:
+</p><ul><li> Create a <em>link</em> towards another service
+</li><li> Create <em>forms</em>
+</li><li> Register <em>session data</em> or <em>session services</em>
+</li><li> Create services performing <em>actions</em> (with no output)
+</li><li> Dynamically register new services (<em>continuation based</em> Web programming)
+</li></ul><p>The last chapter is an overview of miscellaneous features.  We will
+mix the application from the two previous chapters
+to produce a multi-user collaborative drawing
+application.  In this chapter, you will learn how to:
+</p><ul><li> Integrate a typical Web interaction (links, forms, …) with a client side program.
+</li><li> Use <em>Macaque</em> for safe database interaction
+</li><li> Add <em>sounds or videos</em> to your application
+</li><li> Change pages <em>without stopping the client side program</em>
+</li><li> Connect with external accounts (<em>openID</em>)
+</li><li> Add an Atom stream
+</li></ul><p>If you are not interested in client-side programming you can safely
+skip most of the first chapter (although we recommend you read at least
+the first section, which explains the basics). Conversely, if you are
+not interested in standard Web interactions, with sessions links, and
+forms, you can skip the second chapter.
+</p><p>Keep in mind that one of the key feature of Eliom is that it allows
+one to mix commonplace Web interactions (URLs, forms, links,
+bookmarks, back button) with dynamic client side features. In
+particular, the client-side program <strong>does not stop</strong> when the user
+clicks a link, sends a form, or presses the back button–yet the user
+still can save bookmarks on pages!  This opens up a wide field of new
+possibilities, and should facilitate the emergence of new kinds of Web
+applications.
+</p></div></div></div></body></html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title> Mini-tutorial: client-server widgets </title><meta charset="utf8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><link rel="stylesheet" href="/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script><script src="/js/client.js"></script></head><body class="tuto 4.2"><div class="project-page"><div class="page-header"><p class="logo-ocsigen"><a href="/" class="ocsimore_phrasing_link"><img src="/img/ocsigen-white.svg" alt="Ocsigen"/></a>
+</p><p class="logo-subproject">Doc
+</p><ul class="mainmenu"><li class="mainmenu-home"><a href="/" class="ocsimore_phrasing_link">Home</a>
+</li><li class="mainmenu-doc mainmenu-current"><a href="/tuto/6.2/manual/intro" class="ocsimore_phrasing_link">Doc</a>
+</li><li><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
+</li><li><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
+</li><li><a href="/lwt/3.2.1/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
+</li><li><a href="/tyxml/4.1.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
+</li><li><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
+</li></ul><div class="how-drawer"><input id="how-drawer-toggle" type="checkbox"/><label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label><nav class="how-drawer-content"><ul class="drawermainmenu"><li class="drawermainmenu-home"><a href="/" class="ocsimore_phrasing_link">Home</a>
+</li><li class="drawermainmenu-doc drawermainmenu-current"><a href="/tuto/6.2/manual/intro" class="ocsimore_phrasing_link">Doc</a>
+</li><li><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
+</li><li><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
+</li><li><a href="/ocsigenserver/2.9/manual/quickstart" class="ocsimore_phrasing_link">Server</a>
+</li><li><a href="/lwt/3.2.1/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
+</li><li><a href="/tyxml/4.1.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
+</li><li><a href="/ocsigen-toolkit/1.1.0/manual/intro" class="ocsimore_phrasing_link">Toolkit</a>
+</li><li><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
+</li><li class="drawermainmenu-page"><a href="/projects" class="ocsimore_phrasing_link">Other projects</a>
+</li><li class="drawermainmenu-page"><a href="/papers" class="ocsimore_phrasing_link">Research papers</a>
+</li><li class="drawermainmenu-page"><a href="/credits" class="ocsimore_phrasing_link">Who does Ocsigen?</a>
+</li></ul><div class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="/tuto/4.2/manual/intro" class="ocsimore_phrasing_link">Introduction. Ocsigen: the different projects</a></h2><h2><a href="/tuto/4.2/manual/application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="/tuto/4.2/manual/interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="/tuto/4.2/manual/misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2><h1> Examples: Learning by example</h1><h2><a href="/tuto/4.2/manual/chat" class="ocsimore_phrasing_link">Chat</a></h2><h1> Mini-tutorials: Some little examples</h1><h2><a href="/tuto/4.2/manual/basicwebsite" class="ocsimore_phrasing_link">A basic Web site in OCaml</a></h2><h2><a href="/tuto/4.2/manual/tutowidgets" class="ocsimore_phrasing_link">Eliom apps basics: writing client server widgets</a></h2><h2><a href="/tuto/4.2/manual/tutoreact" class="ocsimore_phrasing_link">Reactive client-server Web applications</a></h2><h2><a href="/tuto/4.2/manual/rest" class="ocsimore_phrasing_link">RESTful JSON API</a></h2><h2><a href="/tuto/4.2/manual/macaque" class="ocsimore_phrasing_link">MaCaQue: SQL queries</a></h2><h2><a href="/tuto/4.2/manual/custom-conf" class="ocsimore_phrasing_link">Custom configuration</a></h2><h2><a href="/tuto/4.2/manual/ocsipersist" class="ocsimore_phrasing_link">Light database</a></h2><h2><a href="/tuto/4.2/manual/pictures" class="ocsimore_phrasing_link">Download pictures</a></h2><h2><a href="/tuto/4.2/manual/music" class="ocsimore_phrasing_link">Playing music</a></h2><h2><a href="/tuto/4.2/manual/reactivemediaplayer" class="ocsimore_phrasing_link">Reactive media player</a></h2><h2><a href="/tuto/4.2/manual/hash-password" class="ocsimore_phrasing_link">Protecting passwords</a></h2><h1 class="howto"> HOW-TO</h1><h2> My first steps with Ocsigen</h2><h3><a href="/tuto/4.2/manual/how-to-install-ocsigen" class="ocsimore_phrasing_link">How to install Ocsigen</a></h3><h3><a href="/tuto/4.2/manual/how-to-make-hello-world-in-ocsigen" class="ocsimore_phrasing_link">How to make &quot;hello world&quot; in Ocsigen</a></h3><h3><a href="/tuto/4.2/manual/how-to-compile-my-ocsigen-pages" class="ocsimore_phrasing_link">How to compile my Ocsigen pages</a></h3><h3><a href="/tuto/4.2/manual/how-to-configure-and-launch-the-ocsigen-server" class="ocsimore_phrasing_link">How to configure and launch the Ocsigen Server</a></h3><h3><a href="/tuto/4.2/manual/how-does-a-page-s-source-code-look" class="ocsimore_phrasing_link">How does a client-server app source code look like?</a></h3><h2> How to put some elements in my page ?</h2><h3><a href="/tuto/4.2/manual/how-to-make-page-a-skeleton" class="ocsimore_phrasing_link">How to make a page skeleton</a></h3><h3><a href="/tuto/4.2/manual/how-to-use-get-parameters-or-parameters-in-the-url" class="ocsimore_phrasing_link">How to use GET parameters (parameters in the URL)</a></h3><h3><a href="/tuto/4.2/manual/how-to-add-css-stylesheet" class="ocsimore_phrasing_link">How to add CSS stylesheet</a></h3><h3><a href="/tuto/4.2/manual/how-to-add-a-javascript-script" class="ocsimore_phrasing_link">How to add a Javascript script</a></h3><h3><a href="/tuto/4.2/manual/how-to-add-a-favicon" class="ocsimore_phrasing_link">How to add a Favicon</a></h3><h3><a href="/tuto/4.2/manual/how-to-add-a-div" class="ocsimore_phrasing_link">How to add a div</a></h3><h3><a href="/tuto/4.2/manual/how-to-add-a-list" class="ocsimore_phrasing_link">How to add lists in pages?</a></h3><h3><a href="/tuto/4.2/manual/how-to-add-an-image" class="ocsimore_phrasing_link">How to add an image</a></h3><h3><a href="/tuto/4.2/manual/how-to-write-titles-and-paragraphs" class="ocsimore_phrasing_link">How to write titles and paragraphs</a></h3><h3><a href="/tuto/4.2/manual/how-to-set-and-id-classes-or-other-attributes-to-html-elements" class="ocsimore_phrasing_link">How to set and id, classes or other attributes to HTML elements</a></h3><h3><a href="/tuto/4.2/manual/how-to-add-a-select-or-other-form-element" class="ocsimore_phrasing_link">How to add select (or other form element)</a></h3><h3><a href="/tuto/4.2/manual/how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service" class="ocsimore_phrasing_link">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></h3><h3><a href="/tuto/4.2/manual/how-to-make-responsive-css" class="ocsimore_phrasing_link">How to make responsive CSS</a></h3><h2> Services</h2><h3><a href="/tuto/4.2/manual/how-to-do-links-to-other-pages" class="ocsimore_phrasing_link">How to do links to other pages</a></h3><h3><a href="/tuto/4.2/manual/how-to-write-forms" class="ocsimore_phrasing_link">How to write forms</a></h3><h3><a href="/tuto/4.2/manual/how-to-register-a-service-that-decides-itself-what-to-send" class="ocsimore_phrasing_link">How to register a service that decides itself what to send</a></h3><h3><a href="/tuto/4.2/manual/how-to-create-link-to-a-current-page-without-knowing-its-url" class="ocsimore_phrasing_link">How to create link to a current page (without knowing its URL)</a></h3><h3><a href="/tuto/4.2/manual/how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones" class="ocsimore_phrasing_link">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></h3><h3><a href="/tuto/4.2/manual/how-to-write-a-json-service" class="ocsimore_phrasing_link">How to write a JSON service</a></h3><h3><a href="/tuto/4.2/manual/how-to-send-file-download" class="ocsimore_phrasing_link">How to send a file (download)</a></h3><h3><a href="/tuto/4.2/manual/how-to-send-file-upload" class="ocsimore_phrasing_link">How to send a file (upload)</a></h3><h2> Sessions</h2><h3><a href="/tuto/4.2/manual/how-to-register-session-data" class="ocsimore_phrasing_link">How to register session data</a></h3><h2> Js_of_ocaml</h2><h3><a href="/tuto/4.2/manual/how-to-attach-ocaml-values-to-dom-elements" class="ocsimore_phrasing_link">How to attach OCaml values to DOM elements</a></h3><h3><a href="/tuto/4.2/manual/how-to-know-whether-the-browser-window-has-the-focus-or-not" class="ocsimore_phrasing_link">How to know whether the browser window has the focus or not</a></h3><h3><a href="/tuto/4.2/manual/how-to-build-js-object" class="ocsimore_phrasing_link">How to build js object</a></h3><h3><a href="/tuto/4.2/manual/how-to-stop-default-behaviour-of-events" class="ocsimore_phrasing_link">How to stop default behaviour of events</a></h3><h3><a href="/tuto/4.2/manual/how-to-call-an-ocaml-function-from-js-code" class="ocsimore_phrasing_link">Howt to call an OCaml function from js code</a></h3><h2> Eliom client-server applications</h2><h3><a href="/tuto/4.2/manual/how-to-call-a-server-side-function-from-client-side" class="ocsimore_phrasing_link">How to call a server side function from a client side</a></h3><h3><a href="/tuto/4.2/manual/how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page" class="ocsimore_phrasing_link">How to make the client side program get an HTML element from the server and insert it in the page</a></h3><h3><a href="/tuto/4.2/manual/how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client" class="ocsimore_phrasing_link">How to attach OCaml values to the HTML nodes sent to the client</a></h3><h3><a href="/tuto/4.2/manual/how-to-iterate-on-all-sessions-for-one-user-or-all-tabs" class="ocsimore_phrasing_link">How to iterate on all sessions for one user, or all tabs</a></h3><h3><a href="/tuto/4.2/manual/how-to-implement-a-notification-system" class="ocsimore_phrasing_link">How to implement a notification system</a></h3><h3><a href="/tuto/4.2/manual/how-to-send-a-file-to-server-without-stopping-the-client-process" class="ocsimore_phrasing_link">How to send a file to server without stopping the client process</a></h3><h3><a href="/tuto/4.2/manual/how-to-detect-channel-disconnection" class="ocsimore_phrasing_link">How to detect channel disconnection</a></h3><h3><a href="/tuto/4.2/manual/how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed" class="ocsimore_phrasing_link">How to detect on client side that the server side state for the process is closed</a></h3><h2> Database</h2><h3><a href="/tuto/4.2/manual/how-to-use-a-database-with-eliom" class="ocsimore_phrasing_link">How to use a database with Eliom</a></h3><h2> Eliom Server side</h2><h3><a href="/tuto/4.2/manual/how-do-i-create-a-cryptographically-safe-identifier" class="ocsimore_phrasing_link">How do I create a Cryptographically safe identifier</a></h3><h3><a href="/tuto/4.2/manual/how-can-i-extend-the-configuration-file-parsing-with-application-specific-entry" class="ocsimore_phrasing_link">How can I extend the configuration file parsing with applicaiton-specific entry</a></h3></div></nav></div></div><button id="reason">Switch to </button><div class="twocols"><div class="leftcol"><div class="how-versions"><input id="how-versions-toggle" type="checkbox"/><label for="how-versions-toggle" class="how-versions-current">Version 4.2</label><div class="how-versions-all"><a href="/tuto/dev/manual/tutowidgets">dev</a><a href="/tuto/6.2/manual/tutowidgets">6.2</a><a href="/tuto/6.1/manual/tutowidgets">6.1</a><a href="/tuto/6.0/manual/tutowidgets">6.0</a><a href="/tuto/5.0/manual/tutowidgets">5.0</a><span class="how-versions-all-current">4.2</span><a href="/tuto/4.1/manual/tutowidgets">4.1</a><a href="/tuto/4.0/manual/tutowidgets">4.0</a><a href="/tuto/3.0/manual/tutowidgets">3.0</a><a href="/tuto/2.2/manual/tutowidgets">2.2</a><a href="/tuto/2.0/manual/tutowidgets">2.0</a></div></div><form id="search"><input name="q" id="q" placeholder="search ..."/><button>Search</button></form><div class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="/tuto/4.2/manual/intro" class="ocsimore_phrasing_link">Introduction. Ocsigen: the different projects</a></h2><h2><a href="/tuto/4.2/manual/application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="/tuto/4.2/manual/interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="/tuto/4.2/manual/misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2><h1> Examples: Learning by example</h1><h2><a href="/tuto/4.2/manual/chat" class="ocsimore_phrasing_link">Chat</a></h2><h1> Mini-tutorials: Some little examples</h1><h2><a href="/tuto/4.2/manual/basicwebsite" class="ocsimore_phrasing_link">A basic Web site in OCaml</a></h2><h2><a href="/tuto/4.2/manual/tutowidgets" class="ocsimore_phrasing_link">Eliom apps basics: writing client server widgets</a></h2><h2><a href="/tuto/4.2/manual/tutoreact" class="ocsimore_phrasing_link">Reactive client-server Web applications</a></h2><h2><a href="/tuto/4.2/manual/rest" class="ocsimore_phrasing_link">RESTful JSON API</a></h2><h2><a href="/tuto/4.2/manual/macaque" class="ocsimore_phrasing_link">MaCaQue: SQL queries</a></h2><h2><a href="/tuto/4.2/manual/custom-conf" class="ocsimore_phrasing_link">Custom configuration</a></h2><h2><a href="/tuto/4.2/manual/ocsipersist" class="ocsimore_phrasing_link">Light database</a></h2><h2><a href="/tuto/4.2/manual/pictures" class="ocsimore_phrasing_link">Download pictures</a></h2><h2><a href="/tuto/4.2/manual/music" class="ocsimore_phrasing_link">Playing music</a></h2><h2><a href="/tuto/4.2/manual/reactivemediaplayer" class="ocsimore_phrasing_link">Reactive media player</a></h2><h2><a href="/tuto/4.2/manual/hash-password" class="ocsimore_phrasing_link">Protecting passwords</a></h2><h1 class="howto"> HOW-TO</h1><h2> My first steps with Ocsigen</h2><h3><a href="/tuto/4.2/manual/how-to-install-ocsigen" class="ocsimore_phrasing_link">How to install Ocsigen</a></h3><h3><a href="/tuto/4.2/manual/how-to-make-hello-world-in-ocsigen" class="ocsimore_phrasing_link">How to make &quot;hello world&quot; in Ocsigen</a></h3><h3><a href="/tuto/4.2/manual/how-to-compile-my-ocsigen-pages" class="ocsimore_phrasing_link">How to compile my Ocsigen pages</a></h3><h3><a href="/tuto/4.2/manual/how-to-configure-and-launch-the-ocsigen-server" class="ocsimore_phrasing_link">How to configure and launch the Ocsigen Server</a></h3><h3><a href="/tuto/4.2/manual/how-does-a-page-s-source-code-look" class="ocsimore_phrasing_link">How does a client-server app source code look like?</a></h3><h2> How to put some elements in my page ?</h2><h3><a href="/tuto/4.2/manual/how-to-make-page-a-skeleton" class="ocsimore_phrasing_link">How to make a page skeleton</a></h3><h3><a href="/tuto/4.2/manual/how-to-use-get-parameters-or-parameters-in-the-url" class="ocsimore_phrasing_link">How to use GET parameters (parameters in the URL)</a></h3><h3><a href="/tuto/4.2/manual/how-to-add-css-stylesheet" class="ocsimore_phrasing_link">How to add CSS stylesheet</a></h3><h3><a href="/tuto/4.2/manual/how-to-add-a-javascript-script" class="ocsimore_phrasing_link">How to add a Javascript script</a></h3><h3><a href="/tuto/4.2/manual/how-to-add-a-favicon" class="ocsimore_phrasing_link">How to add a Favicon</a></h3><h3><a href="/tuto/4.2/manual/how-to-add-a-div" class="ocsimore_phrasing_link">How to add a div</a></h3><h3><a href="/tuto/4.2/manual/how-to-add-a-list" class="ocsimore_phrasing_link">How to add lists in pages?</a></h3><h3><a href="/tuto/4.2/manual/how-to-add-an-image" class="ocsimore_phrasing_link">How to add an image</a></h3><h3><a href="/tuto/4.2/manual/how-to-write-titles-and-paragraphs" class="ocsimore_phrasing_link">How to write titles and paragraphs</a></h3><h3><a href="/tuto/4.2/manual/how-to-set-and-id-classes-or-other-attributes-to-html-elements" class="ocsimore_phrasing_link">How to set and id, classes or other attributes to HTML elements</a></h3><h3><a href="/tuto/4.2/manual/how-to-add-a-select-or-other-form-element" class="ocsimore_phrasing_link">How to add select (or other form element)</a></h3><h3><a href="/tuto/4.2/manual/how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service" class="ocsimore_phrasing_link">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></h3><h3><a href="/tuto/4.2/manual/how-to-make-responsive-css" class="ocsimore_phrasing_link">How to make responsive CSS</a></h3><h2> Services</h2><h3><a href="/tuto/4.2/manual/how-to-do-links-to-other-pages" class="ocsimore_phrasing_link">How to do links to other pages</a></h3><h3><a href="/tuto/4.2/manual/how-to-write-forms" class="ocsimore_phrasing_link">How to write forms</a></h3><h3><a href="/tuto/4.2/manual/how-to-register-a-service-that-decides-itself-what-to-send" class="ocsimore_phrasing_link">How to register a service that decides itself what to send</a></h3><h3><a href="/tuto/4.2/manual/how-to-create-link-to-a-current-page-without-knowing-its-url" class="ocsimore_phrasing_link">How to create link to a current page (without knowing its URL)</a></h3><h3><a href="/tuto/4.2/manual/how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones" class="ocsimore_phrasing_link">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></h3><h3><a href="/tuto/4.2/manual/how-to-write-a-json-service" class="ocsimore_phrasing_link">How to write a JSON service</a></h3><h3><a href="/tuto/4.2/manual/how-to-send-file-download" class="ocsimore_phrasing_link">How to send a file (download)</a></h3><h3><a href="/tuto/4.2/manual/how-to-send-file-upload" class="ocsimore_phrasing_link">How to send a file (upload)</a></h3><h2> Sessions</h2><h3><a href="/tuto/4.2/manual/how-to-register-session-data" class="ocsimore_phrasing_link">How to register session data</a></h3><h2> Js_of_ocaml</h2><h3><a href="/tuto/4.2/manual/how-to-attach-ocaml-values-to-dom-elements" class="ocsimore_phrasing_link">How to attach OCaml values to DOM elements</a></h3><h3><a href="/tuto/4.2/manual/how-to-know-whether-the-browser-window-has-the-focus-or-not" class="ocsimore_phrasing_link">How to know whether the browser window has the focus or not</a></h3><h3><a href="/tuto/4.2/manual/how-to-build-js-object" class="ocsimore_phrasing_link">How to build js object</a></h3><h3><a href="/tuto/4.2/manual/how-to-stop-default-behaviour-of-events" class="ocsimore_phrasing_link">How to stop default behaviour of events</a></h3><h3><a href="/tuto/4.2/manual/how-to-call-an-ocaml-function-from-js-code" class="ocsimore_phrasing_link">Howt to call an OCaml function from js code</a></h3><h2> Eliom client-server applications</h2><h3><a href="/tuto/4.2/manual/how-to-call-a-server-side-function-from-client-side" class="ocsimore_phrasing_link">How to call a server side function from a client side</a></h3><h3><a href="/tuto/4.2/manual/how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page" class="ocsimore_phrasing_link">How to make the client side program get an HTML element from the server and insert it in the page</a></h3><h3><a href="/tuto/4.2/manual/how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client" class="ocsimore_phrasing_link">How to attach OCaml values to the HTML nodes sent to the client</a></h3><h3><a href="/tuto/4.2/manual/how-to-iterate-on-all-sessions-for-one-user-or-all-tabs" class="ocsimore_phrasing_link">How to iterate on all sessions for one user, or all tabs</a></h3><h3><a href="/tuto/4.2/manual/how-to-implement-a-notification-system" class="ocsimore_phrasing_link">How to implement a notification system</a></h3><h3><a href="/tuto/4.2/manual/how-to-send-a-file-to-server-without-stopping-the-client-process" class="ocsimore_phrasing_link">How to send a file to server without stopping the client process</a></h3><h3><a href="/tuto/4.2/manual/how-to-detect-channel-disconnection" class="ocsimore_phrasing_link">How to detect channel disconnection</a></h3><h3><a href="/tuto/4.2/manual/how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed" class="ocsimore_phrasing_link">How to detect on client side that the server side state for the process is closed</a></h3><h2> Database</h2><h3><a href="/tuto/4.2/manual/how-to-use-a-database-with-eliom" class="ocsimore_phrasing_link">How to use a database with Eliom</a></h3><h2> Eliom Server side</h2><h3><a href="/tuto/4.2/manual/how-do-i-create-a-cryptographically-safe-identifier" class="ocsimore_phrasing_link">How do I create a Cryptographically safe identifier</a></h3><h3><a href="/tuto/4.2/manual/how-can-i-extend-the-configuration-file-parsing-with-application-specific-entry" class="ocsimore_phrasing_link">How can I extend the configuration file parsing with applicaiton-specific entry</a></h3></div></div><div class="rightcol"><h1> Mini-tutorial: client-server widgets </h1><p>This short tutorial is an example of client-server Eliom application.
+It gives an example of client-server widgets.
+</p><p>It is probably a good starting point if you want to learn quickly how to write a
+client-server Eliom application with a short example and few explanations.
+For more explanation, see the &quot;graffiti&quot; tutorial or read the manuals.
+</p><p>The goal is to show that,
+unlike many javascript libraries that build their widgets
+programmatically (by instanciating classes or calling functions),
+Eliom makes possible to generate page widgets on server side,
+before sending them to the client. Thus pages can be indexed by search engines.
+</p><p>This tutorial also shows that it is possible to use the same code to
+build the widget either on client or server side.
+</p><p>We chose a very simple widget, than could be the base for example
+for implementing a drop-down menu. It consists in several boxes
+with a title and a content. Clicking on the title opens or closes
+the content. And it is possible to group some of the boxes together
+to make them behave like radio buttons: when you open one of them
+the previously opened one are closed.
+</p><p class="screenshot"><img src="/tuto/6.2/manual/files/tutorial/tutowidgets/ex-final.png" alt="screenshot"/>
+</p><h2> First step: define an application with a basic service </h2><p>The following code defines a client-server Web application
+with only one service, registered at URL / (the root of the Web site).
+</p><p>It also defines a client side application (section <span class="teletype"> {client{ ... }} </span>)
+that appends to the page a widget, generated on client side.
+</p><pre class=""><code class="language-ocaml translatable">{shared{
+  open Eliom_content
+  open Html5
+  open Html5.D
+}}
+
+module Ex_app =
+  Eliom_registration.App (struct let application_name = &quot;ex&quot; end)
+
+let _ =
+  Ex_app.register_service ~path:[] ~get_params:Eliom_parameter.unit
+    (fun () () -&gt;
+      Lwt.return (Eliom_tools.D.html ~title:&quot;ex&quot; ~css:[[&quot;css&quot;; &quot;ex.css&quot;]]
+                   (body [h2 [pcdata &quot;Welcome to Ocsigen!&quot;]])))
+
+
+{client{
+
+  let mywidget s1 s2 =
+    let button  = div ~a:[a_class [&quot;button&quot;]] [pcdata s1] in
+    let content = div ~a:[a_class [&quot;content&quot;]] [pcdata s2] in
+    div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
+
+  let _ =
+    lwt _ = Lwt_js_events.onload () in
+    Dom.appendChild
+      (Dom_html.document##body)
+      (To_dom.of_element (mywidget &quot;Click me&quot; &quot;Hello!&quot;));
+    Lwt.return ()
+
+}}</code></pre><p>To compile it, first create a project by calling
+</p><pre>  eliom-distillery -name ex
+</pre><p>The name of the project must match the name given to the functor
+<span class="teletype">Eliom_registration.App</span>.
+</p><p>Adapt the file <span class="teletype">ex.eliom</span> and compile, by calling <span class="teletype">make</span>
+and run the server, by calling <span class="teletype">make test.byte</span>.
+Download the
+<a href="/tuto/6.2/manual/files/tutorial/tutowidgets/ex.css" class="ocsimore_phrasing_link">CSS file</a>
+and place it in directory <span class="teletype">static/css</span>.
+Then open a browser window and go to URL <span class="teletype">http://localhost:8080</span>.
+</p><p class="screenshot"><img src="/tuto/6.2/manual/files/tutorial/tutowidgets/ex1.png" alt="screenshot"/>
+</p><h3> More explanations</h3><p>This section gives very quick explanations on the rest of the program.
+For more detailed explanations, see the tutorial for the graffiti app
+or the manual of each of the projects.
+</p><ul><li> The <span class="teletype">##</span> is used to call a JS method from OCaml
+(see js_of_ocaml's documentation).
+</li><li> If there are several services in your application, the client-side program
+will be sent only with the first page, and will not stop if you go to
+another page of the application.
+</li><li> <span class="teletype">Lwt</span> is the concurrent library used to program threads on both
+client and server sides. The syntax <span class="teletype">lwt a = e1 in e2</span> allows to wait
+(without blocking the rest of the program) for a Lwt thread to terminate
+before continuing. <span class="teletype">e2</span> must be a Lwt thread itself. <span class="teletype">Lwt.return</span>
+makes possible to create a Lwt thread already terminated.
+</li><li> <span class="teletype">Lwt_js_events</span> defines a very convenient way to program
+events. Here <span class="teletype">Lwt_js_events.onload</span> is a Lwt thread that waits
+until the page is loaded.
+</li></ul><h2> Second step: bind the button </h2><p>To make to widget work, we must bind the click event.
+Replace function <span class="teletype">mywidget</span> by the following lines:
+</p><pre class=""><code class="language-ocaml translatable">let switch_visibility elt =
+    let elt = To_dom.of_element elt in
+    if Js.to_bool (elt##classList##contains(Js.string &quot;hidden&quot;))
+    then elt##classList##remove(Js.string &quot;hidden&quot;)
+    else elt##classList##add(Js.string &quot;hidden&quot;)
+
+  let mywidget s1 s2 =
+    let button  = div ~a:[a_class [&quot;button&quot;]] [pcdata s1] in
+    let content = div ~a:[a_class [&quot;content&quot;]] [pcdata s2] in
+    Lwt_js_events.(
+      async (fun () -&gt;
+        clicks (To_dom.of_element button)
+          (fun _ _ -&gt; switch_visibility content; Lwt.return ())));
+    div ~a:[a_class [&quot;mywidget&quot;]] [button; content]</code></pre><ul><li> Once again we use <span class="teletype">Lwt_js_events</span>. Function <span class="teletype">async</span> runs a <span class="teletype">Lwt</span>
+thread asynchronously (without waiting for its result).
+</li><li> <span class="teletype">Lwt_js_events.clicks elt f</span> calls function <span class="teletype">f</span> for each
+mouse click on element <span class="teletype">elt</span>.
+</li><li> <span class="teletype">To_dom.of_element</span>, <span class="teletype">Js.string</span> and <span class="teletype">Js.to_bool</span> are conversion
+functions between OCaml values and JS values.
+</li></ul><h2> Third step: Generating the widget on server side </h2><p>The following version of the program shows how to generate the widget
+on server side, before sending it to the client.
+</p><p>The code is exactly the same, but:
+</p><ul><li> We place function <span class="teletype">mywidget</span> outside client section.
+</li><li> The portion of code that must be run on client side
+(binding the click event) is written as a <em>client value</em>,
+inside <span class="teletype"> {unit{ ... }} </span>. This code will be executed by
+the client side program when it receives the page. Note that you
+must give the type (here <span class="teletype">unit</span>) as there is no type inference
+for client values for now. The client section may refer server side
+values, using the <span class="teletype">%x</span> syntax. These values will be serialized
+and sent to the client automatically with the page.
+</li><li> We include the widget on the server side generated page instead of
+adding it to the page from client side.
+</li></ul><pre class=""><code class="language-ocaml translatable">{shared{
+  open Eliom_content
+  open Html5
+  open Html5.D
+}}
+
+module Ex_app =
+  Eliom_registration.App (struct let application_name = &quot;ex&quot; end)
+
+{client{
+
+  let switch_visibility elt =
+    let elt = To_dom.of_element elt in
+    if Js.to_bool (elt##classList##contains(Js.string &quot;hidden&quot;))
+    then elt##classList##remove(Js.string &quot;hidden&quot;)
+    else elt##classList##add(Js.string &quot;hidden&quot;)
+}}
+
+  let mywidget s1 s2 =
+    let button  = div ~a:[a_class [&quot;button&quot;]] [pcdata s1] in
+    let content = div ~a:[a_class [&quot;content&quot;]] [pcdata s2] in
+    let _ = {unit{
+      Lwt_js_events.(
+        async (fun () -&gt;
+          clicks (To_dom.of_element %button)
+            (fun _ _ -&gt; switch_visibility %content; Lwt.return ()))) }}
+    in
+    div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
+
+let _ =
+  Ex_app.register_service ~path:[] ~get_params:Eliom_parameter.unit
+    (fun () () -&gt;
+      Lwt.return (Eliom_tools.D.html ~title:&quot;ex&quot; ~css:[[&quot;css&quot;; &quot;ex.css&quot;]]
+                   (body [h2 [pcdata &quot;Welcome to Ocsigen!&quot;];
+                          mywidget &quot;Click me&quot; &quot;Hello!&quot;])))</code></pre><h2> Fourth step: widget usable either on client or server sides </h2><p>If you place function <span class="teletype">mywidget</span> into a <em>shared</em> section
+(syntax <span class="teletype"> {{shared{ ... }} </span>), it will be available both on
+server and client sides.
+</p><pre class=""><code class="language-ocaml translatable">{shared{
+
+  let mywidget s1 s2 =
+    let button  = div ~a:[a_class [&quot;button&quot;]] [pcdata s1] in
+    let content = div ~a:[a_class [&quot;content&quot;]] [pcdata s2] in
+    let _ = {unit{
+      Lwt_js_events.(
+        async (fun () -&gt;
+          clicks (To_dom.of_element %button)
+            (fun _ _ -&gt; switch_visibility %content; Lwt.return ()))) }}
+    in
+    div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
+
+}}</code></pre><p class="screenshot"><img src="/tuto/6.2/manual/files/tutorial/tutowidgets/ex2.png" alt="screenshot"/>
+</p><h2> Fifth step: close last window when opening a new one </h2><p>To implement this, we just record in a client side reference
+the function to be used to close the currently opened window.
+</p><pre class=""><code class="language-ocaml translatable">{shared{
+  open Eliom_content
+  open Html5
+  open Html5.D
+}}
+
+module Ex_app =
+  Eliom_registration.App (struct let application_name = &quot;ex&quot; end)
+
+
+{client{
+  let close_last = ref (fun () -&gt; ())
+
+  let switch_visibility elt =
+    let elt = To_dom.of_element elt in
+    if Js.to_bool (elt##classList##contains(Js.string &quot;hidden&quot;))
+    then elt##classList##remove(Js.string &quot;hidden&quot;)
+    else elt##classList##add(Js.string &quot;hidden&quot;)
+}}
+
+{shared{
+
+  let mywidget s1 s2 =
+    let button  = div ~a:[a_class [&quot;button&quot;]] [pcdata s1] in
+    let content = div ~a:[a_class [&quot;content&quot;; &quot;hidden&quot;]] [pcdata s2] in
+    let _ = {unit{
+      Lwt_js_events.(
+        async (fun () -&gt;
+          clicks (To_dom.of_element %button)
+            (fun _ _ -&gt;
+               !close_last();
+               close_last := (fun () -&gt; switch_visibility %content);
+               switch_visibility %content; Lwt.return ()))) }}
+    in
+    div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
+
+}}
+
+let _ =
+  Ex_app.register_service ~path:[] ~get_params:Eliom_parameter.unit
+    (fun () () -&gt;
+      let _ = {unit{ Dom.appendChild
+         (Dom_html.document##body)
+         (To_dom.of_element (mywidget &quot;Click me&quot; &quot;client side&quot;)) }}
+      in
+      Lwt.return (Eliom_tools.D.html ~title:&quot;ex&quot; ~css:[[&quot;css&quot;; &quot;ex.css&quot;]]
+                   (body [h2 [pcdata &quot;Welcome to Ocsigen!&quot;];
+                          mywidget &quot;Click me&quot; &quot;server side&quot;;
+                          mywidget &quot;Click me&quot; &quot;server side&quot;;
+                          mywidget &quot;Click me&quot; &quot;server side&quot;])))</code></pre><h2> Last step: several sets of widgets </h2><p>Now we want to be able to have several sets of widgets in the
+same page. To do that we can't use only one reference any more.
+In the following version, the server side program asks the client side
+program to generate two different references by calling function
+<span class="teletype">new_set</span>. This function returns what we call a <em>client value</em>.
+On server side, it is not evaluated, and has an abstract type.
+</p><pre class=""><code class="language-ocaml translatable">{shared{
+  open Eliom_content
+  open Html5
+  open Html5.D
+}}
+
+module Ex_app =
+  Eliom_registration.App (struct let application_name = &quot;ex&quot; end)
+
+
+let new_set () = {(unit -&gt; unit) ref{ ref (fun () -&gt; ()) }}
+
+{client{
+  let switch_visibility elt =
+    let elt = To_dom.of_element elt in
+    if Js.to_bool (elt##classList##contains(Js.string &quot;hidden&quot;))
+    then elt##classList##remove(Js.string &quot;hidden&quot;)
+    else elt##classList##add(Js.string &quot;hidden&quot;)
+}}
+
+{shared{
+
+  let mywidget set s1 s2 =
+    let button  = div ~a:[a_class [&quot;button&quot;]] [pcdata s1] in
+    let content = div ~a:[a_class [&quot;content&quot;; &quot;hidden&quot;]] [pcdata s2] in
+    let _ = {unit{
+      Lwt_js_events.(
+        async (fun () -&gt;
+          clicks (To_dom.of_element %button)
+            (fun _ _ -&gt;
+               ! %set();
+               %set := (fun () -&gt; switch_visibility %content);
+               switch_visibility %content; Lwt.return ()))) }}
+    in
+    div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
+
+}}
+
+let _ =
+  Ex_app.register_service ~path:[] ~get_params:Eliom_parameter.unit
+    (fun () () -&gt;
+      let set1 = new_set () in
+      let set2 = new_set () in
+      let _ = {unit{ Dom.appendChild
+         (Dom_html.document##body)
+         (To_dom.of_element (mywidget %set2 &quot;Click me&quot; &quot;client side&quot;)) }}
+      in
+      Lwt.return (Eliom_tools.D.html ~title:&quot;ex&quot; ~css:[[&quot;css&quot;; &quot;ex.css&quot;]]
+                   (body [h2 [pcdata &quot;Welcome to Ocsigen!&quot;];
+                          mywidget set1 &quot;Click me&quot; &quot;server side&quot;;
+                          mywidget set1 &quot;Click me&quot; &quot;server side&quot;;
+                          mywidget set2 &quot;Click me&quot; &quot;server side&quot;])))</code></pre><p class="screenshot"><img src="/tuto/6.2/manual/files/tutorial/tutowidgets/ex-final.png" alt="screenshot"/>
+</p><h2> And now? </h2><h3>Calling server functions</h3><p>An important feature missing in this tutorial is the ability
+to call server functions from the client side program (&quot;server functions&quot;).
+You can have a quick description of this
+<a href="/manual/how-to-call-a-server-side-function-from-client-side" class="ocsimore_phrasing_link">in mini HOWTOs</a> or
+in <a href="/eliom/manual/clientserver-communication" class="ocsimore_phrasing_link">Eliom's manual</a>.
+</p><h3>Services</h3><p>For many applications, you will need several services.
+Remember that by default, client-side Eliom program do not
+stop when you follow a link or send a form. This make possible to combine
+Rich client side feature (playing music, animations, stateful applications ...)
+with traditional Web interaction (links, forms, bookmarks, back button ...).
+Eliom proposes several way to identify services, either by the URL (and
+parameters) or by a session identifier (we call this kind of service
+a <em>coservice</em>). Eliom also makes possible to create dynamically new
+(co-)services dynamically, for example coservices depending on previous
+interaction with a user. More information on the service identification
+mechanism in <a href="/eliom/manual/server-services" class="ocsimore_phrasing_link">Eliom's manual</a>.
+</p><h3>Sessions</h3><p>Eliom also offers a rich session mechanism, with <em>scopes</em>
+(see <a href="/eliom/manual/server-state" class="ocsimore_phrasing_link">Eliom's manual</a>).
+</p></div></div></div></body></html>

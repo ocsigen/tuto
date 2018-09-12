@@ -5,7 +5,7 @@
 </li><li class="mainmenu-doc mainmenu-current"><a href="/tuto/6.2/manual/intro" class="ocsimore_phrasing_link">Doc</a>
 </li><li><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
 </li><li><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
-</li><li><a href="/lwt/3.3.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
+</li><li><a href="/lwt/4.1.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
 </li><li><a href="/tyxml/4.1.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
 </li><li><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
 </li></ul><aside class="how-drawer"><input id="how-drawer-toggle" type="checkbox"/><label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label><nav class="how-drawer-content"><ul class="drawermainmenu"><li class="drawermainmenu-home"><a href="/" class="ocsimore_phrasing_link">Home</a>
@@ -13,7 +13,7 @@
 </li><li class="drawermainmenu-project"><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
 </li><li class="drawermainmenu-project"><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
 </li><li class="drawermainmenu-project"><a href="/ocsigenserver/2.9/manual/quickstart" class="ocsimore_phrasing_link">Server</a>
-</li><li class="drawermainmenu-project"><a href="/lwt/3.3.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
+</li><li class="drawermainmenu-project"><a href="/lwt/4.1.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
 </li><li class="drawermainmenu-project"><a href="/tyxml/4.1.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
 </li><li class="drawermainmenu-project"><a href="/ocsigen-toolkit/1.1.0/manual/intro" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
@@ -81,7 +81,7 @@ let stop_drawing { drawing_thread; drawing_arrow } =
   Event_arrows.cancel drawing_arrow</code></pre><p>Notice that the client does not keep data from pages it left.
 <span class="teletype">Lwt.cancel t</span> stops the thread t. In this case it also closes the
 bus on which t is listening. For more informations see the
-<span><a class="ocsforge_doclink_lwt" href="/lwt/3.3.0/manual/manual">Lwt programming guide </a></span> and
+<span><a class="ocsforge_doclink_lwt" href="/lwt/4.1.0/manual/manual">Lwt programming guide </a></span> and
 <span><a class="ocsforge_doclink_eliom" href="/eliom/dev/api/client/Eliom_bus">Eliom_bus</a></span>.
 </p><pre class=""><code class="language-ocaml translatable">let launch_client_canvas bus image_elt canvas_elt =
   let canvas = Html5.To_dom.of_canvas canvas_elt in
@@ -508,7 +508,7 @@ let () = Eliom_registration.Action.register
 (currently sqlite and dbm) and can be extended.
 For more informations see <span><a class="ocsforge_doclink_ocsigenserver" href="/ocsigenserver/2.9/api/Ocsipersist#TYPEtable">Ocsipersist.​table</a></span>.</p></aside><h3>Saving favorite pictures</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Atom feed</p></aside><p>We will now add a button to the application to save the current
 image. The images will be saved to the filesystem using the module
-<span><a class="ocsforge_doclink_lwt" href="/lwt/3.3.0/api/Lwt_io">Lwt_io</a></span>. We will then make an Atom feed
+<span><a class="ocsforge_doclink_lwt" href="/lwt/4.1.0/api/Lwt_io">Lwt_io</a></span>. We will then make an Atom feed
 with the saved images using <span><a class="ocsforge_doclink_eliom" href="/eliom/dev/api/server/Atom_feed">Atom_feed</a></span>.
 </p><p>We save the images in the directory containing the static contents
 under the directory <span class="teletype">graffiti_saved/username</span>. The <span class="teletype">username</span>

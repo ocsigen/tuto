@@ -5,7 +5,7 @@
 </li><li class="mainmenu-doc mainmenu-current"><a href="/tuto/6.2/manual/intro" class="ocsimore_phrasing_link">Doc</a>
 </li><li><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
 </li><li><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
-</li><li><a href="/lwt/3.3.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
+</li><li><a href="/lwt/4.1.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
 </li><li><a href="/tyxml/4.1.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
 </li><li><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
 </li></ul><aside class="how-drawer"><input id="how-drawer-toggle" type="checkbox"/><label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label><nav class="how-drawer-content"><ul class="drawermainmenu"><li class="drawermainmenu-home"><a href="/" class="ocsimore_phrasing_link">Home</a>
@@ -13,7 +13,7 @@
 </li><li class="drawermainmenu-project"><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
 </li><li class="drawermainmenu-project"><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
 </li><li class="drawermainmenu-project"><a href="/ocsigenserver/2.9/manual/quickstart" class="ocsimore_phrasing_link">Server</a>
-</li><li class="drawermainmenu-project"><a href="/lwt/3.3.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
+</li><li class="drawermainmenu-project"><a href="/lwt/4.1.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
 </li><li class="drawermainmenu-project"><a href="/tyxml/4.1.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
 </li><li class="drawermainmenu-project"><a href="/ocsigen-toolkit/1.1.0/manual/intro" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
@@ -134,7 +134,7 @@ implement concurrent programs in OCaml, which is now widely used even
 for applications not related to Ocsigen.
 </p><p>For now we will just use the <span class="teletype">Lwt.return</span> function as above.  We
 will come back later on Lwt programming.  You can also have a look at
-the <span><a class="ocsforge_doclink_lwt" href="/lwt/3.3.0/manual/manual">Lwt programming guide</a></span>.</p></aside><h3>Execute parts of the program on the client</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Service sending an application<br/>
+the <span><a class="ocsforge_doclink_lwt" href="/lwt/4.1.0/manual/manual">Lwt programming guide</a></span>.</p></aside><h3>Execute parts of the program on the client</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Service sending an application<br/>
 Client and server code<br/>
 Compiling a Web application with server and client parts<br/>
 Calling Javascript methods with Js_of_ocaml<br/></p></aside><p>To create our first service, we used the function <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/server/Eliom_registration.Html5#VALregister_service">Eliom_registration.​Html5.​register_service</a></span>, as we
@@ -400,7 +400,7 @@ api).
 <a href="http://erratique.ch/software/react/doc/React" class="ocsimore_phrasing_link">React events</a> from
 the server to the client and conversly.
 </li><li> <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/server/Eliom_comet.Channels#TYPEt">Eliom_comet.​Channels.​t</a></span> are one way communication channels
-allowing finer control. It allow sending <span><a class="ocsforge_doclink_lwt" href="/lwt/3.3.0/api/Lwt_stream">Lwt_stream</a></span> to the client.  Eliom_react and Eliom_bus are
+allowing finer control. It allow sending <span><a class="ocsforge_doclink_lwt" href="/lwt/4.1.0/api/Lwt_stream">Lwt_stream</a></span> to the client.  Eliom_react and Eliom_bus are
 implemented over it.
 </li></ul><p>It is possible to control the idle behaviour with module <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/client/Eliom_comet.Configuration">Eliom_comet.​Configuration</a></span>.</p></aside><h3>Color and size of the brush</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Widgets with OClosure</p></aside><p>In this section, we add a color picker and slider to choose the size
 of the brush. For that we used add two widgets provided by the

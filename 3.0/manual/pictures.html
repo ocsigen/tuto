@@ -5,7 +5,7 @@
 </li><li class="mainmenu-doc mainmenu-current"><a href="/tuto/6.2/manual/intro" class="ocsimore_phrasing_link">Doc</a>
 </li><li><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
 </li><li><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
-</li><li><a href="/lwt/3.3.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
+</li><li><a href="/lwt/4.1.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
 </li><li><a href="/tyxml/4.1.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
 </li><li><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
 </li></ul><aside class="how-drawer"><input id="how-drawer-toggle" type="checkbox"/><label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label><nav class="how-drawer-content"><ul class="drawermainmenu"><li class="drawermainmenu-home"><a href="/" class="ocsimore_phrasing_link">Home</a>
@@ -13,7 +13,7 @@
 </li><li class="drawermainmenu-project"><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
 </li><li class="drawermainmenu-project"><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
 </li><li class="drawermainmenu-project"><a href="/ocsigenserver/2.9/manual/quickstart" class="ocsimore_phrasing_link">Server</a>
-</li><li class="drawermainmenu-project"><a href="/lwt/3.3.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
+</li><li class="drawermainmenu-project"><a href="/lwt/4.1.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
 </li><li class="drawermainmenu-project"><a href="/tyxml/4.1.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
 </li><li class="drawermainmenu-project"><a href="/ocsigen-toolkit/1.1.0/manual/intro" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
@@ -26,7 +26,7 @@
 We are looking for beta-tester and contributors.
 </p><button id="reason">Switch to </button><div class="twocols"><nav class="leftcol">Version <select class="how-versions" onchange="location = this.value;"><option value="/tuto/dev/manual/pictures">dev</option><option value="/tuto/6.2/manual/pictures">6.2</option><option value="/tuto/6.1/manual/pictures">6.1</option><option value="/tuto/6.0/manual/pictures">6.0</option><option value="/tuto/5.0/manual/pictures">5.0</option><option value="/tuto/4.2/manual/pictures">4.2</option><option value="/tuto/4.1/manual/pictures">4.1</option><option value="/tuto/4.0/manual/pictures">4.0</option><option selected="selected">3.0</option><option value="/tuto/2.2/manual/pictures">2.2</option><option value="/tuto/2.0/manual/pictures">2.0</option></select><form id="search"><input name="q" id="q" placeholder="search ..."/><button>Search</button></form><nav class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="/tuto/3.0/manual/intro" class="ocsimore_phrasing_link">Introduction</a></h2><h2><a href="/tuto/3.0/manual/application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="/tuto/3.0/manual/interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="/tuto/3.0/manual/misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2><h1> Examples: Learning by example</h1><h2><a href="/tuto/3.0/manual/chat" class="ocsimore_phrasing_link">Chat</a></h2><h1> Mini-tutorials: Some little examples</h1><h2><a href="/tuto/3.0/manual/tutowidgets" class="ocsimore_phrasing_link">Eliom apps basics: writing client server widgets</a></h2><h2><a href="/tuto/3.0/manual/macaque" class="ocsimore_phrasing_link">MaCaQue: SQL queries</a></h2><h2><a href="/tuto/3.0/manual/custom-conf" class="ocsimore_phrasing_link">Custom configuration</a></h2><h2><a href="/tuto/3.0/manual/ocsipersist" class="ocsimore_phrasing_link">Light database</a></h2><h2><a href="/tuto/3.0/manual/pictures" class="ocsimore_phrasing_link">Upload pictures</a></h2><h2><a href="/tuto/3.0/manual/music" class="ocsimore_phrasing_link">Playing music</a></h2><h2><a href="/tuto/3.0/manual/hash-password" class="ocsimore_phrasing_link">Protecting passwords</a></h2></nav></nav><article class="rightcol"><h1>Saving favorite pictures</h1><aside class="concepts"><header><h5>Concepts</h5></header><p>Atom feed</p></aside><p>We will now add a button to the application to save the current
 image. The images will be saved to the filesystem using the module
-<span><a class="ocsforge_doclink_lwt" href="/lwt/3.3.0/api/Lwt_io">Lwt_io</a></span>. We will then make an Atom feed
+<span><a class="ocsforge_doclink_lwt" href="/lwt/4.1.0/api/Lwt_io">Lwt_io</a></span>. We will then make an Atom feed
 with the saved images using <span><a class="ocsforge_doclink_eliom" href="/eliom/dev/api/server/Atom_feed">Atom_feed</a></span>.
 </p><p>We save the images in the directory containing the static contents
 under the directory <span class="teletype">images_saved/username</span>. The <span class="teletype">username</span>

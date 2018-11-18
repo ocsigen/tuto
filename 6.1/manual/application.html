@@ -6,7 +6,7 @@
 </li><li><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
 </li><li><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
 </li><li><a href="/lwt/4.1.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
-</li><li><a href="/tyxml/4.1.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
+</li><li><a href="/tyxml/4.3.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
 </li><li><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
 </li></ul><aside class="how-drawer"><input id="how-drawer-toggle" type="checkbox"/><label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label><nav class="how-drawer-content"><ul class="drawermainmenu"><li class="drawermainmenu-home"><a href="/" class="ocsimore_phrasing_link">Home</a>
 </li><li class="drawermainmenu-doc drawermainmenu-current"><a href="/tuto/6.2/manual/intro" class="ocsimore_phrasing_link">Doc</a>
@@ -14,7 +14,7 @@
 </li><li class="drawermainmenu-project"><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
 </li><li class="drawermainmenu-project"><a href="/ocsigenserver/2.9/manual/quickstart" class="ocsimore_phrasing_link">Server</a>
 </li><li class="drawermainmenu-project"><a href="/lwt/4.1.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
-</li><li class="drawermainmenu-project"><a href="/tyxml/4.1.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
+</li><li class="drawermainmenu-project"><a href="/tyxml/4.3.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
 </li><li class="drawermainmenu-project"><a href="/ocsigen-toolkit/1.1.0/manual/intro" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-page"><a href="/projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -99,11 +99,11 @@ pages as strings (as in other web frameworks). However, it is
 preferable to generate HTML in a way that provides compile-time HTML
 correctness guarantees. This tutorial achieves this by using the
 module <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/server/Eliom_content.Html.D">Eliom_content.​Html.​D</a></span>,
-which is implemented using the <span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.1.0/manual/intro">TyXML</a></span>
+which is implemented using the <span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.3.0/manual/intro">TyXML</a></span>
 library.  The module defines a construction function for each HTML
 tag.
 </p><p><em>Note that it is also possible to use the usual HTML syntax directly
-in OCaml, cf.  <span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.1.0/api/Pa_tyxml">Pa_tyxml</a></span>.</em>
+in OCaml, cf.  <span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.3.0/api/Pa_tyxml">Pa_tyxml</a></span>.</em>
 </p><p>The TyXML library (and thus <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/server/Eliom_content.Html.D">Eliom_content.​Html.​D</a></span>) is very strict and compels you to respect
 HTML standard (with some limitations). For example if you write:
 </p><pre class=""><code class="language-ocaml translatable">(html
@@ -122,7 +122,7 @@ the end of line 2:
            | `Script
            | `Style ]
        The second variant type does not allow tag(s) `PCDATA
-</pre><p>where <span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.1.0/api/Html_types#TYPEhead_content_fun">Html_types.​head_content_fun</a></span>
+</pre><p>where <span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.3.0/api/Html_types#TYPEhead_content_fun">Html_types.​head_content_fun</a></span>
 is the type of content allowed inside <span class="teletype">&lt;head&gt;</span> (<span class="teletype">&lt;base&gt;</span>,
 <span class="teletype">&lt;command&gt;</span>, <span class="teletype">&lt;link&gt;</span>, <span class="teletype">&lt;meta&gt;</span>, etc.). Notice that
 <span class="teletype">`PCDATA</span> (i.e. raw text) is not included in this polymorphic

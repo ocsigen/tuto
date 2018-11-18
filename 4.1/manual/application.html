@@ -6,7 +6,7 @@
 </li><li><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
 </li><li><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
 </li><li><a href="/lwt/4.1.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
-</li><li><a href="/tyxml/4.1.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
+</li><li><a href="/tyxml/4.3.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
 </li><li><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
 </li></ul><aside class="how-drawer"><input id="how-drawer-toggle" type="checkbox"/><label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label><nav class="how-drawer-content"><ul class="drawermainmenu"><li class="drawermainmenu-home"><a href="/" class="ocsimore_phrasing_link">Home</a>
 </li><li class="drawermainmenu-doc drawermainmenu-current"><a href="/tuto/6.2/manual/intro" class="ocsimore_phrasing_link">Doc</a>
@@ -14,7 +14,7 @@
 </li><li class="drawermainmenu-project"><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
 </li><li class="drawermainmenu-project"><a href="/ocsigenserver/2.9/manual/quickstart" class="ocsimore_phrasing_link">Server</a>
 </li><li class="drawermainmenu-project"><a href="/lwt/4.1.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
-</li><li class="drawermainmenu-project"><a href="/tyxml/4.1.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
+</li><li class="drawermainmenu-project"><a href="/tyxml/4.3.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
 </li><li class="drawermainmenu-project"><a href="/ocsigen-toolkit/1.1.0/manual/intro" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-page"><a href="/projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -91,8 +91,8 @@ or using OCaml's polymorphic variants.  This tutorial is using the
 second solution, using the module <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/server/Eliom_content.Html5.D">Eliom_content.​Html5.​D</a></span>. This module defines a
 construction function for each HTML5 tag.
 </p><p><em>Note that it is also possible to use the usual HTML syntax directly
-in OCaml, cf.  <span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.1.0/api/Pa_tyxml">Pa_tyxml</a></span>.</em>
-</p><p>Ocsigen uses the <span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.1.0/manual/intro">TyXML</a></span>
+in OCaml, cf.  <span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.3.0/api/Pa_tyxml">Pa_tyxml</a></span>.</em>
+</p><p>Ocsigen uses the <span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.3.0/manual/intro">TyXML</a></span>
 library to build HTML tree.  The TyXML library is very strict and
 compels you to respect HTML5 standard (with some limitations). For
 example if you write:
@@ -110,14 +110,14 @@ example if you write:
            | `Script
            | `Style ]
        The second variant type does not allow tag(s) `PCDATA
-</pre><p>where <span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.1.0/api/Html5_types#TYPEhead_content_fun">Html5_types.​head_content_fun</a></span>
+</pre><p>where <span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.3.0/api/Html5_types#TYPEhead_content_fun">Html5_types.​head_content_fun</a></span>
 is the type of content allowed inside <span class="teletype">&lt;head&gt;</span> (<span class="teletype">&lt;base&gt;</span>,
 <span class="teletype">&lt;command&gt;</span>, <span class="teletype">&lt;link&gt;</span>, <span class="teletype">&lt;meta&gt;</span>, etc.). You see that
 <span class="teletype">`PCDATA</span> (i.e. raw text) is not included in this polymorphic
 variant type.
 </p><p><strong>Another example:</strong> In HTML5, some tags cannot be empty. For example
 <span class="teletype">&lt;table&gt;</span>must contain at least one row.  To enforce this, the
-<span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.1.0/api/Html5.F#VALtable">Html5.table</a></span> function takes two parameters: the first one is the
+<span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.3.0/api/Html5.F#VALtable">Html5.table</a></span> function takes two parameters: the first one is the
 first row, the second one is a list containing all the other rows
 (same thing for <span class="teletype">&lt;tr&gt;</span>, <span class="teletype">&lt;form&gt;</span>, <span class="teletype">&lt;select&gt;</span>, ...).  This
 forces the user to handle the empty list case specially and thus make
@@ -127,7 +127,7 @@ very easy to get used to.  It actually saves a huge amount of
 debugging time as you will never have to bother about the validity of
 pages afterwards.</em>
 </p><p>A more detailed introduction to the construction of HTML5 tree is
-available in the <span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.1.0/api/Html5.F">TyXML reference API</a></span>.</p></aside><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Lwt</h5></header><p><strong>Important warning:</strong> All the functions you write must be written in
+available in the <span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.3.0/api/Html5.F">TyXML reference API</a></span>.</p></aside><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Lwt</h5></header><p><strong>Important warning:</strong> All the functions you write must be written in
 cooperative manner using Lwt. Lwt is a convenient way to
 implement concurrent programs in OCaml, and is now also widely used
 for applications not related to Ocsigen.

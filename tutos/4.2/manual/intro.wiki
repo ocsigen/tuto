@@ -48,7 +48,7 @@ dive into the details if you want to.
 The tutorial is divided into several parts, mostly independant.
 
 <<div class="tutocase"|
-[[http://www.dailymotion.com/video/k3m1rZBWQCWBCL693Y5|{{wiki(79):files/2014-epita-video.png|video}}]]
+[[http://www.dailymotion.com/video/k3m1rZBWQCWBCL693Y5|{{wiki("tuto"):files/2014-epita-video.png|video}}]]
 ;If you want a wide overview about Ocsigen, for beginners, in french
 :Look at  [[href:http://www.dailymotion.com/video/k3m1rZBWQCWBCL693Y5|this video]], by Vincent Balat
 >>
@@ -151,7 +151,7 @@ forms, you can skip the second chapter.
 
 <<div class="tutocase"|
 ;If you want to have quickly a full application with user management (registration, activation emails, authentication)
-: Have a look at [[wiki(81):|Eliom base app]].
+: Have a look at [[wiki("ocsigen-start"):|Eliom base app]].
 >>
 
 Eliom base app is a library and a template for Eliom distillery that
@@ -163,7 +163,7 @@ management.
 <<div class="tutocase"|
 You will also find some other tutorials in the menu on the left.
 
-We also have a list of [[wiki(72):howto|Quick HOWTOs]].
+We also have a list of [[site:howto|Quick HOWTOs]].
 >>
 
 
@@ -204,7 +204,7 @@ extension mechanism that make easy to plug your own OCaml modules
 for generating pages. Many extensions are already written:
 ;<<a_manual project="ocsigenserver" chapter="staticmod"|Staticmod>>
 :    to serve static files.
-;[[wiki(15):|Eliom]]
+;[[wiki("eliom"):|Eliom]]
 :    to create reliable client/server Web applications
      or Web sites in OCaml using advanced high level concepts.
 ;<<a_manual project="ocsigenserver" chapter="extendconfiguration"|Extendconfiguration>>

@@ -26,7 +26,7 @@ content. Furthermore, it is possible to group some of the boxes
 together to make them behave like radio buttons: when you open one of
 them, the previously opened one is closed.
 
-@@class="screenshot"@@{{wiki(79):files/tutorial/tutowidgets/ex-final.png|screenshot}}
+@@class="screenshot"@@{{wiki("tuto"):files/tutorial/tutowidgets/ex-final.png|screenshot}}
 
 == First step: define an application with a basic service ==
 
@@ -84,11 +84,11 @@ After you adapt the file {{{ex.eliom}}},
 you can compile by calling {{{make}}},
 and run the server by calling {{{make test.byte}}}.
 Download the
-[[wiki(79):files/tutorial/tutowidgets/ex.css|CSS file]]
+[[wiki("tuto"):files/tutorial/tutowidgets/ex.css|CSS file]]
 and place it in directory {{{static/css}}}.
 Then open a browser window and go to URL {{{http://localhost:8080}}}.
 
-@@class="screenshot"@@{{wiki(79):files/tutorial/tutowidgets/ex1.png|screenshot}}
+@@class="screenshot"@@{{wiki("tuto"):files/tutorial/tutowidgets/ex1.png|screenshot}}
 
 === More explanations
 
@@ -215,7 +215,7 @@ let%shared mywidget s1 s2 =
   ...
 >>
 
-@@class="screenshot"@@{{wiki(79):files/tutorial/tutowidgets/ex2.png|screenshot}}
+@@class="screenshot"@@{{wiki("tuto"):files/tutorial/tutowidgets/ex2.png|screenshot}}
 
 
 == Fifth step: close last window when opening a new one ==
@@ -338,7 +338,7 @@ let _ =
              ])))
 >>
 
-@@class="screenshot"@@{{wiki(79):files/tutorial/tutowidgets/ex-final.png|screenshot}}
+@@class="screenshot"@@{{wiki("tuto"):files/tutorial/tutowidgets/ex-final.png|screenshot}}
 
 
 == And now? ==

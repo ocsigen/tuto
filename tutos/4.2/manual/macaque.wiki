@@ -5,7 +5,7 @@
 We will implement our database access function using
 the Macaque library, that allows easy manipulation of Postgresql
 database fully compatible with Lwt. (For more information see
-[[wiki(25):| Macaque manual]]).
+[[https://github.com/ocsigen/macaque| Macaque manual]]).
 
 We will store the login and the password of users in a Postgresql
 database. For more information on how to set up and run it, see

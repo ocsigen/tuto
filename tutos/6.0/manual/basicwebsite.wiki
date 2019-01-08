@@ -152,7 +152,7 @@ One of the main features of Eliom is the ability to write complete
 Web and mobile applications in OCaml. Annotations are used to
 separate the code to be executed server-side from the client code.
 Client functions are translated into Javascript using
-[[wiki(30):|Ocsigen Js_of_ocaml]].
+[[wiki("js_of_ocaml"):|Ocsigen Js_of_ocaml]].
 See
 <<a_manual project="tuto" chapter="tutowidgets" |this tutorial>> for
 a quick introduction,

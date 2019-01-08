@@ -295,7 +295,7 @@ managing user information, which we will write later in this tutorial.
 You can use any OCaml database binding (for example
 [[http://developer.berlios.de/projects/pgocaml/|PGOcaml]] to program
 database queries). We will use our own database library called
-[[wiki(25):|Macaque]], which implements typed requests using
+[[https://github.com/ocsigen/macaque|Macaque]], which implements typed requests using
 //comprehensions//.
 
 //Just remember that your query functions must be cooperative with

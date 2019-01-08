@@ -5,8 +5,8 @@ to make possible to check the type of the form w.r.t. the type of the service.
 
 If you don't want that (for example if you want to use it only from a client side program),
 you can use "raw form elements" (that is, basic tyxml elements), using
-module [[wiki(15):api/server/Eliom_content.Html5.D.Raw|{{{Eliom_content.Html5.D.Raw}}}]]
-(or [[wiki(15):api/server/Eliom_content.Html5.F.Raw|{{{Eliom_content.Html5.F.Raw}}}]]).
+module [[wiki("eliom"):api/server/Eliom_content.Html5.D.Raw|{{{Eliom_content.Html5.D.Raw}}}]]
+(or [[wiki("eliom"):api/server/Eliom_content.Html5.F.Raw|{{{Eliom_content.Html5.F.Raw}}}]]).
 
 Example:
 

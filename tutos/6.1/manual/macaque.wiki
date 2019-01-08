@@ -4,7 +4,7 @@
 
 The Macaque library allows easy manipulation of Postgresql
 database fully compatible with Lwt. (For more information see
-[[wiki(25):| Macaque manual]]).
+[[https://github.com/ocsigen/macaque| Macaque manual]]).
 
 Macaque is fuly compatible with PGOcaml, and both can be used
 in the same application. PGOcaml requires database access at compile

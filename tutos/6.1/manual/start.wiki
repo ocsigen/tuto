@@ -11,7 +11,7 @@ functionality like users and notifications in only a few minutes. This
 template can be used for learning purposes, or even as a starting
 point for your own product.
 
-The template you will use comes from [[wiki(81):|Ocsigen Start]].
+The template you will use comes from [[wiki("ocsigen-start"):|Ocsigen Start]].
 Ocsigen Start provides a complete mechanism for adding and managing
 users, including activation links and password reset. It additionally
 contains a module for displaying tips, a module for sending
@@ -28,18 +28,18 @@ browser or as a mobile app for Android, iOS, or Windows.
 
 <<div class="screenshots"|
 [[wiki:files/screenshots/start1.png|
-{{wiki(79):files/screenshots/start1.png|Ocsigen Start}}]]
+{{wiki("tuto"):files/screenshots/start1.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start2.png|
-{{wiki(79):files/screenshots/start2.png|Ocsigen Start}}]]
+{{wiki("tuto"):files/screenshots/start2.png|Ocsigen Start}}]]
 >>
 
 <<div class="screenshots"|
 [[wiki:files/screenshots/start-mobile-1.png|
-{{wiki(79):files/screenshots/start-mobile-1.png|Ocsigen Start}}]]
+{{wiki("tuto"):files/screenshots/start-mobile-1.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start-mobile-2.png|
-{{wiki(79):files/screenshots/start-mobile-2.png|Ocsigen Start}}]]
+{{wiki("tuto"):files/screenshots/start-mobile-2.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start-mobile-4.png|
-{{wiki(79):files/screenshots/start-mobile-4.png|Ocsigen Start}}]]
+{{wiki("tuto"):files/screenshots/start-mobile-4.png|Ocsigen Start}}]]
 >>
 
 == Installation
@@ -75,7 +75,7 @@ you:
 * How to save session data (in //Eliom references//);
 * How to use the notification system;
 * How to create reactive pages;
-* Many examples of widgets from [[wiki(83):|Ocsigen Toolkit]]:
+* Many examples of widgets from [[wiki("ocsigen-toolkit"):|Ocsigen Toolkit]]:
 ** Carousel
 ** Pages with several tabs
 ** Time and date pickers
@@ -86,24 +86,24 @@ out how things work.
 
 <<div class="screenshots"|
 [[wiki:files/screenshots/start3.png|
-{{wiki(79):files/screenshots/start3.png|Ocsigen Start}}]]
+{{wiki("tuto"):files/screenshots/start3.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start4.png|
-{{wiki(79):files/screenshots/start4.png|Ocsigen Start}}]]
+{{wiki("tuto"):files/screenshots/start4.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start5.png|
-{{wiki(79):files/screenshots/start5.png|Ocsigen Start}}]]
+{{wiki("tuto"):files/screenshots/start5.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start6.png|
-{{wiki(79):files/screenshots/start6.png|Ocsigen Start}}]]
+{{wiki("tuto"):files/screenshots/start6.png|Ocsigen Start}}]]
 >>
 
 <<div class="screenshots"|
 [[wiki:files/screenshots/start-mobile-3.png|
-{{wiki(79):files/screenshots/start-mobile-3.png|Ocsigen Start}}]]
+{{wiki("tuto"):files/screenshots/start-mobile-3.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start-mobile-6.png|
-{{wiki(79):files/screenshots/start-mobile-6.png|Ocsigen Start}}]]
+{{wiki("tuto"):files/screenshots/start-mobile-6.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start-mobile-7.png|
-{{wiki(79):files/screenshots/start-mobile-7.png|Ocsigen Start}}]]
+{{wiki("tuto"):files/screenshots/start-mobile-7.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start-mobile-8.png|
-{{wiki(79):files/screenshots/start-mobile-8.png|Ocsigen Start}}]]
+{{wiki("tuto"):files/screenshots/start-mobile-8.png|Ocsigen Start}}]]
 >>
 
 Have fun!

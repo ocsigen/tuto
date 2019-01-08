@@ -3,15 +3,15 @@
 === The simplest and safest way: [[http://opam.ocamlpro.com/|opam]]
 
 Just install opam and do: {{{opam install eliom}}}.
-* [[wiki(72):install#source|Install with opam]]
+* [[site:install#source|Install with opam]]
 
 Some non OCaml dependencies are required: for example dbm, sqlite3, openssl ...
 
 === From your distribution package
 
 Ocsigen is packaged on several linux distributions:
-* [[wiki(72):install#binary|Download from packages]]
+* [[site:install#binary|Download from packages]]
 
 === Each projects apart
 
-* [[wiki(72):install#individual|Download each projects apart]]
+* [[site:install#individual|Download each projects apart]]

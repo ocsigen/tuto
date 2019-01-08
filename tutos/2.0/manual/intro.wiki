@@ -53,7 +53,7 @@ extension mechanism that make very easy to plug your own OCaml modules
 for generating pages. Many extensions are already written:
 ;<<a_manual project="ocsigenserver" chapter="staticmod"|Staticmod>>
 :    is an extension to serve static files. 
-;[[wiki(15):|Eliom]]
+;[[wiki("eliom"):|Eliom]]
 :    is an extension to create reliable client/server Web applications 
      or Web sites in OCaml using advanced high level concepts. 
 ;<<a_manual project="ocsigenserver" chapter="extendconfiguration"|Extendconfiguration>>

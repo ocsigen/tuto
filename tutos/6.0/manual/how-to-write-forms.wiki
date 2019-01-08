@@ -104,7 +104,7 @@ Eliom_content.Html.D.Form.post_form
 There is also a raw interface to write basic forms without Eliom,
 using standard tyxml constructors.
 
-Use module [[wiki(15):api/server/Eliom_content.Html.D.Raw|Eliom_content.Html.D.Raw]].
+Use module [[wiki("eliom"):api/server/Eliom_content.Html.D.Raw|Eliom_content.Html.D.Raw]].
 
 ===Links
 * [[wiki:manual/how-to-add-a-select-or-other-form-element|How to write a select (or other form element)?]]

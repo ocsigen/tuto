@@ -11,7 +11,7 @@ functionality like users and notifications in only a few minutes. This
 template can be used for learning purposes, or even as a starting
 point for your own product.
 
-The template you will use comes from [[wiki(81):|Ocsigen Start]].
+The template you will use comes from [[wiki("ocsigen-start"):|Ocsigen Start]].
 Ocsigen Start provides a complete mechanism for adding and managing
 users, including activation links and password reset. It additionally
 contains a module for displaying tips, a module for sending
@@ -59,7 +59,7 @@ you:
 * How to save session data (in //Eliom references//);
 * How to use the notification system;
 * How to create reactive pages;
-* Many examples of widgets from [[wiki(83):|Ocsigen Toolkit]]:
+* Many examples of widgets from [[wiki("ocsigen-toolkit"):|Ocsigen Toolkit]]:
 ** Carousel
 ** Pages with several tabs
 ** Time and date pickers

@@ -852,7 +852,7 @@ Then you can test your application ({{{make test.byte}}}).
   Ojwidgets is a Js_of_ocaml library providing useful client widgets for your
   applications.
   You can use it for building complex user interfaces for your Eliom
-  application. The full documentation is available [[wiki(33):|on the
+  application. The full documentation is available [[site:|on the
   project's site]].
   Note that you can also use Eliom-widgets for server-client widgets, or use native JavaScript libraries
   via Js_of_ocaml enabled bindings.

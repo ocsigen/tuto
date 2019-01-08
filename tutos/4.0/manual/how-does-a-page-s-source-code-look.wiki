@@ -3,7 +3,7 @@
 === Eliom client-server applications
 
 Eliom client-server applications are running in your browser for a <<a_manual project="eliom" chapter="clientserver-applications"|certain lifetime>> and consist of one or several pages/URLs.
-An application has its associated js file, which must have the same name ([[wiki(72):howto/compile|generated automatically by the default makefile]] and added automatically by Eliom in the page).
+An application has its associated js file, which must have the same name ([[site:howto/compile|generated automatically by the default makefile]] and added automatically by Eliom in the page).
 
 For example, we define an application called //example//:
 <<code language="ocaml"|

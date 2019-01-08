@@ -843,7 +843,7 @@ variable).
   OClosure is a Js_of_ocaml binding for the Google Closure widget
   library (used for example in GMail, Google Calendar or Google Maps).
   You can use it for building complex user interfaces for your Eliom
-  application. The full documentation is available [[wiki(33):|on the
+  application. The full documentation is available [[site:|on the
   project's site]].
 
 >>

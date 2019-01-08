@@ -712,7 +712,7 @@ of the brush. For that we used add two widgets provided by the
 
 For using OClosure, you have to make sure that it is installed. If you are
 using the bundle, it should have been configured with the option ##--enable-oclosure##.
-Cf. the [[wiki(36):bundle#oclosure|corresponding bundle documentation]].
+Cf. the [[https://github.com/ocsigen/oclosure|corresponding bundle documentation]].
 
 To create the widgets, we add the following code in the
 {{{onload_handler}}} immediatly after canvas configuration:
@@ -832,7 +832,7 @@ variable).
   OClosure is a Js_of_ocaml binding for the Google Closure widget
   library (used for example in GMail, Google Calendar or Google Maps).
   You can use it for building complex user interfaces for your Eliom
-  application. The full documentation is available [[wiki(33):|on the
+  application. The full documentation is available [[site:|on the
   project's site]].
 
 >>

@@ -33,9 +33,9 @@ And call function {{{notify}}} on the channel (from server side)
 when you want to notify the client.
 
 To get back the {{{notify}}} functions for one user, you may want to
-[[wiki(2):howto/sessioniterator|iterate on all client process states]].
+[[wiki("tuto"):howto/sessioniterator|iterate on all client process states]].
 To do that, create a session group for each user
-(see [[wiki(2):howto/states|How to save session data]]).
+(see [[wiki("tuto"):howto/states|How to save session data]]).
 Here we suppose that the session group name is the user_id, as a string.
 Then iterate on all sessions from this group, and on all client processes
 for each session.

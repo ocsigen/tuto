@@ -1,0 +1,131 @@
+=Saving favorite pictures=
+<<concepts |Atom feed>>
+
+We will now add a button to the Graffiti application to save the current
+image. The images will be saved to the filesystem using the module
+<<a_api project="lwt"| module Lwt_io>>. We will then make an Atom feed
+with the saved images using <<a_api project="eliom" | module Atom_feed >>.
+
+We save the images in the directory containing the static contents
+under the directory {{{images_saved/username}}}. The {{{username}}}
+directory is created if needed. If it already exists {{{mkdir}}} fails
+and we do nothing.
+
+We will add this code in a new file:
+===={{{feed.ml}}}====
+<<code language="ocaml"|
+open Eliom_content.Html5.D
+
+let static_dir = "/tmp/static/"
+
+let image_dir name =
+  let dir = static_dir ^ "/graffiti_saved/" ^ (Url.encode name) in
+  (try%lwt Lwt_unix.mkdir dir 511 with
+    | _ -> debug "could not create the directory %s" dir; Lwt.return ())
+  >|= (fun () -> dir)
+
+let make_filename name number =
+  image_dir name >|= fun dir ->
+  dir ^ "/" ^ (string_of_int number) ^ ".png"
+
+let save image name number =
+  let%lwt file_name = make_filename name number in
+  let%lwt out_chan = Lwt_io.open_file ~mode:Lwt_io.output file_name in
+  Lwt_io.write out_chan image
+>>
+
+We number images and associate to each image the time of creation. It
+is stocked in an <<a_api project="eliom"| module Ocsipersist >>
+table.
+
+<<code language="ocaml"|
+let image_info_table = Ocsipersist.open_table "image_info_table"
+>>
+
+For each user, we stock a value of type\\
+{{{ int * CalendarLib.Calendar.t * ((int * CalendarLib.Calendar.t) list)}}}.
+The first integer is the name under which will be saved the image, the first
+time is the last update for that user and the list contains the names and
+times of old images. We need those times to timestamp the entries of the feed.
+
+<<code language="ocaml"|
+let save_image username =
+  let now = CalendarLib.Calendar.now () in
+  let%lwt number,_,list =
+    try%lwt Ocsipersist.find image_info_table username with
+      | Not_found -> Lwt.return (0,now,[])
+      | e -> Lwt.fail e
+  in
+  let%lwt () = Ocsipersist.add image_info_table
+    username (number+1,now,(number,now)::list) in
+  let (_,image_string) = Hashtbl.find graffiti_info username in
+  save (image_string ()) username number
+
+let save_image_box name =
+  let save_image_service =
+    Eliom_registration.Action.register_post_coservice'
+      ~post_params:Eliom_parameter.unit
+      (fun () () -> save_image name)
+  in
+  Form.post_form save_image_service
+    (fun _ ->
+      [p [Form.input ~input_type:`Submit ~value:"save" Form.string]]) ()
+>>
+
+We find the url of the images with <<a_api project="eliom"
+subproject="server"| val Eliom_service.static_dir >>.  It is a service
+taking file path as parameter, serving the content of the static
+directory. We use <<a_api project="eliom"| val
+Eliom_uri.make_string_uri >> to get the url as a string.
+
+<<code language="ocaml"|
+let feed_service = Eliom_service.Http.service ~path:["feed"]
+  ~get_params:(Eliom_parameter.string "name") ()
+
+let local_filename name number =
+  ["graffiti_saved"; Url.encode name ; (string_of_int number) ^ ".png"]
+
+let rec entries name list = function
+  | 0 -> []
+  | len ->
+    match list with
+      | [] -> []
+      | (n,saved)::q ->
+	let title = Atom_feed.plain
+	  ("graffiti " ^ name ^ " " ^ (string_of_int n)) in
+	let uri =
+	  make_string_uri ~absolute:true
+	    ~service:(Eliom_service.static_dir ())
+	    (local_filename name n)
+	in
+	let entry =
+	  Atom_feed.entry ~title ~id:uri ~updated:saved
+            [Atom_feed.html5C [ img ~src:uri ~alt:"image" ()]] in
+	entry::(entries name q (len - 1))
+
+let feed name () =
+  let id = make_string_uri
+    ~absolute:true
+    ~service:feed_service name in
+  let title = Atom_feed.plain ("nice drawings of " ^ name) in
+  Lwt.catch
+    (fun () -> Ocsipersist.find image_info_table name >|=
+	(fun (number,updated,list) ->
+	  Atom_feed.feed ~id ~updated ~title (entries name list 10)))
+    ( function Not_found ->
+      let now = CalendarLib.Calendar.now () in
+      Lwt.return (Atom_feed.feed ~id ~updated:now ~title [])
+      | e -> Lwt.fail e )
+
+let () = Eliom_atom.Reg.register ~service:feed_service feed
+>>
+
+And then use the new module as follow:
+
+<<code language="ocaml"|
+  [ a Feed.feed_service [pcdata "atom feed"] name;
+    div (if name = username
+      then [Feed.save_image_box name]
+      else [pcdata "no saving"]);
+  ]
+>>

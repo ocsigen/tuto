@@ -1,0 +1,160 @@
+## Sample Makefile for eliom application.
+
+APP_NAME ?= $(error Please define the APP_NAME variable)
+
+## Package required to build the server part of the application
+
+SERVER_PACKAGE ?=
+
+## Package to be linked in the client part
+
+CLIENT_PACKAGE ?=
+
+## Source files for the server part
+
+SERVER_FILES ?= ${wildcard *.eliom}
+
+## Source files for the client part
+
+CLIENT_FILES ?= ${wildcard *.eliom}
+
+## Needed binaries
+
+ELIOMC       ?= eliomc
+ELIOMOPT     ?= eliomopt
+ELIOMDEP     ?= eliomdep
+JS_OF_ELIOM  ?= js_of_eliom
+OCLOSURE_REQ ?= oclosure_req
+
+## Where to put intermediate object files.
+## - ELIOM_{SERVER,CLIENT}_DIR must be distinct
+## - ELIOM_CLIENT_DIR mustn't be the local dir.
+## - ELIOM_SERVER_DIR could be ".", but you need to
+##   remove it from the "clean" rules...
+
+ELIOM_SERVER_DIR ?= _server
+ELIOM_CLIENT_DIR ?= _client
+ELIOM_TYPE_DIR   ?= ${ELIOM_SERVER_DIR}
+
+export ELIOM_SERVER_DIR
+export ELIOM_CLIENT_DIR
+export ELIOM_TYPE_DIR
+
+####
+
+LIBDIR ?= .
+
+byte:: ${LIBDIR}/${APP_NAME}.cma
+opt:: ${LIBDIR}/${APP_NAME}.cmxs
+
+JSDIR  ?= .
+
+ifneq (${CLIENT_FILES},)
+byte:: ${JSDIR}/${APP_NAME}.js
+opt:: ${JSDIR}/${APP_NAME}.js
+
+OCLOSURE ?= NO
+
+ifeq ($(OCLOSURE),YES)
+CLIENT_PACKAGE += oclosure
+byte:: ${JSDIR}/${APP_NAME}_oclosure.js
+opt:: ${JSDIR}/${APP_NAME}_oclosure.js
+endif
+endif
+
+#### Server side compilation #######
+
+SERVER_INC  := ${addprefix -package ,${SERVER_PACKAGE}}
+
+SERVER_OBJS := $(patsubst %.eliom,${ELIOM_SERVER_DIR}/%.cmo, ${SERVER_FILES})
+SERVER_OBJS := $(patsubst %.ml,${ELIOM_SERVER_DIR}/%.cmo, ${SERVER_OBJS})
+
+${LIBDIR}/${APP_NAME}.cma: ${SERVER_OBJS}
+	${ELIOMC} ${ELIOMCFLAGS} -a -o $@ $^
+${LIBDIR}/${APP_NAME}.cmxa: ${SERVER_OBJS:.cmo=.cmx}
+	${ELIOMOPT} ${ELIOMOPTFLAGS} -a -o $@ $^
+
+${ELIOM_TYPE_DIR}/%.type_mli: %.eliom
+	${ELIOMC} ${ELIOMCFLAGS} -infer ${SERVER_INC} $<
+
+${ELIOM_SERVER_DIR}/%.cmi: %.mli
+	${ELIOMC} ${ELIOMCFLAGS} -c ${SERVER_INC} $<
+
+${ELIOM_SERVER_DIR}/%.cmo: %.ml
+	${ELIOMC} ${ELIOMCFLAGS} -c ${SERVER_INC} $<
+${ELIOM_SERVER_DIR}/%.cmo: %.eliom
+	${ELIOMC} ${ELIOMCFLAGS} -c -noinfer ${SERVER_INC} $<
+
+${ELIOM_SERVER_DIR}/%.cmx: %.ml
+	${ELIOMOPT} ${ELIOMOPTFLAGS} -c ${SERVER_INC} $<
+${ELIOM_SERVER_DIR}/%.cmx: %.eliom
+	${ELIOMOPT} ${ELIOMOPTFLAGS} -c -noinfer ${SERVER_INC} $<
+
+%.cmxs: %.cmxa
+	$(ELIOMOPT) ${ELIOMOPTFLAGS} -shared -linkall -o $@ $<
+
+##### Client side compilation ####
+
+CLIENT_LIBS := ${addprefix -package ,${CLIENT_PACKAGE}}
+CLIENT_INC  := ${addprefix -package ,${CLIENT_PACKAGE}}
+
+CLIENT_OBJS := $(patsubst %.eliom,${ELIOM_CLIENT_DIR}/%.cmo, ${CLIENT_FILES})
+CLIENT_OBJS := $(patsubst %.ml,${ELIOM_CLIENT_DIR}/%.cmo, ${CLIENT_OBJS})
+
+${JSDIR}/${APP_NAME}.js: ${CLIENT_OBJS}
+	${JS_OF_ELIOM} -jsopt -pretty -jsopt -noinline -o $@ ${CLIENT_LIBS} $^
+
+${ELIOM_CLIENT_DIR}/%.cmi: %.mli
+	${JS_OF_ELIOM} -c ${CLIENT_INC} $<
+
+${ELIOM_CLIENT_DIR}/%.cmo: %.eliom
+	${JS_OF_ELIOM} -c ${CLIENT_INC} $<
+${ELIOM_CLIENT_DIR}/%.cmo: %.ml
+	${JS_OF_ELIOM} -c ${CLIENT_INC} $<
+
+### O'Closure compilation ###
+
+${JSDIR}/$(APP_NAME)_oclosure.js: ${JSDIR}/$(APP_NAME).js
+	${OCLOSURE_REQ} $^
+
+############
+
+## Clean up
+
+clean::
+	-rm -f *.cm[ioax] *.cmxa *.cmxs *.o *.a *.annot
+	-rm -f *.type_mli
+	-rm -f ${JSDIR}/${APP_NAME}.js ${JSDIR}/${APP_NAME}_oclosure.js
+	-rm -rf ${ELIOM_CLIENT_DIR} ${ELIOM_SERVER_DIR}
+
+distclean:: clean
+	-find \( -name \*~ -or -name \#\* -or -name .\#\* \) -delete
+
+
+## Dependencies
+
+depend: .depend
+.depend:: ${SERVER_FILES} ${CLIENT_FILES}
+	$(ELIOMDEP) -server ${SERVER_INC} ${SERVER_FILES} > .depend
+	$(ELIOMDEP) -client ${CLIENT_INC} ${CLIENT_FILES} >> .depend
+
+## Warning: Dependencies towards *.eliom are not handled by eliomdep yet.
+
+-include .depend
+
+
+####
+
+INSTALL_USER ?= -o www-data -g www-data
+INSTALL_DIR  ?= /var/www/${APP_NAME}
+
+install::
+	install -d -m 775 ${INSTALL_USER} ${INSTALL_DIR}/lib
+	install -m 664 ${INSTALL_USER} ${LIBDIR}/${APP_NAME}.cma ${LIBDIR}/${APP_NAME}.cmxs ${INSTALL_DIR}/lib/
+	install -d -m 775 ${INSTALL_USER} ${INSTALL_DIR}/static
+ifneq (${CLIENT_FILES},)
+	install -m 664 ${INSTALL_USER} ${JSDIR}/${APP_NAME}.js ${INSTALL_DIR}/static/
+ifeq ($(OCLOSURE),YES)
+	install -m 664 ${INSTALL_USER} ${JSDIR}/${APP_NAME}_oclosure.js ${INSTALL_DIR}/static/
+endif
+endif

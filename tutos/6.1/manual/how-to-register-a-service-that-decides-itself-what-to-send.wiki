@@ -1,0 +1,21 @@
+=How to register a service that decides itself what to send?=
+
+Use <<a_api project="eliom"| module Eliom_registration.Any >>.
+
+In the following example, we send an Html page or a redirection:
+
+<<code language="ocaml"|
+let send_any =
+  Eliom_registration.Any.create
+    ~path:(Eliom_service.Path ["any"])
+    ~meth:(Eliom_service.Get (string "s"))
+   (fun s () ->
+     if s = "toto"
+     then
+       Eliom_registration.Html.send
+         (html
+            (head (title (pcdata "")) [])
+            (body [p [pcdata "Hello."]]))
+     else
+       Eliom_registration.Redirection.send other_service)
+>>

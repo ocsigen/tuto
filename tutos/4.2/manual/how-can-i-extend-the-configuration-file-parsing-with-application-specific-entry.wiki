@@ -1,0 +1,55 @@
+=How can I extend the configuration file parsing with application-specific entry?=
+
+Have a look at module <<a_api project="eliom" subproject="server"|module Eliom_config>>.
+Every eliom module
+can extend the configuration file parser. For instance, here is how you can
+add an element "<ldap>"
+in the configuration file to store a list of LDAP servers your application
+interacts with.
+
+
+<<code language="ocaml"|
+
+(** An LDAP server is characterized by an host and a port. *)
+type ldap_configuration = {
+  mutable host : string;
+  mutable port : int;
+}
+
+
+(** We store a list of LDAP servers to interact with. *)
+let ldap_servers = ref []
+
+(** The user-defined extension of the configuration file. *)
+let ldap_configuration = Ocsigen_extensions.Configuration.(
+  (** Default configuration *)
+  let config () = {
+    host = "";
+    port = 339;
+  }
+  in
+  let init () =
+    ldap_servers := config () :: !ldap_servers
+  in
+  let current () =
+    List.hd !ldap_servers
+  in
+
+  (** Parsing functions. *)
+  let req_attr name = attribute ~name ~obligatory:true
+  and opt_attr name = attribute ~name ~obligatory:false
+  in
+  let name = "LDAP"
+  and obligatory = false
+  and attributes = [
+    req_attr "host" (fun h -> (current ()).host <- h);
+    opt_attr "port" (fun p -> (current ()).port <- int_of_string p);
+    );
+  ]
+  in
+  element ~init ~name ~obligatory ~attributes ()
+)
+
+let _ = Eliom_config.parse_config [ldap_configuration]
+
+>>

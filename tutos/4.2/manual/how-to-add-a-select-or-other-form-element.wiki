@@ -1,0 +1,44 @@
+=How to add a select (or other form element)?=
+
+=== In forms towards Eliom services:
+
+<<code language='ocaml'|
+open Eliom_content
+
+Html5.D.string_select ~name:select_name
+  (Html5.D.Option
+    ([] (* attributes *),
+     "Bob" (* value *),
+     None (* Content, if different from value *),
+     false (* not selected *))) (* first line *)
+    [Html5.D.Option ([], "Marc", None, false);
+     (Html5.D.Optgroup
+        ([],
+         "Girls",
+         ([], "Karin", None, false),
+         [([a_disabled `Disabled], "Juliette", None, false);
+          ([], "Alice", None, true);
+          ([], "Germaine", Some (pcdata "Bob's mother"), false)]))]
+>>
+
+There is also {{{int_select}}}, {{{float_select}}}, etc. depending on
+the type expected by the service.
+
+=== Basic HTML5 elements without Eliom services
+For example if you want to use them with client side event handler.
+
+<<code language='ocaml'|
+open Eliom_content.Html5.D
+
+Raw.select [option (pcdata "hello");
+            option ~a:[a_value "a"; a_selected `Selected] (pcdata "cool")]
+>>
+
+
+=== Links
+
+* [[wiki:manual/how-to-write-forms|How to write forms]]
+* <<a_manual project="eliom" chapter="server-links"|Eliom forms and links>>
+* API <<a_api project="eliom" subproject="server"|module Eliom_content.Html5.D>>
+* module <<a_api project="tyxml"|module Html5.M>> (HTML5 Elements)
+* signature <<a_api project="tyxml"|module Html5_sigs.T>> (Element attributes)

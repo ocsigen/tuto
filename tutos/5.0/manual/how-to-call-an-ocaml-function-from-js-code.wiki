@@ -1,0 +1,3 @@
+=How to call an OCaml function from JS code?=
+
+Have a look at function [[wiki(72):js_of_ocaml/api/Js#VALwrap_callback|Js.wrap_callback]]

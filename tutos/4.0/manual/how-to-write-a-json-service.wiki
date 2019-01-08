@@ -1,0 +1,26 @@
+=How to write a JSON service?=
+
+*If you want to communicate with a client side Eliom program, you do not need to serialize yourself your data to JSON. Serialization/Deserialization of any OCaml type is done automatically by Eliom. Just use OCaml services (or, simpler: server functions and call the function from your OCaml client side program).
+*If you want to use your own JSON format, you need to have your own serialisation function to JSON (or for example to use some ocaml library like json-wheel to generate JSON). In that case, you can register your service using {{{Eliom_registration.String}}} instead of {{{Eliom_registration.Html5}}} (see example below). The handler function must return the JSON value as a string, and a the content-type.
+*It is even possible to define yourself your own registration module, to be used instead of {{{Eliom_registration.String}}}. Thus, you can use an OCaml representation of the JSON value (and you don't call the serializer yourself). Have a look on how modules like {{{Eliom_registration.String}}} are implemented to know how to do that.
+
+<<code language="ocaml"|
+
+let my_json_service =
+  Eliom_service.Http.service
+    ~path:["my_json_service"]
+    ~get_params:Eliom_parameter.unit
+    ()
+
+let _ =
+  Eliom_registration.String.register
+    ~service:my_json_service
+    (fun () () ->
+      Lwt.return ("{text:'something'}", "application/json"))
+
+>>
+
+**Comments:** \\
+There exists some tools to help you to write JSON documents, like YoJson. \\
+If you want to get result from a Database, it could already be in JSON format. \\
+Anyway, you probably do not need to pretty-print JSON yourself. \\

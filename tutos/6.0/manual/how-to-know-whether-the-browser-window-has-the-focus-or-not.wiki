@@ -1,0 +1,16 @@
+=How to know whether the browser window has the focus or not?=
+
+Example:
+
+<<code language="ocaml"|
+
+let has_focus = ref true
+
+let _ =
+  let open Lwt_js_events in
+  async (fun () -> focuses (Js.Unsafe.coerce (Dom_html.window))
+    (fun _ _ -> has_focus := true; Lwt.return ()));
+  async (fun () -> blurs (Js.Unsafe.coerce (Dom_html.window))
+    (fun _ _ -> has_focus := false; Lwt.return ()));
+
+>>

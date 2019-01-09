@@ -1,30 +1,47 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title> Mini-tutorial: client-server widgets </title><meta charset="utf8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><link rel="stylesheet" href="/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script><script src="/js/client.js"></script></head><body class="tuto 3.0 tutowidgets"><div class="project-page"><div class="page-header"><p class="logo-ocsigen"><a href="/" class="ocsimore_phrasing_link"><img src="/img/ocsigen-white.svg" alt="Ocsigen"/></a>
-</p><p class="logo-subproject">Doc
-</p><ul class="mainmenu"><li class="mainmenu-home"><a href="/" class="ocsimore_phrasing_link">Home</a>
-</li><li class="mainmenu-doc mainmenu-current"><a href="/tuto/6.2/manual/intro" class="ocsimore_phrasing_link">Doc</a>
-</li><li><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
-</li><li><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
-</li><li><a href="/lwt/4.1.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
-</li><li><a href="/tyxml/4.3.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
-</li><li><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
-</li></ul><aside class="how-drawer"><input id="how-drawer-toggle" type="checkbox"/><label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label><nav class="how-drawer-content"><ul class="drawermainmenu"><li class="drawermainmenu-home"><a href="/" class="ocsimore_phrasing_link">Home</a>
-</li><li class="drawermainmenu-doc drawermainmenu-current"><a href="/tuto/6.2/manual/intro" class="ocsimore_phrasing_link">Doc</a>
-</li><li class="drawermainmenu-project"><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
-</li><li class="drawermainmenu-project"><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
-</li><li class="drawermainmenu-project"><a href="/ocsigenserver/2.9/manual/quickstart" class="ocsimore_phrasing_link">Server</a>
-</li><li class="drawermainmenu-project"><a href="/lwt/4.1.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
-</li><li class="drawermainmenu-project"><a href="/tyxml/4.3.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
-</li><li class="drawermainmenu-project"><a href="/ocsigen-toolkit/1.1.0/manual/intro" class="ocsimore_phrasing_link">Toolkit</a>
-</li><li class="drawermainmenu-project"><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
-</li><li class="drawermainmenu-page"><a href="/projects" class="ocsimore_phrasing_link">Other projects</a>
-</li><li class="drawermainmenu-page"><a href="/papers" class="ocsimore_phrasing_link">Research papers</a>
-</li><li class="drawermainmenu-page"><a href="/credits" class="ocsimore_phrasing_link">Who does Ocsigen?</a>
-</li><li class="drawermainmenu-page"><a href="/blog" class="ocsimore_phrasing_link">Blog</a>
+<html><head><title> Mini-tutorial: client-server widgets </title><meta charset="utf8"/><link rel="stylesheet" href="https://ocsigen.org/tuto/tmp/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script type="text/javascript" src="https://ocsigen.org/js/client.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js">
+//<![CDATA[
+
+//]]>
+</script></head><body><div class="project-page"><div class="page-header"><p class="logo-ocsigen"><a href=".././../../" class="ocsimore_phrasing_link"><img src=".././../../img/ocsigen-white.svg" alt="Ocsigen"/></a>
+</p><div class="mainmenu"><p><span class="mainmenu-home"><a href=".././../../" class="ocsimore_phrasing_link">Home</a></span>
+<span class="mainmenu-doc"><a href=".././../../tuto/" class="ocsimore_phrasing_link">Doc</a></span>
+</p><p><a href=".././../../eliom/" class="ocsimore_phrasing_link">Eliom</a></p><p><a href=".././../../js_of_ocaml/" class="ocsimore_phrasing_link">Js_of_ocaml</a></p><p><a href=".././../../lwt/" class="ocsimore_phrasing_link">Lwt</a></p><p><a href=".././../../tyxml/" class="ocsimore_phrasing_link">Tyxml</a></p><p><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a></p></div><form id="googlesearch" action="https://google.com/search"><input name="q" id="gsearch-box" placeholder="Search using Google"/><label for="gsearch-box"><img src="https://ocsigen.org/tuto/tmp/search.svg" alt="" id="gsearch-icon"/></label><input type="submit" id="gsearch-submit" onclick="document.getElementById('gsearch-box').value += ' site:ocsigen.org';"/></form><aside class="how-drawer"><input id="how-drawer-toggle" type="checkbox"/><label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label><nav class="how-drawer-content"><ul class="drawermainmenu"><li class="drawermainmenu-home"><a href=".././../../" class="ocsimore_phrasing_link">Home</a>
+</li><li class="drawermainmenu-doc"><a href=".././../../tuto/" class="ocsimore_phrasing_link">Doc</a>
+</li><li class="drawermainmenu-project"><a href=".././../../eliom/" class="ocsimore_phrasing_link">Eliom</a>
+</li><li class="drawermainmenu-project"><a href=".././../../js_of_ocaml/" class="ocsimore_phrasing_link">Js_of_ocaml</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigenserver/" class="ocsimore_phrasing_link">Server</a>
+</li><li class="drawermainmenu-project"><a href=".././../../lwt/" class="ocsimore_phrasing_link">Lwt</a>
+</li><li class="drawermainmenu-project"><a href=".././../../tyxml/" class="ocsimore_phrasing_link">Tyxml</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
+</li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
+</li><li class="drawermainmenu-page"><a href=".././../../papers" class="ocsimore_phrasing_link">Research papers</a>
+</li><li class="drawermainmenu-page"><a href=".././../../credits" class="ocsimore_phrasing_link">Who does Ocsigen?</a>
+</li><li class="drawermainmenu-page"><a href=".././../../blog" class="ocsimore_phrasing_link">Blog</a>
 </li><li class="drawermainmenu-page"><a href="https://github.com/ocsigen" class="ocsimore_phrasing_link">Source code</a>
-</li></ul><nav class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="/tuto/3.0/manual/intro" class="ocsimore_phrasing_link">Introduction</a></h2><h2><a href="/tuto/3.0/manual/application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="/tuto/3.0/manual/interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="/tuto/3.0/manual/misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2><h1> Examples: Learning by example</h1><h2><a href="/tuto/3.0/manual/chat" class="ocsimore_phrasing_link">Chat</a></h2><h1> Mini-tutorials: Some little examples</h1><h2><a href="/tuto/3.0/manual/tutowidgets" class="ocsimore_phrasing_link">Eliom apps basics: writing client server widgets</a></h2><h2><a href="/tuto/3.0/manual/macaque" class="ocsimore_phrasing_link">MaCaQue: SQL queries</a></h2><h2><a href="/tuto/3.0/manual/custom-conf" class="ocsimore_phrasing_link">Custom configuration</a></h2><h2><a href="/tuto/3.0/manual/ocsipersist" class="ocsimore_phrasing_link">Light database</a></h2><h2><a href="/tuto/3.0/manual/pictures" class="ocsimore_phrasing_link">Upload pictures</a></h2><h2><a href="/tuto/3.0/manual/music" class="ocsimore_phrasing_link">Playing music</a></h2><h2><a href="/tuto/3.0/manual/hash-password" class="ocsimore_phrasing_link">Protecting passwords</a></h2></nav></nav></aside></div><p class="reasonwarning">Warning: Reason support is experimental.
+</li></ul><nav class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="intro" class="ocsimore_phrasing_link">Introduction</a></h2><h2><a href="application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2><h1> Examples: Learning by example</h1><h2><a href="chat" class="ocsimore_phrasing_link">Chat</a></h2><h1> Mini-tutorials: Some little examples</h1><h2><a href="tutowidgets" class="ocsimore_phrasing_link">Eliom apps basics: writing client server widgets</a></h2><h2><a href="macaque" class="ocsimore_phrasing_link">MaCaQue: SQL queries</a></h2><h2><a href="custom-conf" class="ocsimore_phrasing_link">Custom configuration</a></h2><h2><a href="ocsipersist" class="ocsimore_phrasing_link">Light database</a></h2><h2><a href="pictures" class="ocsimore_phrasing_link">Upload pictures</a></h2><h2><a href="music" class="ocsimore_phrasing_link">Playing music</a></h2><h2><a href="hash-password" class="ocsimore_phrasing_link">Protecting passwords</a></h2></nav></nav></aside></div><p class="reasonwarning">Warning: Reason support is experimental.
 We are looking for beta-tester and contributors.
-</p><button id="reason">Switch to </button><div class="twocols"><nav class="leftcol">Version <select class="how-versions" onchange="location = this.value;"><option value="/tuto/dev/manual/tutowidgets">dev</option><option value="/tuto/6.2/manual/tutowidgets">6.2</option><option value="/tuto/6.1/manual/tutowidgets">6.1</option><option value="/tuto/6.0/manual/tutowidgets">6.0</option><option value="/tuto/5.0/manual/tutowidgets">5.0</option><option value="/tuto/4.2/manual/tutowidgets">4.2</option><option value="/tuto/4.1/manual/tutowidgets">4.1</option><option value="/tuto/4.0/manual/tutowidgets">4.0</option><option selected="selected">3.0</option><option value="/tuto/2.2/manual/tutowidgets">2.2</option><option value="/tuto/2.0/manual/tutowidgets">2.0</option></select><form id="search"><input name="q" id="q" placeholder="search ..."/><button>Search</button></form><nav class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="/tuto/3.0/manual/intro" class="ocsimore_phrasing_link">Introduction</a></h2><h2><a href="/tuto/3.0/manual/application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="/tuto/3.0/manual/interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="/tuto/3.0/manual/misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2><h1> Examples: Learning by example</h1><h2><a href="/tuto/3.0/manual/chat" class="ocsimore_phrasing_link">Chat</a></h2><h1> Mini-tutorials: Some little examples</h1><h2><a href="/tuto/3.0/manual/tutowidgets" class="ocsimore_phrasing_link">Eliom apps basics: writing client server widgets</a></h2><h2><a href="/tuto/3.0/manual/macaque" class="ocsimore_phrasing_link">MaCaQue: SQL queries</a></h2><h2><a href="/tuto/3.0/manual/custom-conf" class="ocsimore_phrasing_link">Custom configuration</a></h2><h2><a href="/tuto/3.0/manual/ocsipersist" class="ocsimore_phrasing_link">Light database</a></h2><h2><a href="/tuto/3.0/manual/pictures" class="ocsimore_phrasing_link">Upload pictures</a></h2><h2><a href="/tuto/3.0/manual/music" class="ocsimore_phrasing_link">Playing music</a></h2><h2><a href="/tuto/3.0/manual/hash-password" class="ocsimore_phrasing_link">Protecting passwords</a></h2></nav></nav><article class="rightcol"><h1> Mini-tutorial: client-server widgets </h1><p>This short tutorial is an example of client-server Eliom application.
+</p><button id="reason">Switch to </button><div class="twocols"><nav class="leftcol">Version <select class="how-versions" onchange="location = this.value;"><option value=".././../2.0/manual/tutowidgets">2.0</option><option value=".././../2.2/manual/tutowidgets">2.2</option><option value=".././../3.0/manual/tutowidgets" selected="selected">3.0</option><option value=".././../4.0/manual/tutowidgets">4.0</option><option value=".././../4.1/manual/tutowidgets">4.1</option><option value=".././../4.2/manual/tutowidgets">4.2</option><option value=".././../5.0/manual/tutowidgets">5.0</option><option value=".././../6.0/manual/tutowidgets">6.0</option><option value=".././../6.1/manual/tutowidgets">6.1</option><option value=".././../6.2/manual/tutowidgets">6.2</option><option value=".././../dev/manual/tutowidgets">dev</option></select><nav class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="intro" class="ocsimore_phrasing_link">Introduction</a></h2><h2><a href="application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2><h1> Examples: Learning by example</h1><h2><a href="chat" class="ocsimore_phrasing_link">Chat</a></h2><h1> Mini-tutorials: Some little examples</h1><h2><a href="tutowidgets" class="ocsimore_phrasing_link">Eliom apps basics: writing client server widgets</a></h2><h2><a href="macaque" class="ocsimore_phrasing_link">MaCaQue: SQL queries</a></h2><h2><a href="custom-conf" class="ocsimore_phrasing_link">Custom configuration</a></h2><h2><a href="ocsipersist" class="ocsimore_phrasing_link">Light database</a></h2><h2><a href="pictures" class="ocsimore_phrasing_link">Upload pictures</a></h2><h2><a href="music" class="ocsimore_phrasing_link">Playing music</a></h2><h2><a href="hash-password" class="ocsimore_phrasing_link">Protecting passwords</a></h2></nav></nav><article class="rightcol"><h1> Mini-tutorial: client-server widgets </h1><p>This short tutorial is an example of client-server Eliom application.
 It gives an example of client-server widgets.
 </p><p>It is probably a good starting point if you want to learn quickly how to write a
 client-server Eliom application with a short example and few explanations.
@@ -42,7 +59,7 @@ with a title and a content. Clicking on the title opens or closes
 the content. And it is possible to group some of the boxes together
 to make them behave like radio buttons: when you open one of them
 the previously opened one are closed.
-</p><p class="screenshot"><img src="/darcs/tutorial/files/tutorial/tutowidgets/ex-final.png" alt="screenshot"/>
+</p><p class="screenshot"><img src=".././../../darcs/tutorial/files/tutorial/tutowidgets/ex-final.png" alt="screenshot"/>
 </p><h2> First step: define an application with a basic service </h2><p>The following code defines a client-server Web application
 with only one service, registered at URL / (the root of the Web site).
 </p><p>It also defines a client side application (section <span class="teletype"> {client{ ... }} </span>)
@@ -84,10 +101,10 @@ let _ =
 </p><p>Adapt the file <span class="teletype">ex.eliom</span> and compile, by calling <span class="teletype">make</span>
 and run the server, by calling <span class="teletype">make test.byte</span>.
 Download the
-<a href="/darcs/tutorial/files/tutorial/tutowidgets/ex.css" class="ocsimore_phrasing_link">CSS file</a>
+<a href=".././../../darcs/tutorial/files/tutorial/tutowidgets/ex.css" class="ocsimore_phrasing_link">CSS file</a>
 and place it in directory <span class="teletype">static/css</span>.
 Then open a browser window and go to URL <span class="teletype">http://localhost:8080</span>.
-</p><p class="screenshot"><img src="/darcs/tutorial/files/tutorial/tutowidgets/ex1.png" alt="screenshot"/>
+</p><p class="screenshot"><img src=".././../../darcs/tutorial/files/tutorial/tutowidgets/ex1.png" alt="screenshot"/>
 </p><h3> More explanations</h3><p>This section gives very quick explanations on the rest of the program.
 For more detailed explanations, see the tutorial for the graffiti app
 or the manual of each of the projects.
@@ -189,7 +206,7 @@ server and client sides.
     in
     div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
 
-}}</code></pre><p class="screenshot"><img src="/darcs/tutorial/files/tutorial/tutowidgets/ex2.png" alt="screenshot"/>
+}}</code></pre><p class="screenshot"><img src=".././../../darcs/tutorial/files/tutorial/tutowidgets/ex2.png" alt="screenshot"/>
 </p><h2> Fifth step: close last window when opening a new one </h2><p>To implement this, we just record in a client side reference
 the function to be used to close the currently opened window.
 </p><pre class=""><code class="language-ocaml translatable">{shared{
@@ -298,12 +315,12 @@ let _ =
                    (body [h2 [pcdata &quot;Welcome to Ocsigen!&quot;];
                           mywidget set1 &quot;Click me&quot; &quot;server side&quot;;
                           mywidget set1 &quot;Click me&quot; &quot;server side&quot;;
-                          mywidget set2 &quot;Click me&quot; &quot;server side&quot;])))</code></pre><p class="screenshot"><img src="/darcs/tutorial/files/tutorial/tutowidgets/ex-final.png" alt="screenshot"/>
+                          mywidget set2 &quot;Click me&quot; &quot;server side&quot;])))</code></pre><p class="screenshot"><img src=".././../../darcs/tutorial/files/tutorial/tutowidgets/ex-final.png" alt="screenshot"/>
 </p><h2> And now? </h2><h3>Calling server functions</h3><p>An important feature missing in this tutorial is the ability
 to call server functions from the client side program (&quot;server functions&quot;).
 You can have a quick description of this
-<a href="/howto/getsubpage" class="ocsimore_phrasing_link">in mini HOWTOs</a> or
-in <a href="/eliom/manual/clientserver-communication" class="ocsimore_phrasing_link">Eliom's manual</a>.
+<a href=".././../../howto/getsubpage" class="ocsimore_phrasing_link">in mini HOWTOs</a> or
+in <a href=".././../../eliom/manual/clientserver-communication/#rpc" class="ocsimore_phrasing_link">Eliom's manual</a>.
 </p><h3>Services</h3><p>For many applications, you will need several services.
 Remember that by default, client-side Eliom program do not
 stop when you follow a link or send a form. This make possible to combine
@@ -314,7 +331,6 @@ parameters) or by a session identifier (we call this kind of service
 a <em>coservice</em>). Eliom also makes possible to create dynamically new
 (co-)services dynamically, for example coservices depending on previous
 interaction with a user. More information on the service identification
-mechanism in <a href="/eliom/manual/server-services" class="ocsimore_phrasing_link">Eliom's manual</a>.
+mechanism in <a href=".././../../eliom/manual/server-services" class="ocsimore_phrasing_link">Eliom's manual</a>.
 </p><h3>Sessions</h3><p>Eliom also offers a rich session mechanism, with <em>scopes</em>
-(see <a href="/eliom/manual/server-state" class="ocsimore_phrasing_link">Eliom's manual</a>).
-</p></article></div></div></body></html>
+(see <a href=".././../../eliom/manual/server-state" class="ocsimore_phrasing_link">Eliom's manual</a>).</p></article></div></div></body></html>

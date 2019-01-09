@@ -1,35 +1,52 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Writing a client/server Eliom application</title><meta charset="utf8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><link rel="stylesheet" href="/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js"></script><script src="/js/client.js"></script></head><body class="tuto 2.0 application"><div class="project-page"><div class="page-header"><p class="logo-ocsigen"><a href="/" class="ocsimore_phrasing_link"><img src="/img/ocsigen-white.svg" alt="Ocsigen"/></a>
-</p><p class="logo-subproject">Doc
-</p><ul class="mainmenu"><li class="mainmenu-home"><a href="/" class="ocsimore_phrasing_link">Home</a>
-</li><li class="mainmenu-doc mainmenu-current"><a href="/tuto/6.2/manual/intro" class="ocsimore_phrasing_link">Doc</a>
-</li><li><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
-</li><li><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
-</li><li><a href="/lwt/4.1.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
-</li><li><a href="/tyxml/4.3.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
-</li><li><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
-</li></ul><aside class="how-drawer"><input id="how-drawer-toggle" type="checkbox"/><label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label><nav class="how-drawer-content"><ul class="drawermainmenu"><li class="drawermainmenu-home"><a href="/" class="ocsimore_phrasing_link">Home</a>
-</li><li class="drawermainmenu-doc drawermainmenu-current"><a href="/tuto/6.2/manual/intro" class="ocsimore_phrasing_link">Doc</a>
-</li><li class="drawermainmenu-project"><a href="/eliom/6.3/manual/intro" class="ocsimore_phrasing_link">Eliom</a>
-</li><li class="drawermainmenu-project"><a href="/js_of_ocaml/3.1.0/manual/overview" class="ocsimore_phrasing_link">Js_of_ocaml</a>
-</li><li class="drawermainmenu-project"><a href="/ocsigenserver/2.9/manual/quickstart" class="ocsimore_phrasing_link">Server</a>
-</li><li class="drawermainmenu-project"><a href="/lwt/4.1.0/manual/manual" class="ocsimore_phrasing_link">Lwt</a>
-</li><li class="drawermainmenu-project"><a href="/tyxml/4.3.0/manual/intro" class="ocsimore_phrasing_link">Tyxml</a>
-</li><li class="drawermainmenu-project"><a href="/ocsigen-toolkit/1.1.0/manual/intro" class="ocsimore_phrasing_link">Toolkit</a>
-</li><li class="drawermainmenu-project"><a href="/ocsigen-start/1.1.0/manual/intro" class="ocsimore_phrasing_link">Start</a>
-</li><li class="drawermainmenu-page"><a href="/projects" class="ocsimore_phrasing_link">Other projects</a>
-</li><li class="drawermainmenu-page"><a href="/papers" class="ocsimore_phrasing_link">Research papers</a>
-</li><li class="drawermainmenu-page"><a href="/credits" class="ocsimore_phrasing_link">Who does Ocsigen?</a>
-</li><li class="drawermainmenu-page"><a href="/blog" class="ocsimore_phrasing_link">Blog</a>
+<html><head><title>Writing a client/server Eliom application</title><meta charset="utf8"/><link rel="stylesheet" href="https://ocsigen.org/tuto/tmp/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script type="text/javascript" src="https://ocsigen.org/js/client.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js">
+//<![CDATA[
+
+//]]>
+</script></head><body><div class="project-page"><div class="page-header"><p class="logo-ocsigen"><a href=".././../../" class="ocsimore_phrasing_link"><img src=".././../../img/ocsigen-white.svg" alt="Ocsigen"/></a>
+</p><div class="mainmenu"><p><span class="mainmenu-home"><a href=".././../../" class="ocsimore_phrasing_link">Home</a></span>
+<span class="mainmenu-doc"><a href=".././../../tuto/" class="ocsimore_phrasing_link">Doc</a></span>
+</p><p><a href=".././../../eliom/" class="ocsimore_phrasing_link">Eliom</a></p><p><a href=".././../../js_of_ocaml/" class="ocsimore_phrasing_link">Js_of_ocaml</a></p><p><a href=".././../../lwt/" class="ocsimore_phrasing_link">Lwt</a></p><p><a href=".././../../tyxml/" class="ocsimore_phrasing_link">Tyxml</a></p><p><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a></p></div><form id="googlesearch" action="https://google.com/search"><input name="q" id="gsearch-box" placeholder="Search using Google"/><label for="gsearch-box"><img src="https://ocsigen.org/tuto/tmp/search.svg" alt="" id="gsearch-icon"/></label><input type="submit" id="gsearch-submit" onclick="document.getElementById('gsearch-box').value += ' site:ocsigen.org';"/></form><aside class="how-drawer"><input id="how-drawer-toggle" type="checkbox"/><label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label><nav class="how-drawer-content"><ul class="drawermainmenu"><li class="drawermainmenu-home"><a href=".././../../" class="ocsimore_phrasing_link">Home</a>
+</li><li class="drawermainmenu-doc"><a href=".././../../tuto/" class="ocsimore_phrasing_link">Doc</a>
+</li><li class="drawermainmenu-project"><a href=".././../../eliom/" class="ocsimore_phrasing_link">Eliom</a>
+</li><li class="drawermainmenu-project"><a href=".././../../js_of_ocaml/" class="ocsimore_phrasing_link">Js_of_ocaml</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigenserver/" class="ocsimore_phrasing_link">Server</a>
+</li><li class="drawermainmenu-project"><a href=".././../../lwt/" class="ocsimore_phrasing_link">Lwt</a>
+</li><li class="drawermainmenu-project"><a href=".././../../tyxml/" class="ocsimore_phrasing_link">Tyxml</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
+</li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
+</li><li class="drawermainmenu-page"><a href=".././../../papers" class="ocsimore_phrasing_link">Research papers</a>
+</li><li class="drawermainmenu-page"><a href=".././../../credits" class="ocsimore_phrasing_link">Who does Ocsigen?</a>
+</li><li class="drawermainmenu-page"><a href=".././../../blog" class="ocsimore_phrasing_link">Blog</a>
 </li><li class="drawermainmenu-page"><a href="https://github.com/ocsigen" class="ocsimore_phrasing_link">Source code</a>
-</li></ul><nav class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="/tuto/2.0/manual/intro" class="ocsimore_phrasing_link">Introduction</a></h2><h2><a href="/tuto/2.0/manual/application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="/tuto/2.0/manual/interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="/tuto/2.0/manual/misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2></nav></nav></aside></div><p class="reasonwarning">Warning: Reason support is experimental.
+</li></ul><nav class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="intro" class="ocsimore_phrasing_link">Introduction</a></h2><h2><a href="application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2></nav></nav></aside></div><p class="reasonwarning">Warning: Reason support is experimental.
 We are looking for beta-tester and contributors.
-</p><button id="reason">Switch to </button><div class="twocols"><nav class="leftcol">Version <select class="how-versions" onchange="location = this.value;"><option value="/tuto/dev/manual/application">dev</option><option value="/tuto/6.2/manual/application">6.2</option><option value="/tuto/6.1/manual/application">6.1</option><option value="/tuto/6.0/manual/application">6.0</option><option value="/tuto/5.0/manual/application">5.0</option><option value="/tuto/4.2/manual/application">4.2</option><option value="/tuto/4.1/manual/application">4.1</option><option value="/tuto/4.0/manual/application">4.0</option><option value="/tuto/3.0/manual/application">3.0</option><option value="/tuto/2.2/manual/application">2.2</option><option selected="selected">2.0</option></select><form id="search"><input name="q" id="q" placeholder="search ..."/><button>Search</button></form><nav class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="/tuto/2.0/manual/intro" class="ocsimore_phrasing_link">Introduction</a></h2><h2><a href="/tuto/2.0/manual/application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="/tuto/2.0/manual/interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="/tuto/2.0/manual/misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2></nav></nav><article class="rightcol"><header><h1>Writing a client/server Eliom application</h1></header><p><em>The code of this tutorial has been tested against
+</p><button id="reason">Switch to </button><div class="twocols"><nav class="leftcol">Version <select class="how-versions" onchange="location = this.value;"><option value=".././../2.0/manual/application" selected="selected">2.0</option><option value=".././../2.2/manual/application">2.2</option><option value=".././../3.0/manual/application">3.0</option><option value=".././../4.0/manual/application">4.0</option><option value=".././../4.1/manual/application">4.1</option><option value=".././../4.2/manual/application">4.2</option><option value=".././../5.0/manual/application">5.0</option><option value=".././../6.0/manual/application">6.0</option><option value=".././../6.1/manual/application">6.1</option><option value=".././../6.2/manual/application">6.2</option><option value=".././../dev/manual/application">dev</option></select><nav class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="intro" class="ocsimore_phrasing_link">Introduction</a></h2><h2><a href="application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2></nav></nav><article class="rightcol"><header><h1>Writing a client/server Eliom application</h1></header><p><em>The code of this tutorial has been tested against
 the 2.0 release of the Ocsigen framework.</em><br/>
-</p><p>In this chapter, we will write a <a href="/graffiti/" class="ocsimore_phrasing_link">collaborative
+</p><p>In this chapter, we will write a <a href=".././../../graffiti/" class="ocsimore_phrasing_link">collaborative
 drawing application</a>.  It is a client/server Web application
 displaying an area where users can draw using the mouse, and see what
-other users are drawing. </p>The final code is available <span><a href="/tuto/2.0/manual/files/tutorial.tar.gz" class="ocsforge_doclink_tuto">for download</a></span>).<h2 id="basics"> Basics <a class="backref" href="#basics">&#182;</a></h2><h3>My first page</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Services<br/>Configuration file<br/>Static validation of HTML</p></aside><p>Our Web application consists of a single page for now. Let's start by
+other users are drawing. </p>The final code is available <span><a href=".././manual/files/tutorial.tar.gz">for download</a></span>).<h2 id="basics"> Basics <a class="backref" href="#basics">&#182;</a></h2><h3>My first page</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Services<br/>Configuration file<br/>Static validation of HTML</p></aside><p>Our Web application consists of a single page for now. Let's start by
 creating a very basic page.  We define the service that will implement
 this page by the following declaration:
 </p><pre class=""><code class="language-ocaml translatable">open Lwt
@@ -55,7 +72,7 @@ let main_service =
 then compile it with the following command ; it produce a file called
 <span class="teletype">graffiti.cmo</span>.
 </p><pre>ocamlfind ocamlc -thread -package eliom.server -c graffiti.ml
-</pre><p>Download the configuration file <span><a href="/tuto/2.0/manual/files/tutorial/chapter1/start/graffiti.conf" class="ocsforge_doclink_tuto">graffiti.conf</a></span>, then launch
+</pre><p>Download the configuration file <span><a href=".././manual/files/tutorial/chapter1/start/graffiti.conf">graffiti.conf</a></span>, then launch
 Ocsigen server, with the following command:
 </p><pre>ocsigenserver -c graffiti.conf
 </pre><p>Your page is now available at the URL:
@@ -63,7 +80,7 @@ Ocsigen server, with the following command:
 </pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Services</h5></header><p>Unlike typical Web programming techniques (CGI, PHP, ...), with
 Eliom, you don't write one file for each URL, but a single OCaml module
 (*.cmo or *.cma) for the whole Web site.
-</p><p>The <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/server/Eliom_services">Eliom_services</a></span> module allows
+</p><p>The <span><a href=".././../../eliom/latest/api/Eliom_services">Eliom_services</a></span> module allows
 to create new entry points to your Web site, called <em>services</em>. In
 general, services are attached to a URL and generate a Web page.
 Services are represented by OCaml values, through which you must
@@ -88,11 +105,11 @@ pages as strings (as in other Web frameworks).  But we prefer checking
 at compile time that the HTML will be correct.  Eliom provides several
 modules to do that, either using OcamlDuce (if you have it installed)
 or using OCaml's polymorphic variants.  This tutorial is using the
-second solution, using the module <span><a class="ocsforge_doclink_eliom" href="/eliom/dev/api/server/Eliom_output.Html5">Eliom_output.​Html5</a></span>. This module defines a
+second solution, using the module <span><a href=".././../../eliom/dev/api/Eliom_output.Html5">Eliom_output.Html5</a></span>. This module defines a
 construction function for each HTML5 tag.
 </p><p><em>Note that it is also possible to use the usual HTML syntax (see
-<span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.3.0/api/Pa_tyxml">Pa_tyxml</a></span>).</em>
-</p><p>Typing of HTML with <span><a class="ocsforge_doclink_tyxml" href="/tyxml/dev/api/HTML5.M">HTML5.​M</a></span> and <span><a class="ocsforge_doclink_tyxml" href="/tyxml/dev/api/XHTML.M">XHTML.​M</a></span> is very strict and compels you to respect HTML5 standard (with some
+<span><a href=".././../../tyxml/latest/api/Pa_tyxml">Pa_tyxml</a></span>).</em>
+</p><p>Typing of HTML with <span><a href=".././../../tyxml/dev/api/HTML5.M">HTML5.M</a></span> and <span><a href=".././../../tyxml/dev/api/XHTML.M">XHTML.M</a></span> is very strict and compels you to respect HTML5 standard (with some
 limitations). For example if you write:
 </p><pre class=""><code class="language-ocaml translatable">(html
    (head (title (pcdata &quot;&quot;)) [pcdata &quot;&quot;])
@@ -115,7 +132,7 @@ content allowed inside <code>&lt;head&gt;</code> (<span class="teletype">&lt;bas
 variant type.
 </p><p><strong>Another example:</strong> In HTML5, some tags cannot be empty. For example
 <code>&lt;table&gt;</code>must contain at least one row.  To enforce
-this, the <span><a class="ocsforge_doclink_tyxml" href="/tyxml/dev/api/HTML5.M#VALtable">HTML5.​M.​table</a></span>
+this, the <span><a href=".././../../tyxml/dev/api/HTML5.M#VALtable">HTML5.M.table</a></span>
 function takes two parameters: the first one is the first row, the
 second one is a list containing all the other rows (same thing for
 <code>&lt;tr&gt;</code>, <code>&lt;form&gt;</code>, <code>&lt;select&gt;</code>, ...).  This forces the user to handle the empty list case
@@ -127,16 +144,16 @@ debugging time as you will never have to bother about the validity of
 pages afterwards.</em>
 </p><p>A more detailed introduction to <code>HTML5.M</code> is
 available in the
-<span><a class="ocsforge_doclink_tyxml" href="/tyxml/4.3.0/api/HTML5.M">TyXML reference API</a></span>.</p></aside><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Lwt</h5></header><p><strong>Important warning:</strong> All the functions you write must be written in
+<span><a href=".././../../tyxml/latest/api/HTML5.M">TyXML reference API</a></span>.</p></aside><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Lwt</h5></header><p><strong>Important warning:</strong> All the functions you write must be written in
 collaborative manner using Lwt. Lwt is a very convenient way to
 implement concurrent programs in OCaml, which is now widely used even
 for applications not related to Ocsigen.
 </p><p>For now we will just use the <span class="teletype">Lwt.return</span> function as above.  We
 will come back later on Lwt programming.  You can also have a look at
-the <span><a class="ocsforge_doclink_lwt" href="/lwt/4.1.0/manual/manual">Lwt programming guide</a></span>.</p></aside><h3>Execute parts of the program on the client</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Service sending an application<br/>
+the <span><a href=".././../../lwt/latest/index">Lwt programming guide</a></span>.</p></aside><h3>Execute parts of the program on the client</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Service sending an application<br/>
 Client and server code<br/>
 Compiling a Web application with server and client parts<br/>
-Calling Javascript methods with Js_of_ocaml<br/></p></aside><p>To create our first service, we used the function <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/server/Eliom_output.Html5#VALregister_service">Eliom_output.​Html5.​register_service</a></span>, as we
+Calling Javascript methods with Js_of_ocaml<br/></p></aside><p>To create our first service, we used the function <span><a href=".././../../eliom/latest/api/Eliom_output.Html5#VALregister_service">Eliom_output.Html5.register_service</a></span>, as we
 wanted to return HTML5. But actually we want our service to send an
 Eliom application.  To do that, we will create our own registration
 module by using the functor <span class="teletype">Eliom_output.Eliom_appl</span>:
@@ -160,8 +177,8 @@ Javascript function <span class="teletype">alert</span>. Add the following lines
 program,
 </p><pre class=""><code class="language-ocaml translatable">{client{
   let _ = Dom_html.window##alert(Js.string &quot;Hello&quot;)
-}}</code></pre><p>Download the <span><a href="/tuto/2.0/manual/files/tutorial/chapter1/no_oclosure/Makefile" class="ocsforge_doclink_tuto">Makefile</a></span>
-and <span><a href="/tuto/2.0/manual/files/tutorial/chapter1/no_oclosure/graffiti.conf" class="ocsforge_doclink_tuto">graffiti.conf</a></span>
+}}</code></pre><p>Download the <span><a href=".././manual/files/tutorial/chapter1/no_oclosure/Makefile">Makefile</a></span>
+and <span><a href=".././manual/files/tutorial/chapter1/no_oclosure/graffiti.conf">graffiti.conf</a></span>
 files. You may want to adapt the configuration file to set some paths,
 especially the directory for static files (see also <span class="teletype">STATICDIR</span> in
 the Makefile). It is not necessary (and even not a good idea, for
@@ -193,7 +210,7 @@ part as usual, and compile the client part using <span class="teletype">js_of_oc
 to create a Javascript file.</p></aside><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Js_of_ocaml</h5></header><p>The client-side parts of the program are compiled to Javascript by
 Js_of_ocaml, which recompiles OCaml bytecode, generating Javascript.
 It is easy to bind Javascript libraries to call Javascript functions
-from OCaml programs. In the example, we are using the <span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/3.1.0/api/Dom_html">Dom_html</a></span> module, which is a binding
+from OCaml programs. In the example, we are using the <span><a href=".././../../js_of_ocaml/latest/api/Dom_html">Dom_html</a></span> module, which is a binding
 to allow the manipulation of an HTML page.
 </p><p>Js_of_ocaml is using a syntax extension to call Javascript methods:
 </p><ul><li> <span class="teletype">obj##m(a, b, c)</span> to call the method <span class="teletype">m</span> of object <span class="teletype">obj</span>
@@ -201,7 +218,8 @@ with parameters <span class="teletype">(a, b, c)</span>
 </li><li> <span class="teletype">obj##m</span> to get a property
 </li><li> <span class="teletype">obj##m &lt;- e</span> to set a property
 </li><li> <span class="teletype">jsnew constr (e1, ..., en)</span> to call a Javascript constructor
-</li></ul><p>Find more information in <span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/3.1.0/manual/overview">Js_of_ocaml's manual </a></span>.</p></aside><h3>Accessing server side variables on client side code</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Executing client side code after loading a page<br/>
+</li></ul><p>Find more information in <span><a href=".././../../js_of_ocaml/latest/index">
+Js_of_ocaml's manual </a></span>.</p></aside><h3>Accessing server side variables on client side code</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Executing client side code after loading a page<br/>
 Sharing server side values<br/>
 Converting an HTML value to a portion of page (a.k.a. Dom node)<br/>
 Manipulating HTML node 'by reference'</p></aside><p>The client side process is not really separated from the server side,
@@ -219,11 +237,11 @@ we can access some server variables from client code. For instance:
            (head (title (pcdata &quot;Graffiti&quot;)) [])
            (body [h1 [pcdata &quot;Graffiti&quot;]]) ) )</code></pre><p>Here, we are increasing the reference <span class="teletype">count</span> each time the page
 is accessed. When the page is loaded the client execute the event
-handler registred with <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/server/Eliom_services#VALonload">Eliom_services.​onload</a></span> : this client side code access to the
+handler registred with <span><a href=".././../../eliom/latest/api/server/Eliom_services#VALonload">Eliom_services.onload</a></span> : this client side code access to the
 counter using the syntax extension <span class="teletype">%count</span>, and displays it in a
 message box.
 </p><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Executing code after loading a page</h5></header><p>To execute some code on client side just after loading a page, use
-function <span><a class="ocsforge_doclink_eliom" href="/eliom/dev/api/server/Eliom_services#VALonload">Eliom_services.​onload</a></span>.  It takes as parameter an event handler
+function <span><a href=".././../../eliom/dev/api/Eliom_services#VALonload">Eliom_services.onload</a></span>.  It takes as parameter an event handler
 that you can provide using the syntax <span class="teletype"> {{ ... }} </span>.</p></aside><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Antiquotations: Using server side values in client code</h5></header><p>Client side code can reference copies of server side values using
 the <span class="teletype">%variable</span> syntax.  It is currently limited to code
 included in <span class="teletype"> {{ ... }} </span> (and not yet available in top level
@@ -231,8 +249,8 @@ client code <span class="teletype"> {client{ ... }} </span>). Values sent that w
 weakly type checked: the name of the client side type must match the
 server side one.  If you define a type and want it to be available
 on both sides, declare it in <span class="teletype"> {shared{ ... }} </span>. See the Eliom
-manual, for more information anout the <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/manual/client#syntax%">Eliom's syntax extension </a></span>
-and its <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/manual/config#compiling">compilation process</a></span>.</p></aside><p>It is possible to send almost any type of values that way, but keep in
+manual, for more information anout the <span><a href=".././../../eliom/latest/manual/client#syntax%"> Eliom's syntax extension </a></span>
+and its <span><a href=".././../../eliom/latest/manual/config#compiling">compilation process</a></span>.</p></aside><p>It is possible to send almost any type of values that way, but keep in
 mind that sent values are <em>copies</em> of server side ones. For HTML
 elements, this is not always the expected behaviour. Considering the
 following piece of code, the <span class="teletype">onload</span> event handler won't do
@@ -261,7 +279,7 @@ included in the document tree. E.g. they are mandatory to read the
 current value of a input field or to modify the content of a
 node. Furthermore, unique nodes content is preserved when clicking a
 link that do not exit the application. See the Eliom manual for a
-detailled presentation of <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/manual/client#unique">unique nodes </a></span>.</p></aside><h2 id="graffiti"> Collaborative drawing application <a class="backref" href="#graffiti">&#182;</a></h2><h3>Drawing on a canvas</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Canvas</p></aside><p>We now want to draw something on the page using an HTML5 canvas. As a
+detailled presentation of <span><a href=".././../../eliom/latest/manual/client#unique"> unique nodes </a></span>.</p></aside><h2 id="graffiti"> Collaborative drawing application <a class="backref" href="#graffiti">&#182;</a></h2><h3>Drawing on a canvas</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Canvas</p></aside><p>We now want to draw something on the page using an HTML5 canvas. As a
 first-step, we define a client-side function called <span class="teletype">draw</span> that
 draw a line between to given points in a canvas and we call this
 function once in the <span class="teletype">onload</span> event handler to draw an <span style="color:#ffaa33;">orange</span> line. Here is the (full) new version
@@ -311,17 +329,17 @@ let main_service =
   My_appl.register_service ~path:[&quot;&quot;] ~get_params:Eliom_parameters.unit
     (fun () () -&gt;
       Eliom_services.onload onload_handler;
-      Lwt.return page)</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Javascript datatypes in OCaml</h5></header><p>Note that we use the function <span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/3.1.0/api/Js#VALstring">Js.​string</a></span> from the Js_of_ocaml's library to convert an OCaml
+      Lwt.return page)</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Javascript datatypes in OCaml</h5></header><p>Note that we use the function <span><a href=".././../../js_of_ocaml/latest/api/Js#VALstring">Js.string</a></span> from the Js_of_ocaml's library to convert an OCaml
 string into a JS string.</p></aside><h3>Single user drawing application</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Mouse events with arrows</p></aside><p>We now want to catch mouse events to draw lines with the mouse like
 with the <em>brush</em> tools of any classical drawing application. One
 solution would be to mimic classical Javascript code in OCaml ; for
-example by using the function <span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/3.1.0/api/Dom_events#VALlisten">Dom_events.​listen</a></span> that is the Js_of_ocaml's equivalent of
+example by using the function <span><a href=".././../../js_of_ocaml/latest/api/Dom_events#VALlisten">Dom_events.listen</a></span> that is the Js_of_ocaml's equivalent of
 <span class="teletype">addEventListener</span>. However, this solution is at least as much
 verbose than the Javascript equivalent, hence not
 satisfactory. Another idea is to use the expressivity allowed by the
 functional part of OCaml to hide the complexity behind a nice
 combinator library and dramaticaly reduce the code size. In this
-tutorial, we will use the <em>experimental</em> <span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/3.1.0/api/Event_arrows">Event_arrows</a></span> module from the
+tutorial, we will use the <em>experimental</em> <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows">Event_arrows</a></span> module from the
 Js_of_ocaml's library.
 </p><aside class="wip"><header><h5>Work in progress</h5></header><p><strong>Warning</strong> The event arrows are an experimental
 feature. Feedbacks and suggestions sent to the
@@ -366,26 +384,26 @@ read as: for each <span class="teletype">mousedown</span> event on the canvas, d
 terminate:
 </p><ul><li> For each mousemove event on the document, call <span class="teletype">line</span> (never terminates)
 </li><li> If there is a mouseup event on the document, call <span class="teletype">line</span>.
-</li></ul><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Handling events with arrows</h5></header><p>The module <span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/3.1.0/api/Event_arrows">Event_arrows</a></span>
+</li></ul><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Handling events with arrows</h5></header><p>The module <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows">Event_arrows</a></span>
 allows us to define event listeners easily (using arrows). An arrow
 from <span class="teletype">'a</span> to <span class="teletype">'b</span> has type {{{('a, 'b)
 Event_arrows.t}}}. The operator <span class="teletype">&gt;&gt;&gt;</span> is used to bind the output
 of an arrow to the input of the following one.
 </p><p>For example <span class="teletype">(mouseup Dom_html.document)</span> is an arrow from
 <span class="teletype">unit</span> to <span class="teletype">Dom_html.mouseEvent Js.t</span>.
-</p><p>The combinator <span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/3.1.0/api/Event_arrows#VALarr">Event_arrows.​arr</a></span> transforms a function of type <span class="teletype">'a -&gt; 'b</span> into
+</p><p>The combinator <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows#VALarr">Event_arrows.arr</a></span> transforms a function of type <span class="teletype">'a -&gt; 'b</span> into
 an arrow of type <span class="teletype">('a, 'b) Event_arrows.t</span>. There is also a
-combinator <span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/3.1.0/api/Event_arrows#VALlwt_arr">Event_arrows.​lwt_arr</a></span> to transform a function of type <span class="teletype">'a -&gt; 'b Lwt.t</span>
+combinator <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows#VALlwt_arr">Event_arrows.lwt_arr</a></span> to transform a function of type <span class="teletype">'a -&gt; 'b Lwt.t</span>
 into an arrow of type <span class="teletype">('a, 'b) Event_arrows.t</span>.
-</p><p>Combinators like <span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/3.1.0/api/Event_arrows#VALmousedowns">Event_arrows.​mousedowns</a></span> or <span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/3.1.0/api/Event_arrows#VALmousemoves">Event_arrows.​mousemoves</a></span> (ending by &quot;s&quot;) take as parameters the
+</p><p>Combinators like <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows#VALmousedowns">Event_arrows.mousedowns</a></span> or <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows#VALmousemoves">Event_arrows.mousemoves</a></span> (ending by &quot;s&quot;) take as parameters the
 target of the event and an arrow that will be called each time the
 event occures.
-</p><p>The function <span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/3.1.0/api/Event_arrows#VALrun">Event_arrows.​run</a></span>
+</p><p>The function <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows#VALrun">Event_arrows.run</a></span>
 (of type <span class="teletype">('a, unit) t -&gt; 'a -&gt; canceller</span>) sets up an event
 handler. It returns a &quot;canceller&quot; that you can use to cancel it:
 </p><pre class=""><code class="language-ocaml translatable">let c = Event_arrows.run ( ... ) in
 ...
-Event_arrows.cancel c</code></pre><p>The combinator <span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/3.1.0/api/Event_arrows#VALfirst">Event_arrows.​first</a></span> takes a list of arrows and behaves as the first
+Event_arrows.cancel c</code></pre><p>The combinator <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows#VALfirst">Event_arrows.first</a></span> takes a list of arrows and behaves as the first
 to terminate. All the other arrows in the list are cancelled.</p></aside><h3>Collaborative drawing application</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Client server communication</p></aside><p>In order to see what other users are drawing, we now want to do the following:
 </p><ul><li> Send the coordinates to the server when the user draw a line, then
 </li><li> Dispatch the coordinates to all connected users.
@@ -403,9 +421,9 @@ version</a> of the
 extension</a>.  You need to do that for each type of data sent by the
 client to the server.  This annotation can only be added on types
 containing exclusively basics type or other types annotated with
-deriving. See the Js_of_ocaml API, for more information on the <span><a class="ocsforge_doclink_js_of_ocaml" href="/js_of_ocaml/3.1.0/api/Deriving_Json">Deriving_Json</a></span> module.
+deriving. See the Js_of_ocaml API, for more information on the <span><a href=".././../../js_of_ocaml/latest/api/Deriving_Json">Deriving_Json</a></span> module.
 </p><p>Then we create an Eliom's bus to broadcast draw orders to each client
-with the function <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/server/Eliom_bus#VALcreate">Eliom_bus.​create</a></span>. This function take as parameter the type of
+with the function <span><a href=".././../../eliom/latest/api/server/Eliom_bus#VALcreate">Eliom_bus.create</a></span>. This function take as parameter the type of
 values carried by the bus.
 </p><pre class=""><code class="language-ocaml translatable">let bus = Eliom_bus.create Json.t&lt;messages&gt;</code></pre><p>To write draw orders into the bus, we just replace the function
 <span class="teletype">line</span> of the <span class="teletype">onload_handler</span> by:
@@ -419,18 +437,18 @@ event handler&quot;.
 lines are drawn on both windows.
 </p><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Communication channels</h5></header><p>Eliom provides multiple ways for the server to send unsolicited data
 to the client:
-</p><ul><li> <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/server/Eliom_bus#TYPEt">Eliom_bus.​t</a></span> are broadcasting channels where
-client and server can participate (see also <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/client/Eliom_bus#TYPEt">Eliom_bus.​t</a></span> in the client
+</p><ul><li> <span><a href=".././../../eliom/latest/api/server/Eliom_bus#TYPEt">Eliom_bus.t</a></span> are broadcasting channels where
+client and server can participate (see also <span><a href=".././../../eliom/latest/api/client/Eliom_bus#TYPEt">Eliom_bus.t</a></span> in the client
 api).
-</li><li> <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/server/Eliom_react">Eliom_react</a></span> allows to send
+</li><li> <span><a href=".././../../eliom/latest/api/server/Eliom_react">Eliom_react</a></span> allows to send
 <a href="http://erratique.ch/software/react/doc/React" class="ocsimore_phrasing_link">React events</a> from
 the server to the client and conversly.
-</li><li> <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/server/Eliom_comet.Channels#TYPEt">Eliom_comet.​Channels.​t</a></span> are one way communication channels
-allowing finer control. It allow sending <span><a class="ocsforge_doclink_lwt" href="/lwt/4.1.0/api/Lwt_stream">Lwt_stream</a></span> to the client.  Eliom_react and Eliom_bus are
+</li><li> <span><a href=".././../../eliom/latest/api/server/Eliom_comet.Channels#TYPEt">Eliom_comet.Channels.t</a></span> are one way communication channels
+allowing finer control. It allow sending <span><a href=".././../../lwt/latest/api/Lwt_stream">Lwt_stream</a></span> to the client.  Eliom_react and Eliom_bus are
 implemented over it.
-</li></ul><p>It is possible to control the idle behaviour with module <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/client/Eliom_comet.Configuration">Eliom_comet.​Configuration</a></span>.</p></aside><h3>Color and size of the brush</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Widgets with OClosure</p></aside><p>In this section, we add a color picker and slider to choose the size
+</li></ul><p>It is possible to control the idle behaviour with module <span><a href=".././../../eliom/latest/api/client/Eliom_comet.Configuration">Eliom_comet.Configuration</a></span>.</p></aside><h3>Color and size of the brush</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Widgets with OClosure</p></aside><p>In this section, we add a color picker and slider to choose the size
 of the brush. For that we used add two widgets provided by the
-<span><span class="doclink_error">Error a_manual: exception Projects.No_such_project(&quot;oclosure&quot;)</span></span>.
+<span><a href=".././../../oclosure/latest/index">OClosure widget library</a></span>.
 </p><p>To create the widgets, we add the following code in the
 <span class="teletype">onload_handler</span> immediatly after canvas configuration:
 </p><pre class=""><code class="language-ocaml translatable">(* Size of the brush *)
@@ -473,7 +491,7 @@ headers of our page:
 		  [&quot;graffiti_oclosure.js&quot;]) ();
        ])
     (body [h1 [pcdata &quot;Graffiti&quot;]; canvas_elt])</code></pre><aside class="wip"><header><h5>Work in progress</h5></header><p>The previous code will not work with Eliom ≤ 2.0.1. With those
-versions, the function <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/server/Eliom_output.Html5#VALmake_uri">Eliom_output.​Html5.​make_uri</a></span> could not be used outside a service
+versions, the function <span><a href=".././../../eliom/latest/api/server/Eliom_output.Html5#VALmake_uri">Eliom_output.Html5.make_uri</a></span> could not be used outside a service
 handler. To delay the URI calculation you need to replace the constant
 <span class="teletype">page</span> with a function that take <span class="teletype">unit</span> and returns the page.
 </p><pre class=""><code class="language-ocaml translatable">let page () =
@@ -489,23 +507,23 @@ My_appl.register_service ~path:[&quot;&quot;] ~get_params:Eliom_parameters.unit
 client. This allow the definition of &quot;global&quot; nodes outsides of
 service handler and still use relative URI.</p></aside><p>You need to install the corresponding stylesheets and images into your
 static files directory:
-</p><ul><li> the <span><a href="/tuto/2.0/manual/files/tutorial/static/css/common.css" class="ocsforge_doclink_tuto">{{{common.css}}}</a></span>
-and <span><a href="/tuto/2.0/manual/files/tutorial/static/css/hsvpalette.css" class="ocsforge_doclink_tuto">{{{hsvpalette.css}}}</a></span> are
+</p><ul><li> the <span><a href=".././manual/files/tutorial/static/css/common.css">{{{common.css}}}</a></span>
+and <span><a href=".././manual/files/tutorial/static/css/hsvpalette.css">{{{hsvpalette.css}}}</a></span> are
 taken from the Google Closure library;
-</li></ul><ul><li> the <span><a href="/tuto/2.0/manual/files/tutorial/static/css/slider.css" class="ocsforge_doclink_tuto">{{{common.css}}}</a></span>
-and <span><a href="/tuto/2.0/manual/files/tutorial/static/css/graffiti.css" class="ocsforge_doclink_tuto">{{{hsvpalette.css}}}</a></span> are
+</li></ul><ul><li> the <span><a href=".././manual/files/tutorial/static/css/slider.css">{{{common.css}}}</a></span>
+and <span><a href=".././manual/files/tutorial/static/css/graffiti.css">{{{hsvpalette.css}}}</a></span> are
 home-made css; and
 </li></ul><ul><li> the <span class="teletype">graffiti_oclosure.js</span> script is generated according to the
 <span class="teletype">graffiti.js</span> with the following command:
 </li></ul><pre>oclosure_req graffiti.js
-</pre><p>Using the example <span><a href="/tuto/2.0/manual/files/tutorial/chapter1/with_oclosure/Makefile" class="ocsforge_doclink_tuto">{{{Makefile}}}</a></span> all
+</pre><p>Using the example <span><a href=".././manual/files/tutorial/chapter1/with_oclosure/Makefile">{{{Makefile}}}</a></span> all
 those static files are generated and installed by the <span class="teletype">install</span>
 rule in the configured static directory (see the <span class="teletype">STATICDIR</span>
 variable).
 </p><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>OClosure</h5></header><p>OClosure is a Js_of_ocaml binding for the Google Closure widget
 library (used for example in GMail, Google Calendar or Google Maps).
 You can use it for building complex user interfaces for your Eliom
-application. The full documentation is available <a href="wiki(33):" class="ocsimore_phrasing_link">on the
+application. The full documentation is available <a href=".././../../" class="ocsimore_phrasing_link">on the
 project's site</a>.</p></aside><h3>Sending the initial image</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Services sending other data types</p></aside><p>To finish the first part of the tutorial, we want to save the current
 drawing on server side and send the current image when a new user
 arrives. To do that, we will use the
@@ -555,7 +573,7 @@ let _ = Lwt_stream.iter draw_server (Eliom_bus.stream bus)</code></pre><p>We als
   Eliom_output.String.register_service
     ~path:[&quot;image&quot;]
     ~get_params:Eliom_parameters.unit
-    (fun () () -&gt; Lwt.return (image_string (), &quot;image/png&quot;))</code></pre><aside class="wip"><header><h5>Work in progress</h5></header><p>With Eliom ≤ 2.0.1, the module <span><a class="ocsforge_doclink_eliom" href="/eliom/6.3/api/server/Eliom_output.String">Eliom_output.​String</a></span> was named <span><a class="ocsforge_doclink_eliom" href="/eliom/2.0.1/api/server/Eliom_output.Text">Eliom_output.​Text</a></span>.</p></aside><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Eliom_output</h5></header><p>The module <span class="teletype">Eliom_output</span> defines several modules with
+    (fun () () -&gt; Lwt.return (image_string (), &quot;image/png&quot;))</code></pre><aside class="wip"><header><h5>Work in progress</h5></header><p>With Eliom ≤ 2.0.1, the module <span><a href=".././../../eliom/latest/api/server/Eliom_output.String">Eliom_output.String</a></span> was named <span><a href=".././../../eliom/2.0.1/api/server/Eliom_output.Text">Eliom_output.Text</a></span>.</p></aside><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Eliom_output</h5></header><p>The module <span class="teletype">Eliom_output</span> defines several modules with
 registration functions for a variety of data types. We have already
 seen <span class="teletype">Eliom_output.Html5</span> and <span class="teletype">Eliom_output.Eliom_appl</span>.
 The module <span class="teletype">Eliom_output.String</span> sends any byte output
@@ -587,7 +605,7 @@ img##onload &lt;- Dom_html.handler
 before loading <span class="teletype">graffiti.cma</span>. This is done by adding the
 following line in the configuration file.
 </p><pre>&lt;extension findlib-package=&quot;cairo&quot; /&gt;
-</pre><p>The first version of the program is now complete. </p><span><a href="/tuto/2.0/manual/files/tutorial.tar.gz" class="ocsforge_doclink_tuto"> Download the code</a></span>.<div class="exercices"><h4>Exercises</h4><ul><li> Add an OClosure button to make possible to download the current
+</pre><p>The first version of the program is now complete. </p><span><a href=".././manual/files/tutorial.tar.gz"> Download the code</a></span>.<div class="exercices"><h4>Exercises</h4><ul><li> Add an OClosure button to make possible to download the current
 image and save it to the hard disk (reuse the service
 <span class="teletype">imageservice</span>).
 </li><li> Add an OClosure button with a color picker to select a color from

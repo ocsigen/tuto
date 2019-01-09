@@ -1,0 +1,6 @@
+_server/graffiti.cmo:
+_server/graffiti.cmx:
+_client/graffiti.cmo:
+_client/graffiti.cmx:
+_client/graffiti.cmo: graffiti.type_mli
+_client/graffiti.cmx: graffiti.type_mli

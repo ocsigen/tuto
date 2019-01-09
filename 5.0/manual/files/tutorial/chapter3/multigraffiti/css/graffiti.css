@@ -1,0 +1,21 @@
+body {
+  width: 750px;
+}
+
+canvas {
+  border: solid 1px #aaaaaa;
+}
+
+div.goog-slider-vertical,
+DIV.goog-slider-vertical {
+  position: absolute;
+  top: 100px;
+  left: 740px;
+}
+
+div.goog-hsv-palette-sm,
+DIV.goog-hsv-palette-sm {
+  position: absolute;
+  top: 100px;
+  left: 780px;
+}

@@ -1,0 +1,467 @@
+=RESTful JSON API using Eliom=
+<<concepts|RESTful API\\PUT and DELETE services>>
+
+This tutorial will show you how to create a simple, yet complete, REST API
+using JSON as the serialization format.
+
+To illustrate our example, let's say we want to give access to a database of
+locations storing a description and coordinates (latitude and longitude).
+
+To be RESTful, our interface will comply with the following principles:
+
+* URLs and GET params identify resources
+* HTTP methods are used to define actions to perform (GET, POST, PUT, DELETE)
+* GET action is safe (no side-effect)
+* PUT and DELETE actions are idempotent
+* Requests are stateless
+
+With this in mind, our goal will be to implement CRUD (Create, Read, Update,
+Delete) functions to handle our resources. We want the following requests to be
+valid:
+
+{{{GET http://localhost/}}} will return all available locations.
+
+{{{GET http://localhost/ID}}} will return location associated to {{{ID}}}.
+
+{{{POST http://localhost/ID}}} with content:
+
+<<code language="json"|
+{
+  "description": "Paris",
+  "coordinates": {
+    "latitude": 48.8567,
+    "longitude": 2.3508
+  }
+}
+>>
+
+will store this location in the database.
+
+{{{PUT http://localhost/ID}}}, with some content, will update the location
+associated to {{{ID}}}.
+
+{{{DELETE http://localhost/ID}}} will delete the location associated to
+{{{ID}}}.
+
+==@@id="requirements"@@ Requirements==
+
+* eliom >= 4.0
+* yojson
+* deriving-yojson
+
+You need some knowledge about Eliom to be able to fully understand this
+tutorial. It's not meant to be an Eliom introduction.
+
+The following browser extensions are useful to manually test your REST APIs:
+
+* [[https://addons.mozilla.org/en-US/firefox/addon/restclient/|RESTClient]] for
+Firefox
+*
+[[https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm|Postman]]
+for Chrome
+
+==@@id="types"@@ Data types==
+
+We start by defining our database types, that is to say the way we will
+represent our locations and associated information. Each location will be
+associated to a unique and arbitrary identifier, and will hold the following
+information: a description and coordinates (made of a latitude and a
+longitude).
+
+We represent coordinates with decimal degrees, and use the
+{{{deriving-yojson}}} library to parse and generate JSON serialization of our
+types.
+
+We use a dedicated {{{error}}} type returned when something is wrong with the
+request itself or with the processing of the request.
+
+As for the database, we use a simple {{{Ocsipersist}}} table.
+
+<<code language="ocaml"|
+type coordinates = {
+  latitude : float;
+  longitude : float;
+} deriving (Yojson)
+
+type location = {
+  description : string option;
+  coordinates : coordinates;
+} deriving (Yojson)
+
+(* List of pairs (identifier * location) *)
+type locations =
+  (string * location) list
+    deriving (Yojson)
+
+type error = {
+  error_message : string;
+} deriving (Yojson)
+
+let db : location Ocsipersist.table =
+  Ocsipersist.open_table "locations"
+>>
+
+==@@id="services"@@ Services definition==
+
+First, let's define common service parameters:
+
+* The {{{path}}} of the API: it's the same for all services.
+
+* The GET parameter, which is an optional identifier given as a URL suffix. We
+set it as optional so we can distinguish GET requests for all resources or a
+single one, and return a detailed error if the identifier is missing in POST,
+PUT and DELETE requests. An alternative would be to use two services at the same
+path (one with id and the other without).
+
+<<code language="ocaml"|
+let path = []
+
+let get_params =
+  Eliom_parameter.(suffix (neopt (string "id")))
+>>
+
+Next step is to define our API services. We define four of them with the same
+path, using the four HTTP methods at our disposal:
+
+* GET method will be used to access the database, either all of it if no
+identifier is provided, or a single resource otherwise. An error will be
+returned if no resource matches the identifier.
+
+* POST method will be used to create a new resource (or update it if it already
+exists). We set a single POST parameter: {{{Eliom_parameter.raw_post_data}}},
+in order to retrieve raw JSON and bypass POST parameters decoding.
+
+* PUT method will be used to update an existing resource. An error will be
+returned if no resource matches the identifier. We don't need to define POST
+parameter, PUT services takes {{{Eliom_parameter.raw_post_data}}} as default
+content.
+
+* DELETE method will be used to delete an existing resource. An error will be
+returned if no resource matches the identifier.
+
+<<code language="ocaml"|
+let read_service =
+  Eliom_service.Http.service
+    ~path
+    ~get_params
+    ()
+
+let create_service =
+  Eliom_service.Http.post_service
+    ~fallback:read_service
+    ~post_params:Eliom_parameter.raw_post_data
+    ()
+
+let update_service =
+  Eliom_service.Http.put_service
+    ~path
+    ~get_params
+    ()
+
+let delete_service =
+  Eliom_service.Http.delete_service
+    ~path
+    ~get_params
+    ()
+>>
+
+==@@id="handlers"@@ Handlers==
+
+Let's start the handlers definition with a few helper values and functions
+used by handlers.
+
+Since we use the low-level {{{Eliom_registration.String.send}}} function to
+send our response, we wrap it in three specialized functions: {{{send_json}}},
+{{{send_error}}} and {{{send_success}}} (this one only send the 200 OK status
+code, without any content).
+
+Another function helps us to check the received {{{Content-type}}} is the
+expected one, by matching it against a MIME type. In our example, we'll verify
+that we are receiving JSON.
+
+The {{{read_raw_content}}} function retrieve at most {{{length}}} characters
+from the {{{raw_content}}} Ocsigen stream.
+
+<<code language="ocaml"|
+let json_mime_type = "application/json"
+
+let send_json ~code json =
+  Eliom_registration.String.send ~code (json, json_mime_type)
+
+let send_error ~code error_message =
+  let json = Yojson.to_string<error> { error_message } in
+  send_json ~code json
+
+let send_success () =
+  Eliom_registration.String.send ~code:200 ("", "")
+
+let check_content_type ~mime_type content_type =
+  match content_type with
+  | Some ((type_, subtype), _)
+      when (type_ ^ "/" ^ subtype) = mime_type -> true
+  | _ -> false
+
+let read_raw_content ?(length = 4096) raw_content =
+  let content_stream = Ocsigen_stream.get raw_content in
+  Ocsigen_stream.string_of_stream length content_stream
+>>
+
+Then we define our handlers in order to perform the required actions and
+return a response.
+
+POST and PUT handlers will read raw body content as JSON and use {{{Yojson}}}
+to convert it to our types.
+
+We use HTTP status codes in responses, with these meaning:
+
+* 200 (OK): the request succeeded.
+* 400 (Bad request): something is wrong with the request (missing parameter,
+parsing error...).
+* 404 (Not found): no resource matches the provided identifier.
+
+The GET handler either returns a single location if an identifier is provided,
+or a list of all existing locations otherwise.
+
+<<code language="ocaml"|
+let read_handler id_opt () =
+  match id_opt with
+  | None ->
+    Ocsipersist.fold_step
+      (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
+    ~>>= fun locations ->
+    let json = Yojson.to_string<locations> locations in
+    send_json ~code:200 json
+  | Some id ->
+    catch (fun () ->
+        Ocsipersist.find db id ~>>= fun location ->
+        let json = Yojson.to_string<location> location in
+        send_json ~code:200 json)
+    (function
+      | Not_found ->
+        (* [id] hasn't been found, return a "Not found" message *)
+        send_error ~code:404 ("Resource not found: " ^ id))
+>>
+
+Next, let's create a common function for POST and PUT handlers, which have a
+very similar behaviour. The only difference is that a PUT request with a
+non-existing identifier will fail (thus only accepting update requests, and
+rejecting creations), whereas the same request with POST method will succeed (a
+new location associated to the identifier will be created).
+
+<<code language="ocaml"|
+let edit_handler_aux ?(create = false) id_opt (content_type, raw_content_opt) =
+  if not (check_content_type ~mime_type:json_mime_type content_type) then
+    send_error ~code:400 "Content-type is wrong, it must be JSON"
+  else
+    match id_opt, raw_content_opt with
+    | None, _ ->
+      send_error ~code:400 "Location identifier is missing"
+    | _, None ->
+      send_error ~code:400 "Body content is missing"
+    | Some id, Some raw_content ->
+      read_raw_content raw_content ~>>= fun location_str ->
+      catch (fun () ->
+          (if create then
+            Lwt.return_unit
+          else
+            Ocsipersist.find db id ~>>= fun _ -> Lwt.return_unit)
+          ~>>= fun () ->
+          let location = Yojson.from_string<location> location_str in
+          Ocsipersist.add db id location ~>>= fun () ->
+          send_success ())
+      (function
+        | Not_found ->
+          send_error ~code:404 ("Location not found: " ^ id)
+        | Deriving_Yojson.Failed ->
+          send_error ~code:400 "Provided JSON is not valid")
+
+let create_handler id_opt content =
+  edit_handler_aux ~create:true id_opt content
+
+let update_handler id_opt content =
+  edit_handler_aux ~create:false id_opt content
+>>
+
+We need a fourth handler to delete locations:
+
+<<code language="ocaml"|
+let delete_handler id_opt _ =
+  match id_opt with
+  | None ->
+    send_error ~code:400 "An id must be provided to delete a location"
+  | Some id ->
+    Ocsipersist.remove db id ~>>= fun () ->
+    send_success ()
+>>
+
+==@@id="registration"@@ Services registration==
+
+Finally we register services with the {{{Eliom_registration.Any}}} module in
+order to have full control on the sent response. This way, we'll be able to
+send an appropriate HTTP status code depending on what happens during the
+request processing (parsing error, resource not found...), as seen above when
+defining handlers.
+
+<<code language="ocaml"|
+let () =
+  Eliom_registration.Any.register read_service read_handler;
+  Eliom_registration.Any.register create_service create_handler;
+  Eliom_registration.Any.register update_service update_handler;
+  Eliom_registration.Any.register delete_service delete_handler;
+  ()
+>>
+
+==@@id="source"@@ Full source==
+
+<<code language="ocaml"|
+open Lwt
+
+(**** Data types ****)
+
+type coordinates = {
+  latitude : float;
+  longitude : float;
+} deriving (Yojson)
+
+type location = {
+  description : string option;
+  coordinates : coordinates;
+} deriving (Yojson)
+
+(* List of pairs (identifier * location) *)
+type locations =
+  (string * location) list
+    deriving (Yojson)
+
+type error = {
+  error_message : string;
+} deriving (Yojson)
+
+let db : location Ocsipersist.table =
+  Ocsipersist.open_table "locations"
+
+
+(**** Services ****)
+
+let path = []
+
+let get_params =
+  Eliom_parameter.(suffix (neopt (string "id")))
+
+let read_service =
+  Eliom_service.Http.service
+    ~path
+    ~get_params
+    ()
+
+let create_service =
+  Eliom_service.Http.post_service
+    ~fallback:read_service
+    ~post_params:Eliom_parameter.raw_post_data
+    ()
+
+let update_service =
+  Eliom_service.Http.put_service
+    ~path
+    ~get_params
+    ()
+
+let delete_service =
+  Eliom_service.Http.delete_service
+    ~path
+    ~get_params
+    ()
+
+(**** Handler helpers ****)
+
+let json_mime_type = "application/json"
+
+let send_json ~code json =
+  Eliom_registration.String.send ~code (json, json_mime_type)
+
+let send_error ~code error_message =
+  let json = Yojson.to_string<error> { error_message } in
+  send_json ~code json
+
+let send_success () =
+  Eliom_registration.String.send ~code:200 ("", "")
+
+let check_content_type ~mime_type content_type =
+  match content_type with
+  | Some ((type_, subtype), _)
+      when (type_ ^ "/" ^ subtype) = mime_type -> true
+  | _ -> false
+
+let read_raw_content ?(length = 4096) raw_content =
+  let content_stream = Ocsigen_stream.get raw_content in
+  Ocsigen_stream.string_of_stream length content_stream
+
+(**** Handlers ****)
+
+let read_handler id_opt () =
+  match id_opt with
+  | None ->
+    Ocsipersist.fold_step
+      (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
+    ~>>= fun locations ->
+    let json = Yojson.to_string<locations> locations in
+    send_json ~code:200 json
+  | Some id ->
+    catch (fun () ->
+        Ocsipersist.find db id ~>>= fun location ->
+        let json = Yojson.to_string<location> location in
+        send_json ~code:200 json)
+    (function
+      | Not_found ->
+        (* [id] hasn't been found, return a "Not found" message *)
+        send_error ~code:404 ("Resource not found: " ^ id))
+
+let edit_handler_aux ?(create = false) id_opt (content_type, raw_content_opt) =
+  if not (check_content_type ~mime_type:json_mime_type content_type) then
+    send_error ~code:400 "Content-type is wrong, it must be JSON"
+  else
+    match id_opt, raw_content_opt with
+    | None, _ ->
+      send_error ~code:400 "Location identifier is missing"
+    | _, None ->
+      send_error ~code:400 "Body content is missing"
+    | Some id, Some raw_content ->
+      read_raw_content raw_content ~>>= fun location_str ->
+      catch (fun () ->
+          (if create then
+            Lwt.return_unit
+          else
+            Ocsipersist.find db id ~>>= fun _ -> Lwt.return_unit)
+          ~>>= fun () ->
+          let location = Yojson.from_string<location> location_str in
+          Ocsipersist.add db id location ~>>= fun () ->
+          send_success ())
+      (function
+        | Not_found ->
+          send_error ~code:404 ("Location not found: " ^ id)
+        | Deriving_Yojson.Failed ->
+          send_error ~code:400 "Provided JSON is not valid")
+
+let create_handler id_opt content =
+  edit_handler_aux ~create:true id_opt content
+
+let update_handler id_opt content =
+  edit_handler_aux ~create:false id_opt content
+
+let delete_handler id_opt _ =
+  match id_opt with
+  | None ->
+    send_error ~code:400 "An id must be provided to delete a location"
+  | Some id ->
+    Ocsipersist.remove db id ~>>= fun () ->
+    send_success ()
+
+(* Register services *)
+
+let () =
+  Eliom_registration.Any.register read_service read_handler;
+  Eliom_registration.Any.register create_service create_handler;
+  Eliom_registration.Any.register update_service update_handler;
+  Eliom_registration.Any.register delete_service delete_handler;
+  ()
+>>

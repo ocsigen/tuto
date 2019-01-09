@@ -1,0 +1,14 @@
+=How to use a database with Eliom?=
+
+You can use any database library that you want.
+
+[[http://pgocaml.forge.ocamlcore.org/|PGOCaml]]
+is a good choice, and so is
+<<a_manual project="macaque"|Macaque>>
+[[|Macaque]].
+You can mix both in the same application. Both can be used in a
+cooperative way with Lwt.
+
+Unlike PGOcaml, Macaque has the ability to build the request
+dynamically. However, Macaque does not support all Postgresql
+features.

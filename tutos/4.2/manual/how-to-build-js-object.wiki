@@ -1,0 +1,15 @@
+=How to build js object?=
+
+You just have to use jsnew syntax.
+
+Example:
+
+<<code language="ocaml"|
+
+let get_timestamp () =
+  let date = jsnew Js.date_now () in
+  int_of_float (Js.to_float (date##getTime ()))
+
+>>
+
+More details in documentation: [[site:js_of_ocaml/api/Js#2_Objectconstructors|Js object constructor]]

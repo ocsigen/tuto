@@ -1,0 +1,85 @@
+=How to create a form wizard (sequence of pages depending on data entered on previous ones)?=
+
+The solution to implement wizard-like forms (that is a sequence of pages
+depending on data entered on previous ones) is to create dynamically new
+services especially for one user. If you use session data (eliom references)
+it won't work if you have several tabs on the same site (or if you use the
+back button).
+
+Just create new anonymous (attached)-coservices that depend on the data sent
+by the user. In the following example (taken from Eliom's testsuite), I create
+a two step wizard that will add two integers. You can try to enter a first
+value, duplicate the tab, and both will continue working correctly.
+
+To prevent memory leaks, use a timeout for these dynamic coservices.
+The scope of these service can be session or global for the site (as coservice
+identifiers are cryptographically safe).
+
+<<code language="ocaml"|
+open Eliom_content.Html5.F
+
+(* -------------------------------------------------------- *)
+(* We create two main services on the same URL,             *)
+(* one with a GET integer parameter:                        *)
+
+let calc = Eliom_service.Http.service
+    ~path:["calc"] ~get_params:(Eliom_parameter.unit) ()
+let calc_i = Eliom_service.Http.service ~path:["calc"]
+~get_params:(Eliom_parameter.int "i") ()
+
+
+(* -------------------------------------------------------- *)
+(* The handler for the service without parameter.           *)
+(* It displays a form where you can write an integer value: *)
+
+let calc_handler () () =
+  let create_form intname =
+    [p [pcdata "Write a number: ";
+        Form.input ~input_type:`Text ~name:intname Form.int;
+        br ();
+        Form.input ~input_type:`Submit ~value:"Send" Form.string]]
+  in
+  let f = Form.get_form calc_i create_form in
+  Lwt.return (html (head (title (pcdata "")) []) (body [f]))
+
+
+(* -------------------------------------------------------- *)
+(* The handler for the service with parameter.              *)
+(* It creates dynamically and registers a new coservice     *)
+(* with one GET integer parameter.                          *)
+(* This new coservice depends on the first value (i)        *)
+(* entered by the user.                                     *)
+
+let calc_i_handler i () =
+  let create_form is =
+    (fun entier ->
+       [p [pcdata (is^" + ");
+           Form.input ~input_type:`Text ~name:entier Form.int;
+           br ();
+           Form.input ~input_type:`Submit ~value:"Sum" Form.string]])
+  in
+  let is = string_of_int i in
+  let calc_result =
+    Eliom_registration.Html5.register_coservice
+      ~scope:Eliom_common.default_session_scope
+      ~fallback:calc
+      ~get_params:(Eliom_parameter.int "j")
+      ~timeout:120.
+      (fun j () ->
+        let js = string_of_int j in
+        let ijs = string_of_int (i+j) in
+        Lwt.return (html
+             (head (title (pcdata "")) [])
+             (body [p [pcdata (is^" + "^js^" = "^ijs)]])))
+  in
+  let f = Form.get_form calc_result (create_form is) in
+  Lwt.return (html (head (title (pcdata "")) []) (body [f]))
+
+
+(* -------------------------------------------------------- *)
+(* Registration of main services:                           *)
+
+let () =
+  Eliom_registration.Html5.register calc   calc_handler;
+  Eliom_registration.Html5.register calc_i calc_i_handler
+>>

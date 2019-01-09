@@ -1,0 +1,3 @@
+== How do I create a cryptographically safe identifier? ==
+
+<<a_api project="ocsigenserver"| val  Ocsigen_lib.make_cryptographic_safe_string>>

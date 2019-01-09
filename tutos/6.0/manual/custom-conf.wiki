@@ -1,0 +1,89 @@
+=Custom configuration options=
+<<concepts |Custom configuration options>>
+
+It is not convenient to have to edit the code to change some
+configurations, like the location where are saved the favorite
+images in the Graffiti tutorial
+(see: [[href:pictures|Saving favorite pictures]]).
+Fortunately Ocsigen provides a mechanism to extend its
+configuration file.
+
+==Basic interface==
+
+<<code language="ocaml"|
+let static_dir =
+  match Eliom_config.get_config () with
+    | [Simplexmlparser.Element
+     ("staticdir", [], [Simplexmlparser.PCData dir])] ->
+        dir
+    | [] ->
+      raise (Ocsigen_extensions.Error_in_config_file
+               ("staticdir must be configured"))
+    | _ ->
+      raise (Ocsigen_extensions.Error_in_config_file
+               ("Unexpected content inside config"))
+>>
+
+This will add a mandatory child to the eliom tag in the
+configuration file:
+{{{
+<eliom module="path/to/your/module.cma">
+  <staticdir>/tmp/static</staticdir>
+</eliom>
+}}}
+
+
+==New interface==
+
+From Eliom 4.0 it is much easier to define configuration file extension.
+Have a look at module <<a_api project="eliom" subproject="server"|module Eliom_config>>.
+For instance, here is how you can add an element "<ldap>"
+in the configuration file to store a list of LDAP servers your application
+interacts with.
+
+
+<<code language="ocaml"|
+
+(** An LDAP server is characterized by an host and a port. *)
+type ldap_configuration = {
+  mutable host : string;
+  mutable port : int;
+  }
+
+
+(** We store a list of LDAP servers to interact with. *)
+let ldap_servers = ref []
+
+(** The user-defined extension of the configuration file. *)
+let ldap_configuration = Ocsigen_extensions.Configuration.(
+  (** Default configuration *)
+  let config () = {
+    host = "";
+    port = 339;
+  }
+  in
+  let init () =
+    ldap_servers := config () :: !ldap_servers
+  in
+  let current () =
+    List.hd !ldap_servers
+  in
+
+  (** Parsing functions. *)
+  let req_attr name = attribute ~name ~obligatory:true
+  and opt_attr name = attribute ~name ~obligatory:false
+  in
+  let name = "LDAP"
+  and obligatory = false
+  and attributes = [
+    req_attr "host" (fun h -> (current ()).host <- h);
+    opt_attr "port" (fun p -> (current ()).port <- int_of_string p);
+    );
+  ]
+  in
+  element ~init ~name ~obligatory ~attributes ()
+)
+
+let _ = Eliom_config.parse_config [ldap_configuration]
+
+>>

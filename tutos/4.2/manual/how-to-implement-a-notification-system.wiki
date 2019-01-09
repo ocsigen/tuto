@@ -1,0 +1,110 @@
+=How to implement a notification system?=
+
+The easiest way for the server to send notifications to the client
+is to use module
+<<a_api project="eliom-base-app"|module Eba_notif>>
+from Eliom-base-app, but it requires to use EBA's user management
+system. If you are not using EBA, we recommend to get inspiration
+from the code of this module, to implement your notification
+system conveniently and without memory leak.
+
+== With {{{Eba_notif}}}
+
+For each type of data on which you want to receive updates,
+instanciate functor {{{Eba_notif.Make}}} on server side:
+
+<<code language="ocaml" class="server"|
+module My_notif = Eba_notif.Make(struct
+  type key = ... (* The type of the identifier of the data we want listen on. *)
+  type notification = ... (* The type of the notifications that will be sent *)
+end)
+>>
+
+To declare that you are listening on one piece of data {{{i}}},
+call {{{My_notif.listen i}}}.
+
+To notify all the clients listening on data {{{i}}},
+call {{{My_notif.notify i (fun userid_o -> Lwt.return (Some notif))}}}.
+{{{userid_o}}} is the id of the user who will be notified,
+if he is connected ({{{None}}} otherwise).
+This make possible to customize the notifications.
+Return {{{None}}} if you don't want him to be notified.
+
+For more information, have a look at
+<<a_manual project="tutorial" chapter="tutoreact"|the tutorial
+about client-server reactive applications>>.
+
+
+
+== Without {{{Eba_notif}}} (manual implementation)
+
+If you want the user to receive notifications from the server
+(for example: "you have a new message"), first create a channel, and
+register it in an Eliom reference of scope {{{`Client_process}}}:
+<<code language="ocaml"|
+let channel_ref =
+  Eliom_reference.Volatile.eref_from_fun
+    ~scope:Eliom_common.default_process_scope
+    (fun () ->
+       let (s, notify) = Lwt_stream.create () in
+       let c = Eliom_comet.Channel.create s in
+       (c, notify)
+    )
+>>
+
+On client side, listen on this channel. To do that, execute this code
+(on server side) during the service that will start the client process:
+<<code language="ocaml"|
+let (channel, _) = Eliom_reference.Volatile.get channel_ref in
+let _ =
+  {unit{
+    Lwt.async (fun () ->
+      Lwt_stream.iter_s
+        (fun v -> (* do something *))
+        %channel)
+      }}
+in
+...
+>>
+
+And call function {{{notify}}} on the channel (from server side)
+when you want to notify the client.
+
+To get back the {{{notify}}} functions for one user, you may want to
+[[wiki("tuto"):manual/how-to-iterate-on-all-sessions-for-one-user-or-all-tabs|iterate on all client process states]].
+To do that, create a session group for each user
+(see [[wiki("tuto"):manual/how-to-register-session-data|How to register session data]]).
+Here we suppose that the session group name is the user_id, as a string.
+Then iterate on all sessions from this group, and on all client processes
+for each session.
+
+For example:
+
+<<code language="ocaml"|
+
+let notify user_id v =
+  (* We get the session group state for this user: *)
+  let state =
+    Eliom_state.Ext.volatile_data_group_state
+      ~scope:Eliom_common.default_group_scope (Int64.to_string user_id)
+  in
+  (* We iterate on all sessions from the group: *)
+  Eliom_state.Ext.iter_volatile_sub_states
+    ~state
+    (fun state ->
+      (* We iterate on all client process states in the session: *)
+      Eliom_state.Ext.iter_volatile_sub_states
+        ~state
+        (fun state ->
+          let (_, notify) = Eliom_reference.Volatile.Ext.get state channel_ref in
+          notify (Some v)))
+
+>>
+
+//Warning://      If you do not call the iterators during
+      a request or during the initialisation phase of the Eliom module,
+      you must provide the extra parameter {{{?sitedata}}},
+      that you can get by calling {{{Eliom_request_info.get_sitedata}}}
+      during the initialisation phase of the Eliom module.
+
+Have a look at the implementation of {{{Eba_notif}}} for more details.

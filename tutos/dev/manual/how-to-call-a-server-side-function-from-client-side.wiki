@@ -1,0 +1,36 @@
+=How to call a server-side function from client-side?=
+
+It is possible to call server-side functions in client-side code using
+the {{{~%}}} syntax. For security reasons, these functions must first
+be declared explicitely as "server functions" (with the type of their
+argument).
+
+<<code language="ocaml"|
+let f x = ...
+
+let%client f_rpc = ~%(Eliom_client.server_function [%derive.json: int] f)
+
+...
+
+[%client ... f_rpc 4 ... ]
+>>
+
+The server-side function ({{{f}}} in the example) needs to return an
+Lwt value.
+
+Server functions are just syntactic sugar for pathless services
+returning OCaml values.
+
+Note that you need to install {{{ppx_deriving}}}, and load our JSON
+{{{ppx_deriving}}} plugin in your project. The plugin is available as
+the Ocamlfind package {{{js_of_ocaml.deriving.ppx}}}.
+
+If the function takes a more complex type, this type must have been
+declared with {{{ppx_deriving}}}. For example,
+
+<<code language="ocaml"|
+type t = int * string [@@deriving json]
+>>
+
+Our infrastructure provides server-side data validation of the data
+sent, and prevents malformed data from crashing the server.

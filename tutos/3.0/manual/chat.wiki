@@ -1,0 +1,113 @@
+= Chat: Design Overview =
+
+//Chat// is a chatting module and application, currently for conversations
+between two users each. (Extension for multi-user channels is left as an
+exercise to the user.)
+
+First of all,
+* [[site:chat|try it]]! And
+* [[site:darcsweb/?r=tutorial;a=tree;f=/src-examples/chat|browse it]],
+* ##darcs get http://ocsigen.org/darcs/tutorial; cd tutorial/src-examples/chat## it, or
+* [[site:download/chat.tar.gz|download]] the source code.
+
+== Description ==
+
+When the user is logged in, he sees a list of available users. He can choose
+one of them to start a conversation with him. The conversation then becomes
+visible to both users as a message prompt and a growing list of messages.  The
+participating users can enter messages and they are made visible to the other
+participants.  If a user becomes unavailable for //Chat//, he is removed from the
+list of available users, and all conversations he was participating are removed
+from the opponent's UI.
+
+== Central Data Types ==
+
+The following data are crucial to the functionality of //Chat//.
+
+=== Conversation ===
+A conversation (##type Shared.Conversation.t##) is shared between all its
+client participants. It comprises of two values: Firstly, it contains a bus for
+transferring conversation messages (c.f. ##type Shared.Conversation.message##)
+between the participants. Those are displayed as they come on every client.
+Secondly, it contains the set of participating users. This is used when the
+conversation is teared down: An event for removing the UI element for the
+conversation is sent to every participant.
+
+=== Client Process ===
+When a user enters a web page which contains //Chat//, it is rendered in HTML and
+a new client process is created in doing so.  Every client process holds a
+channel, where the server can send messages to //add or to remove conversations//
+(c.f. ##type Shared.event##).
+
+=== User Info ===
+On the server side, the channel for those events is stored for each user along
+with a list of conversations he participates in.  This is done with a
+Eliom-reference of scope ##session_group##, such that it is shared among all
+sessions of a user (and likewise all client processes).
+
+But, when one user requests to start (or end) a conversation with any another
+user, it is also necessary to access the event channel of any user.
+As it is only stored in an Eliom-reference specific to the user, it is
+impossible to access.  In favour of this, the user info is moreover
+stored in a weak hash table (c.f. module ##Weak_info##) which associates the
+user info to each user in a globally accessible way. This association is weak
+in its value, the user info, such that it is garbage-collected as soon as the
+Eliom-reference storing it is cleared, i.e. when the last session of the
+respective user is closed.
+
+
+=== Available Users ===
+The client's UI contains a list of users which are currently available for
+chatting. This is achieved as follows.
+
+If it is the user's first client process he is added to the set of available
+users, which is available in an react signal ##Chat.users_signal## on a set of
+user (i.e. ##User_set.t React.S.t##).
+As long as a user is available with at least one client he is kept in the value
+of the signal. This signal is send to the client when initializing //Chat//.
+Changes in its value are then directly reflected in the list of available users
+in the client's UI (c.f.  ##Client.change_users##).
+
+To observe when a user is not available through a given client process anymore,
+//Chat// awaits for every client process that it is inactive for a given
+time.  ##Eliom_comet.Channels.wait_timeout## is used for for detecting a client
+process to be abandoned.
+
+When it is observed that a user isn't avaible through any client process
+anymore, he is removed from the ##Chat.users_signal##, and all conversation he
+is participating are teared down (c.f. ##Chat.remove_client_process##).
+
+=== Starting a conversation ===
+When the user selects one of the available users for a conversation, one of two
+things may happen (c.f. ##Client.create_or_focus_conversation##):
+
+Firstly, if there is already a conversation between exactly those two users,
+the message prompt is focused.
+Secondly, if there is no conversation between those users yet, a new one is created
+by calling the server's ##Chat.create_dialog_service## (dialog is a conversatio
+of two) with the selected user as argument.
+
+This service establishes the conversation between the users: It creates the
+conversation on the server side (i.e. the set of participants and the bus for
+messages) and sends an event to append the conversation to each participant.
+Each client is streaming such events (c.f. ##Client.dispatch_event##) and
+creates the respective UI-element for the conversation with event handlers for
+sending and receiving messages in the conversation.
+
+=== Sending a message in a conversationg ===
+Sending messages within an conversation is achieved without any server-side
+code; the messages are sent "directly" to all all participants of the
+conversation //through its Eliom-bus//. Two things make this work.
+
+Firstly, an event listener on the message prompt of the conversation
+(c.f. ##Client.handle_enter_pressed##) awaits that the enter-key is hit in
+the message prompt of a conversation. It then creates a message and sends it
+to the conversation's event bus.
+
+Secondly, every participant of a conversation is streaming the messages which
+are sent over the conversation bus.
+A stream iterator on that bus then displays those messages as they arrive
+(c.f. ##Client.dispatch_message##).
+
+Have fun. [[site:chat|Be communicative!]]
+

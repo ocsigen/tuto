@@ -1,0 +1,33 @@
+=How to make the client side program get an HTML element from the server and insert it in the page?=
+
+A very convenient way to do that is to use server functions :
+
+<<code language="ocaml"|
+let get_mydiv () = div [ ... ]
+
+let%client get_mydiv_rpc =
+  ~%(server_function [%derive.json: unit] get_mydiv)
+...
+
+[%client
+  ...
+  let%lwt mydiv = get_mydiv_rpc () in
+  Dom.appendChild parent (To_dom.of_element mydiv)
+  ...
+]
+>>
+
+Server functions take exactly one parameter.
+
+Server functions are just syntactic sugar for non-attached coservices
+returning OCaml values.
+
+The type of the function parameter must have been declared with the
+JSON module of {{{ppx_deriving}}} (which needs to be manually
+installed). This enables server-side data validation.
+
+example:
+
+<<code language="ocaml"|
+type t = int * string [@@deriving json]
+>>

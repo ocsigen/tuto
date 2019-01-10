@@ -1,13 +1,21 @@
 language: c
 
-install: true
-script: ./.howdocgen
+env: HOW_DOC=tutos HOW_CONFIG=how.json HOW_OUT=_doc 
+
+install: 
+    - wget https://ocsigen.org/how.sh
+    - . how.sh
+    - how-install
+
+script:
+    - how-generate
+    - how-redirect "$HOW_LATEST/manual/intro" $HOW_OUT/index.html
 
 deploy:
   provider: pages
   keep-history: true
   skip-cleanup: true
   github-token: $GHP_TOKEN
-  local-dir: _tutos
+  local-dir: _doc
   on:
     branch: master

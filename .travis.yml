@@ -10,6 +10,7 @@ install:
 script:
     - how-generate
     - how-redirect "$HOW_LATEST/manual/intro" $HOW_OUT/index.html
+    - mkdir -p $HOW_OUT/latest/manual && how-redirect-manual latest 2.6
 
 deploy:
   provider: pages

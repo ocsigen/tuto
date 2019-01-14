@@ -5,13 +5,11 @@
 Just install opam and do: {{{opam install eliom}}}.
 * [[site:install|Install with opam]]
 
-Some non OCaml dependencies are required: for example dbm, sqlite3, openssl ...
+=== Non-OCaml dependencies
 
-=== From your distribution package
+You may need to install some external (i.e. non-OCaml) dependencies first. You can use [[https://opam.ocaml.org/packages/opam-depext/|ocaml-depext]] to install those packages on your operating system:
 
-Ocsigen is packaged on several linux distributions:
-* [[site:install|Download from packages]]
-
-=== Each projects apart
-
-* [[site:install|Download each projects apart]]
+<<code language="sh"|
+$ opam install ocaml-depext
+$ opam depext ocsigen-start
+>>

@@ -1,0 +1,14 @@
+=How to attach OCaml values to DOM elements?=
+
+It is often convenient to attach OCaml values to certain elements of
+the page. There are several ways to achieve this.
+
+* The first possibility is to use DATA attributes (for example if the
+  page is generated on server side).
+* Alternatively, you can add a new property to the element using the
+  {{{##.}}} syntax.
+  ** You can create a new class type with the new property
+     (that can be either an OCaml value or a JS value), possibly
+     inheriting from the type of the DOM element, and create an
+     (unsafe) coercion function for this type; or simply
+  ** Create getter and setter functions to add the new property.

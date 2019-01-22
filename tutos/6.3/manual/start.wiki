@@ -47,7 +47,7 @@ browser or as a mobile app for Android, iOS, or Windows.
 Install the dependencies ({{{postgresql}}} and one of {{{sass}}}, {{{sassc}}}).
 On Debian-based systems:
 {{{
-apt-get install postgresql ruby-sass
+apt install postgresql ruby-sass
 }}}
 
 Install Ocsigen Start and all its OCaml dependencies using OPAM:

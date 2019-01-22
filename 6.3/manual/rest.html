@@ -1,0 +1,451 @@
+<html><head><title>RESTful JSON API using Eliom</title><meta charset="utf8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><link rel="stylesheet" href="https://ocsigen.org/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script type="text/javascript" src="https://ocsigen.org/js/client.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js">
+//<![CDATA[
+
+//]]>
+</script></head><body><div class="project-page"><div class="page-header"><p class="logo-ocsigen"><a href=".././../../" class="ocsimore_phrasing_link"><img src=".././../../img/ocsigen-white.svg" alt="Ocsigen"/></a>
+</p><div class="mainmenu"><p class="mainmenu-home"><a href=".././../../" class="ocsimore_phrasing_link">Home</a></p><p class="mainmenu-current mainmenu-doc"><a href=".././../../tuto/" class="ocsimore_phrasing_link">Doc</a></p><p><a href=".././../../eliom/" class="ocsimore_phrasing_link">Eliom</a></p><p><a href=".././../../js_of_ocaml/" class="ocsimore_phrasing_link">Js_of_ocaml</a></p><p><a href=".././../../lwt/" class="ocsimore_phrasing_link">Lwt</a></p><p><a href=".././../../tyxml/" class="ocsimore_phrasing_link">Tyxml</a></p><p><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a></p></div><form id="googlesearch" action="https://google.com/search"><input name="q" id="gsearch-box" placeholder="Search using Google"/><label for="gsearch-box"><img src="/img/search.svg" alt="" id="gsearch-icon"/></label><input type="submit" id="gsearch-submit" onclick="document.getElementById('gsearch-box').value += ' site:ocsigen.org';"/></form><aside class="how-drawer"><input id="how-drawer-toggle" type="checkbox"/><label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label><nav class="how-drawer-content"><ul class="drawermainmenu"><li class="drawermainmenu-home"><a href=".././../../" class="ocsimore_phrasing_link">Home</a>
+</li><li class="drawermainmenu-doc"><a href=".././../../tuto/" class="ocsimore_phrasing_link">Doc</a>
+</li><li class="drawermainmenu-project"><a href=".././../../eliom/" class="ocsimore_phrasing_link">Eliom</a>
+</li><li class="drawermainmenu-project"><a href=".././../../js_of_ocaml/" class="ocsimore_phrasing_link">Js_of_ocaml</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigenserver/" class="ocsimore_phrasing_link">Server</a>
+</li><li class="drawermainmenu-project"><a href=".././../../lwt/" class="ocsimore_phrasing_link">Lwt</a>
+</li><li class="drawermainmenu-project"><a href=".././../../tyxml/" class="ocsimore_phrasing_link">Tyxml</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
+</li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
+</li><li class="drawermainmenu-project"><a href=".././../../deriving/" class="ocsimore_phrasing_link">deriving</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
+</li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
+</li><li class="drawermainmenu-page"><a href=".././../../papers" class="ocsimore_phrasing_link">Research papers</a>
+</li><li class="drawermainmenu-page"><a href=".././../../credits" class="ocsimore_phrasing_link">Who does Ocsigen?</a>
+</li><li class="drawermainmenu-page"><a href=".././../../contributing" class="ocsimore_phrasing_link">Contributing</a>
+</li><li class="drawermainmenu-page"><a href=".././../../blog" class="ocsimore_phrasing_link">Blog</a>
+</li><li class="drawermainmenu-page"><a href=".././../../install" class="ocsimore_phrasing_link">Installation</a>
+</li><li class="drawermainmenu-page"><a href="https://github.com/ocsigen" class="ocsimore_phrasing_link">Source code</a>
+</li></ul><nav class="how-doctree"><h1> Main tutorial</h1><h2><a href="intro" class="ocsimore_phrasing_link">Introduction. Ocsigen: where to start?</a></h2><h2><a href="start" class="ocsimore_phrasing_link">Your first app in 5 minutes</a></h2><h2><a href="basicwebsite" class="ocsimore_phrasing_link">A basic Web site in OCaml</a></h2><h2><a href="tutowidgets" class="ocsimore_phrasing_link">Eliom apps basics: writing client-server widgets</a></h2><h2><a href="application" class="ocsimore_phrasing_link">Client/server application: Graffiti</a></h2><h2><a href="how-to-register-session-data" class="ocsimore_phrasing_link">Session data: Eliom references</a></h2><h2><a href="interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="tutoreact" class="ocsimore_phrasing_link">Reactive client-server Web applications</a></h2><h2><a href="misc" class="ocsimore_phrasing_link">Mixing traditional Web interaction with client-server app</a></h2><h1> 5-minute tutorials</h1><h2><a href="lwt" class="ocsimore_phrasing_link">Lwt</a></h2><h2><a href="html" class="ocsimore_phrasing_link">HTML</a></h2><h1> Other tutorials: Miscellanous features</h1><h2><a href="mobile" class="ocsimore_phrasing_link">Mobile applications with Ocsigen</a></h2><h2><a href="custom-conf" class="ocsimore_phrasing_link">Custom configuration</a></h2><h2><a href="rest" class="ocsimore_phrasing_link">RESTful JSON API</a></h2><h2><a href="ocsipersist" class="ocsimore_phrasing_link">Persistent tables with Ocsipersist</a></h2><h2><a href="hash-password" class="ocsimore_phrasing_link">Protecting passwords</a></h2><h2><a href="macaque" class="ocsimore_phrasing_link">MaCaQue: SQL queries - Users</a></h2><h1> Improving Graffiti</h1><h2><a href="pictures" class="ocsimore_phrasing_link">Download pictures</a></h2><h2><a href="music" class="ocsimore_phrasing_link">Playing music</a></h2><h2><a href="reactivemediaplayer" class="ocsimore_phrasing_link">Reactive media player</a></h2><h1 class="howto"> HOW-TO</h1><h2> My first steps with Ocsigen</h2><h3><a href="how-to-install-ocsigen" class="ocsimore_phrasing_link">How to install Ocsigen</a></h3><h3><a href="how-to-make-hello-world-in-ocsigen" class="ocsimore_phrasing_link">How to make &quot;hello world&quot; in Ocsigen</a></h3><h3><a href="how-to-compile-my-ocsigen-pages" class="ocsimore_phrasing_link">How to compile my Ocsigen pages</a></h3><h3><a href="how-to-configure-and-launch-the-ocsigen-server" class="ocsimore_phrasing_link">How to configure and launch the Ocsigen Server</a></h3><h3><a href="how-does-a-page-s-source-code-look" class="ocsimore_phrasing_link">How does a client-server app source code look like?</a></h3><h2> How to put some elements in my page ?</h2><h3><a href="how-to-make-page-a-skeleton" class="ocsimore_phrasing_link">How to make a page skeleton</a></h3><h3><a href="how-to-use-get-parameters-or-parameters-in-the-url" class="ocsimore_phrasing_link">How to use GET parameters (parameters in the URL)</a></h3><h3><a href="how-to-add-css-stylesheet" class="ocsimore_phrasing_link">How to add CSS stylesheet</a></h3><h3><a href="how-to-add-a-javascript-script" class="ocsimore_phrasing_link">How to add a Javascript script</a></h3><h3><a href="how-to-add-a-div" class="ocsimore_phrasing_link">How to add a div</a></h3><h3><a href="how-to-add-a-list" class="ocsimore_phrasing_link">How to add lists in pages?</a></h3><h3><a href="how-to-add-an-image" class="ocsimore_phrasing_link">How to add an image</a></h3><h3><a href="how-to-write-titles-and-paragraphs" class="ocsimore_phrasing_link">How to write titles and paragraphs</a></h3><h3><a href="how-to-set-and-id-classes-or-other-attributes-to-html-elements" class="ocsimore_phrasing_link">How to set and id, classes or other attributes to HTML elements</a></h3><h3><a href="how-to-add-a-select-or-other-form-element" class="ocsimore_phrasing_link">How to add select (or other form element)</a></h3><h3><a href="how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service" class="ocsimore_phrasing_link">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></h3><h3><a href="how-to-make-responsive-css" class="ocsimore_phrasing_link">How to make responsive CSS</a></h3><h2> Services</h2><h3><a href="how-to-do-links-to-other-pages" class="ocsimore_phrasing_link">How to do links to other pages</a></h3><h3><a href="how-to-write-forms" class="ocsimore_phrasing_link">How to write forms</a></h3><h3><a href="how-to-register-a-service-that-decides-itself-what-to-send" class="ocsimore_phrasing_link">How to register a service that decides itself what to send</a></h3><h3><a href="how-to-create-link-to-a-current-page-without-knowing-its-url" class="ocsimore_phrasing_link">How to create link to a current page (without knowing its URL)</a></h3><h3><a href="how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones" class="ocsimore_phrasing_link">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></h3><h3><a href="how-to-write-a-json-service" class="ocsimore_phrasing_link">How to write a JSON service</a></h3><h3><a href="how-to-send-file-download" class="ocsimore_phrasing_link">How to send a file (download)</a></h3><h3><a href="how-to-send-file-upload" class="ocsimore_phrasing_link">How to send a file (upload)</a></h3><h2> Js_of_ocaml</h2><h3><a href="how-to-attach-ocaml-values-to-dom-elements" class="ocsimore_phrasing_link">How to attach OCaml values to DOM elements</a></h3><h3><a href="how-to-know-whether-the-browser-window-has-the-focus-or-not" class="ocsimore_phrasing_link">How to know whether the browser window has the focus or not</a></h3><h3><a href="how-to-build-js-object" class="ocsimore_phrasing_link">How to build js object</a></h3><h3><a href="how-to-stop-default-behaviour-of-events" class="ocsimore_phrasing_link">How to stop default behaviour of events</a></h3><h3><a href="how-to-call-an-ocaml-function-from-js-code" class="ocsimore_phrasing_link">How to call an OCaml function from js code</a></h3><h2> Eliom client-server applications</h2><h3><a href="how-to-call-a-server-side-function-from-client-side" class="ocsimore_phrasing_link">How to call a server-side function from the client side</a></h3><h3><a href="how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page" class="ocsimore_phrasing_link">How to make the client side program get an HTML element from the server and insert it in the page</a></h3><h3><a href="how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client" class="ocsimore_phrasing_link">How to attach OCaml values to the HTML nodes sent to the client</a></h3><h3><a href="how-to-iterate-on-all-sessions-for-one-user-or-all-tabs" class="ocsimore_phrasing_link">How to iterate on all sessions for one user, or all tabs</a></h3><h3><a href="how-to-implement-a-notification-system" class="ocsimore_phrasing_link">How to implement a notification system</a></h3><h3><a href="how-to-send-a-file-to-server-without-stopping-the-client-process" class="ocsimore_phrasing_link">How to send a file to server without stopping the client process</a></h3><h3><a href="how-to-detect-channel-disconnection" class="ocsimore_phrasing_link">How to detect channel disconnection</a></h3><h3><a href="how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed" class="ocsimore_phrasing_link">How to detect on client side that the server side state for the process is closed</a></h3><h2> Database</h2><h3><a href="how-to-use-a-database-with-eliom" class="ocsimore_phrasing_link">How to use a database with Eliom</a></h3><h2> Eliom Server side</h2><h3><a href="how-do-i-create-a-cryptographically-safe-identifier" class="ocsimore_phrasing_link">How do I create a Cryptographically safe identifier</a></h3></nav></nav></aside></div><p class="reasonwarning">Warning: Reason support is experimental.
+We are looking for beta-tester and contributors.
+</p><button id="reason">Switch to </button><div class="twocols"><nav class="leftcol">Version <select class="how-versions" onchange="location = this.value;"><option value=".././../2.0/manual/rest">2.0</option><option value=".././../2.2/manual/rest">2.2</option><option value=".././../3.0/manual/rest">3.0</option><option value=".././../4.0/manual/rest">4.0</option><option value=".././../4.1/manual/rest">4.1</option><option value=".././../4.2/manual/rest">4.2</option><option value=".././../5.0/manual/rest">5.0</option><option value=".././../6.0/manual/rest">6.0</option><option value=".././../6.1/manual/rest">6.1</option><option value=".././../6.2/manual/rest">6.2</option><option value=".././../6.3/manual/rest" selected="selected">6.3</option><option value=".././../dev/manual/rest">dev</option></select><nav class="how-doctree"><h1> Main tutorial</h1><h2><a href="intro" class="ocsimore_phrasing_link">Introduction. Ocsigen: where to start?</a></h2><h2><a href="start" class="ocsimore_phrasing_link">Your first app in 5 minutes</a></h2><h2><a href="basicwebsite" class="ocsimore_phrasing_link">A basic Web site in OCaml</a></h2><h2><a href="tutowidgets" class="ocsimore_phrasing_link">Eliom apps basics: writing client-server widgets</a></h2><h2><a href="application" class="ocsimore_phrasing_link">Client/server application: Graffiti</a></h2><h2><a href="how-to-register-session-data" class="ocsimore_phrasing_link">Session data: Eliom references</a></h2><h2><a href="interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="tutoreact" class="ocsimore_phrasing_link">Reactive client-server Web applications</a></h2><h2><a href="misc" class="ocsimore_phrasing_link">Mixing traditional Web interaction with client-server app</a></h2><h1> 5-minute tutorials</h1><h2><a href="lwt" class="ocsimore_phrasing_link">Lwt</a></h2><h2><a href="html" class="ocsimore_phrasing_link">HTML</a></h2><h1> Other tutorials: Miscellanous features</h1><h2><a href="mobile" class="ocsimore_phrasing_link">Mobile applications with Ocsigen</a></h2><h2><a href="custom-conf" class="ocsimore_phrasing_link">Custom configuration</a></h2><h2><a href="rest" class="ocsimore_phrasing_link">RESTful JSON API</a></h2><h2><a href="ocsipersist" class="ocsimore_phrasing_link">Persistent tables with Ocsipersist</a></h2><h2><a href="hash-password" class="ocsimore_phrasing_link">Protecting passwords</a></h2><h2><a href="macaque" class="ocsimore_phrasing_link">MaCaQue: SQL queries - Users</a></h2><h1> Improving Graffiti</h1><h2><a href="pictures" class="ocsimore_phrasing_link">Download pictures</a></h2><h2><a href="music" class="ocsimore_phrasing_link">Playing music</a></h2><h2><a href="reactivemediaplayer" class="ocsimore_phrasing_link">Reactive media player</a></h2><h1 class="howto"> HOW-TO</h1><h2> My first steps with Ocsigen</h2><h3><a href="how-to-install-ocsigen" class="ocsimore_phrasing_link">How to install Ocsigen</a></h3><h3><a href="how-to-make-hello-world-in-ocsigen" class="ocsimore_phrasing_link">How to make &quot;hello world&quot; in Ocsigen</a></h3><h3><a href="how-to-compile-my-ocsigen-pages" class="ocsimore_phrasing_link">How to compile my Ocsigen pages</a></h3><h3><a href="how-to-configure-and-launch-the-ocsigen-server" class="ocsimore_phrasing_link">How to configure and launch the Ocsigen Server</a></h3><h3><a href="how-does-a-page-s-source-code-look" class="ocsimore_phrasing_link">How does a client-server app source code look like?</a></h3><h2> How to put some elements in my page ?</h2><h3><a href="how-to-make-page-a-skeleton" class="ocsimore_phrasing_link">How to make a page skeleton</a></h3><h3><a href="how-to-use-get-parameters-or-parameters-in-the-url" class="ocsimore_phrasing_link">How to use GET parameters (parameters in the URL)</a></h3><h3><a href="how-to-add-css-stylesheet" class="ocsimore_phrasing_link">How to add CSS stylesheet</a></h3><h3><a href="how-to-add-a-javascript-script" class="ocsimore_phrasing_link">How to add a Javascript script</a></h3><h3><a href="how-to-add-a-div" class="ocsimore_phrasing_link">How to add a div</a></h3><h3><a href="how-to-add-a-list" class="ocsimore_phrasing_link">How to add lists in pages?</a></h3><h3><a href="how-to-add-an-image" class="ocsimore_phrasing_link">How to add an image</a></h3><h3><a href="how-to-write-titles-and-paragraphs" class="ocsimore_phrasing_link">How to write titles and paragraphs</a></h3><h3><a href="how-to-set-and-id-classes-or-other-attributes-to-html-elements" class="ocsimore_phrasing_link">How to set and id, classes or other attributes to HTML elements</a></h3><h3><a href="how-to-add-a-select-or-other-form-element" class="ocsimore_phrasing_link">How to add select (or other form element)</a></h3><h3><a href="how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service" class="ocsimore_phrasing_link">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></h3><h3><a href="how-to-make-responsive-css" class="ocsimore_phrasing_link">How to make responsive CSS</a></h3><h2> Services</h2><h3><a href="how-to-do-links-to-other-pages" class="ocsimore_phrasing_link">How to do links to other pages</a></h3><h3><a href="how-to-write-forms" class="ocsimore_phrasing_link">How to write forms</a></h3><h3><a href="how-to-register-a-service-that-decides-itself-what-to-send" class="ocsimore_phrasing_link">How to register a service that decides itself what to send</a></h3><h3><a href="how-to-create-link-to-a-current-page-without-knowing-its-url" class="ocsimore_phrasing_link">How to create link to a current page (without knowing its URL)</a></h3><h3><a href="how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones" class="ocsimore_phrasing_link">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></h3><h3><a href="how-to-write-a-json-service" class="ocsimore_phrasing_link">How to write a JSON service</a></h3><h3><a href="how-to-send-file-download" class="ocsimore_phrasing_link">How to send a file (download)</a></h3><h3><a href="how-to-send-file-upload" class="ocsimore_phrasing_link">How to send a file (upload)</a></h3><h2> Js_of_ocaml</h2><h3><a href="how-to-attach-ocaml-values-to-dom-elements" class="ocsimore_phrasing_link">How to attach OCaml values to DOM elements</a></h3><h3><a href="how-to-know-whether-the-browser-window-has-the-focus-or-not" class="ocsimore_phrasing_link">How to know whether the browser window has the focus or not</a></h3><h3><a href="how-to-build-js-object" class="ocsimore_phrasing_link">How to build js object</a></h3><h3><a href="how-to-stop-default-behaviour-of-events" class="ocsimore_phrasing_link">How to stop default behaviour of events</a></h3><h3><a href="how-to-call-an-ocaml-function-from-js-code" class="ocsimore_phrasing_link">How to call an OCaml function from js code</a></h3><h2> Eliom client-server applications</h2><h3><a href="how-to-call-a-server-side-function-from-client-side" class="ocsimore_phrasing_link">How to call a server-side function from the client side</a></h3><h3><a href="how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page" class="ocsimore_phrasing_link">How to make the client side program get an HTML element from the server and insert it in the page</a></h3><h3><a href="how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client" class="ocsimore_phrasing_link">How to attach OCaml values to the HTML nodes sent to the client</a></h3><h3><a href="how-to-iterate-on-all-sessions-for-one-user-or-all-tabs" class="ocsimore_phrasing_link">How to iterate on all sessions for one user, or all tabs</a></h3><h3><a href="how-to-implement-a-notification-system" class="ocsimore_phrasing_link">How to implement a notification system</a></h3><h3><a href="how-to-send-a-file-to-server-without-stopping-the-client-process" class="ocsimore_phrasing_link">How to send a file to server without stopping the client process</a></h3><h3><a href="how-to-detect-channel-disconnection" class="ocsimore_phrasing_link">How to detect channel disconnection</a></h3><h3><a href="how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed" class="ocsimore_phrasing_link">How to detect on client side that the server side state for the process is closed</a></h3><h2> Database</h2><h3><a href="how-to-use-a-database-with-eliom" class="ocsimore_phrasing_link">How to use a database with Eliom</a></h3><h2> Eliom Server side</h2><h3><a href="how-do-i-create-a-cryptographically-safe-identifier" class="ocsimore_phrasing_link">How do I create a Cryptographically safe identifier</a></h3></nav></nav><article class="rightcol"><h1>RESTful JSON API using Eliom</h1><aside class="concepts"><header><h5>Concepts</h5></header><p>RESTful API<br/>PUT and DELETE services</p></aside><p>This tutorial will show you how to create a simple, yet complete, REST API
+using JSON as the serialization format.
+</p><p>To illustrate our example, let's say we want to give access to a database of
+locations storing a description and coordinates (latitude and longitude).
+</p><p>To be RESTful, our interface will comply with the following principles:
+</p><ul><li> URLs and GET params identify resources
+</li><li> HTTP methods are used to define actions to perform (GET, POST, PUT, DELETE)
+</li><li> GET action is safe (no side-effect)
+</li><li> PUT and DELETE actions are idempotent
+</li><li> Requests are stateless
+</li></ul><p>With this in mind, our goal will be to implement CRUD (Create, Read, Update,
+Delete) functions to handle our resources. We want the following requests to be
+valid:
+</p><p><span class="teletype">GET http://localhost/</span> will return all available locations.
+</p><p><span class="teletype">GET http://localhost/ID</span> will return location associated to <span class="teletype">ID</span>.
+</p><p><span class="teletype">POST http://localhost/ID</span> with content:
+</p><pre class="manually-translated"><code class="language-json">{
+  &quot;description&quot;: &quot;Paris&quot;,
+  &quot;coordinates&quot;: {
+    &quot;latitude&quot;: 48.8567,
+    &quot;longitude&quot;: 2.3508
+  }
+}</code></pre><p>will store this location in the database.
+</p><p><span class="teletype">PUT http://localhost/ID</span>, with some content, will update the location
+associated to <span class="teletype">ID</span>.
+</p><p><span class="teletype">DELETE http://localhost/ID</span> will delete the location associated to
+<span class="teletype">ID</span>.
+</p><h2 id="requirements"> Requirements <a class="backref" href="#requirements">&#182;</a></h2><ul><li> eliom &gt;= 4.0
+</li><li> yojson
+</li><li> ppx_deriving
+</li><li> ppx_deriving_yojson
+</li></ul><p>You need some knowledge about Eliom to be able to fully understand this
+tutorial. It's not meant to be an Eliom introduction.
+</p><p>The following browser extensions are useful to manually test your REST APIs:
+</p><ul><li> <a href="https://addons.mozilla.org/en-US/firefox/addon/restclient/" class="ocsimore_phrasing_link">RESTClient</a> for
+Firefox
+</li><li>
+<a href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm" class="ocsimore_phrasing_link">Postman</a>
+for Chrome
+</li></ul><h2 id="types"> Data types <a class="backref" href="#types">&#182;</a></h2><p>We start by defining our database types, that is to say the way we will
+represent our locations and associated information. Each location will be
+associated to a unique and arbitrary identifier, and will hold the following
+information: a description and coordinates (made of a latitude and a
+longitude).
+</p><p>We represent coordinates with decimal degrees, and use the
+<span class="teletype">ppx_deriving_yojson</span> library to parse and generate JSON serialization of our
+types.
+</p><p>We use a dedicated <span class="teletype">error</span> type returned when something is wrong with the
+request itself or with the processing of the request.
+</p><p>As for the database, we use a simple <span class="teletype">Ocsipersist</span> table.
+</p><pre class=""><code class="language-ocaml translatable">type coordinates = {
+  latitude : float;
+  longitude : float;
+} [@@deriving yojson]
+
+type location = {
+  description : string option;
+  coordinates : coordinates;
+} [@@deriving yojson]
+
+(* List of pairs (identifier * location) *)
+type locations =
+  (string * location) list
+  [@@deriving yojson]
+
+type error = {
+  error_message : string;
+} [@@deriving yojson]
+
+let db : location Ocsipersist.table Lwt.t =
+  Ocsipersist.open_table &quot;locations&quot;</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Syntax extensions</h5></header><p>In order to successfully build this tutorial's source code, your
+<span class="teletype">Makefile.options</span> must contain the following settings:
+</p><pre class="manually-translated"><code class="language-makefile"># OCamlfind packages for the server
+SERVER_PACKAGES := ppx_deriving_yojson lwt.ppx js_of_ocaml.deriving.ppx
+# OCamlfind packages for the client
+CLIENT_PACKAGES := ppx_deriving_yojson lwt.ppx js_of_ocaml.ppx js_of_ocaml.deriving.ppx</code></pre><p>This is due to the fact, that in the code snippet above we use a syntax extension
+provided by the <span class="teletype">ppx_deriving_yojson</span> package.<em></em></p></aside><h2 id="services"> Services definition <a class="backref" href="#services">&#182;</a></h2><p>First, let's define common service parameters:
+</p><ul><li> The <span class="teletype">path</span> of the API: it's the same for all services.
+</li></ul><ul><li> The GET parameter, which is an optional identifier given as a URL suffix. We
+set it as optional so we can distinguish GET requests for all resources or a
+single one, and return a detailed error if the identifier is missing in POST,
+PUT and DELETE requests. An alternative would be to use two services at the same
+path (one with id and the other without).
+</li></ul><pre class=""><code class="language-ocaml translatable">let path = Eliom_service.Path [&quot;&quot;]
+
+let get_params =
+  Eliom_parameter.(suffix (neopt (string &quot;id&quot;)))</code></pre><p>Next step is to define our API services. We define four of them with the same
+path, using the four HTTP methods at our disposal:
+</p><ul><li> GET method will be used to access the database, either all of it if no
+identifier is provided, or a single resource otherwise. An error will be
+returned if no resource matches the identifier.
+</li></ul><ul><li> POST method will be used to create a new resource (or update it if it already
+exists). We set a single POST parameter: <span class="teletype">Eliom_parameter.raw_post_data</span>,
+in order to retrieve raw JSON and bypass POST parameters decoding.
+</li></ul><ul><li> PUT method will be used to update an existing resource. An error will be
+returned if no resource matches the identifier. We don't need to define POST
+parameter, PUT services takes <span class="teletype">Eliom_parameter.raw_post_data</span> as default
+content.
+</li></ul><ul><li> DELETE method will be used to delete an existing resource. An error will be
+returned if no resource matches the identifier.
+</li></ul><pre class=""><code class="language-ocaml translatable">let read_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Get get_params)
+    ()
+
+let create_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Post (get_params, Eliom_parameter.raw_post_data))
+    ()
+
+let update_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Put get_params) 
+    ()
+
+let delete_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Delete get_params) 
+    ()</code></pre><h2 id="handlers"> Handlers <a class="backref" href="#handlers">&#182;</a></h2><p>Let's start the handlers definition with a few helper values and functions
+used by handlers.
+</p><p>Since we use the low-level <span class="teletype">Eliom_registration.String.send</span> function to
+send our response, we wrap it in three specialized functions: <span class="teletype">send_json</span>,
+<span class="teletype">send_error</span> and <span class="teletype">send_success</span> (this one only send the 200 OK status
+code, without any content).
+</p><p>Another function helps us to check the received <span class="teletype">Content-type</span> is the
+expected one, by matching it against a MIME type. In our example, we'll verify
+that we are receiving JSON.
+</p><p>The <span class="teletype">read_raw_content</span> function retrieve at most <span class="teletype">length</span> characters
+from the <span class="teletype">raw_content</span> Ocsigen stream.
+</p><pre class=""><code class="language-ocaml translatable">let json_mime_type = &quot;application/json&quot;
+
+let send_json ~code json =
+  Eliom_registration.String.send ~code (json, json_mime_type)
+
+let send_error ~code error_message =
+  let json = Yojson.Safe.to_string (error_to_yojson {error_message}) in
+  send_json ~code json
+
+let send_success () =
+  Eliom_registration.String.send ~code:200 (&quot;&quot;, &quot;&quot;)
+
+let check_content_type ~mime_type content_type =
+  match content_type with
+  | Some ((type_, subtype), _)
+      when (type_ ^ &quot;/&quot; ^ subtype) = mime_type -&gt; true
+  | _ -&gt; false
+
+let read_raw_content ?(length = 4096) raw_content =
+  let content_stream = Ocsigen_stream.get raw_content in
+  Ocsigen_stream.string_of_stream length content_stream</code></pre><p>Then we define our handlers in order to perform the required actions and
+return a response.
+</p><p>POST and PUT handlers will read raw body content as JSON and use <span class="teletype">Yojson</span>
+to convert it to our types.
+</p><p>We use HTTP status codes in responses, with these meaning:
+</p><ul><li> 200 (OK): the request succeeded.
+</li><li> 400 (Bad request): something is wrong with the request (missing parameter,
+parsing error...).
+</li><li> 404 (Not found): no resource matches the provided identifier.
+</li></ul><p>The GET handler either returns a single location if an identifier is provided,
+or a list of all existing locations otherwise.
+</p><pre class=""><code class="language-ocaml translatable">let read_handler id_opt () =
+  let%lwt db = db in
+  match id_opt with
+  | None -&gt;
+    Ocsipersist.fold_step
+      (fun id loc acc -&gt; Lwt.return ((id, loc) :: acc)) db []  
+    &gt;&gt;= fun locations -&gt;
+    let json = Yojson.Safe.to_string (locations_to_yojson locations) in
+    send_json ~code:200 json
+  | Some id -&gt;
+    catch
+      (fun () -&gt;
+         Ocsipersist.find db  id &gt;&gt;= fun location -&gt;
+         let json =
+           Yojson.Safe.to_string (location_to_yojson location) in
+         send_json ~code:200 json)
+      (function
+        | Not_found -&gt;
+          (* [id] hasn't been found, return a &quot;Not found&quot; message *)
+          send_error ~code:404 (&quot;Resource not found: &quot; ^ id)
+        | _ -&gt;  send_error ~code:500 &quot;Internal server error&quot; )</code></pre><p>Next, let's create a common function for POST and PUT handlers, which have a
+very similar behaviour. The only difference is that a PUT request with a
+non-existing identifier will fail (thus only accepting update requests, and
+rejecting creations), whereas the same request with POST method will succeed (a
+new location associated to the identifier will be created).
+</p><pre class=""><code class="language-ocaml translatable">let edit_handler_aux ?(create = false) id_opt (content_type, raw_content_opt) =
+  let%lwt db = db in
+  if not (check_content_type ~mime_type:json_mime_type content_type) then
+    send_error ~code:400 &quot;Content-type is wrong, it must be JSON&quot;
+  else
+    match id_opt, raw_content_opt with
+    | None, _ -&gt;
+      send_error ~code:400 &quot;Location identifier is missing&quot;
+    | _, None -&gt;
+      send_error ~code:400 &quot;Body content is missing&quot;
+    | Some id, Some raw_content -&gt;
+      read_raw_content raw_content &gt;&gt;= fun location_str -&gt;
+      catch (fun () -&gt;
+          (if create then
+            Lwt.return_unit
+           else
+            Ocsipersist.find db id &gt;&gt;= fun _ -&gt; Lwt.return_unit)
+          &gt;&gt;= fun () -&gt;
+          let location =
+            (let open Result in
+            let loc_result = location_of_yojson (Yojson.Safe.from_string location_str) in
+            match loc_result with
+              Ok loc-&gt; loc
+            | Error _ -&gt; raise Deriving_Yojson.Failed )  in
+          Ocsipersist.add db  id location &gt;&gt;= fun () -&gt;
+          send_success ())
+      (function
+        | Not_found -&gt;
+          send_error ~code:404 (&quot;Location not found: &quot; ^ id)
+        | Deriving_Yojson.Failed -&gt;
+          send_error ~code:400 &quot;Provided JSON is not valid&quot;
+        | _ -&gt; send_error ~code:500 &quot;Internal server error&quot;)
+
+let create_handler id_opt content =
+  edit_handler_aux ~create:true id_opt content
+
+let update_handler id_opt content =
+  edit_handler_aux ~create:false id_opt content</code></pre><p>We need a fourth handler to delete locations:
+</p><pre class=""><code class="language-ocaml translatable">let%lwt db = db in
+  match id_opt with
+  | None -&gt;
+    send_error ~code:400 &quot;An id must be provided to delete a location&quot;
+  | Some id -&gt;
+    Ocsipersist.remove db id &gt;&gt;= fun () -&gt;
+    send_success ()</code></pre><h2 id="registration"> Services registration <a class="backref" href="#registration">&#182;</a></h2><p>Finally we register services with the <span class="teletype">Eliom_registration.Any</span> module in
+order to have full control on the sent response. This way, we'll be able to
+send an appropriate HTTP status code depending on what happens during the
+request processing (parsing error, resource not found...), as seen above when
+defining handlers.
+</p><pre class=""><code class="language-ocaml translatable">let () =
+  Eliom_registration.Any.register read_service read_handler;
+  Eliom_registration.Any.register create_service create_handler;
+  Eliom_registration.Any.register update_service update_handler;
+  Eliom_registration.Any.register delete_service delete_handler;
+  ()</code></pre><h2 id="source"> Full source <a class="backref" href="#source">&#182;</a></h2><pre class=""><code class="language-ocaml translatable">open Lwt
+
+(**** Data types ****)
+
+type coordinates = {
+  latitude : float;
+  longitude : float;
+} [@@deriving yojson]
+
+type location = {
+  description : string option;
+  coordinates : coordinates;
+} [@@deriving yojson]
+
+(* List of pairs (identifier * location) *)
+type locations =
+  (string * location) list
+   [@@deriving yojson]
+
+type error = {
+  error_message : string;
+} [@@deriving yojson]
+
+let db : location Ocsipersist.table Lwt.t =
+  Ocsipersist.open_table &quot;locations&quot;
+
+
+(**** Services ****)
+
+let path = Eliom_service.Path [&quot;&quot;]
+
+let get_params =
+  Eliom_parameter.(suffix (neopt (string &quot;id&quot;)))
+
+let read_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Get get_params)
+    ()
+
+let create_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Post (get_params, Eliom_parameter.raw_post_data))
+    ()
+
+let update_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Put get_params) 
+    ()
+
+let delete_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Delete get_params) 
+    ()
+
+(**** Handler helpers ****)
+
+let json_mime_type = &quot;application/json&quot;
+
+let send_json ~code json =
+  Eliom_registration.String.send ~code (json, json_mime_type)
+
+let send_error ~code error_message =
+  let json = Yojson.Safe.to_string (error_to_yojson {error_message}) in
+  send_json ~code json
+
+let send_success () =
+  Eliom_registration.String.send ~code:200 (&quot;&quot;, &quot;&quot;)
+
+let check_content_type ~mime_type content_type =
+  match content_type with
+  | Some ((type_, subtype), _)
+      when (type_ ^ &quot;/&quot; ^ subtype) = mime_type -&gt; true
+  | _ -&gt; false
+
+let read_raw_content ?(length = 4096) raw_content =
+  let content_stream = Ocsigen_stream.get raw_content in
+  Ocsigen_stream.string_of_stream length content_stream
+
+(**** Handlers ****)
+
+let read_handler id_opt () =
+  let%lwt db = db in
+  match id_opt with
+  | None -&gt;
+    Ocsipersist.fold_step
+      (fun id loc acc -&gt; Lwt.return ((id, loc) :: acc)) db []  
+    &gt;&gt;= fun locations -&gt;
+    let json = Yojson.Safe.to_string (locations_to_yojson locations) in
+    send_json ~code:200 json
+  | Some id -&gt;
+    catch
+      (fun () -&gt;
+         Ocsipersist.find db  id &gt;&gt;= fun location -&gt;
+         let json =
+           Yojson.Safe.to_string (location_to_yojson location) in
+         send_json ~code:200 json)
+      (function
+        | Not_found -&gt;
+          (* [id] hasn't been found, return a &quot;Not found&quot; message *)
+          send_error ~code:404 (&quot;Resource not found: &quot; ^ id)
+        | _ -&gt; assert false)
+
+let edit_handler_aux ?(create = false) id_opt (content_type, raw_content_opt) =
+  let%lwt db = db in
+  if not (check_content_type ~mime_type:json_mime_type content_type) then
+    send_error ~code:400 &quot;Content-type is wrong, it must be JSON&quot;
+  else
+    match id_opt, raw_content_opt with
+    | None, _ -&gt;
+      send_error ~code:400 &quot;Location identifier is missing&quot;
+    | _, None -&gt;
+      send_error ~code:400 &quot;Body content is missing&quot;
+    | Some id, Some raw_content -&gt;
+      read_raw_content raw_content &gt;&gt;= fun location_str -&gt;
+      catch (fun () -&gt;
+          (if create then
+            Lwt.return_unit
+           else
+            Ocsipersist.find db id &gt;&gt;= fun _ -&gt; Lwt.return_unit)
+          &gt;&gt;= fun () -&gt;
+          let location =
+            (let open Result in
+            let loc_result = location_of_yojson (Yojson.Safe.from_string location_str) in
+            (function
+              Ok loc-&gt; loc
+            | Error _ -&gt; raise Deriving_Yojson.Failed ) loc_result)  in
+          Ocsipersist.add db  id location &gt;&gt;= fun () -&gt;
+          send_success ())
+      (function
+        | Not_found -&gt;
+          send_error ~code:404 (&quot;Location not found: &quot; ^ id)
+        | Deriving_Yojson.Failed -&gt;
+          send_error ~code:400 &quot;Provided JSON is not valid&quot;
+        | _ -&gt; assert false)
+
+let create_handler id_opt content =
+  edit_handler_aux ~create:true id_opt content
+
+let update_handler id_opt content =
+  edit_handler_aux ~create:false id_opt content
+
+let delete_handler id_opt _ =
+  let%lwt db = db in
+  match id_opt with
+  | None -&gt;
+    send_error ~code:400 &quot;An id must be provided to delete a location&quot;
+  | Some id -&gt;
+    Ocsipersist.remove db id &gt;&gt;= fun () -&gt;
+    send_success ()
+
+(* Register services *)
+
+let () =
+  Eliom_registration.Any.register read_service read_handler;
+  Eliom_registration.Any.register create_service create_handler;
+  Eliom_registration.Any.register update_service update_handler;
+  Eliom_registration.Any.register delete_service delete_handler;
+  ()</code></pre></article></div></div></body></html>

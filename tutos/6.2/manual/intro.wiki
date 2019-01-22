@@ -212,7 +212,6 @@ applications, for example:
 * the Js_of_ocaml compiler (from Ocaml bytecode to JavaScript),
 * Ocsigen Server, a full-featured Web server.
 
-{{@@style="width:100%;"@@site:/resources/images/ocsigen-zoo.png|The Ocsigen Zoo}}
 
 ===Ocsigen Server===
 

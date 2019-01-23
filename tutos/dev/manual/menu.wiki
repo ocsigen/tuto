@@ -1,5 +1,6 @@
 = Main tutorial
 ==[[intro|Introduction. Ocsigen: where to start?]]
+==[[site:/install|Install Ocsigen]]
 ==[[start|Your first app in 5 minutes]]
 ==[[basicwebsite|A basic Web site in OCaml]]
 ==[[tutowidgets|Eliom apps basics: writing client-server widgets]]
@@ -24,7 +25,6 @@
 ==[[reactivemediaplayer|Reactive media player]]
 =@@class="howto"@@ HOW-TO
 == My first steps with Ocsigen
-===[[how-to-install-ocsigen|How to install Ocsigen]]
 ===[[how-to-make-hello-world-in-ocsigen|How to make "hello world" in Ocsigen]]
 ===[[how-to-compile-my-ocsigen-pages|How to compile my Ocsigen pages]]
 ===[[how-to-configure-and-launch-the-ocsigen-server|How to configure and launch the Ocsigen Server]]

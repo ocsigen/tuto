@@ -16,9 +16,8 @@ The best way to install OCaml (on MacOS, Linux ...) is to use the Opam
 package manager.
 The [[site:install|installation is described here]].
 
-We recommend to register to our
-[[https://sympa.inria.fr/sympa/subscribe/ocsigen|mailing list]]
-where you can ask your questions and get news from the project.
+We recommend to ask your questions on
+[[https://discuss.ocaml.org|discuss.ocaml.org]].
 You can also come and chat with us on
 IRC in channel {{{#ocsigen}}} on {{{freenode.net}}} (e.g. by using
 their [[http://webchat.freenode.net/?channels=ocsigen|webchat]])!

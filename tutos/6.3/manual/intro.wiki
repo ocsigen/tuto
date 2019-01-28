@@ -17,7 +17,7 @@ package manager.
 The [[site:install|installation is described here]].
 
 We recommend to ask your questions on
-[[https://discuss.ocaml.org|discuss.ocaml.org]].
+[[https://discuss.ocaml.org|discuss.ocaml.org]] with tag {{{ocsigen}}}.
 You can also come and chat with us on
 IRC in channel {{{#ocsigen}}} on {{{freenode.net}}} (e.g. by using
 their [[http://webchat.freenode.net/?channels=ocsigen|webchat]])!

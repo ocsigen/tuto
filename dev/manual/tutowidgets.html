@@ -65,7 +65,7 @@ title and a content. Clicking on the title opens or closes the
 content. Furthermore, it is possible to group some of the boxes
 together to make them behave like radio buttons: when you open one of
 them, the previously opened one is closed.
-</p><p class="screenshot"><img src=".././../../tuto/files/tutorial/tutowidgets/ex-final.png" alt="screenshot"/>
+</p><p class="screenshot"><img src="files/tutorial/tutowidgets/ex-final.png" alt="screenshot"/>
 </p><h2> First step: define an application with a basic service </h2><p>The following code defines a client-server Web application with only
 one service, registered at URL <span class="teletype">/</span> (the root of the website).
 </p><p>The code also defines a client-side application (section
@@ -114,10 +114,10 @@ let _ =
 you can compile by calling <span class="teletype">make</span>,
 and run the server by calling <span class="teletype">make test.byte</span>.
 Download the
-<a href=".././../../tuto/files/tutorial/tutowidgets/ex.css" class="ocsimore_phrasing_link">CSS file</a>
+<a href="files/tutorial/tutowidgets/ex.css" class="ocsimore_phrasing_link">CSS file</a>
 and place it in directory <span class="teletype">static/css</span>.
 Then open a browser window and go to URL <span class="teletype">http://localhost:8080</span>.
-</p><p class="screenshot"><img src=".././../../tuto/files/tutorial/tutowidgets/ex1.png" alt="screenshot"/>
+</p><p class="screenshot"><img src="files/tutorial/tutowidgets/ex1.png" alt="screenshot"/>
 </p><h3> More explanations</h3><p>This section gives very quick explanations on the rest of the program.
 For more detailed explanations, see the tutorial for the graffiti app
 or the manual of each of the projects.
@@ -217,7 +217,7 @@ let _ = Eliom_content.Html.D.(
 )</code></pre><h2> Fourth step: widget usable either on client or server sides </h2><p>If you make function <span class="teletype">mywidget</span> <em>shared</em>, it will be available
 both on server and client sides:
 </p><pre class=""><code class="language-ocaml translatable">let%shared mywidget s1 s2 =
-  ...</code></pre><p class="screenshot"><img src=".././../../tuto/files/tutorial/tutowidgets/ex2.png" alt="screenshot"/>
+  ...</code></pre><p class="screenshot"><img src="files/tutorial/tutowidgets/ex2.png" alt="screenshot"/>
 </p><h2> Fifth step: close last window when opening a new one </h2><p>To implement this, we record a client-side reference to a function for
 closing the currently opened window.
 </p><pre class=""><code class="language-ocaml translatable">module Ex_app =
@@ -328,7 +328,7 @@ let _ = Eliom_content.Html.D.(
              mywidget set1 &quot;Click me&quot; &quot;server side&quot;;
              mywidget set2 &quot;Click me&quot; &quot;server side&quot;
            ])))
-)</code></pre><p class="screenshot"><img src=".././../../tuto/files/tutorial/tutowidgets/ex-final.png" alt="screenshot"/>
+)</code></pre><p class="screenshot"><img src="files/tutorial/tutowidgets/ex-final.png" alt="screenshot"/>
 </p><h2> And now? </h2><h3>Calling server functions</h3><p>An important feature missing from this tutorial is the ability
 to call server functions from the client-side program (&quot;server functions&quot;).
 You can find a quick description of this

@@ -320,7 +320,7 @@ let () = My_app.register ~service:multigraffiti_service
       [h1 [pcdata name];
        choose_drawing_form ();
        canvas;
-       Html5.D.div [slider]])</code></pre><p>At this point, you can run your application on the server provided that you installed the css and images directories in the main directory of your application, build it using this <span><a href=".././files/tutorial/chapter3/multigraffiti/Makefile">{{{Makefile}}}</a></span> along with this <span><a href=".././files/tutorial/chapter3/multigraffiti/Makefile.common">{{{Makefile.common}}}</a></span> and configured it using <span><a href=".././files/tutorial/chapter3/multigraffiti/graffiti.conf.in">{{{graffiti.conf.in}}}</a></span> as groundwork of configuration file.
+       Html5.D.div [slider]])</code></pre><p>At this point, you can run your application on the server provided that you installed the css and images directories in the main directory of your application, build it using this <span><a href=".././manual/files/tutorial/chapter3/multigraffiti/Makefile">{{{Makefile}}}</a></span> along with this <span><a href=".././manual/files/tutorial/chapter3/multigraffiti/Makefile.common">{{{Makefile.common}}}</a></span> and configured it using <span><a href=".././manual/files/tutorial/chapter3/multigraffiti/graffiti.conf.in">{{{graffiti.conf.in}}}</a></span> as groundwork of configuration file.
 </p><h3>Mixing client/server application with traditional web interaction</h3><p>We now want to restrict the site to connected users.
 </p><p>From the previous chapter, we copy the code handling users to <span class="teletype">server.ml</span>:
 </p><pre class=""><code class="language-ocaml translatable">let connection_service =

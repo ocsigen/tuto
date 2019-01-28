@@ -49,7 +49,7 @@ the Ocsigen bundle.</em><br/>
 </p><p>In this chapter, we will write a <a href=".././../../graffiti/" class="ocsimore_phrasing_link">collaborative
 drawing application</a>.  It is a client/server Web application
 displaying an area where users can draw using the mouse, and see what
-other users are drawing. </p>The final code is available <span><a href=".././files/tutorial.tar.gz">for download</a></span>.<h2 id="basics"> Basics <a class="backref" href="#basics">&#182;</a></h2><h3>My first page</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Services<br/>Configuration file<br/>Static validation of HTML</p></aside><p>Our Web application consists of a single page for now. Let's start by
+other users are drawing. </p>The final code is available <span><a href=".././manual/files/tutorial.tar.gz">for download</a></span>.<h2 id="basics"> Basics <a class="backref" href="#basics">&#182;</a></h2><h3>My first page</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Services<br/>Configuration file<br/>Static validation of HTML</p></aside><p>Our Web application consists of a single page for now. Let's start by
 creating a very basic page.  We define the service that will implement
 this page by the following declaration:
 </p><pre class=""><code class="language-ocaml translatable">open Lwt
@@ -77,7 +77,7 @@ let main_service =
 then compile it with the following command ; it produce a file called
 <span class="teletype">graffiti.cmo</span>.
 </p><pre>ocamlfind ocamlc -thread -package eliom.server -c graffiti.ml
-</pre><p>Download the configuration file <span><a href=".././files/tutorial/chapter1/start/graffiti.conf">graffiti.conf</a></span>, then launch
+</pre><p>Download the configuration file <span><a href=".././manual/files/tutorial/chapter1/start/graffiti.conf">graffiti.conf</a></span>, then launch
 Ocsigen server, with the following command:
 </p><pre>ocsigenserver -c graffiti.conf
 </pre><p>Your page is now available at URL <a href="http://localhost:8080/graff" class="ocsimore_phrasing_link"><span class="teletype">http://localhost:8080/graff</span></a>.
@@ -182,8 +182,8 @@ Javascript function <span class="teletype">alert</span>. Add the following lines
 program,
 </p><pre class=""><code class="language-ocaml translatable">{client{
   let _ = Dom_html.window##alert(Js.string &quot;Hello&quot;)
-}}</code></pre><p>Download the <span><a href=".././files/tutorial/chapter1/no_oclosure/Makefile">Makefile</a></span>
-and <span><a href=".././files/tutorial/chapter1/no_oclosure/graffiti.conf">graffiti.conf</a></span>
+}}</code></pre><p>Download the <span><a href=".././manual/files/tutorial/chapter1/no_oclosure/Makefile">Makefile</a></span>
+and <span><a href=".././manual/files/tutorial/chapter1/no_oclosure/graffiti.conf">graffiti.conf</a></span>
 files. You may want to adapt the configuration file to set some paths,
 especially the directory for static files (see also <span class="teletype">STATICDIR</span> in
 the Makefile). It is not necessary (and even not a good idea, for
@@ -487,18 +487,18 @@ My_app.register_service ~path:[&quot;&quot;] ~get_params:Eliom_parameter.unit
 client. This allow the definition of &quot;global&quot; nodes outsides of
 service handler and still use relative URI.</p></aside><p>You need to install the corresponding stylesheets and images into your project:
 </p><p>The stylesheet files should go in the directory <span class="monospace">static/css</span>:
-</p><ul><li> the <span><a href=".././files/tutorial/static/css/common.css">{{{common.css}}}</a></span>
-and <span><a href=".././files/tutorial/static/css/hsvpalette.css">{{{hsvpalette.css}}}</a></span>
+</p><ul><li> the <span><a href=".././manual/files/tutorial/static/css/common.css">{{{common.css}}}</a></span>
+and <span><a href=".././manual/files/tutorial/static/css/hsvpalette.css">{{{hsvpalette.css}}}</a></span>
 are taken from the Google Closure library;
-</li><li> the <span><a href=".././files/tutorial/static/css/slider.css">{{{slider.css}}}</a></span>
-and <span><a href=".././files/tutorial/static/css/graffiti.css">{{{graffiti.css}}}</a></span> are
+</li><li> the <span><a href=".././manual/files/tutorial/static/css/slider.css">{{{slider.css}}}</a></span>
+and <span><a href=".././manual/files/tutorial/static/css/graffiti.css">{{{graffiti.css}}}</a></span> are
 home-made css; and
 </li></ul><p>the following image should go into <span class="monospace">static/images</span>:
-</p><ul><li> the <span><a href=".././files/tutorial/static/images/hsv-sprite-sm.png">{{{hsv-sprite-sm.png}}}</a></span>
+</p><ul><li> the <span><a href=".././manual/files/tutorial/static/images/hsv-sprite-sm.png">{{{hsv-sprite-sm.png}}}</a></span>
 </li></ul><p>Finally, the <span class="teletype">graffiti_oclosure.js</span> script is generated according to the
 <span class="teletype">graffiti.js</span> with the following command:
 </p><pre>oclosure_req graffiti.js
-</pre><p>Using the example <span><a href=".././files/tutorial/chapter1/with_oclosure/Makefile">{{{Makefile}}}</a></span> all
+</pre><p>Using the example <span><a href=".././manual/files/tutorial/chapter1/with_oclosure/Makefile">{{{Makefile}}}</a></span> all
 those static files are generated and installed by the <span class="teletype">install</span>
 rule in the configured static directory (see the <span class="teletype">STATICDIR</span>
 variable).
@@ -588,7 +588,7 @@ img##onload &lt;- Dom_html.handler
 before loading <span class="teletype">graffiti.cma</span>. This is done by adding the
 following line in the configuration file.
 </p><pre>&lt;extension findlib-package=&quot;cairo&quot; /&gt;
-</pre><p>The first version of the program is now complete. </p><span><a href=".././files/tutorial.tar.gz"> Download the code</a></span>.<div class="exercices"><h4>Exercises</h4><ul><li> Add an OClosure button to make possible to download the current
+</pre><p>The first version of the program is now complete. </p><span><a href=".././manual/files/tutorial.tar.gz"> Download the code</a></span>.<div class="exercices"><h4>Exercises</h4><ul><li> Add an OClosure button to make possible to download the current
 image and save it to the hard disk (reuse the service
 <span class="teletype">imageservice</span>).
 </li></ul><ul><li> Add an OClosure button with a color picker to select a color from

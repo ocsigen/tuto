@@ -106,7 +106,7 @@ You will learn how to:
 
 \\
 <<div class="tutocase"|
-[[http://www.dailymotion.com/video/k3m1rZBWQCWBCL693Y5|{{wiki("tuto"):files/2014-epita-video.png|video}}]]
+[[http://www.dailymotion.com/video/k3m1rZBWQCWBCL693Y5|{{files/2014-epita-video.png|video}}]]
 ;If you want a wide overview about Ocsigen, for beginners, in french
 :Look at  [[href:http://www.dailymotion.com/video/k3m1rZBWQCWBCL693Y5|this video]]
 >>

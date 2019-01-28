@@ -4,6 +4,6 @@
     "menu": true,
     "templates": ["how_template/template.wiki"],
     "manual": "manual",
-    "assets": "files",
-    "images": "files"
+    "assets": "manual/files",
+    "images": "manual/files"
 }

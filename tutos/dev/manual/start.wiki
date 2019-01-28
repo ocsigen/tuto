@@ -28,18 +28,18 @@ browser or as a mobile app for Android, iOS, or Windows.
 
 <<div class="screenshots"|
 [[wiki:files/screenshots/start1.png|
-{{wiki("tuto"):files/screenshots/start1.png|Ocsigen Start}}]]
+{{files/screenshots/start1.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start2.png|
-{{wiki("tuto"):files/screenshots/start2.png|Ocsigen Start}}]]
+{{files/screenshots/start2.png|Ocsigen Start}}]]
 >>
 
 <<div class="screenshots"|
 [[wiki:files/screenshots/start-mobile-1.png|
-{{wiki("tuto"):files/screenshots/start-mobile-1.png|Ocsigen Start}}]]
+{{files/screenshots/start-mobile-1.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start-mobile-2.png|
-{{wiki("tuto"):files/screenshots/start-mobile-2.png|Ocsigen Start}}]]
+{{files/screenshots/start-mobile-2.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start-mobile-4.png|
-{{wiki("tuto"):files/screenshots/start-mobile-4.png|Ocsigen Start}}]]
+{{files/screenshots/start-mobile-4.png|Ocsigen Start}}]]
 >>
 
 == Installation
@@ -86,24 +86,24 @@ out how things work.
 
 <<div class="screenshots"|
 [[wiki:files/screenshots/start3.png|
-{{wiki("tuto"):files/screenshots/start3.png|Ocsigen Start}}]]
+{{files/screenshots/start3.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start4.png|
-{{wiki("tuto"):files/screenshots/start4.png|Ocsigen Start}}]]
+{{files/screenshots/start4.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start5.png|
-{{wiki("tuto"):files/screenshots/start5.png|Ocsigen Start}}]]
+{{files/screenshots/start5.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start6.png|
-{{wiki("tuto"):files/screenshots/start6.png|Ocsigen Start}}]]
+{{files/screenshots/start6.png|Ocsigen Start}}]]
 >>
 
 <<div class="screenshots"|
 [[wiki:files/screenshots/start-mobile-3.png|
-{{wiki("tuto"):files/screenshots/start-mobile-3.png|Ocsigen Start}}]]
+{{files/screenshots/start-mobile-3.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start-mobile-6.png|
-{{wiki("tuto"):files/screenshots/start-mobile-6.png|Ocsigen Start}}]]
+{{files/screenshots/start-mobile-6.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start-mobile-7.png|
-{{wiki("tuto"):files/screenshots/start-mobile-7.png|Ocsigen Start}}]]
+{{files/screenshots/start-mobile-7.png|Ocsigen Start}}]]
 [[wiki:files/screenshots/start-mobile-8.png|
-{{wiki("tuto"):files/screenshots/start-mobile-8.png|Ocsigen Start}}]]
+{{files/screenshots/start-mobile-8.png|Ocsigen Start}}]]
 >>
 
 Have fun!

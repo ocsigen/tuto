@@ -1,3 +1,0 @@
-=How to use a database with Eliom?=
-
-You can use any library you want for database interaction. PGOCaml is a good choice and/or Macaque. You can mix both in the same application. Both can be used in cooperative way with Lwt. W.r.t. PGOCaml, Macaque makes possible to build request dynamically but does not support all Postgresql features.

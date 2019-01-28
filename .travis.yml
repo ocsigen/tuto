@@ -1,8 +1,8 @@
 language: c
 
-env: HOW_DOC=tutos HOW_CONFIG=how.json HOW_OUT=_doc 
+env: HOW_DOC=tutos HOW_CONFIG=how.json HOW_OUT=_doc
 
-install: 
+install:
     - wget https://ocsigen.org/how.sh
     - . how.sh
     - how-install
@@ -10,7 +10,7 @@ install:
 script:
     - how-generate
     - how-redirect "$HOW_LATEST/manual/intro" $HOW_OUT/index.html
-    - mkdir -p $HOW_OUT/latest/manual && how-redirect-manual 2.6 latest
+    - ln -sf "$HOW_LATEST" $HOW_OUT/latest
 
 deploy:
   provider: pages

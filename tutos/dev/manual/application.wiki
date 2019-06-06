@@ -366,6 +366,9 @@ side.  We can access some server variables from the client code. For
 instance:
 
 <<code language="ocaml" class="server"|
+
+[%%shared open Js_of_ocaml]
+
 let count = ref 0
 
 let main_service =

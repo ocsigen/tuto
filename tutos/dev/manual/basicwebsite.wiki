@@ -102,7 +102,7 @@ which will be used whenever the POST parameters are not provided.
 
 let g' getp postp = Lwt.return "..."
 
-let post_service' =
+let get_service =
   Eliom_registration.Html_text.create
     ~path:(Eliom_service.Path [""])
     ~meth:(Eliom_service.Get Eliom_parameter.any)

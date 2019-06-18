@@ -1,6 +1,6 @@
 <<header| =Writing a client/server Eliom application >>
 
-//The code of this tutorial has been tested against Eliom 6.0.// \\
+//The code of this tutorial has been tested against Eliom 6.7.1// \\
 
 In this chapter, we will write a [[site:graffiti/|collaborative
 drawing application]]. It is a client/server web application
@@ -12,8 +12,6 @@ introduction to Eliom programming.
 
 <<webonly| The final eliom code is available
 [[https://github.com/ocsigen/graffiti/tree/master/simple|for download]].
-[[https://github.com/ocsigen/graffiti/releases/tag/eliom-5.0|Tag eliom-5.0]]
-has been tested against Eliom 5.0.
 >>
 
 <<|outline target="documentation">>
@@ -818,22 +816,18 @@ For the rest of the tutorial, we use the following import :
 
 <<code language="ocaml" class="server"|
 [%%shared
-  (* Modules opened in the shared-section are available in client-
-     and server-code *)
-  open Eliom_content.Html.D
-  open Eliom_content
-  open Lwt
-  open Js_of_ocaml
-  module CSS = Js_of_ocaml.CSS
-  module Js = Js_of_ocaml.Js
-  module Dom = Js_of_ocaml.Dom
-  module Dom_html = Js_of_ocaml.Dom_html
-]
+(* Modules opened in the shared-section are available in client-
+   and server-code *)
+open Eliom_lib.Lwt_ops
+open Eliom_content
+module CSS = Js_of_ocaml.CSS
+module Js = Js_of_ocaml.Js
+module Dom = Js_of_ocaml.Dom
+module Dom_html = Js_of_ocaml.Dom_html]
 
 [%%client
 module Lwt_js = Js_of_ocaml_lwt.Lwt_js
-module Lwt_js_events = Js_of_ocaml_lwt.Lwt_js_events
-]
+module Lwt_js_events = Js_of_ocaml_lwt.Lwt_js_events]
 >>
 
 In this section, we add a color picker and slider to choose the size
@@ -869,69 +863,46 @@ brush. Near the {{{canvas_elt}}} definition, simply add the following
 code:
 
 <<code language="ocaml" class="server"|
-let%server slider_create () =
-  let slider_sig, slider_f = Eliom_shared.React.S.create 0 in
-  let elt =
-    let open Html.F in
-    input
-      ~a:
-        [ a_input_type `Range
-        ; a_class ["slider"]
-        ; a_input_min (`Number 1)
-        ; a_input_max (`Number 80)
-        ; a_value "1"
-        ; a_oninput
-            [%client
-              fun ev ->
-                match Dom_html.opt_tagged ev##.currentTarget with
-                | Some (Dom_html.Input elem) ->
-                    ~%slider_f (int_of_string (Js.to_string elem##.value))
-                | _ -> ()] ]
-      ()
-  in
-  elt, slider_sig
+let%server slider =
+  Eliom_content.Html.D.Form.input
+    ~a:
+      [ Html.D.a_id "slider"
+      ; Html.D.a_class ["slider"]
+      ; Html.D.a_input_min (`Number 1)
+      ; Html.D.a_input_max (`Number 80)
+      ; Html.D.a_value "1" ]
+    ~input_type:`Range Html.D.Form.int
 >>
 
 {{{Form.int}}} is a typing information telling that this input takes
 an integer value. This kind of input can only be associated to
 services taking an integer as parameter.
 
-We then add the slider to the page body, as follows:
+We then add the slider to the page body
 
 <<code language="ocaml" class="server"|
 let page () =
-  let colorpicker, cp_sig =
-    Ot_color_picker.make ~a:[Html.D.a_class ["colorpicker"]]
-  in
-  let slider, slider_sig = slider_create () in
-  ( Html.D.html
-      (Html.D.head
-         (Html.D.title (Html.D.txt "Graffiti"))
-         [ Html.D.css_link
-             ~uri:
-               (Html.D.make_uri
-                  (Eliom_service.static_dir ())
-                  ["css"; "graffiti.css"])
-             ()
-         ; Html.D.css_link
-             ~uri:
-               (Html.D.make_uri
-                  (Eliom_service.static_dir ())
-                  ["css"; "ot_color_picker.css"])
-             () ])
-      (Html.D.body [canvas_elt; slider; colorpicker])
-  , cp_sig
-  , slider_sig )
+  (html
+    (head (title (txt "Graffiti")) [])
+    (body [h1 [txt "Graffiti"];
+           canvas_elt;
+           slider] ))
 >>
 
-To change the size and the color of the brush, we replace the last
-line of the function {{{compute_line}}} in {{{init_client}}} by:
+To change the size and the color of the brush, we replace
+the function {{{compute_line}}} in {{{init_client}}} by:
 
 <<code language="ocaml" class="client"|
-let rgb = Ow_color_picker.get_rgb colorpicker in
-let size_slider = Eliom_content.Html.To_dom.of_input ~%slider in
-let size = int_of_string (Js.to_string size_slider##.value) in
-(rgb, size, (oldx, oldy), (!x, !y))
+let compute_line set_coord x y ev =
+  let oldx = !x and oldy = !y in
+  let size_slider = Eliom_content.Html.To_dom.of_input ~%slider in
+  let size = int_of_string (Js.to_string size_slider##.value) in
+  let h, s, v = Eliom_shared.React.S.value cp_sig in
+  let r, g, b = Ot_color_picker.hsv_to_rgb h s v in
+  let rgb = int_of_float r, int_of_float g, int_of_float b in
+  (rgb, size, (oldx, oldy), (!x, !y))
+in
+...
 >>
 
 Finally, we need to add a stylesheet in the headers of our page. To
@@ -1153,33 +1124,20 @@ let%server canvas_elt : canvas =
 let%server canvas2_elt : canvas =
   Html.D.(canvas ~a:[a_width width; a_height height; a_class ["overcanvas"]] [])
 
-let%server slider_create () =
-  let slider_sig, slider_f = Eliom_shared.React.S.create 0 in
-  let elt =
-    let open Html.F in
-    input
-      ~a:
-        [ a_input_type `Range
-        ; a_class ["slider"]
-        ; a_input_min (`Number 1)
-        ; a_input_max (`Number 80)
-        ; a_value "1"
-        ; a_oninput
-            [%client
-              fun ev ->
-                match Dom_html.opt_tagged ev##.currentTarget with
-                | Some (Dom_html.Input elem) ->
-                    ~%slider_f (int_of_string (Js.to_string elem##.value))
-                | _ -> ()] ]
-      ()
-  in
-  elt, slider_sig
+let%server slider =
+  Eliom_content.Html.D.Form.input
+    ~a:
+      [ Html.D.a_id "slider"
+      ; Html.D.a_class ["slider"]
+      ; Html.D.a_input_min (`Number 1)
+      ; Html.D.a_input_max (`Number 80)
+      ; Html.D.a_value "1" ]
+    ~input_type:`Range Html.D.Form.int
 
 let%server page () =
   let colorpicker, cp_sig =
     Ot_color_picker.make ~a:[Html.D.a_class ["colorpicker"]]
   in
-  let slider, slider_sig = slider_create () in
   ( Html.D.html
       (Html.D.head
          (Html.D.title (Html.D.txt "Graffiti"))
@@ -1196,10 +1154,9 @@ let%server page () =
                   ["css"; "ot_color_picker.css"])
              () ])
       (Html.D.body [Html.D.div [canvas_elt; canvas2_elt]; slider; colorpicker])
-  , cp_sig
-  , slider_sig )
+  , cp_sig )
 
-let%client init_client ~cp_sig ~slider_sig =
+let%client init_client ~cp_sig =
   let canvas = Html.To_dom.of_canvas ~%canvas_elt in
   let ctx = canvas ## (getContext Dom_html._2d_) in
   ctx##.lineCap := Js.string "round";
@@ -1222,7 +1179,8 @@ let%client init_client ~cp_sig ~slider_sig =
   let compute_line set_coord x y ev =
     let oldx = !x and oldy = !y in
     set_coord ev;
-    let size = Eliom_shared.React.S.value slider_sig in
+    let size_slider = Eliom_content.Html.To_dom.of_input ~%slider in
+    let size = int_of_string (Js.to_string size_slider##.value) in
     let h, s, v = Eliom_shared.React.S.value cp_sig in
     let r, g, b = Ot_color_picker.hsv_to_rgb h s v in
     let rgb = int_of_float r, int_of_float g, int_of_float b in
@@ -1276,10 +1234,8 @@ let%server main_service =
     ~path:(Eliom_service.Path [""])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
     (fun () () ->
-      let page, cp_sig, slider_sig = page () in
-      ignore
-        [%client
-          (init_client ~cp_sig:~%cp_sig ~slider_sig:~%slider_sig : unit)];
+      let page, cp_sig = page () in
+      ignore [%client (init_client ~cp_sig:~%cp_sig : unit)];
       Lwt.return page)
 >>
 

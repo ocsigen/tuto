@@ -907,7 +907,33 @@ in
 
 Finally, we need to add a stylesheet in the headers of our page. To
 easily create the {{{head}}} HTML element, we use the function <<a_api
-project="eliom" subproject="server"|val Eliom_tools.F.head>>:
+project="eliom" subproject="server"|val Eliom_tools.D.head>> and
+we link the css with the function <<a_api project="eliom" subproject="server"|
+val Eliom_tools.D.css_link>> :
+
+<<code language="ocaml" class="client"|
+let%server page () =
+  let colorpicker, cp_sig =
+    Ot_color_picker.make ~a:[Html.D.a_class ["colorpicker"]]
+  in
+  ( Html.D.html
+      (Html.D.head
+         (Html.D.title (Html.D.txt "Graffiti"))
+         [ Html.D.css_link
+             ~uri:
+               (Html.D.make_uri
+                  (Eliom_service.static_dir ())
+                  ["css"; "graffiti.css"])
+             ()
+         ; Html.D.css_link
+             ~uri:
+               (Html.D.make_uri
+                  (Eliom_service.static_dir ())
+                  ["css"; "ot_color_picker.css"])
+             () ])
+      (Html.D.body [Html.D.div [canvas_elt; canvas2_elt]; slider; colorpicker])
+  , cp_sig )
+>>
 
 
 You need to install the corresponding stylesheets and images into your

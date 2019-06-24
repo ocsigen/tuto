@@ -375,7 +375,7 @@ let main_service =
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
     (fun () () ->
        let c = incr count; !count in
-       text = Printf.sprintf "You came %i times to this page"
+       let text = Printf.sprintf "You came %i times to this page" in
        ignore [%client
          (Dom_html.window##alert
             (Js.string @@ Printf.sprintf "You came %i times to this page" ~%c)
@@ -470,6 +470,7 @@ Here is the (full) new version of the program:
   (* Modules opened in the shared-section are available in client-
      and server-code *)
   open Eliom_content.Html.D
+  open Eliom_content
   open Lwt
   module CSS = Js_of_ocaml.CSS
   module Js = Js_of_ocaml.Js
@@ -775,12 +776,20 @@ let line ev =
   draw ctx v;
   Lwt.return () in
 >>
+and the function {{{compute_line}}} by
+<<code language="ocaml" class="client"|
+  let compute_line set_coord x y ev =
+    let oldx = !x and oldy = !y in
+    set_coord ev;
+    (0,0,0), 5, (oldx, oldy), (!x, !y)
+  in
+>>
 
 Finally, to interpret the draw orders read on the bus, we add the
 following line at the end of function {{{init_client}}}:
 
 <<code language="ocaml" class="client"|
-  Lwt.async (fun () -> Lwt_stream.iter (draw ctx) (Eliom_bus.stream ~%bus))
+  Lwt.async (fun () -> Lwt_stream.iter (draw ctx) (Eliom_bus.stream bus))
 >>
 
 Now you can try the program using two browser windows to see that the
@@ -850,10 +859,11 @@ opam install ocsigen-widgets
 
 
 In {{{Makefile.options}}}, created by Eliom's distillery, add
-{{{ocsigen-widgets.client}}} to the
+{{{ocsigen-toolkit.client}}} and {{{ocsigen-toolkit.server}}} to the
 {{{CLIENT_PACKAGES}}}:
 <<code language="makefile"|
-CLIENT_PACKAGES := ... ocsigen-widgets.client
+SERVER_PACKAGES := ... ocsigen-toolkit.server
+CLIENT_PACKAGES := ... ocsigen-toolkit.client
 >>
 
 To create the widget, we replace {{{page}}} by :
@@ -970,6 +980,8 @@ project. The stylesheet files should go to the directory
 File <<a_file
   src="tutorial/static/css/graffiti.css"|{{{graffiti.css}}}>> is a
   custom-made CSS file.
+Moreover copy the file {{{ot_color_picker.css}}} from your
+.opam/<<version>>/share/ocsigen-toolkit/css into static/css.
 
 You can then test your application ({{{make test.byte}}}).
 

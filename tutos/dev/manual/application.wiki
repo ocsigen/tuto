@@ -768,9 +768,10 @@ To write draw commands into the bus, we just replace the function
 {{{line}}} in {{{init_client}}} by:
 
 <<code language="ocaml" class="client"|
+let bus = ~%bus in
 let line ev =
   let v = compute_line set_coord x y ev in
-  let _ = Eliom_bus.write ~%bus v in
+  let _ = Eliom_bus.write bus v in
   draw ctx v;
   Lwt.return () in
 >>
@@ -916,6 +917,7 @@ let%client init_client ~cp_sig () =
 ...
   let compute_line set_coord x y ev =
     let oldx = !x and oldy = !y in
+    set_coord ev;
     let size_slider = Eliom_content.Html.To_dom.of_input ~%slider in
     let size = int_of_string (Js.to_string size_slider##.value) in
     let h, s, v = Eliom_shared.React.S.value cp_sig in
@@ -1080,7 +1082,8 @@ img##.onload := Dom_html.handler (fun ev ->
   ctx##drawImage img 0. 0.; Js._false);
 >>
 
-Finally, the complete code of the application is :
+Finally, we can add a new canvas where we would draw a visualisation of the
+current size  of the brush. Here a the complete code of this application :
 <<code language="ocaml" class="server"|
 [%%shared
 open Eliom_lib.Lwt_ops

@@ -471,8 +471,14 @@ Here is the (full) new version of the program:
      and server-code *)
   open Eliom_content.Html.D
   open Lwt
-  open Js_of_ocaml
-]
+  module CSS = Js_of_ocaml.CSS
+  module Js = Js_of_ocaml.Js
+  module Dom = Js_of_ocaml.Dom
+  module Dom_html = Js_of_ocaml.Dom_html]
+
+[%%client
+module Lwt_js = Js_of_ocaml_lwt.Lwt_js
+module Lwt_js_events = Js_of_ocaml_lwt.Lwt_js_events]
 >>
 <<code language="ocaml" class="server"|
 module Graffiti_app =
@@ -763,7 +769,7 @@ To write draw commands into the bus, we just replace the function
 
 <<code language="ocaml" class="client"|
 let line ev =
-  let v = compute_line ev in
+  let v = compute_line set_coord x y ev in
   let _ = Eliom_bus.write ~%bus v in
   draw ctx v;
   Lwt.return () in
@@ -849,13 +855,34 @@ In {{{Makefile.options}}}, created by Eliom's distillery, add
 CLIENT_PACKAGES := ... ocsigen-widgets.client
 >>
 
-To create the widget, we add the following code in the
-{{{page}}} :
+To create the widget, we replace {{{page}}} by :
 
 <<code language="ocaml" class="client"|
-(* Color of the brush *)
+let%server page () =
   let colorpicker, cp_sig =
     Ot_color_picker.make ~a:[Html.D.a_class ["colorpicker"]]
+  in
+  ( Html.D.html
+      (Html.D.head
+         (Html.D.title (Html.D.txt "Graffiti"))
+      (Html.D.body [h1 [txt "Graffiti"]
+                   ; canvas_elt
+                   ; colorpicker])
+  , cp_sig )
+>>
+
+Moreover, don't forget to replace {{{main_service}}} by :
+
+<<code language="ocaml" class="client"|
+let main_service =
+  Graffiti_app.create
+    ~path:(Eliom_service.Path [""])
+    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    (fun () () ->
+       (* Cf. section "Client side side-effects on the server" *)
+      let page, cp_sig = page () in
+       let _ = [%client (init_client ~cp_sig:~%cp_sig () : unit) ] in
+       Lwt.return page)
 >>
 
 We subsequently add a simple HTML slider to change the size of the
@@ -878,31 +905,30 @@ let%server slider =
 an integer value. This kind of input can only be associated to
 services taking an integer as parameter.
 
-We then add the slider to the page body
-
-<<code language="ocaml" class="server"|
-let page () =
-  (html
-    (head (title (txt "Graffiti")) [])
-    (body [h1 [txt "Graffiti"];
-           canvas_elt;
-           slider] ))
->>
+We then add the slider to the page body, between the canvas and
+the colorpicker.
 
 To change the size and the color of the brush, we replace
 the function {{{compute_line}}} in {{{init_client}}} by:
 
 <<code language="ocaml" class="client"|
-let compute_line set_coord x y ev =
-  let oldx = !x and oldy = !y in
-  let size_slider = Eliom_content.Html.To_dom.of_input ~%slider in
-  let size = int_of_string (Js.to_string size_slider##.value) in
-  let h, s, v = Eliom_shared.React.S.value cp_sig in
-  let r, g, b = Ot_color_picker.hsv_to_rgb h s v in
-  let rgb = int_of_float r, int_of_float g, int_of_float b in
-  (rgb, size, (oldx, oldy), (!x, !y))
-in
+let%client init_client ~cp_sig () =
 ...
+  let compute_line set_coord x y ev =
+    let oldx = !x and oldy = !y in
+    let size_slider = Eliom_content.Html.To_dom.of_input ~%slider in
+    let size = int_of_string (Js.to_string size_slider##.value) in
+    let h, s, v = Eliom_shared.React.S.value cp_sig in
+    let r, g, b = Ot_color_picker.hsv_to_rgb h s v in
+    let rgb = int_of_float r, int_of_float g, int_of_float b in
+    (rgb, size, (oldx, oldy), (!x, !y))
+  in
+...
+>>
+
+and in {{{main_service}}} we replace the init_client call by :
+<<code language="ocaml" class="client"|
+let _ = [%client (init_client ~cp_sig:~%cp_sig : unit) ] in
 >>
 
 Finally, we need to add a stylesheet in the headers of our page. To
@@ -931,7 +957,7 @@ let%server page () =
                   (Eliom_service.static_dir ())
                   ["css"; "ot_color_picker.css"])
              () ])
-      (Html.D.body [Html.D.div [canvas_elt; canvas2_elt]; slider; colorpicker])
+      (Html.D.body [canvas_elt; slider; colorpicker])
   , cp_sig )
 >>
 
@@ -1041,7 +1067,7 @@ in the next chapter.
 
 We now want to load the initial image once the canvas is created.  Add
 the following lines just between the creation of the canvas context and the
-creation of the slider:
+creation of the slider in {{{init_client}}}:
 
 <<code language="ocaml" class="server"|
 (* The initial image: *)

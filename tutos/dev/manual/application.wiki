@@ -282,7 +282,6 @@ to indicate which side the code should run on.
   above for a single definition.
 * other syntaxes like {{{ module%server }}}, {{{ open%client }}},
   {{{ type%shared }}} ...
-  above for a single definition.
 * {{{ [%%client.start] }}}, {{{ [%%server.start] }}},
   {{{ [%%shared.start] }}}: these set the default location for all
   definitions that follow, and which do not use the preceding
@@ -568,7 +567,7 @@ Dom_events.listen >> that is the Js_of_ocaml's equivalent of
 as the JavaScript equivalent, hence not satisfactory. Js_of_ocaml's
 library provides a much easier way to do that with the help of Lwt.
 
-To use this, aa
+To use this, add
 {{{js_of_ocaml-lwt}}} to the {{{CLIENT_PACKAGES}}}
 in {{{Makefile.options}}}, created by Eliom's distillery:
 <<code language="makefile"|
@@ -816,7 +815,10 @@ lines are drawn on both windows.
 
 ===Color and size of the brush===
 
-<<concepts| Widgets with Ocsigen Toolkit >>
+<<concepts|
+Widgets with Ocsigen Toolkit\\
+Functional Reactive Programming\\
+>>
 
 In this section, we add a color picker and slider to choose the size
 of the brush. For the colorpicker we used a widget available in
@@ -844,7 +846,7 @@ let%server page () =
   in
   ( Html.D.html
       (Html.D.head
-         (Html.D.title (Html.D.txt "Graffiti")))
+         (Html.D.title (Html.D.txt "Graffiti")) [])
       (Html.D.body [h1 [txt "Graffiti"]
                    ; canvas_elt
                    ; colorpicker])
@@ -888,8 +890,9 @@ services taking an integer as parameter.
 We then add the slider to the page body, between the canvas and
 the colorpicker.
 
-To change the size and the color of the brush, we modify
-function {{{compute_line}}} in {{{init_client}}}:
+To change the size and the color of the brush, we add parameter
+{{{~cp_sig}}} to {{{init_client}}} and modify
+function {{{compute_line}}}:
 
 <<code language="ocaml" class="client"|
 let%client init_client ~cp_sig () =
@@ -941,8 +944,8 @@ project. The stylesheet files should go to the directory
 {{{static/css}}}.
 Download file {{{graffiti.css}}} from <<a_file
   src="tutorial/static/css/graffiti.css"|here>>.
-Copy file {{{ot_color_picker.css}}} from your
-.opam/<version>/share/ocsigen-toolkit/css into static/css.
+Copy file {{{ot_color_picker.css}}} from directory
+{{{~/.opam/<version>/share/ocsigen-toolkit/css}}} into {{{static/css}}}.
 
 You can then test your application ({{{make test.byte}}}).
 
@@ -955,6 +958,28 @@ You can then test your application ({{{make test.byte}}}).
   for your Eliom applications. You can use it for building complex
   user interfaces. The full documentation is available
   (<<a_manual project="ocsigen-toolkit" |Ocsigen Toolkit>>).
+
+>>
+
+<<concept
+
+  title="Functional Reactive Programming" |
+
+  Ocsigen Toolkit is using //Functional Reactive Programming// to
+  simplify and automatize page changes, through Daniel Bünzli's
+  React library.
+
+  For example, {{{Ot_color_picker.make}}} returns both the element
+  and a //reactive signal// on which you can bind other computations
+  or other page elements, that would be updated automatically when
+  the signal value changes.
+
+  Eliom makes it possible to create reactive (client side) page elements
+  from server side, through module Eliom_shared.
+
+  This basic program does not show the full power of reactive
+  programming, however. See [[wiki:manual/tutoreact|this tutorial]]
+  for a better introduction to reactive programming with Eliom.
 
 >>
 
@@ -1058,7 +1083,7 @@ img##.onload := Dom_html.handler (fun ev ->
 
 Finally, we can add a new canvas where we would draw a visualisation of the
 current size  of the brush. The complete code of this application
-can be founf [[https://github.com/ocsigen/graffiti/tree/master/simple|here]]:
+can be found [[https://github.com/ocsigen/graffiti/tree/master/simple|here]]:
 
 The {{{Makefile}}} from the distillery automatically adds
 the packages defined in {{{SERVER_PACKAGES}}} as an extension in your
@@ -1089,5 +1114,6 @@ The first version of the program is now complete.
 
 >>
 
-[[wiki:manual/intro|prev]]
-[[wiki:manual/interaction|next]]
+If you want to continue learning client-server programming with Eliom
+and build your first application, we suggest to read
+[[wiki:manual/start|the tutorial about Ocsigen Start]].

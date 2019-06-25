@@ -1083,7 +1083,7 @@ img##.onload := Dom_html.handler (fun ev ->
 
 Finally, we can add a new canvas where we would draw a visualisation of the
 current size  of the brush. The complete code of this application
-can be found [[https://github.com/ocsigen/graffiti/tree/master/simple|here]]:
+can be found [[https://github.com/ocsigen/graffiti/tree/master/simple|here]].
 
 The {{{Makefile}}} from the distillery automatically adds
 the packages defined in {{{SERVER_PACKAGES}}} as an extension in your

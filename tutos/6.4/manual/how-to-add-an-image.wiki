@@ -1,0 +1,46 @@
+=How to add an image?=
+
+#### Internal image
+
+<<code language='ocaml'|
+  img ~alt:("Ocsigen Logo")
+      ~src:(make_uri
+              ~service:(Eliom_service.static_dir ())
+              ["ocsigen_logo.png"])
+    ()
+
+>>
+
+#### External image
+
+<<code language='ocaml'|
+  img ~alt:("Ocsigen Logo")
+      ~src:(Xml.uri_of_string ("http://website.com/image.png"))
+    ()
+>>
+
+
+The function **img** has 3 parameters:
+* **alt**: A description of the image
+* **src**: the URL of the image
+* unit
+
+For an internal image, the file path is generated using the **make_uri** function. This function creates the relative URL string using the static directory configured in the configuration file and the given list.
+
+For an external image, you must convert the string url into uri using the **uri_of_string** function. You can also create an <<a_manual project="eliom" chapter="server-services" fragment="unregistrable_services"|external service>>.
+
+=== Download full code
+
+//Warning: This third party code may be outdated. Please notify the author is something is broken, or do a pull request on github.//
+
+* [[https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/elements/example.eliom|Read the full code]]
+* [[https://github.com/db0company/Ocsigen-Quick-Howto|Download and try this example]]
+
+=== Links
+
+* Modules <<a_api project="eliom"|module Eliom_content.Html.D>> and
+  <<a_api project="eliom"|module Eliom_content.Html.F>>
+  (HTML5 Elements)
+* The <<a_api project="tyxml"|val Html_sigs.T.img>> element
+* [[http://en.wikipedia.org/wiki/Alt_attribute|Alt attribute]]
+* signature <<a_api project="tyxml"|module Html_sigs.T>> (Element attributes)

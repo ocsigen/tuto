@@ -1,0 +1,314 @@
+
+=Introduction=
+
+This tutorial is an overview of the main features of the Ocsigen
+framework.  It explains how to program web sites and client-server Web
+applications in //OCaml// using //Eliom//, //Lwt//, //Js~_of~_ocaml//
+and other libraries of the Ocsigen project.  Read it to understand the
+basics, then refer to each project's manual for more detail.
+
+This programming guide assumes you know the //OCaml// language, and
+that you have a working installation of //Ocsigen Server//, //Eliom//,
+//Lwt//, //Js_of_ocaml//, (and //Ocsigen Widgets// for some examples). In
+particular, you need to have the interfaces (cmi) installed for all
+these packages (the ##-dev##-packages in some distributions).
+The best way to install OCaml (on MacOS, Linux ...) is to use the Opam
+package manager.
+The [[site:install|installation is described here]].
+
+We recommend to ask your questions on
+[[https://discuss.ocaml.org|discuss.ocaml.org]] with tag {{{ocsigen}}}.
+You can also come and chat with us on
+IRC in channel {{{#ocsigen}}} on {{{freenode.net}}} (e.g. by using
+their [[http://webchat.freenode.net/?channels=ocsigen|webchat]])!
+
+The first section of this page is an overview of the tutorial.
+The second section of this introduction lists our main
+software projects.
+
+
+<<|wip|
+Manuals are permanently under evolution.
+Please report any error, mistake, for example by doing pull requests
+on Github, and send us your comments and suggestions!
+>>
+
+
+==Overview of the tutorial==
+
+<<|
+The goal of this tutorial is to give an overview of the
+features provided by the Ocsigen framework to build Web applications. It
+will allow you to understand the philosophy of Eliom (the Web
+programming framework in OCaml), and makes also a good starting point to
+understand other libraries of the Ocsigen project: Lwt, Macaque, etc.
+
+Theses chapters do not aim at exhaustiveness but many references
+towards other chapters are made all along the text, so that you can
+dive into the details if you want to.
+>>
+
+The tutorial is divided into several parts, mostly independant:
+
+<<div class="tutocase"|
+Quick start
+; Your first cross-platform client-server app in 5 minutes
+:Read this [[wiki:manual/start|tutorial]]
+>>
+
+\\
+<<div class="tutocase"|
+Quick start: the basics
+; A short tutorial explaining how to write a dynamic Web site by generating pages using OCaml functions
+:Read tutorial [[wiki:manual/basicwebsite|Basic web site]]
+>>
+
+\\
+
+<<div class="tutocase"|
+;If you want a quick introduction to client-server Web programming with Eliom
+:Read tutorial [[wiki:manual/tutowidgets|Eliom apps basics: writing client server widgets]]
+>>
+
+It shows on an example the client-server syntax,
+and is a good starting point for understanding Eliom's client-server features.
+
+\\
+
+<<div class="tutocase"|
+;If you want a full step-by-step tutorial on how to write a client-server Web application
+:Read tutorial [[wiki:manual/application|Client-server application]]
+>>
+
+It describes step by step how to write a client/server
+[[site:graffiti/|collaborative drawing application]]. You will learn,
+from the very beginning, how to:
+
+* Create new //services//
+* Output //valid HTML//
+* Send //OCaml code// to be executed //on the client//
+* Call //JavaScript methods// from OCaml
+* Catch //mouse events//
+* //Communicate// with the server, in both directions
+* Create services with //non-HTML output//
+
+\\
+
+<<div class="tutocase"|
+;If you want to build mobile applications:
+:Read tutorial [[wiki:manual/mobile|Mobile applications with Ocsigen]]
+>>
+
+The tutorial describes how to build a mobile app (e.g., for Android)
+with the same codebase as for your Web application.
+
+<<div class="tutocase"|
+;If you want to write a more traditional Web site, with pages, forms, and sessions:
+:Read tutorial [[wiki:manual/interaction|Service based Web programming]]
+>>
+
+This tutorial is devoted to server side programming.
+It shows how to
+create a new Web site with several pages and user connection.
+You will learn how to:
+
+* Create a //link// towards another service
+* Create //forms//
+* Register //session data// or //session services//
+* Create services performing //actions// (with no output)
+* Dynamically register new services (//continuation based// Web programming)
+
+\\
+<<div class="tutocase"|
+[[http://www.dailymotion.com/video/k3m1rZBWQCWBCL693Y5|{{files/2014-epita-video.png|video}}]]
+;If you want a wide overview about Ocsigen, for beginners, in french
+:Look at  [[href:http://www.dailymotion.com/video/k3m1rZBWQCWBCL693Y5|this video]]
+>>
+
+\\
+<<div class="tutocase"|
+[[https://www.irill.org/videos/OUPS-2014-07/Meetup_OCaml_Oscigen|OUPS meeting at Mozilla Paris]]
+;A short talk, in english, that highlights a few features of Js~_of~_ocaml
+and Eliom.
+:Look at [[https://www.irill.org/videos/OUPS-2014-07/Meetup_OCaml_Oscigen|this video]]
+>>
+
+\\
+
+<<div class="tutocase"|
+[[http://www.irill.org/videos/oups-december-2014/Ocsigen|OUPS meeting at IRILL]]
+;A short talk, in english, that shows how to write a small client-server reactive application with Js~_of~_ocaml and Eliom.
+:Look at [[http://www.irill.org/videos/oups-december-2014/Ocsigen|this video]]
+and read this [[wiki:manual/tutoreact|tutorial]].
+>>
+
+It describes the most recent features of Eliom.
+
+
+
+<<div class="tutocase"|
+;If you want to learn more details about Ocsigen
+:Read tutorial [[wiki:manual/misc|Miscellaneous features]]
+>>
+
+We will mix the client-server drawing application
+with the session mechanism and user management
+to produce a multi-user collaborative drawing
+application.  In this chapter, you will learn how to:
+
+* Integrate a typical Web interaction (links, forms,~ …) with a client side program.
+* Use //Macaque// for type-safe database interaction
+* Add //sounds or videos// to your application
+* Change pages //without stopping the client side program//
+* Connect with external accounts (//openID//)
+* Add an Atom feed
+
+<<|If you are not interested in client-side programming you can safely
+skip most of the first chapter (although we recommend you read at least
+the first section, which explains the basics). Conversely, if you are
+not interested in standard Web interactions, with sessions links, and
+forms, you can skip the second chapter.
+>>
+
+<<div class="tutocase"|
+;If you want to have quickly a full application with user management (registration, activation emails, authentication)
+: Have a look at [[wiki("ocsigen-start"):|Ocsigen-start]].
+>>
+
+Ocsigen-start is a library and a template for Eliom distillery that
+contains a working Eliom application with user and right
+management.
+
+<<div class="tutocase"|
+You will also find some other tutorials in the menu on the left.
+
+We also have a list of [[site:howto|Quick HOWTOs]].
+>>
+
+
+Keep in mind that one of the key feature of Eliom is that it allows
+one to mix commonplace Web interactions (URLs, forms, links,
+bookmarks, back button) with dynamic client side features. In
+particular, the client-side program **does not stop** when the user
+clicks a link, sends a form, or presses the back button--yet the user
+still can save bookmarks on pages!  This opens up a wide field of new
+possibilities, and should facilitate the emergence of new kinds of Web
+applications.
+
+<<div class="tutocase"|
+;If you want a more complete manual
+:Read the manual of each project, and/or the API documentation.
+>>
+
+
+==Ocsigen software projects==
+
+Most projects are independent and can be used for non Eliom-releated
+applications, for example:
+* the cooperative threading library Lwt,
+* the TyXML library for generating typed XML,
+* the database query library Macaque,
+* the Js_of_ocaml compiler (from Ocaml bytecode to JavaScript),
+* Ocsigen Server, a full-featured Web server.
+
+===Ocsigen Server===
+
+//Ocsigen Server// is a full featured Web server written in modular way.
+It implements most features of the HTTP protocol, and has a powerful
+extension mechanism that make easy to plug your own OCaml modules
+for generating pages. Many extensions are already written:
+;<<a_manual project="ocsigenserver" chapter="staticmod"|Staticmod>>
+:    to serve static files.
+;[[wiki("eliom"):|Eliom]]
+:    to create reliable client/server Web applications
+     or Web sites in OCaml using advanced high level concepts.
+;<<a_manual project="ocsigenserver" chapter="extendconfiguration"|Extendconfiguration>>
+:    allows for more options in the configuration file.
+;<<a_manual project="ocsigenserver" chapter="accesscontrol"|Accesscontrol>>
+:    allows to restrict the access to the sites from the config file (to request coming from a subnet, containing some headers, etc.).
+;<<a_manual project="ocsigenserver" chapter="authbasic"|Authbasic>>
+:    allows to restrict the access to the sites from the config file using Basic HTTP Authentication.
+;<<a_manual project="ocsigenserver" chapter="cgimod"|CGImod>>
+:    serves CGI scripts. It may also be used to serve PHP through CGI.
+;<<a_manual project="ocsigenserver" chapter="deflatemod"|Deflatemod>>
+:    used to compress data before sending to the client.
+;<<a_manual project="ocsigenserver" chapter="redirectmod"|Redirectmod>>
+:    sets redirections towards other Web sites from the configuration file.
+;<<a_manual project="ocsigenserver" chapter="revproxy"|Revproxy>>
+:    a reverse proxy for Ocsigen Server.
+      It allows to ask another server to handle the request.
+;<<a_manual project="ocsigenserver" chapter="rewritemod"|Rewritemod>>
+:    changes in incoming requests before sending them to other extensions.
+;<<a_manual project="ocsigenserver" chapter="outputfilter"|Outputfilter>>
+:    rewrites some parts of the output before sending it to the client.
+;<<a_manual project="ocsigenserver" chapter="userconf"|Userconf>>
+:    allows users to have their own configuration files.
+;<<a_manual project="ocsigenserver" chapter="comet"|Comet>>
+:    facilitates server to client communications.
+
+Ocsigen server has a <<a_manual project="ocsigenserver"
+chapter="config"|sophisticated configuration>> file mechanism allowing
+complex configurations of sites.
+
+
+===Eliom===
+
+Eliom is an extension for //Ocsigen Server//
+that allows the creation of reliable client/server Web applications,
+mobile apps, and traditional dynamic Web sites in OCaml.
+
+Eliom transforms OCaml into a multi-tier language, allowing one to
+implement (both the server and client parts of) a distributed application
+entirely in OCaml, as a single program.
+This radically simplifies the communication between server and client.
+Applications can run on any Web browser or mobile device (iOS, Android, ...),
+thus eliminating the need for one custom version per platform.
+
+Eliom also provides reactive pages (generated on server or client), an
+advanced session mechanism, facilities for server to client
+communication, support for continuation-based Web programming, etc.
+
+Eliom can also be used for more traditional Web or mobile apps:
+server-only, single-page applications, REST APIs, etc.
+
+
+====Expressiveness====
+Eliom enables the creation of complex Web sites in very few lines of code, by providing high level programming primitives for many aspects of Web programming: communication between the client and the server, implementation of complex Web interaction, sessions, etc.
+
+====Static typing====
+Eliom also improves the stability of your application by  making extensive use of OCaml's static typing. The compiler checks many things for you, helping you to remove many bugs. For example, the validity of pages (e.g. well-formed HTML) is checked at compile time!  Moreover, Eliom statically checks for example that your Web site does not contain any broken links and that the parameters in a link or a form correspond to the service it leads to (and many other things).
+
+====A client/server application in one piece of code!====
+One of the most significant features of Eliom is that it allows you to write the client- //and// server-side of a Web application as a single program. The client side parts are automatically extracted and compiled into JavaScript to be executed in the browser. The communication between the server is straightforward (in both directions!), as you can use server side values in the client side code, and vice verse.
+
+Note that client side features can be mixed with traditional Web interaction
+(links, forms, bookmarks, back button ...)
+
+====Security====
+Eliom helps you to make your Web application secure by automatically addressing several common security issues (code injection, session fixation~ ...) and by providing features to implement very secure behaviours (avoiding for example "cross-site request forgery").\\
+
+
+===Lwt===
+//Lwt// is a cooperative thread library for OCaml.
+It provides an alternative to the more usual preemptive threads approach
+for programming concurrent applications, that avoids most problems of concurrent
+data access and deadlocks.
+It is used by Ocsigen Server and Eliom and has now become one of the standard ways to
+implement concurrent applications in OCaml.
+All your Web sites must be written in Lwt-compatible way!
+
+===Js_of_ocaml===
+//Js_of_ocaml// is a compiler of OCaml bytecode to JavaScript. It facilitates to run Ocaml programs in a Web browser. Its key features are the following:
+* The whole language, and most of the standard library are supported.
+* The compiler is easy to install: it depends only on Findlib and Lwt.
+* The generated code which is independant of Eliom and the Ocsigen Server. You can use it with any Web server.
+* You can use a standard installation of OCaml to compile your programs. In particular, you do not have to recompile a library to use it with Js_of_ocaml. You just have to link your program with a specific library to interface with the browser API.
+
+===Ocsigen-start===
+//Ocsigen-start// is a library and a template of Eliom application,
+with many common features like
+user registration, login box, notification system, etc.
+
+
+
+[[wiki:manual/application|next]]

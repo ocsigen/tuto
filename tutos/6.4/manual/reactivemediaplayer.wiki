@@ -1,0 +1,291 @@
+=Reactive Media Player=
+
+You should read the [[site:/tuto/manual/music|Playing Music]] tutorial before this one.
+
+Since version 4, Eliom embeds the
+[[http://erratique.ch/logiciel/react|React]] library in order to
+provide reactive HTML elements
+(<<a_api project="eliom"| module Eliom_content.Html.R >>).
+
+
+<<webonly| The final Eliom code is available
+[[https://github.com/ocsigen/tutorial/tree/master/files/tutorial/chapter3/reactive_media_player/reactive_media_player.eliom|for download]]. >>
+
+==@@id="basics"@@ Basics==
+
+A reactive element, or more generally a reactive value, depends on the
+current value of a signal. For instance :
+
+<<code language="ocaml" class="shared"|
+[%%shared
+open Eliom_content
+open Html
+]
+>>
+
+<<code language="ocaml" class="client"|
+let%client s, set_s = React.S.create 0 (* signal creation *)
+>>
+
+<<code language="ocaml" class="shared"|
+let%shared example_div () =
+  C.node {{R.txt (React.S.map string_of_int s)}}
+
+let%shared incr_button =
+  D.(button
+      ~button_type:`Button
+      ~a:[a_onclick [%client fun _ -> set_s (succ (React.S.value s)) ]]
+      [txt "Increment"])
+>>
+
+The signal {{{s}}} carries an int value initialized at 0 and
+{{{set_s}}} is the update function generating an occurence of the
+signal.
+
+{{{example_div}}} is a {{{<div>}}} containing a string which depends
+on the value of s.
+
+The magic part: we never have to explicitly update
+{{{example_div}}}. Its behavior is declaratively described in it's own
+code, and not in the code of the button.
+
+<<concept title="Client node on the server"|
+{{{C.node}}} takes a client node and brings it to the server side.
+>>
+
+<<concept title="Step semantics"|
+**Warning** If you haven't read the React semantics, be aware of this:
+a step occurence of a signal {{{s}}} happens when the update function
+is called on the signal or on a other signal {{{s'}}} which {{{s}}}
+depends on. But moreover, this update call must at least **modify**
+the signal current value, otherwise it's not a step.
+
+This can be seen when there are side effects (like print) in the code
+of functions mapped to the signal. If the update function does not
+modify the signal value, the printing does not happen.
+
+The test equality function of a signal can be set in the {{{eq}}}
+optional parameters of React.S functions producing a signal (like
+{{{create}}}). >>
+
+
+
+==@@id="frp_medial_player"@@ Functional Reactive Media Player==
+
+
+
+This part explains how to create a simple media player, similar to the
+[[site:/tuto/manual/music|Playing Music]] tutorial but with custom
+controls.We will apply
+[[https://en.wikipedia.org/wiki/Functional_reactive_programming|FRP (Functionnal Reactive Programming)]].
+
+
+
+In order to provide a short tutorial, we only create three controls:
+play, pause and seek/progress bar.  So, let's write the corresponding
+type:
+
+<<code language="ocaml" class="shared"|
+[%%shared
+    open Eliom_content
+    open Html
+
+    type action = Play | Pause | Seek of float
+]
+>>
+
+<<code language="ocaml" class="client"|
+let%client media_s, set_media_s = React.S.create Pause
+>>
+
+Each HTML element emits a signal value corresponding to its action.
+It is enough to create our "play" and "pause" inputs.
+
+<<code language="ocaml" class="server"|
+let pause_button () =
+  D.(Form.button_no_value
+       ~button_type:`Button
+       ~a:[a_onclick  [%client  fun _ -> set_media_s Pause ]]
+       [txt "Pause"])
+
+let play_button () =
+  D.(Form.button_no_value
+       ~button_type:`Button
+       ~a:[a_onclick  [%client  fun _ -> set_media_s Play ]]
+       [txt "Play"])
+>>
+
+<<concept title="Abstract the Js events"|
+A nice thing about FRP is that we can abstract JavaScript
+events and only use signals.
+The JS event handler is only a function raising a signal.
+>>
+
+
+
+To use our buttons, we now create a media (audio or video) HTML
+element on the server side.
+
+<<code language="ocaml" class="server"|
+let media_uri =
+  Html.D.make_uri
+    ~service:(Eliom_service.static_dir ())
+    ["hb.mp3"]
+
+let media_tag () =
+  let media = D.(audio ~src:media_uri [txt "alt"]) in
+  let _ = [%client
+    (Lwt.async (fun () ->
+         let media = To_dom.of_audio ~%media in
+         let media_map = function
+           | Play ->
+             media##play
+           | Pause ->
+             media##pause
+           | Seek f ->
+             media##.currentTime := (f /. 100. *. media##.duration)
+         in Lwt_react.S.keep (React.S.map media_map media_s) ;
+         Lwt_js_events.timeupdates media (fun _ _ ->
+             set_progress_s (media##.currentTime, media##.duration) ;
+             Lwt.return ()
+           ))
+     : unit)
+  ] in
+  media
+>>
+
+The function {{{media_tag}}} builds an {{{<audio>}}} element.  The
+code in {{{ [%client ... ] }}} is on the client part. It's an Lwt
+thread that maps a function {{{media_action -> unit}}} to the signal
+{{{media_s}}}.
+
+<<concept title="Playing video"|
+The code for playing video is conceptually similar. You just replace
+the {{{audio}}} tag by a {{{video}}} tag. But be careful, not all
+browsers are compatible with all formats.
+>>
+
+<<code language="ocaml" class="server"|
+module React_Player_app =
+  Eliom_registration.App
+    (struct
+      let application_name = "react_player"
+    end)
+
+let media_service =
+  Eliom_service.create
+    ~path:(Eliom_service.Path [])
+    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    ()
+
+let () =
+  React_Player_app.register
+    ~service:media_service
+    (fun name () ->
+       let body =
+         D.(body [
+             h2 [txt "Media"];
+             media_tag ();
+             div [play_button (); pause_button (); progress_bar ()]
+           ])
+       in
+       Lwt.return (Eliom_tools.D.html ~title:"Media" ~css:[] body))
+>>
+
+Now you should have an ΗΤΜΛ node with an audio tag, and two buttons:
+play and pause. The progress bar is slightly harder to understand, but
+thanks to FRP, very easy to write.  It's basically an {{{input}}} with
+{{{range}}} type. In our program, the progress bar must emit the
+signal {{{media_s}}} with the value {{{Seek f}}} at input handling.
+Then, it must evolve during media playback, for which we need another
+signal. To conclude, we must check that the display (the value) of the
+progress bar is not modified when the user is seeking.
+
+<<code language="ocaml" class="client"|
+let%client progress_s, set_progress_s = React.S.create (0., 0.)
+
+let%client unblock_s, set_unblock_s = React.S.create true
+>>
+
+<<code language="ocaml" class="server"|
+let progress_bar () =
+  let progress_value =
+    [%client
+      (let f (time, duration) =
+         if duration = 0. then 0. else time /. duration *. 100.
+       in
+       React.S.map f progress_s
+       : float React.signal)
+    ] in
+  let attrs = D.([
+      a_input_min 0.;
+      a_input_max 100.;
+      a_onmousedown [%client fun _ -> set_unblock_s false];
+      a_onmouseup [%client fun _ -> set_unblock_s true];
+      C.attr [%client
+        R.a_value
+          (React.S.map (Printf.sprintf "%0.f")
+             (React.S.on unblock_s 0. ~%progress_value))]
+    ])
+  in
+  let d_input =
+    D.Form.input ~input_type:`Range ~value:0. ~a:attrs
+      D.Form.float
+  in
+  let _ = [%client
+    (Lwt.async (fun () ->
+         let d_input = To_dom.of_input ~%d_input in
+         Lwt_js_events.inputs d_input (fun _ _ ->
+             set_media_s (Seek (Js.parseFloat d_input##.value)) ;
+             Lwt.return ()
+           ))
+     : unit)
+  ] in
+  d_input
+>>
+
+<<concept title="Reactive attributes and React.S.on" |
+
+The function {{{R.a_value}}}
+(under <<a_api project="eliom"| module Eliom_content.Html >>)
+is a reactive attribute value. {{{React.S.on c d s}}} is equal to
+{{{s}}} when {{{c}}} is true, otherwise it is equal to {{{d}}} (in
+case {{{c}}} has never been true). Which means we update the attribute
+value of our input only if unblock is true.
+
+>>
+
+To end this tutorial, you can add a {{{progress_bar ()}}} call inside
+the div containing play and pause. We also need a mechanism which
+emits the {{{progress_s}}} signal. We modify the media tag with an
+eventhandler on {{{timeupdate}}}.
+
+<<code language="ocaml" class="server"|
+let media_tag () =
+  let media = D.(audio ~src:media_uri [txt "alt"]) in
+  let _ = [%client
+    (Lwt.async (fun () ->
+         let media = To_dom.of_audio ~%media in
+         let media_map = function
+           | Play ->
+             media##play
+           | Pause ->
+             media##pause
+           | Seek f ->
+             media##.currentTime := (f /. 100. *. media##.duration)
+         in Lwt_react.S.keep (React.S.map media_map media_s) ;
+         Lwt_js_events.timeupdates media (fun _ _ ->
+             set_progress_s (media##.currentTime, media##.duration) ;
+             Lwt.return ()
+           ))
+     : unit)
+  ] in
+  media
+>>
+
+
+
+====Exercises====
+
+* Add a control to set the volume
+* Add an {{{Eliom_bus}}} to control several clients

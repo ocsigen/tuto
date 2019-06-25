@@ -1,0 +1,70 @@
+=How to add lists in a page?=
+
+==== Simple list and ordered list
+
+===== Simple list
+
+<<code language='ocaml'|
+  ul
+    [li [txt "first item"];
+     li [txt "second item"];
+     li [txt "third item"];
+     li [txt "fourth item"]]
+>>
+
+
+===== Ordered list
+
+<<code language='ocaml'|
+  ol
+    [li [txt "first item"];
+     li [txt "second item"]]
+>>
+
+**Required parameter**: list containing **li** elements ([[site:tyxml/api/Html_types#TYPEli_attrib|Details of li content]]).
+
+**Optional parameter** for attributes "a" ([[wiki:manual/how-to-set-and-id-classes-or-other-attributes-to-html-elements|How to set and id, classes or other attributes to HTML elements?]]).
+
+==== Definition list
+
+<<code language='ocaml'|
+  dl
+    [((dt [txt "Banana"], []),
+      (dd [txt "An elongated curved fruit"], []));
+     ((dt [txt "Orange"], []),
+      (dd [txt "A globose, reddish-yellow, edible fruit"],
+       [dd [txt "A color between yellow and red"]]));
+     ((dt [txt "Kiwi"], []),
+      (dd [txt "Egg-sized green fruit from China"], []))]
+>>
+
+This kind of list contains definitions.
+
+**Required parameter**:
+A list of pair of:
+* A pair containing:
+** The first element of type dt
+** A list of elements of type dt
+* Another pair containing:
+** The first element of type dd
+** A list of elements of type dd
+
+Details:
+* [[site:tyxml/api/Html_types#TYPEphrasing|dd content]]
+* [[site:tyxml/api/Html_types#TYPEflow5|dt content]]
+
+**Optional parameter** for attributes "a" ([[wiki:manual/how-to-set-and-id-classes-or-other-attributes-to-html-elements|How to set and id, classes or other attributes to HTML elements?]]).
+
+=== Download full code
+
+//Warning: This third party code may be outdated. Please notify the author is something is broken, or do a pull request on github.//
+
+* [[https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/elements/example.eliom|Read the full code]]
+* [[https://github.com/db0company/Ocsigen-Quick-Howto|Download and try this example]]
+
+=== Links
+
+* Modules <<a_api project="eliom"|module Eliom_content.Html.D>> and
+  <<a_api project="eliom"|module Eliom_content.Html.F>>
+  (HTML5 Elements)
+* signature <<a_api project="tyxml"|module Html_sigs.T>> (Element attributes)

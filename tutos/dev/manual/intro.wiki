@@ -182,7 +182,6 @@ management.
 <<div class="tutocase"|
 You will also find some other tutorials in the menu on the left.
 
-We also have a list of [[site:howto|Quick HOWTOs]].
 >>
 
 

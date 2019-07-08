@@ -78,7 +78,7 @@ you do not need to write one file per URL. The application can be
 split into multiple files as per the developer's style. What matters
 is that you eventually produce a single module (*.cmo or *.cma) for
 the whole website.
-</p><p>The module <span><a href=".././../../eliom/latest/api/Eliom_service">Eliom_service</a></span> allows to
+</p><p>The module <span><a href=".././../../eliom/latest/api/server/Eliom_service">Eliom_service</a></span> allows to
 create new entry points to your web site, called <em>services</em>. In
 general, services are attached to a URL and generate a web page.
 Services are represented by OCaml values, through which you must
@@ -114,13 +114,13 @@ are called successively:
 pages as strings (as in other web frameworks). However, it is
 preferable to generate HTML in a way that provides compile-time HTML
 correctness guarantees. This tutorial achieves this by using the
-module <span><a href=".././../../eliom/latest/api/Eliom_content.Html.D">Eliom_content.Html.D</a></span>,
+module <span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.D">Eliom_content.Html.D</a></span>,
 which is implemented using the <span><a href=".././../../tyxml/latest/index">TyXML</a></span>
 library.  The module defines a construction function for each HTML
 tag.
 </p><p><em>Note that it is also possible to use the usual HTML syntax directly
 in OCaml, cf.  <span><a href=".././../../tyxml/latest/api/Pa_tyxml">Pa_tyxml</a></span>.</em>
-</p><p>The TyXML library (and thus <span><a href=".././../../eliom/latest/api/Eliom_content.Html.D">Eliom_content.Html.D</a></span>) is very strict and compels you to respect
+</p><p>The TyXML library (and thus <span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.D">Eliom_content.Html.D</a></span>) is very strict and compels you to respect
 HTML standard (with some limitations). For example if you write:
 </p><pre class=""><code class="language-ocaml translatable">(html
    (head (title (txt &quot;&quot;)) [txt &quot;&quot;])
@@ -157,7 +157,7 @@ will come back to Lwt programming later. You can also have a look at
 the <span><a href=".././../../lwt/latest/index">Lwt programming guide</a></span>.</p></aside><h3>Execute parts of the program on the client</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Service sending an application<br/>
 Client and server code<br/>
 Compiling a Web application with server and client parts<br/>
-Calling JavaScript methods with Js_of_ocaml<br/></p></aside><p>To create our first service, we used the function <span><a href=".././../../eliom/latest/api/Eliom_registration.Html#VALcreate">Eliom_registration.Html.create</a></span>, as
+Calling JavaScript methods with Js_of_ocaml<br/></p></aside><p>To create our first service, we used the function <span><a href=".././../../eliom/latest/api/server/Eliom_registration.Html#VALcreate">Eliom_registration.Html.create</a></span>, as
 all we wanted to do was return HTML. But we actually want a service
 that corresponds to a full application with client and server
 parts. To do so, we need to create our own registration module by

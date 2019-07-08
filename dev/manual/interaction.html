@@ -104,7 +104,7 @@ two parameters:
 </li><li> The second one corresponds to parameters that are sent in the body
 of the HTTP request (POST parameters). We will see soon how to make
 services with POST parameters.
-</li></ul><p>The module <span><a href=".././../../eliom/latest/api/Eliom_parameter">Eliom_parameter</a></span>
+</li></ul><p>The module <span><a href=".././../../eliom/latest/api/server/Eliom_parameter">Eliom_parameter</a></span>
 defines the possible parameter types. For example if you write:
 </p><pre>~meth:(Eliom_service.Get (Eliom_parameter.int &quot;i&quot;))
 </pre><p>Eliom will try to find a parameter called <span class="teletype">i</span> and to translate it
@@ -115,7 +115,7 @@ into an <span class="teletype">int</span>.  In that case, the handler function w
 </pre><p>In that case, the handler function takes a pair of type <span class="teletype">(int * string)</span>.
 </p><p><em>Warning:</em> The operator <span class="teletype">**</span> is an infix <em>binary</em> operator.
 It will always create pairs, and not triples or other tuples.
-</p><p>The module <span><a href=".././../../eliom/latest/api/Eliom_parameter">Eliom_parameter</a></span> also
+</p><p>The module <span><a href=".././../../eliom/latest/api/server/Eliom_parameter">Eliom_parameter</a></span> also
 defines other parameter types: for example floats, 64 bits integers,
 sum types, but also more complex types, like sets or lists of values.
 It is also possible to define your own parameter types.</p></aside><p>For our program, we would prefer to take one part of the URL path as the parameter
@@ -127,13 +127,13 @@ To achieve this we change the definition of the previous service this way:
     ~meth:(Eliom_service.Get (
       Eliom_parameter.(suffix (string &quot;name&quot;))))
     (fun name () -&gt; ... )</code></pre><p>The user pages are now available at URLs <span class="code">http://localhost:8080/users/<em>username</em></span>.
-</p><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Using parts of the path as page parameters</h5></header><p>The module <span><a href=".././../../eliom/latest/api/Eliom_parameter">Eliom_parameter</a></span> makes
+</p><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Using parts of the path as page parameters</h5></header><p>The module <span><a href=".././../../eliom/latest/api/server/Eliom_parameter">Eliom_parameter</a></span> makes
 it possible to use parts of the path as service (GET) parameters.
-</p><p>In addition to <span><a href=".././../../eliom/latest/api/Eliom_parameter#VALsuffix">Eliom_parameter.suffix</a></span>, there are many other values allowing you to specify your expected
+</p><p>In addition to <span><a href=".././../../eliom/latest/api/server/Eliom_parameter#VALsuffix">Eliom_parameter.suffix</a></span>, there are many other values allowing you to specify your expected
 parameters: for example, you may access the full suffix as a string,
 as a list of string, or you may want to mix suffix parameters with
 standard GET parameters. You can also accept, as parameters, parts of
-the path that are not a suffix of the path (using <span><a href=".././../../eliom/latest/api/Eliom_parameter#VALconst">Eliom_parameter.const</a></span>).  See more information
+the path that are not a suffix of the path (using <span><a href=".././../../eliom/latest/api/server/Eliom_parameter#VALconst">Eliom_parameter.const</a></span>).  See more information
 on suffixes in <span><a href=".././../../eliom/latest/manual/server-params#suffixes">Eliom's manual</a></span>.
 </p><p><em>Warning:</em> Even if it is not displayed in the URL, suffix parameters
 have a parameter name. This allows one to make forms that point to
@@ -147,7 +147,7 @@ page.
   (html
     (head (title (txt name)) [])
     (body [h1 [txt name];
-           p [a ~service:main_service [txt &quot;Home&quot;] ()]])))</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Creating hyperlinks</h5></header><p>The function <span><a href=".././../../eliom/latest/api/Eliom_content.Html.D#VALa">Eliom_content.Html.D.a</a></span> accepts the following parameters:
+           p [a ~service:main_service [txt &quot;Home&quot;] ()]])))</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Creating hyperlinks</h5></header><p>The function <span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.D#VALa">Eliom_content.Html.D.a</a></span> accepts the following parameters:
 </p><ul><li> the service
 </li><li> the content of the link
 </li><li> URL parameters to be given to the service
@@ -208,8 +208,8 @@ let () = Eliom_content.Html.D.(
 links towards the second one and vice versa), we split the
 <span class="teletype">create</span> function application in two steps:
 </p><ul><li> First we create all the services using
-<span><a href=".././../../eliom/latest/api/Eliom_service#VALcreate">Eliom_service.create</a></span>
-or <span><a href=".././../../eliom/latest/api/Eliom_service.App#VALservice">Eliom_service.App.service</a></span>
+<span><a href=".././../../eliom/latest/api/server/Eliom_service#VALcreate">Eliom_service.create</a></span>
+or <span><a href=".././../../eliom/latest/api/server/Eliom_service.App#VALservice">Eliom_service.App.service</a></span>
 (depending on the type of services you want)
 </li><li> Then we register the handlers using the <span class="teletype">register</span> function from
 the right module.
@@ -236,8 +236,8 @@ these parameters:
   ~fallback:main_service
   ~post_params:Eliom_parameter.(string &quot;name&quot; ** string &quot;password&quot;)
   ()</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Hidden (POST) services</h5></header><p>Services using the POST HTTP method are created using the function
-<span><a href=".././../../eliom/latest/api/Eliom_service#VALcreate">Eliom_service.create</a></span>
-or <span><a href=".././../../eliom/latest/api/Eliom_service#VALattach_post">Eliom_service.attach_post</a></span>
+<span><a href=".././../../eliom/latest/api/server/Eliom_service#VALcreate">Eliom_service.create</a></span>
+or <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALattach_post">Eliom_service.attach_post</a></span>
 (depending on what type of service you want to create).
 As you can see, there is a major
 difference from the way we created our previous services.
@@ -302,8 +302,8 @@ site.
 )</code></pre><p>Now, add a call to this function in the handler of the main service
 (for example just before the user links).
 </p><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Forms</h5></header><p>Form creation is very similar to link creation, using the functions
-<span><a href=".././../../eliom/latest/api/Eliom_content.Html.D.Form#VALget_form">Eliom_content.Html.D.Form.get_form</a></span> and
-<span><a href=".././../../eliom/latest/api/Eliom_content.Html.D.Form#VALpost_form">Eliom_content.Html.D.Form.post_form</a></span>.
+<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.D.Form#VALget_form">Eliom_content.Html.D.Form.get_form</a></span> and
+<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.D.Form#VALpost_form">Eliom_content.Html.D.Form.post_form</a></span>.
 </p><p>The first parameter is the service, and the last parameter (only for
 <span class="teletype">post_form</span>) is for GET parameters you want sent in the URL, if
 the fallback of your POST service takes GET parameters.
@@ -318,14 +318,14 @@ every form in your application.
 <span class="teletype">(string * string)</span>.  The function given to <span class="teletype">post_form</span> takes two
 parameters corresponding to the names of each field.
 </p><p>The functions that build widgets like
-<span><a href=".././../../eliom/latest/api/Eliom_content.Html.D.Form#VALinput">Eliom_content.Html.D.Form.input</a></span>
+<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.D.Form#VALinput">Eliom_content.Html.D.Form.input</a></span>
 expect an argument of type
-<span><a href=".././../../eliom/latest/api/Eliom_content.Html.D.Form#TYPEparam">Eliom_content.Html.D.Form.param</a></span>
+<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.D.Form#TYPEparam">Eliom_content.Html.D.Form.param</a></span>
 (e.g.,
 <span class="teletype"> Eliom_content.Html.D.Form.int : int Eliom_content.Html.D.Form.param</span>)
 specifying the parameter type.  OCaml checks that the name you use
 matches the field.  For example the names above need to be used with
-<span><a href=".././../../eliom/latest/api/Eliom_content.Html.D.Form#VALstring">Eliom_content.Html.D.Form.string</a></span>.</p></aside><h3>Opening a session</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Session data, Eliom references</p></aside><p>Now we want to remember that the user is successfully connected.  To do
+<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.D.Form#VALstring">Eliom_content.Html.D.Form.string</a></span>.</p></aside><h3>Opening a session</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Session data, Eliom references</p></aside><p>Now we want to remember that the user is successfully connected.  To do
 that we will set a reference when the user successfully connects, and
 we will restrict the scope of this reference to the session (that is,
 to the browser).
@@ -471,7 +471,7 @@ to do so we replace the path we specified earlier for the <span class="teletype"
                      p [a ~service:main_service [txt &quot;Home&quot;] ()]])));</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Alternative: register a redirection</h5></header><p>Usually, after sending a POST form, it is good practice to do a
 redirection.  This avoids reposting the data if the user reloads the
 page.
-</p><p>Eliom provides the module <span><a href=".././../../eliom/latest/api/Eliom_registration.Redirection">Eliom_registration.Redirection</a></span> to register services doing
+</p><p>Eliom provides the module <span><a href=".././../../eliom/latest/api/server/Eliom_registration.Redirection">Eliom_registration.Redirection</a></span> to register services doing
 redirections.  Such services return a service without parameter.
 </p><p>Example:
 </p><pre class=""><code class="language-ocaml translatable">let redir_service = Eliom_service.create
@@ -495,13 +495,13 @@ let () =
   (** service_to_redirect registration **)
   Eliom_registration.Any.register
   ~service:service_to_redirect
-  (fun () something -&gt; ..... )</code></pre><p>(If you want to give parameters to the service you return, use <span><a href=".././../../eliom/latest/api/Eliom_service#VALpreapply">Eliom_service.preapply</a></span> —
+  (fun () something -&gt; ..... )</code></pre><p>(If you want to give parameters to the service you return, use <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALpreapply">Eliom_service.preapply</a></span> —
 more information in the <span><a href=".././../../eliom/latest/manual/server-services#p3preapplied"> Eliom manual </a></span>.)
 </p><p>If you want to do a redirection towards the current page (as in our
 case), use the special service <span class="teletype">~path</span> parameter <span><span class="doclink_error">Error a_api: exception Api.Error(&quot;invalid ocaml id \&quot;Eliom_service.No_path\&quot;&quot;)</span></span>, which is some kind of POST
 non-attached coservice without parameter at all.</p></aside><h3>Disconnection</h3><p>To create a logout/disconnection form, we create another non-attached
 coservice using POST method, and register another action.  We call the
-function <span><a href=".././../../eliom/latest/api/Eliom_state#VALdiscard">Eliom_state.discard</a></span> with scope <span><a href=".././../../eliom/latest/api/Eliom_common#VALdefault_session_scope">Eliom_common.default_session_scope</a></span> to remove all session
+function <span><a href=".././../../eliom/latest/api/server/Eliom_state#VALdiscard">Eliom_state.discard</a></span> with scope <span><a href=".././../../eliom/latest/api/server/Eliom_common#VALdefault_session_scope">Eliom_common.default_session_scope</a></span> to remove all session
 data.
 </p><pre class=""><code class="language-ocaml translatable">let disconnection_service = Eliom_service.create
   ~path:(Eliom_service.No_path)
@@ -743,7 +743,7 @@ if the user does not exist in the database.  We want to check that the
 user is in the database before displaying the page, and send a 404
 error if the user is not.  To do that, we will replace module
 <span class="teletype"> Eliom_registration.Html </span>
-by <span><a href=".././../../eliom/latest/api/Eliom_registration.Any">Eliom_registration.Any</a></span> to register the service <span class="teletype">user_service</span>:
+by <span><a href=".././../../eliom/latest/api/server/Eliom_registration.Any">Eliom_registration.Any</a></span> to register the service <span class="teletype">user_service</span>:
 </p><pre class=""><code class="language-ocaml translatable">Eliom_registration.Any.register
     ~service:user_service
     (fun name () -&gt;
@@ -762,7 +762,7 @@ by <span><a href=".././../../eliom/latest/api/Eliom_registration.Any">Eliom_regi
           (html (head (title (txt &quot;404&quot;)) [])
              (body [h1 [txt &quot;404&quot;];
                     p [txt &quot;That page does not exist&quot;]]))
-    );</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Eliom_registration.Any</h5></header><p>The module <span><a href=".././../../eliom/latest/api/Eliom_registration.Any">Eliom_registration.Any</a></span> can be used to create services that are
+    );</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Eliom_registration.Any</h5></header><p>The module <span><a href=".././../../eliom/latest/api/server/Eliom_registration.Any">Eliom_registration.Any</a></span> can be used to create services that are
 flexible to choose the kind of output they want to send.
 </p><p>Use the <span class="teletype">send</span> function from the module you want to send the
 output.  That function also allows, for example, to specify the HTTP

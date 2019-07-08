@@ -48,7 +48,7 @@ We are looking for beta-tester and contributors.
 </p><p>Since version 4, Eliom embeds the
 <a href="http://erratique.ch/logiciel/react" class="ocsimore_phrasing_link">React</a> library in order to
 provide reactive HTML elements
-(<span><a href=".././../../eliom/latest/api/Eliom_content.Html.R">Eliom_content.Html.R</a></span>).
+(<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.R">Eliom_content.Html.R</a></span>).
 </p>The final Eliom code is available
 <a href="https://github.com/ocsigen/tutorial/tree/master/files/tutorial/chapter3/reactive_media_player/reactive_media_player.eliom" class="ocsimore_phrasing_link">for download</a>.<h2 id="basics"> Basics <a class="backref" href="#basics">&#182;</a></h2><p>A reactive element, or more generally a reactive value, depends on the
 current value of a signal. For instance :
@@ -205,7 +205,7 @@ let%client unblock_s, set_unblock_s = React.S.create true</code></pre><pre class
      : unit)
   ] in
   d_input</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Reactive attributes and React.S.on</h5></header><p>The function <span class="teletype">R.a_value</span>
-(under <span><a href=".././../../eliom/latest/api/Eliom_content.Html">Eliom_content.Html</a></span>)
+(under <span><a href=".././../../eliom/latest/api/server/Eliom_content.Html">Eliom_content.Html</a></span>)
 is a reactive attribute value. <span class="teletype">React.S.on c d s</span> is equal to
 <span class="teletype">s</span> when <span class="teletype">c</span> is true, otherwise it is equal to <span class="teletype">d</span> (in
 case <span class="teletype">c</span> has never been true). Which means we update the attribute

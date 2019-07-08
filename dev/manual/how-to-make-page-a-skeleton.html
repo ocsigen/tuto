@@ -53,7 +53,7 @@ We are looking for beta-tester and contributors.
        (body body_content)))</code></pre><p>So when you define your pages, you just call this skeleton with the content of the page as an argument:
 </p><pre class=""><code class="language-ocaml translatable">Example.register ~service:main
     (fun () () -&gt; skeleton [p [txt &quot;Hello World!&quot;]])</code></pre><p>This method can also be adapted to add elements on all your pages, like a header, a footer and a menu.
-</p><p>Module <span><a href=".././../../eliom/latest/api/Eliom_tools">Eliom_tools</a></span> has a predefined function
+</p><p>Module <span><a href=".././../../eliom/latest/api/server/Eliom_tools">Eliom_tools</a></span> has a predefined function
 for this:
 </p><pre class=""><code class="language-ocaml translatable">Eliom_tools.D.html
   ~title:&quot;ex&quot;

@@ -79,7 +79,7 @@ $ ocsigenserver -c mysite.conf</code></pre><p>where mysite.conf is adapted from
 <span class="teletype">local/etc/mysite/mysite-test.conf</span>
 by replacing mysite.cma by your cmo.
 </p><h2 id="post"> POST service <a class="backref" href="#post">&#182;</a></h2><p>Services using the POST HTTP method can be created and registered using the function
-<span><a href=".././../../eliom/latest/api/Eliom_registration.Html#VALcreate">Eliom_registration.Html.create</a></span>.
+<span><a href=".././../../eliom/latest/api/server/Eliom_registration.Html#VALcreate">Eliom_registration.Html.create</a></span>.
 </p><pre class=""><code class="language-ocaml translatable">let g getp postp = Lwt.return (&quot;t = &quot; ^ (string_of_int postp))
 
 let post_service =

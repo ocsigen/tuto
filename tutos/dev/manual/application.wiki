@@ -70,7 +70,7 @@ split into multiple files as per the developer's style. What matters
 is that you eventually produce a single module (*.cmo or *.cma) for
 the whole website.
 
-The module <<a_api project="eliom" | module Eliom_service >> allows to
+The module <<a_api project="eliom" subproject="server" | module Eliom_service >> allows to
 create new entry points to your web site, called //services//. In
 general, services are attached to a URL and generate a web page.
 Services are represented by OCaml values, through which you must
@@ -126,7 +126,7 @@ There are several ways to create pages for Eliom.  You can generate
 pages as strings (as in other web frameworks). However, it is
 preferable to generate HTML in a way that provides compile-time HTML
 correctness guarantees. This tutorial achieves this by using the
-module <<a_api project="eliom" | module Eliom_content.Html.D >>,
+module <<a_api project="eliom" subproject="server" | module Eliom_content.Html.D >>,
 which is implemented using the <<a_manual project="tyxml" |TyXML>>
 library.  The module defines a construction function for each HTML
 tag.
@@ -134,7 +134,7 @@ tag.
 //Note that it is also possible to use the usual HTML syntax directly
  in OCaml, cf.  <<a_api project="tyxml" | module Pa_tyxml >>.//
 
-The TyXML library (and thus <<a_api project="eliom" | module
+The TyXML library (and thus <<a_api project="eliom" subproject="server" | module
 Eliom_content.Html.D >>) is very strict and compels you to respect
 HTML standard (with some limitations). For example if you write:
 
@@ -219,7 +219,7 @@ Calling JavaScript methods with Js_of_ocaml\\
 >>
 
 To create our first service, we used the function <<a_api
-project="eliom" | val Eliom_registration.Html.create>>, as
+project="eliom" subproject="server" | val Eliom_registration.Html.create>>, as
 all we wanted to do was return HTML. But we actually want a service
 that corresponds to a full application with client and server
 parts. To do so, we need to create our own registration module by

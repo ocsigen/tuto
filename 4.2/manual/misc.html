@@ -99,7 +99,7 @@ let stop_drawing { drawing_thread; drawing_event_thread } =
   Lwt.cancel drawing_event_thread</code></pre><p>Notice that the client does not keep data from pages it left.
 <span class="teletype">Lwt.cancel t</span> stops the thread t. In this case it also closes the
 bus on which t is listening. For more informations see the
-<span><a href=".././../../lwt/latest/index"> Lwt programming guide </a></span> and
+<span><a href=".././../../lwt/index.html"> Lwt programming guide </a></span> and
 <span><a href=".././../../eliom/latest/api/client/Eliom_bus">Eliom_bus</a></span>.
 </p><pre class=""><code class="language-ocaml translatable">let launch_client_canvas bus image_elt canvas_elt slider  =
   let canvas = Html5.To_dom.of_canvas canvas_elt in

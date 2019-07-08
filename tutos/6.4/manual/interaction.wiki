@@ -108,7 +108,7 @@ two parameters:
   of the HTTP request (POST parameters). We will see soon how to make
   services with POST parameters.
 
-The module <<a_api project="eliom" | module Eliom_parameter >>
+The module <<a_api project="eliom" subproject="server" | module Eliom_parameter >>
 defines the possible parameter types. For example if you write:
 
 {{{
@@ -130,7 +130,7 @@ In that case, the handler function takes a pair of type {{{(int * string)}}}.
 //Warning:// The operator {{{**}}} is an infix //binary// operator.
 It will always create pairs, and not triples or other tuples.
 
-The module <<a_api project="eliom" | module Eliom_parameter >> also
+The module <<a_api project="eliom" subproject="server" | module Eliom_parameter >> also
 defines other parameter types: for example floats, 64 bits integers,
 sum types, but also more complex types, like sets or lists of values.
 It is also possible to define your own parameter types.
@@ -155,16 +155,16 @@ class="code"|~http:~//localhost:8080/users~///username//>>.
 
 <<concept title="Using parts of the path as page parameters" |
 
-The module <<a_api project="eliom" | module Eliom_parameter >> makes
+The module <<a_api project="eliom" subproject="server" | module Eliom_parameter >> makes
 it possible to use parts of the path as service (GET) parameters.
 
-In addition to <<a_api project="eliom" | val Eliom_parameter.suffix
+In addition to <<a_api project="eliom" subproject="server" | val Eliom_parameter.suffix
 >>, there are many other values allowing you to specify your expected
 parameters: for example, you may access the full suffix as a string,
 as a list of string, or you may want to mix suffix parameters with
 standard GET parameters. You can also accept, as parameters, parts of
 the path that are not a suffix of the path (using <<a_api
-project="eliom" | val Eliom_parameter.const >>).  See more information
+project="eliom" subproject="server" | val Eliom_parameter.const >>).  See more information
 on suffixes in <<a_manual
 project="eliom" chapter="server-params" fragment="suffixes"|Eliom's manual>>.
 
@@ -198,7 +198,7 @@ Change the handler of {{{user_service}}} into:
 
 <<concept title="Creating hyperlinks" |
 
-The function <<a_api project="eliom" | val
+The function <<a_api project="eliom" subproject="server" | val
 Eliom_content.Html.D.a >> accepts the following parameters:
 * the service
 * the content of the link
@@ -277,8 +277,8 @@ links towards the second one and vice versa), we split the
 {{{create}}} function application in two steps:
 
 * First we create all the services using
-  <<a_api project="eliom" | val Eliom_service.create >>
-  or <<a_api project="eliom" | val Eliom_service.App.service >>
+  <<a_api project="eliom" subproject="server" | val Eliom_service.create >>
+  or <<a_api project="eliom" subproject="server" | val Eliom_service.App.service >>
   (depending on the type of services you want)
 * Then we register the handlers using the {{{register}}} function from
   the right module.
@@ -336,8 +336,8 @@ let connection_service = Eliom_service.attach_post
 <<concept title="Hidden (POST) services" |
 
 Services using the POST HTTP method are created using the function
-<<a_api project="eliom" | val Eliom_service.create >>
-or <<a_api project="eliom" | val Eliom_service.attach_post >>
+<<a_api project="eliom" subproject="server" | val Eliom_service.create >>
+or <<a_api project="eliom" subproject="server" | val Eliom_service.attach_post >>
 (depending on what type of service you want to create).
 As you can see, there is a major
 difference from the way we created our previous services.
@@ -442,9 +442,9 @@ Now, add a call to this function in the handler of the main service
 <<concept title="Forms" |
 
 Form creation is very similar to link creation, using the functions
-<<a_api project="eliom" | val
+<<a_api project="eliom" subproject="server" | val
 Eliom_content.Html.D.Form.get_form >> and
-<<a_api project="eliom" | val Eliom_content.Html.D.Form.post_form >>.
+<<a_api project="eliom" subproject="server" | val Eliom_content.Html.D.Form.post_form >>.
 
 The first parameter is the service, and the last parameter (only for
 {{{post_form}}}) is for GET parameters you want sent in the URL, if
@@ -463,14 +463,14 @@ In the example, note that the service is expecting a pair
 parameters corresponding to the names of each field.
 
 The functions that build widgets like
-<<a_api project="eliom" | val Eliom_content.Html.D.Form.input >>
+<<a_api project="eliom" subproject="server" | val Eliom_content.Html.D.Form.input >>
 expect an argument of type
-<<a_api project="eliom" | type Eliom_content.Html.D.Form.param >>
+<<a_api project="eliom" subproject="server" | type Eliom_content.Html.D.Form.param >>
 (e.g.,
 {{{ Eliom_content.Html.D.Form.int : int Eliom_content.Html.D.Form.param}}})
 specifying the parameter type.  OCaml checks that the name you use
 matches the field.  For example the names above need to be used with
-<<a_api project="eliom" | val Eliom_content.Html.D.Form.string >>.
+<<a_api project="eliom" subproject="server" | val Eliom_content.Html.D.Form.string >>.
 
 >>
 
@@ -709,7 +709,7 @@ Usually, after sending a POST form, it is good practice to do a
 redirection.  This avoids reposting the data if the user reloads the
 page.
 
-Eliom provides the module <<a_api project="eliom" |
+Eliom provides the module <<a_api project="eliom" subproject="server" |
 module Eliom_registration.Redirection >> to register services doing
 redirections.  Such services return a service without parameter.
 
@@ -742,12 +742,12 @@ let () =
 >>
 
 (If you want to give parameters to the service you return, use <<a_api
-project="eliom" | val Eliom_service.preapply >> ---
+project="eliom" subproject="server" | val Eliom_service.preapply >> ---
 more information in the <<a_manual project="eliom" chapter="server-services"
 fragment="p3preapplied" | Eliom manual >>.)
 
 If you want to do a redirection towards the current page (as in our
-case), use the special service {{{~path}}} parameter <<a_api project="eliom" |
+case), use the special service {{{~path}}} parameter <<a_api project="eliom" subproject="server" |
 val Eliom_service.No_path >>, which is some kind of POST
 non-attached coservice without parameter at all.  >>
 
@@ -755,8 +755,8 @@ non-attached coservice without parameter at all.  >>
 
 To create a logout/disconnection form, we create another non-attached
 coservice using POST method, and register another action.  We call the
-function <<a_api project="eliom" | val
-Eliom_state.discard >> with scope <<a_api project="eliom"
+function <<a_api project="eliom" subproject="server" | val
+Eliom_state.discard >> with scope <<a_api project="eliom" subproject="server"
 | val Eliom_common.default_session_scope >> to remove all session
 data.
 
@@ -1112,7 +1112,7 @@ if the user does not exist in the database.  We want to check that the
 user is in the database before displaying the page, and send a 404
 error if the user is not.  To do that, we will replace module
 {{{ Eliom_registration.Html }}}
-by <<a_api project="eliom" | module
+by <<a_api project="eliom" subproject="server" | module
 Eliom_registration.Any >> to register the service {{{user_service}}}:
 
 <<code language="ocaml"|
@@ -1143,7 +1143,7 @@ Eliom_registration.Any >> to register the service {{{user_service}}}:
 
 <<concept title="Eliom_registration.Any" |
 
-The module <<a_api project="eliom" | module
+The module <<a_api project="eliom" subproject="server" | module
 Eliom_registration.Any >> can be used to create services that are
 flexible to choose the kind of output they want to send.
 

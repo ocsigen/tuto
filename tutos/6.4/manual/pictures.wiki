@@ -4,7 +4,7 @@
 We will now add a button to the Graffiti application to save the current
 image. The images will be saved to the filesystem using the module
 <<a_api project="lwt"| module Lwt_io>>. We will then make an Atom feed
-with the saved images using <<a_api project="eliom" | module Atom_feed >>.
+with the saved images using <<a_api project="eliom" subproject="server" | module Atom_feed >>.
 
 We save the images in the directory containing the static contents
 under the directory {{{images_saved/username}}}. The {{{username}}}
@@ -35,7 +35,7 @@ let save image name number =
 >>
 
 We number images and associate to each image the time of creation. It
-is stocked in an <<a_api project="eliom"| module Ocsipersist >>
+is stocked in an <<a_api project="eliom" subproject="server"| module Ocsipersist >>
 table.
 
 <<code language="ocaml"|
@@ -76,7 +76,7 @@ let save_image_box name =
 We find the url of the images with <<a_api project="eliom"
 subproject="server"| val Eliom_service.static_dir >>.  It is a service
 taking file path as parameter, serving the content of the static
-directory. We use <<a_api project="eliom"| val
+directory. We use <<a_api project="eliom" subproject="server"| val
 Eliom_uri.make_string_uri >> to get the url as a string.
 
 <<code language="ocaml"|

@@ -5,11 +5,11 @@
 Just as we do for links, we provide form-building functions that call
 Eliom services in a safe manner. These functions are provided in the
 module
-<<a_api project="eliom" | module Eliom_content.Html.D.Form >> (and
-<<a_api project="eliom" | module Eliom_content.Html.F.Form >>).
+<<a_api project="eliom" subproject="server" | module Eliom_content.Html.D.Form >> (and
+<<a_api project="eliom" subproject="server" | module Eliom_content.Html.F.Form >>).
 The functions
-<<a_api project="eliom" | val Eliom_content.Html.D.Form.get_form >> and
-<<a_api project="eliom" | val Eliom_content.Html.D.Form.post_form >>
+<<a_api project="eliom" subproject="server" | val Eliom_content.Html.D.Form.get_form >> and
+<<a_api project="eliom" subproject="server" | val Eliom_content.Html.D.Form.post_form >>
 accept a function (named {{{create_form}}} in our example below)
 which is responsible for generating the content from
 appropriately-typed parameter names.
@@ -80,11 +80,11 @@ let%server () =
 >>
 
 As shown in the example,
-<<a_api project="eliom" | module Eliom_content.Html.D.Form >>
+<<a_api project="eliom" subproject="server" | module Eliom_content.Html.D.Form >>
 provides functions for generating the various widgets, e.g.,
-<<a_api project="eliom" | val Eliom_content.Html.D.Form.input >>.
+<<a_api project="eliom" subproject="server" | val Eliom_content.Html.D.Form.input >>.
 These functions need to be called with a "type" argument (e.g.,
-<<a_api project="eliom" | val Eliom_content.Html.D.Form.int >>)
+<<a_api project="eliom" subproject="server" | val Eliom_content.Html.D.Form.int >>)
 that matches the type of the corresponding parameter name.
 
 POST forms may also take get parameters, as last argument of function

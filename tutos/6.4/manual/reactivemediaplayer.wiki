@@ -5,7 +5,7 @@ You should read the [[site:/tuto/manual/music|Playing Music]] tutorial before th
 Since version 4, Eliom embeds the
 [[http://erratique.ch/logiciel/react|React]] library in order to
 provide reactive HTML elements
-(<<a_api project="eliom"| module Eliom_content.Html.R >>).
+(<<a_api project="eliom" subproject="server"| module Eliom_content.Html.R >>).
 
 
 <<webonly| The final Eliom code is available
@@ -247,7 +247,7 @@ let progress_bar () =
 <<concept title="Reactive attributes and React.S.on" |
 
 The function {{{R.a_value}}}
-(under <<a_api project="eliom"| module Eliom_content.Html >>)
+(under <<a_api project="eliom" subproject="server"| module Eliom_content.Html >>)
 is a reactive attribute value. {{{React.S.on c d s}}} is equal to
 {{{s}}} when {{{c}}} is true, otherwise it is equal to {{{d}}} (in
 case {{{c}}} has never been true). Which means we update the attribute

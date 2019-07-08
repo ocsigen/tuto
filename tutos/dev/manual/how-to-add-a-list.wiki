@@ -64,7 +64,7 @@ Details:
 
 === Links
 
-* Modules <<a_api project="eliom"|module Eliom_content.Html.D>> and
-  <<a_api project="eliom"|module Eliom_content.Html.F>>
+* Modules <<a_api project="eliom" subproject="server"|module Eliom_content.Html.D>> and
+  <<a_api project="eliom" subproject="server"|module Eliom_content.Html.F>>
   (HTML5 Elements)
 * signature <<a_api project="tyxml"|module Html_sigs.T>> (Element attributes)

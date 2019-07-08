@@ -38,8 +38,8 @@ For an external image, you must convert the string url into uri using the **uri_
 
 === Links
 
-* Modules <<a_api project="eliom"|module Eliom_content.Html.D>> and
-  <<a_api project="eliom"|module Eliom_content.Html.F>>
+* Modules <<a_api project="eliom" subproject="server"|module Eliom_content.Html.D>> and
+  <<a_api project="eliom" subproject="server"|module Eliom_content.Html.F>>
   (HTML5 Elements)
 * The <<a_api project="tyxml"|val Html_sigs.T.img>> element
 * [[http://en.wikipedia.org/wiki/Alt_attribute|Alt attribute]]

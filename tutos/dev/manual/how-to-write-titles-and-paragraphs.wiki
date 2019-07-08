@@ -27,8 +27,8 @@ p [txt "Some text, blah blah blah"]
 
 === Links
 
-* Modules <<a_api project="eliom"|module Eliom_content.Html.D>> and
-  <<a_api project="eliom"|module Eliom_content.Html.F>>
+* Modules <<a_api project="eliom" subproject="server"|module Eliom_content.Html.D>> and
+  <<a_api project="eliom" subproject="server"|module Eliom_content.Html.F>>
   (HTML5 Elements)
 * The <<a_api project="tyxml"|val Html_sigs.T.h1>> element
 * signature <<a_api project="tyxml"|module Html_sigs.T>> (Element attributes)

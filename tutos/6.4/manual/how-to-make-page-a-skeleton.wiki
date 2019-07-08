@@ -24,7 +24,7 @@ So when you define your pages, you just call this skeleton with the content of t
 
 This method can also be adapted to add elements on all your pages, like a header, a footer and a menu.
 
-Module <<a_api project="eliom" | module Eliom_tools >> has a predefined function
+Module <<a_api project="eliom"  subproject="server"| module Eliom_tools >> has a predefined function
 for this:
 
 <<code language="ocaml"|

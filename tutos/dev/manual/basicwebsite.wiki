@@ -78,7 +78,7 @@ by replacing mysite.cma by your cmo.
 ==@@id="post"@@ POST service==
 
 Services using the POST HTTP method can be created and registered using the function
-<<a_api project="eliom" | val Eliom_registration.Html.create >>.
+<<a_api project="eliom" subproject="server" | val Eliom_registration.Html.create >>.
 
 <<code language="ocaml"|
 

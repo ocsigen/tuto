@@ -21,7 +21,7 @@ For example:
 Example with Eliom_content.Html.D module opened:
 <<code language="ocaml"|
 
-let upload = Eliom_service.Http.create
+let upload = Eliom_service.create
     ~path:(Eliom_service.Path ["upload"])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
     ()
@@ -37,7 +37,9 @@ let upload2 =
       (try
         Unix.unlink newname;
       with _ -> ());
-      Lwt_unix.link (Eliom_request_info.get_tmp_filename file) newname;
+      let%lwt () =
+        Lwt_unix.link (Eliom_request_info.get_tmp_filename file) newname
+      in
       Lwt.return
         (html
            (head (title (txt "Upload")) [])
@@ -45,10 +47,10 @@ let upload2 =
 
 
 let uploadform =
-  Eliom_registration.Html.register upload
+  Eliom_registration.Html.register ~service:upload
     (fun () () ->
       let f =
-        (Form.post_form upload2
+        (Form.post_form ~service:upload2
            (fun file ->
              [p [Form.file_input ~name:file ();
                  br ();

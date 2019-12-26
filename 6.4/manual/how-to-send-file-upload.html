@@ -57,7 +57,7 @@ For example:
     &lt;maxrequestbodysize&gt;100MB&lt;/maxrequestbodysize&gt;
   &lt;/server&gt;
 &lt;/ocsigen&gt;</code></pre><p>Example with Eliom_content.Html.D module opened:
-</p><pre class=""><code class="language-ocaml translatable">let upload = Eliom_service.Http.create
+</p><pre class=""><code class="language-ocaml translatable">let upload = Eliom_service.create
     ~path:(Eliom_service.Path [&quot;upload&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
     ()
@@ -73,7 +73,9 @@ let upload2 =
       (try
         Unix.unlink newname;
       with _ -&gt; ());
-      Lwt_unix.link (Eliom_request_info.get_tmp_filename file) newname;
+      let%lwt () =
+        Lwt_unix.link (Eliom_request_info.get_tmp_filename file) newname
+      in
       Lwt.return
         (html
            (head (title (txt &quot;Upload&quot;)) [])
@@ -81,10 +83,10 @@ let upload2 =
 
 
 let uploadform =
-  Eliom_registration.Html.register upload
+  Eliom_registration.Html.register ~service:upload
     (fun () () -&gt;
       let f =
-        (Form.post_form upload2
+        (Form.post_form ~service:upload2
            (fun file -&gt;
              [p [Form.file_input ~name:file ();
                  br ();

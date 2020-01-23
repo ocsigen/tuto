@@ -50,30 +50,36 @@ But if the file is chosen by the user through an input file element,
 there is a way to send it to the server. You can't use the <span class="teletype">server_function</span> syntax for this, but you can use
 <span class="teletype">Eliom_client.call_caml_service</span>.
 </p><p>Example:
-</p><pre class=""><code class="language-ocaml translatable">let pic_service =
-  Eliom_service.create
-    ~name:&quot;upload_pic&quot;
-    ~path:Eliom_service.No_path
-    ~meth:
-      (Eliom_service.Post (Eliom_parameter.unit, Eliom_parameter.file &quot;f&quot;))
+</p><pre class=""><code class="language-ocaml translatable">[%%client
+open Js_of_ocaml
+open Js_of_ocaml_lwt
+open Eliom_content.Html
+open Eliom_content.Html.F]
+
+let pic_service =
+  Eliom_service.create_ocaml ~name:&quot;upload_pic&quot; ~path:Eliom_service.No_path
+    ~meth:(Eliom_service.Post (Eliom_parameter.unit, Eliom_parameter.file &quot;f&quot;))
     ()
+
+let () =
+  Eliom_registration.Ocaml.register ~service:pic_service (fun _ _ -&gt;
+      (* get the file ... *)
+      Lwt.return_unit)
 
 let%client upload_pic_form () =
   let file = D.Raw.input ~a:[a_input_type `File] () in
-  let submit = D.Raw.input ~a:[a_input_type `Submit; a_value &quot;Send&quot;] () in
-  Lwt_js_events.(
-    async (fun () -&gt;
-      clicks (To_dom.of_input submit)
-        (fun _ _ -&gt;
-          Js.Optdef.case ((To_dom.of_input file)##.files)
+  let submit_elt = D.Raw.input ~a:[a_input_type `Submit; a_value &quot;Send&quot;] () in
+  (let open Lwt_js_events in
+  async (fun () -&gt;
+      clicks (To_dom.of_input submit_elt) (fun _ _ -&gt;
+          Js.Optdef.case
+            (To_dom.of_input file)##.files
             Lwt.return
             (fun files -&gt;
-              Js.Opt.case (files##(item (0)))
+              Js.Opt.case
+                files ## (item 0)
                 Lwt.return
                 (fun file -&gt;
-                  Eliom_client.call_caml_service
-                    ~service:~%pic_service
-                    () file)))));
-  [txt &quot;Upload a picture:&quot;;
-   file;
-   submit]</code></pre></article></div></div></body></html>
+                  Eliom_client.call_ocaml_service ~service:~%pic_service ()
+                    file)))));
+  [txt &quot;Upload a picture:&quot;; file; submit_elt]</code></pre></article></div></div></body></html>

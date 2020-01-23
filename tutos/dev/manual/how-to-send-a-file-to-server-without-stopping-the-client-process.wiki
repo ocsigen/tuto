@@ -23,6 +23,7 @@ let pic_service =
 
 let () =
   Eliom_registration.Ocaml.register ~service:pic_service (fun _ _ ->
+      (* get the file ... *)
       Lwt.return_unit)
 
 let%client upload_pic_form () =

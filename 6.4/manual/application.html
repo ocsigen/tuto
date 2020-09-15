@@ -61,7 +61,7 @@ creating a very basic page. We define the service that will implement
 this page by the following declaration:
 </p><pre class="server" class=""><code class="language-ocaml translatable">open Eliom_content.Html.D (* provides functions to create HTML nodes *)
 
-let main_service =
+let%server main_service =
   Eliom_registration.Html.create
     ~path:(Eliom_service.Path [&quot;graff&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
@@ -168,7 +168,7 @@ using the functor <span class="teletype">Eliom_registration.App</span>:
       let global_data_path = None
     end)</code></pre><p>It is now possible to use module <span class="teletype">Graffiti_app</span> for registering our main
 service (now at URL <span class="teletype">/</span>):
-</p><pre class="server" class=""><code class="language-ocaml translatable">let main_service =
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server main_service =
   Graffiti_app.create
     ~path:(Eliom_service.Path [&quot;&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
@@ -211,7 +211,7 @@ code into client and server parts, compiles the server part as usual,
 and compile the client part to a JavaScript program using
 <span class="teletype">js_of_ocaml</span>.</p></aside><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Client values on the server</h5></header><p>Additionally, it is possible to create client values within the server
 code by the following quotation:
-</p><pre class=""><code class="language-ocaml translatable">[%client (expr : typ) ]</code></pre><p>where <span class="teletype">typ</span> is the type of an expression <span class="teletype">expr</span> on the client.
+</p><pre class="server" class=""><code class="language-ocaml translatable">[%client (expr : typ) ]</code></pre><p>where <span class="teletype">typ</span> is the type of an expression <span class="teletype">expr</span> on the client.
 Note, that such a client value is abstract on the server, but becomes
 concrete, once it is received by the client.
 </p><p>(The <span class="teletype">typ</span> can be ommitted if it can be inferred from the usage of
@@ -240,9 +240,9 @@ side.  We can access some server variables from the client code. For
 instance:
 </p><pre class="server" class=""><code class="language-ocaml translatable">open%shared Js_of_ocaml
 
-let count = ref 0
+let%server count = ref 0
 
-let main_service =
+let%server main_service =
   Graffiti_app.create
     ~path:(Eliom_service.Path [&quot;&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
@@ -286,7 +286,7 @@ line for now.
 </p><pre class="shared" class=""><code class="language-ocaml translatable">(* Modules opened with open%shared are available in client and server-code *)
 open%shared Eliom_content.Html.D
 open%shared Eliom_content
-open%shared Js_of_ocaml</code></pre><pre class="client" class=""><code class="language-ocaml translatable">open%client Js_of_ocaml_lwt</code></pre><pre class="server" class=""><code class="language-ocaml translatable">module Graffiti_app =
+open%shared Js_of_ocaml</code></pre><pre class="client" class=""><code class="language-ocaml translatable">open%client Js_of_ocaml_lwt</code></pre><pre class="server" class=""><code class="language-ocaml translatable">module%server Graffiti_app =
   Eliom_registration.App (
     struct
       let application_name = &quot;graffiti&quot;
@@ -299,11 +299,11 @@ let%shared height = 400</code></pre><pre class="client" class=""><code class="la
   ctx##beginPath;
   ctx##(moveTo (float x1) (float y1));
   ctx##(lineTo (float x2) (float y2));
-  ctx##stroke</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let canvas_elt =
+  ctx##stroke</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server canvas_elt =
   canvas ~a:[a_width width; a_height height]
     [txt &quot;your browser doesn't support canvas&quot;]
 
-let page () =
+let%server page () =
   html
      (head (title (txt &quot;Graffiti&quot;)) [])
      (body [h1 [txt &quot;Graffiti&quot;];
@@ -311,7 +311,7 @@ let page () =
   let canvas = Eliom_content.Html.To_dom.of_canvas ~%canvas_elt in
   let ctx = canvas##(getContext (Dom_html._2d_)) in
   ctx##.lineCap := Js.string &quot;round&quot;;
-  draw ctx ((0, 0, 0), 12, (10, 10), (200, 100))</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let main_service =
+  draw ctx ((0, 0, 0), 12, (10, 10), (200, 100))</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server main_service =
   Graffiti_app.create
     ~path:(Eliom_service.Path [&quot;&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
@@ -455,7 +455,7 @@ containing exclusively basic types, or other types annotated with
 </p><p>Then we create an Eliom bus to broadcast drawing events to all client
 with the function <span><a href=".././../../eliom/latest/api/server/Eliom_bus#VALcreate">Eliom_bus.create</a></span>. This function take as parameter the type of
 values carried by the bus.
-</p><pre class="server" class=""><code class="language-ocaml translatable">let bus = Eliom_bus.create [%derive.json: messages]</code></pre><p>To write draw commands into the bus, we just replace the function
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server bus = Eliom_bus.create [%derive.json: messages]</code></pre><p>To write draw commands into the bus, we just replace the function
 <span class="teletype">line</span> in <span class="teletype">init_client</span> by:
 </p><pre class="client" class=""><code class="language-ocaml translatable">let line ev =
   let v = compute_line ev in
@@ -489,7 +489,7 @@ of the brush. For the colorpicker we used a widget available in
 <span class="teletype">CLIENT_PACKAGES</span>:
 </p><pre class="manually-translated"><code class="language-makefile">SERVER_PACKAGES := ... ocsigen-toolkit.server
 CLIENT_PACKAGES := ... ocsigen-toolkit.client</code></pre><p>To create the widget, we replace <span class="teletype">page</span> by :
-</p><pre class="client" class=""><code class="language-ocaml translatable">let%server page () =
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server page () =
   let colorpicker, cp_sig =
     Ot_color_picker.make ~a:[Html.D.a_class [&quot;colorpicker&quot;]]
   in
@@ -500,7 +500,7 @@ CLIENT_PACKAGES := ... ocsigen-toolkit.client</code></pre><p>To create the widge
                    ; canvas_elt
                    ; colorpicker])
   , cp_sig )</code></pre><p>Replace <span class="teletype">main_service</span> by:
-</p><pre class="client" class=""><code class="language-ocaml translatable">let main_service =
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server main_service =
   Graffiti_app.create
     ~path:(Eliom_service.Path [&quot;&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
@@ -541,7 +541,7 @@ function <span class="teletype">compute_line</span>:
   in
 ...</code></pre><p>Finally, we need to add a stylesheet in the headers of our page
 with function <span><a href=".././../../eliom/latest/api/server/Eliom_tools.D#VALcss_link">Eliom_tools.D.css_link</a></span>:
-</p><pre class="client" class=""><code class="language-ocaml translatable">let%server page () =
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server page () =
   let colorpicker, cp_sig =
     Ot_color_picker.make ~a:[Html.D.a_class [&quot;colorpicker&quot;]]
   in

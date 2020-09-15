@@ -68,7 +68,7 @@ them, the previously opened one is closed.
 </p><p class="screenshot"><img src="files/tutorial/tutowidgets/ex-final.png" alt="screenshot"/>
 </p><h2> First step: define an application with a basic service </h2><p>The following code defines a client-server Web application with only
 one service, registered at URL <span class="teletype">/</span> (the root of the website).
-</p><p>The code also defines a client-side application (section
+</p><p>The code also defines a client-side application (<span class="teletype">let%client</span> or section
 <span class="teletype"> [%%client ... ] </span>)
 that appends a client-side generated widget to the page.
 Section <span class="teletype"> [%%shared ... ] </span> is compiled on both the server and the
@@ -77,13 +77,13 @@ Inside such a section, you can write <span class="teletype"> let%server </span> 
 <span class="teletype"> let%client </span> to override <span class="teletype"> [%%shared ... ] </span>
 and define a server-only or client-only value (similarly for
 <span class="teletype"> [%%server ... ] </span> and <span class="teletype"> [%%client ... ] </span>).
-</p><pre class=""><code class="language-ocaml translatable">module Ex_app =
+</p><pre class="server" class=""><code class="language-ocaml translatable">module%server Ex_app =
   Eliom_registration.App (struct
     let application_name = &quot;ex&quot;
     let global_data_path = None
   end)
 
-let _ = Eliom_content.Html.D.(
+let%server _ = Eliom_content.Html.D.(
   Ex_app.create
     ~path:(Eliom_service.Path [&quot;&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
@@ -91,22 +91,18 @@ let _ = Eliom_content.Html.D.(
        Lwt.return
          (Eliom_tools.D.html ~title:&quot;tutowidgets&quot; ~css:[[&quot;css&quot;; &quot;ex.css&quot;]]
             (body [h2 [txt &quot;Welcome to Ocsigen!&quot;]])))
-)
-
-[%%client
-let mywidget s1 s2 = Eliom_content.Html.D.(
+)</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client mywidget s1 s2 = Eliom_content.Html.D.(
   let button  = div ~a:[a_class [&quot;button&quot;]] [txt s1] in
   let content = div ~a:[a_class [&quot;content&quot;]] [txt s2] in
   div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
 )
 
-let _ =
+let%client _ =
   let%lwt _ = Lwt_js_events.onload () in
   Dom.appendChild
     (Dom_html.document##.body)
     (Eliom_content.Html.To_dom.of_element (mywidget &quot;Click me&quot; &quot;Hello!&quot;));
-  Lwt.return ()
-]</code></pre><p>To compile it, first create a project by calling
+  Lwt.return ()</code></pre><p>To compile it, first create a project by calling
 </p><pre>  eliom-distillery -name ex -template basic.ppx
 </pre><p>The name of the project must match the name given to the functor
 <span class="teletype">Eliom_registration.App</span>.
@@ -143,14 +139,14 @@ is loaded. There are similar functions to wait for other events, e.g.,
 for a click on an element of the page, or for a key press.
 </p><h2> Second step: bind the button </h2><p>To make the widget work, we must bind the click event.
 Replace function <span class="teletype">mywidget</span> by the following lines:
-</p><pre class=""><code class="language-ocaml translatable">let switch_visibility elt =
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server switch_visibility elt =
   let elt = Eliom_content.Html.To_dom.of_element elt in
   if Js.to_bool (elt##.classList##contains (Js.string &quot;hidden&quot;)) then
     elt##.classList##remove (Js.string &quot;hidden&quot;)
   else
     elt##.classList##add (Js.string &quot;hidden&quot;)
 
-let mywidget s1 s2 = Eliom_content.Html.D.(
+let%server mywidget s1 s2 = Eliom_content.Html.D.(
   let button  = div ~a:[a_class [&quot;button&quot;]] [txt s1] in
   let content = div ~a:[a_class [&quot;content&quot;]] [txt s2] in
   Lwt.async (fun () -&gt;
@@ -180,20 +176,16 @@ using the <span class="teletype">~%x</span> syntax. These values will be seriali
 to the client automatically with the page.
 </li><li> We include the widget on the server side generated page instead of
 adding it to the page from client side.
-</li></ul><pre class=""><code class="language-ocaml translatable">module Ex_app =
+</li></ul><pre class="server" class=""><code class="language-ocaml translatable">module%server Ex_app =
   Eliom_registration.App (struct
     let application_name = &quot;ex&quot;
     let global_data_path = None
-  end)
-
-let%client switch_visibility elt =
+  end)</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client switch_visibility elt =
   let elt = Eliom_content.Html.To_dom.of_element elt in
   if Js.to_bool (elt##.classList##(contains (Js.string &quot;hidden&quot;))) then
     elt##.classList##remove (Js.string &quot;hidden&quot;)
   else
-    elt##.classList##add (Js.string &quot;hidden&quot;)
-
-let mywidget s1 s2 = Eliom_content.Html.D.(
+    elt##.classList##add (Js.string &quot;hidden&quot;)</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server mywidget s1 s2 = Eliom_content.Html.D.(
   let button  = div ~a:[a_class [&quot;button&quot;]] [txt s1] in
   let content = div ~a:[a_class [&quot;content&quot;]] [txt s2] in
   let _ = [%client
@@ -205,7 +197,7 @@ let mywidget s1 s2 = Eliom_content.Html.D.(
   div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
 )
 
-let _ = Eliom_content.Html.D.(
+let%server _ = Eliom_content.Html.D.(
   Ex_app.create
     ~path:(Eliom_service.Path [&quot;&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
@@ -216,26 +208,22 @@ let _ = Eliom_content.Html.D.(
                    mywidget &quot;Click me&quot; &quot;Hello!&quot;])))
 )</code></pre><h2> Fourth step: widget usable either on client or server sides </h2><p>If you make function <span class="teletype">mywidget</span> <em>shared</em>, it will be available
 both on server and client sides:
-</p><pre class=""><code class="language-ocaml translatable">let%shared mywidget s1 s2 =
+</p><pre class="shared" class=""><code class="language-ocaml translatable">let%shared mywidget s1 s2 =
   ...</code></pre><p class="screenshot"><img src="files/tutorial/tutowidgets/ex2.png" alt="screenshot"/>
 </p><h2> Fifth step: close last window when opening a new one </h2><p>To implement this, we record a client-side reference to a function for
 closing the currently opened window.
-</p><pre class=""><code class="language-ocaml translatable">module Ex_app =
+</p><pre class="server" class=""><code class="language-ocaml translatable">module%server Ex_app =
   Eliom_registration.App (struct
     let application_name = &quot;ex&quot;
     let global_data_path = None
-  end)
-
-let%client close_last = ref (fun () -&gt; ())
+  end)</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client close_last = ref (fun () -&gt; ())
 
 let%client switch_visibility elt =
   let elt = Eliom_content.Html.To_dom.of_element elt in
   if Js.to_bool (elt##.classList##(contains (Js.string &quot;hidden&quot;))) then
     elt##.classList##remove (Js.string &quot;hidden&quot;)
   else
-    elt##.classList##add (Js.string &quot;hidden&quot;)
-
-let%shared mywidget s1 s2 = Eliom_content.Html.D.(
+    elt##.classList##add (Js.string &quot;hidden&quot;)</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">let%shared mywidget s1 s2 = Eliom_content.Html.D.(
   let button  = div ~a:[a_class [&quot;button&quot;]] [txt s1] in
   let content = div ~a:[a_class [&quot;content&quot;]] [txt s2] in
   let _ = [%client
@@ -249,9 +237,7 @@ let%shared mywidget s1 s2 = Eliom_content.Html.D.(
      : unit)
   ] in
   div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
-)
-
-let _ = Eliom_content.Html.D.(
+)</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server _ = Eliom_content.Html.D.(
   Ex_app.create
     ~path:(Eliom_service.Path [&quot;&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
@@ -277,22 +263,18 @@ server-side program asks the client-side program to generate two
 different references, by calling function <span class="teletype">new_set</span>. This function
 returns what we call a <em>client value</em>.  On server side, it is not
 evaluated, and it has an abstract type.
-</p><pre class=""><code class="language-ocaml translatable">module Ex_app =
+</p><pre class="server" class=""><code class="language-ocaml translatable">module%server Ex_app =
   Eliom_registration.App (struct
     let application_name = &quot;ex&quot;
     let global_data_path = None
   end)
 
-let new_set () = [%client ( ref (fun () -&gt; ()) : (unit -&gt; unit) ref)]
-
-let%client switch_visibility elt =
+let%server new_set () = [%client ( ref (fun () -&gt; ()) : (unit -&gt; unit) ref)]</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client switch_visibility elt =
   let elt = Eliom_content.Html.To_dom.of_element elt in
   if Js.to_bool (elt##.classList##(contains (Js.string &quot;hidden&quot;))) then
     elt##.classList##remove (Js.string &quot;hidden&quot;)
   else
-    elt##.classList##add (Js.string &quot;hidden&quot;)
-
-let%shared mywidget set s1 s2 = Eliom_content.Html.D.(
+    elt##.classList##add (Js.string &quot;hidden&quot;)</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">let%shared mywidget set s1 s2 = Eliom_content.Html.D.(
   let button  = div ~a:[a_class [&quot;button&quot;]] [txt s1] in
   let content = div ~a:[a_class [&quot;content&quot;; &quot;hidden&quot;]] [txt s2] in
   let _ = [%client
@@ -305,9 +287,7 @@ let%shared mywidget set s1 s2 = Eliom_content.Html.D.(
        : unit)]
   in
   div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
-)
-
-let _ = Eliom_content.Html.D.(
+)</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server _ = Eliom_content.Html.D.(
   Ex_app.create
     ~path:(Eliom_service.Path [&quot;&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)

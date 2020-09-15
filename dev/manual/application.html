@@ -59,7 +59,7 @@ very simple project called <span class="teletype">graffiti</span> in the directo
 </p><pre class="manually-translated"><code class="language-shell">$ eliom-distillery -name graffiti -template basic.ppx -target-directory graffiti</code></pre><h3>My first page</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Services<br/>Configuration file<br/>Static validation of HTML</p></aside><p>Our web application consists of a single page for now. Let's start by
 creating a very basic page. We define the service that will implement
 this page by the following declaration:
-</p><pre class="server" class=""><code class="language-ocaml translatable">open Eliom_content.Html.D (* provides functions to create HTML nodes *)
+</p><pre class="server" class=""><code class="language-ocaml translatable">open%server Eliom_content.Html.D (* provides functions to create HTML nodes *)
 
 let%server main_service =
   Eliom_registration.Html.create
@@ -69,7 +69,9 @@ let%server main_service =
       Lwt.return
         (html
            (head (title (txt &quot;Page title&quot;)) [])
-           (body [h1 [txt &quot;Graffiti&quot;]])))</code></pre><p>If you're using <span class="teletype">eliom-distillery</span> just replace the content of file
+           (body [h1 [txt &quot;Graffiti&quot;]])))</code></pre><p>Annotations <span class="teletype">%server</span> tells the compiler that the code is going to be executed
+on the server (see later).
+</p><p>If you're using <span class="teletype">eliom-distillery</span> just replace the content of file
 <span class="teletype">graffiti.eliom</span> by the above lines and run:
 </p><pre class="manually-translated"><code class="language-shell">$ make test.byte</code></pre><p>This will compile your application and run <span class="teletype">ocsigenserver</span>.
 </p><p>Your page is now available at URL <a href="http://localhost:8080/graff" class="ocsimore_phrasing_link"><span class="teletype">http://localhost:8080/graff</span></a>.
@@ -238,9 +240,7 @@ Converting an HTML value to a portion of page (a.k.a. Dom node)<br/>
 Manipulating HTML node 'by reference'</p></aside><p>The client side process is not strictly separated from the server
 side.  We can access some server variables from the client code. For
 instance:
-</p><pre class="server" class=""><code class="language-ocaml translatable">open%shared Js_of_ocaml
-
-let%server count = ref 0
+</p><pre class="shared" class=""><code class="language-ocaml translatable">open%shared Js_of_ocaml</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server count = ref 0
 
 let%server main_service =
   Graffiti_app.create

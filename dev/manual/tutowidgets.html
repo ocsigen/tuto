@@ -139,14 +139,14 @@ is loaded. There are similar functions to wait for other events, e.g.,
 for a click on an element of the page, or for a key press.
 </p><h2> Second step: bind the button </h2><p>To make the widget work, we must bind the click event.
 Replace function <span class="teletype">mywidget</span> by the following lines:
-</p><pre class="server" class=""><code class="language-ocaml translatable">let%server switch_visibility elt =
+</p><pre class="client" class=""><code class="language-ocaml translatable">let%client switch_visibility elt =
   let elt = Eliom_content.Html.To_dom.of_element elt in
   if Js.to_bool (elt##.classList##contains (Js.string &quot;hidden&quot;)) then
     elt##.classList##remove (Js.string &quot;hidden&quot;)
   else
     elt##.classList##add (Js.string &quot;hidden&quot;)
 
-let%server mywidget s1 s2 = Eliom_content.Html.D.(
+let%client mywidget s1 s2 = Eliom_content.Html.D.(
   let button  = div ~a:[a_class [&quot;button&quot;]] [txt s1] in
   let content = div ~a:[a_class [&quot;content&quot;]] [txt s2] in
   Lwt.async (fun () -&gt;
@@ -164,7 +164,7 @@ conversion functions between OCaml values and JS values.
 </li></ul><h2> Third step: Generating the widget on server side </h2><p>The following version of the program shows how to generate the widget
 on server side, before sending it to the client.
 </p><p>The code is exactly the same, with the following modifications:
-</p><ul><li> We place function <span class="teletype">mywidget</span> out of client section.
+</p><ul><li> We place function <span class="teletype">mywidget</span> in server section.
 </li><li> The portion of code that must be run on client side (binding the
 click event) is written as a <em>client value</em>, inside
 <span class="teletype"> [%client (... : unit) ] </span>.

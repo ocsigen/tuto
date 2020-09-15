@@ -129,15 +129,15 @@ for a click on an element of the page, or for a key press.
 To make the widget work, we must bind the click event.
 Replace function {{{mywidget}}} by the following lines:
 
-<<code language="ocaml" class="server"|
-let%server switch_visibility elt =
+<<code language="ocaml" class="client"|
+let%client switch_visibility elt =
   let elt = Eliom_content.Html.To_dom.of_element elt in
   if Js.to_bool (elt##.classList##contains (Js.string "hidden")) then
     elt##.classList##remove (Js.string "hidden")
   else
     elt##.classList##add (Js.string "hidden")
 
-let%server mywidget s1 s2 = Eliom_content.Html.D.(
+let%client mywidget s1 s2 = Eliom_content.Html.D.(
   let button  = div ~a:[a_class ["button"]] [txt s1] in
   let content = div ~a:[a_class ["content"]] [txt s2] in
   Lwt.async (fun () ->
@@ -162,7 +162,7 @@ The following version of the program shows how to generate the widget
 on server side, before sending it to the client.
 
 The code is exactly the same, with the following modifications:
-* We place function {{{mywidget}}} out of client section.
+* We place function {{{mywidget}}} in server section.
 * The portion of code that must be run on client side (binding the
   click event) is written as a //client value//, inside
   {{{ [%client (... : unit) ] }}}.

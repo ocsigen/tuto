@@ -327,7 +327,7 @@ and password to be shown in the URL, we use //hidden parameters//
 these parameters:
 
 <<code language="ocaml"|
-let connection_service = Eliom_service.attach_post
+let connection_service = Eliom_service.create_attached_post
   ~fallback:main_service
   ~post_params:Eliom_parameter.(string "name" ** string "password")
   ()
@@ -337,7 +337,7 @@ let connection_service = Eliom_service.attach_post
 
 Services using the POST HTTP method are created using the function
 <<a_api project="eliom" subproject="server" | val Eliom_service.create >>
-or <<a_api project="eliom" subproject="server" | val Eliom_service.attach_post >>
+or <<a_api project="eliom" subproject="server" | val Eliom_service.create_attached_post >>
 (depending on what type of service you want to create).
 As you can see, there is a major
 difference from the way we created our previous services.
@@ -722,7 +722,7 @@ let redir_service = Eliom_service.create
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
     ()
 
-let service_to_redirect = Eliom_service.attach_post
+let service_to_redirect = Eliom_service.create_attached_post
   ~fallback:redir_service
   ~post_params:(Eliom_parameter.string "something")
   ()
@@ -813,12 +813,12 @@ let new_user_form_service = Eliom_service.create
   ~meth:(Eliom_service.Get Eliom_parameter.unit)
   ()
 
-let create_account_service = Eliom_service.attach_post
+let create_account_service = Eliom_service.create_attached_post
   ~fallback:main_service
   ~post_params:(Eliom_parameter.(string "name" ** string "password"))
   ()
 
-let account_form = Eliom_content.Html.D.(
+let account_form () = Eliom_content.Html.D.(
   Form.post_form ~service:create_account_service
     (fun (name1, name2) ->
       [fieldset
@@ -839,7 +839,7 @@ let _ = Eliom_content.Html.D.(
       Lwt.return
         (html (head (title (txt "")) [])
               (body [h1 [txt "Create an account"];
-                     account_form;
+                     account_form ();
                     ])));
 
   Eliom_registration.Action.register
@@ -910,7 +910,7 @@ new POST attached coservice called {{{account_confirmation_service}}}:
 
 <<code language="ocaml"|
 let account_confirmation_service =
-  Eliom_service.create
+  Eliom_service.create_attached_post
     ~fallback:new_user_form_service
     ~post_params:(Eliom_parameter.(string "name" **  string "password"))
     ()
@@ -928,7 +928,7 @@ creation service:
     ~service:account_confirmation_service
     (fun () (name, pwd) ->
       let create_account_service =
-	Eliom_service.attach_get
+	Eliom_service.create_attached_get
           ~fallback:main_service
           ~get_params:Eliom_parameter.unit
           ~timeout:60.
@@ -1058,8 +1058,8 @@ Modify the connection box this way:
 
 <<code language="ocaml"|
 let connection_box () = Eliom_content.Html.D.(
-  lwt u = Eliom_reference.get username in
-  lwt wp = Eliom_reference.get wrong_pwd in
+  let%lwt u = Eliom_reference.get username in
+  let%lwt wp = Eliom_reference.get wrong_pwd in
   Lwt.return
     (match u with
       | Some s -> div [p [txt "You are connected as "; txt s; ];

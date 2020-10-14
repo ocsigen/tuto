@@ -232,12 +232,12 @@ for checking the name and password.  Since we don't want the username
 and password to be shown in the URL, we use <em>hidden parameters</em>
 (or POST parameters).  Thus, we need to create a new service taking
 these parameters:
-</p><pre class=""><code class="language-ocaml translatable">let connection_service = Eliom_service.attach_post
+</p><pre class=""><code class="language-ocaml translatable">let connection_service = Eliom_service.create_attached_post
   ~fallback:main_service
   ~post_params:Eliom_parameter.(string &quot;name&quot; ** string &quot;password&quot;)
   ()</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Hidden (POST) services</h5></header><p>Services using the POST HTTP method are created using the function
 <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALcreate">Eliom_service.create</a></span>
-or <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALattach_post">Eliom_service.attach_post</a></span>
+or <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALcreate_attached_post">Eliom_service.create_attached_post</a></span>
 (depending on what type of service you want to create).
 As you can see, there is a major
 difference from the way we created our previous services.
@@ -479,7 +479,7 @@ redirections.  Such services return a service without parameter.
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
     ()
 
-let service_to_redirect = Eliom_service.attach_post
+let service_to_redirect = Eliom_service.create_attached_post
   ~fallback:redir_service
   ~post_params:(Eliom_parameter.string &quot;something&quot;)
   ()
@@ -535,12 +535,12 @@ the &quot;database&quot;:
   ~meth:(Eliom_service.Get Eliom_parameter.unit)
   ()
 
-let create_account_service = Eliom_service.attach_post
+let create_account_service = Eliom_service.create_attached_post
   ~fallback:main_service
   ~post_params:(Eliom_parameter.(string &quot;name&quot; ** string &quot;password&quot;))
   ()
 
-let account_form = Eliom_content.Html.D.(
+let account_form () = Eliom_content.Html.D.(
   Form.post_form ~service:create_account_service
     (fun (name1, name2) -&gt;
       [fieldset
@@ -561,7 +561,7 @@ let _ = Eliom_content.Html.D.(
       Lwt.return
         (html (head (title (txt &quot;&quot;)) [])
               (body [h1 [txt &quot;Create an account&quot;];
-                     account_form;
+                     account_form ();
                     ])));
 
   Eliom_registration.Action.register
@@ -606,7 +606,7 @@ Limited services</p></aside><p>Now we want to add a confirmation page before act
 account.  We <em>replace</em> the service <span class="teletype">create_account_service</span> by a
 new POST attached coservice called <span class="teletype">account_confirmation_service</span>:
 </p><pre class=""><code class="language-ocaml translatable">let account_confirmation_service =
-  Eliom_service.create
+  Eliom_service.create_attached_post
     ~fallback:new_user_form_service
     ~post_params:(Eliom_parameter.(string &quot;name&quot; **  string &quot;password&quot;))
     ()</code></pre><p>and we make the account creation form point at this new service.
@@ -617,7 +617,7 @@ creation service:
     ~service:account_confirmation_service
     (fun () (name, pwd) -&gt;
       let create_account_service =
-	Eliom_service.attach_get
+	Eliom_service.create_attached_get
           ~fallback:main_service
           ~get_params:Eliom_parameter.unit
           ~timeout:60.
@@ -705,8 +705,8 @@ scope <span class="teletype">Eliom_common.request_scope</span>.
 </p><pre class=""><code class="language-ocaml translatable">let wrong_pwd =
   Eliom_reference.eref ~scope:Eliom_common.request_scope false</code></pre><p>Modify the connection box this way:
 </p><pre class=""><code class="language-ocaml translatable">let connection_box () = Eliom_content.Html.D.(
-  lwt u = Eliom_reference.get username in
-  lwt wp = Eliom_reference.get wrong_pwd in
+  let%lwt u = Eliom_reference.get username in
+  let%lwt wp = Eliom_reference.get wrong_pwd in
   Lwt.return
     (match u with
       | Some s -&gt; div [p [txt &quot;You are connected as &quot;; txt s; ];

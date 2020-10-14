@@ -98,9 +98,9 @@ let%server _ = Eliom_content.Html.D.(
 )
 
 let%client _ =
-  let%lwt _ = Lwt_js_events.onload () in
-  Dom.appendChild
-    (Dom_html.document##.body)
+  let%lwt _ = Js_of_ocaml_lwt.Lwt_js_events.onload () in
+  Js_of_ocaml.Dom.appendChild
+    (Js_of_ocaml.Dom_html.document##.body)
     (Eliom_content.Html.To_dom.of_element (mywidget &quot;Click me&quot; &quot;Hello!&quot;));
   Lwt.return ()</code></pre><p>To compile it, first create a project by calling
 </p><pre>  eliom-distillery -name ex -template basic.ppx
@@ -132,34 +132,34 @@ allows waiting (without blocking the rest of the program) for an Lwt
 thread to terminate before continuing. <span class="teletype">e2</span> must ben a Lwt
 thread itself. <span class="teletype">Lwt.return</span> enables creating an
 already-terminated Lwt thread.
-</li><li> <span class="teletype">Lwt_js_events</span> defines a convenient way to program
+</li><li> <span class="teletype">Js_of_ocaml_lwt.Lwt_js_events</span> defines a convenient way to program
 interface events (mouse, keyboard, ...).
-</li></ul><p><span class="teletype">Lwt_js_events.onload</span> is a Lwt thread that waits until the page
+</li></ul><p><span class="teletype">Js_of_ocaml_lwt.Lwt_js_events.onload</span> is a Lwt thread that waits until the page
 is loaded. There are similar functions to wait for other events, e.g.,
 for a click on an element of the page, or for a key press.
 </p><h2> Second step: bind the button </h2><p>To make the widget work, we must bind the click event.
 Replace function <span class="teletype">mywidget</span> by the following lines:
 </p><pre class="client" class=""><code class="language-ocaml translatable">let%client switch_visibility elt =
   let elt = Eliom_content.Html.To_dom.of_element elt in
-  if Js.to_bool (elt##.classList##contains (Js.string &quot;hidden&quot;)) then
-    elt##.classList##remove (Js.string &quot;hidden&quot;)
+  if Js_of_ocaml.Js.to_bool (elt##.classList##contains (Js_of_ocaml.Js.string &quot;hidden&quot;)) then
+    elt##.classList##remove (Js_of_ocaml.Js.string &quot;hidden&quot;)
   else
-    elt##.classList##add (Js.string &quot;hidden&quot;)
+    elt##.classList##add (Js_of_ocaml.Js.string &quot;hidden&quot;)
 
 let%client mywidget s1 s2 = Eliom_content.Html.D.(
   let button  = div ~a:[a_class [&quot;button&quot;]] [txt s1] in
   let content = div ~a:[a_class [&quot;content&quot;]] [txt s2] in
   Lwt.async (fun () -&gt;
-    Lwt_js_events.clicks (Eliom_content.Html.To_dom.of_element button)
+    Js_of_ocaml_lwt.Lwt_js_events.clicks (Eliom_content.Html.To_dom.of_element button)
       (fun _ _ -&gt; switch_visibility content; Lwt.return ()));
   div ~a:[a_class [&quot;mywidget&quot;]] [button; content]
-)</code></pre><ul><li> Once again, we use <span class="teletype">Lwt_js_events</span>. Function <span class="teletype">clicks</span> is
+)</code></pre><ul><li> Once again, we use <span class="teletype">Js_of_ocaml_lwt.Lwt_js_events</span>. Function <span class="teletype">clicks</span> is
 used to bind a handler to clicks on a specific element.
 </li><li> Function <span class="teletype">async</span> runs an <span class="teletype">Lwt</span> thread asynchronously
 (without waiting for its result).
-</li><li> <span class="teletype">Lwt_js_events.clicks elt f</span> calls function <span class="teletype">f</span> for each
+</li><li> <span class="teletype">Js_of_ocaml_lwt.Lwt_js_events.clicks elt f</span> calls function <span class="teletype">f</span> for each
 mouseclick on element <span class="teletype">elt</span>.
-</li><li> <span class="teletype">Eliom_content.Html.To_dom.of_element</span>, <span class="teletype">Js.string</span> and <span class="teletype">Js.to_bool</span> are
+</li><li> <span class="teletype">Eliom_content.Html.To_dom.of_element</span>, <span class="teletype">Js_of_ocaml.Js.string</span> and <span class="teletype">Js_of_ocaml.Js.to_bool</span> are
 conversion functions between OCaml values and JS values.
 </li></ul><h2> Third step: Generating the widget on server side </h2><p>The following version of the program shows how to generate the widget
 on server side, before sending it to the client.
@@ -182,15 +182,15 @@ adding it to the page from client side.
     let global_data_path = None
   end)</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client switch_visibility elt =
   let elt = Eliom_content.Html.To_dom.of_element elt in
-  if Js.to_bool (elt##.classList##(contains (Js.string &quot;hidden&quot;))) then
-    elt##.classList##remove (Js.string &quot;hidden&quot;)
+  if Js_of_ocaml.Js.to_bool (elt##.classList##(contains (Js_of_ocaml.Js.string &quot;hidden&quot;))) then
+    elt##.classList##remove (Js_of_ocaml.Js.string &quot;hidden&quot;)
   else
-    elt##.classList##add (Js.string &quot;hidden&quot;)</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server mywidget s1 s2 = Eliom_content.Html.D.(
+    elt##.classList##add (Js_of_ocaml.Js.string &quot;hidden&quot;)</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server mywidget s1 s2 = Eliom_content.Html.D.(
   let button  = div ~a:[a_class [&quot;button&quot;]] [txt s1] in
   let content = div ~a:[a_class [&quot;content&quot;]] [txt s2] in
   let _ = [%client
     (Lwt.async (fun () -&gt;
-       Lwt_js_events.clicks (Eliom_content.Html.To_dom.of_element ~%button)
+       Js_of_ocaml_lwt.Lwt_js_events.clicks (Eliom_content.Html.To_dom.of_element ~%button)
          (fun _ _ -&gt; switch_visibility ~%content; Lwt.return ()))
      : unit)
   ] in
@@ -220,15 +220,15 @@ closing the currently opened window.
 
 let%client switch_visibility elt =
   let elt = Eliom_content.Html.To_dom.of_element elt in
-  if Js.to_bool (elt##.classList##(contains (Js.string &quot;hidden&quot;))) then
-    elt##.classList##remove (Js.string &quot;hidden&quot;)
+  if Js_of_ocaml.Js.to_bool (elt##.classList##(contains (Js_of_ocaml.Js.string &quot;hidden&quot;))) then
+    elt##.classList##remove (Js_of_ocaml.Js.string &quot;hidden&quot;)
   else
-    elt##.classList##add (Js.string &quot;hidden&quot;)</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">let%shared mywidget s1 s2 = Eliom_content.Html.D.(
+    elt##.classList##add (Js_of_ocaml.Js.string &quot;hidden&quot;)</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">let%shared mywidget s1 s2 = Eliom_content.Html.D.(
   let button  = div ~a:[a_class [&quot;button&quot;]] [txt s1] in
   let content = div ~a:[a_class [&quot;content&quot;]] [txt s2] in
   let _ = [%client
     (Lwt.async (fun () -&gt;
-       Lwt_js_events.clicks (Eliom_content.Html.To_dom.of_element ~%button) (fun _ _ -&gt;
+       Js_of_ocaml_lwt.Lwt_js_events.clicks (Eliom_content.Html.To_dom.of_element ~%button) (fun _ _ -&gt;
 	 !close_last ();
 	 close_last := (fun () -&gt; switch_visibility ~%content);
 	 switch_visibility ~%content;
@@ -244,8 +244,8 @@ let%client switch_visibility elt =
     (fun () () -&gt;
       let _ =
 	[%client
-	    (Dom.appendChild
-	       (Dom_html.document##.body)
+	    (Js_of_ocaml.Dom.appendChild
+	       (Js_of_ocaml.Dom_html.document##.body)
                (Eliom_content.Html.To_dom.of_element (mywidget &quot;Click me&quot; &quot;client side&quot;))
                : unit)
 	] in
@@ -271,15 +271,15 @@ evaluated, and it has an abstract type.
 
 let%server new_set () = [%client ( ref (fun () -&gt; ()) : (unit -&gt; unit) ref)]</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client switch_visibility elt =
   let elt = Eliom_content.Html.To_dom.of_element elt in
-  if Js.to_bool (elt##.classList##(contains (Js.string &quot;hidden&quot;))) then
-    elt##.classList##remove (Js.string &quot;hidden&quot;)
+  if Js_of_ocaml.Js.to_bool (elt##.classList##(contains (Js_of_ocaml.Js.string &quot;hidden&quot;))) then
+    elt##.classList##remove (Js_of_ocaml.Js.string &quot;hidden&quot;)
   else
-    elt##.classList##add (Js.string &quot;hidden&quot;)</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">let%shared mywidget set s1 s2 = Eliom_content.Html.D.(
+    elt##.classList##add (Js_of_ocaml.Js.string &quot;hidden&quot;)</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">let%shared mywidget set s1 s2 = Eliom_content.Html.D.(
   let button  = div ~a:[a_class [&quot;button&quot;]] [txt s1] in
   let content = div ~a:[a_class [&quot;content&quot;; &quot;hidden&quot;]] [txt s2] in
   let _ = [%client
     (Lwt.async (fun () -&gt;
-       Lwt_js_events.clicks (Eliom_content.Html.To_dom.of_element ~%button) (fun _ _ -&gt;
+       Js_of_ocaml_lwt.Lwt_js_events.clicks (Eliom_content.Html.To_dom.of_element ~%button) (fun _ _ -&gt;
          ! ~%set ();
          ~%set := (fun () -&gt; switch_visibility ~%content);
          switch_visibility ~%content;
@@ -295,8 +295,8 @@ let%server new_set () = [%client ( ref (fun () -&gt; ()) : (unit -&gt; unit) ref
       let set1 = new_set () in
       let set2 = new_set () in
       let _ = [%client (
-	Dom.appendChild
-	  (Dom_html.document##.body)
+	Js_of_ocaml.Dom.appendChild
+	  (Js_of_ocaml.Dom_html.document##.body)
 	  (Eliom_content.Html.To_dom.of_element (mywidget ~%set2 &quot;Click me&quot; &quot;client side&quot;))
 	  : unit)
 	      ] in

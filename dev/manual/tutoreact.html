@@ -325,7 +325,7 @@ received on client side through a <span class="teletype">React</span> event
   ignore [%client
     (ignore
        (React.E.map (handle_notif_message_list ~%rmessages)
-          ~%(Forum_notif.client_ev ()))
+          ~%(Forum_notif.client_ev () : (unit * int) Eliom_react.Down.t))
      : unit)
   ];
   let%lwt content =

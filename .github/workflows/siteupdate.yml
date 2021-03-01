@@ -42,7 +42,7 @@ jobs:
           
       - name: Generate doc
         run: |
-          export HOW_DOC=doc
+          export HOW_DOC=tutos
           export HOW_CONFIG=how.json
           export HOW_OUT=_doc
           eval $(opam env)

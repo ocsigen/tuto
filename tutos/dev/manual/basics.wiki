@@ -1,0 +1,142 @@
+=The basics=
+
+Here are the steps you need to master to become fully operational with Ocsigen.
+
+==OCaml==
+
+This programming guide assumes you know the //OCaml// language.
+Many resources and books are available online.
+
+==Lwt==
+
+//Lwt// is a concurrent programming library for OCaml, initially written
+by Jérôme Vouillon in 2001 for the
+[[https://github.com/bcpierce00/unison|Unison]] file synchronizer.
+It provides an alternative to the more usual preemptive threads approach
+for programming concurrent applications, that avoids most problems of concurrent
+data access and deadlocks.
+It is used by Ocsigen Server and Eliom and has now become one of the
+standard ways to implement concurrent applications in OCaml.
+All your Web sites must be written in Lwt-compatible way!
+
+<<concept title="How it works"|
+Instead of calling blocking functions, like {{{ Unix.sleep }}}
+or {{{ Unix.read }}}, that could block the entire program, replace them
+by their cooperatives counterparts ({{{ Lwt_unix.sleep}}},
+{{{ Lwt_unix.read}}}, etc.). Instead of taking time to execute,
+they always return immediately a //promise// of the result,
+of type {{{'a Lwt.t}}}. This type is abstract, and the only way
+to use the result is to //bind// a function to the promise.
+{{{Lwt.bind p f}}} means: "when promise {{{p}}} is completed, give its result
+to function {{{f}}}".
+
+Syntax {{{let%lwt x = p in e}}} is equivalent to {{{Lwt.bind p (fun x -> e)}}}
+and makes it very easy to sequentialize computations without blocking the rest
+of the program.
+>>
+
+Read more about Lwt in its [[wiki("lwt"):|user manual]].
+
+==TyXML==
+
+<<concept title="How it works"|
+
+>>
+
+==Eliom: Services==
+
+Eliom can also be used for more traditional Web or mobile apps:
+server-only, single-page applications, REST APIs, etc.
+
+==Js_of_ocaml==
+
+//Js_of_ocaml// is a compiler of OCaml bytecode to JavaScript,
+allowing to run Ocaml programs in a Web browser.
+Its key features are the following:
+* The whole language, and most of the standard library are supported.
+* The compiler is easy to install: it depends only on Findlib and Lwt.
+* The generated code which is independant of Eliom and the Ocsigen Server. You can use it with any Web server.
+* You can use a standard installation of OCaml to compile your programs. In particular, you do not have to recompile a library to use it with Js_of_ocaml. You just have to link your program with a specific library to interface with the browser API.
+
+
+==Eliom: client-server apps==
+
+Eliom transforms OCaml into a multi-tier language, allowing one to
+implement (both the server and client parts of) a distributed application
+entirely in OCaml, as a single program.
+This radically simplifies the communication between server and client.
+Applications can run on any Web browser or mobile device (iOS, Android, ...),
+thus eliminating the need for one custom version per platform.
+
+Client side features can be mixed with traditional Web interaction
+(links, forms, bookmarks, back button ...)
+One of the key feature of Eliom is that it allows
+one to mix commonplace Web interactions (URLs, forms, links,
+bookmarks, back button) with dynamic client side features. In
+particular, the client-side program **does not stop** when the user
+clicks a link, sends a form, or presses the back button--yet the user
+still can save bookmarks on pages!  This opens up a wide field of new
+possibilities, and should facilitate the emergence of new kinds of Web
+applications.
+
+==Eliom: sessions==
+
+
+==Ocsigen Toolkit==
+
+
+==Ocsigen Start==
+
+//Ocsigen-start// is a library and a template of Eliom application,
+with many common features like
+user registration, login box, notification system, etc.
+
+
+==Database access==
+
+
+==Reactive programming==
+
+Eliom also provides reactive pages (generated on server or client), an
+advanced session mechanism, facilities for server to client
+communication, support for continuation-based Web programming, etc.
+
+
+==Ocsigen Server==
+
+//Ocsigen Server// is a full featured Web server written in modular way.
+It implements most features of the HTTP protocol, and has a powerful
+extension mechanism that make easy to plug your own OCaml modules
+for generating pages. Many extensions are already written:
+;<<a_manual project="ocsigenserver" chapter="staticmod"|Staticmod>>
+:    to serve static files.
+;[[wiki("eliom"):|Eliom]]
+:    to create reliable client/server Web applications
+     or Web sites in OCaml using advanced high level concepts.
+;<<a_manual project="ocsigenserver" chapter="extendconfiguration"|Extendconfiguration>>
+:    allows for more options in the configuration file.
+;<<a_manual project="ocsigenserver" chapter="accesscontrol"|Accesscontrol>>
+:    allows to restrict the access to the sites from the config file (to request coming from a subnet, containing some headers, etc.).
+;<<a_manual project="ocsigenserver" chapter="authbasic"|Authbasic>>
+:    allows to restrict the access to the sites from the config file using Basic HTTP Authentication.
+;<<a_manual project="ocsigenserver" chapter="cgimod"|CGImod>>
+:    serves CGI scripts. It may also be used to serve PHP through CGI.
+;<<a_manual project="ocsigenserver" chapter="deflatemod"|Deflatemod>>
+:    used to compress data before sending to the client.
+;<<a_manual project="ocsigenserver" chapter="redirectmod"|Redirectmod>>
+:    sets redirections towards other Web sites from the configuration file.
+;<<a_manual project="ocsigenserver" chapter="revproxy"|Revproxy>>
+:    a reverse proxy for Ocsigen Server.
+      It allows to ask another server to handle the request.
+;<<a_manual project="ocsigenserver" chapter="rewritemod"|Rewritemod>>
+:    changes in incoming requests before sending them to other extensions.
+;<<a_manual project="ocsigenserver" chapter="outputfilter"|Outputfilter>>
+:    rewrites some parts of the output before sending it to the client.
+;<<a_manual project="ocsigenserver" chapter="userconf"|Userconf>>
+:    allows users to have their own configuration files.
+;<<a_manual project="ocsigenserver" chapter="comet"|Comet>>
+:    facilitates server to client communications.
+
+Ocsigen Server has a <<a_manual project="ocsigenserver"
+chapter="config"|sophisticated configuration>> file mechanism allowing
+complex configurations of sites.

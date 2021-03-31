@@ -1,5 +1,6 @@
 = Main tutorial
 ==[[intro|Introduction. Ocsigen: where to start?]]
+==[[basics|Ocsigen: The Basics]]
 ==[[site:/install|Install Ocsigen]]
 ==[[start|Your first app in 5 minutes]]
 ==[[basicwebsite|A basic Web site in OCaml]]

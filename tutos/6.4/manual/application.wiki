@@ -759,7 +759,7 @@ Eliom_bus.create >>. This function take as parameter the type of
 values carried by the bus.
 
 <<code language="ocaml" class="server"|
-let%server bus = Eliom_bus.create [%derive.json: messages]
+let%server bus = Eliom_bus.create [%json: messages]
 >>
 
 To write draw commands into the bus, we just replace the function

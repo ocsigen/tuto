@@ -455,7 +455,7 @@ containing exclusively basic types, or other types annotated with
 </p><p>Then we create an Eliom bus to broadcast drawing events to all client
 with the function <span><a href=".././../../eliom/latest/api/server/Eliom_bus#VALcreate">Eliom_bus.create</a></span>. This function take as parameter the type of
 values carried by the bus.
-</p><pre class="server" class=""><code class="language-ocaml translatable">let%server bus = Eliom_bus.create [%derive.json: messages]</code></pre><p>To write draw commands into the bus, we just replace the function
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server bus = Eliom_bus.create [%json: messages]</code></pre><p>To write draw commands into the bus, we just replace the function
 <span class="teletype">line</span> in <span class="teletype">init_client</span> by:
 </p><pre class="client" class=""><code class="language-ocaml translatable">let line ev =
   let v = compute_line ev in

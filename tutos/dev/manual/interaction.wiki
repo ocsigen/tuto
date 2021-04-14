@@ -442,9 +442,12 @@ Now, add a call to this function in the handler of the main service
 <<concept title="Forms" |
 
 Form creation is very similar to link creation, using the functions
-<<a_api project="eliom" subproject="server" | val
-Eliom_content.Html.D.Form.get_form >> and
-<<a_api project="eliom" subproject="server" | val Eliom_content.Html.D.Form.post_form >>.
+<<a_api project="eliom" subproject="server"
+text="val Eliom_content.Html.D.Form.get_form"
+| val Eliom_content_sigs.LINKS_AND_FORMS.Form.get_form >> and
+<<a_api project="eliom" subproject="server"
+text="val Eliom_content.Html.D.Form.post_form"
+| val Eliom_content_sigs.LINKS_AND_FORMS.Form.post_form >>.
 
 The first parameter is the service, and the last parameter (only for
 {{{post_form}}}) is for GET parameters you want sent in the URL, if

@@ -131,7 +131,7 @@ and Eliom.
 :Look at [[https://www.irill.org/videos/OUPS-2014-07/Meetup_OCaml_Oscigen|this video]]
 >>
 
-<|<div class="tutocase"|
+<<|div class="tutocase"|
 [[http://www.irill.org/videos/oups-december-2014/Ocsigen|OUPS meeting at IRILL]]
 ;A short talk, in english, that shows how to write a small client-server reactive application with Js~_of~_ocaml and Eliom.
 :Look at [[http://www.irill.org/videos/oups-december-2014/Ocsigen|this video]]

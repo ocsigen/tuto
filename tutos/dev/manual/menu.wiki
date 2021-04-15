@@ -68,8 +68,6 @@
 ===[[how-to-send-a-file-to-server-without-stopping-the-client-process|How to send a file to server without stopping the client process]]
 ===[[how-to-detect-channel-disconnection|How to detect channel disconnection]]
 ===[[how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed|How to detect on client side that the server side state for the process is closed]]
-== Database
-===[[how-to-use-a-database-with-eliom|How to use a database with Eliom]]
 == Eliom Server side
 ===[[how-do-i-create-a-cryptographically-safe-identifier|How do I create a Cryptographically safe identifier]]
 >>

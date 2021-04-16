@@ -92,13 +92,24 @@ an element (and more generally if you need to inject this element using <span cl
 </p><p>To create a service, call <span><a href=".././../../eliom/latest/api/Eliom_service#VALcreate">Eliom_service.create</a></span>.
 For example, the following code defines a service at URL <span class="teletype">/foo</span>,
 that will use GET HTTP method, and take one parameter of type string,
-named <span class="teletype">&quot;myparam&quot;</span>.
+named <span class="teletype">myparam</span>, and one of type int, named <span class="teletype">i</span>.
 </p><pre class="server" class=""><code class="language-ocaml translatable">let myservice =
   Eliom_service.create
     ~path:(Eliom_service.Path [&quot;foo&quot;])
-    ~meth:(Eliom_service.Get (Eliom_parameter.string &quot;myparam&quot;))
+    ~meth:(Eliom_service.Get (Eliom_parameter.(string &quot;myparam&quot; ** int &quot;i&quot;)))
     ()</code></pre><p>Then register an OCaml function as handler on this service:
-</p><h3>Outputs</h3><div id="servicetable"><table><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.Html5">Html5</a></span></th><td colspan="3">Typed HTML5 pages</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.ELIOM_APPL">App</a></span></th><td colspan="3">HTML5 pages belonging to an Eliom client/server application (functor)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.Flow5">Flow5</a></span></th><td colspan="3">Portions of HTML5 pages.</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.Action">Action</a></span></th><td colspan="3">Actions (server side effects) with or without reloading the page</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.File">Files</a></span></th><td colspan="3">Files</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.Ocaml">Ocaml</a></span></th><td colspan="3">OCaml value to be sent to a client side OCaml program</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.String">String</a></span></th><td colspan="3">Any OCaml string (array of byte)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.Redirection">Redirection</a></span></th><td colspan="3">Redirection to another service</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.Any">Any</a></span></th><td colspan="3">To be used to make the service chose what it sends</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.Customize">Customize</a></span></th><td colspan="3">Defining your own registration module (functor)</td></tr></table></div><h3>Parameters</h3><p>Module <span><a href=".././../../eliom/latest/api/Eliom_parameter">Eliom_parameter</a></span>
+</p><pre class="server" class=""><code class="language-ocaml translatable">let () =
+  Eliom_registration.Html.register ~service:myservice
+    (fun (myparam, i) () -&gt;
+      Lwt.return
+         Eliom_content.Html.F.(html (head (title &quot;&quot;)) (body [h1 [txt myparam]])))</code></pre><p>The handler takes as first parameter the GET page parameters, typed according to
+the parameter specification given while creating the service.
+The second parameter is for POST parameters (see below).
+</p><h3>Outputs</h3><p>Service can return a typed HTML page as in the example above, but also
+any other kind of result. To choose the return type, user the register function
+from the corresponding submodule of
+<span><a href=".././../../eliom/latest/api/Eliom_registration">Eliom_registration</a></span>:
+</p><div id="servicetable"><table><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.Html">Html</a></span></th><td colspan="3">Typed HTML pages</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.ELIOM_APPL">App</a></span></th><td colspan="3">HTML pages belonging to an Eliom client/server application (functor)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.Flow5">Flow</a></span></th><td colspan="3">Portions of HTML pages.</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.Action">Action</a></span></th><td colspan="3">Actions (server side effects) with or without reloading the page</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.File">Files</a></span></th><td colspan="3">Files</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.Ocaml">Ocaml</a></span></th><td colspan="3">OCaml value to be sent to a client side OCaml program</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.String">String</a></span></th><td colspan="3">Any OCaml string (array of byte)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.Redirection">Redirection</a></span></th><td colspan="3">Redirection to another service</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.Any">Any</a></span></th><td colspan="3">To be used to make the service chose what it sends. Call function send from the corresponding module to choose the output.</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/Eliom_registration.Customize">Customize</a></span></th><td colspan="3">Defining your own registration module (functor)</td></tr></table></div><h3>Parameters</h3><p>Module <span><a href=".././../../eliom/latest/api/Eliom_parameter">Eliom_parameter</a></span>
 is used to describe the type of service parameters.
 </p><p>Examples:
 </p><pre class=""><code class="language-ocaml translatable">Eliom_parameter.(int &quot;i&quot; ** (string &quot;s&quot; ** bool &quot;b&quot;))
@@ -118,9 +129,26 @@ Eliom_parameter.(list &quot;l&quot; (int &quot;i&quot;))
    (* /path?l[0]=11&amp;l[1]=2&amp;l[2]=42 *)
 
 Eliom_parameter.(suffix (int &quot;year&quot; ** int &quot;month&quot;))
-   (* /path/2012/09 *)</code></pre><h3>POST services</h3><h3>Other types of services</h3><h3>Predefined services</h3><p><span><a href=".././../../eliom/latest/api/Eliom_service#VALexternal_service">Eliom_service.external_service</a></span> to create links of form towards external Web sites
-</p><p><span><a href=".././../../eliom/latest/api/Eliom_service#VALstatic_dir">Eliom_service.static_dir</a></span> to create links towards static files.
-<span><a href=".././../../eliom/latest/api/Eliom_service#VALvoid_coservice'">Eliom_service.void_coservice'</a></span> to create links or forms towards the current URL ...</p></section><section class="docblock"><header><h2>Forms and links</h2></header><p>Functions <span class="teletype">Eliom_content.Html.F.a</span> and <span class="teletype">D.a</span>
+   (* /path/2012/09 *)</code></pre><h3>POST services</h3><p>To define a service with POST parameter, just change the <span class="teletype">~meth</span> parameter.
+For example the following example takes the same GET parameters as the service
+above, plus one POST parameter of type string, named &quot;mypostparam&quot;.
+</p><pre class="server" class=""><code class="language-ocaml translatable">~meth:(Eliom_service.Post (Eliom_parameter.((string &quot;myparam&quot; ** int &quot;i&quot;),
+                                                (string &quot;mypostparam&quot;))))</code></pre><h3>Pathless services</h3><p>Pathless services are not identified by the path in URL,
+but by a name given as parameter. This name can be specified manually
+using the <span class="teletype">~name</span> optional parameter, otherwise, a random name is
+generated automatically.
+</p><pre class="server" class=""><code class="language-ocaml translatable">let pathless_service =
+  Eliom_service.create
+    ~name:&quot;pathless_example&quot;
+    ~path:Eliom_service.No_path
+    ~meth:(Eliom_service.Get (Eliom_parameter.(int &quot;i&quot;)))
+    ()</code></pre><p>More information
+<span><a href=".././../../eliom/latest/manual/server-services#pathless">in the manual</a></span>.
+</p><h3>External services</h3><p>Use <span><a href=".././../../eliom/latest/api/Eliom_service#VALextern">Eliom_service.extern</a></span> to create
+links of forms towards external Web sites using Eliom services.
+</p><h3>Predefined services</h3><p>Use <span><a href=".././../../eliom/latest/api/Eliom_service#VALstatic_dir">Eliom_service.static_dir</a></span> to create links towards static files.
+</p><p>Use <span><a href=".././../../eliom/latest/api/Eliom_service#VALreload_action">Eliom_service.reload_action</a></span> and its variants to create links or forms towards the current URL (eload the page).
+</p><p><span><a href=".././../../eliom/latest/manual/server-services">Full documentation about services</a></span>.</p></section><section class="docblock"><header><h2>Forms and links</h2></header><p>Functions <span class="teletype">Eliom_content.Html.F.a</span> and <span class="teletype">D.a</span>
 create typed links to services with their parameters.
 For example, if <span class="teletype">home_service</span> expects no parameter
 and <span class="teletype">other_service</span> expects a string:

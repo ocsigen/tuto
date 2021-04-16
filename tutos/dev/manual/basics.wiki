@@ -288,11 +288,20 @@ Its key features are the following:
 * The generated code which is independant of Eliom and the Ocsigen Server. You can use it with any Web server.
 * You can use a standard installation of OCaml to compile your programs. In particular, you do not have to recompile a library to use it with Js_of_ocaml. You just have to link your program with a specific library to interface with the browser API.
 
+Interaction with Javascript libraries can be done:
+* either with untyped function calls (module {{{Js.Unsafe}}}),
+* or you can generate an interface just by writing an annotated {{{.mli}}}
+using [[https://github.com/LexiFi/gen_js_api|Gen_js_api]],
+* or you use a syntax extension to generate typed calls, using a
+{{{.mli}}} file describing Javascript objects
+with OCaml class types as phantom types.
 
-|{{{obj##m : u}}}|when {{{obj : <m : u prop> Js.t}}}|
-|{{{obj##m <- e : unit}}}|when {{{obj : <m : u prop> Js.t}}} and {{{e:u}}}|
-|{{{obj##m(e_1, ..., e_n) : u}}}|when {{{obj : <m : t_1 -> ... -> t_n -> u meth; ..> Js.t}}} and {{{e_i : t_i}}}|
-|{{{jsnew constr (e1, ..., en) : u}}}|when {{{constr : (t_1 -> ... -> t_n -> u Js.t) Js.constr}}} and {{{e_i : t_i}}}|
+The latter is used for the default Javascript library. Here is how it works:
+
+|{{{obj##.m : u}}}|when {{{obj : <m : u prop> Js.t}}}|
+|{{{obj##.m := e : unit}}}|when {{{obj : <m : u prop> Js.t}}} and {{{e:u}}}|
+|{{{obj##m e_1 ... e_n : u}}}|when {{{obj : <m : t_1 -> ... -> t_n -> u meth; ..> Js.t}}} and {{{e_i : t_i}}}|
+|{{{new%js constr e1 ... en : u Js.t}}}|when {{{constr : (t_1 -> ... -> t_n -> u Js.t) Js.constr}}} and {{{e_i : t_i}}}|
 
 >>
 
@@ -463,7 +472,7 @@ Lwt.async (mousedowns
 
 Ocsigen Toolkit defines several widgets that can be generated either
 on server or clide sides. Have look at
-[[wiki(ocsigen-start):demo/|Ocsigen Start's demo app]]
+[[wiki("ocsigen-start"):demo/|Ocsigen Start's demo app]]
 (or the [[https://play.google.com/store/apps/details?id=com.osdemo.mobile|corresponding Android app]]) to see them in action: carousel, drawer menu, date or time picker, color picker, etc.
 
 >>

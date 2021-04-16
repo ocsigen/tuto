@@ -27,7 +27,8 @@ It is used by Ocsigen Server and Eliom and has now become one of the
 standard ways to implement concurrent applications in OCaml.
 All your Web sites must be written in Lwt-compatible way!
 
-<<concept title="How it works"|
+<<div class="focused"|
+===How it works===
 Instead of calling blocking functions, like {{{ Unix.sleep }}}
 or {{{ Unix.read }}}, that could block the entire program, replace them
 by their cooperatives counterparts ({{{ Lwt_unix.sleep}}},
@@ -50,11 +51,14 @@ Read more about Lwt in its [[wiki("lwt"):|user manual]].
 <<section class="docblock" |
 <<header |==TyXML: typing HTML==>>
 
+TyXML statically checks that your OCaml function will never
+generate wrong HTML. For example a program that could generate a paragraph
+containing another paragraph will be rejected at compile time.
+
+Example of use:
 <<code language="ocaml"|
 open Eliom_content.Html.D
->>
 
-<<code language="ocaml"|
 (html
   (head (title (txt "")) [])
   (body [h1 ~a:[a_id "toto"; a_class ["blah"; "blih"]]
@@ -80,9 +84,16 @@ open Eliom_content.Html.D
   ()
 >>
 
-<<concept title="How it works"|
+<<div class="focused"|
+===How it works===
 
+TyXML builds the page as an OCaml data-structure using a construction function
+for each HTML tag. These functions take as parameters and return nodes
+of type {{{'a elt}}} where {{{'a}}} is a polymorphic variant type added in the
+module signature to constrain usage (phantom type).
 >>
+
+Eliom uses TyXML to create several kinds of nodes:
 
 Module {{{Eliom_content.Html.F}}} will create a functional value representing
 your nodes. On client side, calling {{{Eliom_content.Html.To_dom.of_element}}}
@@ -96,7 +107,7 @@ in the page.
 
 In a client server Eliom app,
 you probably always want to use {{{Eliom_content.Html.D}}}
-whenever you want to bind events on
+each time you want to bind events on
 an element (and more generally if you need to inject this element using {{{~%}}}).
 >>
 
@@ -450,6 +461,11 @@ Lwt.async (mousedowns
 <<section class="docblock" |
 <<header |==Ocsigen Toolkit==>>
 
+Ocsigen Toolkit defines several widgets that can be generated either
+on server or clide sides. Have look at
+[[wiki(ocsigen-start):demo/|Ocsigen Start's demo app]]
+(or the [[https://play.google.com/store/apps/details?id=com.osdemo.mobile|corresponding Android app]]) to see them in action: carousel, drawer menu, date or time picker, color picker, etc.
+
 >>
 
 <<section class="docblock" |
@@ -459,10 +475,25 @@ Lwt.async (mousedowns
 with many common features like
 user registration, login box, notification system, etc.
 
+It also provides a demo of many features presented in this page.
+Read [[start|this page]] to create your first Ocsigen Start
+app and take time to study the code of each example.
 >>
 
 <<section class="docblock" |
 <<header |==Database access==>>
+
+You can use your favourite database library with Ocsigen.
+Ocsigen Start's template is using
+[[https://github.com/darioteixeira/pgocaml|PG'OCaml]]
+(typed queries for Postgresql using a PPX syntax extension).
+
+Here is an example, taken from Ocsigen Start's demo:
+<<code language="ocaml" class="server"|
+let get () =
+  full_transaction_block (fun dbh ->
+    [%pgsql dbh "SELECT lastname FROM ocsigen_start.users"])
+>>
 
 >>
 
@@ -476,7 +507,8 @@ and
 define the simplest interface to enable server to client communication
 (the second one being aware of Ocsigen Start users).
 
-<<concept title="How it works"|
+<<div class="focused"|
+===How it works===
 Say you want to receive the messages for one or more chat rooms.
 First, define your notification module:
 <<code language="ocaml" class="server"|

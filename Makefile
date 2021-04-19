@@ -3,6 +3,7 @@ TUTORIAL_VERSION ?= $(error "Specify a version through TUTORIAL_VERSION")
 TUTORIAL_DIR ?= /var/www/data/manualwiki/tutorial
 VERSION_DIR = $(TUTORIAL_DIR)/$(TUTORIAL_VERSION)
 USER = www-data
+GENERATE_TEMPLATE=./install_template.sh
 
 show-help:
 	@echo "Usage:\n"\
@@ -20,3 +21,6 @@ install:
 set-stable:
 	(cd $(TUTORIAL_DIR); sudo -u $(USER) ln -sf -T $(TUTORIAL_VERSION) stable)
 
+local:
+	$(GENERATE_TEMPLATE)
+	quickdop -f tutos/ _doc -t json -c how.json -viu

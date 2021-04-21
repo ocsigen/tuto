@@ -1,25 +1,19 @@
 =How to call a server-side function from client-side?=
 
 It is possible to call server-side functions in client-side code using
-the {{{~%}}} syntax. For security reasons, these functions must first
-be declared explicitely as "server functions" (with the type of their
-argument).
+the RPC ppx extension syntax. For security reasons, these functions must be declared with the type of their
+argument.
 
 <<code language="ocaml"|
-let f x = ...
-
-let%client f_rpc = ~%(Eliom_client.server_function [%derive.json: int] f)
+let%rpc f_rpc (x: int) = ...
 
 ...
 
 [%client ... f_rpc 4 ... ]
 >>
 
-The server-side function ({{{f}}} in the example) needs to return an
+The RPC function ({{{f_rpc}}} in the example) needs to return an
 Lwt value.
-
-Server functions are just syntactic sugar for pathless services
-returning OCaml values.
 
 Note that you need to install {{{ppx_deriving}}}, and load our JSON
 {{{ppx_deriving}}} plugin in your project. The plugin is available as

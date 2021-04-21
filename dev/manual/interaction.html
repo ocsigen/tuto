@@ -498,7 +498,7 @@ let () =
   (fun () something -&gt; ..... )</code></pre><p>(If you want to give parameters to the service you return, use <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALpreapply">Eliom_service.preapply</a></span> —
 more information in the <span><a href=".././../../eliom/latest/manual/server-services#p3preapplied"> Eliom manual </a></span>.)
 </p><p>If you want to do a redirection towards the current page (as in our
-case), use the special service <span class="teletype">~path</span> parameter <span><span class="doclink_error">Error a_api: exception Api.Error(&quot;invalid ocaml id \&quot;Eliom_service.No_path\&quot;&quot;)</span></span>, which is some kind of POST
+case), use the special service <span class="teletype">~path</span> parameter <span><span class="doclink_error">Error a_api: exception Dune__exe__Api.Error(&quot;invalid ocaml id \&quot;Eliom_service.No_path\&quot;&quot;)</span></span>, which is some kind of POST
 non-attached coservice without parameter at all.</p></aside><h3>Disconnection</h3><p>To create a logout/disconnection form, we create another non-attached
 coservice using POST method, and register another action.  We call the
 function <span><a href=".././../../eliom/latest/api/server/Eliom_state#VALdiscard">Eliom_state.discard</a></span> with scope <span><a href=".././../../eliom/latest/api/server/Eliom_common#VALdefault_session_scope">Eliom_common.default_session_scope</a></span> to remove all session

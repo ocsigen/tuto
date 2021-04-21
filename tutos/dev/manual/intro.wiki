@@ -26,8 +26,8 @@ or call a server side OCaml functions from client code.
 * //Web and mobile multi-platform apps//: Android and iOS apps are
 generated from the exact same code as the Web app, and run in a webview.
 
-To see some example of mobile or Web apps written with Ocsigen, have a look
-at the [[https://www.besport.com|Be Sport social network]] (available in
+To see some examples of mobile or Web apps written with Ocsigen, have a look
+at the [[https://www.besport.com/news|Be Sport social network]] (available in
 [[https://play.google.com/store/apps/details?id=com.besport.www.mobile|Google Play Store]] and [[https://apps.apple.com/fr/app/be-sport/id1104216922|Apple app store]]), or
 [[http://ocsigen-1.inria.fr/ocsigen-start/demo/|Ocsigen Start's demo app]]
 (available on [[https://play.google.com/store/apps/details?id=com.osdemo.mobile|Google Play store]]).

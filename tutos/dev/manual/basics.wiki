@@ -49,7 +49,7 @@ and makes it very natural to sequentialize computations without blocking the res
 of the program.
 >>
 
-Read more about Lwt in its [[wiki("lwt"):|user manual]].
+Read more about Lwt in this [[lwt|short tutorial]] or in its [[wiki("lwt"):|user manual]].
 
 >>
 
@@ -114,6 +114,9 @@ In a client server Eliom app,
 you probably always want to use {{{Eliom_content.Html.D}}}
 each time you want to bind events on
 an element (and more generally if you need to inject this element using {{{~%}}}).
+
+
+Read more about TyXML in this [[html|short tutorial]] or in its [[wiki("tyxml"):|user manual]].
 >>
 
 <<section class="docblock" |
@@ -365,7 +368,7 @@ on client side.
 
 Server side variables can be accessed (injected) in client code by prefixing
 them with {{{~%}}} as in this example:
-<<code language="ocaml"|
+<<code language="ocaml" class="server"|
 let%server ... =
   ... let x = ... in [%client[ ... ~%x ... ]] ...
 }}
@@ -383,7 +386,7 @@ open%client Eliom_content.Html>>
 <<code language="ocaml" class="shared"|open%shared Eliom_content.Html.F>>
 <<code language="ocaml" class="server"|let%server theservice = Eliom_service.create ~path:["ex"] ~meth:(Eliom_service.Get Eliom_parameter.unit) ()>>
 <<code language="ocaml" class="client"|let%client theservice = ~%theservice>>
-<<code language="ocaml"|
+<<code language="ocaml" class="shared"|
 
 let%shared () =
   My_app.register ~service:theservice (fun s () ->
@@ -419,14 +422,14 @@ let%server g i = Lwt.return (string_of_int (i + Random.int 1000))
   ~%(Eliom_client.server_function ~name:"g" [%json: int] g)
 >>
 
-Syntax {{{[%json: t]}}} corresponds to the serialization functions of type {{{t}}}
+Syntax {{{[%json: t]}}} corresponds to the serialisation functions of type {{{t}}}
 from JSON. They are generated automatically by
 [[https://github.com/ocsigen/deriving|Deriving]], as long as it knows
 a deriver for each subtype. To create a deriver for your own types
 just append {{{[@@deriving json]}}} after your type declaration. Example:
 
 <<code language="ocaml" class="shared"|
-type t = A | B
+type%shared t = A | B
 [@@deriving json]
 >>
 
@@ -441,13 +444,13 @@ Session data is saved on server side in //Eliom references//.
 
 The following Eliom reference will count the number of visits of a user on a page:
 
-<<code language="ocaml"|
+<<code language="ocaml" class="server"|
 let%server count_ref =
   Eliom_reference.eref ~scope:Eliom_common.session 0 (* default value for everyone *)
 >>
 
-And somewhere in your service handler, ncrement the counter:
-<<code language="ocaml"|
+And somewhere in your service handler, increment the counter:
+<<code language="ocaml" class="server"|
 let%lwt count = Eliom_reference.get count_ref in
 Eliom_reference.set count_ref (count + 1);
 Lwt.return ()
@@ -601,13 +604,146 @@ server to client communication.
 >>
 
 <<section class="docblock" |
-<<header |==Internationalization==>>
+<<header |==Internationalisation==>>
 
+[[https://github.com/besport/ocsigen-i18n|Ocsigen i18n]]
+is an internationalisation library for your OCaml programs.
+
+Create a .tsv file with on each line a key and the text in several languages:
+
+{{{
+welcome_message Welcome everybody!        Bienvenue à tous !      Benvenuti a tutti !
+}}}
+
+and Ocsigen i18n will automatically generate functions like this one:
+<<code language="ocaml" class="shared"|
+let%shared welcome_message ?lang () () =
+  match lang with
+  | En -> [txt "Welcome everybody!"]
+  | Fr -> [txt "Bienvenue à tous !"]
+  | It -> [txt "Benvenuti a tutti !"]
+>>
+
+Ocsigen i18n also define a syntax extension to use these functions:
+<<code language="ocaml" class="shared"|
+  Eliom_content.Html.F.h1 [%i18n welcome_message]
+>>
+
+Ocsigen i18n offers many other features:
+* Text can be inserted as a TyXML node (as in the example above) or as a string
+* Text can be parametrizable, or contain holes
+* .tsv file can be splitted into several modules
+
+Have a look at the
+[[https://github.com/besport/ocsigen-i18n|README file]]
+to see the full documentation,
+and see examples in Ocsigen Start's template.
 
 >>
 
 <<section class="docblock" |
 <<header |==Reactive programming==>>
+
+Eliom allows to insert //reactive nodes// in pages, that is, nodes which are automatically
+updated when the values on which they depend change.
+
+This is based on the [[https://erratique.ch/software/react|React]] library by Daniel Bünzli,
+which implements //Functional Reactive Programming//.
+
+<<div class="focused"|
+===Functional Reactive Programming principle===
+
+Function {{{React.S.create}}} creates a signal and a function to chage its value:
+<<code language="ocaml" class="client"|
+let%client mysignal, set_mysignal = React.S.create 0
+>>
+
+Functions like {{{React.S.map}}} or {{{React.S.l2}}} create new signals
+from one (resp. two) input signals.
+They are updated automatically when their input signals change.
+For example, we can can define the same value as a string and as TyXML node:
+<<code language="ocaml" class="client"|
+let%client s_string = React.S.map string_of_int mysignal
+let%client s_p = React.S.map (fun v -> p [txt v]) s_string
+>>
+
+>>
+
+===Reactive nodes===
+
+Insert a (client side) reactive node in a page using function
+<<a_api project="eliom"| val Eliom_content.Html.R.node >>:
+
+<<code language="ocaml" class="client"|
+let%client f () =
+  let open Eliom_content.Html in
+  F.div [ R.node s_p ]
+>>
+
+===Reactive node content===
+
+Module
+<<a_api project="eliom"| val Eliom_content.Html.R >>
+also defines all TyXML nodes TyXML,
+which take reactive content as parameter.
+
+For example {{{Eliom_content.Html.R.txt}}} take
+a value of type {{{string React.S.t}}} as parameter (string signal).
+
+Instead of taking a list signal as parameter, functions like
+{{{div}}} or {{{p}}} of module {{{Eliom_content.Html.R}}}
+take a parameter of type
+[[https://github.com/ocsigen/reactiveData|Eliom_content.Html.F.elt ReactiveData.Rlist.t]].
+This enables incremental update of the content
+(usually, appending an element at the end of the list,
+without having to redraw the whole list).
+See an example with {{{ReactiveData}}} in [[tutoreact|this tutorial]].
+
+Node attributes can also be reactive.
+
+===Client-server reactive programming===
+
+Reactive nodes can be created in server or shared sections.
+To do that, use module
+<<a_api project="eliom"| module Eliom_shared.React >>
+instead of the usual {{{React}}} module.
+On client side, this module behaves like {{{React}}}.
+But when executed on server side, it will generate a non reactive values,
+that will automatically become reactive on the client.
+
+Full example:
+<<code language="ocaml" class="server"|let%server theservice = Eliom_service.create ~path:["ex"] ~meth:(Eliom_service.Get Eliom_parameter.unit) ()>>
+<<code language="ocaml" class="client"|let%client theservice = ~%theservice>>
+<<code language="ocaml" class="client"|
+[%%client open Js_of_ocaml_lwt]>>
+<<code language="ocaml" class="shared"|[%%shared open Eliom_content.Html.F]
+
+let%shared () =
+  My_app.register ~service:theservice (fun () () ->
+      let monsignal, set_signal = Eliom_shared.React.S.create 0 in
+      let s_string =
+        Eliom_shared.React.S.map [%shared string_of_int] monsignal
+      in
+      let _ =
+        [%client
+          (let rec aux () =
+             let%lwt () = Lwt_js.sleep 1.0 in
+             ~%set_signal (Random.int 100);
+             aux ()
+           in
+           Lwt.async aux
+            : unit)]
+      in
+      Lwt.return
+        (html
+           (head (title (txt s)) [])
+           (body [h1 [txt s]; p [Eliom_content.Html.R.txt s_string]])))
+>>
+
+Function {{{Eliom_shared.React.S.map}}} (and {{{Eliom_shared.React.S.l2}}}, etc)
+takes a //shared function// as parameter (syntax {{{@@class="shared"@@[%shared f]}}}).
+This can be seen as a couple containing both the server a client side implementation
+of the function.
 
 
 >>
@@ -616,6 +752,19 @@ server to client communication.
 <<header |==Mobile apps==>>
 Applications can run on any Web browser or mobile device (iOS, Android, ...),
 thus eliminating the need for one custom version per platform.
+
+Ocsigen Start's template comes with a Makefile which will automatically
+download the required NPM modules for Cordova and build you Android or iOS
+apps.
+Read the [[https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/README.md|README]] file
+to learn how to do that.
+
+Download
+[[https://play.google.com/store/apps/details?id=com.osdemo.mobile|Ocsigen Start's demo app]]
+from Google Play store to see an example.
+[[https://www.besport.com/news|Be Sport]] apps are also generated like this (available in
+[[https://play.google.com/store/apps/details?id=com.besport.www.mobile|Google Play Store]]
+and [[https://apps.apple.com/fr/app/be-sport/id1104216922|Apple app store]]).
 >>
 
 <<section class="docblock" |

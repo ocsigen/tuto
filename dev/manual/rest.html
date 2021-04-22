@@ -117,9 +117,9 @@ let db : location Ocsipersist.table Lwt.t =
   Ocsipersist.open_table &quot;locations&quot;</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Syntax extensions</h5></header><p>In order to successfully build this tutorial's source code, your
 <span class="teletype">Makefile.options</span> must contain the following settings:
 </p><pre class="manually-translated"><code class="language-makefile"># OCamlfind packages for the server
-SERVER_PACKAGES := ppx_deriving_yojson lwt.ppx js_of_ocaml.deriving.ppx
+SERVER_PACKAGES := ppx_deriving_yojson lwt_ppx js_of_ocaml-ppx.deriving
 # OCamlfind packages for the client
-CLIENT_PACKAGES := ppx_deriving_yojson lwt.ppx js_of_ocaml.ppx js_of_ocaml.deriving.ppx</code></pre><p>This is due to the fact, that in the code snippet above we use a syntax extension
+CLIENT_PACKAGES := lwt_ppx ppx_deriving_yojson js_of_ocaml-ppx js_of_ocaml-ppx.deriving</code></pre><p>This is due to the fact, that in the code snippet above we use a syntax extension
 provided by the <span class="teletype">ppx_deriving_yojson</span> package.<em></em></p></aside><h2 id="services"> Services definition <a class="backref" href="#services">&#182;</a></h2><p>First, let's define common service parameters:
 </p><ul><li> The <span class="teletype">path</span> of the API: it's the same for all services.
 </li></ul><ul><li> The GET parameter, which is an optional identifier given as a URL suffix. We
@@ -159,13 +159,13 @@ let create_service =
 let update_service =
   Eliom_service.create
     ~path
-    ~meth:(Eliom_service.Put get_params) 
+    ~meth:(Eliom_service.Put get_params)
     ()
 
 let delete_service =
   Eliom_service.create
     ~path
-    ~meth:(Eliom_service.Delete get_params) 
+    ~meth:(Eliom_service.Delete get_params)
     ()</code></pre><h2 id="handlers"> Handlers <a class="backref" href="#handlers">&#182;</a></h2><p>Let's start the handlers definition with a few helper values and functions
 used by handlers.
 </p><p>Since we use the low-level <span class="teletype">Eliom_registration.String.send</span> function to
@@ -213,7 +213,7 @@ or a list of all existing locations otherwise.
   match id_opt with
   | None -&gt;
     Ocsipersist.fold_step
-      (fun id loc acc -&gt; Lwt.return ((id, loc) :: acc)) db []  
+      (fun id loc acc -&gt; Lwt.return ((id, loc) :: acc)) db []
     &gt;&gt;= fun locations -&gt;
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
     send_json ~code:200 json
@@ -336,13 +336,13 @@ let create_service =
 let update_service =
   Eliom_service.create
     ~path
-    ~meth:(Eliom_service.Put get_params) 
+    ~meth:(Eliom_service.Put get_params)
     ()
 
 let delete_service =
   Eliom_service.create
     ~path
-    ~meth:(Eliom_service.Delete get_params) 
+    ~meth:(Eliom_service.Delete get_params)
     ()
 
 (**** Handler helpers ****)
@@ -376,7 +376,7 @@ let read_handler id_opt () =
   match id_opt with
   | None -&gt;
     Ocsipersist.fold_step
-      (fun id loc acc -&gt; Lwt.return ((id, loc) :: acc)) db []  
+      (fun id loc acc -&gt; Lwt.return ((id, loc) :: acc)) db []
     &gt;&gt;= fun locations -&gt;
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
     send_json ~code:200 json

@@ -83,7 +83,7 @@ optional parameters of React.S functions producing a signal (like
 <span class="teletype">create</span>).</p></aside><h2 id="frp_medial_player"> Functional Reactive Media Player <a class="backref" href="#frp_medial_player">&#182;</a></h2><p>This part explains how to create a simple media player, similar to the
 <a href=".././../../tuto/manual/music" class="ocsimore_phrasing_link">Playing Music</a> tutorial but with custom
 controls.We will apply
-<a href="https://en.wikipedia.org/wiki/Functional_reactive_programming" class="ocsimore_phrasing_link">FRP (Functionnal Reactive Programming)</a>.
+<a href="https://en.wikipedia.org/wiki/Functional_reactive_programming" class="ocsimore_phrasing_link">FRP (Functional Reactive Programming)</a>.
 </p><p>In order to provide a short tutorial, we only create three controls:
 play, pause and seek/progress bar.  So, let's write the corresponding
 type:
@@ -161,7 +161,7 @@ let () =
              div [play_button (); pause_button (); progress_bar ()]
            ])
        in
-       Lwt.return (Eliom_tools.D.html ~title:&quot;Media&quot; ~css:[] body))</code></pre><p>Now you should have an ΗΤΜΛ node with an audio tag, and two buttons:
+       Lwt.return (Eliom_tools.D.html ~title:&quot;Media&quot; ~css:[] body))</code></pre><p>Now you should have an ΗΤΜL node with an audio tag, and two buttons:
 play and pause. The progress bar is slightly harder to understand, but
 thanks to FRP, very easy to write.  It's basically an <span class="teletype">input</span> with
 <span class="teletype">range</span> type. In our program, the progress bar must emit the

@@ -77,7 +77,7 @@ optional parameters of React.S functions producing a signal (like
 This part explains how to create a simple media player, similar to the
 [[site:/tuto/manual/music|Playing Music]] tutorial but with custom
 controls.We will apply
-[[https://en.wikipedia.org/wiki/Functional_reactive_programming|FRP (Functionnal Reactive Programming)]].
+[[https://en.wikipedia.org/wiki/Functional_reactive_programming|FRP (Functional Reactive Programming)]].
 
 
 
@@ -192,7 +192,7 @@ let () =
        Lwt.return (Eliom_tools.D.html ~title:"Media" ~css:[] body))
 >>
 
-Now you should have an ΗΤΜΛ node with an audio tag, and two buttons:
+Now you should have an ΗΤΜL node with an audio tag, and two buttons:
 play and pause. The progress bar is slightly harder to understand, but
 thanks to FRP, very easy to write.  It's basically an {{{input}}} with
 {{{range}}} type. In our program, the progress bar must emit the

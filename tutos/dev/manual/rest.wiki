@@ -108,9 +108,9 @@ In order to successfully build this tutorial's source code, your
 {{{Makefile.options}}} must contain the following settings:
 <<code language="makefile"|
 # OCamlfind packages for the server
-SERVER_PACKAGES := ppx_deriving_yojson lwt.ppx js_of_ocaml.deriving.ppx
+SERVER_PACKAGES := ppx_deriving_yojson lwt_ppx js_of_ocaml-ppx.deriving
 # OCamlfind packages for the client
-CLIENT_PACKAGES := ppx_deriving_yojson lwt.ppx js_of_ocaml.ppx js_of_ocaml.deriving.ppx 
+CLIENT_PACKAGES := lwt_ppx ppx_deriving_yojson js_of_ocaml-ppx js_of_ocaml-ppx.deriving
 >>
 
 This is due to the fact, that in the code snippet above we use a syntax extension
@@ -171,13 +171,13 @@ let create_service =
 let update_service =
   Eliom_service.create
     ~path
-    ~meth:(Eliom_service.Put get_params) 
+    ~meth:(Eliom_service.Put get_params)
     ()
 
 let delete_service =
   Eliom_service.create
     ~path
-    ~meth:(Eliom_service.Delete get_params) 
+    ~meth:(Eliom_service.Delete get_params)
     ()
 >>
 
@@ -244,7 +244,7 @@ let read_handler id_opt () =
   match id_opt with
   | None ->
     Ocsipersist.fold_step
-      (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []  
+      (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
     ~>>= fun locations ->
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
     send_json ~code:200 json
@@ -390,13 +390,13 @@ let create_service =
 let update_service =
   Eliom_service.create
     ~path
-    ~meth:(Eliom_service.Put get_params) 
+    ~meth:(Eliom_service.Put get_params)
     ()
 
 let delete_service =
   Eliom_service.create
     ~path
-    ~meth:(Eliom_service.Delete get_params) 
+    ~meth:(Eliom_service.Delete get_params)
     ()
 
 (**** Handler helpers ****)
@@ -430,7 +430,7 @@ let read_handler id_opt () =
   match id_opt with
   | None ->
     Ocsipersist.fold_step
-      (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []  
+      (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
     ~>>= fun locations ->
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
     send_json ~code:200 json

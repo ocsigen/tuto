@@ -592,7 +592,16 @@ Lwt.async (mousedowns
 Ocsigen Toolkit defines several widgets that can be generated either
 on server or clide sides. Have look at
 [[wiki("ocsigen-start"):demo/|Ocsigen Start's demo app]]
-(or the [[https://play.google.com/store/apps/details?id=com.osdemo.mobile|corresponding Android app]]) to see them in action: carousel, drawer menu, date or time picker, color picker, etc.
+(or the [[https://play.google.com/store/apps/details?id=com.osdemo.mobile|corresponding Android app]])
+to see them in action: carousel, drawer menu, date or time picker, color picker,
+pull to refresh feature for mabile apps, etc.
+
+For example module
+<<a_api project="ocsigen-start" subproject="server"|module Ot_spinner>>
+implements a widgets that you can use to display a spinner (or fake elements)
+when some parts of you age take time to appear.
+It can be used in shared sections and gives you a precise control
+of the delays and the feeling of responsiveness of your app.
 
 >>
 
@@ -607,6 +616,14 @@ It also provides a demo of many features presented in this page.
 A [[wiki("ocsigen-start"):demo/|live version]] is accessible online.
 Read [[start|this page]] to create your first Ocsigen Start
 app and take time to study the code of each example.
+
+User management features are fully usable in production and
+will save you from implementing account creation, activation links
+or password recovery yourselves.
+Module <<a_api project="ocsigen-start" subproject="server"|module Os_current_user>>
+gives the ability to know the information about current user
+from anywhere in your program.
+
 >>
 
 <<section class="docblock" |

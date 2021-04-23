@@ -23,4 +23,4 @@ set-stable:
 
 local:
 	$(GENERATE_TEMPLATE)
-	quickdop -f tutos/ _doc -t json -c how.json -viu
+	quickdop -f $(DOC) _doc -t json -c how.json -viu

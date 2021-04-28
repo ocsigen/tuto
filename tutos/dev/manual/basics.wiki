@@ -67,7 +67,7 @@ Example of use:
 <<code language="ocaml"|
 let open Eliom_content.Html.D in
 (html
-  (head (title (txt "")) [])
+  (head (title (txt "Ex")
   (body [h1 ~a:[a_id "toto"; a_class ["blah"; "blih"]]
           [txt "Hallo!"]])))
 >>
@@ -171,7 +171,7 @@ let () =
   Eliom_registration.Html.register ~service:myservice
     (fun (myparam, i) () ->
       Lwt.return
-         Eliom_content.Html.F.(html (head (title ""))
+         Eliom_content.Html.F.(html (head (title (txt "")))
                                     (body [h1 [txt myparam]])))
 >>
 
@@ -300,17 +300,16 @@ Eliom_content.Html.D.a ~service:home_service [txt "Home"] ()
 Eliom_content.Html.D.a ~service:other_service [txt "Other"] ("hello", Some 4)
 >>
 
-Modules <<a_api project="eliom" subproject="server" | module Eliom_content.Html.F.Raw>> and
-<<a_api project="eliom" subproject="server" text="D.Raw"| module Eliom_content.Html.D.Raw>>
-define the links
-and form elements with the usual typed interface from TyXML.
+Modules <<a_api project="eliom" subproject="server" |module Eliom_content.Html.F>> and
+<<a_api project="eliom" subproject="server" text="D"|module Eliom_content.Html.D>>
+define the form elements with the usual typed interface from TyXML.
 Use this for example if you have a client side program and
 want to manipulate the form contents from client side functions
 (for example do a server function call with the form elements content).
 
 In contrast, modules
-modules <<a_api project="eliom" subproject="server" | module Eliom_content.Html.F>> and
-<<a_api project="eliom" subproject="server" text="D"| module Eliom_content.Html.D>>
+modules <<a_api project="eliom" subproject="server" text="Eliom_content.Html.F.Form"|module Eliom_content_sigs.LINKS_AND_FORMS.Form>> and
+<<a_api project="eliom" subproject="server" text="D.Form"|module Eliom_content_sigs.LINKS_AND_FORMS.Form>>
 define a typed interface
 for form elements. Use this for links (see above), or if you program traditional
 server-side Web interaction (with or without clien-side program). This will statically check that your forms
@@ -318,20 +317,20 @@ match the services. Example:
 
 <<code language="ocaml"|
 let open Eliom_content.Html.D in
-post_form
+Form.post_form
  ~service:connection_service
    (fun (name, password) ->
      [fieldset
        [label ~a:[a_for name] [txt "Name: "];
-        string_input ~input_type:`Text ~name:name ();
+        Form.input ~input_type:`Text ~name:name Form.int;
         br ();
-        string_input
+        Form.input
           ~a:[a_placeholder "Password"]
           ~input_type:`Password
           ~name:password
-          ();
+          Form.string;
         br ();
-        string_input ~input_type:`Submit ~value:"Connect" ()
+        Form.input ~input_type:`Submit ~value:"Connect" Form.string
       ]]) ()
 
 >>

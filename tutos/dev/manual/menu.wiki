@@ -18,8 +18,6 @@
 ==[[custom-conf|Custom configuration]]
 ==[[rest|RESTful JSON API]]
 ==[[ocsipersist|Persistent tables with Ocsipersist]]
-==[[hash-password|Protecting passwords]]
-==[[macaque|MaCaQue: SQL queries - Users]]
 = Improving Graffiti
 ==[[pictures|Download pictures]]
 ==[[music|Playing music]]
@@ -70,4 +68,5 @@
 ===[[how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed|How to detect on client side that the server side state for the process is closed]]
 == Eliom Server side
 ===[[how-do-i-create-a-cryptographically-safe-identifier|How do I create a Cryptographically safe identifier]]
+===[[hash-password|Protecting passwords]]
 >>

@@ -754,7 +754,7 @@ On client side, {{{~%(Notif.client_ev ())}}} is a React event of type
 {{{(key, notif) React.E.t}}}. Use it to receive the messages.
 >>
 
-Have a look at a [[wiki("ocsigen-start"):demo/demo-notif|running example]] in Ocsigen Start's demo
+Have a look at a [[https://ocsigen-1.inria.fr/ocsigen-start/demo/demo-notif|running example]] in Ocsigen Start's demo
 ([[https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_notif.eliom|source]]).
 
 Eliom has other communication modules:

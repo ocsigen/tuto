@@ -372,7 +372,7 @@ and [[https://ocsigen.org/js_of_ocaml/latest/api/js_of_ocaml/Js_of_ocaml/Dom_htm
 to interact with the DOM, or more specifically with HTML.
 
 You can test Js_of_ocaml online in this
-<<a_manual project="js_of_ocaml" page="files/toplevel/index.html"|Toplevel running in the browser>>.
+[[https://ocsigen.org/js_of_ocaml/latest/manual/files/toplevel/index.html|Toplevel running in the browser]]
 
 ===Examples===
 <<code language="ocaml"|
@@ -561,7 +561,7 @@ type%shared t = A | B
 [@@deriving json]
 >>
 
-<<a_manual project="js_of_ocaml" page="ppx-deriving"|More documentation about the JSON deriver>>.
+[[http://ocsigen.org/js_of_ocaml/latest/manual/ppx-deriving|More documentation about the JSON deriver]].
 
 * Examples of client sections, injections or server functions can be found in
 the demo included in
@@ -651,7 +651,7 @@ will call the function given as second parameter
 **for each** {{{click}}} or {{{mousedown}}} events
 on their first parameter.
 
-For example, the following code (inspired from [[graffiti|this tutorial]])
+For example, the following code (inspired from [[https://ocsigen.org/tuto/latest/manual/application|this tutorial]])
 will wait for all {{{mousedown}}} events on the canvas,
 then for each {{{mousemove}}} event on the document,
 it will call function {{{f}}}, until {{{mouseup}}} is triggered.
@@ -677,7 +677,7 @@ to see them in action: carousel, drawer menu, date or time picker, color picker,
 pull to refresh feature for mobile apps, etc.
 
 For example module
-<<a_api project="ocsigen-start" subproject="server"|module Ot_spinner>>
+<<a_api project="ocsigen-toolkit" subproject="server"|module Ot_spinner>>
 implements a widgets that you can use to display a spinner (or fake elements)
 when some parts of your page take time to appear.
 It can be used in shared sections and gives you precise control
@@ -802,7 +802,7 @@ Have a look at the
 [[https://github.com/besport/ocsigen-i18n|README file]]
 to see the full documentation,
 and see examples in
-[[[[https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_i18n.eliom|Ocsigen Start's template]].
+[[https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_i18n.eliom|Ocsigen Start's template]].
 
 >>
 

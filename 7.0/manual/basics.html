@@ -1,0 +1,627 @@
+<html><head><title>All Ocsigen in one page</title><meta charset="utf8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><link rel="stylesheet" href="https://ocsigen.org/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script type="text/javascript" src="https://ocsigen.org/js/client.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js">
+//<![CDATA[
+
+//]]>
+</script></head><body class="basics tuto"><div class="project-page"><div class="page-header"><p class="logo-ocsigen"><a href=".././../../" class="ocsimore_phrasing_link"><img src=".././../../img/ocsigen-white.svg" alt="Ocsigen"/></a>
+</p><div class="mainmenu"><p class="mainmenu-home"><a href=".././../../" class="ocsimore_phrasing_link">Home</a></p><p class="mainmenu-current mainmenu-doc"><a href=".././../../tuto/" class="ocsimore_phrasing_link">Doc</a></p><p><a href=".././../../eliom/" class="ocsimore_phrasing_link">Eliom</a></p><p><a href=".././../../js_of_ocaml/" class="ocsimore_phrasing_link">Js_of_ocaml</a></p><p><a href=".././../../lwt/" class="ocsimore_phrasing_link">Lwt</a></p><p><a href=".././../../tyxml/" class="ocsimore_phrasing_link">Tyxml</a></p><p><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a></p></div><form id="googlesearch" action="https://google.com/search"><input name="q" id="gsearch-box" placeholder="Search using Google"/><label for="gsearch-box"><img src="/img/search.svg" alt="" id="gsearch-icon"/></label><input type="submit" id="gsearch-submit" onclick="document.getElementById('gsearch-box').value += ' site:ocsigen.org';"/></form><aside class="how-drawer"><input id="how-drawer-toggle" type="checkbox"/><label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label><nav class="how-drawer-content"><ul class="drawermainmenu"><li class="drawermainmenu-home"><a href=".././../../" class="ocsimore_phrasing_link">Home</a>
+</li><li class="drawermainmenu-doc"><a href=".././../../tuto/" class="ocsimore_phrasing_link">Doc</a>
+</li><li class="drawermainmenu-project"><a href=".././../../eliom/" class="ocsimore_phrasing_link">Eliom</a>
+</li><li class="drawermainmenu-project"><a href=".././../../js_of_ocaml/" class="ocsimore_phrasing_link">Js_of_ocaml</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigenserver/" class="ocsimore_phrasing_link">Server</a>
+</li><li class="drawermainmenu-project"><a href=".././../../lwt/" class="ocsimore_phrasing_link">Lwt</a>
+</li><li class="drawermainmenu-project"><a href=".././../../tyxml/" class="ocsimore_phrasing_link">Tyxml</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
+</li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
+</li><li class="drawermainmenu-project"><a href=".././../../deriving/" class="ocsimore_phrasing_link">deriving</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
+</li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
+</li><li class="drawermainmenu-page"><a href=".././../../papers" class="ocsimore_phrasing_link">Research papers</a>
+</li><li class="drawermainmenu-page"><a href=".././../../credits" class="ocsimore_phrasing_link">Who does Ocsigen?</a>
+</li><li class="drawermainmenu-page"><a href=".././../../contributing" class="ocsimore_phrasing_link">Contributing</a>
+</li><li class="drawermainmenu-page"><a href=".././../../blog" class="ocsimore_phrasing_link">Blog</a>
+</li><li class="drawermainmenu-page"><a href=".././../../install" class="ocsimore_phrasing_link">Installation</a>
+</li><li class="drawermainmenu-page"><a href="https://github.com/ocsigen" class="ocsimore_phrasing_link">Source code</a>
+</li></ul><nav class="how-doctree"><h1> Programmer's guide</h1><h2><a href="intro" class="ocsimore_phrasing_link">Introduction. Ocsigen: where to start?</a></h2><h2><a href="basics" class="ocsimore_phrasing_link">All Ocsigen in one page</a></h2><h1> Main tutorials</h1><h2><a href=".././../../install" class="ocsimore_phrasing_link">Install Ocsigen</a></h2><h2><a href="start" class="ocsimore_phrasing_link">Your first app in 5 minutes</a></h2><h2><a href="basicwebsite" class="ocsimore_phrasing_link">A basic Web site in OCaml</a></h2><h2><a href="application" class="ocsimore_phrasing_link">Client/server application: Graffiti</a></h2><h2><a href="tutowidgets" class="ocsimore_phrasing_link">Eliom apps basics: writing client-server widgets</a></h2><h2><a href="how-to-register-session-data" class="ocsimore_phrasing_link">Session data: Eliom references</a></h2><h2><a href="tutoreact" class="ocsimore_phrasing_link">Reactive client-server Web applications</a></h2><h2><a href="interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="misc" class="ocsimore_phrasing_link">Mixing traditional Web interaction with client-server app</a></h2><h1> 5-minute tutorials</h1><h2><a href="lwt" class="ocsimore_phrasing_link">Lwt</a></h2><h2><a href="html" class="ocsimore_phrasing_link">HTML</a></h2><h1> Other tutorials: Miscellanous features</h1><h2><a href="mobile" class="ocsimore_phrasing_link">Mobile applications with Ocsigen</a></h2><h2><a href="custom-conf" class="ocsimore_phrasing_link">Custom configuration</a></h2><h2><a href="rest" class="ocsimore_phrasing_link">RESTful JSON API</a></h2><h2><a href="ocsipersist" class="ocsimore_phrasing_link">Persistent tables with Ocsipersist</a></h2><h1> Improving Graffiti</h1><h2><a href="pictures" class="ocsimore_phrasing_link">Download pictures</a></h2><h2><a href="music" class="ocsimore_phrasing_link">Playing music</a></h2><h2><a href="reactivemediaplayer" class="ocsimore_phrasing_link">Reactive media player</a></h2><h1 class="howto"> HOW-TO</h1><h2> My first steps with Ocsigen</h2><h3><a href="how-to-make-hello-world-in-ocsigen" class="ocsimore_phrasing_link">How to make &quot;hello world&quot; in Ocsigen</a></h3><h3><a href="how-to-compile-my-ocsigen-pages" class="ocsimore_phrasing_link">How to compile my Ocsigen pages</a></h3><h3><a href="how-to-configure-and-launch-the-ocsigen-server" class="ocsimore_phrasing_link">How to configure and launch the Ocsigen Server</a></h3><h3><a href="how-does-a-page-s-source-code-look" class="ocsimore_phrasing_link">How does a client-server app source code look like?</a></h3><h2> How to put some elements in my page ?</h2><h3><a href="how-to-make-page-a-skeleton" class="ocsimore_phrasing_link">How to make a page skeleton</a></h3><h3><a href="how-to-use-get-parameters-or-parameters-in-the-url" class="ocsimore_phrasing_link">How to use GET parameters (parameters in the URL)</a></h3><h3><a href="how-to-add-css-stylesheet" class="ocsimore_phrasing_link">How to add CSS stylesheet</a></h3><h3><a href="how-to-add-a-javascript-script" class="ocsimore_phrasing_link">How to add a Javascript script</a></h3><h3><a href="how-to-add-a-div" class="ocsimore_phrasing_link">How to add a div</a></h3><h3><a href="how-to-add-a-list" class="ocsimore_phrasing_link">How to add lists in pages?</a></h3><h3><a href="how-to-add-an-image" class="ocsimore_phrasing_link">How to add an image</a></h3><h3><a href="how-to-write-titles-and-paragraphs" class="ocsimore_phrasing_link">How to write titles and paragraphs</a></h3><h3><a href="how-to-set-and-id-classes-or-other-attributes-to-html-elements" class="ocsimore_phrasing_link">How to set and id, classes or other attributes to HTML elements</a></h3><h3><a href="how-to-add-a-select-or-other-form-element" class="ocsimore_phrasing_link">How to add select (or other form element)</a></h3><h3><a href="how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service" class="ocsimore_phrasing_link">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></h3><h3><a href="how-to-make-responsive-css" class="ocsimore_phrasing_link">How to make responsive CSS</a></h3><h2> Services</h2><h3><a href="how-to-do-links-to-other-pages" class="ocsimore_phrasing_link">How to do links to other pages</a></h3><h3><a href="how-to-write-forms" class="ocsimore_phrasing_link">How to write forms</a></h3><h3><a href="how-to-register-a-service-that-decides-itself-what-to-send" class="ocsimore_phrasing_link">How to register a service that decides itself what to send</a></h3><h3><a href="how-to-create-link-to-a-current-page-without-knowing-its-url" class="ocsimore_phrasing_link">How to create link to a current page (without knowing its URL)</a></h3><h3><a href="how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones" class="ocsimore_phrasing_link">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></h3><h3><a href="how-to-write-a-json-service" class="ocsimore_phrasing_link">How to write a JSON service</a></h3><h3><a href="how-to-send-file-download" class="ocsimore_phrasing_link">How to send a file (download)</a></h3><h3><a href="how-to-send-file-upload" class="ocsimore_phrasing_link">How to send a file (upload)</a></h3><h2> Js_of_ocaml</h2><h3><a href="how-to-attach-ocaml-values-to-dom-elements" class="ocsimore_phrasing_link">How to attach OCaml values to DOM elements</a></h3><h3><a href="how-to-know-whether-the-browser-window-has-the-focus-or-not" class="ocsimore_phrasing_link">How to know whether the browser window has the focus or not</a></h3><h3><a href="how-to-build-js-object" class="ocsimore_phrasing_link">How to build js object</a></h3><h3><a href="how-to-stop-default-behaviour-of-events" class="ocsimore_phrasing_link">How to stop default behaviour of events</a></h3><h3><a href="how-to-call-an-ocaml-function-from-js-code" class="ocsimore_phrasing_link">How to call an OCaml function from js code</a></h3><h2> Eliom client-server applications</h2><h3><a href="how-to-call-a-server-side-function-from-client-side" class="ocsimore_phrasing_link">How to call a server-side function from the client side</a></h3><h3><a href="how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page" class="ocsimore_phrasing_link">How to make the client side program get an HTML element from the server and insert it in the page</a></h3><h3><a href="how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client" class="ocsimore_phrasing_link">How to attach OCaml values to the HTML nodes sent to the client</a></h3><h3><a href="how-to-iterate-on-all-sessions-for-one-user-or-all-tabs" class="ocsimore_phrasing_link">How to iterate on all sessions for one user, or all tabs</a></h3><h3><a href="how-to-implement-a-notification-system" class="ocsimore_phrasing_link">How to implement a notification system</a></h3><h3><a href="how-to-send-a-file-to-server-without-stopping-the-client-process" class="ocsimore_phrasing_link">How to send a file to server without stopping the client process</a></h3><h3><a href="how-to-detect-channel-disconnection" class="ocsimore_phrasing_link">How to detect channel disconnection</a></h3><h3><a href="how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed" class="ocsimore_phrasing_link">How to detect on client side that the server side state for the process is closed</a></h3><h2> Eliom Server side</h2><h3><a href="how-do-i-create-a-cryptographically-safe-identifier" class="ocsimore_phrasing_link">How do I create a Cryptographically safe identifier</a></h3><h3><a href="hash-password" class="ocsimore_phrasing_link">Protecting passwords</a></h3></nav></nav></aside></div><p class="reasonwarning">Warning: Reason support is experimental.
+We are looking for beta-tester and contributors.
+</p><button id="reason">Switch to </button><div class="twocols"><nav class="leftcol">Version <select class="how-versions" onchange="location = this.value;"><option value=".././../2.2/manual/basics">2.2</option><option value=".././../7.0/manual/basics" selected="selected">7.0</option><option value=".././../dev/manual/basics">dev</option></select><nav class="how-doctree"><h1> Programmer's guide</h1><h2><a href="intro" class="ocsimore_phrasing_link">Introduction. Ocsigen: where to start?</a></h2><h2><a href="basics" class="ocsimore_phrasing_link">All Ocsigen in one page</a></h2><h1> Main tutorials</h1><h2><a href=".././../../install" class="ocsimore_phrasing_link">Install Ocsigen</a></h2><h2><a href="start" class="ocsimore_phrasing_link">Your first app in 5 minutes</a></h2><h2><a href="basicwebsite" class="ocsimore_phrasing_link">A basic Web site in OCaml</a></h2><h2><a href="application" class="ocsimore_phrasing_link">Client/server application: Graffiti</a></h2><h2><a href="tutowidgets" class="ocsimore_phrasing_link">Eliom apps basics: writing client-server widgets</a></h2><h2><a href="how-to-register-session-data" class="ocsimore_phrasing_link">Session data: Eliom references</a></h2><h2><a href="tutoreact" class="ocsimore_phrasing_link">Reactive client-server Web applications</a></h2><h2><a href="interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="misc" class="ocsimore_phrasing_link">Mixing traditional Web interaction with client-server app</a></h2><h1> 5-minute tutorials</h1><h2><a href="lwt" class="ocsimore_phrasing_link">Lwt</a></h2><h2><a href="html" class="ocsimore_phrasing_link">HTML</a></h2><h1> Other tutorials: Miscellanous features</h1><h2><a href="mobile" class="ocsimore_phrasing_link">Mobile applications with Ocsigen</a></h2><h2><a href="custom-conf" class="ocsimore_phrasing_link">Custom configuration</a></h2><h2><a href="rest" class="ocsimore_phrasing_link">RESTful JSON API</a></h2><h2><a href="ocsipersist" class="ocsimore_phrasing_link">Persistent tables with Ocsipersist</a></h2><h1> Improving Graffiti</h1><h2><a href="pictures" class="ocsimore_phrasing_link">Download pictures</a></h2><h2><a href="music" class="ocsimore_phrasing_link">Playing music</a></h2><h2><a href="reactivemediaplayer" class="ocsimore_phrasing_link">Reactive media player</a></h2><h1 class="howto"> HOW-TO</h1><h2> My first steps with Ocsigen</h2><h3><a href="how-to-make-hello-world-in-ocsigen" class="ocsimore_phrasing_link">How to make &quot;hello world&quot; in Ocsigen</a></h3><h3><a href="how-to-compile-my-ocsigen-pages" class="ocsimore_phrasing_link">How to compile my Ocsigen pages</a></h3><h3><a href="how-to-configure-and-launch-the-ocsigen-server" class="ocsimore_phrasing_link">How to configure and launch the Ocsigen Server</a></h3><h3><a href="how-does-a-page-s-source-code-look" class="ocsimore_phrasing_link">How does a client-server app source code look like?</a></h3><h2> How to put some elements in my page ?</h2><h3><a href="how-to-make-page-a-skeleton" class="ocsimore_phrasing_link">How to make a page skeleton</a></h3><h3><a href="how-to-use-get-parameters-or-parameters-in-the-url" class="ocsimore_phrasing_link">How to use GET parameters (parameters in the URL)</a></h3><h3><a href="how-to-add-css-stylesheet" class="ocsimore_phrasing_link">How to add CSS stylesheet</a></h3><h3><a href="how-to-add-a-javascript-script" class="ocsimore_phrasing_link">How to add a Javascript script</a></h3><h3><a href="how-to-add-a-div" class="ocsimore_phrasing_link">How to add a div</a></h3><h3><a href="how-to-add-a-list" class="ocsimore_phrasing_link">How to add lists in pages?</a></h3><h3><a href="how-to-add-an-image" class="ocsimore_phrasing_link">How to add an image</a></h3><h3><a href="how-to-write-titles-and-paragraphs" class="ocsimore_phrasing_link">How to write titles and paragraphs</a></h3><h3><a href="how-to-set-and-id-classes-or-other-attributes-to-html-elements" class="ocsimore_phrasing_link">How to set and id, classes or other attributes to HTML elements</a></h3><h3><a href="how-to-add-a-select-or-other-form-element" class="ocsimore_phrasing_link">How to add select (or other form element)</a></h3><h3><a href="how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service" class="ocsimore_phrasing_link">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></h3><h3><a href="how-to-make-responsive-css" class="ocsimore_phrasing_link">How to make responsive CSS</a></h3><h2> Services</h2><h3><a href="how-to-do-links-to-other-pages" class="ocsimore_phrasing_link">How to do links to other pages</a></h3><h3><a href="how-to-write-forms" class="ocsimore_phrasing_link">How to write forms</a></h3><h3><a href="how-to-register-a-service-that-decides-itself-what-to-send" class="ocsimore_phrasing_link">How to register a service that decides itself what to send</a></h3><h3><a href="how-to-create-link-to-a-current-page-without-knowing-its-url" class="ocsimore_phrasing_link">How to create link to a current page (without knowing its URL)</a></h3><h3><a href="how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones" class="ocsimore_phrasing_link">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></h3><h3><a href="how-to-write-a-json-service" class="ocsimore_phrasing_link">How to write a JSON service</a></h3><h3><a href="how-to-send-file-download" class="ocsimore_phrasing_link">How to send a file (download)</a></h3><h3><a href="how-to-send-file-upload" class="ocsimore_phrasing_link">How to send a file (upload)</a></h3><h2> Js_of_ocaml</h2><h3><a href="how-to-attach-ocaml-values-to-dom-elements" class="ocsimore_phrasing_link">How to attach OCaml values to DOM elements</a></h3><h3><a href="how-to-know-whether-the-browser-window-has-the-focus-or-not" class="ocsimore_phrasing_link">How to know whether the browser window has the focus or not</a></h3><h3><a href="how-to-build-js-object" class="ocsimore_phrasing_link">How to build js object</a></h3><h3><a href="how-to-stop-default-behaviour-of-events" class="ocsimore_phrasing_link">How to stop default behaviour of events</a></h3><h3><a href="how-to-call-an-ocaml-function-from-js-code" class="ocsimore_phrasing_link">How to call an OCaml function from js code</a></h3><h2> Eliom client-server applications</h2><h3><a href="how-to-call-a-server-side-function-from-client-side" class="ocsimore_phrasing_link">How to call a server-side function from the client side</a></h3><h3><a href="how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page" class="ocsimore_phrasing_link">How to make the client side program get an HTML element from the server and insert it in the page</a></h3><h3><a href="how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client" class="ocsimore_phrasing_link">How to attach OCaml values to the HTML nodes sent to the client</a></h3><h3><a href="how-to-iterate-on-all-sessions-for-one-user-or-all-tabs" class="ocsimore_phrasing_link">How to iterate on all sessions for one user, or all tabs</a></h3><h3><a href="how-to-implement-a-notification-system" class="ocsimore_phrasing_link">How to implement a notification system</a></h3><h3><a href="how-to-send-a-file-to-server-without-stopping-the-client-process" class="ocsimore_phrasing_link">How to send a file to server without stopping the client process</a></h3><h3><a href="how-to-detect-channel-disconnection" class="ocsimore_phrasing_link">How to detect channel disconnection</a></h3><h3><a href="how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed" class="ocsimore_phrasing_link">How to detect on client side that the server side state for the process is closed</a></h3><h2> Eliom Server side</h2><h3><a href="how-do-i-create-a-cryptographically-safe-identifier" class="ocsimore_phrasing_link">How do I create a Cryptographically safe identifier</a></h3><h3><a href="hash-password" class="ocsimore_phrasing_link">Protecting passwords</a></h3></nav></nav><article class="rightcol"><h1>All Ocsigen in one page</h1><p>This page describes the main concepts you need to master to become fully operational
+with Ocsigen. Use it as your training plan or as a cheatcheet while programming.
+</p><p>Depending on your needs, you may not need to learn all this.
+Ocsigen is very flexible and can be used both for very basic page generation
+functions (see <a href="basicwebsite" class="ocsimore_phrasing_link">this tutorial</a>) or very complex
+client-server Web apps and their mobile counterparts.
+</p><p>In parallel to the reading of that page,
+we recommend to generate your first <a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Ocsigen Start</a> app to see
+running examples of all these concepts (see <a href="start" class="ocsimore_phrasing_link">that page</a>).
+</p><div id="overview" class="ocsimore_outline"><header><p><strong>Table of contents</strong></p></header></div><script>
+//<![CDATA[
+window.addEventListener("load", function(){ outline([0,-515484383,0,0,[0,"nav",[0,"aside",0]],"overview",1]); }, false); 
+//]]>
+</script><section class="docblock"><header><h2>OCaml</h2></header><p>This programming guide assumes you know the <em>OCaml</em> language.
+Many resources and books are available online.</p></section><section class="docblock"><header><h2>Lwt</h2></header><p><em>Lwt</em> is a concurrent programming library for OCaml, initially written
+by Jérôme Vouillon in 2001 for the
+<a href="https://github.com/bcpierce00/unison" class="ocsimore_phrasing_link">Unison</a> file synchronizer.
+It provides an alternative to the more usual preemptive threads approach
+for programming concurrent applications, that avoids most problems of concurrent
+data access and deadlocks.
+It is used by Ocsigen Server and Eliom and has now become one of the
+standard ways to implement concurrent applications in OCaml.
+All your Web sites must be written in Lwt-compatible way!
+</p><div class="focused"><h3>How it works</h3><p>Instead of calling blocking functions, like <span class="teletype">Unix.sleep</span>
+or <span class="teletype">Unix.read</span>, that could block the entire program, replace them
+by their cooperative counterparts (<span class="teletype">Lwt_unix.sleep</span>,
+<span class="teletype">Lwt_unix.read</span>, etc.). Instead of taking time to execute,
+they always return immediately a <em>promise</em> of the result,
+of type <span class="teletype">'a Lwt.t</span>. This type is abstract, and the only way
+to use the result is to <em>bind</em> a function to the promise.
+<span class="teletype">Lwt.bind p f</span> means: &quot;when promise <span class="teletype">p</span> is completed, give its result
+to function <span class="teletype">f</span>&quot;.
+</p><p>Syntax <span class="teletype">let%lwt x = p in e</span> is equivalent to <span class="teletype">Lwt.bind p (fun x -&gt; e)</span>
+and makes it very natural to sequentialize computations without blocking the rest
+of the program.</p></div><p>To mearn Lwt, read this <a href="lwt" class="ocsimore_phrasing_link">short tutorial</a>, or its <a href=".././../../lwt/" class="ocsimore_phrasing_link">user manual</a>.</p></section><section class="docblock"><header><h2>TyXML: typing HTML</h2></header><p>TyXML statically checks that your OCaml functions will never
+generate wrong HTML. For example a program that could generate a paragraph
+containing another paragraph will be rejected at compile time.
+</p><p>Example of use:
+</p><pre class=""><code class="language-ocaml translatable">let open Eliom_content.Html.D in
+(html
+  (head (title (txt &quot;Ex&quot;)
+  (body [h1 ~a:[a_id &quot;toto&quot;; a_class [&quot;blah&quot;; &quot;blih&quot;]]
+          [txt &quot;Hallo!&quot;]])))</code></pre><div class="focused"><h3>How it works</h3><p>TyXML builds the page as an OCaml data-structure using a construction function
+for each HTML tag. These functions take as parameters and return nodes
+of type <span class="teletype">'a elt</span> where <span class="teletype">'a</span> is a polymorphic variant type added in the
+module signature to constrain usage (phantom type).</p></div><h3>Example of typing error</h3><pre class=""><code class="language-ocaml translatable">p [p [txt &quot;Aïe&quot;]]
+         ^^^^^^^^^^^^^
+Error: This expression has type
+         ([&gt; Html_types.p ] as 'a) Eliom_content.Html.F.elt =
+           'a Eliom_content.Html.elt
+       but an expression was expected of type
+         ([&lt; Html_types.p_content_fun ] as 'b) Eliom_content.Html.F.elt =
+           'b Eliom_content.Html.elt
+       Type 'a = [&gt; `P ] is not compatible with type
+         'b =
+           [&lt; `A of Html_types.phrasing_without_interactive
+            | `Abbr
+            | `Audio of Html_types.phrasing_without_media
+            ...
+            | `Output
+            | `PCDATA
+            | `Progress
+            | `Q
+            ...
+            | `Wbr ]
+       The second variant type does not allow tag(s) `P</code></pre><h3>F or D</h3><p>Eliom uses TyXML to create several kinds of nodes:
+</p><p>Module <span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.F">Eliom_content.Html.F</a></span>
+will create functional values representing
+your nodes. On client side, calling <span class="teletype">Eliom_content.Html.To_dom.of_element</span>
+on these nodes will create a new DOM node.
+</p><p>Module <span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.D">Eliom_content.Html.D</a></span>
+will automatically insert an id in the
+attributes of the node, to label a precise instance of the node in the DOM.
+On client side, calling <span class="teletype">Eliom_content.Html.To_dom.of_element</span>
+on these nodes will return the actual version of the nodes that are currently
+in the page.
+</p><p>In a client server Eliom app,
+you probably always want to use <span class="teletype">Eliom_content.Html.D</span>
+each time you want to bind events on
+an element (and more generally if you need to inject this element using <span class="teletype">~%</span>).
+</p><p>Read more about TyXML in this <a href="html" class="ocsimore_phrasing_link">short tutorial</a> or in its <a href=".././../../tyxml/" class="ocsimore_phrasing_link">user manual</a>.
+Read more about <span class="teletype">Eliom_content.Html</span> (D or F?) in
+<span><a href=".././../../eliom/latest/manual/clientserver-html">this manual page</a></span>.</p></section><section class="docblock"><header><h2>Eliom: Services</h2></header><p>Pages are generated by <em>services</em>.
+Eliom provides a very simple (yet extremely powerful) service creation and identification mechanism.
+</p><p>To create a service, call <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALcreate">Eliom_service.create</a></span>.
+For example, the following code defines a service at URL <span class="teletype">/foo</span>,
+that will use GET HTTP method, and take one parameter of type <span class="teletype">string</span>,
+named <span class="teletype">myparam</span>, and one of type <span class="teletype">int</span>, named <span class="teletype">i</span>.
+</p><pre class="server" class=""><code class="language-ocaml translatable">let myservice =
+  Eliom_service.create
+    ~path:(Eliom_service.Path [&quot;foo&quot;])
+    ~meth:(Eliom_service.Get (Eliom_parameter.(string &quot;myparam&quot; ** int &quot;i&quot;)))
+    ()</code></pre><p>Then register an OCaml function as handler on this service:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let () =
+  Eliom_registration.Html.register ~service:myservice
+    (fun (myparam, i) () -&gt;
+      Lwt.return
+         Eliom_content.Html.F.(html (head (title (txt &quot;&quot;)))
+                                    (body [h1 [txt myparam]])))</code></pre><p>The handler takes as first parameter the GET page parameters, typed according to
+the parameter specification given while creating the service.
+The second parameter is for POST parameters (see below).
+</p><h3>Outputs</h3><p>Services can return a typed HTML page as in the example above, but also
+any other kind of result. To choose the return type, use the register function
+from the corresponding submodule of
+<span><a href=".././../../eliom/latest/api/Eliom_registration">Eliom_registration</a></span>:
+</p><div id="servicetable"><table><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.Html">Html</a></span></th><td colspan="3">Services returning typed HTML pages</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.ELIOM_APPL">App</a></span></th><td colspan="3">Apply this functor to generate registration functions for services belonging to an Eliom client/server application. These services also return typed HTML pages, but Eliom will automatically add the client-side program as a JS file, and all the data needed (values of all injections, etc.)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.Flow5">Flow</a></span></th><td colspan="3">Services returning portions of HTML pages.</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.Action">Action</a></span></th><td colspan="3">Services performing actions (server side effects) with or without reloading the page (e.g. login, logout, payment, modification of user information...)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.File">Files</a></span></th><td colspan="3">Serve files from the server hard drive</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.Ocaml">Ocaml</a></span></th><td colspan="3">Services returning OCaml values to be sent to a client side OCaml program (this kind of services is used as low level interface for server functions – see below)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.String">String</a></span></th><td colspan="3">Services returning any OCaml string (array of byte)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.Redirection">Redirection</a></span></th><td colspan="3">Services returning an HTTP redirection to another service</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.Any">Any</a></span></th><td colspan="3">To be used to make the service chose what it sends. Call function <span class="teletype">send</span> from the corresponding module to choose the output.</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.Customize">Customize</a></span></th><td colspan="3">Apply this functor to define your own registration module</td></tr></table></div><h3>Parameters</h3><p>Module <span><a href=".././../../eliom/latest/api/server/Eliom_parameter">Eliom_parameter</a></span>
+is used to describe the type of service parameters.
+</p><p>Examples:
+</p><pre class=""><code class="language-ocaml translatable">Eliom_parameter.(int &quot;i&quot; ** (string &quot;s&quot; ** bool &quot;b&quot;))
+   (* /path?i=42&amp;s=toto&amp;b=on *)
+
+Eliom_parameter.(int &quot;i&quot; ** opt (string &quot;s&quot;))
+   (* An integer named i, and an optional string named s *)
+
+Eliom_parameter.(int &quot;i&quot; ** any)
+   (* An integer named i, and any other parameters, as an association list
+      of type (string * string) list *)
+
+Eliom_parameter.(set string &quot;s&quot;)
+   (* /path?s=toto&amp;s=titi&amp;s=bobo *)
+
+Eliom_parameter.(list &quot;l&quot; (int &quot;i&quot;))
+   (* /path?l[0]=11&amp;l[1]=2&amp;l[2]=42 *)
+
+Eliom_parameter.(suffix (int &quot;year&quot; ** int &quot;month&quot;))
+   (* /path/2012/09 *)
+
+Eliom_parameter.(suffix_prod (int &quot;year&quot; ** int &quot;month&quot;) (int &quot;a&quot;))
+   (* /path/2012/09?a=4 *)</code></pre><h3>POST services</h3><p>To define a service with POST parameters, just change the <span class="teletype">~meth</span> parameter.
+For example the following example takes the same GET parameters as the service
+above, plus one POST parameter of type string, named &quot;mypostparam&quot;.
+</p><pre class="server" class=""><code class="language-ocaml translatable">~meth:(Eliom_service.Post (Eliom_parameter.((string &quot;myparam&quot; ** int &quot;i&quot;),
+                                            (string &quot;mypostparam&quot;))))</code></pre><h3>Pathless services</h3><p>Pathless services are not identified by the path in the URL,
+but by a name given as parameter. This name can be specified manually
+using the <span class="teletype">~name</span> optional parameter, otherwise, a random name is
+generated automatically.
+This is used to implement server functions (see below).
+If you are programming a client-server Eliom app, you will probably prefer server functions.
+If you are using traditional service based Web programming,
+use this to make a functionality available from all pages
+(for example: log-in or log-out actions, add something in a shopping basket ...).
+</p><pre class="server" class=""><code class="language-ocaml translatable">let pathless_service =
+  Eliom_service.create
+    ~name:&quot;pathless_example&quot;
+    ~path:Eliom_service.No_path
+    ~meth:(Eliom_service.Get (Eliom_parameter.(int &quot;i&quot;)))
+    ()</code></pre><p>More information
+<span><a href=".././../../eliom/latest/manual/server-services#pathless">in the manual</a></span>.
+</p><h3>External services</h3><p>Use <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALextern">Eliom_service.extern</a></span> to create
+links or forms towards external Web sites as if they were Eliom services.
+</p><h3>Predefined services</h3><p>Use service <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALstatic_dir">(Eliom_service.static_dir ())</a></span>
+to create links towards static files (see example below for images).
+</p><p>Use service <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALreload_action">Eliom_service.reload_action</a></span> and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call <span><a href=".././../../ocsigen-start/latest/api/server/Os_lib#VALreload">Os_lib.reload</a></span> to reload the page and restart the client-side program.
+</p><p><span><a href=".././../../eliom/latest/manual/server-services">Full documentation about services</a></span>, <a href="interaction" class="ocsimore_phrasing_link">a tutorial about traditional service based Web programming</a>, API documentation of modules <span><a href=".././../../eliom/latest/api/server/Eliom_service">Eliom_service</a></span> and <span><a href=".././../../eliom/latest/api/server/Eliom_registration">Eliom_registration</a></span>.
+</p><p>This example shows how to insert an image using <span class="teletype">static_dir</span>:
+</p><pre class=""><code class="language-ocaml translatable">img
+  ~alt:&quot;blip&quot;
+  ~src:(Eliom_content.Html.F.make_uri
+         (Eliom_service.static_dir ())
+         [&quot;dir&quot; ; &quot;image.jpg&quot;])
+  ()</code></pre></section><section class="docblock"><header><h2>Forms and links</h2></header><p>Functions <span><a href=".././../../eliom/latest/api/server/Eliom_form_sigs.LINKS#VALa">Eliom_content.Html.F.a</a></span> and
+<span><a href=".././../../eliom/latest/api/server/Eliom_form_sigs.LINKS#VALa">D.a</a></span>
+create typed links to services with their parameters.
+For example, if <span class="teletype">home_service</span> expects no parameter
+and <span class="teletype">other_service</span> expects a string and an optional int:
+</p><pre class=""><code class="language-ocaml translatable">Eliom_content.Html.D.a ~service:home_service [txt &quot;Home&quot;] ()
+Eliom_content.Html.D.a ~service:other_service [txt &quot;Other&quot;] (&quot;hello&quot;, Some 4)</code></pre><p>Modules <span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.F">Eliom_content.Html.F</a></span> and
+<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.D">D</a></span>
+define the form's elements with the usual typed interface from TyXML.
+Use this for example if you have a client side program and
+want to manipulate the form's content from client side functions
+(for example do a server function call with the form's elements' content).
+</p><p>In contrast,
+modules <span><a href=".././../../eliom/latest/api/server/Eliom_content_sigs.LINKS_AND_FORMS.Form">Eliom_content.Html.F.Form</a></span> and
+<span><a href=".././../../eliom/latest/api/server/Eliom_content_sigs.LINKS_AND_FORMS.Form">D.Form</a></span>
+define a typed interface
+for form elements. Use this for links (see above), or if you program traditional
+server-side Web interaction (with or without client-side program). This will statically check that your forms
+match the services. Example:
+</p><pre class=""><code class="language-ocaml translatable">let open Eliom_content.Html.D in
+Form.post_form
+ ~service:connection_service
+   (fun (name, password) -&gt;
+     [fieldset
+       [label ~a:[a_for name] [txt &quot;Name: &quot;];
+        Form.input ~input_type:`Text ~name:name Form.int;
+        br ();
+        Form.input
+          ~a:[a_placeholder &quot;Password&quot;]
+          ~input_type:`Password
+          ~name:password
+          Form.string;
+        br ();
+        Form.input ~input_type:`Submit ~value:&quot;Connect&quot; Form.string
+      ]]) ()</code></pre></section><section class="docblock"><header><h2>Js_of_ocaml</h2></header><p><em>Js_of_ocaml</em> is a compiler of OCaml bytecode to JavaScript,
+allowing to run Ocaml programs in a Web browser.
+Its key features are the following:
+</p><ul><li> The whole language, and most of the standard library are supported.
+</li><li> You can use a standard installation of OCaml to compile your programs. In particular, you do not have to recompile a library to use it with Js_of_ocaml.
+</li><li> It comes with a library to interface with the browser API.
+</li></ul><p>Interaction with Javascript can be done:
+</p><ul><li> either with untyped function calls (module <span class="teletype">Js.Unsafe</span>),
+</li><li> or you can generate an interface just by writing an annotated <span class="teletype">.mli</span>
+using <a href="https://github.com/LexiFi/gen_js_api" class="ocsimore_phrasing_link">Gen_js_api</a>,
+</li><li> or you use a syntax extension to generate typed calls, using a
+<span class="teletype">.mli</span> file describing Javascript objects
+with OCaml class types as phantom types.
+</li></ul><p>The latter is used for the default Javascript library. Here is how it works:
+</p><table><tr><td><span class="teletype">obj##.m</span></td><td>access a JS property (has type <span class="teletype">u</span> when <span class="teletype">obj : &lt;m : u prop&gt; Js.t</span>)</td></tr><tr><td><span class="teletype">obj##.m := e</span></td><td>change a JS property (when <span class="teletype">obj : &lt;m : u prop&gt; Js.t</span> and <span class="teletype">e:u</span>)</td></tr><tr><td><span class="teletype">obj##m e_1 ... e_n</span></td><td>call a JS method (has type <span class="teletype">u</span> when <span class="teletype">obj : &lt;m : t_1 -&gt; ... -&gt; t_n -&gt; u meth; ..&gt; Js.t</span> and <span class="teletype">e_i : t_i</span>)</td></tr><tr><td><span class="teletype">new%js constr e1 ... en</span></td><td>create a JS object (has type <span class="teletype">u Js.t</span> when <span class="teletype">constr : (t_1 -&gt; ... -&gt; t_n -&gt; u Js.t) Js.constr</span> and <span class="teletype">e_i : t_i</span>)</td></tr></table><p>Module <a href="https://ocsigen.org/js_of_ocaml/latest/api/js_of_ocaml/Js_of_ocaml/Js/index.html" class="ocsimore_phrasing_link">Js_of_ocaml.Js</a>
+defines the base JS types and conversion functions from/to OCaml types.
+Example: <span class="teletype">Js.Opt</span> to take into account nullable values, <span class="teletype">Js.Optdef</span> for undefined values,
+or functions like <span class="teletype">Js.to_string</span> and <span class="teletype">Js.string</span> for consersions to and from
+OCaml strings.
+</p><p>Use modules <a href="https://ocsigen.org/js_of_ocaml/latest/api/js_of_ocaml/Js_of_ocaml/Dom/index.html" class="ocsimore_phrasing_link">Js_of_ocaml.Dom</a>
+and <a href="https://ocsigen.org/js_of_ocaml/latest/api/js_of_ocaml/Js_of_ocaml/Dom_html/index.html" class="ocsimore_phrasing_link">Js_of_ocaml.Dom_html</a>
+to interact with the DOM, or more specifically with HTML.
+</p><p>You can test Js_of_ocaml online in this
+<a href="https://ocsigen.org/js_of_ocaml/latest/manual/files/toplevel/index.html" class="ocsimore_phrasing_link">Toplevel running in the browser</a>
+</p><h3>Examples</h3><pre class=""><code class="language-ocaml translatable"># Dom_html.document;;
+- : Js_of_ocaml.Dom_html.document Js_of_ocaml__.Js.t = &lt;abstr&gt;
+# Dom_html.document##.body;;
+- : Js_of_ocaml.Dom_html.bodyElement Js_of_ocaml__.Js.t = &lt;abstr&gt;
+# Dom_html.document##.qkjhkjqhkjqsd;;
+Line 1, characters 0-17:
+Error: This expression has type
+         &lt; activeElement : Js_of_ocaml.Dom_html.element Js_of_ocaml__.Js.t
+                           Js_of_ocaml__.Js.opt
+                           Js_of_ocaml__.Js.readonly_prop;
+...
+...
+           write : Js_of_ocaml__.Js.js_string Js_of_ocaml__.Js.t -&gt;
+                   unit Js_of_ocaml__.Js.meth &gt;
+       It has no method qkjhkjqhkjqsd
+# Dom_html.window;;
+- : Js_of_ocaml.Dom_html.window Js_of_ocaml__.Js.t = &lt;abstr&gt;
+# Dom_html.window##alert (Js.string &quot;Salut&quot;);;
+- : unit = ()
+# Dom_html.document##.body##querySelector (Js.string &quot;h3&quot;);;
+- : Js_of_ocaml.Dom_html.element Js_of_ocaml__.Js.t Js_of_ocaml__.Js.opt =
+&lt;abstr&gt;
+# let fsth3 = Dom_html.document##.body##querySelector (Js.string &quot;h3&quot;);;
+  (* Get the first h3 element in the page *)
+val fsth3 :
+  Js_of_ocaml.Dom_html.element Js_of_ocaml__.Js.t Js_of_ocaml__.Js.opt =
+  &lt;abstr&gt;
+# Js.Opt.iter fsth3 (fun e -&gt; e##.style##.color := Js.string &quot;#ff0000&quot;);;
+  (* Change its color *)
+- : unit = ()
+# Dom.appendChild Dom_html.document##.body (Eliom_content.Html.(To_dom.of_p (F.p [F.txt &quot;Salut&quot;])));;
+  (* Append a paragraph generated with TyXML to the page *)
+- : unit = ()
+# Firebug.console##log (Js.string &quot;toto&quot;);;
+- : unit = ()
+# Firebug.console##log [1;2];;
+- : unit = ()
+# Firebug.console##log (Dom_html.document##.body);;
+- : unit = ()</code></pre><h3>DOM nodes and TyXML/Eliom_content nodes</h3><p>Functions <a href="https://ocsigen.org/js_of_ocaml/latest/api/js_of_ocaml-tyxml/Js_of_ocaml_tyxml/Tyxml_cast_sigs/module-type-OF/index.html" class="ocsimore_phrasing_link"><span class="teletype">Eliom_content.Html.To_dom.of_element</span>, <span class="teletype">Eliom_content.Html.To_dom.of_div</span>, etc.</a>
+help to convert TyXML/Eliom_content nodes into the DOM counterparts.
+</p><p>Module <span><a href=".././../../eliom/latest/api/client/Eliom_content.Html.Manip">Eliom_content.Html.Manip</a></span>
+allows direct manipulation of TyXML nodes without conversion (only for D nodes)
+(see for example
+<span><a href=".././../../eliom/latest/api/client/Eliom_content.Html.Manip#VALappendChild">Eliom_content.Html.Manip.appendChild</a></span>,
+<span><a href=".././../../eliom/latest/api/client/Eliom_content.Html.Manip#VALremoveSelf">Eliom_content.Html.Manip.removeSelf</a></span>
+<span><a href=".././../../eliom/latest/api/client/Eliom_content.Html.Manip.Class#VALadd">Eliom_content.Html.Manip.Class.add</a></span>).</p></section><section class="docblock"><header><h2>Eliom: client-server apps</h2></header><p>Eliom can transform OCaml into a multi-tier language, allowing one to
+implement (both the server and client parts of) a distributed application
+entirely in OCaml, as a single program.
+This greatly simplifies communication between server and client.
+</p><p>Pages can be generated either on the server or the client.
+The first HTTP request usually returns a server-side generated HTML page
+(thus indexable by search engines), but subsequent page generations are done
+by the client for better performance.
+In a mobile app, all pages are usually generated on the client.
+</p><p>One of the key features of Eliom is that it allows
+one to mix traditional Web interactions (URLs, forms, links,
+bookmarks, back button) with dynamic client side features. In
+particular, the client-side program <strong>does not stop</strong> when the user
+clicks on a link, sends a form, or presses the back button–yet the user
+can still save bookmarks on pages! This opens up a wide field of new
+possibilities.
+</p><h3>Sections</h3><p>Eliom statically generates two programs from the same set of OCaml files:
+one compiled to native code (or bytecode) to be executed on the server,
+the other one compiled to Javascript with Js_of_ocaml to be executed
+in the browser.
+</p><p>PPX annotations allow to split the code into these two programs:
+</p><table><tr><td><span class="teletype"> let%shared ... = ... </span></td><td>Code to be included in both the client and server apps</td></tr><tr><td><span class="teletype"> let%client ... = ... </span></td><td>Code to be included in client app only</td></tr><tr><td><span class="teletype"> let%server ... = ... </span></td><td>Code to be included in server app only</td></tr></table><p>Same for <span class="teletype">module%shared</span>, <span class="teletype">open%shared</span>, <span class="teletype">type%shared</span> etc.
+</p><h3>Client values</h3><p>Client values can be declared within server or shared code as
+<span class="teletype">[%client[ (&lt;value&gt; : &lt;type&gt;) ]</span>.
+The type annotation is almost always required.
+</p><p>If such section is reached while generating a page on server side,
+the client-side code will be executed once the page is displayed.
+If such section is reached while generating a page on client side,
+the client-side code will be executed immediately
+(In that case, you can delay the execution, if needed,
+for example with function
+<span><a href=".././../../ocsigen-toolkit/latest/api/client/Ot_nodeready#VALnodeready">Ot_nodeready.nodeready</a></span>).
+</p><p>The tutorial <a href="tutowidgets" class="ocsimore_phrasing_link">Client-Server Widgets</a>
+shows how client values can be manipulated
+on client side.
+</p><h3>Injections</h3><p>Server side variables can be accessed (injected) in client code by prefixing
+them with <span class="teletype">~%</span> as in this example:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server ... =
+  ...
+  let x = ... in
+  [%client[ ... ~%x ... ]]
+  ...</code></pre><p>The value will automatically be sent with the page by Eliom.
+</p><h3>Example</h3><p>This section shows a typical example of client-server code: call a function
+when user clicks on a page element.
+</p><pre class="client" class=""><code class="language-ocaml translatable">open%client Js_of_ocaml
+open%client Js_of_ocaml_lwt
+open%client Eliom_content.Html</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">open%shared Eliom_content.Html.F</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server theservice =
+  Eliom_service.create
+    ~path:[&quot;ex&quot;]
+    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    ()</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client theservice = ~%theservice</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">let%shared () =
+  My_app.register ~service:theservice (fun () () -&gt;
+      let aa = string_of_int (Random.int 1000) in
+      let _ = [%client (print_endline ~%aa : unit)] in (* print in browser console *)
+      let b = Eliom_content.Html.D.button [txt aa] in
+      let _ =
+        (* binding clicks on button (see browser events below) *)
+        [%client
+          (Lwt.async (fun () -&gt;
+               Lwt_js_events.clicks (To_dom.of_element ~%b) (fun _ _ -&gt;
+                   Dom_html.window##alert (Js.string (~%aa));
+                   Lwt.return_unit))
+            : unit)]
+      in
+      Lwt.return (html (head (title (txt &quot;Example&quot;)) [])
+                       (body [h1 [txt aa]; b])))</code></pre><p>Service handlers and service registration
+are usually written in shared sections to enable
+page generation on both sides.
+</p><h3>Calling server side functions from the client</h3><p>Eliom makes it possible to call server side OCaml functions from your
+client-side program. You must export these functions explicitely,
+and declare the type of their parameters. Example:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server g i = Lwt.return (string_of_int (i + Random.int 1000))</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client g =
+  ~%(Eliom_client.server_function ~name:&quot;g&quot; [%json: int] g)</code></pre><p>Syntax <span class="teletype">[%json: t]</span> corresponds to the serialisation functions of type <span class="teletype">t</span>
+from JSON. They are generated automatically by
+<a href="https://github.com/ocsigen/deriving" class="ocsimore_phrasing_link">Deriving</a>, as long as it knows
+a deriver for each subtype. To create a deriver for your own types
+just append <span class="teletype">[@@deriving json]</span> after your type declaration. Example:
+</p><pre class="shared" class=""><code class="language-ocaml translatable">type%shared t = A | B
+[@@deriving json]</code></pre><p><a href="http://ocsigen.org/js_of_ocaml/latest/manual/ppx-deriving" class="ocsimore_phrasing_link">More documentation about the JSON deriver</a>.
+</p><ul><li> Examples of client sections, injections or server functions can be found in
+the demo included in
+<a href="https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_rpc.eliom" class="ocsimore_phrasing_link">Ocsigen-Start's app template</a>.
+</li><li> <a href="application" class="ocsimore_phrasing_link">This page</a> is a step by step introduction to client-server programming with Eliom for beginners.
+</li><li> <a href="tutowidgets" class="ocsimore_phrasing_link">This one</a> is a quick introduction for more experienced OCaml developers.
+</li><li> Comprehensive documentation on client-server programming can be found in
+<span><a href=".././../../eliom/index.html">Eliom's user manual</a></span>.</li></ul></section><section class="docblock"><header><h2>Sessions</h2></header><p>Session data is saved on server side in <em>Eliom references</em>.
+</p><p>The following Eliom reference will count the number of visits of a user on a page:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server count_ref =
+  Eliom_reference.eref
+    ~scope:Eliom_common.session
+    0 (* default value for everyone *)</code></pre><p>And somewhere in your service handler, increment the counter:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%lwt count = Eliom_reference.get count_ref in
+Eliom_reference.set count_ref (count + 1);
+Lwt.return ()</code></pre><p>With function <span><a href=".././../../eliom/latest/api/server/Eliom_reference#VALeref_from_fun">Eliom_reference.eref_from_fun</a></span>,
+you can create Eliom references without initial value. The initial value is computed for the session
+the first time you use it.
+</p><p>An Eliom reference can be persistant (value saved on hard drive) or volatile (in memory).
+</p><h3>Scopes</h3><p>Sessions are relative to a browser, and implemented using browser cookies.
+But Eliom allows to create Eliom references with other <em>scopes</em> than session:
+</p><table><tr><td><span><a href=".././../../eliom/latest/api/server/Eliom_common#VALglobal_scope">global_scope</a></span></td><td>Global value for all the Web server</td></tr><tr><td><span><a href=".././../../eliom/latest/api/server/Eliom_common#VALsite_scope">site_scope</a></span></td><td>Global value for the Eliom app in that subsite of the Web site</td></tr><tr><td><span><a href=".././../../eliom/latest/api/server/Eliom_common#VALdefault_group_scope">default_group_scope</a></span></td><td>Value for a group of sessions. For example Ocsigen Start defines a group of session for each user, making it possible to save server side data for all sessions of a user.</td></tr><tr><td><span><a href=".././../../eliom/latest/api/server/Eliom_common#VALdefault_session_scope">default_session_scope</a></span></td><td>The usual session data, based on browser cookies</td></tr><tr><td><span><a href=".././../../eliom/latest/api/server/Eliom_common#VALdefault_process_scope">default_process_scope</a></span></td><td>Server side data for a given client-side process (a tab of the browser or a mobile app).</td></tr></table><p>Applications based on Ocsigen Start use these scopes for user management.
+Session or client process data are discarded when a user logs in or out.
+But Ocsigen Start also defines scopes
+<span><a href=".././../../ocsigen-start/latest/api/server/Os_session#VALuser_indep_session_scope">Os_session.user_indep_session_scope</a></span>
+and
+<span><a href=".././../../ocsigen-start/latest/api/server/Os_session#VALuser_indep_process_scope">Os_session.user_indep_process_scope</a></span>
+which remain even if a user logs in or out.
+</p><p>When session group is not set (for example the user is not connected),
+you can still use the group session scope: in that case, the group contains only
+one session.</p></section><section class="docblock"><header><h2>Browser events</h2></header><p>Attributes like <span class="teletype">a_onclick</span> in module <span class="teletype">Eliom_content.Html.D</span> or <span class="teletype">F</span>
+take a client side function as parameter:
+</p><pre class="shared" class=""><code class="language-ocaml translatable">div ~a:[a_onclick [%client fun ev -&gt; ... ]] [ ... ]</code></pre><p>Module <span class="teletype">Lwt_js_events</span> of Js_of_ocaml defines a way to bind browser events
+using Lwt promises.
+</p><p>For example,
+the following code will wait for a click on element <span class="teletype">d</span> before continuing:
+</p><pre class="client" class=""><code class="language-ocaml translatable">let%lwt ev = Lwt_js_events.click (Eliom_content.Html.To_dom.of_element ~%d) in
+...</code></pre><p>Functions like <span class="teletype">Lwt_js_events.clicks</span> or <span class="teletype">Lwt_js_events.mousedowns</span>
+(ending with &quot;s&quot;)
+will call the function given as second parameter
+<strong>for each</strong> <span class="teletype">click</span> or <span class="teletype">mousedown</span> events
+on their first parameter.
+</p><p>For example, the following code (inspired from <a href="https://ocsigen.org/tuto/latest/manual/application" class="ocsimore_phrasing_link">this tutorial</a>)
+will wait for all <span class="teletype">mousedown</span> events on the canvas,
+then for each <span class="teletype">mousemove</span> event on the document,
+it will call function <span class="teletype">f</span>, until <span class="teletype">mouseup</span> is triggered.
+(See <span><a href=".././../../lwt/latest/api/Lwt#VALpick">Lwt.pick</a></span>)
+</p><pre class="client" class=""><code class="language-ocaml translatable">let open Lwt_js_events in
+Lwt.async (mousedowns
+            (Eliom_content.Html.To_dom.of_element ~%canvas)
+            (fun ev _ -&gt;
+               Lwt.pick [mousemoves Dom_html.document f;
+                         mouseup Dom_html.document]))</code></pre></section><section class="docblock"><header><h2>Ocsigen Toolkit</h2></header><p>Ocsigen Toolkit defines several widgets that can be generated either
+on server or clide sides. Have look at
+<a href=".././../../ocsigen-start/demo/" class="ocsimore_phrasing_link">Ocsigen Start's demo app</a>
+(or the <a href="https://play.google.com/store/apps/details?id=com.osdemo.mobile" class="ocsimore_phrasing_link">corresponding Android app</a>)
+to see them in action: carousel, drawer menu, date or time picker, color picker,
+pull to refresh feature for mobile apps, etc.
+</p><p>For example module
+<span><a href=".././../../ocsigen-toolkit/latest/api/server/Ot_spinner">Ot_spinner</a></span>
+implements a widgets that you can use to display a spinner (or fake elements)
+when some parts of your page take time to appear.
+It can be used in shared sections and gives you precise control
+of the delays and the feeling of responsiveness of your app.</p></section><section class="docblock"><header><h2>Ocsigen Start</h2></header><p><em>Ocsigen-start</em> is a library and a template of Eliom application,
+with many common features like
+user registration, login box, notification system, etc.
+</p><p>It also provides a demo of many features presented in this page.
+A <a href=".././../../ocsigen-start/demo/" class="ocsimore_phrasing_link">live version</a> is accessible online.
+Read <a href="start" class="ocsimore_phrasing_link">this page</a> to create your first Ocsigen Start
+app and take time to study the code of each example.
+</p><p>User management features are fully usable in production and
+will save you from implementing account creation, activation links
+or password recovery yourself.
+Module <span><a href=".././../../ocsigen-start/latest/api/server/Os_current_user">Os_current_user</a></span>
+gives you information about current user
+from anywhere in your program.</p></section><section class="docblock"><header><h2>Database access</h2></header><p>You can use your favourite database library with Ocsigen.
+Ocsigen Start's template uses
+<a href="https://github.com/darioteixeira/pgocaml" class="ocsimore_phrasing_link">PG'OCaml</a>
+(typed queries for Postgresql using a PPX syntax extension).
+</p><p>Here is an example, taken from Ocsigen Start's demo:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let get () =
+  full_transaction_block (fun dbh -&gt;
+    [%pgsql dbh &quot;SELECT lastname FROM ocsigen_start.users&quot;])</code></pre></section><section class="docblock"><header><h2>Server to client communication</h2></header><p>Modules
+<span><a href=".././../../eliom/latest/api/server/Eliom_notif">Eliom_notif</a></span>
+and
+<span><a href=".././../../ocsigen-start/latest/api/server/Os_notif">Os_notif</a></span>
+define the simplest interface to enable server to client communication
+(the second one being aware of Ocsigen Start users).
+</p><div class="focused"><h3>How it works</h3><p>Say you want to receive the messages for one or more chat rooms.
+First, define your notification module:
+</p><pre class="server" class=""><code class="language-ocaml translatable">module%server Notif = Os_notif.Make_Simple (struct
+  type key = int64 (* the chat room ids *)
+  type notification = string (* the type of messages *)
+end)</code></pre><p>If you want to be notified when there is a new message in a chat room, call function
+<span class="teletype">Notif.listen</span> (server side) on the chat room id.
+</p><p>If you want to send a message in a chat room, call function
+<span class="teletype">Notif.notify</span> (server side) with the chat room id and the message as parameters.
+</p><p>On client side, <span class="teletype">~%(Notif.client_ev ())</span> is a React event of type
+<span class="teletype">(key, notif) React.E.t</span>. Use it to receive the messages.</p></div><p>Have a look at a <a href="https://ocsigen-1.inria.fr/ocsigen-start/demo/demo-notif" class="ocsimore_phrasing_link">running example</a> in Ocsigen Start's demo
+(<a href="https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_notif.eliom" class="ocsimore_phrasing_link">source</a>).
+</p><p>Eliom has other communication modules:
+</p><ul><li> <span><a href=".././../../eliom/latest/api/server/Eliom_bus">Eliom_bus</a></span> defines a communication bus,
+that you can use to share information with other client processes
+(see an example <a href="application" class="ocsimore_phrasing_link">here</a>).
+</li><li> <span><a href=".././../../eliom/latest/api/server/Eliom_react">Eliom_react</a></span> defines client-server React events.
+</li><li> <span><a href=".././../../eliom/latest/api/server/Eliom_comet">Eliom_comet</a></span> is lower level interface for
+server to client communication.</li></ul></section><section class="docblock"><header><h2>Internationalisation</h2></header><p><a href="https://github.com/besport/ocsigen-i18n" class="ocsimore_phrasing_link">Ocsigen i18n</a>
+is an internationalisation library for your OCaml programs.
+</p><p>Create a .tsv file with, on each line, a key and the text in several languages:
+</p><pre>welcome_message Welcome everybody!        Bienvenue à tous !      Benvenuti a tutti !
+</pre><p>and Ocsigen i18n will automatically generate functions like this one:
+</p><pre class="shared" class=""><code class="language-ocaml translatable">let%shared welcome_message ?(lang = get_language ()) () () =
+  match lang with
+  | En -&gt; [txt &quot;Welcome everybody!&quot;]
+  | Fr -&gt; [txt &quot;Bienvenue à tous !&quot;]
+  | It -&gt; [txt &quot;Benvenuti a tutti !&quot;]</code></pre><p>Ocsigen i18n also defines a syntax extension to use these functions:
+</p><pre class="shared" class=""><code class="language-ocaml translatable">Eliom_content.Html.F.h1 [%i18n welcome_message]</code></pre><p>Ocsigen i18n offers many other features:
+</p><ul><li> Text can be inserted as a TyXML node (as in the example above) or as a string (ex: <span class="teletype">[%i18n S.welcome_message]</span>),
+</li><li> Text can be parametrizable, or contain holes (ex: <span class="teletype">[%i18n welcome ~capitalize:true ~name:&quot;William&quot;]</span>)
+</li><li> .tsv file can be split into several modules
+</li></ul><p>Have a look at the
+<a href="https://github.com/besport/ocsigen-i18n" class="ocsimore_phrasing_link">README file</a>
+to see the full documentation,
+and see examples in
+<a href="https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_i18n.eliom" class="ocsimore_phrasing_link">Ocsigen Start's template</a>.</p></section><section class="docblock"><header><h2>Reactive programming</h2></header><p>Eliom allows to insert <em>reactive nodes</em> in pages, that is, nodes which are automatically
+updated when the values on which they depend change.
+</p><p>This is based on the <a href="https://erratique.ch/software/react" class="ocsimore_phrasing_link">React</a> library by Daniel Bünzli,
+which implements <em>Functional Reactive Programming</em>.
+</p><div class="focused"><h3>Functional Reactive Programming principle</h3><p>Function <span class="teletype">React.S.create</span> creates a signal and a function to change its value:
+</p><pre class="client" class=""><code class="language-ocaml translatable">let%client mysignal, set_mysignal = React.S.create 0</code></pre><p>Functions like <span class="teletype">React.S.map</span> or <span class="teletype">React.S.l2</span> create new signals
+from one (resp. two) input signals.
+They are updated automatically when their input signals change.
+For example, we can can define the same value as a string signal and as TyXML node signal:
+</p><pre class="client" class=""><code class="language-ocaml translatable">let%client s_string = React.S.map string_of_int mysignal
+let%client s_p = React.S.map (fun v -&gt; p [txt v]) s_string</code></pre></div><h3>Reactive nodes</h3><p>Insert a (client side) reactive node in a page using function
+<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.R#VALnode">Eliom_content.Html.R.node</a></span>:
+</p><pre class="client" class=""><code class="language-ocaml translatable">let%client f () =
+  let open Eliom_content.Html in
+  F.div [ R.node s_p ]</code></pre><h3>Reactive node content</h3><p>Module
+<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.R">Eliom_content.Html.R</a></span>
+also defines all TyXML nodes,
+which take reactive content as parameter.
+</p><p>For example <span class="teletype">Eliom_content.Html.R.txt</span> takes
+a value of type <span class="teletype">string React.S.t</span> as parameter (string signal).
+</p><p>Instead of taking a list signal as parameter, functions like
+<span class="teletype">div</span> or <span class="teletype">p</span> of module <span class="teletype">Eliom_content.Html.R</span>
+take a parameter of type
+<a href="https://github.com/ocsigen/reactiveData" class="ocsimore_phrasing_link">Eliom_content.Html.F.elt ReactiveData.Rlist.t</a>.
+This enables incremental update of the content
+(usually, appending an element at the end of the list,
+without having to redraw the whole list).
+See an example with <span class="teletype">ReactiveData</span> in <a href="tutoreact" class="ocsimore_phrasing_link">this tutorial</a>.
+</p><p>Node attributes can also be reactive. For example if <span class="teletype">s</span> has type <span class="teletype">string list React.S.t</span>,
+you can write <span class="teletype">Eliom_content.Html.F.div ~a:[R.a_class s] []</span>.
+</p><h3>Client-server reactive programming</h3><p>Reactive nodes can be created in server or shared sections.
+To do that, use module
+<span><a href=".././../../eliom/latest/api/server/Eliom_shared.React">Eliom_shared.React</a></span>
+instead of the usual <span class="teletype">React</span> module.
+On client side, this module behaves like <span class="teletype">React</span>.
+But when executed on server side, it will generate non reactive values,
+that will automatically become reactive on the client.
+</p><p>Full example:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server theservice =
+  Eliom_service.create
+    ~path:[&quot;ex&quot;]
+    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    ()</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client theservice = ~%theservice</code></pre><pre class="client" class=""><code class="language-ocaml translatable">open%client Js_of_ocaml_lwt</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">open%shared Eliom_content.Html.F
+
+let%shared () =
+  My_app.register ~service:theservice (fun () () -&gt;
+      let monsignal, set_signal = Eliom_shared.React.S.create 0 in
+      let s_string =
+        Eliom_shared.React.S.map [%shared string_of_int] monsignal
+      in
+      let _ =
+        [%client
+          (* A thread that will change the signal value every second: *)
+          (let rec aux () =
+             let%lwt () = Lwt_js.sleep 1.0 in
+             ~%set_signal (Random.int 100);
+             aux ()
+           in
+           Lwt.async aux
+          : unit)]
+      in
+      Lwt.return
+        (html
+           (head (title (txt s)) [])
+           (body [h1 [txt s];
+                  p [Eliom_content.Html.R.txt s_string]])))</code></pre><p>Function <span class="teletype">Eliom_shared.React.S.map</span> (and <span class="teletype">Eliom_shared.React.S.l2</span>, etc)
+takes a <em>shared function</em> as parameter (syntax <span class="teletype" class="shared">[%shared f]</span>).
+This can be seen as a couple containing both the server a client side implementation
+of the function.</p></section><section class="docblock"><header><h2>Mobile apps</h2></header><p>Applications can run on any Web browser or mobile device (iOS, Android, ...),
+thus eliminating the need for one custom version per platform.
+</p><p>Your CSS must be fully responsive to adapt to all screen sizes.
+</p><p>Ocsigen Start's template comes with a Makefile which will automatically
+download the required NPM modules for Cordova and build your Android or iOS
+apps.
+Read the <a href="https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/README.md" class="ocsimore_phrasing_link">README</a> file
+to learn how to do that.
+</p><p>Download
+<a href="https://play.google.com/store/apps/details?id=com.osdemo.mobile" class="ocsimore_phrasing_link">Ocsigen Start's demo app</a>
+from Google Play store to see an example.
+<a href="https://www.besport.com/news" class="ocsimore_phrasing_link">Be Sport</a> mobile apps are also generated like this (available in
+<a href="https://play.google.com/store/apps/details?id=com.besport.www.mobile" class="ocsimore_phrasing_link">Google Play Store</a>
+and <a href="https://apps.apple.com/fr/app/be-sport/id1104216922" class="ocsimore_phrasing_link">Apple app store</a>).</p></section><section class="docblock"><header><h2>Ocsigen Server</h2></header><p><em>Ocsigen Server</em> is a full featured Web server.
+</p><p>It is now based on <a href="https://github.com/mirage/ocaml-cohttp" class="ocsimore_phrasing_link">Cohttp</a>.
+</p><p>It has a powerful
+extension mechanism that makes it easy to plug your own OCaml modules
+for generating pages. Many extensions are already written:
+</p><dl><dt><span><a href=".././../../ocsigenserver/latest/manual/staticmod">Staticmod</a></span>
+</dt><dd>    to serve static files.
+</dd><dt><a href=".././../../eliom/" class="ocsimore_phrasing_link">Eliom</a>
+</dt><dd>    to create reliable client/server Web applications
+or Web sites in OCaml using advanced high level concepts.
+</dd><dt><span><a href=".././../../ocsigenserver/latest/manual/extendconfiguration">Extendconfiguration</a></span>
+</dt><dd>    allows for more options in the configuration file.
+</dd><dt><span><a href=".././../../ocsigenserver/latest/manual/accesscontrol">Accesscontrol</a></span>
+</dt><dd>    restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.).
+</dd><dt><span><a href=".././../../ocsigenserver/latest/manual/authbasic">Authbasic</a></span>
+</dt><dd>    restricts access to the sites from the config file using Basic HTTP Authentication.
+</dd><dt><span><a href=".././../../ocsigenserver/latest/manual/cgimod">CGImod</a></span>
+</dt><dd>    serves CGI scripts. It may also be used to serve PHP through CGI.
+</dd><dt><span><a href=".././../../ocsigenserver/latest/manual/deflatemod">Deflatemod</a></span>
+</dt><dd>    used to compress data before sending it to the client.
+</dd><dt><span><a href=".././../../ocsigenserver/latest/manual/redirectmod">Redirectmod</a></span>
+</dt><dd>    sets redirections towards other Web sites from the configuration file.
+</dd><dt><span><a href=".././../../ocsigenserver/latest/manual/revproxy">Revproxy</a></span>
+</dt><dd>    a reverse proxy for Ocsigen Server.
+It allows to ask another server to handle the request.
+</dd><dt><span><a href=".././../../ocsigenserver/latest/manual/rewritemod">Rewritemod</a></span>
+</dt><dd>    changes incoming requests before sending them to other extensions.
+</dd><dt><span><a href=".././../../ocsigenserver/latest/manual/outputfilter">Outputfilter</a></span>
+</dt><dd>    rewrites some parts of the output before sending it to the client.
+</dd><dt><span><a href=".././../../ocsigenserver/latest/manual/userconf">Userconf</a></span>
+</dt><dd>    allows users to have their own configuration files.
+</dd><dt><span><a href=".././../../ocsigenserver/latest/manual/comet">Comet</a></span>
+</dt><dd>    facilitates server to client communications.
+</dd></dl><p>Ocsigen Server has a <span><a href=".././../../ocsigenserver/latest/manual/config">sophisticated configuration</a></span> file mechanism allowing
+complex configurations of sites.</p></section></article></div></div></body></html>

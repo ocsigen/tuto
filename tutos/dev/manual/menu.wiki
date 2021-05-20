@@ -1,11 +1,12 @@
-= Main tutorial
+= Programmer's guide
 ==[[intro|Introduction. Ocsigen: where to start?]]
 ==[[basics|All Ocsigen in one page]]
+= Main tutorials
 ==[[site:/install|Install Ocsigen]]
 ==[[start|Your first app in 5 minutes]]
 ==[[basicwebsite|A basic Web site in OCaml]]
-==[[tutowidgets|Eliom apps basics: writing client-server widgets]]
 ==[[application|Client/server application: Graffiti]]
+==[[tutowidgets|Eliom apps basics: writing client-server widgets]]
 ==[[how-to-register-session-data|Session data: Eliom references]]
 ==[[tutoreact|Reactive client-server Web applications]]
 ==[[interaction|Service based Web programming]]

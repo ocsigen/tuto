@@ -147,6 +147,10 @@ IRC in channel {{{#ocsigen}}} on {{{freenode.net}}} (e.g. by using
 their [[http://webchat.freenode.net/?channels=ocsigen|webchat]])!
 
 
+Now, we recommend to read, chapter
+[[wiki:manual/basics|All Ocsigen in one page]]
+for a wide and complete overview.
+
 <<|wip|
 Manuals are permanently under evolution.
 Please report any error, mistake, for example by doing pull requests

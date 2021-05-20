@@ -53,7 +53,7 @@ new programming techniques to become autonomous.
 Depending on your level and goals, we suggest to continue by reading
 some of the following chapters:
 
-* Chapter [[wiki:manual/basics|The Basics]] can be used as your training plan.
+* Chapter [[wiki:manual/basics|All Ocsigen in one page]] can be used as your training plan.
 It provides a wide overview of each main concept, with links to more detailed
 documentation.
 * Then, a good starting point is this

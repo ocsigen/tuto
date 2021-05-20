@@ -37,7 +37,7 @@ creating a very basic page. We define the service that will implement
 this page by the following declaration:
 
 <<code language="ocaml" class="server"|
-open Eliom_content.Html.D (* provides functions to create HTML nodes *)
+open%server Eliom_content.Html.D (* provides functions to create HTML nodes *)
 
 let%server main_service =
   Eliom_registration.Html.create
@@ -49,6 +49,9 @@ let%server main_service =
            (head (title (txt "Page title")) [])
            (body [h1 [txt "Graffiti"]])))
 >>
+
+Annotations {{{%server}}} tells the compiler that the code is going to be executed
+on the server (see later).
 
 If you're using {{{eliom-distillery}}} just replace the content of file
 {{{graffiti.eliom}}} by the above lines and run:
@@ -362,9 +365,11 @@ The client side process is not strictly separated from the server
 side.  We can access some server variables from the client code. For
 instance:
 
-<<code language="ocaml" class="server"|
+<<code language="ocaml" class="shared"|
 
 open%shared Js_of_ocaml
+>>
+<<code language="ocaml" class="server"|
 
 let%server count = ref 0
 

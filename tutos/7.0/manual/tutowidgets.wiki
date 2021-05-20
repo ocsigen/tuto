@@ -28,6 +28,8 @@ them, the previously opened one is closed.
 
 @@class="screenshot"@@{{files/tutorial/tutowidgets/ex-final.png|screenshot}}
 
+<<outline| <<header| **Table of contents** >> >>
+
 == First step: define an application with a basic service ==
 
 The following code defines a client-server Web application with only
@@ -182,7 +184,7 @@ module%server Ex_app =
     let application_name = "ex"
     let global_data_path = None
   end)
-  
+
 >>
 <<code language="ocaml" class="client"|
 let%client switch_visibility elt =

@@ -352,7 +352,7 @@ and POST parameters. In that case, GET parameters will be in the URL
 and POST parameters will probably come from a form. In HTML, it is not
 possible to mix GET and POST parameters in the same form.
 
-See also [[site:overview/cheatsheet|the cheat-sheet]] for an
+See also [[basics|the cheat-sheet]] for an
 comprehensive overview on the different types of services.
 
 >>
@@ -442,9 +442,12 @@ Now, add a call to this function in the handler of the main service
 <<concept title="Forms" |
 
 Form creation is very similar to link creation, using the functions
-<<a_api project="eliom" subproject="server" | val
-Eliom_content.Html.D.Form.get_form >> and
-<<a_api project="eliom" subproject="server" | val Eliom_content.Html.D.Form.post_form >>.
+<<a_api project="eliom" subproject="server"
+text="val Eliom_content.Html.D.Form.get_form"
+| val Eliom_content_sigs.LINKS_AND_FORMS.Form.get_form >> and
+<<a_api project="eliom" subproject="server"
+text="val Eliom_content.Html.D.Form.post_form"
+| val Eliom_content_sigs.LINKS_AND_FORMS.Form.post_form >>.
 
 The first parameter is the service, and the last parameter (only for
 {{{post_form}}}) is for GET parameters you want sent in the URL, if

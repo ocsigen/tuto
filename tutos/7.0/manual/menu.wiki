@@ -1,13 +1,15 @@
-= Main tutorial
+= Programmer's guide
 ==[[intro|Introduction. Ocsigen: where to start?]]
+==[[basics|All Ocsigen in one page]]
+= Main tutorials
 ==[[site:/install|Install Ocsigen]]
 ==[[start|Your first app in 5 minutes]]
 ==[[basicwebsite|A basic Web site in OCaml]]
-==[[tutowidgets|Eliom apps basics: writing client-server widgets]]
 ==[[application|Client/server application: Graffiti]]
+==[[tutowidgets|Eliom apps basics: writing client-server widgets]]
 ==[[how-to-register-session-data|Session data: Eliom references]]
-==[[interaction|Service based Web programming]]
 ==[[tutoreact|Reactive client-server Web applications]]
+==[[interaction|Service based Web programming]]
 ==[[misc|Mixing traditional Web interaction with client-server app]]
 = 5-minute tutorials
 ==[[lwt|Lwt]]
@@ -17,8 +19,6 @@
 ==[[custom-conf|Custom configuration]]
 ==[[rest|RESTful JSON API]]
 ==[[ocsipersist|Persistent tables with Ocsipersist]]
-==[[hash-password|Protecting passwords]]
-==[[macaque|MaCaQue: SQL queries - Users]]
 = Improving Graffiti
 ==[[pictures|Download pictures]]
 ==[[music|Playing music]]
@@ -67,8 +67,7 @@
 ===[[how-to-send-a-file-to-server-without-stopping-the-client-process|How to send a file to server without stopping the client process]]
 ===[[how-to-detect-channel-disconnection|How to detect channel disconnection]]
 ===[[how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed|How to detect on client side that the server side state for the process is closed]]
-== Database
-===[[how-to-use-a-database-with-eliom|How to use a database with Eliom]]
 == Eliom Server side
 ===[[how-do-i-create-a-cryptographically-safe-identifier|How do I create a Cryptographically safe identifier]]
+===[[hash-password|Protecting passwords]]
 >>

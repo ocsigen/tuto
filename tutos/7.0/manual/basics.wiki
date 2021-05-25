@@ -52,7 +52,7 @@ and makes it very natural to sequentialize computations without blocking the res
 of the program.
 >>
 
-To mearn Lwt, read this [[lwt|short tutorial]], or its [[wiki("lwt"):|user manual]].
+To learn Lwt, read this [[lwt|short tutorial]], or its [[wiki("lwt"):|user manual]].
 
 >>
 

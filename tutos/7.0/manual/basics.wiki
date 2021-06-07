@@ -475,11 +475,17 @@ The type annotation is almost always required.
 
 If such section is reached while generating a page on server side,
 the client-side code will be executed once the page is displayed.
+
 If such section is reached while generating a page on client side,
 the client-side code will be executed immediately
 (In that case, you can delay the execution, if needed,
 for example with function
 <<a_api project="ocsigen-toolkit" subproject="client"|val Ot_nodeready.nodeready>>).
+
+If such section is reached during module initialization on the server
+(global client section), it will be executed on client side everytime
+a new client side program is launched.
+
 
 The tutorial [[tutowidgets|Client-Server Widgets]]
 shows how client values can be manipulated

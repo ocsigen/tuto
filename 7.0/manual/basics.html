@@ -334,11 +334,14 @@ in the browser.
 The type annotation is almost always required.
 </p><p>If such section is reached while generating a page on server side,
 the client-side code will be executed once the page is displayed.
-If such section is reached while generating a page on client side,
+</p><p>If such section is reached while generating a page on client side,
 the client-side code will be executed immediately
 (In that case, you can delay the execution, if needed,
 for example with function
 <span><a href=".././../../ocsigen-toolkit/latest/api/client/Ot_nodeready#VALnodeready">Ot_nodeready.nodeready</a></span>).
+</p><p>If such section is reached during module initialization on the server
+(global client section), it will be executed on client side everytime
+a new client side program is launched.
 </p><p>The tutorial <a href="tutowidgets" class="ocsimore_phrasing_link">Client-Server Widgets</a>
 shows how client values can be manipulated
 on client side.

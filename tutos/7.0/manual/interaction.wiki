@@ -465,15 +465,21 @@ In the example, note that the service is expecting a pair
 {{{(string * string)}}}.  The function given to {{{post_form}}} takes two
 parameters corresponding to the names of each field.
 
-The functions that build widgets like
-<<a_api project="eliom" subproject="server" | val Eliom_content.Html.D.Form.input >>
+Functions building widgets, like
+<<a_api project="eliom" subproject="server"
+text="val Eliom_content.Html.D.Form.input"
+| val Eliom_content_sigs.LINKS_AND_FORMS.Form.input >>,
 expect an argument of type
-<<a_api project="eliom" subproject="server" | type Eliom_content.Html.D.Form.param >>
+<<a_api project="eliom" subproject="server"
+text="type Eliom_content.Html.D.Form.param"
+| type Eliom_content_sigs.LINKS_AND_FORMS.Form.param >>
 (e.g.,
 {{{ Eliom_content.Html.D.Form.int : int Eliom_content.Html.D.Form.param}}})
 specifying the parameter type.  OCaml checks that the name you use
 matches the field.  For example the names above need to be used with
-<<a_api project="eliom" subproject="server" | val Eliom_content.Html.D.Form.string >>.
+<<a_api project="eliom" subproject="server"
+text="val Eliom_content.Html.D.Form.string"
+| val Eliom_content_sigs.LINKS_AND_FORMS.Form.string >>.
 
 >>
 

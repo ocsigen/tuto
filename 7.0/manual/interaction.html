@@ -317,15 +317,15 @@ every form in your application.
 </p><p>In the example, note that the service is expecting a pair
 <span class="teletype">(string * string)</span>.  The function given to <span class="teletype">post_form</span> takes two
 parameters corresponding to the names of each field.
-</p><p>The functions that build widgets like
-<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.D.Form#VALinput">Eliom_content.Html.D.Form.input</a></span>
+</p><p>Functions building widgets, like
+<span><a href=".././../../eliom/latest/api/server/Eliom_content_sigs.LINKS_AND_FORMS.Form#VALinput">val Eliom_content.Html.D.Form.input</a></span>,
 expect an argument of type
-<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.D.Form#TYPEparam">Eliom_content.Html.D.Form.param</a></span>
+<span><a href=".././../../eliom/latest/api/server/Eliom_content_sigs.LINKS_AND_FORMS.Form#TYPEparam">type Eliom_content.Html.D.Form.param</a></span>
 (e.g.,
 <span class="teletype"> Eliom_content.Html.D.Form.int : int Eliom_content.Html.D.Form.param</span>)
 specifying the parameter type.  OCaml checks that the name you use
 matches the field.  For example the names above need to be used with
-<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.D.Form#VALstring">Eliom_content.Html.D.Form.string</a></span>.</p></aside><h3>Opening a session</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Session data, Eliom references</p></aside><p>Now we want to remember that the user is successfully connected.  To do
+<span><a href=".././../../eliom/latest/api/server/Eliom_content_sigs.LINKS_AND_FORMS.Form#VALstring">val Eliom_content.Html.D.Form.string</a></span>.</p></aside><h3>Opening a session</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Session data, Eliom references</p></aside><p>Now we want to remember that the user is successfully connected.  To do
 that we will set a reference when the user successfully connects, and
 we will restrict the scope of this reference to the session (that is,
 to the browser).

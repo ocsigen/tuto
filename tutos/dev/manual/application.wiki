@@ -1,7 +1,5 @@
 <<header| =Writing a client/server Eliom application >>
 
-//The code of this tutorial has been tested against Eliom 6.7.1// \\
-
 In this chapter, we will write a [[site:graffiti/|collaborative
 drawing application]]. It is a client/server web application
 displaying an area where users can draw using the mouse, and see what

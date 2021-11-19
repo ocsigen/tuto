@@ -1070,7 +1070,7 @@ in the next chapter.
 >>
 
 We now want to load the initial image once the canvas is created.  Add
-the following lines just fater the creation of the canvas context
+the following lines just after the creation of the canvas context
 in {{{init_client}}}:
 
 <<code language="ocaml" class="server"|

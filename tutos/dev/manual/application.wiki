@@ -1,7 +1,5 @@
 <<header| =Writing a client/server Eliom application >>
 
-//The code of this tutorial has been tested against Eliom 6.7.1// \\
-
 In this chapter, we will write a [[site:graffiti/|collaborative
 drawing application]]. It is a client/server web application
 displaying an area where users can draw using the mouse, and see what
@@ -471,7 +469,6 @@ Here is the (full) new version of the program:
 
 <<code language="ocaml" class="shared"|
 (* Modules opened with open%shared are available in client and server-code *)
-open%shared Eliom_content.Html.D
 open%shared Eliom_content
 open%shared Js_of_ocaml
 >>
@@ -502,8 +499,8 @@ let%client draw ctx ((r, g, b), size, (x1, y1), (x2, y2)) =
 >>
 <<code language="ocaml" class="server"|
 let%server canvas_elt =
-  canvas ~a:[a_width width; a_height height]
-    [txt "your browser doesn't support canvas"]
+  Html.D.canvas ~a:[Html.D.a_width width; Html.D.a_height height]
+    [Html.D.txt "your browser doesn't support canvas"]
 
 let%server page () =
   html
@@ -847,7 +844,7 @@ To create the widget, we replace {{{page}}} by :
 <<code language="ocaml" class="server"|
 let%server page () =
   let colorpicker, cp_sig =
-    Ot_color_picker.make ~a:[Html.D.a_class ["colorpicker"]]
+    Ot_color_picker.make ~a:[Html.D.a_class ["colorpicker"]] ()
   in
   ( Html.D.html
       (Html.D.head
@@ -922,7 +919,7 @@ val Eliom_tools.D.css_link>>:
 <<code language="ocaml" class="server"|
 let%server page () =
   let colorpicker, cp_sig =
-    Ot_color_picker.make ~a:[Html.D.a_class ["colorpicker"]]
+    Ot_color_picker.make ~a:[Html.D.a_class ["colorpicker"]] ()
   in
   ( Html.D.html
       (Html.D.head
@@ -930,13 +927,13 @@ let%server page () =
          [ Html.D.css_link
              ~uri:
                (Html.D.make_uri
-                  (Eliom_service.static_dir ())
+                  ~service:(Eliom_service.static_dir ())
                   ["css"; "graffiti.css"])
              ()
          ; Html.D.css_link
              ~uri:
                (Html.D.make_uri
-                  (Eliom_service.static_dir ())
+                  ~service:(Eliom_service.static_dir ())
                   ["css"; "ot_color_picker.css"])
              () ])
       (Html.D.body [canvas_elt; slider; colorpicker])
@@ -1072,14 +1069,14 @@ in the next chapter.
 >>
 
 We now want to load the initial image once the canvas is created.  Add
-the following lines just fater the creation of the canvas context
+the following lines just after the creation of the canvas context
 in {{{init_client}}}:
 
 <<code language="ocaml" class="server"|
 (* The initial image: *)
 let img = Eliom_content.Html.To_dom.of_img
-    (img ~alt:"canvas"
-       ~src:(make_uri ~service:~%imageservice ())
+    (Html.D.img ~alt:"canvas"
+       ~src:(Html.D.make_uri ~service:~%imageservice ())
        ())
 in
 img##.onload := Dom_html.handler (fun ev ->

@@ -4,7 +4,12 @@
 We will now add a button to the Graffiti application to save the current
 image. The images will be saved to the filesystem using the module
 <<a_api project="lwt"| module Lwt_io>>. We will then make an Atom feed
-with the saved images using <<a_api project="eliom" subproject="server" | module Atom_feed >>.
+with the saved images using [[https://github.com/Cumulus/Syndic|Syndic]].
+
+To install it, do:
+{{{
+opam install syndic
+}}}
 
 We save the images in the directory containing the static contents
 under the directory {{{images_saved/username}}}. The {{{username}}}
@@ -14,19 +19,30 @@ and we do nothing.
 We will add this code in a new file:
 ===={{{feed.ml}}}====
 <<code language="ocaml"|
-open Eliom_content.Html.D
+open Eliom_content
+open Lwt.Infix
+open Html.F
+open Server
 
-let static_dir = "/tmp/static/"
+let static_dir =
+  match Eliom_config.get_config () with
+  | [Element ("staticdir", [], [PCData dir])] ->
+    dir
+  | [] ->
+    raise (Ocsigen_extensions.Error_in_config_file
+             ("<staticdir> option required for <graffiti>"))
+  | _ ->
+    raise (Ocsigen_extensions.Error_in_config_file
+             ("Unexpected content inside graffiti config"))
 
 let image_dir name =
-  let dir = static_dir ^ "/graffiti_saved/" ^ (Url.encode name) in
-  (try%lwt Lwt_unix.mkdir dir 511 with
-    | _ -> debug "could not create the directory %s" dir; Lwt.return ())
+  let dir = static_dir ^ "/graffiti_saved/" ^ (Eliom_lib.Url.encode name) in
+  (try%lwt Lwt_unix.mkdir dir 0o777 with
+   | _ -> Eliom_lib.debug "could not create the directory %s" dir; Lwt.return ())
   >|= (fun () -> dir)
 
 let make_filename name number =
-  image_dir name >|= fun dir ->
-  dir ^ "/" ^ (string_of_int number) ^ ".png"
+  image_dir name >|= ( fun dir -> (dir ^ "/" ^ (string_of_int number) ^ ".png") )
 
 let save image name number =
   let%lwt file_name = make_filename name number in
@@ -39,7 +55,7 @@ is stocked in an <<a_api project="eliom" subproject="server"| module Ocsipersist
 table.
 
 <<code language="ocaml"|
-let image_info_table = Ocsipersist.open_table "image_info_table"
+let image_info_table = Ocsipersist.Polymorphic.open_table "image_info_table"
 >>
 
 For each user, we stock a value of type\\
@@ -51,26 +67,41 @@ times of old images. We need those times to timestamp the entries of the feed.
 <<code language="ocaml"|
 let save_image username =
   let now = CalendarLib.Calendar.now () in
+  let%lwt image_info_table = image_info_table in
   let%lwt number,_,list =
-    try%lwt Ocsipersist.find image_info_table username with
-      | Not_found -> Lwt.return (0,now,[])
-      | e -> Lwt.fail e
+    try%lwt Ocsipersist.Polymorphic.find image_info_table username with
+    | Not_found -> Lwt.return (0,now,[])
+    | e -> Lwt.fail e
   in
-  let%lwt () = Ocsipersist.add image_info_table
-    username (number+1,now,(number,now)::list) in
+  let%lwt () = Ocsipersist.Polymorphic.add image_info_table
+      username (number+1,now,(number,now)::list) in
   let (_,image_string) = Hashtbl.find graffiti_info username in
   save (image_string ()) username number
 
-let save_image_box name =
-  let save_image_service =
-    Eliom_registration.Action.create
-      ~path:Eliom_service.No_path
-      ~meth:(Eliom_service.Post (Eliom_parameter.unit, Eliom_parameter.unit))
-      (fun () () -> save_image name)
-  in
-  Form.post_form save_image_service
-    (fun _ ->
-      [p [Form.input ~input_type:`Submit ~value:"save" Form.string]]) ()
+let save_image_box =
+  let save_service_reference =
+    Eliom_reference.eref ~scope:Eliom_common.default_group_scope None in
+  fun name ->
+    let%lwt save_image_service =
+      match%lwt Eliom_reference.get save_service_reference with
+      | None ->
+        let service = Eliom_registration.Action.create
+            ~scope:Eliom_common.default_group_scope
+            ~meth:(Eliom_service.Post
+                     (Eliom_parameter.unit,
+                      Eliom_parameter.unit))
+            ~path:Eliom_service.No_path
+            (fun () () -> save_image name) in
+        let%lwt () = Eliom_reference.set save_service_reference (Some service) in
+        Lwt.return service
+      | Some service -> Lwt.return service
+    in
+    Lwt.return (
+      Html.D.Form.post_form ~service:save_image_service
+        (fun _ ->
+           [p [
+               Html.D.Form.input ~input_type:`Submit ~value:"save"
+                 Html.D.Form.string]]) ())
 >>
 
 We find the url of the images with <<a_api project="eliom"
@@ -87,41 +118,55 @@ let feed_service =
     ()
 
 let local_filename name number =
-  ["graffiti_saved"; Url.encode name ; (string_of_int number) ^ ".png"]
+  ["graffiti_saved"; Eliom_lib.Url.encode name ; (string_of_int number) ^ ".png"]
 
 let rec entries name list = function
   | 0 -> []
   | len ->
     match list with
-      | [] -> []
-      | (n,saved)::q ->
-	let title = Atom_feed.plain
-	  ("graffiti " ^ name ^ " " ^ (string_of_int n)) in
-	let uri =
-	  make_string_uri ~absolute:true
-	    ~service:(Eliom_service.static_dir ())
-	    (local_filename name n)
-	in
-	let entry =
-	  Atom_feed.entry ~title ~id:uri ~updated:saved
-            [Atom_feed.html5C [ img ~src:uri ~alt:"image" ()]] in
-	entry::(entries name q (len - 1))
+    | [] -> []
+    | (n,saved)::q ->
+      let uri =
+        Html.D.make_uri ~absolute:true
+          ~service:(Eliom_service.static_dir ())
+          (local_filename name n)
+        |> Xml.string_of_uri
+        |> Uri.of_string in
+      let content = Syndic.Atom.Src (None, uri) in
+      let authors = (Syndic.Atom.author name), [] in
+      let title : Syndic.Atom.text_construct =
+        Syndic.Atom.Text ("graffiti " ^ name ^ " " ^ (string_of_int n)) in
+      let entry =
+        Syndic.Atom.entry ~content ~id:uri ~authors ~title ~updated:saved () in
+      entry::(entries name q (len - 1))
+
+let feed_of_string_page xml =
+  xml
+  |> Syndic.Atom.to_xml
+  |> Syndic.XML.to_string
+  |> fun string -> string, ""
 
 let feed name () =
-  let id = make_string_uri
-    ~absolute:true
-    ~service:feed_service name in
-  let title = Atom_feed.plain ("nice drawings of " ^ name) in
+  let id =
+    Xml.string_of_uri
+      (Html.D.make_uri ~absolute:true ~service:feed_service name)
+    |> Uri.of_string in
+  let title : Syndic.Atom.text_construct =
+    Syndic.Atom.Text ("nice drawings of " ^ name) in
   Lwt.catch
-    (fun () -> Ocsipersist.find image_info_table name >|=
-	(fun (number,updated,list) ->
-	  Atom_feed.feed ~id ~updated ~title (entries name list 10)))
+    (fun () ->
+       let%lwt image_info_table = image_info_table in
+       Ocsipersist.Polymorphic.find image_info_table name >|=
+      (fun (number,updated,list) ->
+         Syndic.Atom.feed ~id ~updated ~title (entries name list 10)
+       |> feed_of_string_page))
     ( function Not_found ->
-      let now = CalendarLib.Calendar.now () in
-      Lwt.return (Atom_feed.feed ~id ~updated:now ~title [])
-      | e -> Lwt.fail e )
+      let now = Option.get (Ptime.of_float_s (Unix.gettimeofday ())) in
+      Lwt.return (Syndic.Atom.feed ~id ~updated:now ~title []
+                  |> feed_of_string_page)
+             | e -> Lwt.fail e )
 
-let () = Eliom_atom.Reg.register ~service:feed_service feed
+let () = Eliom_registration.String.register ~service:feed_service feed
 >>
 
 And then use the new module as follow:

@@ -56,7 +56,7 @@ Its argument is an Eliom event handler, that is a client-side function
 taking the JS event as parameter:
 <<code language="ocaml" |~a:[a_onclick {{ fun ev -> Dom_html.window##alert(Js.string "hello") }}]>>
 
-However, we recommend to use <<a_api project="js_of_ocaml"|module Lwt_js_events>> rather than these elements to set event handlers.
+However, we recommend to use <<a_api project="js_of_ocaml" subproject="js_of_ocaml-lwt"|module Js_of_ocaml_lwt.Lwt_js_events>> rather than these elements to set event handlers.
 
 
 === Links

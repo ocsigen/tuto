@@ -109,7 +109,7 @@ or the manual of each of the projects.
 * The {{{##}}} is used to call a JS method from OCaml
   and {{{##.}}} to access a JS object field
   (See Js_of_ocaml's documentation:
-  <<a_api project="js_of_ocaml" | module Ppx_js >>).
+  <<a_api project="js_of_ocaml" subproject="js_of_ocaml-ppx" | module Ppx_js >>).
 * If there are several services in your application, the client-side
   program will be sent only with the first page, and will not stop if
   you go to another page of the application.

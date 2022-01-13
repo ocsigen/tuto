@@ -44,7 +44,7 @@
 </li><li class="drawermainmenu-page"><a href="https://github.com/ocsigen" class="ocsimore_phrasing_link">Source code</a>
 </li></ul><nav class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="intro" class="ocsimore_phrasing_link">Introduction</a></h2><h2><a href="application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2><h1> Examples: Learning by example</h1><h2><a href="chat" class="ocsimore_phrasing_link">Chat</a></h2><h2> More coming soon ...</h2></nav></nav></aside></div><p class="reasonwarning">Warning: Reason support is experimental.
 We are looking for beta-tester and contributors.
-</p><button id="reason">Switch to </button><div class="twocols"><nav class="leftcol">Version <select class="how-versions" onchange="location = this.value;"><option value=".././../2.2/manual/application" selected="selected">2.2</option><option value=".././../7.0/manual/application">7.0</option><option value=".././../dev/manual/application">dev</option></select><nav class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="intro" class="ocsimore_phrasing_link">Introduction</a></h2><h2><a href="application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2><h1> Examples: Learning by example</h1><h2><a href="chat" class="ocsimore_phrasing_link">Chat</a></h2><h2> More coming soon ...</h2></nav></nav><article class="rightcol"><header><h1>Writing a client/server Eliom application</h1></header><p><em>The code of this tutorial has been tested with the 2.2 release of
+</p><button id="reason">Switch to </button><div class="twocols"><nav class="leftcol">Version <select class="how-versions" onchange="location = this.value;"><option value=".././../dev/manual/application">dev</option><option value=".././../7.0/manual/application">7.0</option><option value=".././../2.2/manual/application" selected="selected">2.2</option></select><nav class="how-doctree"><h1> Tutorial: Your first application</h1><h2><a href="intro" class="ocsimore_phrasing_link">Introduction</a></h2><h2><a href="application" class="ocsimore_phrasing_link">Client/server application</a></h2><h2><a href="interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="misc" class="ocsimore_phrasing_link">Miscellaneous features</a></h2><h1> Examples: Learning by example</h1><h2><a href="chat" class="ocsimore_phrasing_link">Chat</a></h2><h2> More coming soon ...</h2></nav></nav><article class="rightcol"><header><h1>Writing a client/server Eliom application</h1></header><p><em>The code of this tutorial has been tested with the 2.2 release of
 the Ocsigen bundle.</em><br/>
 </p><p>In this chapter, we will write a <a href=".././../../graffiti/" class="ocsimore_phrasing_link">collaborative
 drawing application</a>.  It is a client/server Web application
@@ -215,7 +215,7 @@ part as usual, and compile the client part using <span class="teletype">js_of_oc
 to create a Javascript file.</p></aside><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Js_of_ocaml</h5></header><p>The client-side parts of the program are compiled to Javascript by
 Js_of_ocaml, which recompiles OCaml bytecode, generating Javascript.
 It is easy to bind Javascript libraries to call Javascript functions
-from OCaml programs. In the example, we are using the <span><a href=".././../../js_of_ocaml/latest/api/Dom_html">Dom_html</a></span> module, which is a binding
+from OCaml programs. In the example, we are using the <span><a href=".././../../js_of_ocaml/latest/api/js_of_ocaml/Js_of_ocaml/Dom_html#module-Dom_html">Js_of_ocaml.Dom_html</a></span> module, which is a binding
 to allow the manipulation of an HTML page.
 </p><p>Js_of_ocaml is using a syntax extension to call Javascript methods:
 </p><ul><li> <span class="teletype">obj##m(a, b, c)</span> to call the method <span class="teletype">m</span> of object <span class="teletype">obj</span>
@@ -306,17 +306,17 @@ let main_service =
   My_app.register_service ~path:[&quot;&quot;] ~get_params:Eliom_parameter.unit
     (fun () () -&gt;
       Eliom_service.onload onload_handler;
-      Lwt.return page)</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Javascript datatypes in OCaml</h5></header><p>Note that we use the function <span><a href=".././../../js_of_ocaml/latest/api/Js#VALstring">Js.string</a></span> from the Js_of_ocaml's library to convert an OCaml
+      Lwt.return page)</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Javascript datatypes in OCaml</h5></header><p>Note that we use the function <span><a href=".././../../js_of_ocaml/latest/api/js_of_ocaml/Js_of_ocaml/Js#val-string">Js_of_ocaml.Js.string</a></span> from the Js_of_ocaml's library to convert an OCaml
 string into a JS string.</p></aside><h3>Single user drawing application</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Mouse events with arrows</p></aside><p>We now want to catch mouse events to draw lines with the mouse like
 with the <em>brush</em> tools of any classical drawing application. One
 solution would be to mimic classical Javascript code in OCaml ; for
-example by using the function <span><a href=".././../../js_of_ocaml/latest/api/Dom_events#VALlisten">Dom_events.listen</a></span> that is the Js_of_ocaml's equivalent of
+example by using the function <span><a href=".././../../js_of_ocaml/latest/api/js_of_ocaml/Js_of_ocaml/Dom_events#val-listen">Js_of_ocaml.Dom_events.listen</a></span> that is the Js_of_ocaml's equivalent of
 <span class="teletype">addEventListener</span>. However, this solution is at least as much
 verbose than the Javascript equivalent, hence not
 satisfactory. Another idea is to use the expressivity allowed by the
 functional part of OCaml to hide the complexity behind a nice
 combinator library and dramaticaly reduce the code size. In this
-tutorial, we will use the <em>experimental</em> <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows">Event_arrows</a></span> module from the
+tutorial, we will use the <em>experimental</em> <span><a href=".././../../js_of_ocaml/latest/api/js_of_ocaml/Event_arrows#module-Event_arrows">Event_arrows</a></span> module from the
 Js_of_ocaml's library.
 </p><aside class="wip"><header><h5>Work in progress</h5></header><p><strong>Warning</strong> The event arrows are an experimental
 feature. Feedbacks and suggestions sent to the
@@ -361,26 +361,26 @@ read as: for each <span class="teletype">mousedown</span> event on the canvas, d
 terminate:
 </p><ul><li> For each mousemove event on the document, call <span class="teletype">line</span> (never terminates)
 </li><li> If there is a mouseup event on the document, call <span class="teletype">line</span>.
-</li></ul><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Handling events with arrows</h5></header><p>The module <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows">Event_arrows</a></span>
+</li></ul><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Handling events with arrows</h5></header><p>The module <span><a href=".././../../js_of_ocaml/latest/api/js_of_ocaml/Event_arrows#module-Event_arrows">Event_arrows</a></span>
 allows us to define event listeners easily (using arrows). An arrow
 from <span class="teletype">'a</span> to <span class="teletype">'b</span> has type <span class="teletype">('a, 'b) Event_arrows.t</span>.
 The operator <span class="teletype">&gt; &gt; &gt;</span> is used to bind the output
 of an arrow to the input of the following one.
 </p><p>For example <span class="teletype">(mouseup Dom_html.document)</span> is an arrow from
 <span class="teletype">'a</span> to <span class="teletype">Dom_html.mouseEvent Js.t</span>.
-</p><p>The combinator <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows#VALarr">Event_arrows.arr</a></span> transforms a function of type <span class="teletype">'a -&gt; 'b</span> into
+</p><p>The combinator <span><a href=".././../../js_of_ocaml/latest/api/js_of_ocaml/Event_arrows#val-arr">Event_arrows.arr</a></span> transforms a function of type <span class="teletype">'a -&gt; 'b</span> into
 an arrow of type <span class="teletype">('a, 'b) Event_arrows.t</span>. There is also a
-combinator <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows#VALlwt_arr">Event_arrows.lwt_arr</a></span> to transform a function of type <span class="teletype">'a -&gt; 'b Lwt.t</span>
+combinator <span><a href=".././../../js_of_ocaml/latest/api/js_of_ocaml/Event_arrows#val-lwt_arr">Event_arrows.lwt_arr</a></span> to transform a function of type <span class="teletype">'a -&gt; 'b Lwt.t</span>
 into an arrow of type <span class="teletype">('a, 'b) Event_arrows.t</span>.
-</p><p>Combinators like <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows#VALmousedowns">Event_arrows.mousedowns</a></span> or <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows#VALmousemoves">Event_arrows.mousemoves</a></span> (ending by &quot;s&quot;) take as parameters the
+</p><p>Combinators like <span><a href=".././../../js_of_ocaml/latest/api/js_of_ocaml/Event_arrows#val-mousedowns">Event_arrows.mousedowns</a></span> or <span><a href=".././../../js_of_ocaml/latest/api/js_of_ocaml/Event_arrows#val-mousemoves">Event_arrows.mousemoves</a></span> (ending by &quot;s&quot;) take as parameters the
 target of the event and an arrow that will be called each time the
 event occures.
-</p><p>The function <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows#VALrun">Event_arrows.run</a></span>
+</p><p>The function <span><a href=".././../../js_of_ocaml/latest/api/js_of_ocaml/Event_arrows#val-run">Event_arrows.run</a></span>
 (of type <span class="teletype">('a, unit) t -&gt; 'a -&gt; canceller</span>) sets up an event
 handler. It returns a &quot;canceller&quot; that you can use to cancel it:
 </p><pre class=""><code class="language-ocaml translatable">let c = Event_arrows.run ( ... ) in
 ...
-Event_arrows.cancel c</code></pre><p>The combinator <span><a href=".././../../js_of_ocaml/latest/api/Event_arrows#VALfirst">Event_arrows.first</a></span> takes a list of arrows and behaves as the first
+Event_arrows.cancel c</code></pre><p>The combinator <span><a href=".././../../js_of_ocaml/latest/api/js_of_ocaml/Event_arrows#val-first">Event_arrows.first</a></span> takes a list of arrows and behaves as the first
 to terminate. All the other arrows in the list are cancelled.</p></aside><h3>Collaborative drawing application</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Client server communication</p></aside><p>In order to see what other users are drawing, we now want to do the following:
 </p><ul><li> Send the coordinates to the server when the user draw a line, then
 </li><li> Dispatch the coordinates to all connected users.
@@ -398,7 +398,7 @@ version</a> of the
 extension</a>.  You need to do that for each type of data sent by the
 client to the server.  This annotation can only be added on types
 containing exclusively basics type or other types annotated with
-deriving. See the Js_of_ocaml API, for more information on the <span><a href=".././../../js_of_ocaml/latest/api/Deriving_Json">Deriving_Json</a></span> module.
+deriving. See the Js_of_ocaml API, for more information on the <span><a href=".././../../js_of_ocaml/latest/api/js_of_ocaml/Deriving_Json#module-Deriving_Json">Deriving_Json</a></span> module.
 </p><p>Then we create an Eliom's bus to broadcast draw orders to each client
 with the function <span><a href=".././../../eliom/latest/api/server/Eliom_bus#VALcreate">Eliom_bus.create</a></span>. This function take as parameter the type of
 values carried by the bus.

@@ -312,7 +312,7 @@ to create a Javascript file.
 Js_of_ocaml, which recompiles OCaml bytecode, generating Javascript.
 It is easy to bind Javascript libraries to call Javascript functions
 from OCaml programs. In the example, we are using the <<a_api
-project="js_of_ocaml" | module Dom_html >> module, which is a binding
+project="js_of_ocaml" | module Js_of_ocaml.Dom_html >> module, which is a binding
 to allow the manipulation of an HTML page.
 
 Js_of_ocaml is using a syntax extension to call Javascript methods:
@@ -491,7 +491,7 @@ let main_service =
   title="Javascript datatypes in OCaml"|
 
   Note that we use the function <<a_api project="js_of_ocaml" | val
-  Js.string>> from the Js_of_ocaml's library to convert an OCaml
+  Js_of_ocaml.Js.string>> from the Js_of_ocaml's library to convert an OCaml
   string into a JS string.
 
 >>
@@ -506,7 +506,7 @@ We now want to catch mouse events to draw lines with the mouse like
 with the //brush// tools of any classical drawing application. One
 solution would be to mimic classical Javascript code in OCaml ; for
 example by using the function <<a_api project="js_of_ocaml"| val
-Dom_events.listen >> that is the Js_of_ocaml's equivalent of
+Js_of_ocaml.Dom_events.listen >> that is the Js_of_ocaml's equivalent of
 {{{addEventListener}}}. However, this solution is at least as much
 verbose than the Javascript equivalent, hence not
 satisfactory. Another idea is to use the expressivity allowed by the

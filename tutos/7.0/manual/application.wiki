@@ -335,7 +335,7 @@ The client-side parts of the program are compiled to JavaScript by
 bytecode to JavaScript.)  It is easy <<a_manual project="js_of_ocaml"
 chapter="bindings"|to bind JavaScript libraries>> so that OCaml
 programs can call JavaScript functions. In the example, we are using
-the <<a_api project="js_of_ocaml" | module Dom_html >> module, which
+the <<a_api project="js_of_ocaml" | module Js_of_ocaml.Dom_html >> module, which
 is a binding that allows the manipulation of an HTML page.
 
 Js_of_ocaml is using a syntax extension to call JavaScript methods:
@@ -346,7 +346,7 @@ Js_of_ocaml is using a syntax extension to call JavaScript methods:
 * {{{new%js constr a b c}}} to call a JavaScript constructor.
 
 More information can be found in the Js_of_ocaml manual, in module
-<<a_api project="js_of_ocaml" | module Ppx_js >>.
+<<a_api project="js_of_ocaml" subproject="js_of_ocaml-ppx" | module Ppx_js >>.
 
 >>
 
@@ -531,7 +531,7 @@ let%server main_service =
   title="JavaScript datatypes in OCaml"|
 
   Here we use the function <<a_api project="js_of_ocaml" | val
-  Js.string>> from Js_of_ocaml's library to convert an OCaml string
+  Js_of_ocaml.Js.string>> from Js_of_ocaml's library to convert an OCaml string
   into a JS string.
 
 >>
@@ -564,7 +564,7 @@ We now want to catch mouse events to draw lines with the mouse like
 with the //brush// tools of any classical drawing application. One
 solution would be to mimic typical JavaScript code in OCaml; for
 example by using the function <<a_api project="js_of_ocaml"| val
-Dom_events.listen >> that is the Js_of_ocaml's equivalent of
+Js_of_ocaml.Dom_events.listen >> that is the Js_of_ocaml's equivalent of
 {{{addEventListener}}}. However, this solution is at least as verbose
 as the JavaScript equivalent, hence not satisfactory. Js_of_ocaml's
 library provides a much easier way to do that with the help of Lwt.
@@ -710,15 +710,15 @@ functions can cause the entre server to hang!// Remember:
 
   title="Handling events with Lwt"|
 
-  Module <<a_api project="js_of_ocaml" | module Js_of_ocaml_lwt.Lwt_js_events>>
+  Module <<a_api project="js_of_ocaml" subproject="js_of_ocaml-lwt" | module Js_of_ocaml_lwt.Lwt_js_events>>
   allows easily defining event listeners using Lwt.  For example,
-  <<a_api project="js_of_ocaml" | val Lwt_js_events.click >> takes a
+  <<a_api project="js_of_ocaml" subproject="js_of_ocaml-lwt"| val Js_of_ocaml_lwt.Lwt_js_events.click >> takes a
   DOM element and returns an Lwt thread that will wait until a click
   occures on this element.
 
-  Functions with an ending "s" (<<a_api project="js_of_ocaml" | val
-  Lwt_js_events.clicks >>, <<a_api project="js_of_ocaml" | val
-  Lwt_js_events.mousedowns >>, ...) start again waiting after the
+  Functions with an ending "s" (<<a_api project="js_of_ocaml" subproject="js_of_ocaml-lwt" | val
+  Js_of_ocaml_lwt.Lwt_js_events.clicks >>, <<a_api project="js_of_ocaml" subproject="js_of_ocaml-lwt" | val
+  Js_of_ocaml_lwt.Lwt_js_events.mousedowns >>, ...) start again waiting after the
   handler terminates.
 
   <<a_api project="lwt" | val Lwt.pick >> behaves as the first thread

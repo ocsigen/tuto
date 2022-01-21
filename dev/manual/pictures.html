@@ -71,11 +71,19 @@ let static_dir =
     raise (Ocsigen_extensions.Error_in_config_file
              (&quot;Unexpected content inside graffiti config&quot;))
 
+let create_dir dir =
+  try%lwt Lwt_unix.mkdir dir 0o777 with
+  | Unix.Unix_error (Unix.EEXIST, &quot;mkdir&quot;, _) -&gt; Lwt.return_unit
+  | _ -&gt;
+      Eliom_lib.debug &quot;could not create the directory %s&quot; dir;
+      Lwt.return_unit
+
 let image_dir name =
-  let dir = static_dir ^ &quot;/graffiti_saved/&quot; ^ (Eliom_lib.Url.encode name) in
-  (try%lwt Lwt_unix.mkdir dir 0o777 with
-   | _ -&gt; Eliom_lib.debug &quot;could not create the directory %s&quot; dir; Lwt.return ())
-  &gt;|= (fun () -&gt; dir)
+  let dir = static_dir ^ &quot;/graffiti_saved/&quot; in
+  let%lwt () = create_dir dir in
+  let dir = dir ^ Eliom_lib.Url.encode name in
+  let%lwt () = create_dir dir in
+  Lwt.return dir
 
 let make_filename name number =
   image_dir name &gt;|= ( fun dir -&gt; (dir ^ &quot;/&quot; ^ (string_of_int number) ^ &quot;.png&quot;) )
@@ -104,30 +112,24 @@ times of old images. We need those times to timestamp the entries of the feed.
   let (_,image_string) = Hashtbl.find graffiti_info username in
   save (image_string ()) username number
 
-let save_image_box =
-  let save_service_reference =
-    Eliom_reference.eref ~scope:Eliom_common.default_group_scope None in
-  fun name -&gt;
-    let%lwt save_image_service =
-      match%lwt Eliom_reference.get save_service_reference with
-      | None -&gt;
-        let service = Eliom_registration.Action.create
-            ~scope:Eliom_common.default_group_scope
-            ~meth:(Eliom_service.Post
-                     (Eliom_parameter.unit,
-                      Eliom_parameter.unit))
-            ~path:Eliom_service.No_path
-            (fun () () -&gt; save_image name) in
-        let%lwt () = Eliom_reference.set save_service_reference (Some service) in
-        Lwt.return service
-      | Some service -&gt; Lwt.return service
-    in
-    Lwt.return (
-      Html.D.Form.post_form ~service:save_image_service
-        (fun _ -&gt;
-           [p [
-               Html.D.Form.input ~input_type:`Submit ~value:&quot;save&quot;
-                 Html.D.Form.string]]) ())</code></pre><p>We find the url of the images with <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALstatic_dir">Eliom_service.static_dir</a></span>.  It is a service
+let save_image_service =
+  Eliom_service.create
+    ~meth:(Eliom_service.Post
+             (Eliom_parameter.unit, Eliom_parameter.string &quot;name&quot;))
+    ~path:Eliom_service.No_path ()
+
+let () =
+  Eliom_registration.Action.register
+    ~service:save_image_service (fun () name -&gt; save_image name)
+
+let save_image_box name =
+  Lwt.return
+    (Html.D.Form.post_form ~service:save_image_service
+       (fun param_name -&gt;
+         [p [Html.D.Form.input ~input_type:`Hidden ~name:param_name
+              ~value:name Html.D.Form.string;
+             Html.D.Form.button_no_value ~button_type:`Submit [txt &quot;save&quot;]]])
+       ())</code></pre><p>We find the url of the images with <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALstatic_dir">Eliom_service.static_dir</a></span>.  It is a service
 taking file path as parameter, serving the content of the static
 directory. We use <span><a href=".././../../eliom/latest/api/server/Eliom_uri#VALmake_string_uri">Eliom_uri.make_string_uri</a></span> to get the url as a string.
 </p><pre class=""><code class="language-ocaml translatable">let feed_service =

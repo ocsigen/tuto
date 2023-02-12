@@ -99,7 +99,7 @@ type error = {
 } [@@deriving yojson]
 
 let db : location Ocsipersist.table Lwt.t =
-  Ocsipersist.open_table "locations"
+  Ocsipersist.Polymorphic.open_table "locations"
 >>
 
 <<concept title="Syntax extensions"|
@@ -243,7 +243,7 @@ let read_handler id_opt () =
   let%lwt db = db in
   match id_opt with
   | None ->
-    Ocsipersist.fold_step
+    Ocsipersist.Polymorphic.fold_step
       (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
     ~>>= fun locations ->
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
@@ -251,7 +251,7 @@ let read_handler id_opt () =
   | Some id ->
     catch
       (fun () ->
-         Ocsipersist.find db  id ~>>= fun location ->
+         Ocsipersist.Polymorphic.find db  id ~>>= fun location ->
          let json =
            Yojson.Safe.to_string (location_to_yojson location) in
          send_json ~code:200 json)
@@ -285,7 +285,7 @@ let edit_handler_aux ?(create = false) id_opt (content_type, raw_content_opt) =
           (if create then
             Lwt.return_unit
            else
-            Ocsipersist.find db id ~>>= fun _ -> Lwt.return_unit)
+            Ocsipersist.Polymorphic.find db id ~>>= fun _ -> Lwt.return_unit)
           ~>>= fun () ->
           let location =
             (let open Result in
@@ -293,7 +293,7 @@ let edit_handler_aux ?(create = false) id_opt (content_type, raw_content_opt) =
             match loc_result with
               Ok loc-> loc
             | Error _ -> raise Deriving_Yojson.Failed )  in
-          Ocsipersist.add db  id location ~>>= fun () ->
+          Ocsipersist.Polymorphic.add db  id location ~>>= fun () ->
           send_success ())
       (function
         | Not_found ->
@@ -317,7 +317,7 @@ let%lwt db = db in
   | None ->
     send_error ~code:400 "An id must be provided to delete a location"
   | Some id ->
-    Ocsipersist.remove db id ~>>= fun () ->
+    Ocsipersist.Polymorphic.remove db id ~>>= fun () ->
     send_success ()
 >>
 
@@ -365,7 +365,7 @@ type error = {
 } [@@deriving yojson]
 
 let db : location Ocsipersist.table Lwt.t =
-  Ocsipersist.open_table "locations"
+  Ocsipersist.Polymorphic.open_table "locations"
 
 
 (**** Services ****)
@@ -429,7 +429,7 @@ let read_handler id_opt () =
   let%lwt db = db in
   match id_opt with
   | None ->
-    Ocsipersist.fold_step
+    Ocsipersist.Polymorphic.fold_step
       (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
     ~>>= fun locations ->
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
@@ -437,7 +437,7 @@ let read_handler id_opt () =
   | Some id ->
     catch
       (fun () ->
-         Ocsipersist.find db  id ~>>= fun location ->
+         Ocsipersist.Polymorphic.find db  id ~>>= fun location ->
          let json =
            Yojson.Safe.to_string (location_to_yojson location) in
          send_json ~code:200 json)
@@ -463,7 +463,7 @@ let edit_handler_aux ?(create = false) id_opt (content_type, raw_content_opt) =
           (if create then
             Lwt.return_unit
            else
-            Ocsipersist.find db id ~>>= fun _ -> Lwt.return_unit)
+            Ocsipersist.Polymorphic.find db id ~>>= fun _ -> Lwt.return_unit)
           ~>>= fun () ->
           let location =
             (let open Result in
@@ -471,7 +471,7 @@ let edit_handler_aux ?(create = false) id_opt (content_type, raw_content_opt) =
             (function
               Ok loc-> loc
             | Error _ -> raise Deriving_Yojson.Failed ) loc_result)  in
-          Ocsipersist.add db  id location ~>>= fun () ->
+          Ocsipersist.Polymorphic.add db  id location ~>>= fun () ->
           send_success ())
       (function
         | Not_found ->
@@ -492,7 +492,7 @@ let delete_handler id_opt _ =
   | None ->
     send_error ~code:400 "An id must be provided to delete a location"
   | Some id ->
-    Ocsipersist.remove db id ~>>= fun () ->
+    Ocsipersist.Polymorphic.remove db id ~>>= fun () ->
     send_success ()
 
 (* Register services *)

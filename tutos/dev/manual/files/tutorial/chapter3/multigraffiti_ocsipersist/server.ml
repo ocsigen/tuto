@@ -130,18 +130,18 @@ let create_account_service =
 
 let username = Eliom_reference.eref ~scope:Eliom_common.default_session_scope None
 
-let user_table = Ocsipersist.open_table "user_table"
+let user_table = Ocsipersist.Polymorphic.open_table "user_table"
 
 let check_pwd name pwd =
   try_lwt
-    lwt saved_password = Ocsipersist.find user_table name in
+    lwt saved_password = Ocsipersist.Polymorphic.find user_table name in
     Lwt.return (pwd = saved_password)
   with
     Not_found -> Lwt.return false
 
 let () = Eliom_registration.Action.register
   ~service:create_account_service
-  (fun () (name, pwd) -> Ocsipersist.add user_table name pwd)
+  (fun () (name, pwd) -> Ocsipersist.Polymorphic.add user_table name pwd)
 
 let () = Eliom_registration.Action.register
   ~service:connection_service

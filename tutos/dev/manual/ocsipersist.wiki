@@ -47,5 +47,3 @@ let () = Eliom_registration.Action.register
  It can use different backends (currently sqlite and dbm).
  For more informations see <<a_api project="ocsigenserver"| type Ocsipersist.table >>.
 >>
-
-

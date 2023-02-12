@@ -60,9 +60,9 @@ let imageservice =
     (fun (name,_) () ->
       try_lwt
         let _ ,image_string = Hashtbl.find graffiti_info name in
-	Lwt.return (image_string (), "image/png")
+        Lwt.return (image_string (), "image/png")
       with
-	| Not_found -> raise_lwt Eliom_common.Eliom_404)
+        | Not_found -> raise_lwt Eliom_common.Eliom_404)
 
 let get_bus (name:string) =
   (* create a new bus and image_string function only if it did not exists *)
@@ -84,12 +84,12 @@ let choose_drawing_form () =
     (fun (name) ->
       [fieldset
           [label ~a:[a_for name]
-	      [pcdata "drawing name: "];
+              [pcdata "drawing name: "];
            string_input ~input_type:`Text ~name ();
            br ();
            string_input
-	     ~input_type:`Submit
-	     ~value:"Go" ()
+             ~input_type:`Submit
+             ~value:"Go" ()
           ]])
 
 let oclosure_script =
@@ -102,7 +102,7 @@ let make_page content =
   Lwt.return
     (html
        (head
-	  (title (pcdata "Graffiti"))
+          (title (pcdata "Graffiti"))
        [ css_link
            ~uri:(make_uri (Eliom_service.static_dir ())
                   ["css";"common.css"]) ();
@@ -170,12 +170,12 @@ let login_name_form service button_text =
           br ();
           label ~a:[a_for name2] [pcdata "password: "];
           string_input
-	    ~input_type:`Password
-	    ~name:name2 ();
+            ~input_type:`Password
+            ~name:name2 ();
           br ();
           string_input
-	    ~input_type:`Submit
-	    ~value:button_text ()
+            ~input_type:`Submit
+            ~value:button_text ()
          ]]) ()
 
 let default_content () =
@@ -192,8 +192,8 @@ struct
   let translate page =
     Eliom_reference.get username >>=
       function
-	| None -> default_content ()
-	| Some username -> page username
+        | None -> default_content ()
+        | Some username -> page username
 end
 
 module Connected =

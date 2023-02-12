@@ -66,17 +66,17 @@ let rec entries name list = function
     match list with
       | [] -> []
       | (n,saved)::q ->
-	let title = Atom_feed.plain ("graffiti " ^ name ^ " " ^ (string_of_int n)) in
-	let uri =
-	  Xhtml.M.uri_of_string
+        let title = Atom_feed.plain ("graffiti " ^ name ^ " " ^ (string_of_int n)) in
+        let uri =
+          Xhtml.M.uri_of_string
             (Eliom_uri.make_string_uri
                ~service:(Eliom_service.static_dir ())
                (local_filename name n))
-	in
-	let entry =
-	  Atom_feed.entry ~title ~id:uri ~updated:saved
+        in
+        let entry =
+          Atom_feed.entry ~title ~id:uri ~updated:saved
             [Atom_feed.xhtmlC [ Xhtml.M.img ~src:uri ~alt:"image" ()]] in
-	entry::(entries name q (len - 1))
+        entry::(entries name q (len - 1))
 
 let feed name () =
   let id = Xhtml.M.uri_of_string
@@ -98,7 +98,7 @@ let feed name () =
   let title = Atom_feed.plain ("nice drawings of " ^ name) in
   Lwt.catch
     (fun () -> Ocsipersist.find image_info_table name >|=
-	(fun (number,updated,list) -> Atom_feed.feed ~id ~updated ~title (entries name list 10)))
+        (fun (number,updated,list) -> Atom_feed.feed ~id ~updated ~title (entries name list 10)))
     ( function Not_found ->
       let now = CalendarLib.Calendar.now () in
       Lwt.return (Atom_feed.feed ~id ~updated:now ~title [])

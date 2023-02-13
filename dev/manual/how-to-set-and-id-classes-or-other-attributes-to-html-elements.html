@@ -68,7 +68,7 @@ You should rather use
 </p><pre class=""><code class="language-ocaml translatable">~a:[a_title &quot;Lorem ipsum dolor sit amet.&quot;]</code></pre><h3> Events</h3><p>Some attributes allow you to do something when the user do an action. They are many available actions since HTML5.
 </p><p>Its argument is an Eliom event handler, that is a client-side function
 taking the JS event as parameter:
-</p><pre class=""><code class="language-ocaml translatable">~a:[a_onclick {{ fun ev -&gt; Dom_html.window##alert(Js.string &quot;hello&quot;) }}]</code></pre><p>However, we recommend to use <span><a href=".././../../js_of_ocaml/latest/api/js_of_ocaml-lwt/Js_of_ocaml_lwt/Lwt_js_events#module-Lwt_js_events">Js_of_ocaml_lwt.Lwt_js_events</a></span> rather than these elements to set event handlers.
+</p><pre class=""><code class="language-ocaml translatable">~a:[a_onclick {{ fun ev -&gt; Dom_html.window##alert(Js.string &quot;hello&quot;) }}]</code></pre><p>However, we recommend to use <span><a href=".././../../js_of_ocaml/latest/api/js_of_ocaml-lwt/Js_of_ocaml_lwt/Lwt_js_events/#module-Lwt_js_events">Js_of_ocaml_lwt.Lwt_js_events</a></span> rather than these elements to set event handlers.
 </p><h3> Links</h3><ul><li> Type <span><a href=".././../../tyxml/latest/api/Html_types#TYPEbase_attrib">Html_types.base_attrib</a></span> (attributes available for every element)
 </li><li> signature <span><a href=".././../../tyxml/latest/api/Html_sigs.T">Html_sigs.T</a></span> (Element attributes)
 </li><li> <a href="http://www.w3schools.com/html/default.asp" class="ocsimore_phrasing_link">W3Schools HTML5 reference</a>

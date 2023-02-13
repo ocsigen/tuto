@@ -29,16 +29,16 @@ let save image name number =
   lwt out_chan = Lwt_io.open_file ~mode:Lwt_io.output file_name in
   Lwt_io.write out_chan image
 
-let image_info_table = Ocsipersist.open_table "image_info_table"
+let image_info_table = Ocsipersist.Polymorphic.open_table "image_info_table"
 
 let save_image username =
   let now = CalendarLib.Calendar.now () in
   lwt number,_,list =
-    try_lwt Ocsipersist.find image_info_table username with
+    try_lwt Ocsipersist.Polymorphic.find image_info_table username with
       | Not_found -> Lwt.return (0,now,[])
       | e -> Lwt.fail e
   in
-  lwt () = Ocsipersist.add image_info_table
+  lwt () = Ocsipersist.Polymorphic.add image_info_table
     username (number+1,now,(number,now)::list) in
   let (_,image_string) = Hashtbl.find graffiti_info username in
   save (image_string ()) username number
@@ -66,17 +66,17 @@ let rec entries name list = function
     match list with
       | [] -> []
       | (n,saved)::q ->
-	let title = Atom_feed.plain ("graffiti " ^ name ^ " " ^ (string_of_int n)) in
-	let uri =
-	  Xhtml.M.uri_of_string
+        let title = Atom_feed.plain ("graffiti " ^ name ^ " " ^ (string_of_int n)) in
+        let uri =
+          Xhtml.M.uri_of_string
             (Eliom_uri.make_string_uri
                ~service:(Eliom_service.static_dir ())
                (local_filename name n))
-	in
-	let entry =
-	  Atom_feed.entry ~title ~id:uri ~updated:saved
+        in
+        let entry =
+          Atom_feed.entry ~title ~id:uri ~updated:saved
             [Atom_feed.xhtmlC [ Xhtml.M.img ~src:uri ~alt:"image" ()]] in
-	entry::(entries name q (len - 1))
+        entry::(entries name q (len - 1))
 
 let feed name () =
   let id = Xhtml.M.uri_of_string
@@ -84,7 +84,7 @@ let feed name () =
                  ~service:feed_service name) in
   let title = Atom_feed.plain ("nice drawings of " ^ name) in
   try_lwt
-    Ocsipersist.find image_info_table name >|=
+    Ocsipersist.Polymorphic.find image_info_table name >|=
       (fun (number,updated,list) -> Atom_feed.feed ~id ~updated ~title (entries name list 10))
   with
     | Not_found ->
@@ -97,8 +97,8 @@ let feed name () =
               (Eliom_uri.make_string_uri ~service:feed_service name) in
   let title = Atom_feed.plain ("nice drawings of " ^ name) in
   Lwt.catch
-    (fun () -> Ocsipersist.find image_info_table name >|=
-	(fun (number,updated,list) -> Atom_feed.feed ~id ~updated ~title (entries name list 10)))
+    (fun () -> Ocsipersist.Polymorphic.find image_info_table name >|=
+        (fun (number,updated,list) -> Atom_feed.feed ~id ~updated ~title (entries name list 10)))
     ( function Not_found ->
       let now = CalendarLib.Calendar.now () in
       Lwt.return (Atom_feed.feed ~id ~updated:now ~title [])

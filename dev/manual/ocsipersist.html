@@ -55,17 +55,17 @@ corresponds to the user).
 if you do not need the full power of a SQL database.
 </p><p>This tutorial shows how to implement a table for storing users and passwords.
 </p><p>We first create a table:
-</p><pre class=""><code class="language-ocaml translatable">let user_table = Ocsipersist.open_table &quot;user_table&quot;</code></pre><p>Then we can easily handle the user management code:
+</p><pre class=""><code class="language-ocaml translatable">let user_table = Ocsipersist.Polymorphic.open_table &quot;user_table&quot;</code></pre><p>Then we can easily handle the user management code:
 </p><pre class=""><code class="language-ocaml translatable">let check_pwd name pwd =
   try%lwt
-    lwt saved_password = Ocsipersist.find user_table name in
+    lwt saved_password = Ocsipersist.Polymorphic.find user_table name in
     Lwt.return (pwd = saved_password)
   with
     Not_found -&gt; Lwt.return false
 
 let () = Eliom_registration.Action.register
   ~service:create_account_service
-  (fun () (name, pwd) -&gt; Ocsipersist.add user_table name pwd)
+  (fun () (name, pwd) -&gt; Ocsipersist.Polymorphic.add user_table name pwd)
 
 let () = Eliom_registration.Action.register
   ~service:connection_service

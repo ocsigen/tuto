@@ -114,7 +114,7 @@ type error = {
 } [@@deriving yojson]
 
 let db : location Ocsipersist.table Lwt.t =
-  Ocsipersist.open_table &quot;locations&quot;</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Syntax extensions</h5></header><p>In order to successfully build this tutorial's source code, your
+  Ocsipersist.Polymorphic.open_table &quot;locations&quot;</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Syntax extensions</h5></header><p>In order to successfully build this tutorial's source code, your
 <span class="teletype">Makefile.options</span> must contain the following settings:
 </p><pre class="manually-translated"><code class="language-makefile"># OCamlfind packages for the server
 SERVER_PACKAGES := ppx_deriving_yojson lwt_ppx js_of_ocaml-ppx.deriving
@@ -212,7 +212,7 @@ or a list of all existing locations otherwise.
   let%lwt db = db in
   match id_opt with
   | None -&gt;
-    Ocsipersist.fold_step
+    Ocsipersist.Polymorphic.fold_step
       (fun id loc acc -&gt; Lwt.return ((id, loc) :: acc)) db []
     &gt;&gt;= fun locations -&gt;
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
@@ -220,7 +220,7 @@ or a list of all existing locations otherwise.
   | Some id -&gt;
     catch
       (fun () -&gt;
-         Ocsipersist.find db  id &gt;&gt;= fun location -&gt;
+         Ocsipersist.Polymorphic.find db  id &gt;&gt;= fun location -&gt;
          let json =
            Yojson.Safe.to_string (location_to_yojson location) in
          send_json ~code:200 json)
@@ -249,7 +249,7 @@ new location associated to the identifier will be created).
           (if create then
             Lwt.return_unit
            else
-            Ocsipersist.find db id &gt;&gt;= fun _ -&gt; Lwt.return_unit)
+            Ocsipersist.Polymorphic.find db id &gt;&gt;= fun _ -&gt; Lwt.return_unit)
           &gt;&gt;= fun () -&gt;
           let location =
             (let open Result in
@@ -257,7 +257,7 @@ new location associated to the identifier will be created).
             match loc_result with
               Ok loc-&gt; loc
             | Error _ -&gt; raise Deriving_Yojson.Failed )  in
-          Ocsipersist.add db  id location &gt;&gt;= fun () -&gt;
+          Ocsipersist.Polymorphic.add db  id location &gt;&gt;= fun () -&gt;
           send_success ())
       (function
         | Not_found -&gt;
@@ -276,7 +276,7 @@ let update_handler id_opt content =
   | None -&gt;
     send_error ~code:400 &quot;An id must be provided to delete a location&quot;
   | Some id -&gt;
-    Ocsipersist.remove db id &gt;&gt;= fun () -&gt;
+    Ocsipersist.Polymorphic.remove db id &gt;&gt;= fun () -&gt;
     send_success ()</code></pre><h2 id="registration"> Services registration <a class="backref" href="#registration">&#182;</a></h2><p>Finally we register services with the <span class="teletype">Eliom_registration.Any</span> module in
 order to have full control on the sent response. This way, we'll be able to
 send an appropriate HTTP status code depending on what happens during the
@@ -311,7 +311,7 @@ type error = {
 } [@@deriving yojson]
 
 let db : location Ocsipersist.table Lwt.t =
-  Ocsipersist.open_table &quot;locations&quot;
+  Ocsipersist.Polymorphic.open_table &quot;locations&quot;
 
 
 (**** Services ****)
@@ -375,7 +375,7 @@ let read_handler id_opt () =
   let%lwt db = db in
   match id_opt with
   | None -&gt;
-    Ocsipersist.fold_step
+    Ocsipersist.Polymorphic.fold_step
       (fun id loc acc -&gt; Lwt.return ((id, loc) :: acc)) db []
     &gt;&gt;= fun locations -&gt;
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
@@ -383,7 +383,7 @@ let read_handler id_opt () =
   | Some id -&gt;
     catch
       (fun () -&gt;
-         Ocsipersist.find db  id &gt;&gt;= fun location -&gt;
+         Ocsipersist.Polymorphic.find db  id &gt;&gt;= fun location -&gt;
          let json =
            Yojson.Safe.to_string (location_to_yojson location) in
          send_json ~code:200 json)
@@ -409,7 +409,7 @@ let edit_handler_aux ?(create = false) id_opt (content_type, raw_content_opt) =
           (if create then
             Lwt.return_unit
            else
-            Ocsipersist.find db id &gt;&gt;= fun _ -&gt; Lwt.return_unit)
+            Ocsipersist.Polymorphic.find db id &gt;&gt;= fun _ -&gt; Lwt.return_unit)
           &gt;&gt;= fun () -&gt;
           let location =
             (let open Result in
@@ -417,7 +417,7 @@ let edit_handler_aux ?(create = false) id_opt (content_type, raw_content_opt) =
             (function
               Ok loc-&gt; loc
             | Error _ -&gt; raise Deriving_Yojson.Failed ) loc_result)  in
-          Ocsipersist.add db  id location &gt;&gt;= fun () -&gt;
+          Ocsipersist.Polymorphic.add db  id location &gt;&gt;= fun () -&gt;
           send_success ())
       (function
         | Not_found -&gt;
@@ -438,7 +438,7 @@ let delete_handler id_opt _ =
   | None -&gt;
     send_error ~code:400 &quot;An id must be provided to delete a location&quot;
   | Some id -&gt;
-    Ocsipersist.remove db id &gt;&gt;= fun () -&gt;
+    Ocsipersist.Polymorphic.remove db id &gt;&gt;= fun () -&gt;
     send_success ()
 
 (* Register services *)

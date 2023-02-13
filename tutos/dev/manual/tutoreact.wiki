@@ -87,7 +87,7 @@ Here's our implementation using Ocsipersist:
 <<code language="ocaml" class="server"|
 [%%server
 module Db = struct
-  let db = Ocsipersist.open_table "messages"
+  let db = Ocsipersist.Polymorphic.open_table "messages"
 
   let last_key =
     Eliom_reference.eref
@@ -96,7 +96,7 @@ module Db = struct
 
   let get_message id =
     let%lwt db = db in
-    Ocsipersist.find db (string_of_int id)
+    Ocsipersist.Polymorphic.find db (string_of_int id)
 
   let get_messages () =
     let%lwt index = Eliom_reference.get last_key in
@@ -112,7 +112,7 @@ module Db = struct
     let%lwt () = Eliom_reference.set last_key index in
     Lwt_mutex.unlock lock;
     let%lwt db = db in
-    let%lwt () = Ocsipersist.add db (string_of_int index) v in
+    let%lwt () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
     Lwt.return index
 end]
 >>
@@ -600,9 +600,9 @@ identifier:
 [%%server
 module Db = struct
 
-  let db = Ocsipersist.open_table "messages"
+  let db = Ocsipersist.Polymorphic.open_table "messages"
 
-  let dbf = Ocsipersist.open_table "forums"
+  let dbf = Ocsipersist.Polymorphic.open_table "forums"
 
   let last_key =
     Eliom_reference.eref
@@ -610,12 +610,12 @@ module Db = struct
 
   let get_message id =
     let%lwt db = db in
-    Ocsipersist.find db (string_of_int id)
+    Ocsipersist.Polymorphic.find db (string_of_int id)
 
   let get_messages forumid =
     let%lwt dbf = dbf in
     try%lwt
-      Ocsipersist.find dbf (string_of_int forumid)
+      Ocsipersist.Polymorphic.find dbf (string_of_int forumid)
     with Not_found ->
       Lwt.return []
 
@@ -624,11 +624,11 @@ module Db = struct
     let index = index + 1 in
     let%lwt () = Eliom_reference.set last_key index in
     let%lwt db = db in
-    let%lwt () = Ocsipersist.add db (string_of_int index) v in
+    let%lwt () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
     let%lwt l = get_messages forumid in
     let%lwt dbf = dbf in
     let%lwt () =
-      Ocsipersist.add dbf
+      Ocsipersist.Polymorphic.add dbf
         (string_of_int forumid)
         (index :: l)
     in
@@ -827,8 +827,8 @@ let%server get_data id =
 <<code language="ocaml" class="server"|
 [%%server
 module Db = struct
-  let db = Ocsipersist.open_table "messages"
-  let dbf = Ocsipersist.open_table "forums"
+  let db = Ocsipersist.Polymorphic.open_table "messages"
+  let dbf = Ocsipersist.Polymorphic.open_table "forums"
 
   let last_key =
     Eliom_reference.eref ~persistent:"index" ~scope:Eliom_common.global_scope
@@ -836,11 +836,11 @@ module Db = struct
 
   let get_message id =
     let%lwt db = db in
-    Ocsipersist.find db (string_of_int id)
+    Ocsipersist.Polymorphic.find db (string_of_int id)
 
   let get_messages forumid =
     let%lwt dbf = dbf in
-    try%lwt Ocsipersist.find dbf (string_of_int forumid)
+    try%lwt Ocsipersist.Polymorphic.find dbf (string_of_int forumid)
     with Not_found -> Lwt.return []
 
   let add_message forumid v =
@@ -848,10 +848,12 @@ module Db = struct
     let index = index + 1 in
     let%lwt () = Eliom_reference.set last_key index in
     let%lwt db = db in
-    let%lwt () = Ocsipersist.add db (string_of_int index) v in
+    let%lwt () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
     let%lwt l = get_messages forumid in
     let%lwt dbf = dbf in
-    let%lwt () = Ocsipersist.add dbf (string_of_int forumid) (index :: l) in
+    let%lwt () =
+      Ocsipersist.Polymorphic.add dbf (string_of_int forumid) (index :: l)
+    in
     Lwt.return index
 
 end

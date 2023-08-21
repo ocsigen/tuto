@@ -83,14 +83,14 @@ generate wrong HTML. For example a program that could generate a paragraph
 containing another paragraph will be rejected at compile time.
 </p><p>Example of use:
 </p><pre class=""><code class="language-ocaml translatable">let open Eliom_content.Html.D in
-(html
-  (head (title (txt &quot;Ex&quot;)
+html
+  (head (title (txt &quot;Ex&quot;)))
   (body [h1 ~a:[a_id &quot;toto&quot;; a_class [&quot;blah&quot;; &quot;blih&quot;]]
-          [txt &quot;Hallo!&quot;]])))</code></pre><div class="focused"><h3>How it works</h3><p>TyXML builds the page as an OCaml data-structure using a construction function
+           [txt &quot;Hallo!&quot;]])</code></pre><div class="focused"><h3>How it works</h3><p>TyXML builds the page as an OCaml data-structure using a construction function
 for each HTML tag. These functions take as parameters and return nodes
 of type <span class="teletype">'a elt</span> where <span class="teletype">'a</span> is a polymorphic variant type added in the
 module signature to constrain usage (phantom type).</p></div><h3>Example of typing error</h3><pre class=""><code class="language-ocaml translatable">p [p [txt &quot;Aïe&quot;]]
-         ^^^^^^^^^^^^^
+   ^^^^^^^^^^^^^
 Error: This expression has type
          ([&gt; Html_types.p ] as 'a) Eliom_content.Html.F.elt =
            'a Eliom_content.Html.elt

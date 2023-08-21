@@ -66,10 +66,10 @@ containing another paragraph will be rejected at compile time.
 Example of use:
 <<code language="ocaml"|
 let open Eliom_content.Html.D in
-(html
-  (head (title (txt "Ex")
+html
+  (head (title (txt "Ex")))
   (body [h1 ~a:[a_id "toto"; a_class ["blah"; "blih"]]
-          [txt "Hallo!"]])))
+           [txt "Hallo!"]])
 >>
 
 <<|From Eliom > 2.2
@@ -96,8 +96,8 @@ module signature to constrain usage (phantom type).
 ===Example of typing error===
 
 <<code language="ocaml"|
-      p [p [txt "Aïe"]]
-         ^^^^^^^^^^^^^
+p [p [txt "Aïe"]]
+   ^^^^^^^^^^^^^
 Error: This expression has type
          ([> Html_types.p ] as 'a) Eliom_content.Html.F.elt =
            'a Eliom_content.Html.elt

@@ -435,7 +435,21 @@ the demo included in
 </li><li> <a href="application" class="ocsimore_phrasing_link">This page</a> is a step by step introduction to client-server programming with Eliom for beginners.
 </li><li> <a href="tutowidgets" class="ocsimore_phrasing_link">This one</a> is a quick introduction for more experienced OCaml developers.
 </li><li> Comprehensive documentation on client-server programming can be found in
-<span><a href=".././../../eliom/index.html">Eliom's user manual</a></span>.</li></ul></section><section class="docblock"><header><h2>Sessions</h2></header><p>Session data is saved on server side in <em>Eliom references</em>.
+<span><a href=".././../../eliom/index.html">Eliom's user manual</a></span>.</li></ul></section><section class="docblock"><header><h2>Compiling a client-server app</h2></header><p>Compiling a client-server app requires a dedicated build system,
+which will separate server-side and client-side code, compile each side,
+and check types.
+</p><p>Eliom provides two build-systems:
+</p><ul><li> One based on dune
+</li><li> One with make
+</li></ul><p>To get the dune-based build-system, create a project with Ocsigen-Start's template. Install Ocsigen-Start:
+</p><pre>opam install ocsigen-start
+</pre><p>Then:
+</p><pre>eliom-distillery -template os.pgocaml -name myapp
+</pre><p>It contains by default some code examples that you can remove or adapt to your own needs.
+Have a look at the <span class="teletype">README</span> file.
+</p><p>The make-based build system is provided by the basic template:
+</p><pre>eliom-distillery -template basic.ppx -name myapp
+</pre><p>Have a look at the <span class="teletype">README</span> file.</p></section><section class="docblock"><header><h2>Sessions</h2></header><p>Session data is saved on server side in <em>Eliom references</em>.
 </p><p>The following Eliom reference will count the number of visits of a user on a page:
 </p><pre class="server" class=""><code class="language-ocaml translatable">let%server count_ref =
   Eliom_reference.eref

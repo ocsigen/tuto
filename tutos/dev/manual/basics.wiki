@@ -645,6 +645,36 @@ the demo included in
 <<a_manual project="eliom" page="intro"|Eliom's user manual>>.
 >>
 
+<<section class="docblock" |
+<<header |==Compiling a client-server app==>>
+
+Compiling a client-server app requires a dedicated build system,
+which will separate server-side and client-side code, compile each side,
+and check types.
+
+Eliom provides two build-systems:
+ * One based on dune
+ * One with make
+
+To get the dune-based build-system, create a project with Ocsigen-Start's template. Install Ocsigen-Start:
+{{{
+opam install ocsigen-start
+}}}
+Then:
+{{{
+eliom-distillery -template os.pgocaml -name myapp
+}}}
+It contains by default some code examples that you can remove or adapt to your own needs.
+Have a look at the {{{README}}} file.
+
+The make-based build system is provided by the basic template:
+{{{
+eliom-distillery -template basic.ppx -name myapp
+}}}
+Have a look at the {{{README}}} file.
+
+>>
+
 
 <<section class="docblock" |
 <<header |==Sessions==>>

@@ -32,7 +32,7 @@ jobs:
       - name: Install OCaml
         uses: avsm/setup-ocaml@v2
         with:
-          ocaml-version: 4.14.0
+          ocaml-compiler: 4.14.0
 
       - name: Install HOW 
         run: |

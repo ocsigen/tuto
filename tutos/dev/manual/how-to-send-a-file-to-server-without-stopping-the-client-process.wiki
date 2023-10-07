@@ -4,7 +4,8 @@ This requires Eliom ≥ 3.1.
 
 Due to security reasons, browsers have limitations on sending files.
 But if the file is chosen by the user through an input file element,
-there is a way to send it to the server. You can't use the {{{server_function}}} syntax for this, but you can use
+there is a way to send it to the server. You can't use the {{{server_function}}}
+or {{{let%rpc}}} syntax for this, but you can use
 {{{Eliom_client.call_caml_service}}}.
 
 Example:

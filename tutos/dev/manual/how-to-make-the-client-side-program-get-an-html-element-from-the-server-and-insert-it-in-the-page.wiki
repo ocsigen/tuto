@@ -1,17 +1,14 @@
 =How to make the client side program get an HTML element from the server and insert it in the page?=
 
-A very convenient way to do that is to use server functions :
+A very convenient way to do that is to use RPCs :
 
-<<code language="ocaml"|
-let get_mydiv () = div [ ... ]
-
-let%client get_mydiv_rpc =
-  ~%(server_function [%derive.json: unit] get_mydiv)
-...
-
+<<code language="ocaml" class="shared"|
+let%rpc get_mydiv (() : unit) : _ Lwt.t = div [ ... ]
+>>
+<<code language="ocaml" class="client"|
 [%client
   ...
-  let%lwt mydiv = get_mydiv_rpc () in
+  let%lwt mydiv = get_mydiv () in
   Dom.appendChild parent (To_dom.of_element mydiv)
   ...
 ]
@@ -19,7 +16,7 @@ let%client get_mydiv_rpc =
 
 Server functions take exactly one parameter.
 
-Server functions are just syntactic sugar for non-attached coservices
+RPCs are just syntactic sugar for pathless services
 returning OCaml values.
 
 The type of the function parameter must have been declared with the

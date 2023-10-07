@@ -1,21 +1,21 @@
 =How to call a server-side function from client-side?=
 
-It is possible to call server-side functions in client-side code using
-the {{{~%}}} syntax. For security reasons, these functions must first
-be declared explicitely as "server functions" (with the type of their
+It is possible to call server-side functions in client-side.
+For security reasons, these functions must first
+be declared explicitely as RPCs (with the type of their
 argument).
 
-<<code language="ocaml"|
-let f x = ...
-
-let%client f_rpc = ~%(Eliom_client.server_function [%derive.json: int] f)
-
+<<code language="ocaml" class="shared"|
+let%rpc f (x : int) : string Lwt.t = ...
 ...
-
-[%client ... f_rpc 4 ... ]
+>>
+<<code language="ocaml" class="client"|
+[%client ... f 4 ... ]
 >>
 
-The server-side function ({{{f}}} in the example) needs to return an
+The syntax is provided by opam package {{{ocsigen-ppx-rpc}}}.
+
+The server-side function ({{{f}}} in the example) needs to return a
 Lwt value.
 
 Server functions are just syntactic sugar for pathless services

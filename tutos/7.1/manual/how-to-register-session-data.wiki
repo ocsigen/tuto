@@ -55,7 +55,8 @@ If you want to store server side data for one browser (one session),
 use scope {{{Eliom_common.default_session_scope}}}.
 
 If you want to store server side data for one tab of your browser (one client process),
-use scope {{{Eliom_common.default_process_scope}}}.
+use scope {{{Eliom_common.default_process_scope}}} (available only if you
+have a client-server Eliom application).
 
 If you want to store server side data during one request,
 use scope {{{Eliom_common.request_scope}}}.

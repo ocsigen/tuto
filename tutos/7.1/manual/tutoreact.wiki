@@ -198,12 +198,11 @@ let%server display userid_o =
 === Make function {{{Db.add_message}}} accessible from the client
 
 To be able to call a function from the client-side program,
-use {{{server_function}}}:
-<<code language="ocaml" class="server"|
-let%server add_message_rpc =
-  Eliom_client.server_function
-    [%json: string]
-    (Os_session.connected_rpc (fun _userid value -> Db.add_message value))
+use {{{let%rpc}}}:
+<<code language="ocaml" class="shared"|
+let%rpc add_message (value : string) : unit Lwt.t =
+  let%lwt _ = Os_current_user.get_current_userid () (* fails if not connected *) in
+  Db.add_message value
 >>
 
 The parameter {{{[%json: string]}}} describes the type of
@@ -211,12 +210,6 @@ the function parameter. This exhibits the syntax provided by
 [[https://github.com/whitequark/ppx_deriving|ppx_deriving]] extended
 with our JSON plugin. We use this for safe server-side unmarshalling of data
 sent by the client.
-
-We use the wrapper {{{Os_session.connected_rpc}}} to make the
-function accessible only by connected users. Otherwise, the function
-fails with an exception. If you want to make your function accessible
-for both connected and non-connected users, see the function
-{{{Os_session.Opt.connected_rpc}}}.
 
 === Bind the input to call the function
 
@@ -235,7 +228,7 @@ let _ = [%client
    async (fun () -> changes inp (fun _ _ ->
      let value = Js_of_ocaml.Js.to_string inp##.value in
      inp##.value := Js_of_ocaml.Js.string "";
-     let%lwt _ = ~%add_message_rpc value in
+     let%lwt _ = add_message value in
      Lwt.return ()))
    : unit)
 ] in
@@ -306,16 +299,8 @@ We implement a function {{{get_data}}} to fetch the
 data from the database. This function must have an implementation both
 server-side and client-side:
 
-<<code language="ocaml" class="server"|
-let%server get_data = Db.get_message
-
-let%server get_data_rpc =
-  Eliom_client.server_function [%json: int]
-    (Os_session.Opt.connected_rpc (fun _userid_o id -> get_data id))
-
->>
-<<code language="ocaml" class="client"|
-let%client get_data id = ~%get_data_rpc id
+<<code language="ocaml" class="shared"|
+let%rpc get_data (id : int) : string Lwt.t = Db.get_message id
 >>
 <<code language="ocaml" class="server"|
 let%server cache : (int, string) Eliom_cscache.t =
@@ -448,15 +433,11 @@ let%server display_messages () =
 When we add a message, we notify all the clients listening on this
 piece of data:
 
-<<code language="ocaml" class="server"|
-let%server add_message_rpc =
-  Eliom_client.server_function
-    [%json: string]
-    (Os_session.connected_rpc
-       (fun _userid value ->
-          let%lwt id = Db.add_message value in
-          Forum_notif.notify () id;
-          Lwt.return ()))
+<<code language="ocaml" class="shared"|
+let%rpc add_message (value : string) : unit Lwt.t =
+   let%lwt id = Db.add_message value in
+   Forum_notif.notify () id;
+   Lwt.return ()
 >>
 
 The program is now fully functional, you can now test it! You should see the
@@ -650,23 +631,19 @@ database, we need to specify a new type:
 >>
 
 We don't forget to take that into consideration in the function
-{{{add_message_rpc}}}.
+{{{add_message}}}.
 
 <<code language="ocaml" class="server"|
-let%server add_message_rpc =
-  Eliom_client.server_function
-    [%json: add_message_type]
-    (Os_session.connected_rpc
-       (fun _userid (forumid, value) ->
-          let%lwt id = Db.add_message forumid value in
-          Forum_notif.notify () id;
-          Lwt.return ()))
+let%rpc add_message ((forumid, value) : add_message_type) : unit Lwt.t =
+   let%lwt id = Db.add_message forumid value in
+   Forum_notif.notify () id;
+   Lwt.return ()
 >>
 
 In the function {{{display}}}, in the client section:
 <<code language="ocaml" class="client"|
   ...
-  ~%add_message_rpc (~%forumid, value)
+  add_message (~%forumid, value)
 ...
 >>
 
@@ -700,8 +677,8 @@ To do that, we provide an optional argument {{{?default}}} to the function
 (optionally) containing the current reactive list. If it does not
 exist in the cache, a new one will be created like previously:
 
-<<code language="ocaml" class="server"|
-let%server get_data_forum forumid =
+<<code language="ocaml" class="shared"|
+let%rpc get_data_forum (forumid : int) : _ Lwt.t =
   let%lwt messages = Db.get_messages forumid in
   let default = [%client
     ((try Some (Eliom_cscache.find_if_ready ~%forumcache ~%forumid)
@@ -709,11 +686,6 @@ let%server get_data_forum forumid =
      : 'a option)
   ] in
   Lwt.return (Eliom_shared.ReactiveData.RList.create ~default messages)
-
-let%server get_data_forum_rpc =
-  Eliom_client.server_function [%json: int]
-  (Os_session.Opt.connected_rpc
-     (fun _userid_o forumid -> get_data_forum forumid))
 >>
 
 {{{display_messages}}} now takes the reactive list from the cache:
@@ -742,11 +714,11 @@ end)
 ]
 >>
 
-The function {{{Forum_notif.notify}}} used in the function {{{add_message_rpc}}}
+The function {{{Forum_notif.notify}}} used in the function {{{add_message}}}
 now takes the {{{forumid}}} parameter.
 
-<<code language="ocaml" class="server"|
-let%server add_message_rpc =
+<<code language="ocaml" class="shared"|
+let%rpc add_message ... =
   ...
   Forum_notif.notify forumid id;
   ...
@@ -871,14 +843,14 @@ end)
 ]
 >>
 
-<<code language="ocaml" class="server"|
-let%server add_message_rpc =
-  Eliom_client.server_function [%json: add_message_type]
-    (Os_session.connected_rpc (fun _userid (forumid, value) ->
-         let%lwt id = Db.add_message forumid value in
-         Forum_notif.notify forumid (id : int);
-         Lwt.return ()))
+<<code language="ocaml" class="shared"|
+let%rpc add_message ((forumid, value) : add_message_type) : unit Lwt.t =
+   let%lwt id = Db.add_message forumid value in
+   Forum_notif.notify forumid (id : int);
+   Lwt.return ()
+>>
 
+<<code language="ocaml" class="server"|
 let%server cache : (int, string) Eliom_cscache.t = Eliom_cscache.create ()
 
 let%server forumcache :
@@ -886,23 +858,16 @@ let%server forumcache :
    int Eliom_shared.ReactiveData.RList.t *
    int Eliom_shared.ReactiveData.RList.handle) Eliom_cscache.t =
   Eliom_cscache.create ()
+>>
 
-let%server get_data id =
+<<code language="ocaml" class="shared"|
+ler%rpc get_data (id : int) : string Lwt.t =
   let%lwt () = Lwt_unix.sleep 2.0 in
   Db.get_message id
-
-let%server get_data_rpc =
-  Eliom_client.server_function [%json: int]
-    (Os_session.Opt.connected_rpc
-       (fun _userid_o id -> get_data id))
 >>
 
-<<code language="ocaml" class="client"|
-let%client get_data id = ~%get_data_rpc id
->>
-
-<<code language="ocaml" class="server"|
-let%server get_data_forum forumid =
+<<code language="ocaml" class="shared"|
+let%rpc get_data_forum (forumid : int) : _ Lwt.t =
   let%lwt messages = Db.get_messages forumid in
   let default = [%client
     (try
@@ -912,11 +877,6 @@ let%server get_data_forum forumid =
        : 'a option)
   ] in
   Lwt.return (Eliom_shared.ReactiveData.RList.create ~default messages)
-
-let%server get_data_forum_rpc =
-  Eliom_client.server_function [%json: int]
-    (Os_session.Opt.connected_rpc
-       (fun _userid_o forumid -> get_data_forum forumid))
 >>
 
 <<code language="ocaml" class="shared"|
@@ -973,7 +933,7 @@ let%server display userid_o forumid =
                  changes inp (fun _ _ ->
                      let value = Js_of_ocaml.Js.to_string inp##.value in
                      inp##.value := Js_of_ocaml.Js.string "";
-                     let%lwt _ = ~%add_message_rpc (~%forumid, value) in
+                     let%lwt _ = add_message (~%forumid, value) in
                      Lwt.return ()))
               : unit)]
         in

@@ -346,7 +346,7 @@ Js_of_ocaml is using a syntax extension to call JavaScript methods:
 * {{{new%js constr a b c}}} to call a JavaScript constructor.
 
 More information can be found in the Js_of_ocaml manual, in module
-<<a_api project="js_of_ocaml" subproject="js_of_ocaml-ppx" | module Ppx_js >>.
+<<a_api project="js_of_ocaml" subproject="js_of_ocaml-ppx"| module Ppx_js >>.
 
 >>
 
@@ -710,14 +710,14 @@ functions can cause the entre server to hang!// Remember:
 
   title="Handling events with Lwt"|
 
-  Module <<a_api project="js_of_ocaml" subproject="js_of_ocaml-lwt" | module Js_of_ocaml_lwt.Lwt_js_events>>
+  Module <<a_api project="js_of_ocaml" subproject="js_of_ocaml-lwt"| module Js_of_ocaml_lwt.Lwt_js_events>>
   allows easily defining event listeners using Lwt.  For example,
   <<a_api project="js_of_ocaml" subproject="js_of_ocaml-lwt"| val Js_of_ocaml_lwt.Lwt_js_events.click >> takes a
   DOM element and returns an Lwt thread that will wait until a click
   occures on this element.
 
-  Functions with an ending "s" (<<a_api project="js_of_ocaml" subproject="js_of_ocaml-lwt" | val
-  Js_of_ocaml_lwt.Lwt_js_events.clicks >>, <<a_api project="js_of_ocaml" subproject="js_of_ocaml-lwt" | val
+  Functions with an ending "s" (<<a_api project="js_of_ocaml" subproject="js_of_ocaml-lwt"| val
+  Js_of_ocaml_lwt.Lwt_js_events.clicks >>, <<a_api project="js_of_ocaml" subproject="js_of_ocaml-lwt"| val
   Js_of_ocaml_lwt.Lwt_js_events.mousedowns >>, ...) start again waiting after the
   handler terminates.
 

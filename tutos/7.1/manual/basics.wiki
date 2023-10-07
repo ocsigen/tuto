@@ -549,15 +549,13 @@ Eliom makes it possible to call server side OCaml functions from your
 client-side program. You must export these functions explicitely,
 and declare the type of their parameters. Example:
 
-<<code language="ocaml" class="server"|
-let%server g i = Lwt.return (string_of_int (i + Random.int 1000))
->>
-<<code language="ocaml" class="client"|let%client g =
-  ~%(Eliom_client.server_function ~name:"g" [%json: int] g)
+<<code language="ocaml" class="shared"|
+let%rpc g (i : int) : string Lwt.t = Lwt.return (string_of_int (i + Random.int 1000))
 >>
 
-Syntax {{{[%json: t]}}} corresponds to the serialisation functions of type {{{t}}}
-from JSON. They are generated automatically by
+Warning: type annotations are mandatory here
+so that the ppx can automatically inject the right conversion functions.
+These functions are generated automatically by
 [[https://github.com/ocsigen/deriving|Deriving]], as long as it knows
 a deriver for each subtype. To create a deriver for your own types
 just append {{{[@@deriving json]}}} after your type declaration. Example:

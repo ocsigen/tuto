@@ -118,32 +118,8 @@ Error: This expression has type
             | `Wbr ]
        The second variant type does not allow tag(s) `P
 >>
-
-===F or D===
-
-Eliom uses TyXML to create several kinds of nodes:
-
-Module <<a_api project="eliom" subproject="server"| module Eliom_content.Html.F>>
-will create functional values representing
-your nodes. On client side, calling {{{Eliom_content.Html.To_dom.of_element}}}
-on these nodes will create a new DOM node.
-
-Module <<a_api project="eliom" subproject="server"| module Eliom_content.Html.D>>
-will automatically insert an id in the
-attributes of the node, to label a precise instance of the node in the DOM.
-On client side, calling {{{Eliom_content.Html.To_dom.of_element}}}
-on these nodes will return the actual version of the nodes that are currently
-in the page.
-
-In a client server Eliom app,
-you probably always want to use {{{Eliom_content.Html.D}}}
-each time you want to bind events on
-an element (and more generally if you need to inject this element using {{{~%}}}).
-
-
 Read more about TyXML in this [[html|short tutorial]] or in its [[wiki("tyxml"):|user manual]].
-Read more about {{{Eliom_content.Html}}} (D or F?) in
-<<a_manual project="eliom" chapter="clientserver-html"|this manual page>>.
+
 >>
 
 <<section class="docblock" |
@@ -417,10 +393,15 @@ val fsth3 :
 - : unit = ()
 >>
 
+>>
+
+<<section class="docblock" |
+<<header |==HTML: Functional and DOM semantics==>>
+
 ===DOM nodes and TyXML/Eliom_content nodes===
 
 Functions [[https://ocsigen.org/js_of_ocaml/latest/api/js_of_ocaml-tyxml/Js_of_ocaml_tyxml/Tyxml_cast_sigs/module-type-OF/index.html|{{{Eliom_content.Html.To_dom.of_element}}}, {{{Eliom_content.Html.To_dom.of_div}}}, etc.]]
-help to convert TyXML/Eliom_content nodes into the DOM counterparts.
+help to convert TyXML/Eliom_content nodes into the DOM/js_of_ocaml counterparts.
 
 Module <<a_api project="eliom" subproject="client"|module Eliom_content.Html.Manip>>
 allows direct manipulation of TyXML nodes without conversion (only for D nodes)
@@ -428,6 +409,32 @@ allows direct manipulation of TyXML nodes without conversion (only for D nodes)
 <<a_api project="eliom" subproject="client"|val Eliom_content.Html.Manip.appendChild>>,
 <<a_api project="eliom" subproject="client"|val Eliom_content.Html.Manip.removeSelf>>
 <<a_api project="eliom" subproject="client"|val Eliom_content.Html.Manip.Class.add>>).
+
+
+===F or D===
+
+Eliom uses TyXML to create several kinds of nodes:
+
+Module <<a_api project="eliom" subproject="server"| module Eliom_content.Html.F>>
+will create functional values representing
+your nodes. On client side, calling {{{Eliom_content.Html.To_dom.of_element}}}
+on these nodes will create a new DOM node.
+
+Module <<a_api project="eliom" subproject="server"| module Eliom_content.Html.D>>
+will automatically insert an id in the
+attributes of the node, to label a precise instance of the node in the DOM.
+On client side, calling {{{Eliom_content.Html.To_dom.of_element}}}
+on these nodes will return the actual version of the nodes that are currently
+in the page.
+
+In a client server Eliom app,
+you probably always want to use {{{Eliom_content.Html.D}}}
+each time you want to bind events on
+an element (and more generally if you need to inject this element using {{{~%}}}).
+
+
+Read more about {{{Eliom_content.Html}}} (D or F?) in
+<<a_manual project="eliom" chapter="clientserver-html"|this manual page>>.
 
 >>
 
@@ -550,7 +557,8 @@ client-side program. You must export these functions explicitely,
 and declare the type of their parameters. Example:
 
 <<code language="ocaml" class="shared"|
-let%rpc g (i : int) : string Lwt.t = Lwt.return (string_of_int (i + Random.int 1000))
+let%rpc g (i : int) : string Lwt.t =
+  Lwt.return (string_of_int (i + Random.int 1000))
 >>
 
 Warning: type annotations are mandatory here

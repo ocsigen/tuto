@@ -1,0 +1,654 @@
+<html><head><title> Client server reactive application with Ocsigen</title><meta charset="utf8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><link rel="stylesheet" href="https://ocsigen.org/css/style.css"/><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/themes/prism.min.css"/><script type="text/javascript" src="https://ocsigen.org/js/client.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-core.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-ocaml.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-clike.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-reason.min.js">
+//<![CDATA[
+
+//]]>
+</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.9.0/components/prism-javascript.min.js">
+//<![CDATA[
+
+//]]>
+</script></head><body class="tutoreact tuto"><div class="project-page"><div class="page-header"><p class="logo-ocsigen"><a href=".././../../" class="ocsimore_phrasing_link"><img src=".././../../img/ocsigen-white.svg" alt="Ocsigen"/></a>
+</p><div class="mainmenu"><p class="mainmenu-home"><a href=".././../../" class="ocsimore_phrasing_link">Home</a></p><p class="mainmenu-current mainmenu-doc"><a href=".././../../tuto/" class="ocsimore_phrasing_link">Doc</a></p><p><a href=".././../../eliom/" class="ocsimore_phrasing_link">Eliom</a></p><p><a href=".././../../js_of_ocaml/" class="ocsimore_phrasing_link">Js_of_ocaml</a></p><p><a href=".././../../lwt/" class="ocsimore_phrasing_link">Lwt</a></p><p><a href=".././../../tyxml/" class="ocsimore_phrasing_link">Tyxml</a></p><p><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a></p></div><form id="googlesearch" action="https://google.com/search"><input name="q" id="gsearch-box" placeholder="Search using Google"/><label for="gsearch-box"><img src="/img/search.svg" alt="" id="gsearch-icon"/></label><input type="submit" id="gsearch-submit" onclick="document.getElementById('gsearch-box').value += ' site:ocsigen.org';"/></form><aside class="how-drawer"><input id="how-drawer-toggle" type="checkbox"/><label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label><nav class="how-drawer-content"><ul class="drawermainmenu"><li class="drawermainmenu-home"><a href=".././../../" class="ocsimore_phrasing_link">Home</a>
+</li><li class="drawermainmenu-doc"><a href=".././../../tuto/" class="ocsimore_phrasing_link">Doc</a>
+</li><li class="drawermainmenu-project"><a href=".././../../eliom/" class="ocsimore_phrasing_link">Eliom</a>
+</li><li class="drawermainmenu-project"><a href=".././../../js_of_ocaml/" class="ocsimore_phrasing_link">Js_of_ocaml</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigenserver/" class="ocsimore_phrasing_link">Server</a>
+</li><li class="drawermainmenu-project"><a href=".././../../lwt/" class="ocsimore_phrasing_link">Lwt</a>
+</li><li class="drawermainmenu-project"><a href=".././../../tyxml/" class="ocsimore_phrasing_link">Tyxml</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
+</li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
+</li><li class="drawermainmenu-project"><a href=".././../../deriving/" class="ocsimore_phrasing_link">deriving</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
+</li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
+</li><li class="drawermainmenu-page"><a href=".././../../papers" class="ocsimore_phrasing_link">Research papers</a>
+</li><li class="drawermainmenu-page"><a href=".././../../credits" class="ocsimore_phrasing_link">Who does Ocsigen?</a>
+</li><li class="drawermainmenu-page"><a href=".././../../contributing" class="ocsimore_phrasing_link">Contributing</a>
+</li><li class="drawermainmenu-page"><a href=".././../../blog" class="ocsimore_phrasing_link">Blog</a>
+</li><li class="drawermainmenu-page"><a href=".././../../install" class="ocsimore_phrasing_link">Installation</a>
+</li><li class="drawermainmenu-page"><a href="https://github.com/ocsigen" class="ocsimore_phrasing_link">Source code</a>
+</li></ul><nav class="how-doctree"><h1> Programmer's guide</h1><h2><a href="intro" class="ocsimore_phrasing_link">Introduction. Ocsigen: where to start?</a></h2><h2><a href="basics" class="ocsimore_phrasing_link">All Ocsigen in one page</a></h2><h1> Main tutorials</h1><h2><a href=".././../../install" class="ocsimore_phrasing_link">Install Ocsigen</a></h2><h2><a href="start" class="ocsimore_phrasing_link">Your first app in 5 minutes</a></h2><h2><a href="basicwebsite" class="ocsimore_phrasing_link">A basic Web site in OCaml</a></h2><h2><a href="application" class="ocsimore_phrasing_link">Client/server application: Graffiti</a></h2><h2><a href="tutowidgets" class="ocsimore_phrasing_link">Eliom apps basics: writing client-server widgets</a></h2><h2><a href="how-to-register-session-data" class="ocsimore_phrasing_link">Session data: Eliom references</a></h2><h2><a href="tutoreact" class="ocsimore_phrasing_link">Reactive client-server Web applications</a></h2><h2><a href="interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="misc" class="ocsimore_phrasing_link">Mixing traditional Web interaction with client-server app</a></h2><h1> 5-minute tutorials</h1><h2><a href="lwt" class="ocsimore_phrasing_link">Lwt</a></h2><h2><a href="html" class="ocsimore_phrasing_link">HTML</a></h2><h1> Other tutorials: Miscellanous features</h1><h2><a href="mobile" class="ocsimore_phrasing_link">Mobile applications with Ocsigen</a></h2><h2><a href="custom-conf" class="ocsimore_phrasing_link">Custom configuration</a></h2><h2><a href="rest" class="ocsimore_phrasing_link">RESTful JSON API</a></h2><h2><a href="ocsipersist" class="ocsimore_phrasing_link">Persistent tables with Ocsipersist</a></h2><h1> Improving Graffiti</h1><h2><a href="pictures" class="ocsimore_phrasing_link">Download pictures</a></h2><h2><a href="music" class="ocsimore_phrasing_link">Playing music</a></h2><h2><a href="reactivemediaplayer" class="ocsimore_phrasing_link">Reactive media player</a></h2><h1 class="howto"> HOW-TO</h1><h2> My first steps with Ocsigen</h2><h3><a href="how-to-make-hello-world-in-ocsigen" class="ocsimore_phrasing_link">How to make &quot;hello world&quot; in Ocsigen</a></h3><h3><a href="how-to-compile-my-ocsigen-pages" class="ocsimore_phrasing_link">How to compile my Ocsigen pages</a></h3><h3><a href="how-to-configure-and-launch-the-ocsigen-server" class="ocsimore_phrasing_link">How to configure and launch the Ocsigen Server</a></h3><h3><a href="how-does-a-page-s-source-code-look" class="ocsimore_phrasing_link">How does a client-server app source code look like?</a></h3><h2> How to put some elements in my page ?</h2><h3><a href="how-to-make-page-a-skeleton" class="ocsimore_phrasing_link">How to make a page skeleton</a></h3><h3><a href="how-to-use-get-parameters-or-parameters-in-the-url" class="ocsimore_phrasing_link">How to use GET parameters (parameters in the URL)</a></h3><h3><a href="how-to-add-css-stylesheet" class="ocsimore_phrasing_link">How to add CSS stylesheet</a></h3><h3><a href="how-to-add-a-javascript-script" class="ocsimore_phrasing_link">How to add a Javascript script</a></h3><h3><a href="how-to-add-a-div" class="ocsimore_phrasing_link">How to add a div</a></h3><h3><a href="how-to-add-a-list" class="ocsimore_phrasing_link">How to add lists in pages?</a></h3><h3><a href="how-to-add-an-image" class="ocsimore_phrasing_link">How to add an image</a></h3><h3><a href="how-to-write-titles-and-paragraphs" class="ocsimore_phrasing_link">How to write titles and paragraphs</a></h3><h3><a href="how-to-set-and-id-classes-or-other-attributes-to-html-elements" class="ocsimore_phrasing_link">How to set and id, classes or other attributes to HTML elements</a></h3><h3><a href="how-to-add-a-select-or-other-form-element" class="ocsimore_phrasing_link">How to add select (or other form element)</a></h3><h3><a href="how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service" class="ocsimore_phrasing_link">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></h3><h3><a href="how-to-make-responsive-css" class="ocsimore_phrasing_link">How to make responsive CSS</a></h3><h2> Services</h2><h3><a href="how-to-do-links-to-other-pages" class="ocsimore_phrasing_link">How to do links to other pages</a></h3><h3><a href="how-to-write-forms" class="ocsimore_phrasing_link">How to write forms</a></h3><h3><a href="how-to-register-a-service-that-decides-itself-what-to-send" class="ocsimore_phrasing_link">How to register a service that decides itself what to send</a></h3><h3><a href="how-to-create-link-to-a-current-page-without-knowing-its-url" class="ocsimore_phrasing_link">How to create link to a current page (without knowing its URL)</a></h3><h3><a href="how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones" class="ocsimore_phrasing_link">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></h3><h3><a href="how-to-write-a-json-service" class="ocsimore_phrasing_link">How to write a JSON service</a></h3><h3><a href="how-to-send-file-download" class="ocsimore_phrasing_link">How to send a file (download)</a></h3><h3><a href="how-to-send-file-upload" class="ocsimore_phrasing_link">How to send a file (upload)</a></h3><h2> Js_of_ocaml</h2><h3><a href="how-to-attach-ocaml-values-to-dom-elements" class="ocsimore_phrasing_link">How to attach OCaml values to DOM elements</a></h3><h3><a href="how-to-know-whether-the-browser-window-has-the-focus-or-not" class="ocsimore_phrasing_link">How to know whether the browser window has the focus or not</a></h3><h3><a href="how-to-build-js-object" class="ocsimore_phrasing_link">How to build js object</a></h3><h3><a href="how-to-stop-default-behaviour-of-events" class="ocsimore_phrasing_link">How to stop default behaviour of events</a></h3><h3><a href="how-to-call-an-ocaml-function-from-js-code" class="ocsimore_phrasing_link">How to call an OCaml function from js code</a></h3><h2> Eliom client-server applications</h2><h3><a href="how-to-call-a-server-side-function-from-client-side" class="ocsimore_phrasing_link">How to call a server-side function from the client side</a></h3><h3><a href="how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page" class="ocsimore_phrasing_link">How to make the client side program get an HTML element from the server and insert it in the page</a></h3><h3><a href="how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client" class="ocsimore_phrasing_link">How to attach OCaml values to the HTML nodes sent to the client</a></h3><h3><a href="how-to-iterate-on-all-sessions-for-one-user-or-all-tabs" class="ocsimore_phrasing_link">How to iterate on all sessions for one user, or all tabs</a></h3><h3><a href="how-to-implement-a-notification-system" class="ocsimore_phrasing_link">How to implement a notification system</a></h3><h3><a href="how-to-send-a-file-to-server-without-stopping-the-client-process" class="ocsimore_phrasing_link">How to send a file to server without stopping the client process</a></h3><h3><a href="how-to-detect-channel-disconnection" class="ocsimore_phrasing_link">How to detect channel disconnection</a></h3><h3><a href="how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed" class="ocsimore_phrasing_link">How to detect on client side that the server side state for the process is closed</a></h3><h2> Eliom Server side</h2><h3><a href="how-do-i-create-a-cryptographically-safe-identifier" class="ocsimore_phrasing_link">How do I create a Cryptographically safe identifier</a></h3><h3><a href="hash-password" class="ocsimore_phrasing_link">Protecting passwords</a></h3></nav></nav></aside></div><p class="reasonwarning">Warning: Reason support is experimental.
+We are looking for beta-tester and contributors.
+</p><button id="reason">Switch to </button><div class="twocols"><nav class="leftcol">Version <select class="how-versions" onchange="location = this.value;"><option value=".././../dev/manual/tutoreact">dev</option><option value=".././../7.1/manual/tutoreact" selected="selected">7.1</option><option value=".././../2.2/manual/tutoreact">2.2</option></select><nav class="how-doctree"><h1> Programmer's guide</h1><h2><a href="intro" class="ocsimore_phrasing_link">Introduction. Ocsigen: where to start?</a></h2><h2><a href="basics" class="ocsimore_phrasing_link">All Ocsigen in one page</a></h2><h1> Main tutorials</h1><h2><a href=".././../../install" class="ocsimore_phrasing_link">Install Ocsigen</a></h2><h2><a href="start" class="ocsimore_phrasing_link">Your first app in 5 minutes</a></h2><h2><a href="basicwebsite" class="ocsimore_phrasing_link">A basic Web site in OCaml</a></h2><h2><a href="application" class="ocsimore_phrasing_link">Client/server application: Graffiti</a></h2><h2><a href="tutowidgets" class="ocsimore_phrasing_link">Eliom apps basics: writing client-server widgets</a></h2><h2><a href="how-to-register-session-data" class="ocsimore_phrasing_link">Session data: Eliom references</a></h2><h2><a href="tutoreact" class="ocsimore_phrasing_link">Reactive client-server Web applications</a></h2><h2><a href="interaction" class="ocsimore_phrasing_link">Service based Web programming</a></h2><h2><a href="misc" class="ocsimore_phrasing_link">Mixing traditional Web interaction with client-server app</a></h2><h1> 5-minute tutorials</h1><h2><a href="lwt" class="ocsimore_phrasing_link">Lwt</a></h2><h2><a href="html" class="ocsimore_phrasing_link">HTML</a></h2><h1> Other tutorials: Miscellanous features</h1><h2><a href="mobile" class="ocsimore_phrasing_link">Mobile applications with Ocsigen</a></h2><h2><a href="custom-conf" class="ocsimore_phrasing_link">Custom configuration</a></h2><h2><a href="rest" class="ocsimore_phrasing_link">RESTful JSON API</a></h2><h2><a href="ocsipersist" class="ocsimore_phrasing_link">Persistent tables with Ocsipersist</a></h2><h1> Improving Graffiti</h1><h2><a href="pictures" class="ocsimore_phrasing_link">Download pictures</a></h2><h2><a href="music" class="ocsimore_phrasing_link">Playing music</a></h2><h2><a href="reactivemediaplayer" class="ocsimore_phrasing_link">Reactive media player</a></h2><h1 class="howto"> HOW-TO</h1><h2> My first steps with Ocsigen</h2><h3><a href="how-to-make-hello-world-in-ocsigen" class="ocsimore_phrasing_link">How to make &quot;hello world&quot; in Ocsigen</a></h3><h3><a href="how-to-compile-my-ocsigen-pages" class="ocsimore_phrasing_link">How to compile my Ocsigen pages</a></h3><h3><a href="how-to-configure-and-launch-the-ocsigen-server" class="ocsimore_phrasing_link">How to configure and launch the Ocsigen Server</a></h3><h3><a href="how-does-a-page-s-source-code-look" class="ocsimore_phrasing_link">How does a client-server app source code look like?</a></h3><h2> How to put some elements in my page ?</h2><h3><a href="how-to-make-page-a-skeleton" class="ocsimore_phrasing_link">How to make a page skeleton</a></h3><h3><a href="how-to-use-get-parameters-or-parameters-in-the-url" class="ocsimore_phrasing_link">How to use GET parameters (parameters in the URL)</a></h3><h3><a href="how-to-add-css-stylesheet" class="ocsimore_phrasing_link">How to add CSS stylesheet</a></h3><h3><a href="how-to-add-a-javascript-script" class="ocsimore_phrasing_link">How to add a Javascript script</a></h3><h3><a href="how-to-add-a-div" class="ocsimore_phrasing_link">How to add a div</a></h3><h3><a href="how-to-add-a-list" class="ocsimore_phrasing_link">How to add lists in pages?</a></h3><h3><a href="how-to-add-an-image" class="ocsimore_phrasing_link">How to add an image</a></h3><h3><a href="how-to-write-titles-and-paragraphs" class="ocsimore_phrasing_link">How to write titles and paragraphs</a></h3><h3><a href="how-to-set-and-id-classes-or-other-attributes-to-html-elements" class="ocsimore_phrasing_link">How to set and id, classes or other attributes to HTML elements</a></h3><h3><a href="how-to-add-a-select-or-other-form-element" class="ocsimore_phrasing_link">How to add select (or other form element)</a></h3><h3><a href="how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service" class="ocsimore_phrasing_link">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></h3><h3><a href="how-to-make-responsive-css" class="ocsimore_phrasing_link">How to make responsive CSS</a></h3><h2> Services</h2><h3><a href="how-to-do-links-to-other-pages" class="ocsimore_phrasing_link">How to do links to other pages</a></h3><h3><a href="how-to-write-forms" class="ocsimore_phrasing_link">How to write forms</a></h3><h3><a href="how-to-register-a-service-that-decides-itself-what-to-send" class="ocsimore_phrasing_link">How to register a service that decides itself what to send</a></h3><h3><a href="how-to-create-link-to-a-current-page-without-knowing-its-url" class="ocsimore_phrasing_link">How to create link to a current page (without knowing its URL)</a></h3><h3><a href="how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones" class="ocsimore_phrasing_link">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></h3><h3><a href="how-to-write-a-json-service" class="ocsimore_phrasing_link">How to write a JSON service</a></h3><h3><a href="how-to-send-file-download" class="ocsimore_phrasing_link">How to send a file (download)</a></h3><h3><a href="how-to-send-file-upload" class="ocsimore_phrasing_link">How to send a file (upload)</a></h3><h2> Js_of_ocaml</h2><h3><a href="how-to-attach-ocaml-values-to-dom-elements" class="ocsimore_phrasing_link">How to attach OCaml values to DOM elements</a></h3><h3><a href="how-to-know-whether-the-browser-window-has-the-focus-or-not" class="ocsimore_phrasing_link">How to know whether the browser window has the focus or not</a></h3><h3><a href="how-to-build-js-object" class="ocsimore_phrasing_link">How to build js object</a></h3><h3><a href="how-to-stop-default-behaviour-of-events" class="ocsimore_phrasing_link">How to stop default behaviour of events</a></h3><h3><a href="how-to-call-an-ocaml-function-from-js-code" class="ocsimore_phrasing_link">How to call an OCaml function from js code</a></h3><h2> Eliom client-server applications</h2><h3><a href="how-to-call-a-server-side-function-from-client-side" class="ocsimore_phrasing_link">How to call a server-side function from the client side</a></h3><h3><a href="how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page" class="ocsimore_phrasing_link">How to make the client side program get an HTML element from the server and insert it in the page</a></h3><h3><a href="how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client" class="ocsimore_phrasing_link">How to attach OCaml values to the HTML nodes sent to the client</a></h3><h3><a href="how-to-iterate-on-all-sessions-for-one-user-or-all-tabs" class="ocsimore_phrasing_link">How to iterate on all sessions for one user, or all tabs</a></h3><h3><a href="how-to-implement-a-notification-system" class="ocsimore_phrasing_link">How to implement a notification system</a></h3><h3><a href="how-to-send-a-file-to-server-without-stopping-the-client-process" class="ocsimore_phrasing_link">How to send a file to server without stopping the client process</a></h3><h3><a href="how-to-detect-channel-disconnection" class="ocsimore_phrasing_link">How to detect channel disconnection</a></h3><h3><a href="how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed" class="ocsimore_phrasing_link">How to detect on client side that the server side state for the process is closed</a></h3><h2> Eliom Server side</h2><h3><a href="how-do-i-create-a-cryptographically-safe-identifier" class="ocsimore_phrasing_link">How do I create a Cryptographically safe identifier</a></h3><h3><a href="hash-password" class="ocsimore_phrasing_link">Protecting passwords</a></h3></nav></nav><article class="rightcol"><h1> Client server reactive application with Ocsigen</h1><p>This is a short tutorial showing how to implement a simple reactive
+client-server application using Js_of_ocaml, Eliom and
+Ocsigen Start.
+</p><p>We are going to implement an application that can display a list of messages and
+that allows connected users to add new messages.
+</p><p>You will learn:
+</p><ul><li> How to use Ocsigen Start to quickly build an application with user
+management.
+</li><li> How to create a client-server reactive interface: the HTML is
+generated indifferently server-side or client-side, and
+contains reactive parts that are updated automatically when the data
+change.
+</li><li> How to implement a notification system for your application. Users
+are notified when a new item (a message in our case) arrives.
+</li></ul><h2> First step: a basic application with user management</h2><p>Ocsigen Start contains a set of higher level libraries for Eliom
+(user management, tips, notifications). It also contains a template
+for <span class="teletype">eliom-distillery</span> that creates an application with user
+management. You can use this template as a starting point for your
+project.
+</p><pre>eliom-distillery -name tutoreact -template os.pgocaml
+</pre><p>This template is using PostgreSQL to store the data. You need a recent
+version of Postgresql installed on your system.  With that available,
+you can create the local database and start the database server:
+</p><pre>make db-init
+make db-create
+make db-schema
+</pre><p>Compile and run the program:
+</p><pre>make test.byte
+</pre><p>Go to <span class="teletype">http://localhost:8080</span>, you should see the welcome page. You can now
+register a user and log in. Because the send mail function is not configured,
+the activation links will be printed on the console you started the server with.
+</p><p>At any point, if you want to get back to this tutorial later, you may need to
+start the database again:
+</p><pre>make db-start
+</pre><p>While doing this tutorial, if you plan to work on another Ocsigen project
+requiring a database, do not forget to stop the tutorial's database beforehand:
+</p><pre>make db-stop
+</pre><h2> Display messages from db</h2><p>To make this example more realistic, let's suppose that we do not want to
+display all the messages in the database, but only a few of them.
+</p><p>In this tutorial, we will not focus on the implementation details of the
+database part. Create a new file named <span class="teletype">tutoreact_messages.eliom</span>. From now
+on, if not explicitely specified, the code we are going to write will go there.
+We are going to create a module <span class="teletype">Db</span> containing these functions:
+</p><pre class="server" class=""><code class="language-ocaml translatable">val get_messages : unit -&gt; int list Lwt.t
+val get_message : int -&gt; string Lwt.t
+val add_message : string -&gt; int Lwt.t</code></pre><p>You can try to make your own implementation using for instance pgocaml.
+Here's our implementation using Ocsipersist:
+</p><pre class="server" class=""><code class="language-ocaml translatable">[%%server
+module Db = struct
+  let db = Ocsipersist.Polymorphic.open_table &quot;messages&quot;
+
+  let last_key =
+    Eliom_reference.eref
+      ~persistent:&quot;index&quot;
+      ~scope:Eliom_common.global_scope (-1)
+
+  let get_message id =
+    let%lwt db = db in
+    Ocsipersist.Polymorphic.find db (string_of_int id)
+
+  let get_messages () =
+    let%lwt index = Eliom_reference.get last_key in
+    let rec aux n l = if n &gt; index then l else aux (n+1) (n::l) in
+    Lwt.return (aux 0 [])
+
+  let lock = Lwt_mutex.create ()
+
+  let add_message v =
+    let%lwt () = Lwt_mutex.lock lock in
+    let%lwt index = Eliom_reference.get last_key in
+    let index = index + 1 in
+    let%lwt () = Eliom_reference.set last_key index in
+    Lwt_mutex.unlock lock;
+    let%lwt db = db in
+    let%lwt () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
+    Lwt.return index
+end]</code></pre><p>Add the following code:
+</p><pre class="shared" class=""><code class="language-ocaml translatable">[%%shared
+    open Eliom_content.Html
+    open Eliom_content.Html.D]</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server display userid_o =
+  let%lwt messages = Db.get_messages () in
+  let%lwt l =
+    Lwt_list.map_s
+      (fun id -&gt;
+        let%lwt msg = Db.get_message id in
+        Lwt.return (li [txt msg]))
+      messages
+  in
+  Lwt.return [ul l]</code></pre><p>Depending on your database, it is probably more efficient to
+fetch all messages and their identifiers using only one request.
+Here we use <span class="teletype">Lwt_list.map_s</span> to do the requests sequentially.
+</p><p>The content of the main page is defined in
+the file <span class="teletype">tutoreact_handlers.eliom</span>.
+Replace the code of <span class="teletype">main_service_handler</span> by:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server main_service_handler userid_o () () =
+  let%lwt content = Tutoreact_messages.display userid_o in
+  Tutoreact_container.page userid_o content</code></pre><p>The <span class="teletype">main_service_handler</span> you just replaced was in a shared section.
+Therefore, we also need to change two other files to take into consideration
+this modification.
+</p><p>In the file <span class="teletype">tutoreact_handlers.eliomi</span>, move the definition of
+<span class="teletype">main_service_handler</span> from the shared section to the server section.
+</p><p>In the file <span class="teletype">tutoreact.eliom</span>, move the registration of <span class="teletype">main_service</span>
+from the shared section to the server section.
+</p><p>Try to compile in order to see if everything is fine.
+</p><h2> Adding new messages</h2><h3> Add an input in the page, for connected users</h3><p>To add an input in the page for connected users,
+replace the function <span class="teletype">display</span> by the following version:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server display_messages () =
+  let%lwt messages = Db.get_messages () in
+  let%lwt l =
+    Lwt_list.map_s
+      (fun id -&gt;
+        let%lwt msg = Db.get_message id in
+        Lwt.return (li [txt msg]))
+      messages
+  in
+  Lwt.return (ul l)
+
+let%server display userid_o =
+  let%lwt messages = display_messages () in
+  let l =
+    match userid_o with
+    | None -&gt; []
+    | _ -&gt; [Raw.input ~a:[a_input_type `Text;
+                          a_style &quot;border-style:solid&quot;] ()]
+  in
+  Lwt.return (messages :: l)</code></pre><h3> Make function <span class="teletype">Db.add_message</span> accessible from the client</h3><p>To be able to call a function from the client-side program,
+use <span class="teletype">let%rpc</span>:
+</p><pre class="shared" class=""><code class="language-ocaml translatable">let%rpc add_message (value : string) : unit Lwt.t =
+  let%lwt _ = Os_current_user.get_current_userid () (* fails if not connected *) in
+  Db.add_message value</code></pre><p>The parameter <span class="teletype">[%json: string]</span> describes the type of
+the function parameter. This exhibits the syntax provided by
+<a href="https://github.com/whitequark/ppx_deriving" class="ocsimore_phrasing_link">ppx_deriving</a> extended
+with our JSON plugin. We use this for safe server-side unmarshalling of data
+sent by the client.
+</p><h3> Bind the input to call the function</h3><p>To call the function from the client program, we will define a
+<em>client value</em>, a client-side expression that is accessible
+server-side. The client value will be executed client-side
+after the page is loaded. The syntax for client values of type
+<span class="teletype">t</span> is <span class="teletype">[%client (... : t)]</span>.
+</p><p>Replace the second branch of the <span class="teletype">match</span> in the function <span class="teletype">display</span> by:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let inp = Raw.input ~a:[a_input_type `Text; a_style &quot;border-style:solid&quot;] () in
+let _ = [%client
+  (let open Js_of_ocaml_lwt.Lwt_js_events in
+   let inp = To_dom.of_input ~%inp in
+   async (fun () -&gt; changes inp (fun _ _ -&gt;
+     let value = Js_of_ocaml.Js.to_string inp##.value in
+     inp##.value := Js_of_ocaml.Js.string &quot;&quot;;
+     let%lwt _ = add_message value in
+     Lwt.return ()))
+   : unit)
+] in
+[inp]</code></pre><ul><li> We use module <span class="teletype">Lwt_js_events</span> to manage events.
+</li><li> The syntax <span class="teletype">~%v</span> allows using a server-side value <span class="teletype">v</span> client-side.
+</li><li> <span class="teletype">To_dom.of_input</span> returns the JS element corresponding to the
+OCaml value <span class="teletype">~%inp</span>.
+</li><li> <span class="teletype">Lwt_js_events.async</span> is similar to <span class="teletype">Lwt.async</span>.
+</li><li> <span class="teletype">obj##.a</span> allows the access to the field <span class="teletype">a</span>
+of the JavaScript object <span class="teletype">obj</span> (see Js_of_ocaml PPX extension).
+</li><li> <span class="teletype">changes</span> takes a JS element and a function that will be
+executed every time a &quot;change&quot; event is received on this element.
+</li></ul><p>This function gets the value of the input, resets the content of the
+input, and calls our server-side function. Do not forget the
+conversions between OCaml strings and JS strings since they are different!
+</p><p>Compile and run the program again. Now the messages should be added in the
+database whenever you use the input. However you need to refresh the page to
+display them.
+</p><h2> Structure of a client-server application</h2><p>We have seen how to send data to the server without stopping the
+client-side program. Now we want to automatically update the page
+when new messages are sent. Generally, the main difference between a
+web application and a website is that in the case of a web
+application, a client-side program runs and persists accross HTTP
+calls (remote procedure calls or page changes). The client process
+must be able to receive notifications from the server and update the
+page accordingly, without regenerating it entirely. It is common
+practice to generate the full interface client-side. But this is
+not suitable for all cases. It is usually better to keep the old-style
+web interaction and generate pages server-side, for example
+to enable search engine indexing. In this tutorial, we will see how to
+generate pages indifferently (and with the same code) from both sides.
+</p><p>In this section, we will see how to implement this kind of applications
+very concisely thanks to three notions:
+</p><ul><li> The client-server cache of data
+</li><li> Reactive pages
+</li><li> Notification system
+</li></ul><p>You will be able to test once you finish the three following sections!
+</p><h3> Client-server cache</h3><p>The module
+<span><a href=".././../../eliom/latest/api/server/Eliom_cscache">Eliom_cscache</a></span>
+implements a cache of data, an association table where you
+will put the data of your application client-side. For the sake of
+uniformity (as we want to use it in shared sections), the
+cache is also implemented server-side, with scope
+&quot;request&quot;. This avoids retrieving the same data from the database
+twice for the same request.
+</p><p>We create a client-server cache by calling the function
+<span><a href=".././../../eliom/latest/api/server/Eliom_cscache#VALcreate">Eliom_cscache.create</a></span>
+server-side. The server-side cache <span class="teletype">cache</span> created by this
+function will be accessible client-side through an injection <span class="teletype">~%cache</span>.
+</p><p>We implement a function <span class="teletype">get_data</span> to fetch the
+data from the database. This function must have an implementation both
+server-side and client-side:
+</p><pre class="shared" class=""><code class="language-ocaml translatable">let%rpc get_data (id : int) : string Lwt.t = Db.get_message id</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server cache : (int, string) Eliom_cscache.t =
+  Eliom_cscache.create ()</code></pre><h3> Reactive interface</h3><p>Updating the interface when some data change is usually not
+straightforward. This is usually done by putting identifiers on
+elements to find them, and manually modifying page elements using
+low-level JS functions.
+</p><p>A very elegant solution to simplify this consists in using Functional
+Reactive Programming (FRP). In reactive programming, you define
+relations between different pieces of data once, and each update
+automatically produces the recomputation of all the dependent data. In
+Ocsigen we use the module <a href="http://erratique.ch/logiciel/react" class="ocsimore_phrasing_link">React</a>
+combined with <a href="https://github.com/ocsigen/reactiveData/" class="ocsimore_phrasing_link">ReactiveData</a>,
+which extends <span class="teletype">React</span> to deal with incremental updates in
+lists. Have a look at the documentation of the above modules if you
+are not familiar with FRP.
+</p><p>The client-side module
+<span><a href=".././../../eliom/latest/api/client/Eliom_content.Html.R">Eliom_content.Html.R</a></span>
+enables defining reactive page elements.
+</p><p>The module <span><a href=".././../../eliom/latest/api/server/Eliom_shared">Eliom_shared</a></span>
+enables defining shared reactive signals server-side.
+In order to do that, we use <em>shared values</em>, values defined
+both server-side and client-side. The server-side module
+<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.R">Eliom_content.Html.R</a></span>
+enables constructing HTML5 elements that get updated automatically
+based on the signals of <span class="teletype">Eliom_shared</span>. The modules
+<span><a href=".././../../eliom/latest/api/server/Eliom_shared.React">Eliom_shared.React</a></span>
+and
+<span><a href=".././../../eliom/latest/api/server/Eliom_shared.ReactiveData">Eliom_shared.ReactiveData</a></span>
+implement interfaces very similar to <span class="teletype">React</span> and
+<span class="teletype">ReactiveData</span>, but operate on shared signals.
+</p><h3> Implementation of the reactive interface</h3><p><span class="teletype">display_message</span> now needs to be implemented in a shared fashion and take
+its data from the cache. In order to do that,
+we call <span class="teletype">Eliom_cscache.find cache get_data key</span> from either side to get the
+value associated to <span class="teletype">key</span>. If the value is not present in the cache, it will
+be fetched using the function <span class="teletype">get_data</span> and added to the cache.
+</p><pre class="shared" class=""><code class="language-ocaml translatable">let%shared display_message id =
+  let%lwt msg = Eliom_cscache.find ~%cache get_data id in
+  Lwt.return (li [txt msg])</code></pre><p>The function <span class="teletype">display_messages</span> now creates a reactive list of
+message identifiers, and maps page content from this reactive value
+using module <span class="teletype">Eliom_shared.ReactiveData</span>. Note that <span class="teletype">rmessage</span> is
+a tuple, the first element is the list, the second element is the update
+function.
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server display_messages () =
+  let%lwt messages = Db.get_messages () in
+  let rmessages = Eliom_shared.ReactiveData.RList.create messages in
+  let%lwt content =
+    Eliom_shared.ReactiveData.RList.Lwt.map_p
+      [%shared display_message ]
+      (fst rmessages)
+  in
+  Lwt.return (R.ul content)</code></pre><h2> Notifications</h2><p>We now want to be notified when a message has been added. To do that
+easily, we use the module <span class="teletype">Os_notif</span> from Ocsigen Start.
+</p><p>We first define a notification module for the type of data we want
+clients to be able to listen on (here the lists of message identifiers):
+</p><pre class="server" class=""><code class="language-ocaml translatable">[%%server
+module Forum_notif = Os_notif.Make_Simple (struct
+  type key = unit
+  type notification = int
+end)
+]</code></pre><p><span class="teletype">key</span> is the type of the identifier of the data we want to listen
+on. In our case, there is a single message list (thus <span class="teletype">unit</span>
+suffices as the identifier since we don't need to be specific).
+</p><p><span class="teletype">notification</span> is the type of the notifications to send. Here: the
+identifier of the new message to be added in the list.
+</p><p>We define a function to handle notifications. It adds the new
+identifier in the reactive list of messages:
+</p><pre class="client" class=""><code class="language-ocaml translatable">let%client handle_notif_message_list rmessages (_, msgid) =
+  Eliom_shared.ReactiveData.RList.cons msgid (snd rmessages)</code></pre><p>We notify the server that we are listening on this piece of data by
+calling <span class="teletype">Forum_notif.listen</span> (server-side). Notifications are
+received client-side through a <span class="teletype">React</span> event
+<span class="teletype">Forum_notif.client_ev ()</span>. We map this event to the function
+<span class="teletype">handle_notif_message_list</span>, meaning that we will execute this function
+when this event happens.
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server display_messages () =
+  Forum_notif.listen ();
+  let%lwt messages = Db.get_messages () in
+  let rmessages = Eliom_shared.ReactiveData.RList.create messages in
+  ignore [%client
+    (ignore
+       (React.E.map (handle_notif_message_list ~%rmessages)
+          ~%(Forum_notif.client_ev () : (unit * int) Eliom_react.Down.t))
+     : unit)
+  ];
+  let%lwt content =
+    Eliom_shared.ReactiveData.RList.Lwt.map_p
+      [%shared display_message ]
+      (fst rmessages)
+  in
+  Lwt.return (R.ul content)</code></pre><p>When we add a message, we notify all the clients listening on this
+piece of data:
+</p><pre class="shared" class=""><code class="language-ocaml translatable">let%rpc add_message (value : string) : unit Lwt.t =
+   let%lwt id = Db.add_message value in
+   Forum_notif.notify () id;
+   Lwt.return ()</code></pre><p>The program is now fully functional, you can now test it! You should see the
+messages being added without the need to reload the page, even if messages are
+added by another user! Try with several browser windows.
+</p><h2> More information on cache and client-server reactive data</h2><p>In this section we will demonstrate additional Eliom functionality for
+client-server programming by implementing some new features in our
+forum:
+</p><ul><li> Multi-page forum
+</li><li> Client-side spinner while loading data
+</li></ul><h3> Multi-page forum</h3><p>We now want a forum with several pages, located at URLs
+<span class="teletype">http://localhost:8080/</span><em>i</em>, where <em>i</em> represents the <span class="teletype">forumid</span>
+as an integer.
+</p><h4> Services</h4><p>In the file <span class="teletype">tutoreact_services.eliom</span>, we define the new following service:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server forum_service =
+  Eliom_service.create
+    ~path:(Eliom_service.Path [&quot;&quot;])
+    ~meth:(Eliom_service.Get
+            (Eliom_parameter.(suffix (int &quot;i&quot;))))
+    ()</code></pre><p>In the file <span class="teletype">tutoreact_services.eliomi</span>, we define its signature, do not
+forget to put it in a server section:
+</p><pre class="server" class=""><code class="language-ocaml translatable">[%%server.start]
+
+val forum_service
+  : ( int
+    , unit
+    , Eliom_service.get
+    , Eliom_service.att
+    , Eliom_service.non_co
+    , Eliom_service.non_ext
+    , Eliom_service.reg
+    , [`WithSuffix]
+    , [`One of int] Eliom_parameter.param_name
+    , unit
+    , Eliom_service.non_ocaml )
+    Eliom_service.t</code></pre><p>In the file <span class="teletype">tutoreact_handlers.eliom</span>, we define the handler we will
+associate to our new service:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server forum_service_handler userid_o forumid () =
+  let%lwt content = Tutoreact_messages.display userid_o forumid in
+  Tutoreact_container.page userid_o content</code></pre><p>In the file <span class="teletype">tutoreact_handlers.eliomi</span>, we define its signature, in the
+server section:
+</p><pre class="server" class=""><code class="language-ocaml translatable">val forum_service_handler
+  :  Os_types.User.id option
+  -&gt; int
+  -&gt; unit
+  -&gt; Os_page.content Lwt.t</code></pre><p>In the file <span class="teletype">tutoreact.eliom</span>, we register our handler to our new service in
+the server section:
+</p><pre class="server" class=""><code class="language-ocaml translatable">Tutoreact_base.App.register ~service:Tutoreact_services.forum_service
+    (Tutoreact_page.Opt.connected_page Tutoreact_handlers.forum_service_handler)</code></pre><p>Since we have a new parameter <span class="teletype">forumid</span>, we need to take it into
+consideration in many places.
+</p><p>In the file <span class="teletype">tutoreact_messages.eliom</span>, the functions <span class="teletype">display_messages</span>
+and <span class="teletype">display</span> take it as a new parameter. Do not forget to also replace
+the latter in the call of <span class="teletype">display_messages</span> in function <span class="teletype">display</span>:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server display_messages forumid =
+  ...</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server display userid_o forumid =
+  let%lwt messages = display_messages forumid in
+  ...</code></pre><p>In the file <span class="teletype">tutoreact_handlers.eliom</span>, update the code of
+<span class="teletype">main_service_handler</span>:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server main_service_handler forumid userid_o () () =
+  let%lwt content = Tutoreact_messages.display userid_o forumid in
+  Tutoreact_container.page userid_o content</code></pre><p>In the file <span class="teletype">tutoreact_handlers.eliomi</span>, update its signature:
+</p><pre class="server" class=""><code class="language-ocaml translatable">val main_service_handler
+  :  int
+  -&gt; Os_types.User.id option
+  -&gt; unit
+  -&gt; unit
+  -&gt; Os_page.content Lwt.t</code></pre><p>In the file <span class="teletype">tutoreact.eliom</span>, in the <span class="teletype">main_service</span>, we have to specify
+the forumid of the forum we want to reach when we arrive in our application.
+We will take 0 for instance and give it as the parameter of
+<span class="teletype">main_service_handler</span>. We update the registration of <span class="teletype">main_service</span>:
+</p><pre class="server" class=""><code class="language-ocaml translatable">Tutoreact_base.App.register
+    ~service:Os_services.main_service
+    (Tutoreact_page.Opt.connected_page
+    (Tutoreact_handlers.main_service_handler 0));</code></pre><h4> Db</h4><p>The functions <span class="teletype">Db.get_messages</span> and <span class="teletype">Db.add_message</span> now take the forum
+identifier:
+</p><pre class="server" class=""><code class="language-ocaml translatable">[%%server
+module Db = struct
+
+  let db = Ocsipersist.Polymorphic.open_table &quot;messages&quot;
+
+  let dbf = Ocsipersist.Polymorphic.open_table &quot;forums&quot;
+
+  let last_key =
+    Eliom_reference.eref
+      ~persistent:&quot;index&quot; ~scope:Eliom_common.global_scope (-1)
+
+  let get_message id =
+    let%lwt db = db in
+    Ocsipersist.Polymorphic.find db (string_of_int id)
+
+  let get_messages forumid =
+    let%lwt dbf = dbf in
+    try%lwt
+      Ocsipersist.Polymorphic.find dbf (string_of_int forumid)
+    with Not_found -&gt;
+      Lwt.return []
+
+  let add_message forumid v =
+    let%lwt index = Eliom_reference.get last_key in
+    let index = index + 1 in
+    let%lwt () = Eliom_reference.set last_key index in
+    let%lwt db = db in
+    let%lwt () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
+    let%lwt l = get_messages forumid in
+    let%lwt dbf = dbf in
+    let%lwt () =
+      Ocsipersist.Polymorphic.add dbf
+        (string_of_int forumid)
+        (index :: l)
+    in
+    Lwt.return index
+
+end
+]</code></pre><h4> Message type</h4><p>Since we are now adding besides the message, the <span class="teletype">forumid</span> as well in our
+database, we need to specify a new type:
+</p><pre class="shared" class=""><code class="language-ocaml translatable">[%%shared
+    type add_message_type = int * string [@@deriving json]
+]</code></pre><p>We don't forget to take that into consideration in the function
+<span class="teletype">add_message</span>.
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%rpc add_message ((forumid, value) : add_message_type) : unit Lwt.t =
+   let%lwt id = Db.add_message forumid value in
+   Forum_notif.notify () id;
+   Lwt.return ()</code></pre><p>In the function <span class="teletype">display</span>, in the client section:
+</p><pre class="client" class=""><code class="language-ocaml translatable">...
+  add_message (~%forumid, value)
+...</code></pre><h4> Cache of forum message identifiers</h4><p>We must send the notifications only to the clients listening on the
+same forum.
+</p><p>We will create a new client-server cache to keep the reactive list of
+message identifiers for each forums:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server forumcache :
+  (int,
+   int Eliom_shared.ReactiveData.RList.t *
+   int Eliom_shared.ReactiveData.RList.handle) Eliom_cscache.t =
+  Eliom_cscache.create ()</code></pre><p>We will now implement the equivalent of <span class="teletype">get_data</span> for this new cache.
+</p><p><strong>Be very careful:</strong>
+</p><p>In <span class="teletype">get_data_forum</span>, we must find the reactive list of messages in
+the new cache —if it exists — instead of creating a new one!
+Otherwise you will have several reactive data for the same forum and
+the page updates will fail!
+</p><p>To do that, we provide an optional argument <span class="teletype">?default</span> to the function
+<span class="teletype">Eliom_shared.ReactiveData.RList.create</span>, a client value
+(optionally) containing the current reactive list. If it does not
+exist in the cache, a new one will be created like previously:
+</p><pre class="shared" class=""><code class="language-ocaml translatable">let%rpc get_data_forum (forumid : int) : _ Lwt.t =
+  let%lwt messages = Db.get_messages forumid in
+  let default = [%client
+    ((try Some (Eliom_cscache.find_if_ready ~%forumcache ~%forumid)
+      with _ -&gt; None)
+     : 'a option)
+  ] in
+  Lwt.return (Eliom_shared.ReactiveData.RList.create ~default messages)</code></pre><p><span class="teletype">display_messages</span> now takes the reactive list from the cache:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server display_messages forumid =
+  Forum_notif.listen ();
+  let%lwt rmessages =
+    Eliom_cscache.find forumcache get_data_forum forumid
+  in
+  ...</code></pre><h4> Notifications dependent on forum ID</h4><p>Since we now want to be specific about the data we want to listen to, the unit
+parameter we defined can't be used anymore. Indeed, notifications now depend on
+the identifier. We want to receive notifications only for the forums present in
+the client-side cache of forums. Therefore, we just change the type <span class="teletype">key</span> of
+module <span class="teletype">Forum_notif</span> to use an integer (instead of <span class="teletype">unit</span>):
+</p><pre class="server" class=""><code class="language-ocaml translatable">[%%server
+module Forum_notif = Os_notif.Make_Simple (struct
+  type key = int
+  type notification = int
+end)
+]</code></pre><p>The function <span class="teletype">Forum_notif.notify</span> used in the function <span class="teletype">add_message</span>
+now takes the <span class="teletype">forumid</span> parameter.
+</p><pre class="shared" class=""><code class="language-ocaml translatable">let%rpc add_message ... =
+  ...
+  Forum_notif.notify forumid id;
+  ...</code></pre><p>In the function <span class="teletype">display_messages</span>, we need to take care of the
+<span class="teletype">forumid</span> parameter and the type annotation of <span class="teletype">client_ev</span>:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server display_messages forumid =
+  Forum_notif.listen (forumid : int);
+  ...
+  ~%(Forum_notif.client_ev () : (int * int) Eliom_react.Down.t))
+  ...</code></pre><p>We annotate the type of <span class="teletype">forumid</span> in the call of the function <span class="teletype">listen</span>
+to help the typing system.
+</p><p>The function <span class="teletype">handle_notif_message</span> now takes the reactive
+list <span class="teletype">rmessage</span> from the cache, therefore we no longer need it as a
+parameter:
+</p><pre class="client" class=""><code class="language-ocaml translatable">let%client handle_notif_message_list (forumid, msgid) =
+  try
+    let rmessages = Eliom_cscache.find_if_ready ~%forumcache forumid in
+    Eliom_shared.ReactiveData.RList.cons msgid (snd rmessages)
+  with Not_found | Eliom_cscache.Not_ready -&gt; ()</code></pre><p>In the function <span class="teletype">display_messages</span>, do not forget to remove the injection
+of <span class="teletype">rmessage</span> in the call of <span class="teletype">handle_notif_message_list</span> in the client
+section:
+</p><pre class="client" class=""><code class="language-ocaml translatable">...
+(React.E.map handle_notif_message_list
+...</code></pre><h3> Display a spinner while loading the messages</h3><p>Retrieving messages from server can take time.
+To display a spinner while loading the messages when you send them, replace
+the function <span class="teletype">display_message</span> by:
+</p><pre class="shared" class=""><code class="language-ocaml translatable">let%shared display_message id =
+  let th =
+    let%lwt msg = Eliom_cscache.find ~%cache get_data id in
+    Lwt.return [div [txt msg]]
+  in
+  let%lwt v = Ot_spinner.with_spinner th in
+  Lwt.return (li [v])</code></pre><p>To simulate network latency, you can add a <span class="teletype">Lwt_unix.sleep</span> in the
+server-side <span class="teletype">get_data</span> function.
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server get_data id =
+  let%lwt () = Lwt_unix.sleep 2.0 in
+  Db.get_message id</code></pre><h2> The full code (<span class="teletype">tutoreact_messages.eliom</span>):</h2><pre class="shared" class=""><code class="language-ocaml translatable">[%%shared
+    open Eliom_content.Html
+    open Eliom_content.Html.D
+]</code></pre><pre class="server" class=""><code class="language-ocaml translatable">[%%server
+module Db = struct
+  let db = Ocsipersist.Polymorphic.open_table &quot;messages&quot;
+  let dbf = Ocsipersist.Polymorphic.open_table &quot;forums&quot;
+
+  let last_key =
+    Eliom_reference.eref ~persistent:&quot;index&quot; ~scope:Eliom_common.global_scope
+      (-1)
+
+  let get_message id =
+    let%lwt db = db in
+    Ocsipersist.Polymorphic.find db (string_of_int id)
+
+  let get_messages forumid =
+    let%lwt dbf = dbf in
+    try%lwt Ocsipersist.Polymorphic.find dbf (string_of_int forumid)
+    with Not_found -&gt; Lwt.return []
+
+  let add_message forumid v =
+    let%lwt index = Eliom_reference.get last_key in
+    let index = index + 1 in
+    let%lwt () = Eliom_reference.set last_key index in
+    let%lwt db = db in
+    let%lwt () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
+    let%lwt l = get_messages forumid in
+    let%lwt dbf = dbf in
+    let%lwt () =
+      Ocsipersist.Polymorphic.add dbf (string_of_int forumid) (index :: l)
+    in
+    Lwt.return index
+
+end
+
+module Forum_notif = Os_notif.Make_Simple (struct
+  type key = int
+  type notification = int
+end)
+]</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">[%%shared
+    type add_message_type = int * string [@@deriving json]
+]</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">let%rpc add_message ((forumid, value) : add_message_type) : unit Lwt.t =
+   let%lwt id = Db.add_message forumid value in
+   Forum_notif.notify forumid (id : int);
+   Lwt.return ()</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server cache : (int, string) Eliom_cscache.t = Eliom_cscache.create ()
+
+let%server forumcache :
+  (int,
+   int Eliom_shared.ReactiveData.RList.t *
+   int Eliom_shared.ReactiveData.RList.handle) Eliom_cscache.t =
+  Eliom_cscache.create ()</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">ler%rpc get_data (id : int) : string Lwt.t =
+  let%lwt () = Lwt_unix.sleep 2.0 in
+  Db.get_message id</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">let%rpc get_data_forum (forumid : int) : _ Lwt.t =
+  let%lwt messages = Db.get_messages forumid in
+  let default = [%client
+    (try
+       Some (Eliom_cscache.find_if_ready ~%forumcache ~%forumid)
+     with _ -&gt;
+       None
+       : 'a option)
+  ] in
+  Lwt.return (Eliom_shared.ReactiveData.RList.create ~default messages)</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">let%shared display_message id =
+  let th =
+    let%lwt msg = Eliom_cscache.find ~%cache get_data id in
+    Lwt.return [div [txt msg]]
+  in
+  let%lwt v = Ot_spinner.with_spinner th in
+  Lwt.return (li [v])</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client handle_notif_message_list (forumid, msgid) =
+  try
+    let rmessages = Eliom_cscache.find_if_ready ~%forumcache forumid in
+    Eliom_shared.ReactiveData.RList.cons msgid (snd rmessages)
+  with Not_found | Eliom_cscache.Not_ready -&gt; ()</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server display_messages forumid =
+  Forum_notif.listen (forumid : int);
+  let%lwt rmessages =
+    Eliom_cscache.find forumcache get_data_forum forumid
+  in
+  ignore [%client
+    (ignore
+       (React.E.map handle_notif_message_list
+          ~%(Forum_notif.client_ev () : (int * int) Eliom_react.Down.t))
+     : unit)
+  ];
+  let%lwt content =
+    Eliom_shared.ReactiveData.RList.Lwt.map_p
+      [%shared display_message]
+      (fst rmessages)
+  in
+  Lwt.return (R.ul content)
+
+let%server display userid_o forumid =
+  let%lwt messages = display_messages forumid in
+  let l =
+    match userid_o with
+    | None -&gt; []
+    | _ -&gt;
+        let inp =
+          Raw.input ~a:[a_input_type `Text; a_style &quot;border-style:solid&quot;] ()
+        in
+        let _ =
+          [%client
+            (let open Js_of_ocaml_lwt.Lwt_js_events in
+             let inp = To_dom.of_input ~%inp in
+             async (fun () -&gt;
+                 changes inp (fun _ _ -&gt;
+                     let value = Js_of_ocaml.Js.to_string inp##.value in
+                     inp##.value := Js_of_ocaml.Js.string &quot;&quot;;
+                     let%lwt _ = add_message (~%forumid, value) in
+                     Lwt.return ()))
+              : unit)]
+        in
+        [inp]
+  in
+  Lwt.return (messages :: l)</code></pre></article></div></div></body></html>

@@ -67,7 +67,7 @@ Example of use:
 <<code language="ocaml"|
 let open Eliom_content.Html.D in
 html
-  (head (title (txt "Ex")))
+  (head (title (txt "Ex")) [])
   (body [h1 ~a:[a_id "toto"; a_class ["blah"; "blih"]]
            [txt "Hallo!"]])
 >>
@@ -145,9 +145,9 @@ Then register an OCaml function as handler on this service:
 <<code language="ocaml" class="server"|
 let () =
   Eliom_registration.Html.register ~service:myservice
-    (fun (myparam, i) () ->
+    (fun (myparam, _i) () ->
       Lwt.return
-         Eliom_content.Html.F.(html (head (title (txt "")))
+         Eliom_content.Html.F.(html (head (title (txt "")) [])
                                     (body [h1 [txt myparam]])))
 >>
 
@@ -261,6 +261,67 @@ This example shows how to insert an image using {{{static_dir}}}:
   ()
 >>
 
+>>
+
+<<section class="docblock" |
+<<header |==Compiling==>>
+
+Eliom provides an helper program called {{{eliom-distillery}}} to create your projects easily, with the right dune configuration and all default directories you usually need for a Web application (static files, server logs, database, etc.). We will show how to use eliom-distillery in another section below.
+
+In this section, we will show how to compile and run a //server-side only// Web site by creating your project manually.
+
+{{{
+opam install eliom
+dune init proj --kind=lib mysite
+cd mysite
+}}}
+
+Add {{{(libraries eliom.server)}}} into file {{{lib/dune}}}.
+
+Create your {{{.ml}}} files in directory {{{lib}}}.
+For example, copy the definition and registration of service {{{myservice}}} above.
+
+Compile:
+{{{
+dune build
+}}}
+
+Create a configuration file {{{mysite.conf}}} with this content on your project root directory:
+{{{
+<ocsigen>
+  <server>
+    <port>8080</port>
+
+    <logdir>local/var/log/mysite</logdir>
+    <datadir>local/var/data/mysite</datadir>
+    <charset>utf-8</charset>
+
+    <commandpipe>local/var/run/mysite-cmd</commandpipe>
+    <extension findlib-package="ocsigenserver.ext.staticmod"/>
+    <extension findlib-package="ocsipersist.sqlite"/>
+    <extension findlib-package="eliom.server">
+      <ignoredgetparams regexp="utm_[a-z]*|[a-z]*clid|li_fat_id"/>
+    </extension>
+    <host hostfilter="*">
+      <static dir="static" />
+      <static dir="local/var/www/mysite/eliom" />
+      <eliommodule module="_build/default/lib/mysite.cma" />
+      <eliom/>
+    </host>
+  </server>
+</ocsigen>
+}}}
+Create the missing directories:
+{{{
+mkdir -p local/var/log/mysite
+mkdir -p local/var/data/mysite
+mkdir -p local/var/run
+}}}
+Launch the application:
+{{{
+ocsigenserver -c mysite.conf
+}}}
+Open URL {{{http://localhost:8080/foo?myparam=Hello&i=27}}} with your browser.
 >>
 
 <<section class="docblock" |

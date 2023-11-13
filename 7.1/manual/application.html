@@ -61,9 +61,13 @@ this page by the following declaration:
 </p><pre class="server" class=""><code class="language-ocaml translatable">open%server Eliom_content.Html.D (* provides functions to create HTML nodes *)
 
 let%server main_service =
-  Eliom_registration.Html.create
+  Eliom_service.create
     ~path:(Eliom_service.Path [&quot;graff&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    ()
+
+let%server () =
+  Eliom_registration.Html.register ~service:main_service
     (fun () () -&gt;
       Lwt.return
         (html

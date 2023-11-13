@@ -38,9 +38,13 @@ this page by the following declaration:
 open%server Eliom_content.Html.D (* provides functions to create HTML nodes *)
 
 let%server main_service =
-  Eliom_registration.Html.create
+  Eliom_service.create
     ~path:(Eliom_service.Path ["graff"])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    ()
+
+let%server () =
+  Eliom_registration.Html.register ~service:main_service
     (fun () () ->
       Lwt.return
         (html

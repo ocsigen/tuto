@@ -249,9 +249,13 @@ service (now at URL {{{/}}}):
 
 <<code language="ocaml" class="server"|
 let%server main_service =
-  Graffiti_app.create
+  Eliom_service.create
     ~path:(Eliom_service.Path [""])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    ()
+
+let%server () =
+  Graffiti_app.register ~service:main_service
     (fun () () ->
       Lwt.return
         (html
@@ -376,9 +380,13 @@ open%shared Js_of_ocaml
 let%server count = ref 0
 
 let%server main_service =
-  Graffiti_app.create
+  Eliom_service.create
     ~path:(Eliom_service.Path [""])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    ()
+
+let%server () =
+  Graffiti_app.register ~service:main_service
     (fun () () ->
        let c = incr count; !count in
        let text = Printf.sprintf "You came %i times to this page" in
@@ -436,9 +444,13 @@ a copy of the {{{<body>}}} element. Hence, the actual page's
 
 <<code language="ocaml" class="server"|
 let%server main_service =
-  Graffiti_app.create
+  Eliom_service.create
     ~path:(Eliom_service.Path [""])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    ()
+
+let%server () =
+  Graffiti_app.register ~service:main_service
     (fun () () ->
       let container = body [h1 [txt "Graffiti"]] in
       Eliom_service.onload {{
@@ -862,10 +874,8 @@ let%server page () =
 Replace {{{main_service}}} by:
 
 <<code language="ocaml" class="server"|
-let%server main_service =
-  Graffiti_app.create
-    ~path:(Eliom_service.Path [""])
-    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+let%server () =
+  Graffiti_app.register ~service:main_service
     (fun () () ->
        (* Cf. section "Client side side-effects on the server" *)
       let page, cp_sig = page () in
@@ -1040,9 +1050,13 @@ We also define a service that sends the picture:
 
 <<code language="ocaml" class="server"|
 let%server imageservice =
-  Eliom_registration.String.create
+  Eliom_service.create
     ~path:(Eliom_service.Path ["image"])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    ()
+
+let%server () =
+  Eliom_registration.String.register ~service:imageservice
     (fun () () -> Lwt.return (image_string (), "image/png"))
 >>
 

@@ -174,9 +174,13 @@ using the functor <span class="teletype">Eliom_registration.App</span>:
     end)</code></pre><p>It is now possible to use module <span class="teletype">Graffiti_app</span> for registering our main
 service (now at URL <span class="teletype">/</span>):
 </p><pre class="server" class=""><code class="language-ocaml translatable">let%server main_service =
-  Graffiti_app.create
+  Eliom_service.create
     ~path:(Eliom_service.Path [&quot;&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    ()
+
+let%server () =
+  Graffiti_app.register ~service:main_service
     (fun () () -&gt;
       Lwt.return
         (html
@@ -246,9 +250,13 @@ instance:
 </p><pre class="shared" class=""><code class="language-ocaml translatable">open%shared Js_of_ocaml</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server count = ref 0
 
 let%server main_service =
-  Graffiti_app.create
+  Eliom_service.create
     ~path:(Eliom_service.Path [&quot;&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    ()
+
+let%server () =
+  Graffiti_app.register ~service:main_service
     (fun () () -&gt;
        let c = incr count; !count in
        let text = Printf.sprintf &quot;You came %i times to this page&quot; in
@@ -502,10 +510,8 @@ CLIENT_PACKAGES := ... ocsigen-toolkit.client</code></pre><p>To create the widge
                    ; canvas_elt
                    ; colorpicker])
   , cp_sig )</code></pre><p>Replace <span class="teletype">main_service</span> by:
-</p><pre class="server" class=""><code class="language-ocaml translatable">let%server main_service =
-  Graffiti_app.create
-    ~path:(Eliom_service.Path [&quot;&quot;])
-    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server () =
+  Graffiti_app.register ~service:main_service
     (fun () () -&gt;
        (* Cf. section &quot;Client side side-effects on the server&quot; *)
       let page, cp_sig = page () in
@@ -621,9 +627,13 @@ function outputs the PNG image in a string.
 
 let%server _ = Lwt_stream.iter draw_server (Eliom_bus.stream bus)</code></pre><p>We also define a service that sends the picture:
 </p><pre class="server" class=""><code class="language-ocaml translatable">let%server imageservice =
-  Eliom_registration.String.create
+  Eliom_service.create
     ~path:(Eliom_service.Path [&quot;image&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    ()
+
+let%server () =
+  Eliom_registration.String.register ~service:imageservice
     (fun () () -&gt; Lwt.return (image_string (), &quot;image/png&quot;))</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Eliom_registration</h5></header><p>The module <span class="teletype">Eliom_registration</span> defines several modules with
 registration and creation functions for a variety of data types.
 We have already seen <span class="teletype">Eliom_registration.Html</span> and <span class="teletype">Eliom_registration.App</span>.

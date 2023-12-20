@@ -536,6 +536,8 @@ PPX annotations allow to split the code into these two programs:
 
 Same for {{{module%shared}}}, {{{open%shared}}}, {{{type%shared}}} etc.
 
+@@class="centered"@@{{@@class="img-col-width-400"@@files/tutorial/client-server.svg|Client-server build system}}
+
 ===Client values===
 Client values can be declared within server or shared code as
    {{{[%client[ (<value> : <type>) ]}}}.
@@ -735,7 +737,7 @@ Attributes like {{{a_onclick}}} in module {{{Eliom_content.Html.D}}} or {{{F}}}
 take a client side function as parameter:
 
 <<code language="ocaml" class="shared"|
-div ~a:[a_onclick [%client fun ev -> ... ]] [ ... ]
+button ~a:[a_onclick [%client fun ev -> ... ]] [ ... ]
 >>
 
 Module {{{Lwt_js_events}}} of Js_of_ocaml defines a way to bind browser events

@@ -33,7 +33,6 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
-</li><li class="drawermainmenu-project"><a href=".././../../deriving/" class="ocsimore_phrasing_link">deriving</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
 </li><li class="drawermainmenu-page"><a href=".././../../papers" class="ocsimore_phrasing_link">Research papers</a>
@@ -368,10 +367,8 @@ the other one compiled to Javascript with Js_of_ocaml to be executed
 in the browser.
 </p><p>PPX annotations allow to split the code into these two programs:
 </p><table><tr><td><span class="teletype"> let%shared ... = ... </span></td><td>Code to be included in both the client and server apps</td></tr><tr><td><span class="teletype"> let%client ... = ... </span></td><td>Code to be included in client app only</td></tr><tr><td><span class="teletype"> let%server ... = ... </span></td><td>Code to be included in server app only</td></tr></table><p>Same for <span class="teletype">module%shared</span>, <span class="teletype">open%shared</span>, <span class="teletype">type%shared</span> etc.
-</p><p><img src="files/tutorial/client-server.svg" alt="Client-server build system" class="doc-img-col-width"/>
-</p><h3>Client values</h3><p>Fragments of client code can be included in server (or shared) sections.
-</p><p>Example:
-</p><pre class="server" class=""><code class="language-ocaml translatable">button ~a:[a_onclick [%client fun ev -&gt; ... ]] [ ... ]</code></pre><p>Client values can be declared within server or shared code as
+</p><p class="centered"><img src="files/tutorial/client-server.svg" alt="Client-server build system" class="img-col-width-400"/>
+</p><h3>Client values</h3><p>Client values can be declared within server or shared code as
 <span class="teletype">[%client[ (&lt;value&gt; : &lt;type&gt;) ]</span>.
 The type annotation is almost always required.
 </p><p>If such section is reached while generating a page on server side,

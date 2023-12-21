@@ -66,7 +66,7 @@ let main_service =
 </p><p>We recommend to use the program <span class="teletype">eliom-distillery</span>
 to generate a template for your application (a Makefile and a default
 configuration file for Ocsigen Server).
-</p><pre class="manually-translated"><code class="language-shell">$ eliom-distillery -name mysite -template basic.ppx -target-directory mysite</code></pre><p>Modify file <span class="teletype">mysite.eliom</span> to include the piece of code above,
+</p><pre class="manually-translated"><code class="language-shell">$ eliom-distillery -name mysite -template client-server.basic -target-directory mysite</code></pre><p>Modify file <span class="teletype">mysite.eliom</span> to include the piece of code above,
 instead of the default one.
 Then compile and run the server by doing:
 </p><pre class="manually-translated"><code class="language-shell">$ make test.byte</code></pre><p>Your page is now available at URL <a href="http://localhost:8080/aaa/bbb" class="ocsimore_phrasing_link"><span class="teletype">http://localhost:8080/aaa/bbb</span></a>.

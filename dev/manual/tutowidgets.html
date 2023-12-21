@@ -106,7 +106,7 @@ let%client _ =
     (Js_of_ocaml.Dom_html.document##.body)
     (Eliom_content.Html.To_dom.of_element (mywidget &quot;Click me&quot; &quot;Hello!&quot;));
   Lwt.return ()</code></pre><p>To compile it, first create a project by calling
-</p><pre>  eliom-distillery -name ex -template basic.ppx
+</p><pre>  eliom-distillery -name ex -template client-server.basic
 </pre><p>The name of the project must match the name given to the functor
 <span class="teletype">Eliom_registration.App</span>.
 </p><p>After you adapt the file <span class="teletype">ex.eliom</span>,

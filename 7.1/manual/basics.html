@@ -467,7 +467,7 @@ and check types.
 </pre><p>It contains by default some code examples that you can remove or adapt to your own needs.
 Have a look at the <span class="teletype">README</span> file.
 </p><p>The make-based build system is provided by the basic template:
-</p><pre>eliom-distillery -template basic.ppx -name myapp
+</p><pre>eliom-distillery -template client-server.basic -name myapp
 </pre><p>Have a look at the <span class="teletype">README</span> file.</p></section><section class="docblock"><header><h2>Sessions</h2></header><p>Session data is saved on server side in <em>Eliom references</em>.
 </p><p>The following Eliom reference will count the number of visits of a user on a page:
 </p><pre class="server" class=""><code class="language-ocaml translatable">let%server count_ref =

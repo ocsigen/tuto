@@ -54,7 +54,7 @@ introduction to Eliom programming.
 creates scaffolds for Eliom projects. The following command creates a
 very simple project called <span class="teletype">graffiti</span> in the directory
 <span class="teletype">graffiti</span>:
-</p><pre class="manually-translated"><code class="language-shell">$ eliom-distillery -name graffiti -template basic.ppx -target-directory graffiti</code></pre><h3>My first page</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Services<br/>Configuration file<br/>Static validation of HTML</p></aside><p>Our web application consists of a single page for now. Let's start by
+</p><pre class="manually-translated"><code class="language-shell">$ eliom-distillery -name graffiti -template client-server.basic -target-directory graffiti</code></pre><h3>My first page</h3><aside class="concepts"><header><h5>Concepts</h5></header><p>Services<br/>Configuration file<br/>Static validation of HTML</p></aside><p>Our web application consists of a single page for now. Let's start by
 creating a very basic page. We define the service that will implement
 this page by the following declaration:
 </p><pre class="server" class=""><code class="language-ocaml translatable">open%server Eliom_content.Html.D (* provides functions to create HTML nodes *)

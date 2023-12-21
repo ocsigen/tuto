@@ -536,10 +536,24 @@ PPX annotations allow to split the code into these two programs:
 
 Same for {{{module%shared}}}, {{{open%shared}}}, {{{type%shared}}} etc.
 
+@@class="centered"@@{{@@class="img-col-width-400"@@files/tutorial/client-server.svg|Client-server build system}}
+
 ===Client values===
-Client values can be declared within server or shared code as
-   {{{[%client[ (<value> : <type>) ]}}}.
-The type annotation is almost always required.
+Fragments of client code can be included in server (or shared) sections.
+
+Example:
+
+<<code language="ocaml" class="server"|
+  button ~a:[a_onclick [%client fun ev -> ... ]] [ ... ]
+>>
+
+The syntax is {{{[%client (<value> : <type>) }}}.
+Type annotation is almost always required.
+
+These client fragments can be manipulated as server side OCaml values:
+<<code language="ocaml" class="server"|
+let%server x : int Eliom_client_value.t = [%client 1 + 3 ]
+>>
 
 If such section is reached while generating a page on server side,
 the client-side code will be executed once the page is displayed.
@@ -554,14 +568,13 @@ If such section is reached during module initialization on the server
 (global client section), it will be executed on client side everytime
 a new client side program is launched.
 
-
 The tutorial [[tutowidgets|Client-Server Widgets]]
 shows how client values can be manipulated
-on client side.
+on server side.
 
 ===Injections===
 
-Server side variables can be accessed (injected) in client code by prefixing
+Server side values can be injected in client code by prefixing
 them with {{{~%}}} as in this example:
 <<code language="ocaml" class="server"|
 let%server ... =
@@ -571,6 +584,37 @@ let%server ... =
   ...
 >>
 The value will automatically be sent with the page by Eliom.
+
+It is possible to combine injections and client-values:
+<<code language="ocaml" class="server"|
+let%server x : int Eliom_client_value.t = [%client 1 + 3 ]
+>>
+<<code language="ocaml" class="client"|
+let%client c : int = 3 + ~%x
+>>
+
+<<div class="focused"|
+===How it works===
+Regardless of the construction used and their combination, there is
+only one communication from server to client, when the Web page is
+sent. This is due to the fact that client fragments are not executed
+immediately when encountered inside server code.  The intuitive
+semantic is the following: client code is not executed when
+encountered, instead it is registered for later execution, once the
+Web page has been sent to the client. Then all the client code is
+executed in the order it was encountered on the server, with the value
+of injections that was also sent with the page.
+
+For each client-values, the client-side PPX will create a function in
+the client-side program. The parameters of this function are all the
+injections it contains.
+
+The server-side PPX will replace the client-value by some code
+that will insert in the currently generated page some instruction to
+ask the client-side program to call the corresponding functions.
+Their arguments (injections) are serialized at the same time by the
+server-side program and also inserted in the generated page.
+>>
 
 ===Example===
 This section shows a typical example of client-server code: call a function
@@ -735,7 +779,7 @@ Attributes like {{{a_onclick}}} in module {{{Eliom_content.Html.D}}} or {{{F}}}
 take a client side function as parameter:
 
 <<code language="ocaml" class="shared"|
-div ~a:[a_onclick [%client fun ev -> ... ]] [ ... ]
+button ~a:[a_onclick [%client fun ev -> ... ]] [ ... ]
 >>
 
 Module {{{Lwt_js_events}}} of Js_of_ocaml defines a way to bind browser events

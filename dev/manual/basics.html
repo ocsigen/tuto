@@ -368,10 +368,12 @@ in the browser.
 </p><p>PPX annotations allow to split the code into these two programs:
 </p><table><tr><td><span class="teletype"> let%shared ... = ... </span></td><td>Code to be included in both the client and server apps</td></tr><tr><td><span class="teletype"> let%client ... = ... </span></td><td>Code to be included in client app only</td></tr><tr><td><span class="teletype"> let%server ... = ... </span></td><td>Code to be included in server app only</td></tr></table><p>Same for <span class="teletype">module%shared</span>, <span class="teletype">open%shared</span>, <span class="teletype">type%shared</span> etc.
 </p><p class="centered"><img src="files/tutorial/client-server.svg" alt="Client-server build system" class="img-col-width-400"/>
-</p><h3>Client values</h3><p>Client values can be declared within server or shared code as
-<span class="teletype">[%client[ (&lt;value&gt; : &lt;type&gt;) ]</span>.
-The type annotation is almost always required.
-</p><p>If such section is reached while generating a page on server side,
+</p><h3>Client values</h3><p>Fragments of client code can be included in server (or shared) sections.
+</p><p>Example:
+</p><pre class="server" class=""><code class="language-ocaml translatable">button ~a:[a_onclick [%client fun ev -&gt; ... ]] [ ... ]</code></pre><p>The syntax is <span class="teletype">[%client (&lt;value&gt; : &lt;type&gt;) </span>.
+Type annotation is almost always required.
+</p><p>These client fragments can be manipulated as server side OCaml values:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server x : int Eliom_client_value.t = [%client 1 + 3 ]</code></pre><p>If such section is reached while generating a page on server side,
 the client-side code will be executed once the page is displayed.
 </p><p>If such section is reached while generating a page on client side,
 the client-side code will be executed immediately
@@ -383,15 +385,32 @@ for example with function
 a new client side program is launched.
 </p><p>The tutorial <a href="tutowidgets" class="ocsimore_phrasing_link">Client-Server Widgets</a>
 shows how client values can be manipulated
-on client side.
-</p><h3>Injections</h3><p>Server side variables can be accessed (injected) in client code by prefixing
+on server side.
+</p><h3>Injections</h3><p>Server side values can be injected in client code by prefixing
 them with <span class="teletype">~%</span> as in this example:
 </p><pre class="server" class=""><code class="language-ocaml translatable">let%server ... =
   ...
   let x = ... in
   [%client[ ... ~%x ... ]]
   ...</code></pre><p>The value will automatically be sent with the page by Eliom.
-</p><h3>Example</h3><p>This section shows a typical example of client-server code: call a function
+</p><p>It is possible to combine injections and client-values:
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%server x : int Eliom_client_value.t = [%client 1 + 3 ]</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client c : int = 3 + ~%x</code></pre><div class="focused"><h3>How it works</h3><p>Regardless of the construction used and their combination, there is
+only one communication from server to client, when the Web page is
+sent. This is due to the fact that client fragments are not executed
+immediately when encountered inside server code.  The intuitive
+semantic is the following: client code is not executed when
+encountered, instead it is registered for later execution, once the
+Web page has been sent to the client. Then all the client code is
+executed in the order it was encountered on the server, with the value
+of injections that was also sent with the page.
+</p><p>For each client-values, the client-side PPX will create a function in
+the client-side program. The parameters of this function are all the
+injections it contains.
+</p><p>The server-side PPX will replace the client-value by some code
+that will insert in the currently generated page some instruction to
+ask the client-side program to call the corresponding functions.
+Their arguments (injections) are serialized at the same time by the
+server-side program and also inserted in the generated page.</p></div><h3>Example</h3><p>This section shows a typical example of client-server code: call a function
 when user clicks on a page element.
 </p><pre class="client" class=""><code class="language-ocaml translatable">open%client Js_of_ocaml
 open%client Js_of_ocaml_lwt

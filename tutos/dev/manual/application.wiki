@@ -23,7 +23,7 @@ very simple project called {{{graffiti}}} in the directory
 {{{graffiti}}}:
 
 <<code language="shell"|
-$ eliom-distillery -name graffiti -template basic.ppx -target-directory graffiti
+$ eliom-distillery -name graffiti -template client-server.basic -target-directory graffiti
 >>
 
 ===My first page===

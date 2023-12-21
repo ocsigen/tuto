@@ -82,7 +82,7 @@ let%client _ =
 To compile it, first create a project by calling
 
 {{{
-  eliom-distillery -name ex -template basic.ppx
+  eliom-distillery -name ex -template client-server.basic
 }}}
 
 The name of the project must match the name given to the functor

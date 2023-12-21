@@ -49,7 +49,7 @@ configuration file for Ocsigen Server).
 
 
 <<code language="shell"|
-$ eliom-distillery -name mysite -template basic.ppx -target-directory mysite
+$ eliom-distillery -name mysite -template client-server.basic -target-directory mysite
 >>
 
 Modify file {{{mysite.eliom}}} to include the piece of code above,

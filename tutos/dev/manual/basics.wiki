@@ -713,7 +713,7 @@ Have a look at the {{{README}}} file.
 
 The make-based build system is provided by the basic template:
 {{{
-eliom-distillery -template basic.ppx -name myapp
+eliom-distillery -template client-server.basic -name myapp
 }}}
 Have a look at the {{{README}}} file.
 

@@ -4,11 +4,11 @@
 
 Eliom-distillery will help you to build your client-server application
 using Eliom.
-It comes with several templates ("basic.ppx", "basic", "mobile",
+It comes with several templates ("client-server.basic", "os.pgocaml",
 and more to come  ...).
 
 {{{
-$ eliom-distillery -name <name> -template basic.ppx [-target-directory <dir>]
+$ eliom-distillery -name <name> -template client-server.basic [-target-directory <dir>]
 }}}
 
 Eliom distillery will also create a default configuration file for Ocsigen

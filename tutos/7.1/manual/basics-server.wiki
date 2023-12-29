@@ -521,6 +521,7 @@ one session.
 <<section class="docblock" |
 <<header |==Browser events==>>
 
+WIP
 >>
 
 <<section class="docblock" |
@@ -543,6 +544,7 @@ let get () =
 <<section class="docblock" |
 <<header |==Continuation-based Web programming==>>
 
+WIP
 >>
 
 

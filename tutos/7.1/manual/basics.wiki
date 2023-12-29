@@ -1,12 +1,12 @@
-=All Ocsigen in one page=
+=Client-server applications in one page=
 
 This page describes the main concepts you need to master to become fully operational
 with Ocsigen. Use it as your training plan or as a cheatcheet while programming.
 
-Depending on your needs, you may not need to learn all this.
-Ocsigen is very flexible and can be used both for very basic page generation
-functions (see [[basicwebsite|this tutorial]]) or very complex
-client-server Web apps and their mobile counterparts.
+Depending on your needs, you may not need to learn all this. Ocsigen is
+very flexible and can be used both for Web site programing (see
+[[basics-server|this page]]) or more complex client-server Web apps and
+their mobile counterparts.
 
 In parallel to the reading of that page,
 we recommend to generate your first [[wiki("ocsigen-start"):|Ocsigen Start]] app to see
@@ -164,6 +164,7 @@ from the corresponding submodule of
 
 <<div id="servicetable"|
 |=@@class="row"@@<<a_api project="eliom" subproject="server" text="Html"| module Eliom_registration.Html >>|@@colspan="3"@@Services returning typed HTML pages|
+|=@@class="row"@@<<a_api project="eliom" subproject="server" text="Html_text"| module Eliom_registration.Html >>|@@colspan="3"@@Services returning untyped HTML pages as strings|
 |=@@class="row"@@<<a_api project="eliom" subproject="server" text="App"| module Eliom_registration.ELIOM_APPL >>|@@colspan="3"@@Apply this functor to generate registration functions for services belonging to an Eliom client/server application. These services also return typed HTML pages, but Eliom will automatically add the client-side program as a JS file, and all the data needed (values of all injections, etc.)|
 |=@@class="row"@@<<a_api project="eliom" subproject="server" text="Flow"| module Eliom_registration.Flow5 >>|@@colspan="3"@@Services returning portions of HTML pages.|
 |=@@class="row"@@<<a_api project="eliom" subproject="server" text="Action"| module Eliom_registration.Action >>|@@colspan="3"@@Services performing actions (server side effects) with or without reloading the page (e.g. login, logout, payment, modification of user information...)|
@@ -350,27 +351,8 @@ modules <<a_api project="eliom" subproject="server" text="Eliom_content.Html.F.F
 define a typed interface
 for form elements. Use this for links (see above), or if you program traditional
 server-side Web interaction (with or without client-side program). This will statically check that your forms
-match the services. Example:
-
-<<code language="ocaml"|
-let open Eliom_content.Html.D in
-Form.post_form
- ~service:connection_service
-   (fun (name, password) ->
-     [fieldset
-       [label ~a:[a_for name] [txt "Name: "];
-        Form.input ~input_type:`Text ~name:name Form.int;
-        br ();
-        Form.input
-          ~a:[a_placeholder "Password"]
-          ~input_type:`Password
-          ~name:password
-          Form.string;
-        br ();
-        Form.input ~input_type:`Submit ~value:"Connect" Form.string
-      ]]) ()
-
->>
+match the services. See more information in the
+<<a_manual project="tuto" chapter="basics-server"|server-side programming manual>>.
 
 >>
 <<section class="docblock" |

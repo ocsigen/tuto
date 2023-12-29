@@ -61,8 +61,8 @@ documentation.
 if you plan to build a client-server Web (and/or mobile) app.
 It will help you to build your first app very quickly,
 with many code samples to study.
-* [[wiki:manual/basicwebsite|Basic web site]] explains how to write a basic
-Web site using OCaml functions
+* [[wiki:manual/basics-server|Basic web site]] explains how to write a
+website in OCaml, if you don't plan to have client-side features yet
 * If you are fluent in OCaml and want a quick introduction to
 client-server Web programming with Eliom,
 read tutorial

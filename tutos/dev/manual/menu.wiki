@@ -1,7 +1,7 @@
 = Programmer's guide
 ==[[intro|Introduction. Ocsigen: where to start?]]
-==[[basics|Client-server applications in one page]]
-==[[basics-server|Server-side Web sites in one page]]
+==[[basics|Client-server application programming guide]]
+==[[basics-server|Server-side website programming guide]]
 = Main tutorials
 ==[[site:/install|Install Ocsigen]]
 ==[[start|Your first app in 5 minutes]]

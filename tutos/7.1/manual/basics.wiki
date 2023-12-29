@@ -1,4 +1,4 @@
-=Client-server applications in one page=
+=Client-server application programming guide=
 
 This page describes the main concepts you need to master to become fully operational
 with Ocsigen. Use it as your training plan or as a cheatcheet while programming.

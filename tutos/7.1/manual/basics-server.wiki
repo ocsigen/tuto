@@ -1,4 +1,4 @@
-=Server-side Web sites in one page=
+=Server-side website programming guide=
 
 While Eliom is well known for its unique client-server programming
 model, it is also perfectly suited to programming more traditional

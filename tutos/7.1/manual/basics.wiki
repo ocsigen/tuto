@@ -694,7 +694,7 @@ eliom-distillery -template os.pgocaml -name myapp
 It contains by default some code examples that you can remove or adapt to your own needs.
 Have a look at the {{{README}}} file.
 
-The make-based build system is provided by the basic template:
+If you don't want to use Ocsigen-Start, you can use the basic template:
 {{{
 eliom-distillery -template client-server.basic -name myapp
 }}}

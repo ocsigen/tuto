@@ -96,7 +96,7 @@ let () =
 >>
 
 {{{Eliom_service.Get Eliom_parameter.any}}} means that the service uses the GET HTTP method
-and takes any GET parameter.
+and takes any GET parameter. The first parameter of function {{{f}}} is an association list of GET parameters.
 
 Module {{{Eliom_registration.Html_text}}} is used to register a service sending
 HTML as strings. But we recommend to used typed-HTML instead (see below).
@@ -116,7 +116,7 @@ dune init proj --kind=lib mysite
 cd mysite
 }}}
 
-Add {{{(libraries eliom.server)}}} into file {{{lib/dune}}}.
+Add {{{(libraries eliom.server)}}} into file {{{lib/dune}}}, in the library section.
 
 Create your {{{.ml}}} files in directory {{{lib}}}.
 For example, copy the definition and registration of service {{{myservice}}} above.
@@ -240,7 +240,7 @@ by  {{{Eliom_registration.Html}}}:
 let f _ () =
   Lwt.return
     Eliom_content.Html.F.(html (head (title (txt "")) [])
-                               (body [h1 [txt myparam]]))
+                               (body [h1 [txt "Hello"]]))
 
 let myservice =
   Eliom_service.create

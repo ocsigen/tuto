@@ -277,7 +277,7 @@ dune init proj --kind=lib mysite
 cd mysite
 }}}
 
-Add {{{(libraries eliom.server)}}} into file {{{lib/dune}}}.
+Add {{{(libraries eliom.server)}}} into file {{{lib/dune}}}, in the library section.
 
 Create your {{{.ml}}} files in directory {{{lib}}}.
 For example, copy the definition and registration of service {{{myservice}}} above.

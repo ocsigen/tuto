@@ -538,13 +538,10 @@ let%server x : int Eliom_client_value.t = [%client 1 + 3 ]
 >>
 
 If such section is reached while generating a page on server side,
-the client-side code will be executed once the page is displayed.
+the client-side code will be executed when the page is displayed.
 
 If such section is reached while generating a page on client side,
 the client-side code will be executed immediately
-(In that case, you can delay the execution, if needed,
-for example with function
-<<a_api project="ocsigen-toolkit" subproject="client"|val Ot_nodeready.nodeready>> to wait for the element to be actually displayed).
 
 If such section is reached during module initialization on the server
 (global client section), it will be executed on client side everytime
@@ -611,7 +608,10 @@ In both cases (first request or RPC), the server returns the expected value, but
 
 @@class="centered"@@{{@@class="img-col-width-400"@@files/tutorial/client-server-req.svg|Example of requests}}
 
-Tip: You can avoid waiting for the RPC to return by using a spinner from Ocsigen Toolkit. Thus, the client-side generated page will be displayed without delay.
+Tip 1: You can avoid waiting for the RPC to return by using a spinner from Ocsigen Toolkit (see module <<a_api project="ocsigen-toolkit" subproject="server"|module Ot_spinner>>). Thus, the client-side generated page will be displayed without delay.
+
+Tip 2: To delay the execution of a client fragment after the page is actually displayed, you might want to use function
+<<a_api project="ocsigen-toolkit" subproject="client"|val Ot_nodeready.nodeready>> from Ocsigen Toolkit.
 
 Regardless of the construction used and their combination, there is
 only one communication from server to client, when the Web page is

@@ -724,7 +724,7 @@ The following Eliom reference will count the number of visits of a user on a pag
 <<code language="ocaml" class="server"|
 let%server count_ref =
   Eliom_reference.eref
-    ~scope:Eliom_common.session
+    ~scope:Eliom_common.default_session_scope
     0 (* default value for everyone *)
 >>
 

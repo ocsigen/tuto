@@ -364,14 +364,15 @@ above, plus one POST parameter of type string, named "mypostparam".
 ===Pathless services===
 
 Pathless services are not identified by the path in the URL,
-but by a name given as parameter. This name can be specified manually
+but by a name given as parameter, regardless of the path.
+Use this to make a functionality available from all pages
+(for example: log-in or log-out actions, add something in a shopping basket ...).
+The name can be specified manually
 using the {{{~name}}} optional parameter, otherwise, a random name is
 generated automatically.
-This is used to implement server functions (see below).
-If you are programming a client-server Eliom app, you will probably prefer server functions.
-If you are using traditional service based Web programming,
-use this to make a functionality available from all pages
-(for example: log-in or log-out actions, add something in a shopping basket ...).
+This is also used to implement server functions (see below).
+If you are programming a client-server Eliom app, you will often prefer
+remote procedure calls (`let%rpc`).
 
 <<code language="ocaml" class="server"|
 let pathless_service =
@@ -476,7 +477,7 @@ The following Eliom reference will count the number of visits of a user on a pag
 <<code language="ocaml" class="server"|
 let%server count_ref =
   Eliom_reference.eref
-    ~scope:Eliom_common.session
+    ~scope:Eliom_common.default_session_scope
     0 (* default value for everyone *)
 >>
 

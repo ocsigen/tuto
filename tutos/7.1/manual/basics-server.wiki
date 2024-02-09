@@ -539,7 +539,7 @@ one session.
 By default, event handlers on HTML elements are given as OCaml functions,
 but it works only if you have a client-server Eliom program.
 If not, you want to give a javascript expression (as a string) instead.
-To so that, use attributes functions from module `Raw`. For example
+To so that, use attributes functions from module {{{Raw}}}. For example
 <<a_api project="eliom" subproject="server"| val Eliom_content.Html.F.Raw.a_onclick>>
 instead of
 <<a_api project="eliom" subproject="server"| val Eliom_content.Html.F.a_onclick>>.
@@ -584,7 +584,7 @@ for example a multi-step train ticket booking.
 
 Implementing that without continuation-based Web programming is tedious:
 you must store the data previously sent by the user and find a way to
-get it for each step of the interaction. It is not possible to save them as
+get it for each step of the interaction. It is not possible to save it as
 session data, as you want for example to be able to have several different
 interactions in different tabs of your browser, or to press the back button of
 your browser to go back in the past. This is known as
@@ -604,7 +604,7 @@ page for this ticket.
 
 To implement temporary services, we usually use pathless or attached
 services (see above). To avoid a memory leak, you can make them temporary using
-optional parameters of the service creation function (`?max_use` or `?timeout`).
+optional parameters of the service creation function ({{{?max_use}}} or {{{?timeout}}}).
 
 >>
 

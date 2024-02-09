@@ -361,6 +361,8 @@ above, plus one POST parameter of type string, named "mypostparam".
 <<section class="docblock" |
 <<header |==Eliom: Other kinds of services==>>
 
+The detailed explanation of services can be found in <<a_manual project="eliom" chapter="server-services" |Eliom's manual>>. Here is a summary:
+
 ===Pathless services===
 
 Pathless services are not identified by the path in the URL,
@@ -385,6 +387,19 @@ let pathless_service =
 
 More information
 <<a_manual project="eliom" chapter="server-services" fragment="pathless"|in the manual>>.
+
+===Attached services===
+It is also possible to create services identified by both a path and a
+special parameter, using functions
+<<a_api project="eliom" subproject="server"| val Eliom_service.create_attached_get >> or
+<<a_api project="eliom" subproject="server"| val Eliom_service.create_attached_post >>.
+They take a regular service (with a path) as parameter ({{{~fallback}}}).
+
+It is also possible to attach an existing pathless service to the URL of
+another service, with function
+<<a_api project="eliom" subproject="server"| val Eliom_service.attach >>.
+This allows for example to create a link towards a pathless service,
+but on another path.
 
 ===External services===
 Use <<a_api project="eliom" subproject="server"| val Eliom_service.extern >> to create
@@ -521,8 +536,20 @@ one session.
 
 <<section class="docblock" |
 <<header |==Browser events==>>
+By default, event handlers on HTML elements are given as OCaml functions,
+but it works only if you have a client-server Eliom program.
+If not, you want to give a javascript expression (as a string) instead.
+To so that, use attributes functions from module `Raw`. For example
+<<a_api project="eliom" subproject="server"| val Eliom_content.Html.F.Raw.a_onclick>>
+instead of
+<<a_api project="eliom" subproject="server"| val Eliom_content.Html.F.a_onclick>>.
 
-WIP
+Example:
+<<code language="ocaml" class="server"|
+Eliom_content.Html.F.(button ~a:[Raw.onclick "alert(\"beep\");"] [txt "click"])
+>>
+
+
 >>
 
 <<section class="docblock" |
@@ -545,7 +572,40 @@ let get () =
 <<section class="docblock" |
 <<header |==Continuation-based Web programming==>>
 
-WIP
+Eliom allows the dynamic creation of temporary services.
+This is equivalent to a programming pattern known as "continuation-based
+Web programming".
+While present in very few Web frameworks,
+it is a very powerful feature that can save you a lot of time
+when programming a server-side website.
+A typical use case is when you have a series of pages,
+each of which depending on the entries made on the previous pages,
+for example a multi-step train ticket booking.
+
+Implementing that without continuation-based Web programming is tedious:
+you must store the data previously sent by the user and find a way to
+get it for each step of the interaction. It is not possible to save them as
+session data, as you want for example to be able to have several different
+interactions in different tabs of your browser, or to press the back button of
+your browser to go back in the past. This is known as
+"the back button problem".
+
+With Eliom, you just need to create new temporary services especially for
+one user, that will depend on previous interaction with them.
+The form data will be recorded in the closure of the service handler
+function.
+In our example, you can implement a first page with a form
+(departure, destination, date, first name, last name ...).
+The form sends this data to another service.
+This second service will display a list of train tickets, each with a link
+to buy the ticket. Each of these links corresponds to a service that has been
+specifically created for this user and train, which will display the payment
+page for this ticket.
+
+To implement temporary services, we usually use pathless or attached
+services (see above). To avoid a memory leak, you can make them temporary using
+optional parameters of the service creation function (`?max_use` or `?timeout`).
+
 >>
 
 

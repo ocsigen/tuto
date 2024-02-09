@@ -242,7 +242,8 @@ Eliom_parameter.(suffix_prod (int &quot;year&quot; ** int &quot;month&quot;) (in
 For example the following example takes the same GET parameters as the service
 above, plus one POST parameter of type string, named &quot;mypostparam&quot;.
 </p><pre class="server" class=""><code class="language-ocaml translatable">~meth:(Eliom_service.Post (Eliom_parameter.((string &quot;s&quot; ** int &quot;i&quot;),
-                                            (string &quot;mypostparam&quot;))))</code></pre></section><section class="docblock"><header><h2>Eliom: Other kinds of services</h2></header><h3>Pathless services</h3><p>Pathless services are not identified by the path in the URL,
+                                            (string &quot;mypostparam&quot;))))</code></pre></section><section class="docblock"><header><h2>Eliom: Other kinds of services</h2></header><p>The detailed explanation of services can be found in <span><a href=".././../../eliom/latest/manual/server-services">Eliom's manual</a></span>. Here is a summary:
+</p><h3>Pathless services</h3><p>Pathless services are not identified by the path in the URL,
 but by a name given as parameter, regardless of the path.
 Use this to make a functionality available from all pages
 (for example: log-in or log-out actions, add something in a shopping basket ...).
@@ -259,6 +260,16 @@ remote procedure calls (`let%rpc`).
     ~meth:(Eliom_service.Get (Eliom_parameter.(int &quot;i&quot;)))
     ()</code></pre><p>More information
 <span><a href=".././../../eliom/latest/manual/server-services#pathless">in the manual</a></span>.
+</p><h3>Attached services</h3><p>It is also possible to create services identified by both a path and a
+special parameter, using functions
+<span><a href=".././../../eliom/latest/api/server/Eliom_service#VALcreate_attached_get">Eliom_service.create_attached_get</a></span> or
+<span><a href=".././../../eliom/latest/api/server/Eliom_service#VALcreate_attached_post">Eliom_service.create_attached_post</a></span>.
+They take a regular service (with a path) as parameter (<span class="teletype">~fallback</span>).
+</p><p>It is also possible to attach an existing pathless service to the URL of
+another service, with function
+<span><a href=".././../../eliom/latest/api/server/Eliom_service#VALattach">Eliom_service.attach</a></span>.
+This allows for example to create a link towards a pathless service,
+but on another path.
 </p><h3>External services</h3><p>Use <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALextern">Eliom_service.extern</a></span> to create
 links or forms towards external Web sites as if they were Eliom services.
 </p><h3>Predefined services</h3><p>Use service <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALstatic_dir">(Eliom_service.static_dir ())</a></span>
@@ -331,14 +342,51 @@ and
 which remain even if a user logs in or out.
 </p><p>When session group is not set (for example the user is not connected),
 you can still use the group session scope: in that case, the group contains only
-one session.</p></section><section class="docblock"><header><h2>Browser events</h2></header><p>WIP</p></section><section class="docblock"><header><h2>Database access</h2></header><p>You can use your favourite database library with Ocsigen.
+one session.</p></section><section class="docblock"><header><h2>Browser events</h2></header><p>By default, event handlers on HTML elements are given as OCaml functions,
+but it works only if you have a client-server Eliom program.
+If not, you want to give a javascript expression (as a string) instead.
+To so that, use attributes functions from module `Raw`. For example
+<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.F.Raw#VALa_onclick">Eliom_content.Html.F.Raw.a_onclick</a></span>
+instead of
+<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.F#VALa_onclick">Eliom_content.Html.F.a_onclick</a></span>.
+</p><p>Example:
+</p><pre class="server" class=""><code class="language-ocaml translatable">Eliom_content.Html.F.(button ~a:[Raw.onclick &quot;alert(\&quot;beep\&quot;);&quot;] [txt &quot;click&quot;])</code></pre></section><section class="docblock"><header><h2>Database access</h2></header><p>You can use your favourite database library with Ocsigen.
 Ocsigen Start's template uses
 <a href="https://github.com/darioteixeira/pgocaml" class="ocsimore_phrasing_link">PG'OCaml</a>
 (typed queries for Postgresql using a PPX syntax extension).
 </p><p>Here is an example, taken from Ocsigen Start's demo:
 </p><pre class="server" class=""><code class="language-ocaml translatable">let get () =
   full_transaction_block (fun dbh -&gt;
-    [%pgsql dbh &quot;SELECT lastname FROM ocsigen_start.users&quot;])</code></pre></section><section class="docblock"><header><h2>Continuation-based Web programming</h2></header><p>WIP</p></section><section class="docblock"><header><h2>Internationalisation</h2></header><p><a href="https://github.com/besport/ocsigen-i18n" class="ocsimore_phrasing_link">Ocsigen i18n</a>
+    [%pgsql dbh &quot;SELECT lastname FROM ocsigen_start.users&quot;])</code></pre></section><section class="docblock"><header><h2>Continuation-based Web programming</h2></header><p>Eliom allows the dynamic creation of temporary services.
+This is equivalent to a programming pattern known as &quot;continuation-based
+Web programming&quot;.
+While present in very few Web frameworks,
+it is a very powerful feature that can save you a lot of time
+when programming a server-side website.
+A typical use case is when you have a series of pages,
+each of which depending on the entries made on the previous pages,
+for example a multi-step train ticket booking.
+</p><p>Implementing that without continuation-based Web programming is tedious:
+you must store the data previously sent by the user and find a way to
+get it for each step of the interaction. It is not possible to save them as
+session data, as you want for example to be able to have several different
+interactions in different tabs of your browser, or to press the back button of
+your browser to go back in the past. This is known as
+&quot;the back button problem&quot;.
+</p><p>With Eliom, you just need to create new temporary services especially for
+one user, that will depend on previous interaction with them.
+The form data will be recorded in the closure of the service handler
+function.
+In our example, you can implement a first page with a form
+(departure, destination, date, first name, last name ...).
+The form sends this data to another service.
+This second service will display a list of train tickets, each with a link
+to buy the ticket. Each of these links corresponds to a service that has been
+specifically created for this user and train, which will display the payment
+page for this ticket.
+</p><p>To implement temporary services, we usually use pathless or attached
+services (see above). To avoid a memory leak, you can make them temporary using
+optional parameters of the service creation function (`?max_use` or `?timeout`).</p></section><section class="docblock"><header><h2>Internationalisation</h2></header><p><a href="https://github.com/besport/ocsigen-i18n" class="ocsimore_phrasing_link">Ocsigen i18n</a>
 is an internationalisation library for your OCaml programs.
 </p><p>Create a .tsv file with, on each line, a key and the text in several languages:
 </p><pre>welcome_message Welcome everybody!        Bienvenue à tous !      Benvenuti a tutti !

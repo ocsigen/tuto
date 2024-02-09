@@ -345,7 +345,7 @@ you can still use the group session scope: in that case, the group contains only
 one session.</p></section><section class="docblock"><header><h2>Browser events</h2></header><p>By default, event handlers on HTML elements are given as OCaml functions,
 but it works only if you have a client-server Eliom program.
 If not, you want to give a javascript expression (as a string) instead.
-To so that, use attributes functions from module `Raw`. For example
+To so that, use attributes functions from module <span class="teletype">Raw</span>. For example
 <span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.F.Raw#VALa_onclick">Eliom_content.Html.F.Raw.a_onclick</a></span>
 instead of
 <span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.F#VALa_onclick">Eliom_content.Html.F.a_onclick</a></span>.
@@ -368,7 +368,7 @@ each of which depending on the entries made on the previous pages,
 for example a multi-step train ticket booking.
 </p><p>Implementing that without continuation-based Web programming is tedious:
 you must store the data previously sent by the user and find a way to
-get it for each step of the interaction. It is not possible to save them as
+get it for each step of the interaction. It is not possible to save it as
 session data, as you want for example to be able to have several different
 interactions in different tabs of your browser, or to press the back button of
 your browser to go back in the past. This is known as
@@ -386,7 +386,7 @@ specifically created for this user and train, which will display the payment
 page for this ticket.
 </p><p>To implement temporary services, we usually use pathless or attached
 services (see above). To avoid a memory leak, you can make them temporary using
-optional parameters of the service creation function (`?max_use` or `?timeout`).</p></section><section class="docblock"><header><h2>Internationalisation</h2></header><p><a href="https://github.com/besport/ocsigen-i18n" class="ocsimore_phrasing_link">Ocsigen i18n</a>
+optional parameters of the service creation function (<span class="teletype">?max_use</span> or <span class="teletype">?timeout</span>).</p></section><section class="docblock"><header><h2>Internationalisation</h2></header><p><a href="https://github.com/besport/ocsigen-i18n" class="ocsimore_phrasing_link">Ocsigen i18n</a>
 is an internationalisation library for your OCaml programs.
 </p><p>Create a .tsv file with, on each line, a key and the text in several languages:
 </p><pre>welcome_message Welcome everybody!        Bienvenue à tous !      Benvenuti a tutti !

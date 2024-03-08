@@ -272,7 +272,7 @@ Eliom provides an helper program called {{{eliom-distillery}}} to create your pr
 In this section, we will show how to compile and run a //server-side only// Web site by creating your project manually.
 
 {{{
-opam install eliom
+opam install ocsipersist-sqlite eliom
 dune init proj --kind=lib mysite
 cd mysite
 }}}

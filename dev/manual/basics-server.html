@@ -106,7 +106,7 @@ and takes any GET parameter. The first parameter of function <span class="telety
 </p><p>Module <span class="teletype">Eliom_registration.Html_text</span> is used to register a service sending
 HTML as strings. But we recommend to used typed-HTML instead (see below).</p></section><section class="docblock"><header><h2>Compiling</h2></header><p>Eliom provides an helper program called <span class="teletype">eliom-distillery</span> to create your projects easily, with the right dune configuration and all default directories you usually need for a Web application (static files, server logs, database, etc.). We will show how to use eliom-distillery in another section below.
 </p><p>In this section, we will show how to compile and run a <em>server-side only</em> Web site by creating your project manually.
-</p><pre>opam install eliom
+</p><pre>opam install ocsipersist-sqlite eliom
 dune init proj --kind=lib mysite
 cd mysite
 </pre><p>Add <span class="teletype">(libraries eliom.server)</span> into file <span class="teletype">lib/dune</span>, in the library section.

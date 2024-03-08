@@ -168,6 +168,25 @@
          style="fill:context-stroke;fill-rule:evenodd;stroke:none"
          id="path1367-6-5" />
     </marker>
+    <marker
+       style="overflow:visible"
+       id="RoundedArrow-0-6-4-3"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="RoundedArrow"
+       markerWidth="6.1347523"
+       markerHeight="5.9304953"
+       viewBox="0 0 6.1347524 5.9304951"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="m -0.21114562,-4.1055728 6.42229122,3.21114561 a 1,1 90 0 1 0,1.78885438 L -0.21114562,4.1055728 A 1.236068,1.236068 31.717474 0 1 -2,3 v -6 a 1.236068,1.236068 148.28253 0 1 1.78885438,-1.1055728 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"
+         id="path1367-6-1-7-4" />
+    </marker>
   </defs>
   <g
      inkscape:label="Calque 1"
@@ -281,51 +300,53 @@
          y="49.428848">page generation</tspan></text>
     <text
        xml:space="preserve"
-       style="font-weight:bold;font-size:5.64444px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';fill:#5599ff;fill-opacity:1;stroke:none;stroke-width:3;stroke-opacity:1"
-       x="138.41408"
+       style="font-weight:bold;font-size:4.93889px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';fill:#5599ff;fill-opacity:1;stroke:none;stroke-width:3;stroke-opacity:1"
+       x="127.30164"
        y="27.294527"
        id="text3733-4"><tspan
          sodipodi:role="line"
          id="tspan3731-50"
-         style="font-size:5.64444px;fill:#5599ff;stroke-width:3"
-         x="138.41408"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.93889px;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#5599ff;stroke-width:3"
+         x="127.30164"
          y="27.294527">let%rpc f (x : int) : int = </tspan><tspan
          sodipodi:role="line"
-         style="font-size:5.64444px;fill:#5599ff;stroke-width:3"
-         x="138.41408"
-         y="34.350079"
-         id="tspan5568">     ...</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.93889px;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#5599ff;stroke-width:3"
+         x="127.30164"
+         y="33.592152"
+         id="tspan5568">  ...</tspan><tspan
          sodipodi:role="line"
-         style="font-size:5.64444px;fill:#5599ff;stroke-width:3"
-         x="138.41408"
-         y="41.405628"
-         id="tspan5570">     [%client ... ~%b ... ]</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.93889px;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#5599ff;stroke-width:3"
+         x="127.30164"
+         y="39.889778"
+         id="tspan5570">  [%client ... ~%b ... ]</tspan><tspan
          sodipodi:role="line"
-         style="font-size:5.64444px;fill:#5599ff;stroke-width:3"
-         x="138.41408"
-         y="48.461178"
-         id="tspan5572">     Lwt.return v</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.93889px;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#5599ff;stroke-width:3"
+         x="127.30164"
+         y="46.187405"
+         id="tspan5572">  Lwt.return v</tspan></text>
     <text
        xml:space="preserve"
        style="font-weight:bold;font-size:5.64444px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';fill:#5599ff;fill-opacity:1;stroke:none;stroke-width:3;stroke-opacity:1"
-       x="26.630951"
-       y="23.373854"
+       x="21.868446"
+       y="21.257185"
        id="text3733-4-3"><tspan
          sodipodi:role="line"
          style="font-size:5.64444px;fill:#5599ff;stroke-width:3"
-         x="26.630951"
-         y="23.373854"
-         id="tspan5568-1">     ...</tspan><tspan
+         x="21.868446"
+         y="21.257185"
+         id="tspan5568-1"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.93889px;font-family:monospace;-inkscape-font-specification:'monospace Bold'"
+           id="tspan930">...</tspan></tspan><tspan
          sodipodi:role="line"
-         style="font-size:5.64444px;fill:#5599ff;stroke-width:3"
-         x="26.630951"
-         y="30.429403"
-         id="tspan5570-0">     [%client ... ~%a ... ]</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.93889px;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#5599ff;stroke-width:3"
+         x="21.868446"
+         y="28.312735"
+         id="tspan5570-0">[%client ... ~%a ... ]</tspan><tspan
          sodipodi:role="line"
-         style="font-size:5.64444px;fill:#5599ff;stroke-width:3"
-         x="26.630951"
-         y="37.484955"
-         id="tspan5572-6">     Lwt.return (html (...) (...))</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.93889px;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#5599ff;stroke-width:3"
+         x="21.868446"
+         y="35.368286"
+         id="tspan5572-6">Lwt.return (html (...) (...))</tspan></text>
     <text
        xml:space="preserve"
        style="font-weight:bold;font-size:5.64444px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-opacity:1"
@@ -341,95 +362,93 @@
          style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#666666;stroke-width:3"
          x="81.542229"
          y="100.65424"
-         id="tspan4336">client values</tspan><tspan
+         id="tspan4336">client fragments</tspan><tspan
          sodipodi:role="line"
-         style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#cccccc;stroke-width:3"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.93889px;font-family:monospace;-inkscape-font-specification:'monospace Bold';text-align:center;text-anchor:middle;fill:#b3b3b3;stroke-width:3"
          x="81.542229"
          y="107.70979"
          id="tspan7415">[%client ... ~%a ...]</tspan></text>
     <text
        xml:space="preserve"
        style="font-weight:bold;font-size:5.64444px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-opacity:1"
-       x="182.32758"
+       x="172.8027"
        y="86.765404"
        id="text3733-3-1"><tspan
          sodipodi:role="line"
          id="tspan3731-6-2"
          style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#666666;stroke-width:3"
-         x="182.32758"
+         x="172.8027"
          y="86.765404">execution of </tspan><tspan
          sodipodi:role="line"
          style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#666666;stroke-width:3"
-         x="182.32758"
+         x="172.8027"
          y="93.820953"
-         id="tspan4336-9">client values</tspan><tspan
+         id="tspan4336-9">client fragments</tspan><tspan
          sodipodi:role="line"
-         style="font-size:5.64444px;text-align:center;text-anchor:middle;fill:#cccccc;stroke-width:3"
-         x="182.32758"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.93889px;font-family:monospace;-inkscape-font-specification:'monospace Bold';text-align:center;text-anchor:middle;fill:#b3b3b3;stroke-width:3"
+         x="172.8027"
          y="100.8765"
          id="tspan7519">[%client ... ~%b ...]</tspan></text>
     <text
        xml:space="preserve"
        style="font-weight:bold;font-size:5.64444px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-opacity:1"
-       x="139.76958"
-       y="101.16962"
+       x="138.1821"
+       y="110.16544"
        id="text3733-9"><tspan
          sodipodi:role="line"
          id="tspan3731-7"
          style="font-size:5.64444px;fill:#666666;stroke-width:3"
-         x="139.76958"
-         y="101.16962">rpc</tspan></text>
+         x="138.1821"
+         y="110.16544">rpc</tspan></text>
     <text
        xml:space="preserve"
-       style="font-weight:bold;font-size:5.64444px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-opacity:1"
+       style="font-weight:bold;font-size:5.64444px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';white-space:pre;inline-size:97.2878;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-opacity:1"
        x="82.917412"
        y="60.925892"
        id="text3733-0"><tspan
-         sodipodi:role="line"
-         id="tspan3731-23"
-         style="font-size:5.64444px;fill:#666666;stroke-width:3"
          x="82.917412"
-         y="60.925892">js</tspan><tspan
-         sodipodi:role="line"
-         style="font-size:5.64444px;fill:#666666;stroke-width:3"
+         y="60.925892"
+         id="tspan1347"><tspan
+           style="fill:#666666"
+           id="tspan1345">js
+</tspan></tspan><tspan
          x="82.917412"
-         y="67.981445"
-         id="tspan3309">html</tspan><tspan
-         sodipodi:role="line"
-         style="font-size:5.64444px;fill:#666666;stroke-width:3"
+         y="67.981443"
+         id="tspan1351"><tspan
+           style="fill:#666666"
+           id="tspan1349">html
+</tspan></tspan><tspan
          x="82.917412"
-         y="75.036995"
-         id="tspan3311">+ ~% <tspan
-   style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold Italic'"
-   id="tspan3365">injections</tspan> </tspan><tspan
-         sodipodi:role="line"
-         style="font-size:5.64444px;fill:#666666;stroke-width:3"
-         x="82.917412"
-         y="82.092545"
-         id="tspan3313" /></text>
+         y="75.036996"
+         id="tspan1359"><tspan
+           style="fill:#666666"
+           id="tspan1353">+ </tspan><tspan
+           style="-inkscape-font-specification:'Noto Sans Bold Italic'"
+           id="tspan1355">injections </tspan><tspan
+           style="font-size:4.93889px;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#b3b3b3"
+           id="tspan1357">~%a</tspan></tspan></text>
     <text
        xml:space="preserve"
        style="font-weight:bold;font-size:5.64444px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-opacity:1"
-       x="171.08463"
+       x="167.90967"
        y="61.61924"
        id="text3733-0-7"><tspan
          sodipodi:role="line"
          style="font-size:5.64444px;fill:#666666;stroke-width:3"
-         x="171.08463"
+         x="167.90967"
          y="61.61924"
-         id="tspan3309-9">value v</tspan><tspan
+         id="tspan3309-9">value <tspan
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.93889px;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#b3b3b3"
+   id="tspan928">v</tspan></tspan><tspan
          sodipodi:role="line"
-         style="font-size:5.64444px;fill:#666666;stroke-width:3"
-         x="171.08463"
+         style="font-style:normal;font-size:5.64444px;fill:#666666;stroke-width:3"
+         x="167.90967"
          y="68.674789"
-         id="tspan3311-2">+ ~% <tspan
-   style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold Italic'"
-   id="tspan3365-2">injections</tspan> </tspan><tspan
-         sodipodi:role="line"
-         style="font-size:5.64444px;fill:#666666;stroke-width:3"
-         x="171.08463"
-         y="75.730339"
-         id="tspan3313-8" /></text>
+         id="tspan3313-8">+ <tspan
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold Italic'"
+   id="tspan3365-2">injections </tspan><tspan
+   id="tspan1138"
+   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:4.93889px;font-family:monospace;-inkscape-font-specification:'monospace Bold';fill:#b3b3b3">~%b</tspan></tspan></text>
     <text
        xml:space="preserve"
        style="font-weight:bold;font-size:5.64444px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-opacity:1"
@@ -480,18 +499,18 @@
        width="55.503132"
        height="10.981297"
        x="133.93178"
-       y="105.92599" />
+       y="113.33432" />
     <text
        xml:space="preserve"
        style="font-weight:bold;font-size:5.64444px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:3;stroke-opacity:1"
        x="138.42992"
-       y="113.45862"
+       y="120.33778"
        id="text3733-1"><tspan
          sodipodi:role="line"
          id="tspan3731-2"
          style="font-size:5.64444px;fill:#666666;stroke-width:3"
          x="138.42992"
-         y="113.45862">page generation</tspan></text>
+         y="120.33778">page generation</tspan></text>
     <text
        xml:space="preserve"
        style="font-weight:bold;font-size:8.46667px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';fill:#a0892c;fill-opacity:1;stroke:none;stroke-width:3;stroke-opacity:1"
@@ -531,22 +550,27 @@
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;fill-opacity:1;stroke:#4f4f4f;stroke-width:1.5;stroke-dasharray:none;marker-end:url(#RoundedArrow-0-6)"
-       d="m 157.89855,55.21235 c 7.701,2.350657 13.30874,6.53054 13.05757,17.794812"
+       d="m 157.12086,55.496892 c 7.701,2.350657 9.85307,6.245998 9.6019,17.51027"
        id="path2812-2-8"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;fill-opacity:1;stroke:#4f4f4f;stroke-width:1.43238;stroke-dasharray:none;marker-end:url(#RoundedArrow-0-6-4)"
-       d="m 181.41216,119.11811 c 8.27308,8.32369 13.08117,9.72232 12.72842,20.73507"
+       d="m 168.68865,126.50009 c 8.27308,8.32369 11.02658,4.88649 16.00749,14.23905"
        id="path2812-2-8-8"
        sodipodi:nodetypes="cc" />
     <path
+       style="fill:none;fill-opacity:1;stroke:#4f4f4f;stroke-width:1.43238;stroke-dasharray:none;marker-end:url(#RoundedArrow-0-6-4-3)"
+       d="m 167.34536,102.49982 c 0.29629,13.71803 -0.4931,-3.347891 -0.16347,6.84403"
+       id="path2812-2-8-8-0"
+       sodipodi:nodetypes="cc" />
+    <path
        style="fill:none;fill-opacity:1;stroke:#4f4f4f;stroke-width:1.5;stroke-dasharray:none;marker-end:url(#RoundedArrow-0-6-7)"
-       d="m 137.10649,102.44623 c -0.58592,-13.134876 7.63834,-33.149668 13.76378,-43.113235"
+       d="m 135.74727,111.01574 c -0.58592,-13.134879 8.99756,-41.719178 15.123,-51.682745"
        id="path2812-2-8-2"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;fill-opacity:1;stroke:#4f4f4f;stroke-width:1.5;stroke-dasharray:none;marker-end:url(#RoundedArrow-0-6-7-3)"
-       d="m 119.72121,147.52841 c -0.77265,-8.64219 6.51481,-15.88592 14.5924,-22.44152"
+       d="m 119.72121,147.52841 c -0.77265,-8.64219 6.10155,-11.07711 14.17914,-17.63271"
        id="path2812-2-8-2-9"
        sodipodi:nodetypes="cc" />
   </g>

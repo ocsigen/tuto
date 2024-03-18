@@ -246,7 +246,7 @@ Converting an HTML value to a portion of page (a.k.a. Dom node)<br/>
 Manipulating HTML node 'by reference'</p></aside><p>The client side process is not strictly separated from the server
 side.  We can access some server variables from the client code. For
 instance:
-</p><pre class="shared" class=""><code class="language-ocaml translatable">open%shared Js_of_ocaml</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server count = ref 0
+</p><pre class="client" class=""><code class="language-ocaml translatable">open%client Js_of_ocaml</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server count = ref 0
 
 let%server main_service =
   Eliom_service.create
@@ -294,8 +294,8 @@ client-side function <span class="teletype"> init_client </span>, which just dra
 line for now.
 </p><p>Here is the (full) new version of the program:
 </p><pre class="shared" class=""><code class="language-ocaml translatable">(* Modules opened with open%shared are available in client and server-code *)
-open%shared Eliom_content
-open%shared Js_of_ocaml</code></pre><pre class="client" class=""><code class="language-ocaml translatable">open%client Js_of_ocaml_lwt</code></pre><pre class="server" class=""><code class="language-ocaml translatable">module%server Graffiti_app =
+open%shared Eliom_content</code></pre><pre class="client" class=""><code class="language-ocaml translatable">open%client Js_of_ocaml
+open%client Js_of_ocaml_lwt</code></pre><pre class="server" class=""><code class="language-ocaml translatable">module%server Graffiti_app =
   Eliom_registration.App (
     struct
       let application_name = &quot;graffiti&quot;

@@ -371,9 +371,8 @@ The client side process is not strictly separated from the server
 side.  We can access some server variables from the client code. For
 instance:
 
-<<code language="ocaml" class="shared"|
-
-open%shared Js_of_ocaml
+<<code language="ocaml" class="client"|
+open%client Js_of_ocaml
 >>
 <<code language="ocaml" class="server"|
 
@@ -486,9 +485,9 @@ Here is the (full) new version of the program:
 <<code language="ocaml" class="shared"|
 (* Modules opened with open%shared are available in client and server-code *)
 open%shared Eliom_content
-open%shared Js_of_ocaml
 >>
 <<code language="ocaml" class="client"|
+open%client Js_of_ocaml
 open%client Js_of_ocaml_lwt
 >>
 <<code language="ocaml" class="server"|

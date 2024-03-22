@@ -498,9 +498,9 @@ module%server Graffiti_app =
       let global_data_path = None
     end)
 >>
-<<code language="ocaml" class="shared"|
-let%shared width  = 700
-let%shared height = 400
+<<code language="ocaml" class="server"|
+let%server width  = 700
+let%server height = 400
 >>
 <<code language="ocaml" class="client"|
 let%client draw ctx ((r, g, b), size, (x1, y1), (x2, y2)) =
@@ -846,12 +846,9 @@ To install Ocsigen Toolkit, do:
 opam install ocsigen-toolkit
 }}}
 
-In {{{Makefile.options}}}, created by Eliom's distillery, add
-{{{ocsigen-toolkit.client}}} and {{{ocsigen-toolkit.server}}} to the
-{{{CLIENT_PACKAGES}}}:
+Add package {{{ocsigen-toolkit.server}}} to the {{{libraries}}} section of your {{{dune}}} file, and {{{ocsigen-toolkit.client}}} to the {{{libraries}}} section of your {{{client/dune}}} file.
 <<code language="makefile"|
-SERVER_PACKAGES := ... ocsigen-toolkit.server
-CLIENT_PACKAGES := ... ocsigen-toolkit.client
+  (libraries eliom.server ... ocsigen-toolkit.server)
 >>
 
 To create the widget, we replace {{{page}}} by :
@@ -1009,8 +1006,7 @@ arrives. To do that, we will use the
 
 For using Cairo, first, make sure that it is installed (it is
 available as {{{cairo2}}} via OPAM). Second, add it to the
-{{{SERVER_PACKAGES}}} in your {{{Makefile.options}}}: <<code
-language="makefile"| SERVER_PACKAGES := ... cairo2 >>
+{{{libraries}}} section in your {{{dune}}} file.
 
 The {{{draw_server}}} function below is the equivalent of the
 {{{draw}}} function on the server side and the {{{image_string}}}
@@ -1096,7 +1092,7 @@ let img = Eliom_content.Html.To_dom.of_img
        ~src:(Html.D.make_uri ~service:~%imageservice ())
        ())
 in
-img##.onload := Dom_html.handler (fun ev ->
+img##.onload := Dom_html.handler (fun _ev ->
   ctx##drawImage img 0. 0.; Js._false);
 >>
 

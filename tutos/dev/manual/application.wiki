@@ -16,6 +16,11 @@ introduction to Eliom programming.
 
 ==@@id="basics"@@ Basics==
 
+If not already done, install Eliom first:
+{{{
+opam install ocsipersist-sqlite eliom ocsigen-ppx-rpc
+}}}
+
 To get started, we recommend using <<a_manual project="eliom"
 chapter="workflow-distillery"|Eliom distillery>>, a program which
 creates scaffolds for Eliom projects. The following command creates a
@@ -55,8 +60,7 @@ let%server () =
 Annotations {{{%server}}} tells the compiler that the code is going to be executed
 on the server (see later).
 
-If you're using {{{eliom-distillery}}} just replace the content of file
-{{{graffiti.eliom}}} by the above lines and run:
+Replace the content of file {{{graffiti.eliom}}} by the above lines and run:
 
 <<code language="shell"|
 $ make test.byte
@@ -284,13 +288,13 @@ At the very toplevel of your source file (i.e. //not// inside modules
 or other server- /client-parts), you can use the following constructs
 to indicate which side the code should run on.
 
-* {{{ [%%client ... ] }}}: the list of enclosed definitions is
-  client-only code (similarly for {{{ [%%server ... ] }}}). With
-  {{{ [%%shared ... ] }}}, the code is used both on the server and client.
 * {{{ let%client }}}, {{{ let%server }}}, {{{ let%shared }}}: same as
   above for a single definition.
 * other syntaxes like {{{ module%server }}}, {{{ open%client }}},
   {{{ type%shared }}} ...
+* {{{ [%%client ... ] }}}: the list of enclosed definitions is
+  client-only code (similarly for {{{ [%%server ... ] }}}). With
+  {{{ [%%shared ... ] }}}, the code is used both on the server and client.
 * {{{ [%%client.start] }}}, {{{ [%%server.start] }}},
   {{{ [%%shared.start] }}}: these set the default location for all
   definitions that follow, and which do not use the preceding
@@ -482,13 +486,12 @@ line for now.
 
 Here is the (full) new version of the program:
 
-<<code language="ocaml" class="shared"|
-(* Modules opened with open%shared are available in client and server-code *)
-open%shared Eliom_content
+<<code language="ocaml" class="server"|
+open%server Eliom_content
+open%server Eliom_content.Html.D
 >>
 <<code language="ocaml" class="client"|
 open%client Js_of_ocaml
-open%client Js_of_ocaml_lwt
 >>
 <<code language="ocaml" class="server"|
 module%server Graffiti_app =
@@ -584,11 +587,9 @@ Js_of_ocaml.Dom_events.listen >> that is the Js_of_ocaml's equivalent of
 as the JavaScript equivalent, hence not satisfactory. Js_of_ocaml's
 library provides a much easier way to do that with the help of Lwt.
 
-To use this, add
-{{{js_of_ocaml-lwt}}} to the {{{CLIENT_PACKAGES}}}
-in {{{Makefile.options}}}, created by Eliom's distillery:
-<<code language="makefile"|
-CLIENT_PACKAGES := ... js_of_ocaml-lwt
+To use this, add the following line on top of your file:
+<<code language="ocaml" class="client"|
+open%client Js_of_ocaml_lwt
 >>
 
 Then, replace the {{{init_client}}} of the previous example by the
@@ -795,7 +796,8 @@ Finally, to interpret the draw orders read on the bus, we add the
 following line at the end of function {{{init_client}}}:
 
 <<code language="ocaml" class="client"|
-  Lwt.async (fun () -> Lwt_stream.iter (draw ctx) (Eliom_bus.stream ~%bus))
+  Lwt.async (fun () ->
+    Lwt_stream.iter (draw ctx) (Eliom_bus.stream ~%(bus : (messages, messages) Eliom_bus.t)))
 >>
 
 Now you can try the program using two browser windows to see that the
@@ -847,9 +849,6 @@ opam install ocsigen-toolkit
 }}}
 
 Add package {{{ocsigen-toolkit.server}}} to the {{{libraries}}} section of your {{{dune}}} file, and {{{ocsigen-toolkit.client}}} to the {{{libraries}}} section of your {{{client/dune}}} file.
-<<code language="makefile"|
-  (libraries eliom.server ... ocsigen-toolkit.server)
->>
 
 To create the widget, we replace {{{page}}} by :
 

@@ -50,7 +50,9 @@ other users are drawing at the same time and in real-time.
 </p><p>This tutorial is a good starting point if you want a step-by-step
 introduction to Eliom programming.
 </p>The final eliom code is available
-<a href="https://github.com/ocsigen/graffiti/tree/master/simple" class="ocsimore_phrasing_link">for download</a>.<h2 id="basics"> Basics <a class="backref" href="#basics">&#182;</a></h2><p>To get started, we recommend using <span><a href=".././../../eliom/latest/manual/workflow-distillery">Eliom distillery</a></span>, a program which
+<a href="https://github.com/ocsigen/graffiti/tree/master/simple" class="ocsimore_phrasing_link">for download</a>.<h2 id="basics"> Basics <a class="backref" href="#basics">&#182;</a></h2><p>If not already done, install Eliom first:
+</p><pre>opam install ocsipersist-sqlite eliom ocsigen-ppx-rpc
+</pre><p>To get started, we recommend using <span><a href=".././../../eliom/latest/manual/workflow-distillery">Eliom distillery</a></span>, a program which
 creates scaffolds for Eliom projects. The following command creates a
 very simple project called <span class="teletype">graffiti</span> in the directory
 <span class="teletype">graffiti</span>:
@@ -73,8 +75,7 @@ let%server () =
            (head (title (txt &quot;Page title&quot;)) [])
            (body [h1 [txt &quot;Graffiti&quot;]])))</code></pre><p>Annotations <span class="teletype">%server</span> tells the compiler that the code is going to be executed
 on the server (see later).
-</p><p>If you're using <span class="teletype">eliom-distillery</span> just replace the content of file
-<span class="teletype">graffiti.eliom</span> by the above lines and run:
+</p><p>Replace the content of file <span class="teletype">graffiti.eliom</span> by the above lines and run:
 </p><pre class="manually-translated"><code class="language-shell">$ make test.byte</code></pre><p>This will compile your application and run <span class="teletype">ocsigenserver</span>.
 </p><p>Your page is now available at URL <a href="http://localhost:8080/graff" class="ocsimore_phrasing_link"><span class="teletype">http://localhost:8080/graff</span></a>.
 </p><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Services</h5></header><p>Unlike typical web programming techniques (CGI, PHP, ...), with Eliom
@@ -196,13 +197,13 @@ program:
 </p><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Splitting the code into server and client parts</h5></header><p>At the very toplevel of your source file (i.e. <em>not</em> inside modules
 or other server- /client-parts), you can use the following constructs
 to indicate which side the code should run on.
-</p><ul><li> <span class="teletype"> [%%client ... ] </span>: the list of enclosed definitions is
-client-only code (similarly for <span class="teletype"> [%%server ... ] </span>). With
-<span class="teletype"> [%%shared ... ] </span>, the code is used both on the server and client.
-</li><li> <span class="teletype"> let%client </span>, <span class="teletype"> let%server </span>, <span class="teletype"> let%shared </span>: same as
+</p><ul><li> <span class="teletype"> let%client </span>, <span class="teletype"> let%server </span>, <span class="teletype"> let%shared </span>: same as
 above for a single definition.
 </li><li> other syntaxes like <span class="teletype"> module%server </span>, <span class="teletype"> open%client </span>,
 <span class="teletype"> type%shared </span> ...
+</li><li> <span class="teletype"> [%%client ... ] </span>: the list of enclosed definitions is
+client-only code (similarly for <span class="teletype"> [%%server ... ] </span>). With
+<span class="teletype"> [%%shared ... ] </span>, the code is used both on the server and client.
 </li><li> <span class="teletype"> [%%client.start] </span>, <span class="teletype"> [%%server.start] </span>,
 <span class="teletype"> [%%shared.start] </span>: these set the default location for all
 definitions that follow, and which do not use the preceding
@@ -293,9 +294,8 @@ drawing primitive is defined in the client-side function called
 client-side function <span class="teletype"> init_client </span>, which just draws a single
 line for now.
 </p><p>Here is the (full) new version of the program:
-</p><pre class="shared" class=""><code class="language-ocaml translatable">(* Modules opened with open%shared are available in client and server-code *)
-open%shared Eliom_content</code></pre><pre class="client" class=""><code class="language-ocaml translatable">open%client Js_of_ocaml
-open%client Js_of_ocaml_lwt</code></pre><pre class="server" class=""><code class="language-ocaml translatable">module%server Graffiti_app =
+</p><pre class="server" class=""><code class="language-ocaml translatable">open%server Eliom_content
+open%server Eliom_content.Html.D</code></pre><pre class="client" class=""><code class="language-ocaml translatable">open%client Js_of_ocaml</code></pre><pre class="server" class=""><code class="language-ocaml translatable">module%server Graffiti_app =
   Eliom_registration.App (
     struct
       let application_name = &quot;graffiti&quot;
@@ -345,10 +345,8 @@ example by using the function <span><a href=".././../../js_of_ocaml/latest/api/j
 <span class="teletype">addEventListener</span>. However, this solution is at least as verbose
 as the JavaScript equivalent, hence not satisfactory. Js_of_ocaml's
 library provides a much easier way to do that with the help of Lwt.
-</p><p>To use this, add
-<span class="teletype">js_of_ocaml-lwt</span> to the <span class="teletype">CLIENT_PACKAGES</span>
-in <span class="teletype">Makefile.options</span>, created by Eliom's distillery:
-</p><pre class="manually-translated"><code class="language-makefile">CLIENT_PACKAGES := ... js_of_ocaml-lwt</code></pre><p>Then, replace the <span class="teletype">init_client</span> of the previous example by the
+</p><p>To use this, add the following line on top of your file:
+</p><pre class="client" class=""><code class="language-ocaml translatable">open%client Js_of_ocaml_lwt</code></pre><p>Then, replace the <span class="teletype">init_client</span> of the previous example by the
 following piece of code, then compile and draw!
 </p><pre class="client" class=""><code class="language-ocaml translatable">let%client init_client () =
 
@@ -473,7 +471,8 @@ values carried by the bus.
   Lwt.return ()
 in</code></pre><p>Finally, to interpret the draw orders read on the bus, we add the
 following line at the end of function <span class="teletype">init_client</span>:
-</p><pre class="client" class=""><code class="language-ocaml translatable">Lwt.async (fun () -&gt; Lwt_stream.iter (draw ctx) (Eliom_bus.stream ~%bus))</code></pre><p>Now you can try the program using two browser windows to see that the
+</p><pre class="client" class=""><code class="language-ocaml translatable">Lwt.async (fun () -&gt;
+    Lwt_stream.iter (draw ctx) (Eliom_bus.stream ~%(bus : (messages, messages) Eliom_bus.t)))</code></pre><p>Now you can try the program using two browser windows to see that the
 lines are drawn on both windows.
 </p><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Communication channels</h5></header><p>Eliom provides multiple ways for the server to send unsolicited data
 to the client:
@@ -494,7 +493,7 @@ of the brush. For the colorpicker we used a widget available in
 </p><p>To install Ocsigen Toolkit, do:
 </p><pre>opam install ocsigen-toolkit
 </pre><p>Add package <span class="teletype">ocsigen-toolkit.server</span> to the <span class="teletype">libraries</span> section of your <span class="teletype">dune</span> file, and <span class="teletype">ocsigen-toolkit.client</span> to the <span class="teletype">libraries</span> section of your <span class="teletype">client/dune</span> file.
-</p><pre class="manually-translated"><code class="language-makefile">(libraries eliom.server ... ocsigen-toolkit.server)</code></pre><p>To create the widget, we replace <span class="teletype">page</span> by :
+</p><p>To create the widget, we replace <span class="teletype">page</span> by :
 </p><pre class="server" class=""><code class="language-ocaml translatable">let%server page () =
   let colorpicker, cp_sig =
     Ot_color_picker.make ~a:[Html.D.a_class [&quot;colorpicker&quot;]] ()

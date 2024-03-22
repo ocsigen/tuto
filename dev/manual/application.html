@@ -300,8 +300,8 @@ open%client Js_of_ocaml_lwt</code></pre><pre class="server" class=""><code class
     struct
       let application_name = &quot;graffiti&quot;
       let global_data_path = None
-    end)</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">let%shared width  = 700
-let%shared height = 400</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client draw ctx ((r, g, b), size, (x1, y1), (x2, y2)) =
+    end)</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server width  = 700
+let%server height = 400</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client draw ctx ((r, g, b), size, (x1, y1), (x2, y2)) =
   let color = CSS.Color.string_of_t (CSS.Color.rgb r g b) in
   ctx##.strokeStyle := (Js.string color);
   ctx##.lineWidth := float size;
@@ -493,11 +493,8 @@ of the brush. For the colorpicker we used a widget available in
 <span><a href=".././../../ocsigen-toolkit/latest/manual/intro">Ocsigen Toolkit</a></span>.
 </p><p>To install Ocsigen Toolkit, do:
 </p><pre>opam install ocsigen-toolkit
-</pre><p>In <span class="teletype">Makefile.options</span>, created by Eliom's distillery, add
-<span class="teletype">ocsigen-toolkit.client</span> and <span class="teletype">ocsigen-toolkit.server</span> to the
-<span class="teletype">CLIENT_PACKAGES</span>:
-</p><pre class="manually-translated"><code class="language-makefile">SERVER_PACKAGES := ... ocsigen-toolkit.server
-CLIENT_PACKAGES := ... ocsigen-toolkit.client</code></pre><p>To create the widget, we replace <span class="teletype">page</span> by :
+</pre><p>Add package <span class="teletype">ocsigen-toolkit.server</span> to the <span class="teletype">libraries</span> section of your <span class="teletype">dune</span> file, and <span class="teletype">ocsigen-toolkit.client</span> to the <span class="teletype">libraries</span> section of your <span class="teletype">client/dune</span> file.
+</p><pre class="manually-translated"><code class="language-makefile">(libraries eliom.server ... ocsigen-toolkit.server)</code></pre><p>To create the widget, we replace <span class="teletype">page</span> by :
 </p><pre class="server" class=""><code class="language-ocaml translatable">let%server page () =
   let colorpicker, cp_sig =
     Ot_color_picker.make ~a:[Html.D.a_class [&quot;colorpicker&quot;]] ()
@@ -596,7 +593,8 @@ arrives. To do that, we will use the
 <a href="https://github.com/Chris00/ocaml-cairo" class="ocsimore_phrasing_link">Cairo binding</a> for OCaml.
 </p><p>For using Cairo, first, make sure that it is installed (it is
 available as <span class="teletype">cairo2</span> via OPAM). Second, add it to the
-<span class="teletype">SERVER_PACKAGES</span> in your <span class="teletype">Makefile.options</span>: </p><pre class="manually-translated"><code class="language-makefile">SERVER_PACKAGES := ... cairo2</code></pre><p>The <span class="teletype">draw_server</span> function below is the equivalent of the
+<span class="teletype">libraries</span> section in your <span class="teletype">dune</span> file.
+</p><p>The <span class="teletype">draw_server</span> function below is the equivalent of the
 <span class="teletype">draw</span> function on the server side and the <span class="teletype">image_string</span>
 function outputs the PNG image in a string.
 </p><pre class="server" class=""><code class="language-ocaml translatable">let%server draw_server, image_string =
@@ -658,7 +656,7 @@ let img = Eliom_content.Html.To_dom.of_img
        ~src:(Html.D.make_uri ~service:~%imageservice ())
        ())
 in
-img##.onload := Dom_html.handler (fun ev -&gt;
+img##.onload := Dom_html.handler (fun _ev -&gt;
   ctx##drawImage img 0. 0.; Js._false);</code></pre><p>Finally, we can add a new canvas where we would draw a visualisation of the
 current size  of the brush. The complete code of this application
 can be found <a href="https://github.com/ocsigen/graffiti/tree/master/simple" class="ocsimore_phrasing_link">here</a>.

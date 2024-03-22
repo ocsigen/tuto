@@ -535,9 +535,14 @@ let%client init_client () =
 >>
 <<code language="ocaml" class="server"|
 let%server main_service =
-  Graffiti_app.create
-    ~path:(Eliom_service.Path [""])
+  Eliom_service.create
+    ~path:(Eliom_service.Path ["graff"])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    ()
+
+let%server () =
+  Graffiti_app.register
+    ~service:main_service
     (fun () () ->
        (* Cf. section "Client side side-effects on the server" *)
        let _ = [%client (init_client () : unit) ] in
@@ -810,8 +815,14 @@ lines are drawn on both windows.
   Eliom provides multiple ways for the server to send unsolicited data
   to the client:
 
-* <<a_api project="eliom" subproject="server"
-  | type Eliom_bus.t >> are broadcasting channels where
+* Module <<a_api project="eliom" subproject="server" | module Eliom_notif >>
+  (or <<a_api project="Ocsigen-start" subproject="server" | module Os_notif >>
+  if you are using Ocsigen Start) provides a very simple way to send messages to
+  clients. It's probably the solution you will use most of the times.
+* You can use <<a_api project="eliom" subproject="server"
+  | type Eliom_bus.t >> instead, as in this example, in the particular case
+  when you need to broadcast data to all connected clients. Buses are
+  broadcasting channels where
   client and server can participate (see also <<a_api project="eliom"
   subproject="client" | type Eliom_bus.t >> in the client
   API).
@@ -850,6 +861,12 @@ opam install ocsigen-toolkit
 
 Add package {{{ocsigen-toolkit.server}}} to the {{{libraries}}} section of your {{{dune}}} file, and {{{ocsigen-toolkit.client}}} to the {{{libraries}}} section of your {{{client/dune}}} file.
 
+In {{{Makefile.options}}}, created by Eliom's distillery, add
+{{{ocsigen-toolkit.server}}} to the {{{SERVER_PACKAGES}}}:
+<<code language="makefile"|
+SERVER_PACKAGES := ... ocsigen-toolkit.server
+>>
+
 To create the widget, we replace {{{page}}} by :
 
 <<code language="ocaml" class="server"|
@@ -866,7 +883,7 @@ let%server page () =
   , cp_sig )
 >>
 
-Replace {{{main_service}}} by:
+Replace the registration of {{{main_service}}} by:
 
 <<code language="ocaml" class="server"|
 let%server () =
@@ -930,22 +947,22 @@ let%server page () =
   let colorpicker, cp_sig =
     Ot_color_picker.make ~a:[Html.D.a_class ["colorpicker"]] ()
   in
-  ( Html.D.html
-      (Html.D.head
-         (Html.D.title (Html.D.txt "Graffiti"))
-         [ Html.D.css_link
+  ( html
+      (head
+         (title (Html.D.txt "Graffiti"))
+         [ css_link
              ~uri:
                (Html.D.make_uri
                   ~service:(Eliom_service.static_dir ())
                   ["css"; "graffiti.css"])
              ()
-         ; Html.D.css_link
+         ; css_link
              ~uri:
-               (Html.D.make_uri
+               (make_uri
                   ~service:(Eliom_service.static_dir ())
                   ["css"; "ot_color_picker.css"])
              () ])
-      (Html.D.body [canvas_elt; slider; colorpicker])
+      (body [canvas_elt; slider; colorpicker])
   , cp_sig )
 >>
 
@@ -1006,6 +1023,11 @@ arrives. To do that, we will use the
 For using Cairo, first, make sure that it is installed (it is
 available as {{{cairo2}}} via OPAM). Second, add it to the
 {{{libraries}}} section in your {{{dune}}} file.
+
+Second, add it to the SERVER_PACKAGES in your Makefile.options:
+<<code language="makefile"|
+SERVER_PACKAGES := ... cairo2
+>>
 
 The {{{draw_server}}} function below is the equivalent of the
 {{{draw}}} function on the server side and the {{{image_string}}}
@@ -1087,12 +1109,19 @@ in {{{init_client}}}:
 <<code language="ocaml" class="server"|
 (* The initial image: *)
 let img = Eliom_content.Html.To_dom.of_img
-    (Html.D.img ~alt:"canvas"
-       ~src:(Html.D.make_uri ~service:~%imageservice ())
+    (img ~alt:"canvas"
+       ~src:(make_uri ~service:~%imageservice ())
        ())
 in
 img##.onload := Dom_html.handler (fun _ev ->
   ctx##drawImage img 0. 0.; Js._false);
+>>
+
+As we are now using {{{Eliom_content.Html.D}}} in both client and server sections,
+we need to open it in a shared section:
+
+<<code language="ocaml" class="shared"|
+open%shared Eliom_content.Html.D
 >>
 
 Finally, we can add a new canvas where we would draw a visualisation of the

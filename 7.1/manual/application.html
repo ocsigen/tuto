@@ -321,9 +321,14 @@ let%server page () =
   let ctx = canvas##(getContext (Dom_html._2d_)) in
   ctx##.lineCap := Js.string &quot;round&quot;;
   draw ctx ((0, 0, 0), 12, (10, 10), (200, 100))</code></pre><pre class="server" class=""><code class="language-ocaml translatable">let%server main_service =
-  Graffiti_app.create
-    ~path:(Eliom_service.Path [&quot;&quot;])
+  Eliom_service.create
+    ~path:(Eliom_service.Path [&quot;graff&quot;])
     ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    ()
+
+let%server () =
+  Graffiti_app.register
+    ~service:main_service
     (fun () () -&gt;
        (* Cf. section &quot;Client side side-effects on the server&quot; *)
        let _ = [%client (init_client () : unit) ] in
@@ -476,7 +481,13 @@ following line at the end of function <span class="teletype">init_client</span>:
 lines are drawn on both windows.
 </p><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Communication channels</h5></header><p>Eliom provides multiple ways for the server to send unsolicited data
 to the client:
-</p><ul><li> <span><a href=".././../../eliom/latest/api/server/Eliom_bus#TYPEt">Eliom_bus.t</a></span> are broadcasting channels where
+</p><ul><li> Module <span><a href=".././../../eliom/latest/api/server/Eliom_notif">Eliom_notif</a></span>
+(or <span><a href=".././../../Ocsigen-start/latest/api/server/Os_notif">Os_notif</a></span>
+if you are using Ocsigen Start) provides a very simple way to send messages to
+clients. It's probably the solution you will use most of the times.
+</li><li> You can use <span><a href=".././../../eliom/latest/api/server/Eliom_bus#TYPEt">Eliom_bus.t</a></span> instead, as in this example, in the particular case
+when you need to broadcast data to all connected clients. Buses are
+broadcasting channels where
 client and server can participate (see also <span><a href=".././../../eliom/latest/api/client/Eliom_bus#TYPEt">Eliom_bus.t</a></span> in the client
 API).
 </li><li> <span><a href=".././../../eliom/latest/api/server/Eliom_react">Eliom_react</a></span> allows sending
@@ -493,7 +504,9 @@ of the brush. For the colorpicker we used a widget available in
 </p><p>To install Ocsigen Toolkit, do:
 </p><pre>opam install ocsigen-toolkit
 </pre><p>Add package <span class="teletype">ocsigen-toolkit.server</span> to the <span class="teletype">libraries</span> section of your <span class="teletype">dune</span> file, and <span class="teletype">ocsigen-toolkit.client</span> to the <span class="teletype">libraries</span> section of your <span class="teletype">client/dune</span> file.
-</p><p>To create the widget, we replace <span class="teletype">page</span> by :
+</p><p>In <span class="teletype">Makefile.options</span>, created by Eliom's distillery, add
+<span class="teletype">ocsigen-toolkit.server</span> to the <span class="teletype">SERVER_PACKAGES</span>:
+</p><pre class="manually-translated"><code class="language-makefile">SERVER_PACKAGES := ... ocsigen-toolkit.server</code></pre><p>To create the widget, we replace <span class="teletype">page</span> by :
 </p><pre class="server" class=""><code class="language-ocaml translatable">let%server page () =
   let colorpicker, cp_sig =
     Ot_color_picker.make ~a:[Html.D.a_class [&quot;colorpicker&quot;]] ()
@@ -504,7 +517,7 @@ of the brush. For the colorpicker we used a widget available in
       (Html.D.body [h1 [txt &quot;Graffiti&quot;]
                    ; canvas_elt
                    ; colorpicker])
-  , cp_sig )</code></pre><p>Replace <span class="teletype">main_service</span> by:
+  , cp_sig )</code></pre><p>Replace the registration of <span class="teletype">main_service</span> by:
 </p><pre class="server" class=""><code class="language-ocaml translatable">let%server () =
   Graffiti_app.register ~service:main_service
     (fun () () -&gt;
@@ -548,22 +561,22 @@ with function <span><a href=".././../../eliom/latest/api/server/Eliom_tools.D#VA
   let colorpicker, cp_sig =
     Ot_color_picker.make ~a:[Html.D.a_class [&quot;colorpicker&quot;]] ()
   in
-  ( Html.D.html
-      (Html.D.head
-         (Html.D.title (Html.D.txt &quot;Graffiti&quot;))
-         [ Html.D.css_link
+  ( html
+      (head
+         (title (Html.D.txt &quot;Graffiti&quot;))
+         [ css_link
              ~uri:
                (Html.D.make_uri
                   ~service:(Eliom_service.static_dir ())
                   [&quot;css&quot;; &quot;graffiti.css&quot;])
              ()
-         ; Html.D.css_link
+         ; css_link
              ~uri:
-               (Html.D.make_uri
+               (make_uri
                   ~service:(Eliom_service.static_dir ())
                   [&quot;css&quot;; &quot;ot_color_picker.css&quot;])
              () ])
-      (Html.D.body [canvas_elt; slider; colorpicker])
+      (body [canvas_elt; slider; colorpicker])
   , cp_sig )</code></pre><p>You need to install the corresponding stylesheets and images into your
 project. The stylesheet files should go to the directory
 <span class="teletype">static/css</span>.
@@ -593,7 +606,8 @@ arrives. To do that, we will use the
 </p><p>For using Cairo, first, make sure that it is installed (it is
 available as <span class="teletype">cairo2</span> via OPAM). Second, add it to the
 <span class="teletype">libraries</span> section in your <span class="teletype">dune</span> file.
-</p><p>The <span class="teletype">draw_server</span> function below is the equivalent of the
+</p><p>Second, add it to the SERVER_PACKAGES in your Makefile.options:
+</p><pre class="manually-translated"><code class="language-makefile">SERVER_PACKAGES := ... cairo2</code></pre><p>The <span class="teletype">draw_server</span> function below is the equivalent of the
 <span class="teletype">draw</span> function on the server side and the <span class="teletype">image_string</span>
 function outputs the PNG image in a string.
 </p><pre class="server" class=""><code class="language-ocaml translatable">let%server draw_server, image_string =
@@ -651,12 +665,14 @@ the following lines just after the creation of the canvas context
 in <span class="teletype">init_client</span>:
 </p><pre class="server" class=""><code class="language-ocaml translatable">(* The initial image: *)
 let img = Eliom_content.Html.To_dom.of_img
-    (Html.D.img ~alt:&quot;canvas&quot;
-       ~src:(Html.D.make_uri ~service:~%imageservice ())
+    (img ~alt:&quot;canvas&quot;
+       ~src:(make_uri ~service:~%imageservice ())
        ())
 in
 img##.onload := Dom_html.handler (fun _ev -&gt;
-  ctx##drawImage img 0. 0.; Js._false);</code></pre><p>Finally, we can add a new canvas where we would draw a visualisation of the
+  ctx##drawImage img 0. 0.; Js._false);</code></pre><p>As we are now using <span class="teletype">Eliom_content.Html.D</span> in both client and server sections,
+we need to open it in a shared section:
+</p><pre class="shared" class=""><code class="language-ocaml translatable">open%shared Eliom_content.Html.D</code></pre><p>Finally, we can add a new canvas where we would draw a visualisation of the
 current size  of the brush. The complete code of this application
 can be found <a href="https://github.com/ocsigen/graffiti/tree/master/simple" class="ocsimore_phrasing_link">here</a>.
 </p><p>The <span class="teletype">Makefile</span> from the distillery automatically adds

@@ -62,7 +62,8 @@ Ocsigen Server can be used either as a library for you OCaml programs, or as
 an executable, taking its configuration from a file (and with dynamic linking).
 
 Extensions add features to the server. For example, Staticmod makes it possible
-to serve static files, Deflatemod to compress the output, etc.
+to serve static files, Deflatemod to compress the output, Redirectmod to
+configure redirections etc.
 
 Install Ocsigen Server with:
 {{{

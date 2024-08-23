@@ -63,6 +63,71 @@ To learn Lwt, read this [[lwt|short tutorial]], or its [[wiki("lwt"):|user manua
 >>
 
 <<section class="docblock" |
+<<header |==Ocsigen Server: A full featured extensible Web server in OCaml==>>
+Ocsigen Server can be used either as a library for you OCaml programs, or as
+an executable, taking its configuration from a file (and with dynamic linking).
+
+Extensions add features to the server. For example, Staticmod makes it possible
+to serve static files, Deflatemod to compress the output, Redirectmod to
+configure redirections etc.
+
+Install Ocsigen Server with:
+{{{
+opam install ocsigenserver
+}}}
+
+===Use as a library===
+
+To include a Web server in your OCaml program, just add
+package {{{ocsigenserver}}} to your Dune file, together with all the extensions
+you need. For example:
+
+{{{
+(executable
+ (public_name ooo)
+ (name main)
+ (libraries
+  ocsigenserver
+  ocsigenserver.ext.staticmod))
+}}}
+
+Do
+{{{dune init project ooo}}}
+Then copy the dune file in directory {{{bin/}}}.
+
+The following command will launch a server, serving static files from 
+directory {{{static}}}:
+<<code language="ocaml"|
+let () = 
+  Ocsigen_server.start [ Ocsigen_server.host [Staticmod.run ~dir:"static" ()]]
+>>
+Put this in file {{{main.ml}}}, and run {{{dune exec ooo}}}.
+
+By default, the server runs on port 8080.
+
+===Use as an executable===
+Alternatively, you can run command {{{ocsigenserver}}} with a configuration
+file:
+{{{
+ocsigenserver -c ooo.conf
+}}}
+
+The following configuration file corresponds to the program above:
+{{{
+<ocsigen>
+  <server>
+    <port>8080</port>
+    <extension findlib-package="ocsigenserver.ext.staticmod"/>
+    <host>
+      <static dir="static" />
+    </host>
+  </server>
+</ocsigen>
+}}}
+
+>>
+
+<<section class="docblock" |
 <<header |==Eliom: Services==>>
 The following code shows how to create a service that answers
 for requests at URL {{{http://.../aaa/bbb}}}, by invoking an
@@ -106,9 +171,56 @@ HTML as strings. But we recommend to used typed-HTML instead (see below).
 <<section class="docblock" |
 <<header |==Compiling==>>
 
-Eliom provides an helper program called {{{eliom-distillery}}} to create your projects easily, with the right dune configuration and all default directories you usually need for a Web application (static files, server logs, database, etc.). We will show how to use eliom-distillery in another section below.
-
 In this section, we will show how to compile and run a //server-side only// Web site by creating your project manually.
+
+First, create the directories will we use for data (logs, etc.):
+{{{
+mkdir -p local/var/log/mysite
+mkdir -p local/var/data/mysite
+mkdir -p local/var/run
+}}}
+
+===Build an executable===
+This section shows how to create a static executable for you program
+(without configuration file).
+
+Run the following commands:
+{{{
+opam install ocsipersist-sqlite eliom
+dune init project mysite
+cd mysite
+}}}
+
+Add packages {{{ocsigenserver.ext.staticmod}}},
+{{{ocsipersist.sqlite}}} and {{{eliom.server}}} to your file
+{{{bin/dune}}},
+in the "libraries" section.
+
+Copy the definition and registration of service {{{myservice}}} above
+into file {{{bin/main.ml}}},
+and add the following lines to configure and run the server:
+
+<<code language="ocaml"|
+let () = 
+  Ocsigen_server.start 
+    ~command_pipe:"local/var/run/mysite-cmd"
+    [
+      Ocsigen_server.host
+       [ Staticmod.run ~dir:"local/var/www/mysite" ()
+       ; Eliom.run () ]
+    ]
+>>
+
+Build and execute the program with:
+{{{
+dune exec mysite
+}}}
+
+Open URL {{{http://localhost:8080/aaa/bbb}}} with your browser.
+
+===Use with ocsigenserver===
+Alternatively, you can decide to build your Eliom app as a library and 
+load it dynamically into ocsigenserver.
 
 {{{
 opam install ocsipersist-sqlite eliom
@@ -116,7 +228,7 @@ dune init proj --kind=lib mysite
 cd mysite
 }}}
 
-Add {{{(libraries eliom.server)}}} into file {{{lib/dune}}}, in the library section.
+Add {{{(libraries eliom.server)}}} into file {{{lib/dune}}}.
 
 Create your {{{.ml}}} files in directory {{{lib}}}.
 For example, copy the definition and registration of service {{{myservice}}} above.
@@ -126,7 +238,8 @@ Compile:
 dune build
 }}}
 
-Create a configuration file {{{mysite.conf}}} with this content on your project root directory:
+Create a configuration file {{{mysite.conf}}}
+with this content on your project root directory:
 {{{
 <ocsigen>
   <server>
@@ -138,24 +251,15 @@ Create a configuration file {{{mysite.conf}}} with this content on your project 
 
     <commandpipe>local/var/run/mysite-cmd</commandpipe>
     <extension findlib-package="ocsigenserver.ext.staticmod"/>
-    <extension findlib-package="ocsipersist.sqlite"/>
-    <extension findlib-package="eliom.server">
-      <ignoredgetparams regexp="utm_[a-z]*|[a-z]*clid|li_fat_id"/>
-    </extension>
+    <extension findlib-package="ocsipersist-sqlite"/>
+    <extension findlib-package="eliom.server"/>
     <host hostfilter="*">
-      <static dir="static" />
-      <static dir="local/var/www/mysite/eliom" />
+      <static dir="local/var/www/mysite" />
       <eliommodule module="_build/default/lib/mysite.cma" />
       <eliom/>
     </host>
   </server>
 </ocsigen>
-}}}
-Create the missing directories:
-{{{
-mkdir -p local/var/log/mysite
-mkdir -p local/var/data/mysite
-mkdir -p local/var/run
 }}}
 Launch the application:
 {{{

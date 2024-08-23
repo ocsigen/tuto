@@ -72,22 +72,21 @@ opam install ocsigenserver
 
 ===Use as a library===
 
+Let's create a new OCaml project with Dune:
+{{{dune init project mysite}}}
+
 To include a Web server in your OCaml program, just add
 package {{{ocsigenserver}}} to your Dune file, together with all the extensions
-you need. For example:
+you need. For example, modify file {{{bin/dune}}} like this:
 
 {{{
 (executable
- (public_name ooo)
+ (public_name mysite)
  (name main)
  (libraries
   ocsigenserver
   ocsigenserver.ext.staticmod))
 }}}
-
-Do
-{{{dune init project ooo}}}
-Then copy the dune file in directory {{{bin/}}}.
 
 The following command will launch a server, serving static files from 
 directory {{{static}}}:
@@ -95,15 +94,16 @@ directory {{{static}}}:
 let () = 
   Ocsigen_server.start [ Ocsigen_server.host [Staticmod.run ~dir:"static" ()]]
 >>
-Put this in file {{{main.ml}}}, and run {{{dune exec ooo}}}.
+Put this in file {{{bin/main.ml}}}, and run {{{dune exec mysite}}}.
 
-By default, the server runs on port 8080.
+By default, the server runs on port 8080. Create a {{{static}}} directory
+with some files and try to fetch them using your Web browser.
 
 ===Use as an executable===
 Alternatively, you can run command {{{ocsigenserver}}} with a configuration
 file:
 {{{
-ocsigenserver -c ooo.conf
+ocsigenserver -c mysite.conf
 }}}
 
 The following configuration file corresponds to the program above:
@@ -345,26 +345,25 @@ mkdir -p local/var/run
 This section shows how to create a static executable for you program
 (without configuration file).
 
-Run the following commands:
+Run the following command:
 {{{
-opam install ocsipersist-sqlite eliom
-dune init project mysite
-cd mysite
+opam install ocsipersist-sqlite-config eliom
 }}}
 
-Add packages {{{ocsigenserver.ext.staticmod}}},
-{{{ocsipersist.sqlite}}} and {{{eliom.server}}} to your file
-{{{bin/dune}}},
-in the "libraries" section.
+Add packages {{{ocsipersist-sqlite}}} and {{{eliom.server}}} to file
+{{{bin/dune}}}, in the "libraries" section.
 
-Copy the definition and registration of service {{{myservice}}} above
-into file {{{bin/main.ml}}},
-and add the following lines to configure and run the server:
+Copy the definition and registration of service {{{myservice}}} at the beginning 
+of file {{{bin/main.ml}}},
+and replace the call to {{{Ocsigen_server.start}}} by the following lines:
 
 <<code language="ocaml"|
 let () = 
   Ocsigen_server.start 
     ~command_pipe:"local/var/run/mysite-cmd"
+    ~logdir:"local/var/log/mysite"
+    ~datadir:"local/var/data/mysite"
+    ~default_charset:(Some "utf-8")
     [
       Ocsigen_server.host
        [ Staticmod.run ~dir:"local/var/www/mysite" ()
@@ -381,10 +380,10 @@ Open URL {{{http://localhost:8080/foo?myparam=Hello&i=27}}} with your browser.
 
 ===Use with ocsigenserver===
 Alternatively, you can decide to build your Eliom app as a library and 
-load it dynamically into ocsigenserver.
+load it dynamically into ocsigenserver using a configuration file.
 
 {{{
-opam install ocsipersist-sqlite eliom
+opam install ocsipersist-sqlite-config eliom
 dune init proj --kind=lib mysite
 cd mysite
 }}}

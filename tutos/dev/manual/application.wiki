@@ -816,7 +816,7 @@ lines are drawn on both windows.
   to the client:
 
 * Module <<a_api project="eliom" subproject="server" | module Eliom_notif >>
-  (or <<a_api project="Ocsigen-start" subproject="server" | module Os_notif >>
+  (or <<a_api project="ocsigen-start" subproject="server" | module Os_notif >>
   if you are using Ocsigen Start) provides a very simple way to send messages to
   clients. It's probably the solution you will use most of the times.
 * You can use <<a_api project="eliom" subproject="server"
@@ -861,8 +861,16 @@ opam install ocsigen-toolkit
 
 Add package {{{ocsigen-toolkit.server}}} to the {{{libraries}}} section of your {{{dune}}} file, and {{{ocsigen-toolkit.client}}} to the {{{libraries}}} section of your {{{client/dune}}} file.
 
+{{{
+  (libraries ... ocsigen-toolkit.server)
+}}}
+{{{
+  (libraries ... ocsigen-toolkit.client)
+}}}
+
 In {{{Makefile.options}}}, created by Eliom's distillery, add
-{{{ocsigen-toolkit.server}}} to the {{{SERVER_PACKAGES}}}:
+{{{ocsigen-toolkit.server}}} to the {{{SERVER_PACKAGES}}}.
+This will be used to regenerate Ocsigen Server's configuration file.
 <<code language="makefile"|
 SERVER_PACKAGES := ... ocsigen-toolkit.server
 >>

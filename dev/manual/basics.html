@@ -85,23 +85,23 @@ to serve static files, Deflatemod to compress the output, Redirectmod to
 configure redirections etc.
 </p><p>Install Ocsigen Server with:
 </p><pre>opam install ocsigenserver
-</pre><h3>Use as a library</h3><p>To include a Web server in your OCaml program, just add
+</pre><h3>Use as a library</h3><p>Let's create a new OCaml project with Dune:
+<span class="teletype">dune init project mysite</span>
+</p><p>To include a Web server in your OCaml program, just add
 package <span class="teletype">ocsigenserver</span> to your Dune file, together with all the extensions
-you need. For example:
+you need. For example, modify file <span class="teletype">bin/dune</span> like this:
 </p><pre>(executable
  (public_name mysite)
  (name main)
  (libraries
   ocsigenserver
   ocsigenserver.ext.staticmod))
-</pre><p>Do
-<span class="teletype">dune init project mysite</span>
-Then copy the dune file in directory <span class="teletype">bin/</span>.
-</p><p>The following command will launch a server, serving static files from 
+</pre><p>The following command will launch a server, serving static files from 
 directory <span class="teletype">static</span>:
 </p><pre class=""><code class="language-ocaml translatable">let () = 
-  Ocsigen_server.start [ Ocsigen_server.host [Staticmod.run ~dir:&quot;static&quot; ()]]</code></pre><p>Put this in file <span class="teletype">main.ml</span>, and run <span class="teletype">dune exec mysite</span>.
-</p><p>By default, the server runs on port 8080.
+  Ocsigen_server.start [ Ocsigen_server.host [Staticmod.run ~dir:&quot;static&quot; ()]]</code></pre><p>Put this in file <span class="teletype">bin/main.ml</span>, and run <span class="teletype">dune exec mysite</span>.
+</p><p>By default, the server runs on port 8080. Create a <span class="teletype">static</span> directory
+with some files and try to fetch them using your Web browser.
 </p><h3>Use as an executable</h3><p>Alternatively, you can run command <span class="teletype">ocsigenserver</span> with a configuration
 file:
 </p><pre>ocsigenserver -c mysite.conf
@@ -232,8 +232,8 @@ mkdir -p local/var/run
 </pre><h3>Build an executable</h3><p>This section shows how to create a static executable for you program
 (without configuration file).
 </p><p>Run the following command:
-</p><pre>opam install ocsipersist-sqlite eliom
-</pre><p>Add packages <span class="teletype">ocsipersist.sqlite</span> and <span class="teletype">eliom.server</span> to file
+</p><pre>opam install ocsipersist-sqlite-config eliom
+</pre><p>Add packages <span class="teletype">ocsipersist-sqlite</span> and <span class="teletype">eliom.server</span> to file
 <span class="teletype">bin/dune</span>, in the &quot;libraries&quot; section.
 </p><p>Copy the definition and registration of service <span class="teletype">myservice</span> at the beginning 
 of file <span class="teletype">bin/main.ml</span>,
@@ -243,6 +243,7 @@ and replace the call to <span class="teletype">Ocsigen_server.start</span> by th
     ~command_pipe:&quot;local/var/run/mysite-cmd&quot;
     ~logdir:&quot;local/var/log/mysite&quot;
     ~datadir:&quot;local/var/data/mysite&quot;
+    ~default_charset:(Some &quot;utf-8&quot;)
     [
       Ocsigen_server.host
        [ Staticmod.run ~dir:&quot;local/var/www/mysite&quot; ()
@@ -252,7 +253,7 @@ and replace the call to <span class="teletype">Ocsigen_server.start</span> by th
 </pre><p>Open URL <span class="teletype">http://localhost:8080/foo?myparam=Hello&amp;i=27</span> with your browser.
 </p><h3>Use with ocsigenserver</h3><p>Alternatively, you can decide to build your Eliom app as a library and 
 load it dynamically into ocsigenserver using a configuration file.
-</p><pre>opam install ocsipersist-sqlite eliom
+</p><pre>opam install ocsipersist-sqlite-config eliom
 dune init proj --kind=lib mysite
 cd mysite
 </pre><p>Add <span class="teletype">(libraries eliom.server)</span> into file <span class="teletype">lib/dune</span>.

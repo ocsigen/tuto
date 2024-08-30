@@ -4,7 +4,7 @@ If you have client-side programs on your website, you can use Eliom's client-ser
 
 === Include the script on the html header
 
-Javascript scripts are included in the header using the **js_script** function (defined in <<a_api project="eliom" subproject="server"|val Eliom_content.Html.D>>).
+Javascript scripts are included in the header using the **js_script** function (defined in <<a_api project="eliom" subproject="server"| module Eliom_content.Html.D>>).
 
 <<code language="ocaml"|
 open Eliom_content.Html.D (* for make_uri an js_script *)
@@ -16,7 +16,7 @@ js_script
 >>
 This function has 2 parameters: the file path and unit.
 
-The file path is generated using the **make_uri** function (from <<a_api project="eliom" subproject="server"|val Eliom_content.Html.D>> module). This function creates the relative URL string using the static directory (which is a service) configured in the configuration file and the given list.
+The file path is generated using the **make_uri** function (from <<a_api project="eliom" subproject="server"| module Eliom_content.Html.D>> module). This function creates the relative URL string using the static directory (which is a service) configured in the configuration file and the given list.
 
 Insert this piece of code on the list given in parameter to the **head** function.
 

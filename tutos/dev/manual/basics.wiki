@@ -1,5 +1,7 @@
 =Client-server application programming guide=
 
+This tutorial has been tested with Eliom 11.0.0.
+
 This page describes the main concepts you need to master to become fully operational
 with Ocsigen. Use it as your training plan or as a cheatcheet while programming.
 
@@ -792,12 +794,15 @@ the demo included in
 Compiling a client-server app requires a dedicated build system,
 which will separate server-side and client-side code, compile each side,
 and check types.
+To make things easier, Eliom provides several application templates
+containing the build system.
 
-Eliom provides two build-systems:
- * One based on dune
- * One with make
+For this tutorial, we recommend to create a project with Ocsigen Start's template.
+Ocsigen Start provides a ready to go app with many code samples you can use to learn.
+It also provides user management (create an account, recover lost password, etc.).
+If you plan to build an app with these features, Ocsigen Start is a good basis.
 
-To get the dune-based build-system, create a project with Ocsigen-Start's template. Install Ocsigen-Start:
+Install Ocsigen Start:
 {{{
 opam install ocsigen-start
 }}}
@@ -808,11 +813,21 @@ eliom-distillery -template os.pgocaml -name myapp
 It contains by default some code examples that you can remove or adapt to your own needs.
 Have a look at the {{{README}}} file.
 
-If you don't want to use Ocsigen-Start, you can use the basic template:
+If you don't want to use Ocsigen Start, you can use one of the basic templates:
 {{{
-eliom-distillery -template client-server.basic -name myapp
+eliom-distillery -template app.exe -name myapp
 }}}
+(to build a static executable without config file)
+or
+{{{
+eliom-distillery -template app.lib -name myapp
+}}}
+(to build your app as a library that will be loaded dynamically in Ocsigen Server using a config file).
+
 Have a look at the {{{README}}} file.
+
+If these templates are not available, you are probably using an old version of Eliom.
+Try to upgrade, or use old template names (see {{{eliom-distillery -list-templates}}}).
 
 >>
 

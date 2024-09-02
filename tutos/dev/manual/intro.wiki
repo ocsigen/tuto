@@ -53,16 +53,15 @@ new programming techniques to become autonomous.
 Depending on your level and goals, we suggest to continue by reading
 some of the following chapters:
 
-* Chapter [[wiki:manual/basics|All Ocsigen in one page]] can be used as your training plan.
+* Chapter [[wiki:manual/basics|Client-server application programming guide]] can be used as your training plan.
 It provides a wide overview of each main concept, with links to more detailed
 documentation.
+* If you want to start with a server-side only Web site, read [[wiki:manual/basics-server|Server-side website programming guide]] instead.
 * Then, a good starting point is this
 [[wiki:manual/start|Ocsigen Start tutorial]],
 if you plan to build a client-server Web (and/or mobile) app.
 It will help you to build your first app very quickly,
 with many code samples to study.
-* [[wiki:manual/basics-server|The website programing guide]] explains how to write a
-website in OCaml, if you don't plan to have client-side features yet
 * If you are fluent in OCaml and want a quick introduction to
 client-server Web programming with Eliom,
 read tutorial

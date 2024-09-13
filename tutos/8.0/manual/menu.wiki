@@ -1,0 +1,73 @@
+= Programmer's guide
+==[[intro|Introduction. Ocsigen: where to start?]]
+==[[basics|Client-server application programming guide]]
+==[[basics-server|Server-side website programming guide]]
+= Main tutorials
+==[[site:/install|Install Ocsigen]]
+==[[start|Your first app in 5 minutes]]
+==[[application|Client/server application: Graffiti]]
+==[[tutowidgets|Eliom apps basics: writing client-server widgets]]
+==[[how-to-register-session-data|Session data: Eliom references]]
+==[[tutoreact|Reactive client-server Web applications]]
+==[[interaction|Service based Web programming]]
+==[[misc|Mixing traditional Web interaction with client-server app]]
+= 5-minute tutorials
+==[[lwt|Lwt]]
+==[[html|HTML]]
+= Other tutorials: Miscellanous features
+==[[mobile|Mobile applications with Ocsigen]]
+==[[custom-conf|Custom configuration]]
+==[[rest|RESTful JSON API]]
+==[[ocsipersist|Persistent tables with Ocsipersist]]
+= Improving Graffiti
+==[[pictures|Download pictures]]
+==[[music|Playing music]]
+==[[reactivemediaplayer|Reactive media player]]
+=@@class="howto"@@ HOW-TO
+== My first steps with Ocsigen
+===[[how-to-make-hello-world-in-ocsigen|How to make "hello world" in Ocsigen]]
+===[[how-to-compile-my-ocsigen-pages|How to compile my Ocsigen pages]]
+===[[how-to-configure-and-launch-the-ocsigen-server|How to configure and launch the Ocsigen Server]]
+===[[how-does-a-page-s-source-code-look|How does a client-server app source code look like?]]
+== How to put some elements in my page ?
+===[[how-to-make-page-a-skeleton|How to make a page skeleton]]
+===[[how-to-use-get-parameters-or-parameters-in-the-url|How to use GET parameters (parameters in the URL)]]
+===[[how-to-add-css-stylesheet|How to add CSS stylesheet]]
+===[[how-to-add-a-javascript-script|How to add a Javascript script]]
+<<|===[[how-to-add-a-favicon|How to add a Favicon]] >>
+===[[how-to-add-a-div|How to add a div]]
+===[[how-to-add-a-list|How to add lists in pages?]]
+===[[how-to-add-an-image|How to add an image]]
+===[[how-to-write-titles-and-paragraphs|How to write titles and paragraphs]]
+===[[how-to-set-and-id-classes-or-other-attributes-to-html-elements|How to set and id, classes or other attributes to HTML elements]]
+===[[how-to-add-a-select-or-other-form-element|How to add select (or other form element)]]
+===[[how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service|How to insert "raw" form elements (not belonging to a form towards a service)]]
+===[[how-to-make-responsive-css|How to make responsive CSS]]
+== Services
+===[[how-to-do-links-to-other-pages|How to do links to other pages]]
+===[[how-to-write-forms|How to write forms]]
+===[[how-to-register-a-service-that-decides-itself-what-to-send|How to register a service that decides itself what to send]]
+===[[how-to-create-link-to-a-current-page-without-knowing-its-url|How to create link to a current page (without knowing its URL)]]
+===[[how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones|How to create form wizard (sequence of pages depending on data entered on previous ones)]]
+===[[how-to-write-a-json-service|How to write a JSON service]]
+===[[how-to-send-file-download|How to send a file (download)]]
+===[[how-to-send-file-upload|How to send a file (upload)]]
+== Js_of_ocaml
+===[[how-to-attach-ocaml-values-to-dom-elements|How to attach OCaml values to DOM elements]]
+===[[how-to-know-whether-the-browser-window-has-the-focus-or-not|How to know whether the browser window has the focus or not]]
+===[[how-to-build-js-object|How to build js object]]
+===[[how-to-stop-default-behaviour-of-events|How to stop default behaviour of events]]
+===[[how-to-call-an-ocaml-function-from-js-code|How to call an OCaml function from js code]]
+== Eliom client-server applications
+===[[how-to-call-a-server-side-function-from-client-side|How to call a server-side function from the client side]]
+===[[how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page|How to make the client side program get an HTML element from the server and insert it in the page]]
+===[[how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client|How to attach OCaml values to the HTML nodes sent to the client]]
+===[[how-to-iterate-on-all-sessions-for-one-user-or-all-tabs|How to iterate on all sessions for one user, or all tabs]]
+===[[how-to-implement-a-notification-system|How to implement a notification system]]
+===[[how-to-send-a-file-to-server-without-stopping-the-client-process|How to send a file to server without stopping the client process]]
+===[[how-to-detect-channel-disconnection|How to detect channel disconnection]]
+===[[how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed|How to detect on client side that the server side state for the process is closed]]
+== Eliom Server side
+===[[how-do-i-create-a-cryptographically-safe-identifier|How do I create a Cryptographically safe identifier]]
+===[[hash-password|Protecting passwords]]
+>>

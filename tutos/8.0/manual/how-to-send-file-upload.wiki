@@ -1,0 +1,63 @@
+=How to send a file (upload)?=
+
+To upload a file, use {{{Eliom_parameter.file}}} as service parameter type.
+
+Ocsigen server will save the file at a temporary location and keep it
+there during the request.  Then the file will be removed.  You must
+link it somewhere else on the disk yourself if you want to keep it.
+
+Be careful also to set the right option in Ocsigen server's configuration file.
+For example:
+<<code|
+<ocsigen>
+  <server>
+    <uploaddir>/var/www/tmp</uploaddir>
+    <maxuploadfilesize>2MB</maxuploadfilesize>
+    <maxrequestbodysize>100MB</maxrequestbodysize>
+  </server>
+</ocsigen>
+>>
+
+Example with Eliom_content.Html.D module opened:
+<<code language="ocaml"|
+
+let upload = Eliom_service.create
+    ~path:(Eliom_service.Path ["upload"])
+    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    ()
+
+let upload2 =
+  Eliom_registration.Html.create
+    ~path:(Eliom_service.Path ["upload"])
+    ~meth:(Eliom_service.Post
+             (Eliom_parameter.unit,
+              Eliom_parameter.file "file"))
+    (fun () file ->
+      let newname = "/var/www/upload/thefile" in
+      (try
+        Unix.unlink newname;
+      with _ -> ());
+      let%lwt () =
+        Lwt_unix.link (Eliom_request_info.get_tmp_filename file) newname
+      in
+      Lwt.return
+        (html
+           (head (title (txt "Upload")) [])
+           (body [h1 [txt "ok"]])))
+
+
+let uploadform =
+  Eliom_registration.Html.register ~service:upload
+    (fun () () ->
+      let f =
+        (Form.post_form ~service:upload2
+           (fun file ->
+             [p [Form.file_input ~name:file ();
+                 br ();
+                 Form.input ~input_type:`Submit ~value:"Send" Form.string
+               ]]) ()) in
+      Lwt.return
+        (html
+           (head (title (txt "form")) [])
+           (body [f])))
+>>

@@ -1,0 +1,42 @@
+=How to add a select (or other form element)?=
+
+=== In forms towards Eliom services:
+
+<<code language='ocaml'|
+open Eliom_content
+
+Html.D.Form.select ~name:select_name
+  Html.D.Form.string (* type of the parameter *)
+  (Html.D.Form.Option
+    ([] (* attributes *),
+     "Bob" (* value *),
+     None (* Content, if different from value *),
+     false (* not selected *))) (* first line *)
+    [Html.D.Form.Option ([], "Marc", None, false);
+     (Html.D.Form.Optgroup
+        ([],
+         "Girls",
+         ([], "Karin", None, false),
+         [([a_disabled `Disabled], "Juliette", None, false);
+          ([], "Alice", None, true);
+          ([], "Germaine", Some (txt "Bob's mother"), false)]))]
+>>
+
+=== Basic HTML5 elements without Eliom services
+For example if you want to use them with client side event handler.
+
+<<code language='ocaml'|
+open Eliom_content.Html.D
+
+Raw.select [option (txt "hello");
+            option ~a:[a_value "a"; a_selected `Selected] (txt "cool")]
+>>
+
+
+=== Links
+
+* [[wiki:manual/how-to-write-forms|How to write forms]]
+* <<a_manual project="eliom" chapter="server-links"|Eliom forms and links>>
+* API
+  <<a_api project="eliom" subproject="server"|module Eliom_content.Html.D.Form>>
+* signature <<a_api project="tyxml"|module Html_sigs.T>> (Element attributes)

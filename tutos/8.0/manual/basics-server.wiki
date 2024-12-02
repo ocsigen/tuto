@@ -79,7 +79,9 @@ opam install ocsigenserver
 ===Use as a library===
 
 Let's create a new OCaml project with Dune:
-{{{dune init project mysite}}}
+{{{
+dune init project mysite
+}}}
 
 To include a Web server in your OCaml program, just add
 package {{{ocsigenserver}}} to your Dune file, together with all the extensions
@@ -173,13 +175,6 @@ HTML as strings. But we recommend to used typed-HTML instead (see below).
 
 In this section, we will show how to compile and run a //server-side only// Web site by creating your project manually.
 
-First, create the directories will we use for data (logs, etc.):
-{{{
-mkdir -p local/var/log/mysite
-mkdir -p local/var/data/mysite
-mkdir -p local/var/run
-}}}
-
 ===Build an executable===
 This section shows how to create a static executable for you program
 (without configuration file).
@@ -187,6 +182,15 @@ This section shows how to create a static executable for you program
 Run the following command:
 {{{
 opam install ocsipersist-sqlite-config eliom
+dune init project --kind=lib mysite
+cd mysite
+}}}
+
+Create the directories will we use for data (logs, etc.):
+{{{
+mkdir -p local/var/log/mysite
+mkdir -p local/var/data/mysite
+mkdir -p local/var/run
 }}}
 
 Add packages {{{ocsipersist-sqlite}}} and {{{eliom.server}}} to file
@@ -227,6 +231,13 @@ cd mysite
 }}}
 
 Add {{{(libraries eliom.server)}}} into file {{{lib/dune}}}.
+
+Create the directories will we use for data (logs, etc.):
+{{{
+mkdir -p local/var/log/mysite
+mkdir -p local/var/data/mysite
+mkdir -p local/var/run
+}}}
 
 Create your {{{.ml}}} files in directory {{{lib}}}.
 For example, copy the definition and registration of service {{{myservice}}} above.

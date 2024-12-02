@@ -568,8 +568,8 @@ Form.post_form
  ~service:connection_service
    (fun (name, password) ->
      [fieldset
-       [label ~a:[a_for name] [txt "Name: "];
-        Form.input ~input_type:`Text ~name:name Form.int;
+       [label ~a:[a_label_for "loginname"] [txt "Name: "];
+        Form.input ~a:[a_id "loginname"] ~input_type:`Text ~name Form.int;
         br ();
         Form.input
           ~a:[a_placeholder "Password"]

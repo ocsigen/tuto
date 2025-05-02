@@ -30,7 +30,7 @@ jobs:
           ref: master
 
       - name: Install OCaml
-        uses: avsm/setup-ocaml@v2
+        uses: avsm/setup-ocaml@v3
         with:
           ocaml-compiler: 4.14.0
 

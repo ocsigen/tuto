@@ -182,7 +182,7 @@ This section shows how to create a static executable for you program
 Run the following command:
 {{{
 opam install ocsipersist-sqlite-config eliom
-dune init project --kind=lib mysite
+dune init project --kind=executable mysite
 cd mysite
 }}}
 
@@ -202,7 +202,7 @@ and replace the call to {{{Ocsigen_server.start}}} by the following lines:
 
 <<code language="ocaml"|
 let () = 
-  Ocsigen_server.start 
+  Ocsigen_server.start
     ~command_pipe:"local/var/run/mysite-cmd"
     ~logdir:"local/var/log/mysite"
     ~datadir:"local/var/data/mysite"

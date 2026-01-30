@@ -147,7 +147,7 @@ HTML as strings. But we recommend to used typed-HTML instead (see below).</p></s
 (without configuration file).
 </p><p>Run the following command:
 </p><pre>opam install ocsipersist-sqlite-config eliom
-dune init project --kind=lib mysite
+dune init project --kind=executable mysite
 cd mysite
 </pre><p>Create the directories will we use for data (logs, etc.):
 </p><pre>mkdir -p local/var/log/mysite
@@ -159,7 +159,7 @@ mkdir -p local/var/run
 of file <span class="teletype">bin/main.ml</span>,
 and replace the call to <span class="teletype">Ocsigen_server.start</span> by the following lines:
 </p><pre class=""><code class="language-ocaml translatable">let () = 
-  Ocsigen_server.start 
+  Ocsigen_server.start
     ~command_pipe:&quot;local/var/run/mysite-cmd&quot;
     ~logdir:&quot;local/var/log/mysite&quot;
     ~datadir:&quot;local/var/data/mysite&quot;

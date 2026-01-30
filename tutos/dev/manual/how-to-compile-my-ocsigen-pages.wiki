@@ -34,6 +34,10 @@ of client side features, later.
 * **eliomc** compile server-side eliom files (and ml files too)
 * **js_of_eliom** compile client-side eliom files
 
+Client code can also be compiled to **WebAssembly** using {{{wasm_of_ocaml}}}.
+Enable it by setting {{{ENABLE_WASM=yes}}} in {{{Makefile.options}}}.
+The server will automatically detect browser capabilities and serve the appropriate version.
+
 Read manuals for mor information about these compilers.
 
 === Links

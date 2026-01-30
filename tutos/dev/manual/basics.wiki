@@ -481,6 +481,10 @@ Its key features are the following:
 * You can use a standard installation of OCaml to compile your programs. In particular, you do not have to recompile a library to use it with Js_of_ocaml.
 * It comes with a library to interface with the browser API.
 
+**WebAssembly:** OCaml programs can also be compiled to WebAssembly using
+//wasm_of_ocaml//. Eliom provides automatic browser detection: if WebAssembly
+is supported, the WASM version is loaded, otherwise it falls back to JavaScript.
+
 Interaction with Javascript can be done:
 * either with untyped function calls (module {{{Js.Unsafe}}}),
 * or you can generate an interface just by writing an annotated {{{.mli}}}

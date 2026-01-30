@@ -3,10 +3,10 @@
 This tutorial has been tested with Eliom 11.0.0.
 
 This page describes the main concepts you need to master to become fully operational
-with Ocsigen. Use it as your training plan or as a cheatcheet while programming.
+with Ocsigen. Use it as your training plan or as a cheat sheet while programming.
 
 Depending on your needs, you may not need to learn all this. Ocsigen is
-very flexible and can be used both for Web site programing (see
+very flexible and can be used both for Web site programming (see
 [[basics-server|this page]]) or more complex client-server Web apps and
 their mobile counterparts.
 
@@ -630,7 +630,7 @@ one compiled to native code (or bytecode) to be executed on the server,
 the other one compiled to Javascript with Js_of_ocaml to be executed
 in the browser.
 
-PPX annotations allow to split the code into these two programs:
+PPX annotations allow you to split the code into these two programs:
 
 |{{{ let%shared ... = ... }}}|Code to be included in both the client and server apps|
 |{{{ let%client ... = ... }}}|Code to be included in client app only|
@@ -695,7 +695,7 @@ let%client c : int = 3 + ~%x
 ===Calling server side functions from the client===
 
 Eliom makes it possible to call server side OCaml functions from your
-client-side program. You must export these functions explicitely,
+client-side program. You must export these functions explicitly,
 and declare the type of their parameters. Example:
 
 <<code language="ocaml" class="shared"|

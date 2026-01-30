@@ -31,7 +31,7 @@ The path is a list of string corresponding to the url. Here, the list is empty b
 If, for example, the list is ["hello";"world"], the page will be accessed using the address:
 <<code|http://website.com/hello/world/>>
 
-More informations about parameters: [[wiki:manual/how-to-use-get-parameters-or-parameters-in-the-url|How to use GET parameters (parameters in the URL)?]]
+More information about parameters: [[wiki:manual/how-to-use-get-parameters-or-parameters-in-the-url|How to use GET parameters (parameters in the URL)?]]
 
 Now that our service has been declared, we associate to it an OCaml function that will generate the page. We call this //service registration//. If the service belongs to the application, we use the registrations functions from module {{{Example}}} defined above.
 

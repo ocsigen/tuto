@@ -45,5 +45,5 @@ let () = Eliom_registration.Action.register
 <<concept title="Ocsipersist"|
  Ocsipersist implements simple typed key/value tables.
  It can use different backends (currently sqlite and dbm).
- For more informations see <<a_api project="ocsigenserver"| type Ocsipersist.table >>.
+ For more information see <<a_api project="ocsigenserver"| type Ocsipersist.table >>.
 >>

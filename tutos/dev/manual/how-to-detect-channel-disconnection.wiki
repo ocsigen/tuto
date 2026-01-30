@@ -20,23 +20,23 @@ Ocsigen-start.
 
 //explanation pasted from Ocsigen mailing list, 2014-08-06://
 
-I assume that you want to know that from client side (It is also
+I assume that you want to know that from client side (it is also
 possible to know that on server side).
-Since there are quite a lot of different kind of channels, there are
+Since there are quite a lot of different kinds of channels, there are
 different variations of 'disconnected' for them. You receive this
 information through an exception when you try to read from the
 Lwt_stream. The different exceptions you have to handle depending on the
 case are:
 
 ;{{{Eliom_comet.Channel_full}}}
-:For global channel. Those are never closed on server side and are not attached to a particular session. The server maintain a limited buffer of previous values to avoid memory leak. If a client reconnects to the network and too many messages have been sent to the channel, since its last update, he will receive that exception.
+:For global channel. Those are never closed on server side and are not attached to a particular session. The server maintains a limited buffer of previous values to avoid memory leak. If a client reconnects to the network and too many messages have been sent to the channel since its last update, it will receive that exception.
 ;{{{Eliom_comet.Process_closed}}} (Eliom < 5)
-:For a channel associated to a client process. If the process is explicitely closed on the server, the server is rebooted, it timeouted, ...
+:For a channel associated to a client process. If the process is explicitly closed on the server, the server is rebooted, it timed out, ...
 ;{{{Eliom_comet.Channel_closed}}}
 :The channel was not maintained alive on the server (garbage collected).
 
-Usualy it is just simpler to not distinguish and just catch on all those
-exception and consider their meaning to be 'disconnected'.
+Usually it is just simpler to not distinguish and just catch all those
+exceptions and consider their meaning to be 'disconnected'.
 
 To handle that reliably, you must be careful: an Lwt_stream raises an
 exception only once. One way to ensure that you can't miss an exception

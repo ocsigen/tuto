@@ -1,8 +1,8 @@
 =How to call a server-side function from client-side?=
 
-It is possible to call server-side functions in client-side.
+It is possible to call server-side functions from client-side.
 For security reasons, these functions must first
-be declared explicitely as RPCs (with the type of their
+be declared explicitly as RPCs (with the type of their
 argument).
 
 <<code language="ocaml" class="shared"|

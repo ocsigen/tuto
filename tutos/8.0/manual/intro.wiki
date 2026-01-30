@@ -9,7 +9,7 @@ Its main characteristics are:
 
 * The use of a strongly typed language, //OCaml//, and a very advanced use
 of its type system to check many properties of a program at compile time.
-This allows to drastically reduce the developement time of complex apps,
+This allows to drastically reduce the development time of complex apps,
 and makes it easier to refactor the code to follow evolutions of its features.
 As an example, the conformance of generated HTML is checked at compile time,
 which makes it almost impossible to generate invalid pages.
@@ -32,7 +32,7 @@ at the [[https://www.besport.com/news|Be Sport social network]] (available in
 [[http://ocsigen-1.inria.fr/ocsigen-start/demo/|Ocsigen Start's demo app]]
 (available on [[https://play.google.com/store/apps/details?id=com.osdemo.mobile|Google Play store]]).
 
-Ocsigen consists of several quite independant projects, all
+Ocsigen consists of several quite independent projects, all
 released as open source software on [[https://github.com/ocsigen|Github]].
 The main projects are:
 * [[wiki("lwt"):|Lwt]], a general purpose concurrent programming library for OCaml,

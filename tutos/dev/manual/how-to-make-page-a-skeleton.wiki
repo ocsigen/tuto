@@ -2,9 +2,9 @@
 
 === The same header for all your pages
 
-When your site will grow, you will have several different services for pages which will often contain the same header informations.
+When your site will grow, you will have several different services for pages which will often contain the same header information.
 
-A great solutions to avoid code copy-pasting of these recurrent informations are to make a page skeleton function:
+A great solution to avoid code copy-pasting of this recurrent information is to make a page skeleton function:
 
 <<code language="ocaml"|
 let skeleton body_content =

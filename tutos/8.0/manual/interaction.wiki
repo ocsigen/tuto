@@ -1172,12 +1172,12 @@ In the future, we may add functions like {{{set_http_code}}} or
 
 === Wrapping the server handler to easily get the user data
 
-When you want to assume that you have informations available in
+When you want to assume that you have information available in
 sessions, for instance when a site is mainly available to connected
 users, it becomes tedious to check everywhere that a reference is not
 {{{None}}}.  A simple way to distinguish authenticated and anonymous
 requests lies in the usage of <<a_api project="eliom"
-subproject="server"|val Eliom_tools.wrap_handler>>. It allows to
+subproject="server"|val Eliom_tools.wrap_handler>>. It allows you to
 provide two handler functions, one is called if a certain
 information is not made available by the first argument, the other is
 called when that information is available.

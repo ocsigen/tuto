@@ -10,4 +10,4 @@ Write theses lines in your css sheets:
 @media only screen and (min-device-width: 769px)
 >>
 
-You can find more informations about making responsive websites with media queries on [[http://www.w3schools.com/css/css_rwd_mediaqueries.asp|W3schools.com]]
+You can find more information about making responsive websites with media queries on [[http://www.w3schools.com/css/css_rwd_mediaqueries.asp|W3schools.com]]

@@ -46,7 +46,7 @@ signal.
 on the value of s.
 
 The magic part: we never have to explicitly update
-{{{example_div}}}. Its behavior is declaratively described in it's own
+{{{example_div}}}. Its behavior is declaratively described in its own
 code, and not in the code of the button.
 
 <<concept title="Client node on the server"|

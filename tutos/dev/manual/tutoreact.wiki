@@ -72,7 +72,7 @@ display all the messages in the database, but only a few of them.
 
 In this tutorial, we will not focus on the implementation details of the
 database part. Create a new file named {{{tutoreact_messages.eliom}}}. From now
-on, if not explicitely specified, the code we are going to write will go there.
+on, if not explicitly specified, the code we are going to write will go there.
 We are going to create a module {{{Db}}} containing these functions:
 
 <<code language="ocaml" class="server"|

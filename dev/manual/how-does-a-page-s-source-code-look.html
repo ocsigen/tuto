@@ -58,7 +58,7 @@ An application has its associated js file, which must have the same name (<a hre
     ~meth:(Eliom_service.Get unit)
     ()</code></pre><p>The path is a list of string corresponding to the url. Here, the list is empty because it's the main page.
 </p><p>If, for example, the list is [&quot;hello&quot;;&quot;world&quot;], the page will be accessed using the address:
-</p><pre><code>http://website.com/hello/world/</code></pre><p>More informations about parameters: <a href=".././manual/how-to-use-get-parameters-or-parameters-in-the-url" class="ocsimore_phrasing_link">How to use GET parameters (parameters in the URL)?</a>
+</p><pre><code>http://website.com/hello/world/</code></pre><p>More information about parameters: <a href=".././manual/how-to-use-get-parameters-or-parameters-in-the-url" class="ocsimore_phrasing_link">How to use GET parameters (parameters in the URL)?</a>
 </p><p>Now that our service has been declared, we associate to it an OCaml function that will generate the page. We call this <em>service registration</em>. If the service belongs to the application, we use the registrations functions from module <span class="teletype">Example</span> defined above.
 </p><pre class=""><code class="language-ocaml translatable">let _ =
   Example.register

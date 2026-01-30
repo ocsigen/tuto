@@ -768,11 +768,11 @@ flexible to choose the kind of output they want to send.
 output.  That function also allows, for example, to specify the HTTP
 response code (here, we choose to use 404) or to set HTTP headers.</p></aside><aside class="wip"><header><h5>Work in progress</h5></header><p>In the future, we may add functions like <span class="teletype">set_http_code</span> or
 <span class="teletype">set_http_header</span> to personalize the answer without using
-<span class="teletype">Eliom_registration.Any</span>.</p></aside><h3> Wrapping the server handler to easily get the user data</h3><p>When you want to assume that you have informations available in
+<span class="teletype">Eliom_registration.Any</span>.</p></aside><h3> Wrapping the server handler to easily get the user data</h3><p>When you want to assume that you have information available in
 sessions, for instance when a site is mainly available to connected
 users, it becomes tedious to check everywhere that a reference is not
 <span class="teletype">None</span>.  A simple way to distinguish authenticated and anonymous
-requests lies in the usage of <span><a href=".././../../eliom/latest/api/server/Eliom_tools#VALwrap_handler">Eliom_tools.wrap_handler</a></span>. It allows to
+requests lies in the usage of <span><a href=".././../../eliom/latest/api/server/Eliom_tools#VALwrap_handler">Eliom_tools.wrap_handler</a></span>. It allows you to
 provide two handler functions, one is called if a certain
 information is not made available by the first argument, the other is
 called when that information is available.

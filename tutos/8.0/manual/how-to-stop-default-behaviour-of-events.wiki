@@ -18,4 +18,4 @@ disable_event Dom_html.Event.dragstart Dom_html.document
 * event is a Dom_html.Event\\
 * html_elt is the target
 
-More details in documentation: [[site:js_of_ocaml/api/Dom#VALpreventDefault|Dom. preventDefault]]
+More details in documentation: <<a_api project="js_of_ocaml" |val Js_of_ocaml.Dom.preventDefault>>

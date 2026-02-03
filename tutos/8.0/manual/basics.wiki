@@ -496,14 +496,14 @@ The latter is used for the default Javascript library. Here is how it works:
 |{{{obj##m e_1 ... e_n}}}|call a JS method (has type {{{u}}} when {{{obj : <m : t_1 -> ... -> t_n -> u meth; ..> Js.t}}} and {{{e_i : t_i}}})|
 |{{{new%js constr e1 ... en}}}|create a JS object (has type {{{u Js.t}}} when {{{constr : (t_1 -> ... -> t_n -> u Js.t) Js.constr}}} and {{{e_i : t_i}}})|
 
-Module [[https://ocsigen.org/js_of_ocaml/latest/api/js_of_ocaml/Js_of_ocaml/Js/index.html|Js_of_ocaml.Js]]
+Module <<a_api project="js_of_ocaml" |module Js_of_ocaml.Js>>
 defines the base JS types and conversion functions from/to OCaml types.
 Example: {{{Js.Opt}}} to take into account nullable values, {{{Js.Optdef}}} for undefined values,
 or functions like {{{Js.to_string}}} and {{{Js.string}}} for consersions to and from
 OCaml strings.
 
-Use modules [[https://ocsigen.org/js_of_ocaml/latest/api/js_of_ocaml/Js_of_ocaml/Dom/index.html|Js_of_ocaml.Dom]]
-and [[https://ocsigen.org/js_of_ocaml/latest/api/js_of_ocaml/Js_of_ocaml/Dom_html/index.html|Js_of_ocaml.Dom_html]]
+Use modules <<a_api project="js_of_ocaml" |module Js_of_ocaml.Dom>>
+and <<a_api project="js_of_ocaml" |module Js_of_ocaml.Dom_html>>
 to interact with the DOM, or more specifically with HTML.
 
 You can test Js_of_ocaml online in this

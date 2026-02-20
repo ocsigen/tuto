@@ -54,7 +54,14 @@ their mobile counterparts.
 </p><p>In parallel to the reading of that page,
 we recommend to generate your first <a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Ocsigen Start</a> app to see
 running examples of all these concepts (see <a href="start" class="ocsimore_phrasing_link">that page</a>).
-</p><div id="overview" class="ocsimore_outline"><header><p><strong>Table of contents</strong></p></header></div><script>
+</p><div class="focused"><h3>Quick start: a full app in 3 minutes</h3><pre>opam install ocsigen-start
+eliom-distillery -name myapp -template os.pgocaml
+cd myapp
+make db-init &amp;&amp; make db-create &amp;&amp; make db-schema
+make test.byte
+</pre><p>Then open <span class="teletype">http://localhost:8080</span>. <br/>
+Requires <span class="teletype">postgresql</span> and <span class="teletype">sass</span> (or <span class="teletype">sassc</span>).
+Read the <a href="start" class="ocsimore_phrasing_link">detailed instructions</a> if needed.</p></div><div id="overview" class="ocsimore_outline"><header><p><strong>Table of contents</strong></p></header></div><script>
 //<![CDATA[
 window.addEventListener("load", function(){ outline([0,-515484383,0,0,[0,"nav",[0,"aside",0]],"overview",1]); }, false); 
 //]]>

@@ -14,8 +14,8 @@ In parallel to the reading of that page,
 we recommend to generate your first [[wiki("ocsigen-start"):|Ocsigen Start]] app to see
 running examples of all these concepts (see [[start|that page]]).
 
-<<div class="focused"|
-===Quick start: a full app in 3 minutes===
+<<div class="quickstart"|
+**Too long; didn't read? Get your first app running in 3 minutes:**
 {{{
 opam install ocsigen-start
 eliom-distillery -name myapp -template os.pgocaml

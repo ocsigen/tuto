@@ -54,7 +54,15 @@ their mobile counterparts.
 </p><p>In parallel to the reading of that page,
 we recommend to generate your first <a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Ocsigen Start</a> app to see
 running examples of all these concepts (see <a href="start" class="ocsimore_phrasing_link">that page</a>).
-</p><div id="overview" class="ocsimore_outline"><header><p><strong>Table of contents</strong></p></header></div><script>
+</p><div class="quickstart"><p><strong>Too long; didn't read? Get your first app running in 3 minutes:</strong>
+</p><pre>opam install ocsigen-start
+eliom-distillery -name myapp -template os.pgocaml
+cd myapp
+make db-init &amp;&amp; make db-create &amp;&amp; make db-schema
+make test.byte
+</pre><p>Then open <span class="teletype">http://localhost:8080</span>. <br/>
+Requires <span class="teletype">postgresql</span> and <span class="teletype">sass</span> (or <span class="teletype">sassc</span>).
+Read the <a href="start" class="ocsimore_phrasing_link">detailed instructions</a> if needed.</p></div><div id="overview" class="ocsimore_outline"><header><p><strong>Table of contents</strong></p></header></div><script>
 //<![CDATA[
 window.addEventListener("load", function(){ outline([0,-515484383,0,0,[0,"nav",[0,"aside",0]],"overview",1]); }, false); 
 //]]>
@@ -316,7 +324,10 @@ Its key features are the following:
 </p><ul><li> The whole language, and most of the standard library are supported.
 </li><li> You can use a standard installation of OCaml to compile your programs. In particular, you do not have to recompile a library to use it with Js_of_ocaml.
 </li><li> It comes with a library to interface with the browser API.
-</li></ul><p>Interaction with Javascript can be done:
+</li></ul><p><strong>WebAssembly:</strong> OCaml programs can also be compiled to WebAssembly using
+<em>wasm_of_ocaml</em>. Eliom provides automatic browser detection: if WebAssembly
+is supported, the WASM version is loaded, otherwise it falls back to JavaScript.
+</p><p>Interaction with Javascript can be done:
 </p><ul><li> either with untyped function calls (module <span class="teletype">Js.Unsafe</span>),
 </li><li> or you can generate an interface just by writing an annotated <span class="teletype">.mli</span>
 using <a href="https://github.com/LexiFi/gen_js_api" class="ocsimore_phrasing_link">Gen_js_api</a>,

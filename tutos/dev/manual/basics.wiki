@@ -14,6 +14,20 @@ In parallel to the reading of that page,
 we recommend to generate your first [[wiki("ocsigen-start"):|Ocsigen Start]] app to see
 running examples of all these concepts (see [[start|that page]]).
 
+<<div class="focused"|
+===Quick start: a full app in 3 minutes===
+{{{
+opam install ocsigen-start
+eliom-distillery -name myapp -template os.pgocaml
+cd myapp
+make db-init && make db-create && make db-schema
+make test.byte
+}}}
+Then open {{{http://localhost:8080}}}. \\
+Requires {{{postgresql}}} and {{{sass}}} (or {{{sassc}}}).
+Read the [[start|detailed instructions]] if needed.
+>>
+
 <<outline| <<header| **Table of contents** >> >>
 
 <<section class="docblock" |

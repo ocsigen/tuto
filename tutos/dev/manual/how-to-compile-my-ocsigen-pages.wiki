@@ -4,7 +4,7 @@
 
 Eliom-distillery will help you to build your client-server application
 using Eliom.
-It comes with several templates ("client-server.basic", "os.pgocaml",
+It comes with several templates ("client-server.basic", "os",
 and more to come  ...).
 
 {{{

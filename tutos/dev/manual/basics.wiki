@@ -18,7 +18,7 @@ running examples of all these concepts (see [[start|that page]]).
 **Too long; didn't read? Get your first app running in 3 minutes:**
 {{{
 opam install ocsigen-start
-eliom-distillery -name myapp -template os.pgocaml
+eliom-distillery -name myapp -template os
 cd myapp
 make db-init && make db-create && make db-schema
 make test.byte
@@ -837,7 +837,7 @@ opam install ocsigen-start
 }}}
 Then:
 {{{
-eliom-distillery -template os.pgocaml -name myapp
+eliom-distillery -template os -name myapp
 }}}
 It contains by default some code examples that you can remove or adapt to your own needs.
 Have a look at the {{{README}}} file.

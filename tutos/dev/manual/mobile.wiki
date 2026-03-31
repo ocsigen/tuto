@@ -15,7 +15,7 @@ etc. This skeleton is immediately usable as a mobile application. You
 can install {{{ocsigen-start}}} via OPAM
 ( {{{opam install ocsigen-start}}} )
 and instantiate its template with the command
-{{{eliom-distillery -name ocsimobile -template os.pgocaml}}}.  For
+{{{eliom-distillery -name ocsimobile -template os}}}.  For
 launching the mobile application, follow the instructions in the
 template's {{{README.md}}}.
 

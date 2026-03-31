@@ -57,7 +57,7 @@ opam install ocsigen-start
 
 Create your application using Eliom distillery:
 {{{
-eliom-distillery -name myapp -template os.pgocaml
+eliom-distillery -name myapp -template os
 }}}
 
 Have a look at the

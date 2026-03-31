@@ -29,7 +29,7 @@ management. You can use this template as a starting point for your
 project.
 
 {{{
-eliom-distillery -name tutoreact -template os.pgocaml
+eliom-distillery -name tutoreact -template os
 }}}
 
 This template is using PostgreSQL to store the data. You need a recent

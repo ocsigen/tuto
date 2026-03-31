@@ -90,16 +90,16 @@ module Db = struct
   let db = Ocsipersist.Polymorphic.open_table "messages"
 
   let last_key =
-    Eliom_reference.eref
+    Eliom.Reference.eref
       ~persistent:"index"
-      ~scope:Eliom_common.global_scope (-1)
+      ~scope:Eliom.Common.global_scope (-1)
 
   let get_message id =
     let%lwt db = db in
     Ocsipersist.Polymorphic.find db (string_of_int id)
 
   let get_messages () =
-    let%lwt index = Eliom_reference.get last_key in
+    let%lwt index = Eliom.Reference.get last_key in
     let rec aux n l = if n > index then l else aux (n+1) (n::l) in
     Lwt.return (aux 0 [])
 
@@ -107,9 +107,9 @@ module Db = struct
 
   let add_message v =
     let%lwt () = Lwt_mutex.lock lock in
-    let%lwt index = Eliom_reference.get last_key in
+    let%lwt index = Eliom.Reference.get last_key in
     let index = index + 1 in
-    let%lwt () = Eliom_reference.set last_key index in
+    let%lwt () = Eliom.Reference.set last_key index in
     Lwt_mutex.unlock lock;
     let%lwt db = db in
     let%lwt () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
@@ -121,8 +121,8 @@ Add the following code:
 
 <<code language="ocaml" class="shared"|
 [%%shared
-    open Eliom_content.Html
-    open Eliom_content.Html.D]
+    open Eliom.Content.Html
+    open Eliom.Content.Html.D]
 >>
 <<code language="ocaml" class="server"|
 let%server display userid_o =
@@ -201,7 +201,7 @@ To be able to call a function from the client-side program,
 use {{{let%rpc}}}:
 <<code language="ocaml" class="shared"|
 let%rpc add_message (value : string) : unit Lwt.t =
-  let%lwt _ = Os_current_user.get_current_userid () (* fails if not connected *) in
+  let%lwt _ = Os.Current_user.get_current_userid () (* fails if not connected *) in
   Db.add_message value
 >>
 
@@ -282,7 +282,7 @@ You will be able to test once you finish the three following sections!
 === Client-server cache
 
 The module
-<<a_api project="eliom" subproject="server"| module Eliom_cscache >>
+<<a_api project="eliom" subproject="server"| module Eliom.Cscache >>
 implements a cache of data, an association table where you
 will put the data of your application client-side. For the sake of
 uniformity (as we want to use it in shared sections), the
@@ -291,7 +291,7 @@ cache is also implemented server-side, with scope
 twice for the same request.
 
 We create a client-server cache by calling the function
-<<a_api project="eliom" subproject="server"| val Eliom_cscache.create >>
+<<a_api project="eliom" subproject="server"| val Eliom.Cscache.create >>
 server-side. The server-side cache {{{cache}}} created by this
 function will be accessible client-side through an injection {{{~%cache}}}.
 
@@ -303,8 +303,8 @@ server-side and client-side:
 let%rpc get_data (id : int) : string Lwt.t = Db.get_message id
 >>
 <<code language="ocaml" class="server"|
-let%server cache : (int, string) Eliom_cscache.t =
-  Eliom_cscache.create ()
+let%server cache : (int, string) Eliom.Cscache.t =
+  Eliom.Cscache.create ()
 >>
 
 === Reactive interface
@@ -325,19 +325,19 @@ lists. Have a look at the documentation of the above modules if you
 are not familiar with FRP.
 
 The client-side module
-<<a_api project="eliom" subproject="client"| module Eliom_content.Html.R >>
+<<a_api project="eliom" subproject="client"| module Eliom.Content.Html.R >>
 enables defining reactive page elements.
 
-The module <<a_api project="eliom" subproject="server"| module Eliom_shared >>
+The module <<a_api project="eliom" subproject="server"| module Eliom.Shared >>
 enables defining shared reactive signals server-side.
 In order to do that, we use //shared values//, values defined
 both server-side and client-side. The server-side module
-<<a_api project="eliom" subproject="server"| module Eliom_content.Html.R >>
+<<a_api project="eliom" subproject="server"| module Eliom.Content.Html.R >>
  enables constructing HTML5 elements that get updated automatically
-based on the signals of {{{Eliom_shared}}}. The modules
-<<a_api project="eliom" subproject="server"| module Eliom_shared.React >>
+based on the signals of {{{Eliom.Shared}}}. The modules
+<<a_api project="eliom" subproject="server"| module Eliom.Shared.React >>
 and
-<<a_api project="eliom" subproject="server"| module Eliom_shared.ReactiveData >>
+<<a_api project="eliom" subproject="server"| module Eliom.Shared.ReactiveData >>
 implement interfaces very similar to {{{React}}} and
 {{{ReactiveData}}}, but operate on shared signals.
 
@@ -345,28 +345,28 @@ implement interfaces very similar to {{{React}}} and
 
 {{{display_message}}} now needs to be implemented in a shared fashion and take
 its data from the cache. In order to do that,
-we call {{{Eliom_cscache.find cache get_data key}}} from either side to get the
+we call {{{Eliom.Cscache.find cache get_data key}}} from either side to get the
 value associated to {{{key}}}. If the value is not present in the cache, it will
 be fetched using the function {{{get_data}}} and added to the cache.
 
 <<code language="ocaml" class="shared"|
 let%shared display_message id =
-  let%lwt msg = Eliom_cscache.find ~%cache get_data id in
+  let%lwt msg = Eliom.Cscache.find ~%cache get_data id in
   Lwt.return (li [txt msg])
 >>
 
 The function {{{display_messages}}} now creates a reactive list of
 message identifiers, and maps page content from this reactive value
-using module {{{Eliom_shared.ReactiveData}}}. Note that {{{rmessage}}} is
+using module {{{Eliom.Shared.ReactiveData}}}. Note that {{{rmessage}}} is
 a tuple, the first element is the list, the second element is the update
 function.
 
 <<code language="ocaml" class="server"|
 let%server display_messages () =
   let%lwt messages = Db.get_messages () in
-  let rmessages = Eliom_shared.ReactiveData.RList.create messages in
+  let rmessages = Eliom.Shared.ReactiveData.RList.create messages in
   let%lwt content =
-    Eliom_shared.ReactiveData.RList.Lwt.map_p
+    Eliom.Shared.ReactiveData.RList.Lwt.map_p
       [%shared display_message ]
       (fst rmessages)
   in
@@ -376,14 +376,14 @@ let%server display_messages () =
 == Notifications
 
 We now want to be notified when a message has been added. To do that
-easily, we use the module {{{Os_notif}}} from Ocsigen Start.
+easily, we use the module {{{Os.Notif}}} from Ocsigen Start.
 
 We first define a notification module for the type of data we want
 clients to be able to listen on (here the lists of message identifiers):
 
 <<code language="ocaml" class="server"|
 [%%server
-module Forum_notif = Os_notif.Make_Simple (struct
+module Forum_notif = Os.Notif.Make_Simple (struct
   type key = unit
   type notification = int
 end)
@@ -401,7 +401,7 @@ We define a function to handle notifications. It adds the new
 identifier in the reactive list of messages:
 <<code language="ocaml" class="client"|
 let%client handle_notif_message_list rmessages (_, msgid) =
-  Eliom_shared.ReactiveData.RList.cons msgid (snd rmessages)
+  Eliom.Shared.ReactiveData.RList.cons msgid (snd rmessages)
 >>
 
 We notify the server that we are listening on this piece of data by
@@ -415,7 +415,7 @@ when this event happens.
 let%server display_messages () =
   Forum_notif.listen ();
   let%lwt messages = Db.get_messages () in
-  let rmessages = Eliom_shared.ReactiveData.RList.create messages in
+  let rmessages = Eliom.Shared.ReactiveData.RList.create messages in
   ignore [%client
     (ignore
        (React.E.map (handle_notif_message_list ~%rmessages)
@@ -423,7 +423,7 @@ let%server display_messages () =
      : unit)
   ];
   let%lwt content =
-    Eliom_shared.ReactiveData.RList.Lwt.map_p
+    Eliom.Shared.ReactiveData.RList.Lwt.map_p
       [%shared display_message ]
       (fst rmessages)
   in
@@ -466,10 +466,10 @@ In the file {{{tutoreact_services.eliom}}}, we define the new following service:
 
 <<code language="ocaml" class="server"|
 let%server forum_service =
-  Eliom_service.create
-    ~path:(Eliom_service.Path [""])
-    ~meth:(Eliom_service.Get
-            (Eliom_parameter.(suffix (int "i"))))
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [""])
+    ~meth:(Eliom.Service.Get
+            (Eliom.Parameter.(suffix (int "i"))))
     ()
 >>
 
@@ -482,16 +482,16 @@ forget to put it in a server section:
 val forum_service
   : ( int
     , unit
-    , Eliom_service.get
-    , Eliom_service.att
-    , Eliom_service.non_co
-    , Eliom_service.non_ext
-    , Eliom_service.reg
+    , Eliom.Service.get
+    , Eliom.Service.att
+    , Eliom.Service.non_co
+    , Eliom.Service.non_ext
+    , Eliom.Service.reg
     , [`WithSuffix]
-    , [`One of int] Eliom_parameter.param_name
+    , [`One of int] Eliom.Parameter.param_name
     , unit
-    , Eliom_service.non_ocaml )
-    Eliom_service.t
+    , Eliom.Service.non_ocaml )
+    Eliom.Service.t
 >>
 
 In the file {{{tutoreact_handlers.eliom}}}, we define the handler we will
@@ -508,10 +508,10 @@ server section:
 
 <<code language="ocaml" class="server"|
 val forum_service_handler
-  :  Os_types.User.id option
+  :  Os.Types.User.id option
   -> int
   -> unit
-  -> Os_page.content Lwt.t
+  -> Os.Page.content Lwt.t
 >>
 
 In the file {{{tutoreact.eliom}}}, we register our handler to our new service in
@@ -554,10 +554,10 @@ In the file {{{tutoreact_handlers.eliomi}}}, update its signature:
 <<code language="ocaml" class="server"|
 val main_service_handler
   :  int
-  -> Os_types.User.id option
+  -> Os.Types.User.id option
   -> unit
   -> unit
-  -> Os_page.content Lwt.t
+  -> Os.Page.content Lwt.t
 >>
 
 In the file {{{tutoreact.eliom}}}, in the {{{main_service}}}, we have to specify
@@ -567,7 +567,7 @@ We will take 0 for instance and give it as the parameter of
 
 <<code language="ocaml" class="server"|
   Tutoreact_base.App.register
-    ~service:Os_services.main_service
+    ~service:Os.Services.main_service
     (Tutoreact_page.Opt.connected_page
     (Tutoreact_handlers.main_service_handler 0));
 >>
@@ -586,8 +586,8 @@ module Db = struct
   let dbf = Ocsipersist.Polymorphic.open_table "forums"
 
   let last_key =
-    Eliom_reference.eref
-      ~persistent:"index" ~scope:Eliom_common.global_scope (-1)
+    Eliom.Reference.eref
+      ~persistent:"index" ~scope:Eliom.Common.global_scope (-1)
 
   let get_message id =
     let%lwt db = db in
@@ -601,9 +601,9 @@ module Db = struct
       Lwt.return []
 
   let add_message forumid v =
-    let%lwt index = Eliom_reference.get last_key in
+    let%lwt index = Eliom.Reference.get last_key in
     let index = index + 1 in
-    let%lwt () = Eliom_reference.set last_key index in
+    let%lwt () = Eliom.Reference.set last_key index in
     let%lwt db = db in
     let%lwt () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
     let%lwt l = get_messages forumid in
@@ -658,9 +658,9 @@ message identifiers for each forums:
 <<code language="ocaml" class="server"|
 let%server forumcache :
   (int,
-   int Eliom_shared.ReactiveData.RList.t *
-   int Eliom_shared.ReactiveData.RList.handle) Eliom_cscache.t =
-  Eliom_cscache.create ()
+   int Eliom.Shared.ReactiveData.RList.t *
+   int Eliom.Shared.ReactiveData.RList.handle) Eliom.Cscache.t =
+  Eliom.Cscache.create ()
 >>
 
 We will now implement the equivalent of {{{get_data}}} for this new cache.
@@ -673,7 +673,7 @@ Otherwise you will have several reactive data for the same forum and
 the page updates will fail!
 
 To do that, we provide an optional argument {{{?default}}} to the function
-{{{Eliom_shared.ReactiveData.RList.create}}}, a client value
+{{{Eliom.Shared.ReactiveData.RList.create}}}, a client value
 (optionally) containing the current reactive list. If it does not
 exist in the cache, a new one will be created like previously:
 
@@ -681,11 +681,11 @@ exist in the cache, a new one will be created like previously:
 let%rpc get_data_forum (forumid : int) : _ Lwt.t =
   let%lwt messages = Db.get_messages forumid in
   let default = [%client
-    ((try Some (Eliom_cscache.find_if_ready ~%forumcache ~%forumid)
+    ((try Some (Eliom.Cscache.find_if_ready ~%forumcache ~%forumid)
       with _ -> None)
      : 'a option)
   ] in
-  Lwt.return (Eliom_shared.ReactiveData.RList.create ~default messages)
+  Lwt.return (Eliom.Shared.ReactiveData.RList.create ~default messages)
 >>
 
 {{{display_messages}}} now takes the reactive list from the cache:
@@ -693,7 +693,7 @@ let%rpc get_data_forum (forumid : int) : _ Lwt.t =
 let%server display_messages forumid =
   Forum_notif.listen ();
   let%lwt rmessages =
-    Eliom_cscache.find forumcache get_data_forum forumid
+    Eliom.Cscache.find forumcache get_data_forum forumid
   in
   ...
 >>
@@ -707,7 +707,7 @@ module {{{Forum_notif}}} to use an integer (instead of {{{unit}}}):
 
 <<code language="ocaml" class="server"|
 [%%server
-module Forum_notif = Os_notif.Make_Simple (struct
+module Forum_notif = Os.Notif.Make_Simple (struct
   type key = int
   type notification = int
 end)
@@ -745,9 +745,9 @@ parameter:
 <<code language="ocaml" class="client"|
 let%client handle_notif_message_list (forumid, msgid) =
   try
-    let rmessages = Eliom_cscache.find_if_ready ~%forumcache forumid in
-    Eliom_shared.ReactiveData.RList.cons msgid (snd rmessages)
-  with Not_found | Eliom_cscache.Not_ready -> ()
+    let rmessages = Eliom.Cscache.find_if_ready ~%forumcache forumid in
+    Eliom.Shared.ReactiveData.RList.cons msgid (snd rmessages)
+  with Not_found | Eliom.Cscache.Not_ready -> ()
 >>
 
 In the function {{{display_messages}}}, do not forget to remove the injection
@@ -769,10 +769,10 @@ the function {{{display_message}}} by:
 <<code language="ocaml" class="shared"|
 let%shared display_message id =
   let th =
-    let%lwt msg = Eliom_cscache.find ~%cache get_data id in
+    let%lwt msg = Eliom.Cscache.find ~%cache get_data id in
     Lwt.return [div [txt msg]]
   in
-  let%lwt v = Ot_spinner.with_spinner th in
+  let%lwt v = Ot.Spinner.with_spinner th in
   Lwt.return (li [v])
 >>
 
@@ -791,8 +791,8 @@ let%server get_data id =
 
 <<code language="ocaml" class="shared"|
 [%%shared
-    open Eliom_content.Html
-    open Eliom_content.Html.D
+    open Eliom.Content.Html
+    open Eliom.Content.Html.D
 ]
 >>
 
@@ -803,7 +803,7 @@ module Db = struct
   let dbf = Ocsipersist.Polymorphic.open_table "forums"
 
   let last_key =
-    Eliom_reference.eref ~persistent:"index" ~scope:Eliom_common.global_scope
+    Eliom.Reference.eref ~persistent:"index" ~scope:Eliom.Common.global_scope
       (-1)
 
   let get_message id =
@@ -816,9 +816,9 @@ module Db = struct
     with Not_found -> Lwt.return []
 
   let add_message forumid v =
-    let%lwt index = Eliom_reference.get last_key in
+    let%lwt index = Eliom.Reference.get last_key in
     let index = index + 1 in
-    let%lwt () = Eliom_reference.set last_key index in
+    let%lwt () = Eliom.Reference.set last_key index in
     let%lwt db = db in
     let%lwt () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
     let%lwt l = get_messages forumid in
@@ -830,7 +830,7 @@ module Db = struct
 
 end
 
-module Forum_notif = Os_notif.Make_Simple (struct
+module Forum_notif = Os.Notif.Make_Simple (struct
   type key = int
   type notification = int
 end)
@@ -851,13 +851,13 @@ let%rpc add_message ((forumid, value) : add_message_type) : unit Lwt.t =
 >>
 
 <<code language="ocaml" class="server"|
-let%server cache : (int, string) Eliom_cscache.t = Eliom_cscache.create ()
+let%server cache : (int, string) Eliom.Cscache.t = Eliom.Cscache.create ()
 
 let%server forumcache :
   (int,
-   int Eliom_shared.ReactiveData.RList.t *
-   int Eliom_shared.ReactiveData.RList.handle) Eliom_cscache.t =
-  Eliom_cscache.create ()
+   int Eliom.Shared.ReactiveData.RList.t *
+   int Eliom.Shared.ReactiveData.RList.handle) Eliom.Cscache.t =
+  Eliom.Cscache.create ()
 >>
 
 <<code language="ocaml" class="shared"|
@@ -871,37 +871,37 @@ let%rpc get_data_forum (forumid : int) : _ Lwt.t =
   let%lwt messages = Db.get_messages forumid in
   let default = [%client
     (try
-       Some (Eliom_cscache.find_if_ready ~%forumcache ~%forumid)
+       Some (Eliom.Cscache.find_if_ready ~%forumcache ~%forumid)
      with _ ->
        None
        : 'a option)
   ] in
-  Lwt.return (Eliom_shared.ReactiveData.RList.create ~default messages)
+  Lwt.return (Eliom.Shared.ReactiveData.RList.create ~default messages)
 >>
 
 <<code language="ocaml" class="shared"|
 let%shared display_message id =
   let th =
-    let%lwt msg = Eliom_cscache.find ~%cache get_data id in
+    let%lwt msg = Eliom.Cscache.find ~%cache get_data id in
     Lwt.return [div [txt msg]]
   in
-  let%lwt v = Ot_spinner.with_spinner th in
+  let%lwt v = Ot.Spinner.with_spinner th in
   Lwt.return (li [v])
 >>
 
 <<code language="ocaml" class="client"|
 let%client handle_notif_message_list (forumid, msgid) =
   try
-    let rmessages = Eliom_cscache.find_if_ready ~%forumcache forumid in
-    Eliom_shared.ReactiveData.RList.cons msgid (snd rmessages)
-  with Not_found | Eliom_cscache.Not_ready -> ()
+    let rmessages = Eliom.Cscache.find_if_ready ~%forumcache forumid in
+    Eliom.Shared.ReactiveData.RList.cons msgid (snd rmessages)
+  with Not_found | Eliom.Cscache.Not_ready -> ()
 >>
 
 <<code language="ocaml" class="server"|
 let%server display_messages forumid =
   Forum_notif.listen (forumid : int);
   let%lwt rmessages =
-    Eliom_cscache.find forumcache get_data_forum forumid
+    Eliom.Cscache.find forumcache get_data_forum forumid
   in
   ignore [%client
     (ignore
@@ -910,7 +910,7 @@ let%server display_messages forumid =
      : unit)
   ];
   let%lwt content =
-    Eliom_shared.ReactiveData.RList.Lwt.map_p
+    Eliom.Shared.ReactiveData.RList.Lwt.map_p
       [%shared display_message]
       (fst rmessages)
   in

@@ -9,9 +9,9 @@ content of the page and the url change.
 We first create the player node at toplevel.
 <<code language="ocaml"|
 let player =
-  Eliom_content.Html.Id.create_global_elt
+  Eliom.Content.Html.Id.create_global_elt
     (audio
-       ~srcs:(make_uri (Eliom_service.static_dir ())
+       ~srcs:(make_uri (Eliom.Service.static_dir ())
                   ["music.ogg"],
               [])
        ~a:[a_autoplay (`Autoplay);a_controls (`Controls)]

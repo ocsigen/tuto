@@ -24,7 +24,7 @@ given (among other criteria).
 It decodes parameters automatically and checks their types.
 
 Description of parameters (names and types) is done using module
-<<a_api project="eliom" subproject="server"|module Eliom_parameter>>.
+<<a_api project="eliom" subproject="server"|module Eliom.Parameter>>.
 We recommend to open this module (at the beginning of your file, or locally).
 
 ==== Syntax for several parameters
@@ -43,7 +43,7 @@ We recommend to open this module (at the beginning of your file, or locally).
 * **Common types**: [[https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L121|string]], [[https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L122|int]], [[https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L123|int32]], [[https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L124|float]], [[https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L125|bool]]
 * **Some other types**: [[https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L126|optional values]], [[https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L158|any parameter]], [[https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L187|list]], [[https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L211|your own type]].
 
-* See more information on parameters in <<a_manual project="eliom" chapter="server-params"|Eliom manual>> and API documentation of module <<a_api project="eliom" subproject="server"|module Eliom_parameter>>.
+* See more information on parameters in <<a_manual project="eliom" chapter="server-params"|Eliom manual>> and API documentation of module <<a_api project="eliom" subproject="server"|module Eliom.Parameter>>.
 
 ==== Get these parameters
 
@@ -84,5 +84,5 @@ To do that, add a parameter of type **suffix** in **get_params**:
 
 * Manual: <<a_manual project="eliom" chapter="server-params"|Parameters>>
 * Manual: <<a_manual project="eliom" chapter="server-services"|Services>>
-* API: <<a_api project="eliom" subproject="server"|module Eliom_parameter>>
-* API: <<a_api project="eliom" subproject="server"|module Eliom_service>>
+* API: <<a_api project="eliom" subproject="server"|module Eliom.Parameter>>
+* API: <<a_api project="eliom" subproject="server"|module Eliom.Service>>

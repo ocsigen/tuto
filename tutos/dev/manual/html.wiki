@@ -11,7 +11,7 @@ inside another paragraph will be rejected at compile time.
 === Tags
 
 Tyxml (or modules obtained by applying Tyxml functor,
-like {{{Eliom_content.Html.D}}}) defines a contructor function
+like {{{Eliom.Content.Html.D}}}) defines a contructor function
 for each HTML tag, and for each attribute.
 
 Example:
@@ -92,17 +92,17 @@ div ~a:[a_id "the_id"; a_class ["firstclass"; "secondclass"]]
 Tyxml builds OCaml nodes. If you are using it server side,
 they are serialized as an XML text before being sent to the browser.
 On client side, if you want to get the DOM node corresponding to
-an OCaml node, use functions from module {{{Eliom_content.Html.To_dom}}},
-for example {{{Eliom_content.Html.To_dom.of_element}}},
-or {{{Eliom_content.Html.To_dom.of_input}}},
-{{{Eliom_content.Html.To_dom.of_textarea}}}, etc.
+an OCaml node, use functions from module {{{Eliom.Content.Html.To_dom}}},
+for example {{{Eliom.Content.Html.To_dom.of_element}}},
+or {{{Eliom.Content.Html.To_dom.of_input}}},
+{{{Eliom.Content.Html.To_dom.of_textarea}}}, etc.
 
-If the node has been created with {{{Eliom_content.Html.F}}}
+If the node has been created with {{{Eliom.Content.Html.F}}}
 (functional nodes),
 a new DOM node will be created every time you call such a conversion
 function.
 
-If the node has been created with {{{Eliom_content.Html.D}}},
+If the node has been created with {{{Eliom.Content.Html.D}}},
 the conversion function will return the exact DOM node that exists
 in the page (and always the same one). If this "D" node is created
 server-side, Eliom will automatically add a identifier in the HTML
@@ -111,7 +111,7 @@ page to be able to find it back.
 Example:
 <<code language="ocaml"|
 [%%shared
-  open Eliom_content.Html
+  open Eliom.Content.Html
 ]
 
 let%server create_widget () =
@@ -135,7 +135,7 @@ inserted twice in a page.
 === Manip
 
 Module
-<<a_api project="eliom" subproject="client"| module Eliom_content.Html.Manip >>
+<<a_api project="eliom" subproject="client"| module Eliom.Content.Html.Manip >>
 makes it possible to manipulate OCaml nodes without conversions
 (add them in a page, replace a node, add as child of another node,
 add a class, etc.).
@@ -143,7 +143,7 @@ add a class, etc.).
 === Reactive nodes
 
 Module
-<<a_api project="eliom" subproject="client"| module Eliom_content.Html.R >>
+<<a_api project="eliom" subproject="client"| module Eliom.Content.Html.R >>
 makes it possible to create reactive nodes, that is, nodes that will
 be updated automatically when the data on which they depend change.
 

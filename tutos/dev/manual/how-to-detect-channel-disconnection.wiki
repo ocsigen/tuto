@@ -2,7 +2,7 @@
 
 ==Question
 
- Is there a way to detect that some Eliom_comet channel became
+ Is there a way to detect that some Eliom.Comet channel became
  disconnected? I would like to warn the user if the server becomes
  unreachable.
 
@@ -13,9 +13,9 @@ Ocsigen-start will monitor the life of sessions and close the process
 when needed.
 
 If you are not using Ocsigen-start, you must catch exceptions
-{{{Eliom_comet.Channel_full}}},
-{{{Eliom_comet.Channel_closed}}} (and {{{Eliom_comet.Process_closed}}}
-on Eliom < 5). Have a look at module {{{Os_comet}}} in
+{{{Eliom.Comet.Channel_full}}},
+{{{Eliom.Comet.Channel_closed}}} (and {{{Eliom.Comet.Process_closed}}}
+on Eliom < 5). Have a look at module Os.Comet in
 Ocsigen-start.
 
 //explanation pasted from Ocsigen mailing list, 2014-08-06://
@@ -28,11 +28,11 @@ information through an exception when you try to read from the
 Lwt_stream. The different exceptions you have to handle depending on the
 case are:
 
-;{{{Eliom_comet.Channel_full}}}
+;{{{Eliom.Comet.Channel_full}}}
 :For global channel. Those are never closed on server side and are not attached to a particular session. The server maintains a limited buffer of previous values to avoid memory leak. If a client reconnects to the network and too many messages have been sent to the channel since its last update, it will receive that exception.
-;{{{Eliom_comet.Process_closed}}} (Eliom < 5)
+;{{{Eliom.Comet.Process_closed}}} (Eliom < 5)
 :For a channel associated to a client process. If the process is explicitly closed on the server, the server is rebooted, it timed out, ...
-;{{{Eliom_comet.Channel_closed}}}
+;{{{Eliom.Comet.Channel_closed}}}
 :The channel was not maintained alive on the server (garbage collected).
 
 Usually it is just simpler to not distinguish and just catch all those
@@ -48,7 +48,7 @@ Depending on your case the strategies I would recommend would be either:
 is usualy easier to rebuild it from scratch than to rebuild only the
 missing parts: i.e. the braindead/failure proof solution is to reload
 the complete contents
-{{{(Eliom_client.exit_to ~service.Eliom_service.reload_action () ())}}}.
+{{{(Eliom.Client.exit_to ~service.Eliom.Service.reload_action () ())}}}.
 * If you only want to follow a stream of events and missing a few in the
 middle isn't a problem, you can just provides a Caml service that sends
 a channel, and when your channel disconnects, you just fetch a new one.

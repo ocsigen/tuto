@@ -3,7 +3,7 @@
 === In forms towards Eliom services:
 
 <<code language='ocaml'|
-open Eliom_content
+open Eliom.Content
 
 Html.D.Form.select ~name:select_name
   Html.D.Form.string (* type of the parameter *)
@@ -26,7 +26,7 @@ Html.D.Form.select ~name:select_name
 For example if you want to use them with client side event handler.
 
 <<code language='ocaml'|
-open Eliom_content.Html.D
+open Eliom.Content.Html.D
 
 Raw.select [option (txt "hello");
             option ~a:[a_value "a"; a_selected `Selected] (txt "cool")]
@@ -38,5 +38,5 @@ Raw.select [option (txt "hello");
 * [[wiki:manual/how-to-write-forms|How to write forms]]
 * <<a_manual project="eliom" chapter="server-links"|Eliom forms and links>>
 * API
-  <<a_api project="eliom" subproject="server"|module Eliom_content.Html.D.Form>>
+  <<a_api project="eliom" subproject="server"|module Eliom.Content.Html.D.Form>>
 * signature <<a_api project="tyxml"|module Html_sigs.T>> (Element attributes)

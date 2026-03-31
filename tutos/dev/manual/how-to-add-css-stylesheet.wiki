@@ -1,12 +1,12 @@
 =How to add a CSS stylesheet?=
 
-//Warning: css_link and make_uri come from Eliom_content.Html.D module. This module is opened for each piece of code//
+//Warning: css_link and make_uri come from Eliom.Content.Html.D module. This module is opened for each piece of code//
 
 CSS stylesheet are included in the header using the **css_link** function.
 
 <<code language="ocaml"|
 css_link
-     ~uri:(make_uri (Eliom_service.static_dir ())
+     ~uri:(make_uri (Eliom.Service.static_dir ())
               ["css";"style.css"])
      ()
 >>
@@ -21,13 +21,13 @@ Insert this piece of code on the list given in parameter to the **head** functio
 <<code language="ocaml"|
   (html
      (head (title (txt "Page Title"))
-        [css_link ~uri:(make_uri (Eliom_service.static_dir ())
+        [css_link ~uri:(make_uri (Eliom.Service.static_dir ())
 	        	  ["css";"style.css"]) ()])
      (body [p [txt "Hello World!"]]))))
 >>
 
 Or you can use:
-<<a_api project="eliom" subproject="server"|val Eliom_tools.F.head>>
+<<a_api project="eliom" subproject="server"|val Eliom.Tools.F.head>>
 
 
 
@@ -41,5 +41,5 @@ Or you can use:
 === Links
 
 * <<a_manual project="eliom" chapter="misc"|About images, css and javascript>>
-* <<a_api project="eliom" subproject="server" |val Eliom_content.Html.D.make_uri>>
+* <<a_api project="eliom" subproject="server" |val Eliom.Content.Html.D.make_uri>>
 * <<a_manual project="ocsigenserver" chapter="staticmod"|Configuring Ocsigen Server for serving static files>>

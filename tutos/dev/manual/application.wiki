@@ -40,16 +40,16 @@ creating a very basic page. We define the service that will implement
 this page by the following declaration:
 
 <<code language="ocaml" class="server"|
-open%server Eliom_content.Html.D (* provides functions to create HTML nodes *)
+open%server Eliom.Content.Html.D (* provides functions to create HTML nodes *)
 
 let%server main_service =
-  Eliom_service.create
-    ~path:(Eliom_service.Path ["graff"])
-    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path ["graff"])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 
 let%server () =
-  Eliom_registration.Html.register ~service:main_service
+  Eliom.Registration.Html.register ~service:main_service
     (fun () () ->
       Lwt.return
         (html
@@ -79,7 +79,7 @@ split into multiple files as per the developer's style. What matters
 is that you eventually produce a single module (*.cmo or *.cma) for
 the whole website.
 
-The module <<a_api project="eliom" subproject="server" | module Eliom_service >> allows to
+The module <<a_api project="eliom" subproject="server" | module Eliom.Service >> allows to
 create new entry points to your web site, called //services//. In
 general, services are attached to a URL and generate a web page.
 Services are represented by OCaml values, through which you must
@@ -135,7 +135,7 @@ There are several ways to create pages for Eliom.  You can generate
 pages as strings (as in other web frameworks). However, it is
 preferable to generate HTML in a way that provides compile-time HTML
 correctness guarantees. This tutorial achieves this by using the
-module <<a_api project="eliom" subproject="server" | module Eliom_content.Html.D >>,
+module <<a_api project="eliom" subproject="server" | module Eliom.Content.Html.D >>,
 which is implemented using the <<a_manual project="tyxml" |TyXML>>
 library.  The module defines a construction function for each HTML
 tag.
@@ -144,7 +144,7 @@ tag.
  in OCaml, cf.  <<a_api project="tyxml" | module Pa_tyxml >>.//
 
 The TyXML library (and thus <<a_api project="eliom" subproject="server" | module
-Eliom_content.Html.D >>) is very strict and compels you to respect
+Eliom.Content.Html.D >>) is very strict and compels you to respect
 HTML standard (with some limitations). For example if you write:
 
 <<code language="ocaml"|
@@ -228,11 +228,11 @@ Calling JavaScript methods with Js_of_ocaml\\
 >>
 
 To create our first service, we used the function <<a_api
-project="eliom" subproject="server" | val Eliom_registration.Html.create>>, as
+project="eliom" subproject="server" | val Eliom.Registration.Html.create>>, as
 all we wanted to do was return HTML. But we actually want a service
 that corresponds to a full application with client and server
 parts. To do so, we need to create our own registration module by
-using the functor {{{Eliom_registration.App}}}:
+using the functor {{{Eliom.Registration.App}}}:
 
 <<|BB
   This is a bit fast, especially if you just came to Ocsigen. The following
@@ -242,7 +242,7 @@ using the functor {{{Eliom_registration.App}}}:
 
 <<code language="ocaml" class="server"|
 module Graffiti_app =
-  Eliom_registration.App (struct
+  Eliom.Registration.App (struct
       let application_name = "graffiti"
       let global_data_path = None
     end)
@@ -253,9 +253,9 @@ service (now at URL {{{/}}}):
 
 <<code language="ocaml" class="server"|
 let%server main_service =
-  Eliom_service.create
-    ~path:(Eliom_service.Path [""])
-    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [""])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 
 let%server () =
@@ -275,7 +275,7 @@ JavaScript function {{{alert}}}. Add the following lines to the
 program:
 
 <<code language="ocaml" class="client"|
-let%client _ = Eliom_lib.alert "Hello!"
+let%client _ = Eliom.Lib.alert "Hello!"
 >>
 
 After running again {{{make test.byte}}}, and visiting
@@ -383,9 +383,9 @@ open%client Js_of_ocaml
 let%server count = ref 0
 
 let%server main_service =
-  Eliom_service.create
-    ~path:(Eliom_service.Path [""])
-    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [""])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 
 let%server () =
@@ -447,16 +447,16 @@ a copy of the {{{<body>}}} element. Hence, the actual page's
 
 <<code language="ocaml" class="server"|
 let%server main_service =
-  Eliom_service.create
-    ~path:(Eliom_service.Path [""])
-    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [""])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 
 let%server () =
   Graffiti_app.register ~service:main_service
     (fun () () ->
       let container = body [h1 [txt "Graffiti"]] in
-      Eliom_service.onload {{
+      Eliom.Service.onload {{
         Html.Manip.appendChild %container (div [txt "some text"]);
       }}
       Lwt.return
@@ -487,15 +487,15 @@ line for now.
 Here is the (full) new version of the program:
 
 <<code language="ocaml" class="server"|
-open%server Eliom_content
-open%server Eliom_content.Html.D
+open%server Eliom.Content
+open%server Eliom.Content.Html.D
 >>
 <<code language="ocaml" class="client"|
 open%client Js_of_ocaml
 >>
 <<code language="ocaml" class="server"|
 module%server Graffiti_app =
-  Eliom_registration.App (
+  Eliom.Registration.App (
     struct
       let application_name = "graffiti"
       let global_data_path = None
@@ -528,16 +528,16 @@ let%server page () =
 >>
 <<code language="ocaml" class="client"|
 let%client init_client () =
-  let canvas = Eliom_content.Html.To_dom.of_canvas ~%canvas_elt in
+  let canvas = Eliom.Content.Html.To_dom.of_canvas ~%canvas_elt in
   let ctx = canvas##(getContext (Dom_html._2d_)) in
   ctx##.lineCap := Js.string "round";
   draw ctx ((0, 0, 0), 12, (10, 10), (200, 100))
 >>
 <<code language="ocaml" class="server"|
 let%server main_service =
-  Eliom_service.create
-    ~path:(Eliom_service.Path ["graff"])
-    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path ["graff"])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 
 let%server () =
@@ -603,7 +603,7 @@ following piece of code, then compile and draw!
 <<code language="ocaml" class="client"|
 let%client init_client () =
 
-  let canvas = Eliom_content.Html.To_dom.of_canvas ~%canvas_elt in
+  let canvas = Eliom.Content.Html.To_dom.of_canvas ~%canvas_elt in
   let ctx = canvas##(getContext (Dom_html._2d_)) in
   ctx##.lineCap := Js.string "round";
 
@@ -778,11 +778,11 @@ containing exclusively basic types, or other types annotated with
 
 Then we create an Eliom bus to broadcast drawing events to all client
 with the function <<a_api project="eliom" subproject="server"| val
-Eliom_bus.create >>. This function take as parameter the type of
+Eliom.Bus.create >>. This function take as parameter the type of
 values carried by the bus.
 
 <<code language="ocaml" class="server"|
-let%server bus = Eliom_bus.create [%json: messages]
+let%server bus = Eliom.Bus.create [%json: messages]
 >>
 
 To write draw commands into the bus, we just replace the function
@@ -791,7 +791,7 @@ To write draw commands into the bus, we just replace the function
 <<code language="ocaml" class="client"|
 let line ev =
   let v = compute_line ev in
-  let _ = Eliom_bus.write ~%bus v in
+  let _ = Eliom.Bus.write ~%bus v in
   draw ctx v;
   Lwt.return ()
 in
@@ -802,7 +802,7 @@ following line at the end of function {{{init_client}}}:
 
 <<code language="ocaml" class="client"|
   Lwt.async (fun () ->
-    Lwt_stream.iter (draw ctx) (Eliom_bus.stream ~%(bus : (messages, messages) Eliom_bus.t)))
+    Lwt_stream.iter (draw ctx) (Eliom.Bus.stream ~%(bus : (messages, messages) Eliom.Bus.t)))
 >>
 
 Now you can try the program using two browser windows to see that the
@@ -815,31 +815,31 @@ lines are drawn on both windows.
   Eliom provides multiple ways for the server to send unsolicited data
   to the client:
 
-* Module <<a_api project="eliom" subproject="server" | module Eliom_notif >>
-  (or <<a_api project="ocsigen-start" subproject="server" | module Os_notif >>
+* Module <<a_api project="eliom" subproject="server" | module Eliom.Notif >>
+  (or <<a_api project="ocsigen-start" subproject="server" | module Os.Notif >>
   if you are using Ocsigen Start) provides a very simple way to send messages to
   clients. It's probably the solution you will use most of the times.
 * You can use <<a_api project="eliom" subproject="server"
-  | type Eliom_bus.t >> instead, as in this example, in the particular case
+  | type Eliom.Bus.t >> instead, as in this example, in the particular case
   when you need to broadcast data to all connected clients. Buses are
   broadcasting channels where
   client and server can participate (see also <<a_api project="eliom"
-  subproject="client" | type Eliom_bus.t >> in the client
+  subproject="client" | type Eliom.Bus.t >> in the client
   API).
 * <<a_api project="eliom" subproject="server" | module
   Eliom_react >> allows sending
   [[http://erratique.ch/software/react/doc/React|React events]] from
   the server to the client, and conversely.
 * <<a_api project="eliom" subproject="server" | type
-  Eliom_comet.Channel.t >> are one-way communication channels
+  Eliom.Comet.Channel.t >> are one-way communication channels
   allowing finer-grained control. It allows sending <<a_api
   project="lwt" | module Lwt_stream >> to the client.
-  {{{Eliom_react}}} and {{{Eliom_bus}}} are implemented over
-  {{{Eliom_comet}}}.
+  {{{Eliom_react}}} and {{{Eliom.Bus}}} are implemented over
+  {{{Eliom.Comet}}}.
 
   It is possible to control the idle behaviour with module <<a_api
   project="eliom" subproject="client" | module
-  Eliom_comet.Configuration >>.
+  Eliom.Comet.Configuration >>.
 
 >>
 
@@ -880,7 +880,7 @@ To create the widget, we replace {{{page}}} by :
 <<code language="ocaml" class="server"|
 let%server page () =
   let colorpicker, cp_sig =
-    Ot_color_picker.make ~a:[Html.D.a_class ["colorpicker"]] ()
+    Ot.Color_picker.make ~a:[Html.D.a_class ["colorpicker"]] ()
   in
   ( Html.D.html
       (Html.D.head
@@ -909,7 +909,7 @@ code:
 
 <<code language="ocaml" class="server"|
 let%server slider =
-  Eliom_content.Html.D.Form.input
+  Eliom.Content.Html.D.Form.input
     ~a:
       [ Html.D.a_id "slider"
       ; Html.D.a_class ["slider"]
@@ -936,10 +936,10 @@ let%client init_client ~cp_sig () =
   let compute_line ev =
     let oldx = !x and oldy = !y in
     set_coord ev;
-    let size_slider = Eliom_content.Html.To_dom.of_input ~%slider in
+    let size_slider = Eliom.Content.Html.To_dom.of_input ~%slider in
     let size = int_of_string (Js.to_string size_slider##.value) in
-    let h, s, v = Eliom_shared.React.S.value cp_sig in
-    let r, g, b = Ot_color_picker.hsv_to_rgb h s v in
+    let h, s, v = Eliom.Shared.React.S.value cp_sig in
+    let r, g, b = Ot.Color_picker.hsv_to_rgb h s v in
     let rgb = int_of_float r, int_of_float g, int_of_float b in
     (rgb, size, (oldx, oldy), (!x, !y))
   in
@@ -948,12 +948,12 @@ let%client init_client ~cp_sig () =
 
 Finally, we need to add a stylesheet in the headers of our page
 with function <<a_api project="eliom" subproject="server"|
-val Eliom_tools.D.css_link>>:
+val Eliom.Tools.D.css_link>>:
 
 <<code language="ocaml" class="server"|
 let%server page () =
   let colorpicker, cp_sig =
-    Ot_color_picker.make ~a:[Html.D.a_class ["colorpicker"]] ()
+    Ot.Color_picker.make ~a:[Html.D.a_class ["colorpicker"]] ()
   in
   ( html
       (head
@@ -961,13 +961,13 @@ let%server page () =
          [ css_link
              ~uri:
                (Html.D.make_uri
-                  ~service:(Eliom_service.static_dir ())
+                  ~service:(Eliom.Service.static_dir ())
                   ["css"; "graffiti.css"])
              ()
          ; css_link
              ~uri:
                (make_uri
-                  ~service:(Eliom_service.static_dir ())
+                  ~service:(Eliom.Service.static_dir ())
                   ["css"; "ot_color_picker.css"])
              () ])
       (body [canvas_elt; slider; colorpicker])
@@ -1005,13 +1005,13 @@ You can then test your application ({{{make test.byte}}}).
   simplify and automatize page changes, through Daniel Bünzli's
   React library.
 
-  For example, {{{Ot_color_picker.make}}} returns both the element
+  For example, {{{Ot.Color_picker.make}}} returns both the element
   and a //reactive signal// on which you can bind other computations
   or other page elements, that would be updated automatically when
   the signal value changes.
 
   Eliom makes it possible to create reactive (client side) page elements
-  from server side, through module Eliom_shared.
+  from server side, through module Eliom.Shared.
 
   This basic program does not show the full power of reactive
   programming, however. See [[wiki:manual/tutoreact|this tutorial]]
@@ -1067,43 +1067,43 @@ let%server draw_server, image_string =
       Cairo.PNG.write_to_stream surface (Buffer.add_string b);
       Buffer.contents b )
 
-let%server _ = Lwt_stream.iter draw_server (Eliom_bus.stream bus)
+let%server _ = Lwt_stream.iter draw_server (Eliom.Bus.stream bus)
 >>
 
 We also define a service that sends the picture:
 
 <<code language="ocaml" class="server"|
 let%server imageservice =
-  Eliom_service.create
-    ~path:(Eliom_service.Path ["image"])
-    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path ["image"])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 
 let%server () =
-  Eliom_registration.String.register ~service:imageservice
+  Eliom.Registration.String.register ~service:imageservice
     (fun () () -> Lwt.return (image_string (), "image/png"))
 >>
 
 <<concept
 
-  title="Eliom_registration"|
+  title="Eliom.Registration"|
 
-  The module {{{Eliom_registration}}} defines several modules with
+  The module {{{Eliom.Registration}}} defines several modules with
   registration and creation functions for a variety of data types.
-  We have already seen {{{Eliom_registration.Html}}} and {{{Eliom_registration.App}}}.
-  The module {{{Eliom_registration.String}}} sends arbitrary byte output
+  We have already seen {{{Eliom.Registration.Html}}} and {{{Eliom.Registration.App}}}.
+  The module {{{Eliom.Registration.String}}} sends arbitrary byte output
   (represented by an OCaml string). The handler function must return
   a pair consisting of the content and the content-type.
 
   There are also several other output modules, for example:
 
-* {{{Eliom_registration.File}}} to send static files
-* {{{Eliom_registration.Redirection}}} to create a redirection towards another page
-* {{{Eliom_registration.Any}}} to create services that decide late what
+* {{{Eliom.Registration.File}}} to send static files
+* {{{Eliom.Registration.Redirection}}} to create a redirection towards another page
+* {{{Eliom.Registration.Any}}} to create services that decide late what
 they want to send
-* {{{Eliom_registration.Ocaml}}} to send any OCaml data to be used in a
+* {{{Eliom.Registration.Ocaml}}} to send any OCaml data to be used in a
 client side program
-* {{{Eliom_registration.Action}}} to create service with no output
+* {{{Eliom.Registration.Action}}} to create service with no output
 (the handler function just performs a side effect on the server)
 and reload the current page (or not). We will see an example of actions
 in the next chapter.
@@ -1116,7 +1116,7 @@ in {{{init_client}}}:
 
 <<code language="ocaml" class="server"|
 (* The initial image: *)
-let img = Eliom_content.Html.To_dom.of_img
+let img = Eliom.Content.Html.To_dom.of_img
     (img ~alt:"canvas"
        ~src:(make_uri ~service:~%imageservice ())
        ())
@@ -1125,11 +1125,11 @@ img##.onload := Dom_html.handler (fun _ev ->
   ctx##drawImage img 0. 0.; Js._false);
 >>
 
-As we are now using {{{Eliom_content.Html.D}}} in both client and server sections,
+As we are now using {{{Eliom.Content.Html.D}}} in both client and server sections,
 we need to open it in a shared section:
 
 <<code language="ocaml" class="shared"|
-open%shared Eliom_content.Html.D
+open%shared Eliom.Content.Html.D
 >>
 
 Finally, we can add a new canvas where we would draw a visualisation of the

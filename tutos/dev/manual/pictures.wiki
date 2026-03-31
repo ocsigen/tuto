@@ -19,13 +19,13 @@ and we do nothing.
 We will add this code in a new file:
 ===={{{feed.ml}}}====
 <<code language="ocaml"|
-open Eliom_content
+open Eliom.Content
 open Lwt.Infix
 open Html.F
 open Server
 
 let static_dir =
-  match Eliom_config.get_config () with
+  match Eliom.Config.get_config () with
   | [Element ("staticdir", [], [PCData dir])] ->
     dir
   | [] ->
@@ -39,13 +39,13 @@ let create_dir dir =
   try%lwt Lwt_unix.mkdir dir 0o777 with
   | Unix.Unix_error (Unix.EEXIST, "mkdir", _) -> Lwt.return_unit
   | _ ->
-      Eliom_lib.debug "could not create the directory %s" dir;
+      Eliom.Lib.debug "could not create the directory %s" dir;
       Lwt.return_unit
 
 let image_dir name =
   let dir = static_dir ^ "/graffiti_saved/" in
   let%lwt () = create_dir dir in
-  let dir = dir ^ Eliom_lib.Url.encode name in
+  let dir = dir ^ Eliom.Lib.Url.encode name in
   let%lwt () = create_dir dir in
   Lwt.return dir
 
@@ -87,13 +87,13 @@ let save_image username =
   save (image_string ()) username number
 
 let save_image_service =
-  Eliom_service.create
-    ~meth:(Eliom_service.Post
-             (Eliom_parameter.unit, Eliom_parameter.string "name"))
-    ~path:Eliom_service.No_path ()
+  Eliom.Service.create
+    ~meth:(Eliom.Service.Post
+             (Eliom.Parameter.unit, Eliom.Parameter.string "name"))
+    ~path:Eliom.Service.No_path ()
 
 let () =
-  Eliom_registration.Action.register
+  Eliom.Registration.Action.register
     ~service:save_image_service (fun () name -> save_image name)
 
 let save_image_box name =
@@ -107,20 +107,20 @@ let save_image_box name =
 >>
 
 We find the url of the images with <<a_api project="eliom"
-subproject="server"| val Eliom_service.static_dir >>.  It is a service
+subproject="server"| val Eliom.Service.static_dir >>.  It is a service
 taking file path as parameter, serving the content of the static
 directory. We use <<a_api project="eliom" subproject="server"| val
-Eliom_uri.make_string_uri >> to get the url as a string.
+Eliom.Eliom_uri.make_string_uri >> to get the url as a string.
 
 <<code language="ocaml"|
 let feed_service =
-  Eliom_service.create
-    ~path:(Eliom_service.Path ["feed"])
-    ~meth:(Eliom_service.Get (Eliom_parameter.string "name"))
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path ["feed"])
+    ~meth:(Eliom.Service.Get (Eliom.Parameter.string "name"))
     ()
 
 let local_filename name number =
-  ["graffiti_saved"; Eliom_lib.Url.encode name ; (string_of_int number) ^ ".png"]
+  ["graffiti_saved"; Eliom.Lib.Url.encode name ; (string_of_int number) ^ ".png"]
 
 let rec entries name list = function
   | 0 -> []
@@ -130,7 +130,7 @@ let rec entries name list = function
     | (n,saved)::q ->
       let uri =
         Html.D.make_uri ~absolute:true
-          ~service:(Eliom_service.static_dir ())
+          ~service:(Eliom.Service.static_dir ())
           (local_filename name n)
         |> Xml.string_of_uri
         |> Uri.of_string in
@@ -168,7 +168,7 @@ let feed name () =
                   |> feed_of_string_page)
              | e -> Lwt.fail e )
 
-let () = Eliom_registration.String.register ~service:feed_service feed
+let () = Eliom.Registration.String.register ~service:feed_service feed
 >>
 
 And then use the new module as follow:

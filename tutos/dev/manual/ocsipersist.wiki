@@ -30,15 +30,15 @@ let check_pwd name pwd =
   with
     Not_found -> Lwt.return false
 
-let () = Eliom_registration.Action.register
+let () = Eliom.Registration.Action.register
   ~service:create_account_service
   (fun () (name, pwd) -> Ocsipersist.Polymorphic.add user_table name pwd)
 
-let () = Eliom_registration.Action.register
+let () = Eliom.Registration.Action.register
   ~service:connection_service
   (fun () (name, password) ->
     match%lwt check_pwd name password with
-      | true -> Eliom_reference.set username (Some name)
+      | true -> Eliom.Reference.set username (Some name)
       | false -> Lwt.return ())
 >>
 

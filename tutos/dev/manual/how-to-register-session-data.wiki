@@ -14,8 +14,8 @@ To create a session group, open the session by doing something like:
 let open_session login password =
   let%lwt b = check_password login password in
   if b
-  then Eliom_state.set_volatile_data_session_group
-      ~scope:Eliom_common.default_session_scope
+  then Eliom.State.set_volatile_data_session_group
+      ~scope:Eliom.Common.default_session_scope
       (Int64.to_string (get_userid login))
   else ...
 
@@ -26,8 +26,8 @@ just create a global Eliom reference of scope group:
 <<code language="ocaml"|
 
 let myref =
-  Eliom_reference.Volatile.eref
-    ~scope:Eliom_common.default_group_scope
+  Eliom.Reference.Volatile.eref
+    ~scope:Eliom.Common.default_group_scope
     None
 
 >>
@@ -36,39 +36,39 @@ And during a request, set this reference:
 <<code language="ocaml"|
 
   ...
-  Eliom_reference.Volatile.set myref (Some "user data")
+  Eliom.Reference.Volatile.set myref (Some "user data")
 
 >>
 
 The value of this reference is different for each user:
 <<code language="ocaml"|
 
-  Eliom_reference.Volatile.get myref
+  Eliom.Reference.Volatile.get myref
 
 >>
 
 It is possible to create //persistent// Eliom references (see module
-<<a_api project="eliom" subproject="server"|module Eliom_reference>>).
+<<a_api project="eliom" subproject="server"|module Eliom.Reference>>).
 
 ==Other scopes==
 If you want to store server side data for one browser (one session),
-use scope {{{Eliom_common.default_session_scope}}}.
+use scope {{{Eliom.Common.default_session_scope}}}.
 
 If you want to store server side data for one tab of your browser (one client process),
-use scope {{{Eliom_common.default_process_scope}}} (available only if you
+use scope {{{Eliom.Common.default_process_scope}}} (available only if you
 have a client-server Eliom application).
 
 If you want to store server side data during one request,
-use scope {{{Eliom_common.request_scope}}}.
+use scope {{{Eliom.Common.request_scope}}}.
 
 ==Persistent references==
 
 Module
-<<a_api project="eliom" subproject="server"|module Eliom_reference>>
+<<a_api project="eliom" subproject="server"|module Eliom.Reference>>
 also defines an interface for persistent references, that will survive
 if you restart the server.
 
 ==Links
 
 * <<a_manual project="eliom" chapter="server-state"|More information on session data>>
-* module <<a_api project="eliom" subproject="server"|module Eliom_reference>>
+* module <<a_api project="eliom" subproject="server"|module Eliom.Reference>>

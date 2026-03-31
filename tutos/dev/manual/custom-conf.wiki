@@ -12,7 +12,7 @@ configuration file.
 
 <<code language="ocaml"|
 let static_dir =
-  match Eliom_config.get_config () with
+  match Eliom.Config.get_config () with
     | [Simplexmlparser.Element
      ("staticdir", [], [Simplexmlparser.PCData dir])] ->
         dir
@@ -36,7 +36,7 @@ configuration file:
 ==New interface==
 
 From Eliom 4.0 it is much easier to define configuration file extension.
-Have a look at module <<a_api project="eliom" subproject="server"|module Eliom_config>>.
+Have a look at module <<a_api project="eliom" subproject="server"|module Eliom.Config>>.
 For instance, here is how you can add an element "<ldap>"
 in the configuration file to store a list of LDAP servers your application
 interacts with.
@@ -84,6 +84,6 @@ let ldap_configuration = Ocsigen_extensions.Configuration.(
   element ~init ~name ~obligatory ~attributes ()
 )
 
-let _ = Eliom_config.parse_config [ldap_configuration]
+let _ = Eliom.Config.parse_config [ldap_configuration]
 
 >>

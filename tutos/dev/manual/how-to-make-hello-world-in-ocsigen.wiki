@@ -5,20 +5,20 @@ Here it is! The famous "**Hello World**" for a client/server Eliom application:
 ===
 
 <<code language="ocaml"|
-open Eliom_content
+open Eliom.Content
 open Html.D
-open Eliom_parameter
+open Eliom.Parameter
 
 module Example =
-  Eliom_registration.App
+  Eliom.Registration.App
     (struct
       let application_name = "example"
      end)
 
 let main =
-  Eliom_service.create
-    ~path:(Eliom_service.Path [])
-    ~meth:(Eliom_service.Get unit)
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [])
+    ~meth:(Eliom.Service.Get unit)
     ()
 
 let _ =

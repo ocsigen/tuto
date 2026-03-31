@@ -5,11 +5,11 @@
 Just as we do for links, we provide form-building functions that call
 Eliom services in a safe manner. These functions are provided in the
 module
-<<a_api project="eliom" subproject="server" | module Eliom_content.Html.D.Form >> (and
-<<a_api project="eliom" subproject="server" | module Eliom_content.Html.F.Form >>).
+<<a_api project="eliom" subproject="server" | module Eliom.Content.Html.D.Form >> (and
+<<a_api project="eliom" subproject="server" | module Eliom.Content.Html.F.Form >>).
 The functions
-<<a_api project="eliom" subproject="server" | val Eliom_content.Html.D.Form.get_form >> and
-<<a_api project="eliom" subproject="server" | val Eliom_content.Html.D.Form.post_form >>
+<<a_api project="eliom" subproject="server" | val Eliom.Content.Html.D.Form.get_form >> and
+<<a_api project="eliom" subproject="server" | val Eliom.Content.Html.D.Form.post_form >>
 accept a function (named {{{create_form}}} in our example below)
 which is responsible for generating the content from
 appropriately-typed parameter names.
@@ -18,8 +18,8 @@ Here a complete example.
 
 <<code language="ocaml"|
 [%%shared
-  open Eliom_parameter
-  open Eliom_content.Html.D
+  open Eliom.Parameter
+  open Eliom.Content.Html.D
 ]
 (* Create the form with some inputs *)
 let%server create_form =
@@ -36,9 +36,9 @@ let%server create_form =
         Form.input ~input_type:`Text ~name:string_name Form.string;
         Form.input ~input_type:`Submit ~value:"Click" Form.string]])
 
-let%server form_result_service = Eliom_service.create
-  ~path:(Eliom_service.Path ["form-result"])
-  ~meth:(Eliom_service.Get ((int "number_name") ** ((int "number2_name") ** (string "string_name"))))
+let%server form_result_service = Eliom.Service.create
+  ~path:(Eliom.Service.Path ["form-result"])
+  ~meth:(Eliom.Service.Get ((int "number_name") ** ((int "number2_name") ** (string "string_name"))))
   ()
 
 let%server form_result_handler =
@@ -61,9 +61,9 @@ let%server form_result_handler =
              ]
            ]))))
 
-let%server form_service = Eliom_service.create
-  ~path:(Eliom_service.Path ["form"])
-  ~meth:(Eliom_service.Get unit)
+let%server form_service = Eliom.Service.create
+  ~path:(Eliom.Service.Path ["form"])
+  ~meth:(Eliom.Service.Get unit)
   ()
 
 let%server form_handler =
@@ -75,23 +75,23 @@ let%server form_handler =
          (body [form])))
 
 let%server () =
-  Eliom_registration.Html.register ~service:form_result_service form_result_handler;
-  Eliom_registration.Html.register ~service:form_service form_handler
+  Eliom.Registration.Html.register ~service:form_result_service form_result_handler;
+  Eliom.Registration.Html.register ~service:form_service form_handler
 >>
 
 As shown in the example,
-<<a_api project="eliom" subproject="server" | module Eliom_content.Html.D.Form >>
+<<a_api project="eliom" subproject="server" | module Eliom.Content.Html.D.Form >>
 provides functions for generating the various widgets, e.g.,
-<<a_api project="eliom" subproject="server" | val Eliom_content.Html.D.Form.input >>.
+<<a_api project="eliom" subproject="server" | val Eliom.Content.Html.D.Form.input >>.
 These functions need to be called with a "type" argument (e.g.,
-<<a_api project="eliom" subproject="server" | val Eliom_content.Html.D.Form.int >>)
+<<a_api project="eliom" subproject="server" | val Eliom.Content.Html.D.Form.int >>)
 that matches the type of the corresponding parameter name.
 
 POST forms may also take get parameters, as last argument of function
 {{{post_form}}}:
 
 <<code language="ocaml"|
-Eliom_content.Html.D.Form.post_form
+Eliom.Content.Html.D.Form.post_form
   my_service_with_get_and_post
   (fun my_string ->
     p [txt "Write a string: ";
@@ -104,7 +104,7 @@ Eliom_content.Html.D.Form.post_form
 There is also a raw interface to write basic forms without Eliom,
 using standard tyxml constructors.
 
-Use module [[wiki("eliom"):api/server/Eliom_content.Html.D.Raw|Eliom_content.Html.D.Raw]].
+Use module [[wiki("eliom"):api/server/Eliom.Content.Html.D.Raw|Eliom.Content.Html.D.Raw]].
 
 ===Links
 * [[wiki:manual/how-to-add-a-select-or-other-form-element|How to write a select (or other form element)?]]

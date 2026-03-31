@@ -1,19 +1,19 @@
 =How to implement a notification system?=
 
 The easiest way for the server to send notifications to the client is
-to use module <<a_api project="ocsigen-start"|module Os_notif>> from
+to use module <<a_api project="ocsigen-start"|module Os.Notif>> from
 Ocsigen-start (OS), but it requires to use OS's user management
 system. If you are not using OS, we recommend to get inspiration from
 the code of this module, to implement your notification system
 conveniently and without memory leak.
 
-== With {{{Os_notif}}}
+== With {{{Os.Notif}}}
 
 For each type of data on which you want to receive updates,
-instanciate functor {{{Os_notif.Make_Simple}}} on server side:
+instanciate functor {{{Os.Notif.Make_Simple}}} on server side:
 
 <<code language="ocaml" class="server"|
-module My_notif = Os_notif.Make_Simple (struct
+module My_notif = Os.Notif.Make_Simple (struct
   type key = ... (* The type of the identifier of the data we want listen on. *)
   type notification = ... (* The type of the notifications that will be sent *)
 end)
@@ -35,18 +35,18 @@ about client-server reactive applications>>.
 
 
 
-== Without {{{Os_notif}}} (manual implementation)
+== Without {{{Os.Notif}}} (manual implementation)
 
 If you want the user to receive notifications from the server
 (for example: "you have a new message"), first create a channel, and
 register it in an Eliom reference of scope {{{`Client_process}}}:
 <<code language="ocaml"|
 let channel_ref =
-  Eliom_reference.Volatile.eref_from_fun
-    ~scope:Eliom_common.default_process_scope
+  Eliom.Reference.Volatile.eref_from_fun
+    ~scope:Eliom.Common.default_process_scope
     (fun () ->
        let (s, notify) = Lwt_stream.create () in
-       let c = Eliom_comet.Channel.create s in
+       let c = Eliom.Comet.Channel.create s in
        (c, notify)
     )
 >>
@@ -54,7 +54,7 @@ let channel_ref =
 On client side, listen on this channel. To do that, execute this code
 (on server side) during the service that will start the client process:
 <<code language="ocaml"|
-let (channel, _) = Eliom_reference.Volatile.get channel_ref in
+let (channel, _) = Eliom.Reference.Volatile.get channel_ref in
 let _ =
   [%client
     (Lwt.async (fun () ->
@@ -85,18 +85,18 @@ For example:
 let notify user_id v =
   (* We get the session group state for this user: *)
   let state =
-    Eliom_state.Ext.volatile_data_group_state
-      ~scope:Eliom_common.default_group_scope (Int64.to_string user_id)
+    Eliom.State.Ext.volatile_data_group_state
+      ~scope:Eliom.Common.default_group_scope (Int64.to_string user_id)
   in
   (* We iterate on all sessions from the group: *)
-  Eliom_state.Ext.iter_volatile_sub_states
+  Eliom.State.Ext.iter_volatile_sub_states
     ~state
     (fun state ->
       (* We iterate on all client process states in the session: *)
-      Eliom_state.Ext.iter_volatile_sub_states
+      Eliom.State.Ext.iter_volatile_sub_states
         ~state
         (fun state ->
-          let (_, notify) = Eliom_reference.Volatile.Ext.get state channel_ref in
+          let (_, notify) = Eliom.Reference.Volatile.Ext.get state channel_ref in
           notify (Some v)))
 
 >>
@@ -104,7 +104,7 @@ let notify user_id v =
 //Warning://      If you do not call the iterators during
       a request or during the initialisation phase of the Eliom module,
       you must provide the extra parameter {{{?sitedata}}},
-      that you can get by calling {{{Eliom_request_info.get_sitedata}}}
+      that you can get by calling {{{Eliom.Request_info.get_sitedata}}}
       during the initialisation phase of the Eliom module.
 
-Have a look at the implementation of {{{Os_notif}}} for more details.
+Have a look at the implementation of {{{Os.Notif}}} for more details.

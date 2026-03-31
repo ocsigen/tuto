@@ -5,7 +5,7 @@ You should read the [[site:/tuto/manual/music|Playing Music]] tutorial before th
 Since version 4, Eliom embeds the
 [[http://erratique.ch/logiciel/react|React]] library in order to
 provide reactive HTML elements
-(<<a_api project="eliom" subproject="server"| module Eliom_content.Html.R >>).
+(<<a_api project="eliom" subproject="server"| module Eliom.Content.Html.R >>).
 
 
 <<webonly| The final Eliom code is available
@@ -18,7 +18,7 @@ current value of a signal. For instance :
 
 <<code language="ocaml" class="shared"|
 [%%shared
-open Eliom_content
+open Eliom.Content
 open Html
 ]
 >>
@@ -87,7 +87,7 @@ type:
 
 <<code language="ocaml" class="shared"|
 [%%shared
-    open Eliom_content
+    open Eliom.Content
     open Html
 
     type action = Play | Pause | Seek of float
@@ -129,7 +129,7 @@ element on the server side.
 <<code language="ocaml" class="server"|
 let media_uri =
   Html.D.make_uri
-    ~service:(Eliom_service.static_dir ())
+    ~service:(Eliom.Service.static_dir ())
     ["hb.mp3"]
 
 let media_tag () =
@@ -167,15 +167,15 @@ browsers are compatible with all formats.
 
 <<code language="ocaml" class="server"|
 module React_Player_app =
-  Eliom_registration.App
+  Eliom.Registration.App
     (struct
       let application_name = "react_player"
     end)
 
 let media_service =
-  Eliom_service.create
-    ~path:(Eliom_service.Path [])
-    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 
 let () =
@@ -189,7 +189,7 @@ let () =
              div [play_button (); pause_button (); progress_bar ()]
            ])
        in
-       Lwt.return (Eliom_tools.D.html ~title:"Media" ~css:[] body))
+       Lwt.return (Eliom.Tools.D.html ~title:"Media" ~css:[] body))
 >>
 
 Now you should have an ΗΤΜL node with an audio tag, and two buttons:
@@ -247,7 +247,7 @@ let progress_bar () =
 <<concept title="Reactive attributes and React.S.on" |
 
 The function {{{R.a_value}}}
-(under <<a_api project="eliom" subproject="server"| module Eliom_content.Html >>)
+(under <<a_api project="eliom" subproject="server"| module Eliom.Content.Html >>)
 is a reactive attribute value. {{{React.S.on c d s}}} is equal to
 {{{s}}} when {{{c}}} is true, otherwise it is equal to {{{d}}} (in
 case {{{c}}} has never been true). Which means we update the attribute
@@ -288,4 +288,4 @@ let media_tag () =
 ====Exercises====
 
 * Add a control to set the volume
-* Add an {{{Eliom_bus}}} to control several clients
+* Add an {{{Eliom.Bus}}} to control several clients

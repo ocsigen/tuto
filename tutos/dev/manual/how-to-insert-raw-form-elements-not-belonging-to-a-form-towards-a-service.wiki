@@ -5,14 +5,14 @@ to make possible to check the type of the form w.r.t. the type of the service.
 
 If you don't want that (for example if you want to use it only from a client side program),
 you can use "raw form elements" (that is, basic tyxml elements), using
-module [[wiki("eliom"):api/server/Eliom_content.Html.D.Raw|{{{Eliom_content.Html.D.Raw}}}]]
-(or [[wiki("eliom"):api/server/Eliom_content.Html.F.Raw|{{{Eliom_content.Html.F.Raw}}}]]).
+module [[wiki("eliom"):api/server/Eliom.Content.Html.D.Raw|{{{Eliom.Content.Html.D.Raw}}}]]
+(or [[wiki("eliom"):api/server/Eliom.Content.Html.F.Raw|{{{Eliom.Content.Html.F.Raw}}}]]).
 
 Example:
 
 <<code language='ocaml'|
 {{{
-open Eliom_content.Html.D
+open Eliom.Content.Html.D
 
 Raw.textarea (txt "blah")
 

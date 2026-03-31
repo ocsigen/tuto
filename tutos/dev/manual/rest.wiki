@@ -130,10 +130,10 @@ PUT and DELETE requests. An alternative would be to use two services at the same
 path (one with id and the other without).
 
 <<code language="ocaml"|
-let path = Eliom_service.Path [""]
+let path = Eliom.Service.Path [""]
 
 let get_params =
-  Eliom_parameter.(suffix (neopt (string "id")))
+  Eliom.Parameter.(suffix (neopt (string "id")))
 >>
 
 Next step is to define our API services. We define four of them with the same
@@ -144,12 +144,12 @@ identifier is provided, or a single resource otherwise. An error will be
 returned if no resource matches the identifier.
 
 * POST method will be used to create a new resource (or update it if it already
-exists). We set a single POST parameter: {{{Eliom_parameter.raw_post_data}}},
+exists). We set a single POST parameter: {{{Eliom.Parameter.raw_post_data}}},
 in order to retrieve raw JSON and bypass POST parameters decoding.
 
 * PUT method will be used to update an existing resource. An error will be
 returned if no resource matches the identifier. We don't need to define POST
-parameter, PUT services takes {{{Eliom_parameter.raw_post_data}}} as default
+parameter, PUT services takes {{{Eliom.Parameter.raw_post_data}}} as default
 content.
 
 * DELETE method will be used to delete an existing resource. An error will be
@@ -157,27 +157,27 @@ returned if no resource matches the identifier.
 
 <<code language="ocaml"|
 let read_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Get get_params)
+    ~meth:(Eliom.Service.Get get_params)
     ()
 
 let create_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Post (get_params, Eliom_parameter.raw_post_data))
+    ~meth:(Eliom.Service.Post (get_params, Eliom.Parameter.raw_post_data))
     ()
 
 let update_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Put get_params)
+    ~meth:(Eliom.Service.Put get_params)
     ()
 
 let delete_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Delete get_params)
+    ~meth:(Eliom.Service.Delete get_params)
     ()
 >>
 
@@ -186,7 +186,7 @@ let delete_service =
 Let's start the handlers definition with a few helper values and functions
 used by handlers.
 
-Since we use the low-level {{{Eliom_registration.String.send}}} function to
+Since we use the low-level {{{Eliom.Registration.String.send}}} function to
 send our response, we wrap it in three specialized functions: {{{send_json}}},
 {{{send_error}}} and {{{send_success}}} (this one only send the 200 OK status
 code, without any content).
@@ -202,14 +202,14 @@ from the {{{raw_content}}} Ocsigen stream.
 let json_mime_type = "application/json"
 
 let send_json ~code json =
-  Eliom_registration.String.send ~code (json, json_mime_type)
+  Eliom.Registration.String.send ~code (json, json_mime_type)
 
 let send_error ~code error_message =
   let json = Yojson.Safe.to_string (error_to_yojson {error_message}) in
   send_json ~code json
 
 let send_success () =
-  Eliom_registration.String.send ~code:200 ("", "")
+  Eliom.Registration.String.send ~code:200 ("", "")
 
 let check_content_type ~mime_type content_type =
   match content_type with
@@ -323,7 +323,7 @@ let%lwt db = db in
 
 ==@@id="registration"@@ Services registration==
 
-Finally we register services with the {{{Eliom_registration.Any}}} module in
+Finally we register services with the {{{Eliom.Registration.Any}}} module in
 order to have full control on the sent response. This way, we'll be able to
 send an appropriate HTTP status code depending on what happens during the
 request processing (parsing error, resource not found...), as seen above when
@@ -331,10 +331,10 @@ defining handlers.
 
 <<code language="ocaml"|
 let () =
-  Eliom_registration.Any.register read_service read_handler;
-  Eliom_registration.Any.register create_service create_handler;
-  Eliom_registration.Any.register update_service update_handler;
-  Eliom_registration.Any.register delete_service delete_handler;
+  Eliom.Registration.Any.register read_service read_handler;
+  Eliom.Registration.Any.register create_service create_handler;
+  Eliom.Registration.Any.register update_service update_handler;
+  Eliom.Registration.Any.register delete_service delete_handler;
   ()
 >>
 
@@ -370,33 +370,33 @@ let db : location Ocsipersist.table Lwt.t =
 
 (**** Services ****)
 
-let path = Eliom_service.Path [""]
+let path = Eliom.Service.Path [""]
 
 let get_params =
-  Eliom_parameter.(suffix (neopt (string "id")))
+  Eliom.Parameter.(suffix (neopt (string "id")))
 
 let read_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Get get_params)
+    ~meth:(Eliom.Service.Get get_params)
     ()
 
 let create_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Post (get_params, Eliom_parameter.raw_post_data))
+    ~meth:(Eliom.Service.Post (get_params, Eliom.Parameter.raw_post_data))
     ()
 
 let update_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Put get_params)
+    ~meth:(Eliom.Service.Put get_params)
     ()
 
 let delete_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Delete get_params)
+    ~meth:(Eliom.Service.Delete get_params)
     ()
 
 (**** Handler helpers ****)
@@ -404,14 +404,14 @@ let delete_service =
 let json_mime_type = "application/json"
 
 let send_json ~code json =
-  Eliom_registration.String.send ~code (json, json_mime_type)
+  Eliom.Registration.String.send ~code (json, json_mime_type)
 
 let send_error ~code error_message =
   let json = Yojson.Safe.to_string (error_to_yojson {error_message}) in
   send_json ~code json
 
 let send_success () =
-  Eliom_registration.String.send ~code:200 ("", "")
+  Eliom.Registration.String.send ~code:200 ("", "")
 
 let check_content_type ~mime_type content_type =
   match content_type with
@@ -498,9 +498,9 @@ let delete_handler id_opt _ =
 (* Register services *)
 
 let () =
-  Eliom_registration.Any.register read_service read_handler;
-  Eliom_registration.Any.register create_service create_handler;
-  Eliom_registration.Any.register update_service update_handler;
-  Eliom_registration.Any.register delete_service delete_handler;
+  Eliom.Registration.Any.register read_service read_handler;
+  Eliom.Registration.Any.register create_service create_handler;
+  Eliom.Registration.Any.register update_service update_handler;
+  Eliom.Registration.Any.register delete_service delete_handler;
   ()
 >>

@@ -55,7 +55,7 @@ It is almost the same code as what was enclosed in {{{ {client{ ... }}
 <<code language="ocaml"|
 open Common
 open Js_of_ocaml
-open Eliom_content
+open Eliom.Content
 
 let draw ctx ((r, g, b), size, (x1, y1), (x2, y2)) =
   let color = CSS.Color.string_of_t (CSS.Color.rgb r g b) in
@@ -85,7 +85,7 @@ let stop_drawing { message_thread; drawing_thread } =
 {{{Lwt.cancel t}}} stops thread t. In this case it also closes the
   bus on which t is listening. For more informations see the
   <<a_manual project="lwt"| Lwt programming guide >> and
-  <<a_api project="eliom" subproject="client" | module Eliom_bus >>.
+  <<a_api project="eliom" subproject="client" | module Eliom.Bus >>.
 
 <<code language="ocaml"|
 let launch_client_canvas bus image_elt canvas_elt slider =
@@ -101,7 +101,7 @@ let launch_client_canvas bus image_elt canvas_elt slider =
     (fun ev -> copy_image (); Js._false);
 
   (* The color palette: *)
-  let colorpicker, cp_sig = Ot_color_picker.make () in
+  let colorpicker, cp_sig = Ot.Color_picker.make () in
   Html.(Manip.appendChild (Manip.Elt.body ()) colorpicker);
 
   let x = ref 0 and y = ref 0 in
@@ -111,8 +111,8 @@ let launch_client_canvas bus image_elt canvas_elt slider =
   let compute_line ev =
     let oldx = !x and oldy = !y in
     set_coord ev;
-    let h, s, v = Eliom_shared.React.S.value cp_sig in
-    let r, g, b = Ot_color_picker.hsv_to_rgb h s v in
+    let h, s, v = Eliom.Shared.React.S.value cp_sig in
+    let r, g, b = Ot.Color_picker.hsv_to_rgb h s v in
     let rgb = int_of_float r, int_of_float g, int_of_float b in
     let size_slider = Html.To_dom.of_input slider in
     let size = int_of_string (Js.to_string size_slider##.value) in
@@ -120,11 +120,11 @@ let launch_client_canvas bus image_elt canvas_elt slider =
   in
   let line ev =
     let v = compute_line ev in
-    let _ = Eliom_bus.write bus v in
+    let _ = Eliom.Bus.write bus v in
     draw ctx v;
     Lwt.return ()
   in
-  let t = Lwt_stream.iter (draw ctx) (Eliom_bus.stream bus) in
+  let t = Lwt_stream.iter (draw ctx) (Eliom.Bus.stream bus) in
   let drawing_thread =
     Js_of_ocaml_lwt.Lwt_js_events.(
       mousedowns canvas (fun ev elt ->
@@ -142,12 +142,12 @@ let launch_client_canvas bus image_elt canvas_elt slider =
 
 It contains almost all the server parts of the code.
 <<code language="ocaml"|
-open Eliom_content
+open Eliom.Content
 open Common
 open Lwt
 
 module My_app =
-  Eliom_registration.App (struct
+  Eliom.Registration.App (struct
     let application_name = "graffiti"
     let global_data_path = None
   end)
@@ -156,7 +156,7 @@ module My_app =
 The main difference is that the bus is now local.
 <<code language="ocaml"|
 let launch_server_canvas () =
-  let bus = Eliom_bus.create [%json: messages] in
+  let bus = Eliom.Bus.create [%json: messages] in
 
   let draw_server, image_string =
     let rgb_ints_to_floats (r, g, b) =
@@ -186,21 +186,21 @@ let launch_server_canvas () =
        Buffer.contents b
      ))
   in
-  let _ = Lwt_stream.iter draw_server (Eliom_bus.stream bus) in
+  let _ = Lwt_stream.iter draw_server (Eliom.Bus.stream bus) in
   bus,image_string
 
 let graffiti_info = Hashtbl.create 0
 
 let imageservice =
-  Eliom_registration.String.create
-    ~path:(Eliom_service.Path ["image"])
+  Eliom.Registration.String.create
+    ~path:(Eliom.Service.Path ["image"])
     ~headers:
        (Cohttp.Header.add_list (Cohttp.Header.init ())
           [(Ocsigen_header.Name.(to_string cache_control), "no-cache") ;
            (Ocsigen_header.Name.(to_string expires), string_of_int 0)])
     ~meth:
-      (Eliom_service.Get
-         (let open Eliom_parameter in string "name" ** int "q"))
+      (Eliom.Service.Get
+         (let open Eliom.Parameter in string "name" ** int "q"))
     (* we add another parameter for the browser not to cache: at least
        for chrome, there is no way to force the browser to reload the
        image without leaving the application *)
@@ -209,7 +209,7 @@ let imageservice =
         let _ ,image_string = Hashtbl.find graffiti_info name in
 	Lwt.return (image_string (), "image/png")
       with
-	| Not_found -> Lwt.fail Eliom_common.Eliom_404)
+	| Not_found -> Lwt.fail Eliom.Common.Eliom_404)
 
 let get_bus (name:string) =
   (* create a new bus and image_string function only if it did not exists *)
@@ -229,15 +229,15 @@ want to go.  The drawing will be sent by the
 
 <<code language="ocaml"|
 let main_service =
-  Eliom_service.create
-    ~path:(Eliom_service.Path [""])
-    ~meth:(Eliom_service.Get (Eliom_parameter.unit))
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [""])
+    ~meth:(Eliom.Service.Get (Eliom.Parameter.unit))
     ()
 
 let multigraffiti_service =
-  Eliom_service.create
-    ~path:(Eliom_service.Path [""])
-    ~meth:(Eliom_service.Get (Eliom_parameter.(suffix (string "name"))))
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [""])
+    ~meth:(Eliom.Service.Get (Eliom.Parameter.(suffix (string "name"))))
     ()
 
 let choose_drawing_form () =
@@ -289,7 +289,7 @@ let () = My_app.register ~service:main_service
   We usually don't want that.
 
   Using <<a_api project="eliom" subproject="server"| val
-  Eliom_content.Html.Id.create_global_elt>> we can create an xml node
+  Eliom.Content.Html.Id.create_global_elt>> we can create an xml node
   manipulated 'by reference'. If a reference to a script node is
   included in a page, it will only be loaded the first time it appears
   in the header. This is the case for {{{oclosure_script}}} above.
@@ -303,7 +303,7 @@ application.
 
 <<code language="ocaml"|
 [%%shared
-    open Eliom_content.Html.D
+    open Eliom.Content.Html.D
     open Common
 ]
 [%%client
@@ -322,13 +322,13 @@ let start_drawing name image canvas slider =
     (let canceller =
        launch_client_canvas ~%bus ~%image ~%canvas ~%slider
      in
-     Eliom_client.onunload (fun () -> stop_drawing canceller; None)
+     Eliom.Client.onunload (fun () -> stop_drawing canceller; None)
      : unit)
   ]
 >>
 
 The function registered by <<a_api project="eliom"
-subproject="client"| val Eliom_service.onunload >> will be called when
+subproject="client"| val Eliom.Service.onunload >> will be called when
 the page change inside the application.
 
 And we finally register the service sending a drawing:
@@ -385,25 +385,25 @@ From the previous chapter, we copy the code handling users to
 {{{server.ml}}}:
 
 <<code language="ocaml"|
-let connection_service = Eliom_service.create
-    ~path:Eliom_service.No_path
-    ~meth:(Eliom_service.Post (
-      Eliom_parameter.unit,
-      Eliom_parameter.(string "name" ** string "password")
+let connection_service = Eliom.Service.create
+    ~path:Eliom.Service.No_path
+    ~meth:(Eliom.Service.Post (
+      Eliom.Parameter.unit,
+      Eliom.Parameter.(string "name" ** string "password")
     ))
     ()
 
-let disconnection_service = Eliom_service.create
-    ~path:Eliom_service.No_path
-    ~meth:(Eliom_service.Post (Eliom_parameter.unit, Eliom_parameter.unit))
+let disconnection_service = Eliom.Service.create
+    ~path:Eliom.Service.No_path
+    ~meth:(Eliom.Service.Post (Eliom.Parameter.unit, Eliom.Parameter.unit))
     ()
 
 let create_account_service =
-  Eliom_service.create
-    ~path:(Eliom_service.Path [""])
-    ~meth:(Eliom_service.Post
-             (Eliom_parameter.unit,
-              Eliom_parameter.(string "name" ** string "password")))
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [""])
+    ~meth:(Eliom.Service.Post
+             (Eliom.Parameter.unit,
+              Eliom.Parameter.(string "name" ** string "password")))
 
 let user_table = Ocsipersist.Polymorphic.open_table "user_table"
 
@@ -413,24 +413,24 @@ let check_pwd name pwd =
     Lwt.return (pwd = saved_password)
   with Not_found -> Lwt.return false
 
-let () = Eliom_registration.Action.register
+let () = Eliom.Registration.Action.register
   ~service:create_account_service
   (fun () (name, pwd) -> Ocsipersist.Polymorphic.add user_table name pwd)
 
-let () = Eliom_registration.Action.register
+let () = Eliom.Registration.Action.register
   ~service:connection_service
   (fun () (name, password) ->
     match%lwt check_pwd name password with
-      | true -> Eliom_state.set_volatile_data_session_group
-	~scope:Eliom_common.default_session_scope name;
+      | true -> Eliom.State.set_volatile_data_session_group
+	~scope:Eliom.Common.default_session_scope name;
 	Lwt.return ()
       | false -> Lwt.return ())
 
 let () =
-  Eliom_registration.Action.register
+  Eliom.Registration.Action.register
     ~service:disconnection_service
     (fun () () ->
-      Eliom_state.discard ~scope:Eliom_common.default_session_scope ())
+      Eliom.State.discard ~scope:Eliom.Common.default_session_scope ())
 
 let disconnect_box () =
   Html.D.Form.post_form ~service:disconnection_service
@@ -477,14 +477,14 @@ module Connected_translate =
 struct
   type page = string -> My_app.page Lwt.t
   let translate page =
-    match Eliom_state.get_volatile_data_session_group
-      ~scope:Eliom_common.default_session_scope () with
+    match Eliom.State.get_volatile_data_session_group
+      ~scope:Eliom.Common.default_session_scope () with
 	| None -> default_content ()
 	| Some username -> page username
 end
 
 module Connected =
-  Eliom_registration.Customize (My_app) (Connected_translate)
+  Eliom.Registration.Customize (My_app) (Connected_translate)
 >>
 
 We replace the previous {{{main_service}}} registration :

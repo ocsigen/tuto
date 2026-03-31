@@ -5,9 +5,9 @@ Ocsigen-start will monitor the life of sessions and close the process
 when needed.
 
 If you are not using Ocsigen-start, you must catch exceptions
-{{{Eliom_comet.Channel_full}}},
-{{{Eliom_comet.Channel_closed}}} (and {{{Eliom_comet.Process_closed}}}
+{{{Eliom.Comet.Channel_full}}},
+{{{Eliom.Comet.Channel_closed}}} (and {{{Eliom.Comet.Process_closed}}}
 on Eliom < 5).
 For example, you can use a channel with a different client-process scope
 to warn client processes that the session is closed.
-Have a look at module {{{Os_comet}}} in Ocsigen-start.
+Have a look at module Os.Comet in Ocsigen-start.

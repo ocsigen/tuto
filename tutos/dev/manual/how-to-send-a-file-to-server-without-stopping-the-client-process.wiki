@@ -6,7 +6,7 @@ Due to security reasons, browsers have limitations on sending files.
 But if the file is chosen by the user through an input file element,
 there is a way to send it to the server. You can't use the {{{server_function}}}
 or {{{let%rpc}}} syntax for this, but you can use
-{{{Eliom_client.call_caml_service}}}.
+{{{Eliom.Client.call_caml_service}}}.
 
 Example:
 <<code language="ocaml"|
@@ -14,16 +14,16 @@ Example:
 [%%client
 open Js_of_ocaml
 open Js_of_ocaml_lwt
-open Eliom_content.Html
-open Eliom_content.Html.F]
+open Eliom.Content.Html
+open Eliom.Content.Html.F]
 
 let pic_service =
-  Eliom_service.create_ocaml ~name:"upload_pic" ~path:Eliom_service.No_path
-    ~meth:(Eliom_service.Post (Eliom_parameter.unit, Eliom_parameter.file "f"))
+  Eliom.Service.create_ocaml ~name:"upload_pic" ~path:Eliom.Service.No_path
+    ~meth:(Eliom.Service.Post (Eliom.Parameter.unit, Eliom.Parameter.file "f"))
     ()
 
 let () =
-  Eliom_registration.Ocaml.register ~service:pic_service (fun _ _ ->
+  Eliom.Registration.Ocaml.register ~service:pic_service (fun _ _ ->
       (* get the file ... *)
       Lwt.return_unit)
 
@@ -41,7 +41,7 @@ let%client upload_pic_form () =
                 files ## (item 0)
                 Lwt.return
                 (fun file ->
-                  Eliom_client.call_ocaml_service ~service:~%pic_service ()
+                  Eliom.Client.call_ocaml_service ~service:~%pic_service ()
                     file)))));
   [txt "Upload a picture:"; file; submit_elt]
 

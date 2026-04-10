@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -49,21 +50,21 @@ We are looking for beta-tester and contributors.
 But if the file is chosen by the user through an input file element,
 there is a way to send it to the server. You can't use the <span class="teletype">server_function</span>
 or <span class="teletype">let%rpc</span> syntax for this, but you can use
-<span class="teletype">Eliom_client.call_caml_service</span>.
+<span class="teletype">Eliom.Client.call_caml_service</span>.
 </p><p>Example:
 </p><pre class=""><code class="language-ocaml translatable">[%%client
 open Js_of_ocaml
 open Js_of_ocaml_lwt
-open Eliom_content.Html
-open Eliom_content.Html.F]
+open Eliom.Content.Html
+open Eliom.Content.Html.F]
 
 let pic_service =
-  Eliom_service.create_ocaml ~name:&quot;upload_pic&quot; ~path:Eliom_service.No_path
-    ~meth:(Eliom_service.Post (Eliom_parameter.unit, Eliom_parameter.file &quot;f&quot;))
+  Eliom.Service.create_ocaml ~name:&quot;upload_pic&quot; ~path:Eliom.Service.No_path
+    ~meth:(Eliom.Service.Post (Eliom.Parameter.unit, Eliom.Parameter.file &quot;f&quot;))
     ()
 
 let () =
-  Eliom_registration.Ocaml.register ~service:pic_service (fun _ _ -&gt;
+  Eliom.Registration.Ocaml.register ~service:pic_service (fun _ _ -&gt;
       (* get the file ... *)
       Lwt.return_unit)
 
@@ -81,6 +82,6 @@ let%client upload_pic_form () =
                 files ## (item 0)
                 Lwt.return
                 (fun file -&gt;
-                  Eliom_client.call_ocaml_service ~service:~%pic_service ()
+                  Eliom.Client.call_ocaml_service ~service:~%pic_service ()
                     file)))));
   [txt &quot;Upload a picture:&quot;; file; submit_elt]</code></pre></article></div></div></body></html>

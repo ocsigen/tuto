@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -53,9 +54,9 @@ We are looking for beta-tester and contributors.
        (body body_content)))</code></pre><p>So when you define your pages, you just call this skeleton with the content of the page as an argument:
 </p><pre class=""><code class="language-ocaml translatable">Example.register ~service:main
     (fun () () -&gt; skeleton [p [txt &quot;Hello World!&quot;]])</code></pre><p>This method can also be adapted to add elements on all your pages, like a header, a footer and a menu.
-</p><p>Module <span><a href=".././../../eliom/latest/api/server/Eliom_tools">Eliom_tools</a></span> has a predefined function
+</p><p>Module <span><a href=".././../../eliom/latest/api/server/Eliom.Tools">Eliom.Tools</a></span> has a predefined function
 for this:
-</p><pre class=""><code class="language-ocaml translatable">Eliom_tools.D.html
+</p><pre class=""><code class="language-ocaml translatable">Eliom.Tools.D.html
   ~title:&quot;ex&quot;
   ~css:[[&quot;css&quot;; &quot;ex.css&quot;]]
   (body [h2 [txt &quot;Welcome to Ocsigen!&quot;]]</code></pre></article></div></div></body></html>

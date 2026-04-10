@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -54,10 +55,10 @@ Html.D.a ~service:coucou_params
 
 (* Link to an external service: *)
 Html.D.a
-  (Eliom_service.extern
+  (Eliom.Service.extern
     ~prefix:&quot;http://fr.wikipedia.org&quot;
     ~path:[&quot;wiki&quot;;&quot;&quot;]
-    ~meth:(Eliom_service.Get Eliom_parameter.(suffix (all_suffix &quot;suff&quot;)))
+    ~meth:(Eliom.Service.Get Eliom.Parameter.(suffix (all_suffix &quot;suff&quot;)))
     ())
   [txt &quot;OCaml on wikipedia&quot;]
   [&quot;OCaml&quot;];

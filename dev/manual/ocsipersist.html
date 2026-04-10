@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -63,15 +64,15 @@ if you do not need the full power of a SQL database.
   with
     Not_found -&gt; Lwt.return false
 
-let () = Eliom_registration.Action.register
+let () = Eliom.Registration.Action.register
   ~service:create_account_service
   (fun () (name, pwd) -&gt; Ocsipersist.Polymorphic.add user_table name pwd)
 
-let () = Eliom_registration.Action.register
+let () = Eliom.Registration.Action.register
   ~service:connection_service
   (fun () (name, password) -&gt;
     match%lwt check_pwd name password with
-      | true -&gt; Eliom_reference.set username (Some name)
+      | true -&gt; Eliom.Reference.set username (Some name)
       | false -&gt; Lwt.return ())</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Ocsipersist</h5></header><p>Ocsipersist implements simple typed key/value tables.
 It can use different backends (currently sqlite and dbm).
 For more information see <span><a href=".././../../ocsigenserver/latest/api/Ocsipersist#TYPEtable">Ocsipersist.table</a></span>.</p></aside></article></div></div></body></html>

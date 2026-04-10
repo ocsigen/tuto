@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -109,7 +110,7 @@ let insert name pwd =
 	    user_.password = $string:pwd$ &gt;&gt;)
   &gt;|= (function [] -&gt; false | _ -&gt; true)
 
-let () = Eliom_registration.Action.register
+let () = Eliom.Registration.Action.register
   ~service:create_account_service
   (fun () (name, pwd) -&gt;
     find name &gt;&gt;=
@@ -117,12 +118,12 @@ let () = Eliom_registration.Action.register
 	| [] -&gt; insert name pwd
 	| _ -&gt; Lwt.return ()) )
 
-let () = Eliom_registration.Action.register
+let () = Eliom.Registration.Action.register
   ~service:connection_service
   (fun () (name, password) -&gt;
     check_pwd name password &gt;&gt;=
       (function
-	| true -&gt; Eliom_reference.set username (Some name)
+	| true -&gt; Eliom.Reference.set username (Some name)
 	| false -&gt; Lwt.return ()))</code></pre><p>We need to reference <span class="teletype">macaque</span> in the <span class="teletype">Makefile</span> (or in <span class="teletype">Makefile.option</span> if you used <span class="teletype">eliom-distillery</span>) :
 </p><pre>SERVER_PACKAGE := macaque.syntax
 </pre><p>and in <span class="teletype">ocsigenserver.conf</span> (only if you don't use <span class="teletype">eliom-distillery</span>) :

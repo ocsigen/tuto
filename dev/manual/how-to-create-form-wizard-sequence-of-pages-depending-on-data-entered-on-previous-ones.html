@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -56,19 +57,19 @@ value, duplicate the tab, and both will continue working correctly.
 </p><p>To prevent memory leaks, use a timeout for these dynamic coservices.
 The scope of these service can be session or global for the site (as coservice
 identifiers are cryptographically safe).
-</p><pre class=""><code class="language-ocaml translatable">open Eliom_content.Html.F
+</p><pre class=""><code class="language-ocaml translatable">open Eliom.Content.Html.F
 
 (* -------------------------------------------------------- *)
 (* We create two main services on the same URL,             *)
 (* one with a GET integer parameter:                        *)
 
-let calc = Eliom_service.create
-    ~path:(Eliom_service.Path [&quot;calc&quot;])
-    ~meth:(Eliom_service.Get Eliom_parameter.unit) ()
+let calc = Eliom.Service.create
+    ~path:(Eliom.Service.Path [&quot;calc&quot;])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.unit) ()
 let calc_i =
-  Eliom_service.create
-    ~path:(Eliom_service.Path [&quot;calc&quot;])
-    ~meth:(Eliom_service.Get (Eliom_parameter.int &quot;i&quot;))
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [&quot;calc&quot;])
+    ~meth:(Eliom.Service.Get (Eliom.Parameter.int &quot;i&quot;))
     ()
 
 (* -------------------------------------------------------- *)
@@ -103,10 +104,10 @@ let calc_i_handler i () =
   in
   let is = string_of_int i in
   let calc_result =
-    Eliom_registration.Html.attach_get
-      ~scope:Eliom_common.default_session_scope
+    Eliom.Registration.Html.attach_get
+      ~scope:Eliom.Common.default_session_scope
       ~fallback:calc
-      ~get_params:(Eliom_parameter.int &quot;j&quot;)
+      ~get_params:(Eliom.Parameter.int &quot;j&quot;)
       ~timeout:120.
       (fun j () -&gt;
         let js = string_of_int j in
@@ -123,5 +124,5 @@ let calc_i_handler i () =
 (* Registration of main services:                           *)
 
 let () =
-  Eliom_registration.Html.register calc   calc_handler;
-  Eliom_registration.Html.register calc_i calc_i_handler</code></pre></article></div></div></body></html>
+  Eliom.Registration.Html.register calc   calc_handler;
+  Eliom.Registration.Html.register calc_i calc_i_handler</code></pre></article></div></div></body></html>

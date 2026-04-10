@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -48,12 +49,12 @@ We are looking for beta-tester and contributors.
 </p><p>Since version 4, Eliom embeds the
 <a href="http://erratique.ch/logiciel/react" class="ocsimore_phrasing_link">React</a> library in order to
 provide reactive HTML elements
-(<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.R">Eliom_content.Html.R</a></span>).
+(<span><a href=".././../../eliom/latest/api/server/Eliom.Content.Html.R">Eliom.Content.Html.R</a></span>).
 </p>The final Eliom code is available
 <a href="https://github.com/ocsigen/tutorial/tree/master/files/tutorial/chapter3/reactive_media_player/reactive_media_player.eliom" class="ocsimore_phrasing_link">for download</a>.<h2 id="basics"> Basics <a class="backref" href="#basics">&#182;</a></h2><p>A reactive element, or more generally a reactive value, depends on the
 current value of a signal. For instance :
 </p><pre class="shared" class=""><code class="language-ocaml translatable">[%%shared
-open Eliom_content
+open Eliom.Content
 open Html
 ]</code></pre><pre class="client" class=""><code class="language-ocaml translatable">let%client s, set_s = React.S.create 0 (* signal creation *)</code></pre><pre class="shared" class=""><code class="language-ocaml translatable">let%shared example_div () =
   C.node {{R.txt (React.S.map string_of_int s)}}
@@ -88,7 +89,7 @@ controls.We will apply
 play, pause and seek/progress bar.  So, let's write the corresponding
 type:
 </p><pre class="shared" class=""><code class="language-ocaml translatable">[%%shared
-    open Eliom_content
+    open Eliom.Content
     open Html
 
     type action = Play | Pause | Seek of float
@@ -110,7 +111,7 @@ The JS event handler is only a function raising a signal.</p></aside><p>To use o
 element on the server side.
 </p><pre class="server" class=""><code class="language-ocaml translatable">let media_uri =
   Html.D.make_uri
-    ~service:(Eliom_service.static_dir ())
+    ~service:(Eliom.Service.static_dir ())
     [&quot;hb.mp3&quot;]
 
 let media_tag () =
@@ -139,15 +140,15 @@ thread that maps a function <span class="teletype">media_action -&gt; unit</span
 </p><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Playing video</h5></header><p>The code for playing video is conceptually similar. You just replace
 the <span class="teletype">audio</span> tag by a <span class="teletype">video</span> tag. But be careful, not all
 browsers are compatible with all formats.</p></aside><pre class="server" class=""><code class="language-ocaml translatable">module React_Player_app =
-  Eliom_registration.App
+  Eliom.Registration.App
     (struct
       let application_name = &quot;react_player&quot;
     end)
 
 let media_service =
-  Eliom_service.create
-    ~path:(Eliom_service.Path [])
-    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 
 let () =
@@ -161,7 +162,7 @@ let () =
              div [play_button (); pause_button (); progress_bar ()]
            ])
        in
-       Lwt.return (Eliom_tools.D.html ~title:&quot;Media&quot; ~css:[] body))</code></pre><p>Now you should have an ΗΤΜL node with an audio tag, and two buttons:
+       Lwt.return (Eliom.Tools.D.html ~title:&quot;Media&quot; ~css:[] body))</code></pre><p>Now you should have an ΗΤΜL node with an audio tag, and two buttons:
 play and pause. The progress bar is slightly harder to understand, but
 thanks to FRP, very easy to write.  It's basically an <span class="teletype">input</span> with
 <span class="teletype">range</span> type. In our program, the progress bar must emit the
@@ -205,7 +206,7 @@ let%client unblock_s, set_unblock_s = React.S.create true</code></pre><pre class
      : unit)
   ] in
   d_input</code></pre><aside class="concept"><header><h5><span class="concept_prefix">Concept: </span>Reactive attributes and React.S.on</h5></header><p>The function <span class="teletype">R.a_value</span>
-(under <span><a href=".././../../eliom/latest/api/server/Eliom_content.Html">Eliom_content.Html</a></span>)
+(under <span><a href=".././../../eliom/latest/api/server/Eliom.Content.Html">Eliom.Content.Html</a></span>)
 is a reactive attribute value. <span class="teletype">React.S.on c d s</span> is equal to
 <span class="teletype">s</span> when <span class="teletype">c</span> is true, otherwise it is equal to <span class="teletype">d</span> (in
 case <span class="teletype">c</span> has never been true). Which means we update the attribute
@@ -233,4 +234,4 @@ eventhandler on <span class="teletype">timeupdate</span>.
      : unit)
   ] in
   media</code></pre><h4>Exercises</h4><ul><li> Add a control to set the volume
-</li><li> Add an <span class="teletype">Eliom_bus</span> to control several clients</li></ul></article></div></div></body></html>
+</li><li> Add an <span class="teletype">Eliom.Bus</span> to control several clients</li></ul></article></div></div></body></html>

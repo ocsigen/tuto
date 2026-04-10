@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -55,13 +56,13 @@ under the directory <span class="teletype">images_saved/username</span>. The <sp
 directory is created if needed. If it already exists <span class="teletype">mkdir</span> fails
 and we do nothing.
 </p><p>We will add this code in a new file:
-</p><h4><span class="teletype">feed.ml</span></h4><pre class=""><code class="language-ocaml translatable">open Eliom_content
+</p><h4><span class="teletype">feed.ml</span></h4><pre class=""><code class="language-ocaml translatable">open Eliom.Content
 open Lwt.Infix
 open Html.F
 open Server
 
 let static_dir =
-  match Eliom_config.get_config () with
+  match Eliom.Config.get_config () with
   | [Element (&quot;staticdir&quot;, [], [PCData dir])] -&gt;
     dir
   | [] -&gt;
@@ -75,13 +76,13 @@ let create_dir dir =
   try%lwt Lwt_unix.mkdir dir 0o777 with
   | Unix.Unix_error (Unix.EEXIST, &quot;mkdir&quot;, _) -&gt; Lwt.return_unit
   | _ -&gt;
-      Eliom_lib.debug &quot;could not create the directory %s&quot; dir;
+      Eliom.Lib.debug &quot;could not create the directory %s&quot; dir;
       Lwt.return_unit
 
 let image_dir name =
   let dir = static_dir ^ &quot;/graffiti_saved/&quot; in
   let%lwt () = create_dir dir in
-  let dir = dir ^ Eliom_lib.Url.encode name in
+  let dir = dir ^ Eliom.Lib.Url.encode name in
   let%lwt () = create_dir dir in
   Lwt.return dir
 
@@ -113,13 +114,13 @@ times of old images. We need those times to timestamp the entries of the feed.
   save (image_string ()) username number
 
 let save_image_service =
-  Eliom_service.create
-    ~meth:(Eliom_service.Post
-             (Eliom_parameter.unit, Eliom_parameter.string &quot;name&quot;))
-    ~path:Eliom_service.No_path ()
+  Eliom.Service.create
+    ~meth:(Eliom.Service.Post
+             (Eliom.Parameter.unit, Eliom.Parameter.string &quot;name&quot;))
+    ~path:Eliom.Service.No_path ()
 
 let () =
-  Eliom_registration.Action.register
+  Eliom.Registration.Action.register
     ~service:save_image_service (fun () name -&gt; save_image name)
 
 let save_image_box name =
@@ -129,17 +130,17 @@ let save_image_box name =
          [p [Html.D.Form.input ~input_type:`Hidden ~name:param_name
               ~value:name Html.D.Form.string;
              Html.D.Form.button_no_value ~button_type:`Submit [txt &quot;save&quot;]]])
-       ())</code></pre><p>We find the url of the images with <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALstatic_dir">Eliom_service.static_dir</a></span>.  It is a service
+       ())</code></pre><p>We find the url of the images with <span><a href=".././../../eliom/latest/api/server/Eliom.Service#VALstatic_dir">Eliom.Service.static_dir</a></span>.  It is a service
 taking file path as parameter, serving the content of the static
-directory. We use <span><a href=".././../../eliom/latest/api/server/Eliom_uri#VALmake_string_uri">Eliom_uri.make_string_uri</a></span> to get the url as a string.
+directory. We use <span><a href=".././../../eliom/latest/api/server/Eliom.Eliom_uri#VALmake_string_uri">Eliom.Eliom_uri.make_string_uri</a></span> to get the url as a string.
 </p><pre class=""><code class="language-ocaml translatable">let feed_service =
-  Eliom_service.create
-    ~path:(Eliom_service.Path [&quot;feed&quot;])
-    ~meth:(Eliom_service.Get (Eliom_parameter.string &quot;name&quot;))
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [&quot;feed&quot;])
+    ~meth:(Eliom.Service.Get (Eliom.Parameter.string &quot;name&quot;))
     ()
 
 let local_filename name number =
-  [&quot;graffiti_saved&quot;; Eliom_lib.Url.encode name ; (string_of_int number) ^ &quot;.png&quot;]
+  [&quot;graffiti_saved&quot;; Eliom.Lib.Url.encode name ; (string_of_int number) ^ &quot;.png&quot;]
 
 let rec entries name list = function
   | 0 -&gt; []
@@ -149,7 +150,7 @@ let rec entries name list = function
     | (n,saved)::q -&gt;
       let uri =
         Html.D.make_uri ~absolute:true
-          ~service:(Eliom_service.static_dir ())
+          ~service:(Eliom.Service.static_dir ())
           (local_filename name n)
         |&gt; Xml.string_of_uri
         |&gt; Uri.of_string in
@@ -187,7 +188,7 @@ let feed name () =
                   |&gt; feed_of_string_page)
              | e -&gt; Lwt.fail e )
 
-let () = Eliom_registration.String.register ~service:feed_service feed</code></pre><p>And then use the new module as follow:
+let () = Eliom.Registration.String.register ~service:feed_service feed</code></pre><p>And then use the new module as follow:
 </p><pre class=""><code class="language-ocaml translatable">[ a Feed.feed_service [txt &quot;atom feed&quot;] name;
     div (if name = username
       then [Feed.save_image_box name]

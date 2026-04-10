@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -131,17 +132,17 @@ parameters (here none).
   Lwt.return &quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;Hello world&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Welcome&lt;/body&gt;&lt;/html&gt;&quot;
 
 let myservice =
-  Eliom_service.create
-    ~path:(Eliom_service.Path [&quot;aaa&quot;; &quot;bbb&quot;])
-    ~meth:(Eliom_service.Get Eliom_parameter.any)
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [&quot;aaa&quot;; &quot;bbb&quot;])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.any)
     ()
 
 let () =
-  Eliom_registration.Html_text.register
+  Eliom.Registration.Html_text.register
     ~service:myservice
-    f</code></pre><p><span class="teletype">Eliom_service.Get Eliom_parameter.any</span> means that the service uses the GET HTTP method
+    f</code></pre><p><span class="teletype">Eliom.Service.Get Eliom.Parameter.any</span> means that the service uses the GET HTTP method
 and takes any GET parameter. The first parameter of function <span class="teletype">f</span> is an association list of GET parameters.
-</p><p>Module <span class="teletype">Eliom_registration.Html_text</span> is used to register a service sending
+</p><p>Module <span class="teletype">Eliom.Registration.Html_text</span> is used to register a service sending
 HTML as strings. But we recommend to used typed-HTML instead (see below).</p></section><section class="docblock"><header><h2>Compiling</h2></header><p>In this section, we will show how to compile and run a <em>server-side only</em> Web site by creating your project manually.
 </p><h3>Build an executable</h3><p>This section shows how to create a static executable for you program
 (without configuration file).
@@ -166,7 +167,7 @@ and replace the call to <span class="teletype">Ocsigen_server.start</span> by th
     [
       Ocsigen_server.host
        [ Staticmod.run ~dir:&quot;local/var/www/mysite&quot; ()
-       ; Eliom.run () ]
+       ; Eliom.App.run () ]
     ]</code></pre><p>Build and execute the program with:
 </p><pre>dune exec mysite
 </pre><p>Open URL <span class="teletype">http://localhost:8080/aaa/bbb</span> with your browser.
@@ -211,7 +212,7 @@ with this content on your project root directory:
 generate wrong HTML. For example a program that could generate a paragraph
 containing another paragraph will be rejected at compile time.
 </p><p>Example of use:
-</p><pre class=""><code class="language-ocaml translatable">let open Eliom_content.Html.F in
+</p><pre class=""><code class="language-ocaml translatable">let open Eliom.Content.Html.F in
 html
   (head (title (txt &quot;Ex&quot;)) [])
   (body [h1 ~a:[a_id &quot;toto&quot;; a_class [&quot;blah&quot;; &quot;blih&quot;]]
@@ -221,11 +222,11 @@ of type <span class="teletype">'a elt</span> where <span class="teletype">'a</sp
 module signature to constrain usage (phantom type).</p></div><h3>Example of typing error</h3><pre class=""><code class="language-ocaml translatable">p [p [txt &quot;Aïe&quot;]]
    ^^^^^^^^^^^^^
 Error: This expression has type
-         ([&gt; Html_types.p ] as 'a) Eliom_content.Html.F.elt =
-           'a Eliom_content.Html.elt
+         ([&gt; Html_types.p ] as 'a) Eliom.Content.Html.F.elt =
+           'a Eliom.Content.Html.elt
        but an expression was expected of type
-         ([&lt; Html_types.p_content_fun ] as 'b) Eliom_content.Html.F.elt =
-           'b Eliom_content.Html.elt
+         ([&lt; Html_types.p_content_fun ] as 'b) Eliom.Content.Html.F.elt =
+           'b Eliom.Content.Html.elt
        Type 'a = [&gt; `P ] is not compatible with type
          'b =
            [&lt; `A of Html_types.phrasing_without_interactive
@@ -238,74 +239,74 @@ Error: This expression has type
             | `Q
             ...
             | `Wbr ]
-       The second variant type does not allow tag(s) `P</code></pre><p>Read more about TyXML in this <a href="html" class="ocsimore_phrasing_link">short tutorial</a> or in its <a href=".././../../tyxml/" class="ocsimore_phrasing_link">user manual</a>.</p></section><section class="docblock"><header><h2>Eliom: Service returning typed HTML</h2></header><p>To use typed HTML, just replace module <span class="teletype">Eliom_registration.Html_text</span>
-by  <span class="teletype">Eliom_registration.Html</span>:
+       The second variant type does not allow tag(s) `P</code></pre><p>Read more about TyXML in this <a href="html" class="ocsimore_phrasing_link">short tutorial</a> or in its <a href=".././../../tyxml/" class="ocsimore_phrasing_link">user manual</a>.</p></section><section class="docblock"><header><h2>Eliom: Service returning typed HTML</h2></header><p>To use typed HTML, just replace module <span class="teletype">Eliom.Registration.Html_text</span>
+by  <span class="teletype">Eliom.Registration.Html</span>:
 </p><pre class=""><code class="language-ocaml translatable">let f _ () =
   Lwt.return
-    Eliom_content.Html.F.(html (head (title (txt &quot;&quot;)) [])
+    Eliom.Content.Html.F.(html (head (title (txt &quot;&quot;)) [])
                                (body [h1 [txt &quot;Hello&quot;]]))
 
 let myservice =
-  Eliom_service.create
-    ~path:(Eliom_service.Path [&quot;aaa&quot;; &quot;bbb&quot;])
-    ~meth:(Eliom_service.Get Eliom_parameter.any)
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [&quot;aaa&quot;; &quot;bbb&quot;])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.any)
     ()
 
 let () =
-  Eliom_registration.Html.register
+  Eliom.Registration.Html.register
     ~service:myservice
     f</code></pre><h3>Outputs</h3><p>Services can return a typed HTML page as in the example above, but also
 any other kind of result. To choose the return type, use the register function
 from the corresponding submodule of
-<span><a href=".././../../eliom/latest/api/Eliom_registration">Eliom_registration</a></span>:
-</p><div id="servicetable"><table><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.Html">Html</a></span></th><td colspan="3">Services returning typed HTML pages</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.Html">Html_text</a></span></th><td colspan="3">Services returning untyped HTML pages as strings</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.ELIOM_APPL">App</a></span></th><td colspan="3">Apply this functor to generate registration functions for services belonging to an Eliom client/server application. These services also return typed HTML pages, but Eliom will automatically add the client-side program as a JS file, and all the data needed (values of all injections, etc.)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.Flow5">Flow</a></span></th><td colspan="3">Services returning portions of HTML pages.</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.Action">Action</a></span></th><td colspan="3">Services performing actions (server side effects) with or without reloading the page (e.g. login, logout, payment, modification of user information...)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.File">Files</a></span></th><td colspan="3">Serve files from the server hard drive</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.Ocaml">Ocaml</a></span></th><td colspan="3">Services returning OCaml values to be sent to a client side OCaml program (this kind of services is used as low level interface for server functions – see below)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.String">String</a></span></th><td colspan="3">Services returning any OCaml string (array of byte)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.Redirection">Redirection</a></span></th><td colspan="3">Services returning an HTTP redirection to another service</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.Any">Any</a></span></th><td colspan="3">To be used to make the service chose what it sends. Call function <span class="teletype">send</span> from the corresponding module to choose the output.</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom_registration.Customize">Customize</a></span></th><td colspan="3">Apply this functor to define your own registration module</td></tr></table></div></section><section class="docblock"><header><h2>Eliom: Typing page parameters</h2></header><p>Instead of taking GET parameters as an untyped <span class="teletype">string * string</span>
+<span><a href=".././../../eliom/latest/api/Eliom.Registration">Eliom.Registration</a></span>:
+</p><div id="servicetable"><table><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom.Registration.Html">Html</a></span></th><td colspan="3">Services returning typed HTML pages</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom.Registration.Html">Html_text</a></span></th><td colspan="3">Services returning untyped HTML pages as strings</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom.Registration.ELIOM_APPL">App</a></span></th><td colspan="3">Apply this functor to generate registration functions for services belonging to an Eliom client/server application. These services also return typed HTML pages, but Eliom will automatically add the client-side program as a JS file, and all the data needed (values of all injections, etc.)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom.Registration.Flow5">Flow</a></span></th><td colspan="3">Services returning portions of HTML pages.</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom.Registration.Action">Action</a></span></th><td colspan="3">Services performing actions (server side effects) with or without reloading the page (e.g. login, logout, payment, modification of user information...)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom.Registration.File">Files</a></span></th><td colspan="3">Serve files from the server hard drive</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom.Registration.Ocaml">Ocaml</a></span></th><td colspan="3">Services returning OCaml values to be sent to a client side OCaml program (this kind of services is used as low level interface for server functions – see below)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom.Registration.String">String</a></span></th><td colspan="3">Services returning any OCaml string (array of byte)</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom.Registration.Redirection">Redirection</a></span></th><td colspan="3">Services returning an HTTP redirection to another service</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom.Registration.Any">Any</a></span></th><td colspan="3">To be used to make the service chose what it sends. Call function <span class="teletype">send</span> from the corresponding module to choose the output.</td></tr><tr><th class="row"><span><a href=".././../../eliom/latest/api/server/Eliom.Registration.Customize">Customize</a></span></th><td colspan="3">Apply this functor to define your own registration module</td></tr></table></div></section><section class="docblock"><header><h2>Eliom: Typing page parameters</h2></header><p>Instead of taking GET parameters as an untyped <span class="teletype">string * string</span>
 association list, you can ask Eliom to decode and check parameter types
 automatically.
 </p><p>For example, the following code defines a service at URL <span class="teletype">/foo</span>,
 that will use GET HTTP method, and take one parameter of type <span class="teletype">string</span>,
 named <span class="teletype">s</span>, and one of type <span class="teletype">int</span>, named <span class="teletype">i</span>.
 </p><pre class="server" class=""><code class="language-ocaml translatable">let myservice =
-  Eliom_service.create
-    ~path:(Eliom_service.Path [&quot;foo&quot;])
-    ~meth:(Eliom_service.Get (Eliom_parameter.(string &quot;s&quot; ** int &quot;i&quot;)))
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [&quot;foo&quot;])
+    ~meth:(Eliom.Service.Get (Eliom.Parameter.(string &quot;s&quot; ** int &quot;i&quot;)))
     ()</code></pre><p>Then register an OCaml function as handler on this service:
 </p><pre class="server" class=""><code class="language-ocaml translatable">let () =
-  Eliom_registration.Html.register ~service:myservice
+  Eliom.Registration.Html.register ~service:myservice
     (fun (s, i) () -&gt;
       Lwt.return
-         Eliom_content.Html.F.(html (head (title (txt &quot;&quot;)) [])
+         Eliom.Content.Html.F.(html (head (title (txt &quot;&quot;)) [])
                                     (body [h1 [txt (s^string_of_int i)]])))</code></pre><p>The handler takes as first parameter the GET page parameters, typed according to
 the parameter specification given while creating the service.
 The second parameter is for POST parameters (see below).
 </p><p>Recompile you program, and to to URL <span class="teletype">http://localhost:8080/foo?s=hello&amp;i=22</span>
 to see the result.
-</p><h3>Parameters</h3><p>Module <span><a href=".././../../eliom/latest/api/server/Eliom_parameter">Eliom_parameter</a></span>
+</p><h3>Parameters</h3><p>Module <span><a href=".././../../eliom/latest/api/server/Eliom.Parameter">Eliom.Parameter</a></span>
 is used to describe the type of service parameters.
 </p><p>Examples:
-</p><pre class=""><code class="language-ocaml translatable">Eliom_parameter.(int &quot;i&quot; ** (string &quot;s&quot; ** bool &quot;b&quot;))
+</p><pre class=""><code class="language-ocaml translatable">Eliom.Parameter.(int &quot;i&quot; ** (string &quot;s&quot; ** bool &quot;b&quot;))
    (* /path?i=42&amp;s=toto&amp;b=on *)
 
-Eliom_parameter.(int &quot;i&quot; ** opt (string &quot;s&quot;))
+Eliom.Parameter.(int &quot;i&quot; ** opt (string &quot;s&quot;))
    (* An integer named i, and an optional string named s *)
 
-Eliom_parameter.(int &quot;i&quot; ** any)
+Eliom.Parameter.(int &quot;i&quot; ** any)
    (* An integer named i, and any other parameters, as an association list
       of type (string * string) list *)
 
-Eliom_parameter.(set string &quot;s&quot;)
+Eliom.Parameter.(set string &quot;s&quot;)
    (* /path?s=toto&amp;s=titi&amp;s=bobo *)
 
-Eliom_parameter.(list &quot;l&quot; (int &quot;i&quot;))
+Eliom.Parameter.(list &quot;l&quot; (int &quot;i&quot;))
    (* /path?l[0]=11&amp;l[1]=2&amp;l[2]=42 *)
 
-Eliom_parameter.(suffix (int &quot;year&quot; ** int &quot;month&quot;))
+Eliom.Parameter.(suffix (int &quot;year&quot; ** int &quot;month&quot;))
    (* /path/2012/09 *)
 
-Eliom_parameter.(suffix_prod (int &quot;year&quot; ** int &quot;month&quot;) (int &quot;a&quot;))
+Eliom.Parameter.(suffix_prod (int &quot;year&quot; ** int &quot;month&quot;) (int &quot;a&quot;))
    (* /path/2012/09?a=4 *)</code></pre></section><section class="docblock"><header><h2>Eliom: POST services</h2></header><p>To define a service with POST parameters, just change the <span class="teletype">~meth</span> parameter.
 For example the following example takes the same GET parameters as the service
 above, plus one POST parameter of type string, named &quot;mypostparam&quot;.
-</p><pre class="server" class=""><code class="language-ocaml translatable">~meth:(Eliom_service.Post (Eliom_parameter.((string &quot;s&quot; ** int &quot;i&quot;),
+</p><pre class="server" class=""><code class="language-ocaml translatable">~meth:(Eliom.Service.Post (Eliom.Parameter.((string &quot;s&quot; ** int &quot;i&quot;),
                                             (string &quot;mypostparam&quot;))))</code></pre></section><section class="docblock"><header><h2>Eliom: Other kinds of services</h2></header><p>The detailed explanation of services can be found in <span><a href=".././../../eliom/latest/manual/server-services">Eliom's manual</a></span>. Here is a summary:
 </p><h3>Pathless services</h3><p>Pathless services are not identified by the path in the URL,
 but by a name given as parameter, regardless of the path.
@@ -318,49 +319,49 @@ This is also used to implement server functions (see below).
 If you are programming a client-server Eliom app, you will often prefer
 remote procedure calls (`let%rpc`).
 </p><pre class="server" class=""><code class="language-ocaml translatable">let pathless_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~name:&quot;pathless_example&quot;
-    ~path:Eliom_service.No_path
-    ~meth:(Eliom_service.Get (Eliom_parameter.(int &quot;i&quot;)))
+    ~path:Eliom.Service.No_path
+    ~meth:(Eliom.Service.Get (Eliom.Parameter.(int &quot;i&quot;)))
     ()</code></pre><p>More information
 <span><a href=".././../../eliom/latest/manual/server-services#pathless">in the manual</a></span>.
 </p><h3>Attached services</h3><p>It is also possible to create services identified by both a path and a
 special parameter, using functions
-<span><a href=".././../../eliom/latest/api/server/Eliom_service#VALcreate_attached_get">Eliom_service.create_attached_get</a></span> or
-<span><a href=".././../../eliom/latest/api/server/Eliom_service#VALcreate_attached_post">Eliom_service.create_attached_post</a></span>.
+<span><a href=".././../../eliom/latest/api/server/Eliom.Service#VALcreate_attached_get">Eliom.Service.create_attached_get</a></span> or
+<span><a href=".././../../eliom/latest/api/server/Eliom.Service#VALcreate_attached_post">Eliom.Service.create_attached_post</a></span>.
 They take a regular service (with a path) as parameter (<span class="teletype">~fallback</span>).
 </p><p>It is also possible to attach an existing pathless service to the URL of
 another service, with function
-<span><a href=".././../../eliom/latest/api/server/Eliom_service#VALattach">Eliom_service.attach</a></span>.
+<span><a href=".././../../eliom/latest/api/server/Eliom.Service#VALattach">Eliom.Service.attach</a></span>.
 This allows for example to create a link towards a pathless service,
 but on another path.
-</p><h3>External services</h3><p>Use <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALextern">Eliom_service.extern</a></span> to create
+</p><h3>External services</h3><p>Use <span><a href=".././../../eliom/latest/api/server/Eliom.Service#VALextern">Eliom.Service.extern</a></span> to create
 links or forms towards external Web sites as if they were Eliom services.
-</p><h3>Predefined services</h3><p>Use service <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALstatic_dir">(Eliom_service.static_dir ())</a></span>
+</p><h3>Predefined services</h3><p>Use service <span><a href=".././../../eliom/latest/api/server/Eliom.Service#VALstatic_dir">(Eliom.Service.static_dir ())</a></span>
 to create links towards static files (see example below for images).
-</p><p>Use service <span><a href=".././../../eliom/latest/api/server/Eliom_service#VALreload_action">Eliom_service.reload_action</a></span> and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call <span><a href=".././../../ocsigen-start/latest/api/server/Os_lib#VALreload">Os_lib.reload</a></span> to reload the page and restart the client-side program.
-</p><p><span><a href=".././../../eliom/latest/manual/server-services">Full documentation about services</a></span>, <a href="interaction" class="ocsimore_phrasing_link">a tutorial about traditional service based Web programming</a>, API documentation of modules <span><a href=".././../../eliom/latest/api/server/Eliom_service">Eliom_service</a></span> and <span><a href=".././../../eliom/latest/api/server/Eliom_registration">Eliom_registration</a></span>.
+</p><p>Use service <span><a href=".././../../eliom/latest/api/server/Eliom.Service#VALreload_action">Eliom.Service.reload_action</a></span> and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call <span><a href=".././../../ocsigen-start/latest/api/server/Os.Lib#VALreload">Os.Lib.reload</a></span> to reload the page and restart the client-side program.
+</p><p><span><a href=".././../../eliom/latest/manual/server-services">Full documentation about services</a></span>, <a href="interaction" class="ocsimore_phrasing_link">a tutorial about traditional service based Web programming</a>, API documentation of modules <span><a href=".././../../eliom/latest/api/server/Eliom.Service">Eliom.Service</a></span> and <span><a href=".././../../eliom/latest/api/server/Eliom.Registration">Eliom.Registration</a></span>.
 </p><p>This example shows how to insert an image using <span class="teletype">static_dir</span>:
 </p><pre class=""><code class="language-ocaml translatable">img
   ~alt:&quot;blip&quot;
-  ~src:(Eliom_content.Html.F.make_uri
-         (Eliom_service.static_dir ())
+  ~src:(Eliom.Content.Html.F.make_uri
+         (Eliom.Service.static_dir ())
          [&quot;dir&quot; ; &quot;image.jpg&quot;])
-  ()</code></pre></section><section class="docblock"><header><h2>Forms and links</h2></header><p>Function <span><a href=".././../../eliom/latest/api/server/Eliom_form_sigs.LINKS#VALa">Eliom_content.Html.F.a</a></span> creates typed links to services with their parameters.
+  ()</code></pre></section><section class="docblock"><header><h2>Forms and links</h2></header><p>Function <span><a href=".././../../eliom/latest/api/server/Eliom_form_sigs.LINKS#VALa">Eliom.Content.Html.F.a</a></span> creates typed links to services with their parameters.
 For example, if <span class="teletype">home_service</span> expects no parameter
 and <span class="teletype">other_service</span> expects a string and an optional int:
-</p><pre class=""><code class="language-ocaml translatable">Eliom_content.Html.F.a ~service:home_service [txt &quot;Home&quot;] ()
-Eliom_content.Html.F.a ~service:other_service [txt &quot;Other&quot;] (&quot;hello&quot;, Some 4)</code></pre><p>Module <span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.F">Eliom_content.Html.F</a></span>
+</p><pre class=""><code class="language-ocaml translatable">Eliom.Content.Html.F.a ~service:home_service [txt &quot;Home&quot;] ()
+Eliom.Content.Html.F.a ~service:other_service [txt &quot;Other&quot;] (&quot;hello&quot;, Some 4)</code></pre><p>Module <span><a href=".././../../eliom/latest/api/server/Eliom.Content.Html.F">Eliom.Content.Html.F</a></span>
 defines the form's elements with the usual typed interface from TyXML.
 Use this for example if you have a client side program and
 want to manipulate the form's content from client side functions
 (for example do a server function call with the form's elements' content).
 </p><p>In contrast,
-module <span><a href=".././../../eliom/latest/api/server/Eliom_content_sigs.LINKS_AND_FORMS.Form">Eliom_content.Html.F.Form</a></span> defines a typed interface
+module <span><a href=".././../../eliom/latest/api/server/Eliom.Content_sigs.LINKS_AND_FORMS.Form">Eliom.Content.Html.F.Form</a></span> defines a typed interface
 for form elements. Use this for links (see above), or if you program traditional
 server-side Web interaction (with or without client-side program). This will statically check that your forms
 match the services. Example:
-</p><pre class=""><code class="language-ocaml translatable">let open Eliom_content.Html.F in
+</p><pre class=""><code class="language-ocaml translatable">let open Eliom.Content.Html.F in
 Form.post_form
  ~service:connection_service
    (fun (name, password) -&gt;
@@ -376,33 +377,33 @@ Form.post_form
         br ();
         Form.input ~input_type:`Submit ~value:&quot;Connect&quot; Form.string
       ]]) ()</code></pre><p>As you can see, function
-<span><a href=".././../../eliom/latest/api/server/Eliom_content_sigs.LINKS_AND_FORMS.Form#VALpost_form">Eliom_content.Html.F.Form.post_form</a></span>
+<span><a href=".././../../eliom/latest/api/server/Eliom.Content_sigs.LINKS_AND_FORMS.Form#VALpost_form">Eliom.Content.Html.F.Form.post_form</a></span>
 is used to create a form sending parameters using the POST HTTP method
-(and similarly, <span><a href=".././../../eliom/latest/api/server/Eliom_content_sigs.LINKS_AND_FORMS.Form#VALget_form">get_form</a></span> for GET method).
+(and similarly, <span><a href=".././../../eliom/latest/api/server/Eliom.Content_sigs.LINKS_AND_FORMS.Form#VALget_form">get_form</a></span> for GET method).
 It takes the service as first parameter, and a function that will generate the form.
 This function takes the names of the GET or POST parameters as arguments.
 </p><p>Form elements (like inputs) are also built from using the
-<span><a href=".././../../eliom/latest/api/server/Eliom_content_sigs.LINKS_AND_FORMS.Form">Eliom_content.Html.F.Form</a></span> module.
+<span><a href=".././../../eliom/latest/api/server/Eliom.Content_sigs.LINKS_AND_FORMS.Form">Eliom.Content.Html.F.Form</a></span> module.
 They take the names as parameters, and a last parameter (like <span class="teletype">Form.int</span> or <span class="teletype">Form.string</span>) to match the expected type.</p></section><section class="docblock"><header><h2>Sessions</h2></header><p>Session data is saved on server side in <em>Eliom references</em>.
 </p><p>The following Eliom reference will count the number of visits of a user on a page:
 </p><pre class="server" class=""><code class="language-ocaml translatable">let%server count_ref =
-  Eliom_reference.eref
-    ~scope:Eliom_common.default_session_scope
+  Eliom.Reference.eref
+    ~scope:Eliom.Common.default_session_scope
     0 (* default value for everyone *)</code></pre><p>And somewhere in your service handler, increment the counter:
-</p><pre class="server" class=""><code class="language-ocaml translatable">let%lwt count = Eliom_reference.get count_ref in
-Eliom_reference.set count_ref (count + 1);
-Lwt.return ()</code></pre><p>With function <span><a href=".././../../eliom/latest/api/server/Eliom_reference#VALeref_from_fun">Eliom_reference.eref_from_fun</a></span>,
+</p><pre class="server" class=""><code class="language-ocaml translatable">let%lwt count = Eliom.Reference.get count_ref in
+Eliom.Reference.set count_ref (count + 1);
+Lwt.return ()</code></pre><p>With function <span><a href=".././../../eliom/latest/api/server/Eliom.Reference#VALeref_from_fun">Eliom.Reference.eref_from_fun</a></span>,
 you can create Eliom references without initial value. The initial value is computed for the session
 the first time you use it.
 </p><p>An Eliom reference can be persistant (value saved on hard drive) or volatile (in memory).
 </p><h3>Scopes</h3><p>Sessions are relative to a browser, and implemented using browser cookies.
 But Eliom allows to create Eliom references with other <em>scopes</em> than session:
-</p><table><tr><td><span><a href=".././../../eliom/latest/api/server/Eliom_common#VALglobal_scope">global_scope</a></span></td><td>Global value for all the Web server</td></tr><tr><td><span><a href=".././../../eliom/latest/api/server/Eliom_common#VALsite_scope">site_scope</a></span></td><td>Global value for the Eliom app in that subsite of the Web site</td></tr><tr><td><span><a href=".././../../eliom/latest/api/server/Eliom_common#VALdefault_group_scope">default_group_scope</a></span></td><td>Value for a group of sessions. For example Ocsigen Start defines a group of session for each user, making it possible to save server side data for all sessions of a user.</td></tr><tr><td><span><a href=".././../../eliom/latest/api/server/Eliom_common#VALdefault_session_scope">default_session_scope</a></span></td><td>The usual session data, based on browser cookies</td></tr><tr><td><span><a href=".././../../eliom/latest/api/server/Eliom_common#VALdefault_process_scope">default_process_scope</a></span></td><td>Server side data for a given client-side process (a tab of the browser or a mobile app). This is available only with a client-server Eliom app.</td></tr></table><p>Applications based on Ocsigen Start use these scopes for user management.
+</p><table><tr><td><span><a href=".././../../eliom/latest/api/server/Eliom.Common#VALglobal_scope">global_scope</a></span></td><td>Global value for all the Web server</td></tr><tr><td><span><a href=".././../../eliom/latest/api/server/Eliom.Common#VALsite_scope">site_scope</a></span></td><td>Global value for the Eliom app in that subsite of the Web site</td></tr><tr><td><span><a href=".././../../eliom/latest/api/server/Eliom.Common#VALdefault_group_scope">default_group_scope</a></span></td><td>Value for a group of sessions. For example Ocsigen Start defines a group of session for each user, making it possible to save server side data for all sessions of a user.</td></tr><tr><td><span><a href=".././../../eliom/latest/api/server/Eliom.Common#VALdefault_session_scope">default_session_scope</a></span></td><td>The usual session data, based on browser cookies</td></tr><tr><td><span><a href=".././../../eliom/latest/api/server/Eliom.Common#VALdefault_process_scope">default_process_scope</a></span></td><td>Server side data for a given client-side process (a tab of the browser or a mobile app). This is available only with a client-server Eliom app.</td></tr></table><p>Applications based on Ocsigen Start use these scopes for user management.
 Session or client process data are discarded when a user logs in or out.
 But Ocsigen Start also defines scopes
-<span><a href=".././../../ocsigen-start/latest/api/server/Os_session#VALuser_indep_session_scope">Os_session.user_indep_session_scope</a></span>
+<span><a href=".././../../ocsigen-start/latest/api/server/Os.Session#VALuser_indep_session_scope">Os.Session.user_indep_session_scope</a></span>
 and
-<span><a href=".././../../ocsigen-start/latest/api/server/Os_session#VALuser_indep_process_scope">Os_session.user_indep_process_scope</a></span>
+<span><a href=".././../../ocsigen-start/latest/api/server/Os.Session#VALuser_indep_process_scope">Os.Session.user_indep_process_scope</a></span>
 which remain even if a user logs in or out.
 </p><p>When session group is not set (for example the user is not connected),
 you can still use the group session scope: in that case, the group contains only
@@ -410,11 +411,11 @@ one session.</p></section><section class="docblock"><header><h2>Browser events</
 but it works only if you have a client-server Eliom program.
 If not, you want to give a javascript expression (as a string) instead.
 To so that, use attributes functions from module <span class="teletype">Raw</span>. For example
-<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.F.Raw#VALa_onclick">Eliom_content.Html.F.Raw.a_onclick</a></span>
+<span><a href=".././../../eliom/latest/api/server/Eliom.Content.Html.F.Raw#VALa_onclick">Eliom.Content.Html.F.Raw.a_onclick</a></span>
 instead of
-<span><a href=".././../../eliom/latest/api/server/Eliom_content.Html.F#VALa_onclick">Eliom_content.Html.F.a_onclick</a></span>.
+<span><a href=".././../../eliom/latest/api/server/Eliom.Content.Html.F#VALa_onclick">Eliom.Content.Html.F.a_onclick</a></span>.
 </p><p>Example:
-</p><pre class="server" class=""><code class="language-ocaml translatable">Eliom_content.Html.F.(button ~a:[Raw.onclick &quot;alert(\&quot;beep\&quot;);&quot;] [txt &quot;click&quot;])</code></pre></section><section class="docblock"><header><h2>Database access</h2></header><p>You can use your favourite database library with Ocsigen.
+</p><pre class="server" class=""><code class="language-ocaml translatable">Eliom.Content.Html.F.(button ~a:[Raw.onclick &quot;alert(\&quot;beep\&quot;);&quot;] [txt &quot;click&quot;])</code></pre></section><section class="docblock"><header><h2>Database access</h2></header><p>You can use your favourite database library with Ocsigen.
 Ocsigen Start's template uses
 <a href="https://github.com/darioteixeira/pgocaml" class="ocsimore_phrasing_link">PG'OCaml</a>
 (typed queries for Postgresql using a PPX syntax extension).
@@ -460,7 +461,7 @@ is an internationalisation library for your OCaml programs.
   | En -&gt; [txt &quot;Welcome everybody!&quot;]
   | Fr -&gt; [txt &quot;Bienvenue à tous !&quot;]
   | It -&gt; [txt &quot;Benvenuti a tutti !&quot;]</code></pre><p>Ocsigen i18n also defines a syntax extension to use these functions:
-</p><pre class="shared" class=""><code class="language-ocaml translatable">Eliom_content.Html.F.h1 [%i18n welcome_message]</code></pre><p>Ocsigen i18n offers many other features:
+</p><pre class="shared" class=""><code class="language-ocaml translatable">Eliom.Content.Html.F.h1 [%i18n welcome_message]</code></pre><p>Ocsigen i18n offers many other features:
 </p><ul><li> Text can be inserted as a TyXML node (as in the example above) or as a string (ex: <span class="teletype">[%i18n S.welcome_message]</span>),
 </li><li> Text can be parametrizable, or contain holes (ex: <span class="teletype">[%i18n welcome ~capitalize:true ~name:&quot;William&quot;]</span>)
 </li><li> .tsv file can be split into several modules

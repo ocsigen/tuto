@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -51,7 +52,7 @@ images in the Graffiti tutorial
 Fortunately Ocsigen provides a mechanism to extend its
 configuration file.
 </p><h2>Basic interface</h2><pre class=""><code class="language-ocaml translatable">let static_dir =
-  match Eliom_config.get_config () with
+  match Eliom.Config.get_config () with
     | [Simplexmlparser.Element
      (&quot;staticdir&quot;, [], [Simplexmlparser.PCData dir])] -&gt;
         dir
@@ -66,7 +67,7 @@ configuration file:
   &lt;staticdir&gt;/tmp/static&lt;/staticdir&gt;
 &lt;/eliom&gt;
 </pre><h2>New interface</h2><p>From Eliom 4.0 it is much easier to define configuration file extension.
-Have a look at module <span><a href=".././../../eliom/latest/api/server/Eliom_config">Eliom_config</a></span>.
+Have a look at module <span><a href=".././../../eliom/latest/api/server/Eliom.Config">Eliom.Config</a></span>.
 For instance, here is how you can add an element &quot;&lt;ldap&gt;&quot;
 in the configuration file to store a list of LDAP servers your application
 interacts with.
@@ -110,4 +111,4 @@ let ldap_configuration = Ocsigen_extensions.Configuration.(
   element ~init ~name ~obligatory ~attributes ()
 )
 
-let _ = Eliom_config.parse_config [ldap_configuration]</code></pre></article></div></div></body></html>
+let _ = Eliom.Config.parse_config [ldap_configuration]</code></pre></article></div></div></body></html>

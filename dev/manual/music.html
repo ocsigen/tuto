@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -50,9 +51,9 @@ does not stop the client side code: the music keeps playing when the
 content of the page and the url change.
 </p><p>We first create the player node at toplevel.
 </p><pre class=""><code class="language-ocaml translatable">let player =
-  Eliom_content.Html.Id.create_global_elt
+  Eliom.Content.Html.Id.create_global_elt
     (audio
-       ~srcs:(make_uri (Eliom_service.static_dir ())
+       ~srcs:(make_uri (Eliom.Service.static_dir ())
                   [&quot;music.ogg&quot;],
               [])
        ~a:[a_autoplay (`Autoplay);a_controls (`Controls)]

@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -50,7 +51,7 @@ which do not follow the recommendations from the W3C.
 For example a program that could generate a page with a paragraph
 inside another paragraph will be rejected at compile time.
 </p><h2> Typed HTML</h2><h3> Tags</h3><p>Tyxml (or modules obtained by applying Tyxml functor,
-like <span class="teletype">Eliom_content.Html.D</span>) defines a contructor function
+like <span class="teletype">Eliom.Content.Html.D</span>) defines a contructor function
 for each HTML tag, and for each attribute.
 </p><p>Example:
 </p><pre class=""><code class="language-ocaml translatable">html
@@ -95,22 +96,22 @@ variant type, which means that <span class="teletype">&lt;head&gt;</span> cannot
   [ txt &quot;blah&quot; ]</code></pre><h2> OCaml node and DOM nodes</h2><h3> Conversions</h3><p>Tyxml builds OCaml nodes. If you are using it server side,
 they are serialized as an XML text before being sent to the browser.
 On client side, if you want to get the DOM node corresponding to
-an OCaml node, use functions from module <span class="teletype">Eliom_content.Html.To_dom</span>,
-for example <span class="teletype">Eliom_content.Html.To_dom.of_element</span>,
-or <span class="teletype">Eliom_content.Html.To_dom.of_input</span>,
-<span class="teletype">Eliom_content.Html.To_dom.of_textarea</span>, etc.
-</p><p>If the node has been created with <span class="teletype">Eliom_content.Html.F</span>
+an OCaml node, use functions from module <span class="teletype">Eliom.Content.Html.To_dom</span>,
+for example <span class="teletype">Eliom.Content.Html.To_dom.of_element</span>,
+or <span class="teletype">Eliom.Content.Html.To_dom.of_input</span>,
+<span class="teletype">Eliom.Content.Html.To_dom.of_textarea</span>, etc.
+</p><p>If the node has been created with <span class="teletype">Eliom.Content.Html.F</span>
 (functional nodes),
 a new DOM node will be created every time you call such a conversion
 function.
-</p><p>If the node has been created with <span class="teletype">Eliom_content.Html.D</span>,
+</p><p>If the node has been created with <span class="teletype">Eliom.Content.Html.D</span>,
 the conversion function will return the exact DOM node that exists
 in the page (and always the same one). If this &quot;D&quot; node is created
 server-side, Eliom will automatically add a identifier in the HTML
 page to be able to find it back.
 </p><p>Example:
 </p><pre class=""><code class="language-ocaml translatable">[%%shared
-  open Eliom_content.Html
+  open Eliom.Content.Html
 ]
 
 let%server create_widget () =
@@ -126,12 +127,12 @@ nodes by default (even if it will generate too much identifiers in the page).
 But remember that, the DOM semantics implies that &quot;D&quot; nodes cannot be
 inserted twice in a page.
 </p><h3> Manip</h3><p>Module
-<span><a href=".././../../eliom/latest/api/client/Eliom_content.Html.Manip">Eliom_content.Html.Manip</a></span>
+<span><a href=".././../../eliom/latest/api/client/Eliom.Content.Html.Manip">Eliom.Content.Html.Manip</a></span>
 makes it possible to manipulate OCaml nodes without conversions
 (add them in a page, replace a node, add as child of another node,
 add a class, etc.).
 </p><h3> Reactive nodes</h3><p>Module
-<span><a href=".././../../eliom/latest/api/client/Eliom_content.Html.R">Eliom_content.Html.R</a></span>
+<span><a href=".././../../eliom/latest/api/client/Eliom.Content.Html.R">Eliom.Content.Html.R</a></span>
 makes it possible to create reactive nodes, that is, nodes that will
 be updated automatically when the data on which they depend change.
 </p><p>It is based on module <a href="http://erratique.ch/software/react/doc/React" class="ocsimore_phrasing_link">React</a>,

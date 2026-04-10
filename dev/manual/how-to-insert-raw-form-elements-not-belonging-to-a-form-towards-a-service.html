@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -48,11 +49,11 @@ We are looking for beta-tester and contributors.
 to make possible to check the type of the form w.r.t. the type of the service.
 </p><p>If you don't want that (for example if you want to use it only from a client side program),
 you can use &quot;raw form elements&quot; (that is, basic tyxml elements), using
-module <a href=".././../../eliom/api/server/Eliom_content.Html.D.Raw" class="ocsimore_phrasing_link"><span class="teletype">Eliom_content.Html.D.Raw</span></a>
-(or <a href=".././../../eliom/api/server/Eliom_content.Html.F.Raw" class="ocsimore_phrasing_link"><span class="teletype">Eliom_content.Html.F.Raw</span></a>).
+module <a href=".././../../eliom/api/server/Eliom.Content.Html.D.Raw" class="ocsimore_phrasing_link"><span class="teletype">Eliom.Content.Html.D.Raw</span></a>
+(or <a href=".././../../eliom/api/server/Eliom.Content.Html.F.Raw" class="ocsimore_phrasing_link"><span class="teletype">Eliom.Content.Html.F.Raw</span></a>).
 </p><p>Example:
 </p><pre class=""><code class="language-ocaml translatable">{{{
-open Eliom_content.Html.D
+open Eliom.Content.Html.D
 
 Raw.textarea (txt &quot;blah&quot;)
 

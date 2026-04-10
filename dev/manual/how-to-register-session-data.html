@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -55,29 +56,29 @@ The name of the group may be for example the user id.
 </p><pre class=""><code class="language-ocaml translatable">let open_session login password =
   let%lwt b = check_password login password in
   if b
-  then Eliom_state.set_volatile_data_session_group
-      ~scope:Eliom_common.default_session_scope
+  then Eliom.State.set_volatile_data_session_group
+      ~scope:Eliom.Common.default_session_scope
       (Int64.to_string (get_userid login))
   else ...</code></pre><p>If you want to store user data,
 just create a global Eliom reference of scope group:
 </p><pre class=""><code class="language-ocaml translatable">let myref =
-  Eliom_reference.Volatile.eref
-    ~scope:Eliom_common.default_group_scope
+  Eliom.Reference.Volatile.eref
+    ~scope:Eliom.Common.default_group_scope
     None</code></pre><p>And during a request, set this reference:
 </p><pre class=""><code class="language-ocaml translatable">...
-  Eliom_reference.Volatile.set myref (Some &quot;user data&quot;)</code></pre><p>The value of this reference is different for each user:
-</p><pre class=""><code class="language-ocaml translatable">Eliom_reference.Volatile.get myref</code></pre><p>It is possible to create <em>persistent</em> Eliom references (see module
-<span><a href=".././../../eliom/latest/api/server/Eliom_reference">Eliom_reference</a></span>).
+  Eliom.Reference.Volatile.set myref (Some &quot;user data&quot;)</code></pre><p>The value of this reference is different for each user:
+</p><pre class=""><code class="language-ocaml translatable">Eliom.Reference.Volatile.get myref</code></pre><p>It is possible to create <em>persistent</em> Eliom references (see module
+<span><a href=".././../../eliom/latest/api/server/Eliom.Reference">Eliom.Reference</a></span>).
 </p><h2>Other scopes</h2><p>If you want to store server side data for one browser (one session),
-use scope <span class="teletype">Eliom_common.default_session_scope</span>.
+use scope <span class="teletype">Eliom.Common.default_session_scope</span>.
 </p><p>If you want to store server side data for one tab of your browser (one client process),
-use scope <span class="teletype">Eliom_common.default_process_scope</span> (available only if you
+use scope <span class="teletype">Eliom.Common.default_process_scope</span> (available only if you
 have a client-server Eliom application).
 </p><p>If you want to store server side data during one request,
-use scope <span class="teletype">Eliom_common.request_scope</span>.
+use scope <span class="teletype">Eliom.Common.request_scope</span>.
 </p><h2>Persistent references</h2><p>Module
-<span><a href=".././../../eliom/latest/api/server/Eliom_reference">Eliom_reference</a></span>
+<span><a href=".././../../eliom/latest/api/server/Eliom.Reference">Eliom.Reference</a></span>
 also defines an interface for persistent references, that will survive
 if you restart the server.
 </p><h2>Links</h2><ul><li> <span><a href=".././../../eliom/latest/manual/server-state">More information on session data</a></span>
-</li><li> module <span><a href=".././../../eliom/latest/api/server/Eliom_reference">Eliom_reference</a></span></li></ul></article></div></div></body></html>
+</li><li> module <span><a href=".././../../eliom/latest/api/server/Eliom.Reference">Eliom.Reference</a></span></li></ul></article></div></div></body></html>

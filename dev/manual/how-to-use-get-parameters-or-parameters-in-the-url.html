@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -55,14 +56,14 @@ two mandatory parameters: <span class="teletype">~path</span> and <span class="t
 given (among other criteria).
 It decodes parameters automatically and checks their types.
 </p><p>Description of parameters (names and types) is done using module
-<span><a href=".././../../eliom/latest/api/server/Eliom_parameter">Eliom_parameter</a></span>.
+<span><a href=".././../../eliom/latest/api/server/Eliom.Parameter">Eliom.Parameter</a></span>.
 We recommend to open this module (at the beginning of your file, or locally).
 </p><h4> Syntax for several parameters</h4><ul><li> <strong>No parameter</strong>
 </li></ul><pre class=""><code class="language-ocaml translatable">~get_params:unit</code></pre><ul><li> <strong>One parameter</strong>
 </li></ul><pre class=""><code class="language-ocaml translatable">~get_params:(int &quot;id&quot;)</code></pre><ul><li> <strong>More parameters</strong>
 </li></ul><pre class=""><code class="language-ocaml translatable">~get_params:(string &quot;name&quot; ** int &quot;age&quot; ** bool &quot;graduate&quot;)</code></pre><h4> Types of parameters</h4><ul><li> <strong>Common types</strong>: <a href="https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom/#L121" class="ocsimore_phrasing_link">string</a>, <a href="https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom/#L122" class="ocsimore_phrasing_link">int</a>, <a href="https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom/#L123" class="ocsimore_phrasing_link">int32</a>, <a href="https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom/#L124" class="ocsimore_phrasing_link">float</a>, <a href="https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom/#L125" class="ocsimore_phrasing_link">bool</a>
 </li><li> <strong>Some other types</strong>: <a href="https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom/#L126" class="ocsimore_phrasing_link">optional values</a>, <a href="https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom/#L158" class="ocsimore_phrasing_link">any parameter</a>, <a href="https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom/#L187" class="ocsimore_phrasing_link">list</a>, <a href="https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom/#L211" class="ocsimore_phrasing_link">your own type</a>.
-</li></ul><ul><li> See more information on parameters in <span><a href=".././../../eliom/latest/manual/server-params">Eliom manual</a></span> and API documentation of module <span><a href=".././../../eliom/latest/api/server/Eliom_parameter">Eliom_parameter</a></span>.
+</li></ul><ul><li> See more information on parameters in <span><a href=".././../../eliom/latest/manual/server-params">Eliom manual</a></span> and API documentation of module <span><a href=".././../../eliom/latest/api/server/Eliom.Parameter">Eliom.Parameter</a></span>.
 </li></ul><h4> Get these parameters</h4><p>On service registration, parameters can be retrieved as a parameter of the function:
 </p><pre class=""><code class="language-ocaml translatable">Example.register ~service:the_service
     (fun parameters () -&gt; ...)</code></pre><ul><li> <strong>No parameter</strong>
@@ -77,5 +78,5 @@ for example to improve readability of URLs. E.g. <span class="teletype">http://b
 </li><li> <a href="https://github.com/db0company/Ocsigen-Quick-Howto" class="ocsimore_phrasing_link">Download and try this example (parameters)</a>
 </li></ul><h3> Links</h3><ul><li> Manual: <span><a href=".././../../eliom/latest/manual/server-params">Parameters</a></span>
 </li><li> Manual: <span><a href=".././../../eliom/latest/manual/server-services">Services</a></span>
-</li><li> API: <span><a href=".././../../eliom/latest/api/server/Eliom_parameter">Eliom_parameter</a></span>
-</li><li> API: <span><a href=".././../../eliom/latest/api/server/Eliom_service">Eliom_service</a></span></li></ul></article></div></div></body></html>
+</li><li> API: <span><a href=".././../../eliom/latest/api/server/Eliom.Parameter">Eliom.Parameter</a></span>
+</li><li> API: <span><a href=".././../../eliom/latest/api/server/Eliom.Service">Eliom.Service</a></span></li></ul></article></div></div></body></html>

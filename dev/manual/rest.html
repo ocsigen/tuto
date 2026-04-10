@@ -33,6 +33,7 @@
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-toolkit/" class="ocsimore_phrasing_link">Toolkit</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsigen-start/" class="ocsimore_phrasing_link">Start</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsipersist/" class="ocsimore_phrasing_link">Ocsipersist</a>
+</li><li class="drawermainmenu-project"><a href=".././../../ocsigen-i18n/" class="ocsimore_phrasing_link">i18n</a>
 </li><li class="drawermainmenu-project"><a href=".././../../html_of_wiki/" class="ocsimore_phrasing_link">html_of_wiki</a>
 </li><li class="drawermainmenu-project"><a href=".././../../ocsimore/" class="ocsimore_phrasing_link">Ocsimore (<em>deprecated</em>)</a>
 </li><li class="drawermainmenu-page"><a href=".././../../projects" class="ocsimore_phrasing_link">Other projects</a>
@@ -127,48 +128,48 @@ set it as optional so we can distinguish GET requests for all resources or a
 single one, and return a detailed error if the identifier is missing in POST,
 PUT and DELETE requests. An alternative would be to use two services at the same
 path (one with id and the other without).
-</li></ul><pre class=""><code class="language-ocaml translatable">let path = Eliom_service.Path [&quot;&quot;]
+</li></ul><pre class=""><code class="language-ocaml translatable">let path = Eliom.Service.Path [&quot;&quot;]
 
 let get_params =
-  Eliom_parameter.(suffix (neopt (string &quot;id&quot;)))</code></pre><p>Next step is to define our API services. We define four of them with the same
+  Eliom.Parameter.(suffix (neopt (string &quot;id&quot;)))</code></pre><p>Next step is to define our API services. We define four of them with the same
 path, using the four HTTP methods at our disposal:
 </p><ul><li> GET method will be used to access the database, either all of it if no
 identifier is provided, or a single resource otherwise. An error will be
 returned if no resource matches the identifier.
 </li></ul><ul><li> POST method will be used to create a new resource (or update it if it already
-exists). We set a single POST parameter: <span class="teletype">Eliom_parameter.raw_post_data</span>,
+exists). We set a single POST parameter: <span class="teletype">Eliom.Parameter.raw_post_data</span>,
 in order to retrieve raw JSON and bypass POST parameters decoding.
 </li></ul><ul><li> PUT method will be used to update an existing resource. An error will be
 returned if no resource matches the identifier. We don't need to define POST
-parameter, PUT services takes <span class="teletype">Eliom_parameter.raw_post_data</span> as default
+parameter, PUT services takes <span class="teletype">Eliom.Parameter.raw_post_data</span> as default
 content.
 </li></ul><ul><li> DELETE method will be used to delete an existing resource. An error will be
 returned if no resource matches the identifier.
 </li></ul><pre class=""><code class="language-ocaml translatable">let read_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Get get_params)
+    ~meth:(Eliom.Service.Get get_params)
     ()
 
 let create_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Post (get_params, Eliom_parameter.raw_post_data))
+    ~meth:(Eliom.Service.Post (get_params, Eliom.Parameter.raw_post_data))
     ()
 
 let update_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Put get_params)
+    ~meth:(Eliom.Service.Put get_params)
     ()
 
 let delete_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Delete get_params)
+    ~meth:(Eliom.Service.Delete get_params)
     ()</code></pre><h2 id="handlers"> Handlers <a class="backref" href="#handlers">&#182;</a></h2><p>Let's start the handlers definition with a few helper values and functions
 used by handlers.
-</p><p>Since we use the low-level <span class="teletype">Eliom_registration.String.send</span> function to
+</p><p>Since we use the low-level <span class="teletype">Eliom.Registration.String.send</span> function to
 send our response, we wrap it in three specialized functions: <span class="teletype">send_json</span>,
 <span class="teletype">send_error</span> and <span class="teletype">send_success</span> (this one only send the 200 OK status
 code, without any content).
@@ -180,14 +181,14 @@ from the <span class="teletype">raw_content</span> Ocsigen stream.
 </p><pre class=""><code class="language-ocaml translatable">let json_mime_type = &quot;application/json&quot;
 
 let send_json ~code json =
-  Eliom_registration.String.send ~code (json, json_mime_type)
+  Eliom.Registration.String.send ~code (json, json_mime_type)
 
 let send_error ~code error_message =
   let json = Yojson.Safe.to_string (error_to_yojson {error_message}) in
   send_json ~code json
 
 let send_success () =
-  Eliom_registration.String.send ~code:200 (&quot;&quot;, &quot;&quot;)
+  Eliom.Registration.String.send ~code:200 (&quot;&quot;, &quot;&quot;)
 
 let check_content_type ~mime_type content_type =
   match content_type with
@@ -277,16 +278,16 @@ let update_handler id_opt content =
     send_error ~code:400 &quot;An id must be provided to delete a location&quot;
   | Some id -&gt;
     Ocsipersist.Polymorphic.remove db id &gt;&gt;= fun () -&gt;
-    send_success ()</code></pre><h2 id="registration"> Services registration <a class="backref" href="#registration">&#182;</a></h2><p>Finally we register services with the <span class="teletype">Eliom_registration.Any</span> module in
+    send_success ()</code></pre><h2 id="registration"> Services registration <a class="backref" href="#registration">&#182;</a></h2><p>Finally we register services with the <span class="teletype">Eliom.Registration.Any</span> module in
 order to have full control on the sent response. This way, we'll be able to
 send an appropriate HTTP status code depending on what happens during the
 request processing (parsing error, resource not found...), as seen above when
 defining handlers.
 </p><pre class=""><code class="language-ocaml translatable">let () =
-  Eliom_registration.Any.register read_service read_handler;
-  Eliom_registration.Any.register create_service create_handler;
-  Eliom_registration.Any.register update_service update_handler;
-  Eliom_registration.Any.register delete_service delete_handler;
+  Eliom.Registration.Any.register read_service read_handler;
+  Eliom.Registration.Any.register create_service create_handler;
+  Eliom.Registration.Any.register update_service update_handler;
+  Eliom.Registration.Any.register delete_service delete_handler;
   ()</code></pre><h2 id="source"> Full source <a class="backref" href="#source">&#182;</a></h2><pre class=""><code class="language-ocaml translatable">open Lwt
 
 (**** Data types ****)
@@ -316,33 +317,33 @@ let db : location Ocsipersist.table Lwt.t =
 
 (**** Services ****)
 
-let path = Eliom_service.Path [&quot;&quot;]
+let path = Eliom.Service.Path [&quot;&quot;]
 
 let get_params =
-  Eliom_parameter.(suffix (neopt (string &quot;id&quot;)))
+  Eliom.Parameter.(suffix (neopt (string &quot;id&quot;)))
 
 let read_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Get get_params)
+    ~meth:(Eliom.Service.Get get_params)
     ()
 
 let create_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Post (get_params, Eliom_parameter.raw_post_data))
+    ~meth:(Eliom.Service.Post (get_params, Eliom.Parameter.raw_post_data))
     ()
 
 let update_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Put get_params)
+    ~meth:(Eliom.Service.Put get_params)
     ()
 
 let delete_service =
-  Eliom_service.create
+  Eliom.Service.create
     ~path
-    ~meth:(Eliom_service.Delete get_params)
+    ~meth:(Eliom.Service.Delete get_params)
     ()
 
 (**** Handler helpers ****)
@@ -350,14 +351,14 @@ let delete_service =
 let json_mime_type = &quot;application/json&quot;
 
 let send_json ~code json =
-  Eliom_registration.String.send ~code (json, json_mime_type)
+  Eliom.Registration.String.send ~code (json, json_mime_type)
 
 let send_error ~code error_message =
   let json = Yojson.Safe.to_string (error_to_yojson {error_message}) in
   send_json ~code json
 
 let send_success () =
-  Eliom_registration.String.send ~code:200 (&quot;&quot;, &quot;&quot;)
+  Eliom.Registration.String.send ~code:200 (&quot;&quot;, &quot;&quot;)
 
 let check_content_type ~mime_type content_type =
   match content_type with
@@ -444,8 +445,8 @@ let delete_handler id_opt _ =
 (* Register services *)
 
 let () =
-  Eliom_registration.Any.register read_service read_handler;
-  Eliom_registration.Any.register create_service create_handler;
-  Eliom_registration.Any.register update_service update_handler;
-  Eliom_registration.Any.register delete_service delete_handler;
+  Eliom.Registration.Any.register read_service read_handler;
+  Eliom.Registration.Any.register create_service create_handler;
+  Eliom.Registration.Any.register update_service update_handler;
+  Eliom.Registration.Any.register delete_service delete_handler;
   ()</code></pre></article></div></div></body></html>

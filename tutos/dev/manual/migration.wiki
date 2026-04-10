@@ -1,7 +1,7 @@
 <<header| =Migrating to new module names>>
 
-Starting with Eliom 12, Ocsigen Server 7, Ocsigen Toolkit 4.3, and
-Ocsigen Start 8.1, all Ocsigen projects use hierarchical module names:
+Starting with Eliom 13, Ocsigen Server 8, Ocsigen Toolkit 5, and
+Ocsigen Start 9, all Ocsigen projects use hierarchical module names:
 
 |=Old name|=New name|
 |{{{Eliom_service}}}|{{{Eliom.Service}}}|

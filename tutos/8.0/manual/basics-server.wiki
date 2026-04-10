@@ -209,7 +209,7 @@ let () =
     [
       Ocsigen_server.host
        [ Staticmod.run ~dir:"local/var/www/mysite" ()
-       ; Eliom.App.run () ]
+       ; Eliom.run () ]
     ]
 >>
 

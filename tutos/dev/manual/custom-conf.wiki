@@ -17,10 +17,10 @@ let static_dir =
      ("staticdir", [], [Simplexmlparser.PCData dir])] ->
         dir
     | [] ->
-      raise (Ocsigen_extensions.Error_in_config_file
+      raise (Ocsigen.Extensions.Error_in_config_file
                ("staticdir must be configured"))
     | _ ->
-      raise (Ocsigen_extensions.Error_in_config_file
+      raise (Ocsigen.Extensions.Error_in_config_file
                ("Unexpected content inside config"))
 >>
 
@@ -55,7 +55,7 @@ type ldap_configuration = {
 let ldap_servers = ref []
 
 (** The user-defined extension of the configuration file. *)
-let ldap_configuration = Ocsigen_extensions.Configuration.(
+let ldap_configuration = Ocsigen.Extensions.Configuration.(
   (** Default configuration *)
   let config () = {
     host = "";

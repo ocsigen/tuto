@@ -100,7 +100,7 @@ The following command will launch a server, serving static files from
 directory {{{static}}}:
 <<code language="ocaml"|
 let () = 
-  Ocsigen_server.start [ Ocsigen_server.host [Staticmod.run ~dir:"static" ()]]
+  Ocsigen.Server.start [ Ocsigen.Server.host [Staticmod.run ~dir:"static" ()]]
 >>
 Put this in file {{{bin/main.ml}}}, and run {{{dune exec mysite}}}.
 
@@ -198,16 +198,16 @@ Add packages {{{ocsipersist-sqlite}}} and {{{eliom.server}}} to file
 
 Copy the definition and registration of service {{{myservice}}} at the beginning 
 of file {{{bin/main.ml}}},
-and replace the call to {{{Ocsigen_server.start}}} by the following lines:
+and replace the call to {{{Ocsigen.Server.start}}} by the following lines:
 
 <<code language="ocaml"|
 let () = 
-  Ocsigen_server.start
+  Ocsigen.Server.start
     ~command_pipe:"local/var/run/mysite-cmd"
     ~logdir:"local/var/log/mysite"
     ~datadir:"local/var/data/mysite"
     [
-      Ocsigen_server.host
+      Ocsigen.Server.host
        [ Staticmod.run ~dir:"local/var/www/mysite" ()
        ; Eliom.App.run () ]
     ]

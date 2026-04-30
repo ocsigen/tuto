@@ -29,10 +29,10 @@ let static_dir =
   | [Element ("staticdir", [], [PCData dir])] ->
     dir
   | [] ->
-    raise (Ocsigen_extensions.Error_in_config_file
+    raise (Ocsigen.Extensions.Error_in_config_file
              ("<staticdir> option required for <graffiti>"))
   | _ ->
-    raise (Ocsigen_extensions.Error_in_config_file
+    raise (Ocsigen.Extensions.Error_in_config_file
              ("Unexpected content inside graffiti config"))
 
 let create_dir dir =

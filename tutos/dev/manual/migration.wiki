@@ -84,10 +84,51 @@ other libraries:
 * {{{Eliom.Eliom_lazy}}} (conflict with {{{Stdlib.Lazy}}})
 * {{{Eliom.Eliom_uri}}} (conflict with {{{uri}}} library)
 
+==={{{module type of}}} on wrapped modules===
+
+Because the new module names live inside a dune-wrapped library, OCaml's
+type strengthening exposes the internal mangled prefix
+({{{Eliom__Content.Html.D}}} rather than {{{Eliom.Content.Html.D}}})
+when you use {{{module type of}}}. As a consequence, code like
+
+<<code language="ocaml"|
+module Make (A : module type of Eliom_content.Html.F) = struct ... end
+module D = Make (Eliom_content.Html.D)
+>>
+
+stops type-checking, even with {{{eliom-compat}}} installed: the
+functor parameter type and the application argument become
+incompatible, with errors mentioning {{{Eliom__Content.Html...}}}.
+
+To work around this, Eliom now exposes named module types that
+{{{eliom-compat}}} re-exports under the legacy paths:
+
+* {{{Eliom.Content.Html.T}}} (alias: {{{Eliom_content.Html.T}}})
+
+Use them instead of {{{module type of}}}:
+
+<<code language="ocaml"|
+module Make (A : Eliom_content.Html.T) = struct ... end
+module D = Make (Eliom_content.Html.D)
+>>
+
+This is the same pattern adopted internally by {{{Ot.Icons.Make}}}.
+
+===Top-level values cannot be shimmed===
+
+{{{eliom-compat}}} can re-export legacy module names but not
+top-level values of the wrapper module itself: dune's auto-generated
+wrapper module can only contain submodules, not {{{val}}} declarations.
+You must update such call sites by hand:
+
+* {{{Eliom.run ()}}} → {{{Eliom.App.run ()}}}
+
 ===Other changes===
 
-* {{{Eliom.run ()}}} has been renamed to {{{Eliom.App.run ()}}}.
-  This is an API change, not covered by the compat packages.
 * {{{ocsigen-i18n}}} 5.0 now adds {{{[@@deriving json]}}} automatically
   in {{{--eliom}}} mode. Remove any {{{sed}}} hack that was adding it
   manually.
+* {{{ocsigen-i18n-generator}}} reads its TSV input from stdin in
+  {{{--eliom}}} mode. In {{{dune}}} rules, pipe the input via
+  {{{(with-stdin-from %{deps} (run ocsigen-i18n-generator --eliom ...))}}}
+  rather than passing it as a positional argument.

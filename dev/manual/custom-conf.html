@@ -57,10 +57,10 @@ configuration file.
      (&quot;staticdir&quot;, [], [Simplexmlparser.PCData dir])] -&gt;
         dir
     | [] -&gt;
-      raise (Ocsigen_extensions.Error_in_config_file
+      raise (Ocsigen.Extensions.Error_in_config_file
                (&quot;staticdir must be configured&quot;))
     | _ -&gt;
-      raise (Ocsigen_extensions.Error_in_config_file
+      raise (Ocsigen.Extensions.Error_in_config_file
                (&quot;Unexpected content inside config&quot;))</code></pre><p>This will add a mandatory child to the eliom tag in the
 configuration file:
 </p><pre>&lt;eliom module=&quot;path/to/your/module.cma&quot;&gt;
@@ -82,7 +82,7 @@ type ldap_configuration = {
 let ldap_servers = ref []
 
 (** The user-defined extension of the configuration file. *)
-let ldap_configuration = Ocsigen_extensions.Configuration.(
+let ldap_configuration = Ocsigen.Extensions.Configuration.(
   (** Default configuration *)
   let config () = {
     host = &quot;&quot;;

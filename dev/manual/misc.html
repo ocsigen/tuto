@@ -201,8 +201,8 @@ let imageservice =
     ~path:(Eliom.Service.Path [&quot;image&quot;])
     ~headers:
        (Cohttp.Header.add_list (Cohttp.Header.init ())
-          [(Ocsigen_header.Name.(to_string cache_control), &quot;no-cache&quot;) ;
-           (Ocsigen_header.Name.(to_string expires), string_of_int 0)])
+          [(Ocsigen_http.Header.Name.(to_string cache_control), &quot;no-cache&quot;) ;
+           (Ocsigen_http.Header.Name.(to_string expires), string_of_int 0)])
     ~meth:
       (Eliom.Service.Get
          (let open Eliom.Parameter in string &quot;name&quot; ** int &quot;q&quot;))

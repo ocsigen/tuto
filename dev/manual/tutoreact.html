@@ -98,7 +98,7 @@ module Db = struct
 
   let last_key =
     Eliom.Reference.eref
-      ~persistent:&quot;index&quot;
+      ~persistent:(&quot;index&quot;, [%json: int])
       ~scope:Eliom.Common.global_scope (-1)
 
   let get_message id =
@@ -419,7 +419,8 @@ module Db = struct
 
   let last_key =
     Eliom.Reference.eref
-      ~persistent:&quot;index&quot; ~scope:Eliom.Common.global_scope (-1)
+      ~persistent:(&quot;index&quot;, [%json: int])
+      ~scope:Eliom.Common.global_scope (-1)
 
   let get_message id =
     let%lwt db = db in
@@ -548,8 +549,9 @@ module Db = struct
   let dbf = Ocsipersist.Polymorphic.open_table &quot;forums&quot;
 
   let last_key =
-    Eliom.Reference.eref ~persistent:&quot;index&quot; ~scope:Eliom.Common.global_scope
-      (-1)
+    Eliom.Reference.eref
+      ~persistent:(&quot;index&quot;, [%json: int])
+      ~scope:Eliom.Common.global_scope (-1)
 
   let get_message id =
     let%lwt db = db in

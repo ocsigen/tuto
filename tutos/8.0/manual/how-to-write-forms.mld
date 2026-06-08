@@ -107,4 +107,4 @@ using standard tyxml constructors.
 Use module {{:../eliom/api/server/Eliom_content.Html.D.Raw}Eliom_content.Html.D.Raw}.
 
 {2 Links}
-- {{:wiki:manual/how-to-add-a-select-or-other-form-element}How to write a select (or other form element)?}
+- {{:how-to-add-a-select-or-other-form-element.html}How to write a select (or other form element)?}

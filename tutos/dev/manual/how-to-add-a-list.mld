@@ -23,7 +23,7 @@
 
 {b Required parameter}: list containing {b li} elements ({{:../tyxml/api/Html_types#TYPEli_attrib}Details of li content}).
 
-{b Optional parameter} for attributes "a" ({{:wiki:manual/how-to-set-and-id-classes-or-other-attributes-to-html-elements}How to set and id, classes or other attributes to HTML elements?}).
+{b Optional parameter} for attributes "a" ({{:how-to-set-and-id-classes-or-other-attributes-to-html-elements.html}How to set and id, classes or other attributes to HTML elements?}).
 
 {3 Definition list}
 
@@ -53,7 +53,7 @@ Details:
 - {{:../tyxml/api/Html_types#TYPEphrasing}dd content}
 - {{:../tyxml/api/Html_types#TYPEflow5}dt content}
 
-{b Optional parameter} for attributes "a" ({{:wiki:manual/how-to-set-and-id-classes-or-other-attributes-to-html-elements}How to set and id, classes or other attributes to HTML elements?}).
+{b Optional parameter} for attributes "a" ({{:how-to-set-and-id-classes-or-other-attributes-to-html-elements.html}How to set and id, classes or other attributes to HTML elements?}).
 
 {2 Download full code}
 

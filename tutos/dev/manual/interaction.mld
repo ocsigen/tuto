@@ -1257,5 +1257,5 @@ let () = Eliom.Content.Html.D.(
 )
 ]}
 
-{{:wiki:manual/application}prev}
-{{:wiki:manual/misc}next}
+{{:application.html}prev}
+{{:misc.html}next}

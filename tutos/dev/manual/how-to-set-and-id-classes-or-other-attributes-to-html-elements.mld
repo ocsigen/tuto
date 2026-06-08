@@ -36,7 +36,7 @@ The style attribute specifies an inline style for an element. The style attribut
 
 Using this attribute to stylish elements is not a good practice.
 You should rather use
-{{:wiki:manual/how-to-add-css-stylesheet}an external CSS file}.
+{{:how-to-add-css-stylesheet.html}an external CSS file}.
 
 Its parameter is a string.
 {@ocaml[~a:[a_style "color: pink; padding: 10px;"]]}

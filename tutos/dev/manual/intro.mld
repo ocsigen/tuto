@@ -53,24 +53,24 @@ new programming techniques to become autonomous.
 Depending on your level and goals, we suggest to continue by reading
 some of the following chapters:
 
-- Chapter {{:wiki:manual/basics}Client-server application programming guide} can be used as your training plan.
+- Chapter {{:basics.html}Client-server application programming guide} can be used as your training plan.
 It provides a wide overview of each main concept, with links to more detailed
 documentation.
-- If you want to start with a server-side only Web site, read {{:wiki:manual/basics-server}Server-side website programming guide} instead.
+- If you want to start with a server-side only Web site, read {{:basics-server.html}Server-side website programming guide} instead.
 - Then, a good starting point is this
-{{:wiki:manual/start}Ocsigen Start tutorial},
+{{:start.html}Ocsigen Start tutorial},
 if you plan to build a client-server Web (and/or mobile) app.
 It will help you to build your first app very quickly,
 with many code samples to study.
 - If you are fluent in OCaml and want a quick introduction to
 client-server Web programming with Eliom,
 read tutorial
-{{:wiki:manual/tutowidgets}Eliom apps basics: writing client server widgets}.
+{{:tutowidgets.html}Eliom apps basics: writing client server widgets}.
 It illusrates the client-server syntax with an example,
 and is a good starting point for understanding Eliom's client-server features.
 - If you want a full step-by-step tutorial on how to write a client-server Web
 application, read tutorial
-{{:wiki:manual/application}Client-server application}.
+{{:application.html}Client-server application}.
 It describes step by step how to write a client/server
 {{:../graffiti/}collaborative drawing application}. You will learn,
 from the very beginning, how to:
@@ -82,10 +82,10 @@ from the very beginning, how to:
 - {e Communicate} with the server, in both directions
 - Create services with {e non-HTML output}
 - If you want to build mobile applications,
-read tutorial {{:wiki:manual/mobile}Mobile applications with Ocsigen}.
+read tutorial {{:mobile.html}Mobile applications with Ocsigen}.
 It describes how to build a mobile app (e.g., for Android)
 with the same codebase as for your Web application.
-- If you want to write a more traditional Web site, with pages, forms, and sessions, read tutorial {{:wiki:manual/interaction}Service based Web programming}.
+- If you want to write a more traditional Web site, with pages, forms, and sessions, read tutorial {{:interaction.html}Service based Web programming}.
 It is devoted to server side programming.
 It shows how to
 create a new Web site with several pages and user connections.
@@ -96,7 +96,7 @@ You will learn how to:
 - Create services performing {e actions} (with no output)
 - Dynamically register new services ({e continuation based} Web programming)
 - If you want to learn more details about Ocsigen
-read tutorial {{:wiki:manual/misc}Miscellaneous features}.
+read tutorial {{:misc.html}Miscellaneous features}.
 It will mix the client-server drawing application
 with the session mechanism and user management
 to produce a multi-user collaborative drawing
@@ -133,7 +133,7 @@ their {{:http://webchat.freenode.net/?channels=ocsigen}webchat})!
 
 
 Now, we recommend to read, chapter
-{{:wiki:manual/basics}All Ocsigen in one page}
+{{:basics.html}All Ocsigen in one page}
 for a wide and complete overview.
 
 

@@ -40,6 +40,6 @@ Or you can use:
 
 {2 Links}
 
-- {{:../eliom/misc.html}About images, css and javascript}
+- {{:/eliom/latest/misc.html}About images, css and javascript}
 - {!Eliom.Content.Html.D.make_uri}
-- {{:../ocsigenserver/staticmod.html}Configuring Ocsigen Server for serving static files}
+- {{:/ocsigenserver/latest/staticmod.html}Configuring Ocsigen Server for serving static files}

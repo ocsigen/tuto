@@ -2,7 +2,7 @@
 {0 Writing a client/server Eliom application}
 {%wodoc:end%}
 
-In this chapter, we will write a {{:../graffiti/}collaborative
+In this chapter, we will write a {{:/graffiti/latest/}collaborative
 drawing application}. It is a client/server web application
 displaying an area where users can draw using the mouse, and see what
 other users are drawing at the same time and in real-time.
@@ -23,7 +23,7 @@ If not already done, install Eliom first:
 opam install ocsipersist-sqlite eliom ocsigen-ppx-rpc
 v}
 
-To get started, we recommend using {{:../eliom/workflow-distillery.html}Eliom distillery}, a program which
+To get started, we recommend using {{:/eliom/latest/workflow-distillery.html}Eliom distillery}, a program which
 creates scaffolds for Eliom projects. The following command creates a
 very simple project called [graffiti] in the directory
 [graffiti]:
@@ -146,7 +146,7 @@ pages as strings (as in other web frameworks). However, it is
 preferable to generate HTML in a way that provides compile-time HTML
 correctness guarantees. This tutorial achieves this by using the
 module {!Eliom.Content.Html.D},
-which is implemented using the {{:../tyxml/.html}TyXML}
+which is implemented using the {{:/tyxml/latest/.html}TyXML}
 library.  The module defines a construction function for each HTML
 tag.
 
@@ -208,7 +208,7 @@ applications unrelated to Ocsigen.
 
 For now we will just use the [Lwt.return] function as above.  We
 will come back to Lwt programming later. You can also have a look at
-the {{:../lwt/.html}Lwt programming guide}.
+the {{:/lwt/latest/.html}Lwt programming guide}.
 
 {%wodoc:end%}
 
@@ -345,7 +345,7 @@ some element produced by the service.
 
 The client-side parts of the program are compiled to JavaScript by
 [js_of_ocaml]. (Technically, [js_of_ocaml] compiles OCaml
-bytecode to JavaScript.)  It is easy {{:../js_of_ocaml/bindings.html}to bind JavaScript libraries} so that OCaml
+bytecode to JavaScript.)  It is easy {{:/js_of_ocaml/latest/bindings.html}to bind JavaScript libraries} so that OCaml
 programs can call JavaScript functions. In the example, we are using
 the {!Js_of_ocaml.Dom_html} module, which
 is a binding that allows the manipulation of an HTML page.
@@ -428,7 +428,7 @@ on the client.
   one. If you define a type and want it to be available on both sides,
   declare it in [[%%shared ... ]]. The Eliom manual provides more
   information on the {{!Ppx_eliom}Eliom's syntax extension} and
-  its {{:../eliom/workflow-compilation.html#compilation}compilation process}.
+  its {{:/eliom/latest/workflow-compilation.html#compilation}compilation process}.
 
   The value of an injection into a [let%client]
   section is sent only once when starting the application in the
@@ -848,7 +848,7 @@ Functional Reactive Programming{%html:<br/>%}
 
 In this section, we add a color picker and slider to choose the size
 of the brush. For the colorpicker we used a widget available in
-{{:../ocsigen-toolkit/intro.html}Ocsigen Toolkit}.
+{{:/ocsigen-toolkit/latest/intro.html}Ocsigen Toolkit}.
 
 To install Ocsigen Toolkit, do:
 {v
@@ -992,7 +992,7 @@ You can then test your application ([make test.byte]).
   client-server widgets
   for your Eliom applications. You can use it for building complex
   user interfaces. The full documentation is available
-  ({{:../ocsigen-toolkit/.html}Ocsigen Toolkit}).
+  ({{:/ocsigen-toolkit/latest/.html}Ocsigen Toolkit}).
 
 {%wodoc:end%}
 

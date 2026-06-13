@@ -154,6 +154,6 @@ which implements functional reactive programming for OCaml.
 
 {1 More documentation}
 
-Have a look at {{:../tyxml/intro.html}Tyxml's manual}
-and {{:../eliom/clientserver-html.html}Eliom's manual}
+Have a look at {{:/tyxml/latest/intro.html}Tyxml's manual}
+and {{:/eliom/latest/clientserver-html.html}Eliom's manual}
 for more documentation about HTML manipulation in OCaml.

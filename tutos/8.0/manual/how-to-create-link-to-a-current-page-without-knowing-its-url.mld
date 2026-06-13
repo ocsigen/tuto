@@ -7,5 +7,5 @@ a ~service:Eliom_service.reload_action
 ]}
 
 More information in
-{{:../eliom/server-services.html#void}Eliom's manual}, and API documentation of
+{{:/eliom/latest/server-services.html#void}Eliom's manual}, and API documentation of
 {!Eliom_service.reload_action}.

@@ -70,5 +70,5 @@ if you restart the server.
 
 {1 Links}
 
-- {{:../eliom/server-state.html}More information on session data}
+- {{:/eliom/latest/server-state.html}More information on session data}
 - module {!Eliom.Reference}

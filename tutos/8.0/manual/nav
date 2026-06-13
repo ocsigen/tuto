@@ -1,0 +1,78 @@
+;; Left-column navigation for the 8.0 tutorial, in wodoc's (nav ...) syntax.
+;; Passed to `wodoc build --nav` by the CI (this manual builds several versions
+;; from the same checkout, so the nav is per-version rather than in doc/wodoc).
+;; Replaces the old tutos/8.0/manual/menu.wiki. Pages are at the version root;
+;; `site:` links keep their absolute /path.
+(nav
+ (section "Programmer's guide"
+  (link "Introduction. Ocsigen: where to start?" intro.html intro)
+  (link "Client-server application programming guide" basics.html basics)
+  (link "Server-side website programming guide" basics-server.html basics-server))
+ (section "Main tutorials"
+  (link "Install Ocsigen" /install)
+  (link "Your first app in 5 minutes" start.html start)
+  (link "Interactive tutorial: Writing a chat app" /talks/tutochat.html)
+  (link "Client/server application: Graffiti" application.html application)
+  (link "Eliom apps basics: writing client-server widgets" tutowidgets.html tutowidgets)
+  (link "Session data: Eliom references" how-to-register-session-data.html how-to-register-session-data)
+  (link "Reactive client-server Web applications" tutoreact.html tutoreact)
+  (link "Service based Web programming" interaction.html interaction)
+  (link "Mixing traditional Web interaction with client-server app" misc.html misc))
+ (section "5-minute tutorials"
+  (link "Lwt" lwt.html lwt)
+  (link "HTML" html.html html))
+ (section "Other tutorials: Miscellanous features"
+  (link "Mobile applications with Ocsigen" mobile.html mobile)
+  (link "Custom configuration" custom-conf.html custom-conf)
+  (link "RESTful JSON API" rest.html rest)
+  (link "Persistent tables with Ocsipersist" ocsipersist.html ocsipersist))
+ (section "Improving Graffiti"
+  (link "Download pictures" pictures.html pictures)
+  (link "Playing music" music.html music)
+  (link "Reactive media player" reactivemediaplayer.html reactivemediaplayer))
+ (section "HOW-TO"
+  (group "My first steps with Ocsigen"
+   (link "How to make \"hello world\" in Ocsigen" how-to-make-hello-world-in-ocsigen.html how-to-make-hello-world-in-ocsigen)
+   (link "How to compile my Ocsigen pages" how-to-compile-my-ocsigen-pages.html how-to-compile-my-ocsigen-pages)
+   (link "How to configure and launch the Ocsigen Server" how-to-configure-and-launch-the-ocsigen-server.html how-to-configure-and-launch-the-ocsigen-server)
+   (link "How does a client-server app source code look like?" how-does-a-page-s-source-code-look.html how-does-a-page-s-source-code-look))
+  (group "How to put some elements in my page ?"
+   (link "How to make a page skeleton" how-to-make-page-a-skeleton.html how-to-make-page-a-skeleton)
+   (link "How to use GET parameters (parameters in the URL)" how-to-use-get-parameters-or-parameters-in-the-url.html how-to-use-get-parameters-or-parameters-in-the-url)
+   (link "How to add CSS stylesheet" how-to-add-css-stylesheet.html how-to-add-css-stylesheet)
+   (link "How to add a Javascript script" how-to-add-a-javascript-script.html how-to-add-a-javascript-script)
+   (link "How to add a div" how-to-add-a-div.html how-to-add-a-div)
+   (link "How to add lists in pages?" how-to-add-a-list.html how-to-add-a-list)
+   (link "How to add an image" how-to-add-an-image.html how-to-add-an-image)
+   (link "How to write titles and paragraphs" how-to-write-titles-and-paragraphs.html how-to-write-titles-and-paragraphs)
+   (link "How to set and id, classes or other attributes to HTML elements" how-to-set-and-id-classes-or-other-attributes-to-html-elements.html how-to-set-and-id-classes-or-other-attributes-to-html-elements)
+   (link "How to add select (or other form element)" how-to-add-a-select-or-other-form-element.html how-to-add-a-select-or-other-form-element)
+   (link "How to insert \"raw\" form elements (not belonging to a form towards a service)" how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service)
+   (link "How to make responsive CSS" how-to-make-responsive-css.html how-to-make-responsive-css))
+  (group "Services"
+   (link "How to do links to other pages" how-to-do-links-to-other-pages.html how-to-do-links-to-other-pages)
+   (link "How to write forms" how-to-write-forms.html how-to-write-forms)
+   (link "How to register a service that decides itself what to send" how-to-register-a-service-that-decides-itself-what-to-send.html how-to-register-a-service-that-decides-itself-what-to-send)
+   (link "How to create link to a current page (without knowing its URL)" how-to-create-link-to-a-current-page-without-knowing-its-url.html how-to-create-link-to-a-current-page-without-knowing-its-url)
+   (link "How to create form wizard (sequence of pages depending on data entered on previous ones)" how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones)
+   (link "How to write a JSON service" how-to-write-a-json-service.html how-to-write-a-json-service)
+   (link "How to send a file (download)" how-to-send-file-download.html how-to-send-file-download)
+   (link "How to send a file (upload)" how-to-send-file-upload.html how-to-send-file-upload))
+  (group "Js_of_ocaml"
+   (link "How to attach OCaml values to DOM elements" how-to-attach-ocaml-values-to-dom-elements.html how-to-attach-ocaml-values-to-dom-elements)
+   (link "How to know whether the browser window has the focus or not" how-to-know-whether-the-browser-window-has-the-focus-or-not.html how-to-know-whether-the-browser-window-has-the-focus-or-not)
+   (link "How to build js object" how-to-build-js-object.html how-to-build-js-object)
+   (link "How to stop default behaviour of events" how-to-stop-default-behaviour-of-events.html how-to-stop-default-behaviour-of-events)
+   (link "How to call an OCaml function from js code" how-to-call-an-ocaml-function-from-js-code.html how-to-call-an-ocaml-function-from-js-code))
+  (group "Eliom client-server applications"
+   (link "How to call a server-side function from the client side" how-to-call-a-server-side-function-from-client-side.html how-to-call-a-server-side-function-from-client-side)
+   (link "How to make the client side program get an HTML element from the server and insert it in the page" how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page)
+   (link "How to attach OCaml values to the HTML nodes sent to the client" how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client)
+   (link "How to iterate on all sessions for one user, or all tabs" how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html how-to-iterate-on-all-sessions-for-one-user-or-all-tabs)
+   (link "How to implement a notification system" how-to-implement-a-notification-system.html how-to-implement-a-notification-system)
+   (link "How to send a file to server without stopping the client process" how-to-send-a-file-to-server-without-stopping-the-client-process.html how-to-send-a-file-to-server-without-stopping-the-client-process)
+   (link "How to detect channel disconnection" how-to-detect-channel-disconnection.html how-to-detect-channel-disconnection)
+   (link "How to detect on client side that the server side state for the process is closed" how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed))
+  (group "Eliom Server side"
+   (link "How do I create a Cryptographically safe identifier" how-do-i-create-a-cryptographically-safe-identifier.html how-do-i-create-a-cryptographically-safe-identifier)
+   (link "Protecting passwords" hash-password.html hash-password))))

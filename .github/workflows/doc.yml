@@ -5,7 +5,7 @@
 # tuto is MANUAL-ONLY (no library/API): wodoc drives odoc directly on the .mld
 # pages (direct-mld mode). Unlike the API projects, its two versions (8.0, dev)
 # are DISTINCT manuals living in master as tutos/<v>/manual/, so the CI builds
-# BOTH (passing the per-version mld-dir / manual-menu) rather than freezing dev.
+# BOTH (passing the per-version mld-dir and nav file) rather than freezing dev.
 name: Documentation
 
 on:
@@ -41,7 +41,7 @@ jobs:
             opam exec -- wodoc build --config doc/wodoc \
               --menu https://ocsigen.org/doc/menu.html \
               --out "$PWD/_doc-site/$v" --label "$v" \
-              --mld-dir "tutos/$v/manual" --manual-menu "tutos/$v/manual/menu.wiki"
+              --mld-dir "tutos/$v/manual" --nav "tutos/$v/manual/nav"
             # manual-only: the version landing redirects to the first page (intro)
             printf '<!DOCTYPE html><meta http-equiv="refresh" content="0; url=intro.html">\n' \
               > "_doc-site/$v/index.html"

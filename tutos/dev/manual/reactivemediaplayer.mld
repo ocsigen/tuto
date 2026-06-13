@@ -1,6 +1,6 @@
 {0 Reactive Media Player}
 
-You should read the {{:/tuto/manual/music}Playing Music} tutorial before this one.
+You should read the {{:music.html}Playing Music} tutorial before this one.
 
 Since version 4, Eliom embeds the
 {{:http://erratique.ch/logiciel/react}React} library in order to
@@ -82,7 +82,7 @@ optional parameters of React.S functions producing a signal (like
 
 
 This part explains how to create a simple media player, similar to the
-{{:/tuto/manual/music}Playing Music} tutorial but with custom
+{{:music.html}Playing Music} tutorial but with custom
 controls.We will apply
 {{:https://en.wikipedia.org/wiki/Functional_reactive_programming}FRP (Functional Reactive Programming)}.
 

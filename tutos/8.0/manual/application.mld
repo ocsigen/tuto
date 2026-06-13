@@ -428,7 +428,7 @@ on the client.
   one. If you define a type and want it to be available on both sides,
   declare it in [[%%shared ... ]]. The Eliom manual provides more
   information on the {{!Ppx_eliom}Eliom's syntax extension} and
-  its {{:/eliom/latest/workflow-compilation.html#compilation}compilation process}.
+  its {{:/eliom/latest/workflow-configuration.html#compilation}compilation process}.
 
   The value of an injection into a [let%client]
   section is sent only once when starting the application in the

@@ -18,7 +18,7 @@ More information on Eliom distillery in
 {{:/eliom/latest/workflow-distillery.html}Eliom's manual}.
 
 More information on how client-server Eliom project are compiled on
-{{:/eliom/latest/workflow-compilation.html}this page}.
+{{:/eliom/latest/workflow-configuration.html}this page}.
 
 If you don't need client-server features, the compilation process is very
 simple and without surprise. Compile with [ocamlc] or [ocamlopt]
@@ -42,4 +42,4 @@ Read manuals for mor information about these compilers.
 
 {2 Links}
 
-- {{:/eliom/latest/workflow-compilation.html}Full documentation about Ocsigen compilation}
+- {{:/eliom/latest/workflow-configuration.html}Full documentation about Ocsigen compilation}

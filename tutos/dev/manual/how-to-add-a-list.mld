@@ -21,7 +21,7 @@
      li [txt "second item"]]
 ]}
 
-{b Required parameter}: list containing {b li} elements ({{:/tyxml/latest/api/Html_types#TYPEli_attrib}Details of li content}).
+{b Required parameter}: list containing {b li} elements ({{:/tyxml/latest/tyxml/Html_types/index.html#type-li_attrib}Details of li content}).
 
 {b Optional parameter} for attributes "a" ({{:how-to-set-and-id-classes-or-other-attributes-to-html-elements.html}How to set and id, classes or other attributes to HTML elements?}).
 
@@ -50,8 +50,8 @@ A list of pair of:
 - A list of elements of type dd
 
 Details:
-- {{:/tyxml/latest/api/Html_types#TYPEphrasing}dd content}
-- {{:/tyxml/latest/api/Html_types#TYPEflow5}dt content}
+- {{:/tyxml/latest/tyxml/Html_types/index.html#type-phrasing}dd content}
+- {{:/tyxml/latest/tyxml/Html_types/index.html#type-flow5}dt content}
 
 {b Optional parameter} for attributes "a" ({{:how-to-set-and-id-classes-or-other-attributes-to-html-elements.html}How to set and id, classes or other attributes to HTML elements?}).
 

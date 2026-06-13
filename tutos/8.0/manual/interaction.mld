@@ -7,7 +7,7 @@
 This chapter of the tutorial explains how to create a small web site
 with several pages, users, sessions, and other elements of classical
 web development.  Then, in
-{{:/tuto/misc.html}another tutorial}, we will incorporate the
+{{:misc.html}another tutorial}, we will incorporate the
 features of this site into our Graffiti application, to
 demonstrate that we can combine this kind of interaction with client-side
 programs.

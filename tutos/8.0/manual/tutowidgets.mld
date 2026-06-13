@@ -7,7 +7,7 @@ It is probably a good starting point if you know OCaml well, and want
 to quickly learn how to write a client-server Eliom application with a
 short example and concise explanations.  For more detailed explanations, see
 the
-{{:/tuto/application.html}"graffiti" tutorial},
+{{:application.html}"graffiti" tutorial},
 or read the manuals.
 
 The goal is to show that, unlike many JavaScript libraries that build
@@ -394,7 +394,7 @@ let%server _ = Eliom_content.Html.D.(
 An important feature missing from this tutorial is the ability
 to call server functions from the client-side program ("server functions").
 You can find a quick description of this
-in {{:/tuto/how-to-call-a-server-side-function-from-client-side.html}this mini HOWTO} or
+in {{:how-to-call-a-server-side-function-from-client-side.html}this mini HOWTO} or
 in {{:/eliom/latest/clientserver-communication.html#rpc}Eliom's manual}.
 
 {2 Services}

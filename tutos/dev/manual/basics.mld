@@ -493,7 +493,7 @@ define a typed interface
 for form elements. Use this for links (see above), or if you program traditional
 server-side Web interaction (with or without client-side program). This will statically check that your forms
 match the services. See more information in the
-{{:/tuto/basics-server.html}server-side programming manual}.
+{{:basics-server.html}server-side programming manual}.
 
 {%wodoc:end%}
 {%wodoc:section class="docblock"%}

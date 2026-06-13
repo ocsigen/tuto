@@ -847,7 +847,7 @@ the demo included in
 - {{:application.html}This page} is a step by step introduction to client-server programming with Eliom for beginners.
 - {{:tutowidgets.html}This one} is a quick introduction for more experienced OCaml developers.
 - Comprehensive documentation on client-server programming can be found in
-{{:/eliom/latest/.html}Eliom's user manual}.
+{{:/eliom/latest/}Eliom's user manual}.
 {%wodoc:end%}
 
 {%wodoc:section class="docblock"%}

@@ -146,7 +146,7 @@ pages as strings (as in other web frameworks). However, it is
 preferable to generate HTML in a way that provides compile-time HTML
 correctness guarantees. This tutorial achieves this by using the
 module {!Eliom.Content.Html.D},
-which is implemented using the {{:/tyxml/latest/.html}TyXML}
+which is implemented using the {{:/tyxml/latest/}TyXML}
 library.  The module defines a construction function for each HTML
 tag.
 
@@ -208,7 +208,7 @@ applications unrelated to Ocsigen.
 
 For now we will just use the [Lwt.return] function as above.  We
 will come back to Lwt programming later. You can also have a look at
-the {{:/lwt/latest/.html}Lwt programming guide}.
+the {{:/lwt/latest/}Lwt programming guide}.
 
 {%wodoc:end%}
 
@@ -992,7 +992,7 @@ You can then test your application ([make test.byte]).
   client-server widgets
   for your Eliom applications. You can use it for building complex
   user interfaces. The full documentation is available
-  ({{:/ocsigen-toolkit/latest/.html}Ocsigen Toolkit}).
+  ({{:/ocsigen-toolkit/latest/}Ocsigen Toolkit}).
 
 {%wodoc:end%}
 

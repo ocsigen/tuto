@@ -345,7 +345,7 @@ some element produced by the service.
 
 The client-side parts of the program are compiled to JavaScript by
 [js_of_ocaml]. (Technically, [js_of_ocaml] compiles OCaml
-bytecode to JavaScript.)  It is easy {{:/js_of_ocaml/latest/bindings.html}to bind JavaScript libraries} so that OCaml
+bytecode to JavaScript.)  It is easy {{:/js_of_ocaml/latest/js_of_ocaml/bindings.html}to bind JavaScript libraries} so that OCaml
 programs can call JavaScript functions. In the example, we are using
 the {!Js_of_ocaml.Dom_html} module, which
 is a binding that allows the manipulation of an HTML page.

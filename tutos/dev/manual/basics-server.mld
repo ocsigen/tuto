@@ -822,7 +822,7 @@ for generating pages. Many extensions are already written:
 :    restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.).
 ;{{:/ocsigenserver/latest/authbasic.html}Authbasic}
 :    restricts access to the sites from the config file using Basic HTTP Authentication.
-;{{:/ocsigenserver/latest/cgimod.html}CGImod}
+;CGImod
 :    serves CGI scripts. It may also be used to serve PHP through CGI.
 ;{{:/ocsigenserver/latest/deflatemod.html}Deflatemod}
 :    used to compress data before sending it to the client.
@@ -837,7 +837,7 @@ for generating pages. Many extensions are already written:
 :    rewrites some parts of the output before sending it to the client.
 ;{{:/ocsigenserver/latest/userconf.html}Userconf}
 :    allows users to have their own configuration files.
-;{{:/ocsigenserver/latest/comet.html}Comet}
+;Comet
 :    facilitates server to client communications.
 
 Ocsigen Server has a {{:/ocsigenserver/latest/config.html}sophisticated configuration} file mechanism allowing

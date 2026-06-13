@@ -26,5 +26,5 @@ Or you can use:
 {2 Call an external function}
 
 Have a look at
-{{:/js_of_ocaml/latest/bindings.html}this page of Js_of_ocaml's manual}
+{{:/js_of_ocaml/latest/js_of_ocaml/bindings.html}this page of Js_of_ocaml's manual}
 to understand how to call JS function from your OCaml program.

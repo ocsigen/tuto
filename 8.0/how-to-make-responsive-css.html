@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>How to make reponsive CSS with ocsigen? — Doc</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="stylesheet" href="/css/ocsigen-odoc.css"/>
+  <script src="./highlight.pack.js"></script>
+  <script src="./wodoc-highlight.js"></script>
+</head>
+<body class="wodoc-page wodoc-doc">
+  <!-- Shared site menu — THE single source of truth for the header, top menu and
+     drawer of EVERY Ocsigen doc page (vitrine + all projects). Canonical copy
+     lives here in ocsigen.github.io; each project's build fetches it. Injected
+     by `wodoc assemble --menu`. Holes filled by the tool (braces omitted here so
+     this comment is not itself rewritten by the hole-filler):
+       subproject  the sub-project name shown next to the Ocsigen logo
+                   (empty on the vitrine), via --subproject
+       leftnav     the project's left navigation, expanded into BOTH the mobile
+                   drawer (below) and the left column (in the page template),
+                   via --leftnav
+     The current entry is highlighted by adding the `current` class to the
+     element carrying data-wodoc-page=<id>: --current on the vitrine (page id),
+     --menu-current in a project (the project id). Nothing is hardcoded here, so
+     this file is the ONLY place the menu is defined.
+
+     Links are the FINAL site paths (/<project>/, /<page>): the target layout
+     where each project is served at ocsigen.org/<project>/ — no transitional
+     /wodoc/ prefix. -->
+<div class="page-header">
+  <p class="logo-ocsigen"><a href="/"><img src="/img/ocsigen-white.svg" alt="Ocsigen"/></a></p>
+  <p class="logo-subproject">Doc</p>
+
+  <div class="mainmenu">
+    <p class="mainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></p>
+    <p class="mainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></p>
+    <p data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></p>
+    <p data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></p>
+    <p data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></p>
+    <p data-wodoc-page="lwt"><a href="/lwt/">Lwt</a></p>
+    <p data-wodoc-page="tyxml"><a href="/tyxml/">Tyxml</a></p>
+    <p data-wodoc-page="ocsigen-start"><a href="/ocsigen-start/">Start</a></p>
+  </div>
+
+  <form id="googlesearch" action="https://google.com/search">
+    <input name="q" id="gsearch-box" placeholder="Search using Google"/>
+    <label for="gsearch-box"><img src="/img/search.svg" alt="" id="gsearch-icon"/></label>
+    <input type="submit" id="gsearch-submit" onclick="document.getElementById('gsearch-box').value += ' site:ocsigen.org';"/>
+  </form>
+
+  <aside class="how-drawer">
+    <input id="how-drawer-toggle" type="checkbox"/>
+    <label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label>
+    <nav class="how-drawer-content">
+      <ul class="drawermainmenu">
+        <li class="drawermainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></li>
+        <li class="drawermainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="lwt"><a href="/lwt/">Lwt</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="tyxml"><a href="/tyxml/">Tyxml</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-toolkit"><a href="/ocsigen-toolkit/">Toolkit</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-start"><a href="/ocsigen-start/">Start</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsipersist"><a href="/ocsipersist/">Ocsipersist</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="reactiveData"><a href="/reactiveData/">ReactiveData</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-i18n"><a href="/ocsigen-i18n/">i18n</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="wodoc"><a href="/wodoc/">Wodoc</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="projects"><a href="/projects">Other projects</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="papers"><a href="/papers">Research papers</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="credits"><a href="/credits">Who does Ocsigen?</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="contributing"><a href="/contributing">Contributing</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog">Blog</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="install"><a href="/install">Installation</a></li>
+        <li class="drawermainmenu-page"><a href="https://github.com/ocsigen">Source code</a></li>
+      </ul>
+      <!-- On mobile the left column is hidden; its menu lives here in the burger
+           (.how-doctree, shown only on narrow screens), as the old site did.
+           Empty on the vitrine; the leftnav hole is filled (with the same
+           fragment as the left column) only on project pages. -->
+      <nav class="how-doctree"><div class="docversion">
+  <label>Version:
+    <select class="wodoc-version" onchange="wodocVersion(this.value)">
+      <option value="8.0">8.0</option>
+    </select>
+  </label>
+</div>
+<div class="page-toc">
+  <h3>On this page</h3>
+  
+</div>
+<nav class="api-nav manual-nav">
+<h3>Programmer&#x27;s guide</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="intro.html"><a href="./intro.html">Introduction. Ocsigen: where to start?</a></li>
+<li class="ml3" data-wodoc-page="basics.html"><a href="./basics.html">Client-server application programming guide</a></li>
+<li class="ml3" data-wodoc-page="basics-server.html"><a href="./basics-server.html">Server-side website programming guide</a></li>
+</ul>
+<h3>Main tutorials</h3>
+<ul class="api-section">
+<li class="ml3"><a href="/install">Install Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="start.html"><a href="./start.html">Your first app in 5 minutes</a></li>
+<li class="ml3"><a href="/talks/tutochat.html">Interactive tutorial: Writing a chat app</a></li>
+<li class="ml3" data-wodoc-page="application.html"><a href="./application.html">Client/server application: Graffiti</a></li>
+<li class="ml3" data-wodoc-page="tutowidgets.html"><a href="./tutowidgets.html">Eliom apps basics: writing client-server widgets</a></li>
+<li class="ml3" data-wodoc-page="how-to-register-session-data.html"><a href="./how-to-register-session-data.html">Session data: Eliom references</a></li>
+<li class="ml3" data-wodoc-page="tutoreact.html"><a href="./tutoreact.html">Reactive client-server Web applications</a></li>
+<li class="ml3" data-wodoc-page="interaction.html"><a href="./interaction.html">Service based Web programming</a></li>
+<li class="ml3" data-wodoc-page="misc.html"><a href="./misc.html">Mixing traditional Web interaction with client-server app</a></li>
+</ul>
+<h3>5-minute tutorials</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="lwt.html"><a href="./lwt.html">Lwt</a></li>
+<li class="ml3" data-wodoc-page="html.html"><a href="./html.html">HTML</a></li>
+</ul>
+<h3>Other tutorials: Miscellanous features</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
+<li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
+<li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
+</ul>
+<h3>Improving Graffiti</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
+<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
+<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
+</ul>
+<h3>HOW-TO</h3>
+<h4 class="ml3">My first steps with Ocsigen</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-hello-world-in-ocsigen.html"><a href="./how-to-make-hello-world-in-ocsigen.html">How to make &quot;hello world&quot; in Ocsigen</a></li>
+<li class="ml4" data-wodoc-page="how-to-compile-my-ocsigen-pages.html"><a href="./how-to-compile-my-ocsigen-pages.html">How to compile my Ocsigen pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-configure-and-launch-the-ocsigen-server.html"><a href="./how-to-configure-and-launch-the-ocsigen-server.html">How to configure and launch the Ocsigen Server</a></li>
+<li class="ml4" data-wodoc-page="how-does-a-page-s-source-code-look.html"><a href="./how-does-a-page-s-source-code-look.html">How does a client-server app source code look like?</a></li>
+</ul>
+<h4 class="ml3">How to put some elements in my page ?</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-page-a-skeleton.html"><a href="./how-to-make-page-a-skeleton.html">How to make a page skeleton</a></li>
+<li class="ml4" data-wodoc-page="how-to-use-get-parameters-or-parameters-in-the-url.html"><a href="./how-to-use-get-parameters-or-parameters-in-the-url.html">How to use GET parameters (parameters in the URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-css-stylesheet.html"><a href="./how-to-add-css-stylesheet.html">How to add CSS stylesheet</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-javascript-script.html"><a href="./how-to-add-a-javascript-script.html">How to add a Javascript script</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-div.html"><a href="./how-to-add-a-div.html">How to add a div</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-list.html"><a href="./how-to-add-a-list.html">How to add lists in pages?</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-an-image.html"><a href="./how-to-add-an-image.html">How to add an image</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-titles-and-paragraphs.html"><a href="./how-to-write-titles-and-paragraphs.html">How to write titles and paragraphs</a></li>
+<li class="ml4" data-wodoc-page="how-to-set-and-id-classes-or-other-attributes-to-html-elements.html"><a href="./how-to-set-and-id-classes-or-other-attributes-to-html-elements.html">How to set and id, classes or other attributes to HTML elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-select-or-other-form-element.html"><a href="./how-to-add-a-select-or-other-form-element.html">How to add select (or other form element)</a></li>
+<li class="ml4" data-wodoc-page="how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html"><a href="./how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></li>
+<li class="ml4 current" data-wodoc-page="how-to-make-responsive-css.html"><a href="./how-to-make-responsive-css.html">How to make responsive CSS</a></li>
+</ul>
+<h4 class="ml3">Services</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-do-links-to-other-pages.html"><a href="./how-to-do-links-to-other-pages.html">How to do links to other pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-forms.html"><a href="./how-to-write-forms.html">How to write forms</a></li>
+<li class="ml4" data-wodoc-page="how-to-register-a-service-that-decides-itself-what-to-send.html"><a href="./how-to-register-a-service-that-decides-itself-what-to-send.html">How to register a service that decides itself what to send</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-link-to-a-current-page-without-knowing-its-url.html"><a href="./how-to-create-link-to-a-current-page-without-knowing-its-url.html">How to create link to a current page (without knowing its URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html"><a href="./how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-a-json-service.html"><a href="./how-to-write-a-json-service.html">How to write a JSON service</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-download.html"><a href="./how-to-send-file-download.html">How to send a file (download)</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-upload.html"><a href="./how-to-send-file-upload.html">How to send a file (upload)</a></li>
+</ul>
+<h4 class="ml3">Js_of_ocaml</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-dom-elements.html"><a href="./how-to-attach-ocaml-values-to-dom-elements.html">How to attach OCaml values to DOM elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-know-whether-the-browser-window-has-the-focus-or-not.html"><a href="./how-to-know-whether-the-browser-window-has-the-focus-or-not.html">How to know whether the browser window has the focus or not</a></li>
+<li class="ml4" data-wodoc-page="how-to-build-js-object.html"><a href="./how-to-build-js-object.html">How to build js object</a></li>
+<li class="ml4" data-wodoc-page="how-to-stop-default-behaviour-of-events.html"><a href="./how-to-stop-default-behaviour-of-events.html">How to stop default behaviour of events</a></li>
+<li class="ml4" data-wodoc-page="how-to-call-an-ocaml-function-from-js-code.html"><a href="./how-to-call-an-ocaml-function-from-js-code.html">How to call an OCaml function from js code</a></li>
+</ul>
+<h4 class="ml3">Eliom client-server applications</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-call-a-server-side-function-from-client-side.html"><a href="./how-to-call-a-server-side-function-from-client-side.html">How to call a server-side function from the client side</a></li>
+<li class="ml4" data-wodoc-page="how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html"><a href="./how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html">How to make the client side program get an HTML element from the server and insert it in the page</a></li>
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html"><a href="./how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html">How to attach OCaml values to the HTML nodes sent to the client</a></li>
+<li class="ml4" data-wodoc-page="how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html"><a href="./how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html">How to iterate on all sessions for one user, or all tabs</a></li>
+<li class="ml4" data-wodoc-page="how-to-implement-a-notification-system.html"><a href="./how-to-implement-a-notification-system.html">How to implement a notification system</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-a-file-to-server-without-stopping-the-client-process.html"><a href="./how-to-send-a-file-to-server-without-stopping-the-client-process.html">How to send a file to server without stopping the client process</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-channel-disconnection.html"><a href="./how-to-detect-channel-disconnection.html">How to detect channel disconnection</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html"><a href="./how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html">How to detect on client side that the server side state for the process is closed</a></li>
+</ul>
+<h4 class="ml3">Eliom Server side</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-do-i-create-a-cryptographically-safe-identifier.html"><a href="./how-do-i-create-a-cryptographically-safe-identifier.html">How do I create a Cryptographically safe identifier</a></li>
+<li class="ml4" data-wodoc-page="hash-password.html"><a href="./hash-password.html">Protecting passwords</a></li>
+</ul>
+</nav>
+</nav>
+    </nav>
+  </aside>
+</div>
+
+
+  <div class="project-page">
+    <div class="twocols">
+      <nav class="leftcol">
+        <div class="docversion">
+  <label>Version:
+    <select class="wodoc-version" onchange="wodocVersion(this.value)">
+      <option value="8.0">8.0</option>
+    </select>
+  </label>
+</div>
+<div class="page-toc">
+  <h3>On this page</h3>
+  
+</div>
+<nav class="api-nav manual-nav">
+<h3>Programmer&#x27;s guide</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="intro.html"><a href="./intro.html">Introduction. Ocsigen: where to start?</a></li>
+<li class="ml3" data-wodoc-page="basics.html"><a href="./basics.html">Client-server application programming guide</a></li>
+<li class="ml3" data-wodoc-page="basics-server.html"><a href="./basics-server.html">Server-side website programming guide</a></li>
+</ul>
+<h3>Main tutorials</h3>
+<ul class="api-section">
+<li class="ml3"><a href="/install">Install Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="start.html"><a href="./start.html">Your first app in 5 minutes</a></li>
+<li class="ml3"><a href="/talks/tutochat.html">Interactive tutorial: Writing a chat app</a></li>
+<li class="ml3" data-wodoc-page="application.html"><a href="./application.html">Client/server application: Graffiti</a></li>
+<li class="ml3" data-wodoc-page="tutowidgets.html"><a href="./tutowidgets.html">Eliom apps basics: writing client-server widgets</a></li>
+<li class="ml3" data-wodoc-page="how-to-register-session-data.html"><a href="./how-to-register-session-data.html">Session data: Eliom references</a></li>
+<li class="ml3" data-wodoc-page="tutoreact.html"><a href="./tutoreact.html">Reactive client-server Web applications</a></li>
+<li class="ml3" data-wodoc-page="interaction.html"><a href="./interaction.html">Service based Web programming</a></li>
+<li class="ml3" data-wodoc-page="misc.html"><a href="./misc.html">Mixing traditional Web interaction with client-server app</a></li>
+</ul>
+<h3>5-minute tutorials</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="lwt.html"><a href="./lwt.html">Lwt</a></li>
+<li class="ml3" data-wodoc-page="html.html"><a href="./html.html">HTML</a></li>
+</ul>
+<h3>Other tutorials: Miscellanous features</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
+<li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
+<li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
+</ul>
+<h3>Improving Graffiti</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
+<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
+<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
+</ul>
+<h3>HOW-TO</h3>
+<h4 class="ml3">My first steps with Ocsigen</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-hello-world-in-ocsigen.html"><a href="./how-to-make-hello-world-in-ocsigen.html">How to make &quot;hello world&quot; in Ocsigen</a></li>
+<li class="ml4" data-wodoc-page="how-to-compile-my-ocsigen-pages.html"><a href="./how-to-compile-my-ocsigen-pages.html">How to compile my Ocsigen pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-configure-and-launch-the-ocsigen-server.html"><a href="./how-to-configure-and-launch-the-ocsigen-server.html">How to configure and launch the Ocsigen Server</a></li>
+<li class="ml4" data-wodoc-page="how-does-a-page-s-source-code-look.html"><a href="./how-does-a-page-s-source-code-look.html">How does a client-server app source code look like?</a></li>
+</ul>
+<h4 class="ml3">How to put some elements in my page ?</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-page-a-skeleton.html"><a href="./how-to-make-page-a-skeleton.html">How to make a page skeleton</a></li>
+<li class="ml4" data-wodoc-page="how-to-use-get-parameters-or-parameters-in-the-url.html"><a href="./how-to-use-get-parameters-or-parameters-in-the-url.html">How to use GET parameters (parameters in the URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-css-stylesheet.html"><a href="./how-to-add-css-stylesheet.html">How to add CSS stylesheet</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-javascript-script.html"><a href="./how-to-add-a-javascript-script.html">How to add a Javascript script</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-div.html"><a href="./how-to-add-a-div.html">How to add a div</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-list.html"><a href="./how-to-add-a-list.html">How to add lists in pages?</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-an-image.html"><a href="./how-to-add-an-image.html">How to add an image</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-titles-and-paragraphs.html"><a href="./how-to-write-titles-and-paragraphs.html">How to write titles and paragraphs</a></li>
+<li class="ml4" data-wodoc-page="how-to-set-and-id-classes-or-other-attributes-to-html-elements.html"><a href="./how-to-set-and-id-classes-or-other-attributes-to-html-elements.html">How to set and id, classes or other attributes to HTML elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-select-or-other-form-element.html"><a href="./how-to-add-a-select-or-other-form-element.html">How to add select (or other form element)</a></li>
+<li class="ml4" data-wodoc-page="how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html"><a href="./how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></li>
+<li class="ml4 current" data-wodoc-page="how-to-make-responsive-css.html"><a href="./how-to-make-responsive-css.html">How to make responsive CSS</a></li>
+</ul>
+<h4 class="ml3">Services</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-do-links-to-other-pages.html"><a href="./how-to-do-links-to-other-pages.html">How to do links to other pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-forms.html"><a href="./how-to-write-forms.html">How to write forms</a></li>
+<li class="ml4" data-wodoc-page="how-to-register-a-service-that-decides-itself-what-to-send.html"><a href="./how-to-register-a-service-that-decides-itself-what-to-send.html">How to register a service that decides itself what to send</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-link-to-a-current-page-without-knowing-its-url.html"><a href="./how-to-create-link-to-a-current-page-without-knowing-its-url.html">How to create link to a current page (without knowing its URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html"><a href="./how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-a-json-service.html"><a href="./how-to-write-a-json-service.html">How to write a JSON service</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-download.html"><a href="./how-to-send-file-download.html">How to send a file (download)</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-upload.html"><a href="./how-to-send-file-upload.html">How to send a file (upload)</a></li>
+</ul>
+<h4 class="ml3">Js_of_ocaml</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-dom-elements.html"><a href="./how-to-attach-ocaml-values-to-dom-elements.html">How to attach OCaml values to DOM elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-know-whether-the-browser-window-has-the-focus-or-not.html"><a href="./how-to-know-whether-the-browser-window-has-the-focus-or-not.html">How to know whether the browser window has the focus or not</a></li>
+<li class="ml4" data-wodoc-page="how-to-build-js-object.html"><a href="./how-to-build-js-object.html">How to build js object</a></li>
+<li class="ml4" data-wodoc-page="how-to-stop-default-behaviour-of-events.html"><a href="./how-to-stop-default-behaviour-of-events.html">How to stop default behaviour of events</a></li>
+<li class="ml4" data-wodoc-page="how-to-call-an-ocaml-function-from-js-code.html"><a href="./how-to-call-an-ocaml-function-from-js-code.html">How to call an OCaml function from js code</a></li>
+</ul>
+<h4 class="ml3">Eliom client-server applications</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-call-a-server-side-function-from-client-side.html"><a href="./how-to-call-a-server-side-function-from-client-side.html">How to call a server-side function from the client side</a></li>
+<li class="ml4" data-wodoc-page="how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html"><a href="./how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html">How to make the client side program get an HTML element from the server and insert it in the page</a></li>
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html"><a href="./how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html">How to attach OCaml values to the HTML nodes sent to the client</a></li>
+<li class="ml4" data-wodoc-page="how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html"><a href="./how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html">How to iterate on all sessions for one user, or all tabs</a></li>
+<li class="ml4" data-wodoc-page="how-to-implement-a-notification-system.html"><a href="./how-to-implement-a-notification-system.html">How to implement a notification system</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-a-file-to-server-without-stopping-the-client-process.html"><a href="./how-to-send-a-file-to-server-without-stopping-the-client-process.html">How to send a file to server without stopping the client process</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-channel-disconnection.html"><a href="./how-to-detect-channel-disconnection.html">How to detect channel disconnection</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html"><a href="./how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html">How to detect on client side that the server side state for the process is closed</a></li>
+</ul>
+<h4 class="ml3">Eliom Server side</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-do-i-create-a-cryptographically-safe-identifier.html"><a href="./how-do-i-create-a-cryptographically-safe-identifier.html">How do I create a Cryptographically safe identifier</a></li>
+<li class="ml4" data-wodoc-page="hash-password.html"><a href="./hash-password.html">Protecting passwords</a></li>
+</ul>
+</nav>
+
+      </nav>
+      <article class="rightcol">
+        
+        <h1 id="how-to-make-reponsive-css-with-ocsigen?">How to make reponsive CSS with ocsigen?</h1><p>The best way to do that is to make one general css sheet plus three css sheets, small, medium and large screen using media queries, a feature introduced in CSS3.</p><p>Write theses lines in your css sheets:</p><pre class="language-css"><code>@media only screen and (max-device-width: 480px)
+@media only screen and (min-device-width: 481px) and (max-device-width: 768px)
+@media only screen and (min-device-width: 769px)</code></pre><p>You can find more information about making responsive websites with media queries on <a href="http://www.w3schools.com/css/css_rwd_mediaqueries.asp">W3schools.com</a></p>
+
+      </article>
+    </div>
+  </div>
+
+  <script>
+    var wodocPub = "/tuto";
+    // Switch version: keep the current page, swapping only the version segment.
+    function wodocVersion(v) {
+      if (!v) return;
+      var re = new RegExp('^(' + wodocPub + '/)[^/]+');
+      var p = location.pathname;
+      location.href =
+        re.test(p) ? p.replace(re, '$1' + v) : wodocPub + '/' + v + '/index.html';
+    }
+    // Build the version <select> from the project's versions.json (the single
+    // source of truth, refreshed on every build/release), so even older frozen
+    // pages list the current set. Falls back to the baked <option>s on failure.
+    (function () {
+      var seg = (location.pathname.match(
+        new RegExp('^' + wodocPub + '/([^/]+)')) || [])[1];
+      function select(sel) {
+        var i;
+        for (i = 0; i < sel.options.length; i++)
+          if (sel.options[i].value === seg) { sel.selectedIndex = i; return; }
+        if (seg) {
+          var o = document.createElement('option');
+          o.value = seg; o.textContent = seg; o.selected = true;
+          sel.insertBefore(o, sel.firstChild);
+        }
+      }
+      fetch(wodocPub + '/versions.json')
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (m) {
+          var list = m.list || [], latest = m.latest;
+          document.querySelectorAll('.wodoc-version').forEach(function (sel) {
+            sel.innerHTML = '';
+            list.forEach(function (v) {
+              var o = document.createElement('option');
+              if (v === latest) { o.value = 'latest'; o.textContent = v + ' (latest)'; }
+              else { o.value = v; o.textContent = v; }
+              sel.appendChild(o);
+            });
+            select(sel);
+          });
+        })
+        .catch(function () {
+          document.querySelectorAll('.wodoc-version').forEach(select);
+        });
+    })();
+  </script>
+</body>
+</html>

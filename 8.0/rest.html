@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>RESTful JSON API using Eliom — Doc</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="stylesheet" href="/css/ocsigen-odoc.css"/>
+  <script src="./highlight.pack.js"></script>
+  <script src="./wodoc-highlight.js"></script>
+</head>
+<body class="wodoc-page wodoc-doc">
+  <!-- Shared site menu — THE single source of truth for the header, top menu and
+     drawer of EVERY Ocsigen doc page (vitrine + all projects). Canonical copy
+     lives here in ocsigen.github.io; each project's build fetches it. Injected
+     by `wodoc assemble --menu`. Holes filled by the tool (braces omitted here so
+     this comment is not itself rewritten by the hole-filler):
+       subproject  the sub-project name shown next to the Ocsigen logo
+                   (empty on the vitrine), via --subproject
+       leftnav     the project's left navigation, expanded into BOTH the mobile
+                   drawer (below) and the left column (in the page template),
+                   via --leftnav
+     The current entry is highlighted by adding the `current` class to the
+     element carrying data-wodoc-page=<id>: --current on the vitrine (page id),
+     --menu-current in a project (the project id). Nothing is hardcoded here, so
+     this file is the ONLY place the menu is defined.
+
+     Links are the FINAL site paths (/<project>/, /<page>): the target layout
+     where each project is served at ocsigen.org/<project>/ — no transitional
+     /wodoc/ prefix. -->
+<div class="page-header">
+  <p class="logo-ocsigen"><a href="/"><img src="/img/ocsigen-white.svg" alt="Ocsigen"/></a></p>
+  <p class="logo-subproject">Doc</p>
+
+  <div class="mainmenu">
+    <p class="mainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></p>
+    <p class="mainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></p>
+    <p data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></p>
+    <p data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></p>
+    <p data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></p>
+    <p data-wodoc-page="lwt"><a href="/lwt/">Lwt</a></p>
+    <p data-wodoc-page="tyxml"><a href="/tyxml/">Tyxml</a></p>
+    <p data-wodoc-page="ocsigen-start"><a href="/ocsigen-start/">Start</a></p>
+  </div>
+
+  <form id="googlesearch" action="https://google.com/search">
+    <input name="q" id="gsearch-box" placeholder="Search using Google"/>
+    <label for="gsearch-box"><img src="/img/search.svg" alt="" id="gsearch-icon"/></label>
+    <input type="submit" id="gsearch-submit" onclick="document.getElementById('gsearch-box').value += ' site:ocsigen.org';"/>
+  </form>
+
+  <aside class="how-drawer">
+    <input id="how-drawer-toggle" type="checkbox"/>
+    <label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label>
+    <nav class="how-drawer-content">
+      <ul class="drawermainmenu">
+        <li class="drawermainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></li>
+        <li class="drawermainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="lwt"><a href="/lwt/">Lwt</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="tyxml"><a href="/tyxml/">Tyxml</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-toolkit"><a href="/ocsigen-toolkit/">Toolkit</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-start"><a href="/ocsigen-start/">Start</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsipersist"><a href="/ocsipersist/">Ocsipersist</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="reactiveData"><a href="/reactiveData/">ReactiveData</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-i18n"><a href="/ocsigen-i18n/">i18n</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="wodoc"><a href="/wodoc/">Wodoc</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="projects"><a href="/projects">Other projects</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="papers"><a href="/papers">Research papers</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="credits"><a href="/credits">Who does Ocsigen?</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="contributing"><a href="/contributing">Contributing</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog">Blog</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="install"><a href="/install">Installation</a></li>
+        <li class="drawermainmenu-page"><a href="https://github.com/ocsigen">Source code</a></li>
+      </ul>
+      <!-- On mobile the left column is hidden; its menu lives here in the burger
+           (.how-doctree, shown only on narrow screens), as the old site did.
+           Empty on the vitrine; the leftnav hole is filled (with the same
+           fragment as the left column) only on project pages. -->
+      <nav class="how-doctree"><div class="docversion">
+  <label>Version:
+    <select class="wodoc-version" onchange="wodocVersion(this.value)">
+      <option value="8.0">8.0</option>
+    </select>
+  </label>
+</div>
+<div class="page-toc">
+  <h3>On this page</h3>
+  <nav class="odoc-toc odoc-local-toc"><ul><li><a href="#requirements">Requirements</a></li><li><a href="#types">Data types</a></li><li><a href="#services">Services definition</a></li><li><a href="#handlers">Handlers</a></li><li><a href="#registration">Services registration</a></li><li><a href="#source">Full source</a></li></ul></nav>
+</div>
+<nav class="api-nav manual-nav">
+<h3>Programmer&#x27;s guide</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="intro.html"><a href="./intro.html">Introduction. Ocsigen: where to start?</a></li>
+<li class="ml3" data-wodoc-page="basics.html"><a href="./basics.html">Client-server application programming guide</a></li>
+<li class="ml3" data-wodoc-page="basics-server.html"><a href="./basics-server.html">Server-side website programming guide</a></li>
+</ul>
+<h3>Main tutorials</h3>
+<ul class="api-section">
+<li class="ml3"><a href="/install">Install Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="start.html"><a href="./start.html">Your first app in 5 minutes</a></li>
+<li class="ml3"><a href="/talks/tutochat.html">Interactive tutorial: Writing a chat app</a></li>
+<li class="ml3" data-wodoc-page="application.html"><a href="./application.html">Client/server application: Graffiti</a></li>
+<li class="ml3" data-wodoc-page="tutowidgets.html"><a href="./tutowidgets.html">Eliom apps basics: writing client-server widgets</a></li>
+<li class="ml3" data-wodoc-page="how-to-register-session-data.html"><a href="./how-to-register-session-data.html">Session data: Eliom references</a></li>
+<li class="ml3" data-wodoc-page="tutoreact.html"><a href="./tutoreact.html">Reactive client-server Web applications</a></li>
+<li class="ml3" data-wodoc-page="interaction.html"><a href="./interaction.html">Service based Web programming</a></li>
+<li class="ml3" data-wodoc-page="misc.html"><a href="./misc.html">Mixing traditional Web interaction with client-server app</a></li>
+</ul>
+<h3>5-minute tutorials</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="lwt.html"><a href="./lwt.html">Lwt</a></li>
+<li class="ml3" data-wodoc-page="html.html"><a href="./html.html">HTML</a></li>
+</ul>
+<h3>Other tutorials: Miscellanous features</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
+<li class="ml3 current" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
+<li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
+</ul>
+<h3>Improving Graffiti</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
+<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
+<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
+</ul>
+<h3>HOW-TO</h3>
+<h4 class="ml3">My first steps with Ocsigen</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-hello-world-in-ocsigen.html"><a href="./how-to-make-hello-world-in-ocsigen.html">How to make &quot;hello world&quot; in Ocsigen</a></li>
+<li class="ml4" data-wodoc-page="how-to-compile-my-ocsigen-pages.html"><a href="./how-to-compile-my-ocsigen-pages.html">How to compile my Ocsigen pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-configure-and-launch-the-ocsigen-server.html"><a href="./how-to-configure-and-launch-the-ocsigen-server.html">How to configure and launch the Ocsigen Server</a></li>
+<li class="ml4" data-wodoc-page="how-does-a-page-s-source-code-look.html"><a href="./how-does-a-page-s-source-code-look.html">How does a client-server app source code look like?</a></li>
+</ul>
+<h4 class="ml3">How to put some elements in my page ?</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-page-a-skeleton.html"><a href="./how-to-make-page-a-skeleton.html">How to make a page skeleton</a></li>
+<li class="ml4" data-wodoc-page="how-to-use-get-parameters-or-parameters-in-the-url.html"><a href="./how-to-use-get-parameters-or-parameters-in-the-url.html">How to use GET parameters (parameters in the URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-css-stylesheet.html"><a href="./how-to-add-css-stylesheet.html">How to add CSS stylesheet</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-javascript-script.html"><a href="./how-to-add-a-javascript-script.html">How to add a Javascript script</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-div.html"><a href="./how-to-add-a-div.html">How to add a div</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-list.html"><a href="./how-to-add-a-list.html">How to add lists in pages?</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-an-image.html"><a href="./how-to-add-an-image.html">How to add an image</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-titles-and-paragraphs.html"><a href="./how-to-write-titles-and-paragraphs.html">How to write titles and paragraphs</a></li>
+<li class="ml4" data-wodoc-page="how-to-set-and-id-classes-or-other-attributes-to-html-elements.html"><a href="./how-to-set-and-id-classes-or-other-attributes-to-html-elements.html">How to set and id, classes or other attributes to HTML elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-select-or-other-form-element.html"><a href="./how-to-add-a-select-or-other-form-element.html">How to add select (or other form element)</a></li>
+<li class="ml4" data-wodoc-page="how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html"><a href="./how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></li>
+<li class="ml4" data-wodoc-page="how-to-make-responsive-css.html"><a href="./how-to-make-responsive-css.html">How to make responsive CSS</a></li>
+</ul>
+<h4 class="ml3">Services</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-do-links-to-other-pages.html"><a href="./how-to-do-links-to-other-pages.html">How to do links to other pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-forms.html"><a href="./how-to-write-forms.html">How to write forms</a></li>
+<li class="ml4" data-wodoc-page="how-to-register-a-service-that-decides-itself-what-to-send.html"><a href="./how-to-register-a-service-that-decides-itself-what-to-send.html">How to register a service that decides itself what to send</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-link-to-a-current-page-without-knowing-its-url.html"><a href="./how-to-create-link-to-a-current-page-without-knowing-its-url.html">How to create link to a current page (without knowing its URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html"><a href="./how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-a-json-service.html"><a href="./how-to-write-a-json-service.html">How to write a JSON service</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-download.html"><a href="./how-to-send-file-download.html">How to send a file (download)</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-upload.html"><a href="./how-to-send-file-upload.html">How to send a file (upload)</a></li>
+</ul>
+<h4 class="ml3">Js_of_ocaml</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-dom-elements.html"><a href="./how-to-attach-ocaml-values-to-dom-elements.html">How to attach OCaml values to DOM elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-know-whether-the-browser-window-has-the-focus-or-not.html"><a href="./how-to-know-whether-the-browser-window-has-the-focus-or-not.html">How to know whether the browser window has the focus or not</a></li>
+<li class="ml4" data-wodoc-page="how-to-build-js-object.html"><a href="./how-to-build-js-object.html">How to build js object</a></li>
+<li class="ml4" data-wodoc-page="how-to-stop-default-behaviour-of-events.html"><a href="./how-to-stop-default-behaviour-of-events.html">How to stop default behaviour of events</a></li>
+<li class="ml4" data-wodoc-page="how-to-call-an-ocaml-function-from-js-code.html"><a href="./how-to-call-an-ocaml-function-from-js-code.html">How to call an OCaml function from js code</a></li>
+</ul>
+<h4 class="ml3">Eliom client-server applications</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-call-a-server-side-function-from-client-side.html"><a href="./how-to-call-a-server-side-function-from-client-side.html">How to call a server-side function from the client side</a></li>
+<li class="ml4" data-wodoc-page="how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html"><a href="./how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html">How to make the client side program get an HTML element from the server and insert it in the page</a></li>
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html"><a href="./how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html">How to attach OCaml values to the HTML nodes sent to the client</a></li>
+<li class="ml4" data-wodoc-page="how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html"><a href="./how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html">How to iterate on all sessions for one user, or all tabs</a></li>
+<li class="ml4" data-wodoc-page="how-to-implement-a-notification-system.html"><a href="./how-to-implement-a-notification-system.html">How to implement a notification system</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-a-file-to-server-without-stopping-the-client-process.html"><a href="./how-to-send-a-file-to-server-without-stopping-the-client-process.html">How to send a file to server without stopping the client process</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-channel-disconnection.html"><a href="./how-to-detect-channel-disconnection.html">How to detect channel disconnection</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html"><a href="./how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html">How to detect on client side that the server side state for the process is closed</a></li>
+</ul>
+<h4 class="ml3">Eliom Server side</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-do-i-create-a-cryptographically-safe-identifier.html"><a href="./how-do-i-create-a-cryptographically-safe-identifier.html">How do I create a Cryptographically safe identifier</a></li>
+<li class="ml4" data-wodoc-page="hash-password.html"><a href="./hash-password.html">Protecting passwords</a></li>
+</ul>
+</nav>
+</nav>
+    </nav>
+  </aside>
+</div>
+
+
+  <div class="project-page">
+    <div class="twocols">
+      <nav class="leftcol">
+        <div class="docversion">
+  <label>Version:
+    <select class="wodoc-version" onchange="wodocVersion(this.value)">
+      <option value="8.0">8.0</option>
+    </select>
+  </label>
+</div>
+<div class="page-toc">
+  <h3>On this page</h3>
+  <nav class="odoc-toc odoc-local-toc"><ul><li><a href="#requirements">Requirements</a></li><li><a href="#types">Data types</a></li><li><a href="#services">Services definition</a></li><li><a href="#handlers">Handlers</a></li><li><a href="#registration">Services registration</a></li><li><a href="#source">Full source</a></li></ul></nav>
+</div>
+<nav class="api-nav manual-nav">
+<h3>Programmer&#x27;s guide</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="intro.html"><a href="./intro.html">Introduction. Ocsigen: where to start?</a></li>
+<li class="ml3" data-wodoc-page="basics.html"><a href="./basics.html">Client-server application programming guide</a></li>
+<li class="ml3" data-wodoc-page="basics-server.html"><a href="./basics-server.html">Server-side website programming guide</a></li>
+</ul>
+<h3>Main tutorials</h3>
+<ul class="api-section">
+<li class="ml3"><a href="/install">Install Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="start.html"><a href="./start.html">Your first app in 5 minutes</a></li>
+<li class="ml3"><a href="/talks/tutochat.html">Interactive tutorial: Writing a chat app</a></li>
+<li class="ml3" data-wodoc-page="application.html"><a href="./application.html">Client/server application: Graffiti</a></li>
+<li class="ml3" data-wodoc-page="tutowidgets.html"><a href="./tutowidgets.html">Eliom apps basics: writing client-server widgets</a></li>
+<li class="ml3" data-wodoc-page="how-to-register-session-data.html"><a href="./how-to-register-session-data.html">Session data: Eliom references</a></li>
+<li class="ml3" data-wodoc-page="tutoreact.html"><a href="./tutoreact.html">Reactive client-server Web applications</a></li>
+<li class="ml3" data-wodoc-page="interaction.html"><a href="./interaction.html">Service based Web programming</a></li>
+<li class="ml3" data-wodoc-page="misc.html"><a href="./misc.html">Mixing traditional Web interaction with client-server app</a></li>
+</ul>
+<h3>5-minute tutorials</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="lwt.html"><a href="./lwt.html">Lwt</a></li>
+<li class="ml3" data-wodoc-page="html.html"><a href="./html.html">HTML</a></li>
+</ul>
+<h3>Other tutorials: Miscellanous features</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
+<li class="ml3 current" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
+<li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
+</ul>
+<h3>Improving Graffiti</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
+<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
+<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
+</ul>
+<h3>HOW-TO</h3>
+<h4 class="ml3">My first steps with Ocsigen</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-hello-world-in-ocsigen.html"><a href="./how-to-make-hello-world-in-ocsigen.html">How to make &quot;hello world&quot; in Ocsigen</a></li>
+<li class="ml4" data-wodoc-page="how-to-compile-my-ocsigen-pages.html"><a href="./how-to-compile-my-ocsigen-pages.html">How to compile my Ocsigen pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-configure-and-launch-the-ocsigen-server.html"><a href="./how-to-configure-and-launch-the-ocsigen-server.html">How to configure and launch the Ocsigen Server</a></li>
+<li class="ml4" data-wodoc-page="how-does-a-page-s-source-code-look.html"><a href="./how-does-a-page-s-source-code-look.html">How does a client-server app source code look like?</a></li>
+</ul>
+<h4 class="ml3">How to put some elements in my page ?</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-page-a-skeleton.html"><a href="./how-to-make-page-a-skeleton.html">How to make a page skeleton</a></li>
+<li class="ml4" data-wodoc-page="how-to-use-get-parameters-or-parameters-in-the-url.html"><a href="./how-to-use-get-parameters-or-parameters-in-the-url.html">How to use GET parameters (parameters in the URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-css-stylesheet.html"><a href="./how-to-add-css-stylesheet.html">How to add CSS stylesheet</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-javascript-script.html"><a href="./how-to-add-a-javascript-script.html">How to add a Javascript script</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-div.html"><a href="./how-to-add-a-div.html">How to add a div</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-list.html"><a href="./how-to-add-a-list.html">How to add lists in pages?</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-an-image.html"><a href="./how-to-add-an-image.html">How to add an image</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-titles-and-paragraphs.html"><a href="./how-to-write-titles-and-paragraphs.html">How to write titles and paragraphs</a></li>
+<li class="ml4" data-wodoc-page="how-to-set-and-id-classes-or-other-attributes-to-html-elements.html"><a href="./how-to-set-and-id-classes-or-other-attributes-to-html-elements.html">How to set and id, classes or other attributes to HTML elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-select-or-other-form-element.html"><a href="./how-to-add-a-select-or-other-form-element.html">How to add select (or other form element)</a></li>
+<li class="ml4" data-wodoc-page="how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html"><a href="./how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></li>
+<li class="ml4" data-wodoc-page="how-to-make-responsive-css.html"><a href="./how-to-make-responsive-css.html">How to make responsive CSS</a></li>
+</ul>
+<h4 class="ml3">Services</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-do-links-to-other-pages.html"><a href="./how-to-do-links-to-other-pages.html">How to do links to other pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-forms.html"><a href="./how-to-write-forms.html">How to write forms</a></li>
+<li class="ml4" data-wodoc-page="how-to-register-a-service-that-decides-itself-what-to-send.html"><a href="./how-to-register-a-service-that-decides-itself-what-to-send.html">How to register a service that decides itself what to send</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-link-to-a-current-page-without-knowing-its-url.html"><a href="./how-to-create-link-to-a-current-page-without-knowing-its-url.html">How to create link to a current page (without knowing its URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html"><a href="./how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-a-json-service.html"><a href="./how-to-write-a-json-service.html">How to write a JSON service</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-download.html"><a href="./how-to-send-file-download.html">How to send a file (download)</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-upload.html"><a href="./how-to-send-file-upload.html">How to send a file (upload)</a></li>
+</ul>
+<h4 class="ml3">Js_of_ocaml</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-dom-elements.html"><a href="./how-to-attach-ocaml-values-to-dom-elements.html">How to attach OCaml values to DOM elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-know-whether-the-browser-window-has-the-focus-or-not.html"><a href="./how-to-know-whether-the-browser-window-has-the-focus-or-not.html">How to know whether the browser window has the focus or not</a></li>
+<li class="ml4" data-wodoc-page="how-to-build-js-object.html"><a href="./how-to-build-js-object.html">How to build js object</a></li>
+<li class="ml4" data-wodoc-page="how-to-stop-default-behaviour-of-events.html"><a href="./how-to-stop-default-behaviour-of-events.html">How to stop default behaviour of events</a></li>
+<li class="ml4" data-wodoc-page="how-to-call-an-ocaml-function-from-js-code.html"><a href="./how-to-call-an-ocaml-function-from-js-code.html">How to call an OCaml function from js code</a></li>
+</ul>
+<h4 class="ml3">Eliom client-server applications</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-call-a-server-side-function-from-client-side.html"><a href="./how-to-call-a-server-side-function-from-client-side.html">How to call a server-side function from the client side</a></li>
+<li class="ml4" data-wodoc-page="how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html"><a href="./how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html">How to make the client side program get an HTML element from the server and insert it in the page</a></li>
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html"><a href="./how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html">How to attach OCaml values to the HTML nodes sent to the client</a></li>
+<li class="ml4" data-wodoc-page="how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html"><a href="./how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html">How to iterate on all sessions for one user, or all tabs</a></li>
+<li class="ml4" data-wodoc-page="how-to-implement-a-notification-system.html"><a href="./how-to-implement-a-notification-system.html">How to implement a notification system</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-a-file-to-server-without-stopping-the-client-process.html"><a href="./how-to-send-a-file-to-server-without-stopping-the-client-process.html">How to send a file to server without stopping the client process</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-channel-disconnection.html"><a href="./how-to-detect-channel-disconnection.html">How to detect channel disconnection</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html"><a href="./how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html">How to detect on client side that the server side state for the process is closed</a></li>
+</ul>
+<h4 class="ml3">Eliom Server side</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-do-i-create-a-cryptographically-safe-identifier.html"><a href="./how-do-i-create-a-cryptographically-safe-identifier.html">How do I create a Cryptographically safe identifier</a></li>
+<li class="ml4" data-wodoc-page="hash-password.html"><a href="./hash-password.html">Protecting passwords</a></li>
+</ul>
+</nav>
+
+      </nav>
+      <article class="rightcol">
+        
+        <h1 id="restful-json-api-using-eliom">RESTful JSON API using Eliom</h1><p><!--wodoc:unknown:aside--><b>Concepts</b></p><p>RESTful API<br/>PUT and DELETE services<!--wodoc:unbalanced-end--></p><p>This tutorial will show you how to create a simple, yet complete, REST API using JSON as the serialization format.</p><p>To illustrate our example, let's say we want to give access to a database of locations storing a description and coordinates (latitude and longitude).</p><p>To be RESTful, our interface will comply with the following principles:</p><ul><li>URLs and GET params identify resources</li><li>HTTP methods are used to define actions to perform (GET, POST, PUT, DELETE)</li><li>GET action is safe (no side-effect)</li><li>PUT and DELETE actions are idempotent</li><li>Requests are stateless</li></ul><p>With this in mind, our goal will be to implement CRUD (Create, Read, Update, Delete) functions to handle our resources. We want the following requests to be valid:</p><p><code>GET http://localhost/</code> will return all available locations.</p><p><code>GET http://localhost/ID</code> will return location associated to <code>ID</code>.</p><p><code>POST http://localhost/ID</code> with content:</p><pre class="language-json"><code>{
+  &quot;description&quot;: &quot;Paris&quot;,
+  &quot;coordinates&quot;: {
+    &quot;latitude&quot;: 48.8567,
+    &quot;longitude&quot;: 2.3508
+  }
+}</code></pre><p>will store this location in the database.</p><p><code>PUT http://localhost/ID</code>, with some content, will update the location associated to <code>ID</code>.</p><p><code>DELETE http://localhost/ID</code> will delete the location associated to <code>ID</code>.</p>
+<h2 id="requirements">Requirements</h2><ul><li>eliom &gt;= 4.0</li><li>yojson</li><li>ppx_deriving</li><li>ppx_deriving_yojson</li></ul><p>You need some knowledge about Eliom to be able to fully understand this tutorial. It's not meant to be an Eliom introduction.</p><p>The following browser extensions are useful to manually test your REST APIs:</p><ul><li><a href="https://addons.mozilla.org/en-US/firefox/addon/restclient/">RESTClient</a> for Firefox * <a href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm">Postman</a> for Chrome</li></ul><h2 id="types">Data types</h2><p>We start by defining our database types, that is to say the way we will represent our locations and associated information. Each location will be associated to a unique and arbitrary identifier, and will hold the following information: a description and coordinates (made of a latitude and a longitude).</p><p>We represent coordinates with decimal degrees, and use the <code>ppx_deriving_yojson</code> library to parse and generate JSON serialization of our types.</p><p>We use a dedicated <code>error</code> type returned when something is wrong with the request itself or with the processing of the request.</p><p>As for the database, we use a simple <code>Ocsipersist</code> table.</p><pre class="language-ocaml"><code>type coordinates = {
+  latitude : float;
+  longitude : float;
+} [@@deriving yojson]
+
+type location = {
+  description : string option;
+  coordinates : coordinates;
+} [@@deriving yojson]
+
+(* List of pairs (identifier * location) *)
+type locations =
+  (string * location) list
+  [@@deriving yojson]
+
+type error = {
+  error_message : string;
+} [@@deriving yojson]
+
+let db : location Ocsipersist.table Lwt.t =
+  Ocsipersist.Polymorphic.open_table &quot;locations&quot;</code></pre><p><!--wodoc:unknown:aside--><b>Concept: Syntax extensions</b></p><p>In order to successfully build this tutorial's source code, your <code>Makefile.options</code> must contain the following settings:</p><pre class="language-makefile"><code># OCamlfind packages for the server
+SERVER_PACKAGES := ppx_deriving_yojson lwt_ppx js_of_ocaml-ppx.deriving
+# OCamlfind packages for the client
+CLIENT_PACKAGES := lwt_ppx ppx_deriving_yojson js_of_ocaml-ppx js_of_ocaml-ppx.deriving</code></pre><p>This is due to the fact, that in the code snippet above we use a syntax extension provided by the <code>ppx_deriving_yojson</code> package. <!--wodoc:unbalanced-end--></p><h2 id="services">Services definition</h2><p>First, let's define common service parameters:</p><ul><li>The <code>path</code> of the API: it's the same for all services.</li></ul><ul><li>The GET parameter, which is an optional identifier given as a URL suffix. We set it as optional so we can distinguish GET requests for all resources or a single one, and return a detailed error if the identifier is missing in POST, PUT and DELETE requests. An alternative would be to use two services at the same path (one with id and the other without).</li></ul><pre class="language-ocaml"><code>let path = Eliom_service.Path [&quot;&quot;]
+
+let get_params =
+  Eliom_parameter.(suffix (neopt (string &quot;id&quot;)))</code></pre><p>Next step is to define our API services. We define four of them with the same path, using the four HTTP methods at our disposal:</p><ul><li>GET method will be used to access the database, either all of it if no identifier is provided, or a single resource otherwise. An error will be returned if no resource matches the identifier.</li></ul><ul><li>POST method will be used to create a new resource (or update it if it already exists). We set a single POST parameter: <code>Eliom_parameter.raw_post_data</code>, in order to retrieve raw JSON and bypass POST parameters decoding.</li></ul><ul><li>PUT method will be used to update an existing resource. An error will be returned if no resource matches the identifier. We don't need to define POST parameter, PUT services takes <code>Eliom_parameter.raw_post_data</code> as default content.</li></ul><ul><li>DELETE method will be used to delete an existing resource. An error will be returned if no resource matches the identifier.</li></ul><pre class="language-ocaml"><code>let read_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Get get_params)
+    ()
+
+let create_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Post (get_params, Eliom_parameter.raw_post_data))
+    ()
+
+let update_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Put get_params)
+    ()
+
+let delete_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Delete get_params)
+    ()</code></pre><h2 id="handlers">Handlers</h2><p>Let's start the handlers definition with a few helper values and functions used by handlers.</p><p>Since we use the low-level <code>Eliom_registration.String.send</code> function to send our response, we wrap it in three specialized functions: <code>send_json</code>, <code>send_error</code> and <code>send_success</code> (this one only send the 200 OK status code, without any content).</p><p>Another function helps us to check the received <code>Content-type</code> is the expected one, by matching it against a MIME type. In our example, we'll verify that we are receiving JSON.</p><p>The <code>read_raw_content</code> function retrieve at most <code>length</code> characters from the <code>raw_content</code> Ocsigen stream.</p><pre class="language-ocaml"><code>let json_mime_type = &quot;application/json&quot;
+
+let send_json ~code json =
+  Eliom_registration.String.send ~code (json, json_mime_type)
+
+let send_error ~code error_message =
+  let json = Yojson.Safe.to_string (error_to_yojson {error_message}) in
+  send_json ~code json
+
+let send_success () =
+  Eliom_registration.String.send ~code:200 (&quot;&quot;, &quot;&quot;)
+
+let check_content_type ~mime_type content_type =
+  match content_type with
+  | Some ((type_, subtype), _)
+      when (type_ ^ &quot;/&quot; ^ subtype) = mime_type -&gt; true
+  | _ -&gt; false
+
+let read_raw_content ?(length = 4096) raw_content =
+  let content_stream = Ocsigen_stream.get raw_content in
+  Ocsigen_stream.string_of_stream length content_stream</code></pre><p>Then we define our handlers in order to perform the required actions and return a response.</p><p>POST and PUT handlers will read raw body content as JSON and use <code>Yojson</code> to convert it to our types.</p><p>We use HTTP status codes in responses, with these meaning:</p><ul><li>200 (OK): the request succeeded.</li><li>400 (Bad request): something is wrong with the request (missing parameter, parsing error...).</li><li>404 (Not found): no resource matches the provided identifier.</li></ul><p>The GET handler either returns a single location if an identifier is provided, or a list of all existing locations otherwise.</p><pre class="language-ocaml"><code>let read_handler id_opt () =
+  let%lwt db = db in
+  match id_opt with
+  | None -&gt;
+    Ocsipersist.Polymorphic.fold_step
+      (fun id loc acc -&gt; Lwt.return ((id, loc) :: acc)) db []
+    &gt;&gt;= fun locations -&gt;
+    let json = Yojson.Safe.to_string (locations_to_yojson locations) in
+    send_json ~code:200 json
+  | Some id -&gt;
+    catch
+      (fun () -&gt;
+         Ocsipersist.Polymorphic.find db  id &gt;&gt;= fun location -&gt;
+         let json =
+           Yojson.Safe.to_string (location_to_yojson location) in
+         send_json ~code:200 json)
+      (function
+        | Not_found -&gt;
+          (* [id] hasn't been found, return a &quot;Not found&quot; message *)
+          send_error ~code:404 (&quot;Resource not found: &quot; ^ id)
+        | _ -&gt;  send_error ~code:500 &quot;Internal server error&quot; )</code></pre><p>Next, let's create a common function for POST and PUT handlers, which have a very similar behaviour. The only difference is that a PUT request with a non-existing identifier will fail (thus only accepting update requests, and rejecting creations), whereas the same request with POST method will succeed (a new location associated to the identifier will be created).</p><pre class="language-ocaml"><code>let edit_handler_aux ?(create = false) id_opt (content_type, raw_content_opt) =
+  let%lwt db = db in
+  if not (check_content_type ~mime_type:json_mime_type content_type) then
+    send_error ~code:400 &quot;Content-type is wrong, it must be JSON&quot;
+  else
+    match id_opt, raw_content_opt with
+    | None, _ -&gt;
+      send_error ~code:400 &quot;Location identifier is missing&quot;
+    | _, None -&gt;
+      send_error ~code:400 &quot;Body content is missing&quot;
+    | Some id, Some raw_content -&gt;
+      read_raw_content raw_content &gt;&gt;= fun location_str -&gt;
+      catch (fun () -&gt;
+          (if create then
+            Lwt.return_unit
+           else
+            Ocsipersist.Polymorphic.find db id &gt;&gt;= fun _ -&gt; Lwt.return_unit)
+          &gt;&gt;= fun () -&gt;
+          let location =
+            (let open Result in
+            let loc_result = location_of_yojson (Yojson.Safe.from_string location_str) in
+            match loc_result with
+              Ok loc-&gt; loc
+            | Error _ -&gt; raise Deriving_Yojson.Failed )  in
+          Ocsipersist.Polymorphic.add db  id location &gt;&gt;= fun () -&gt;
+          send_success ())
+      (function
+        | Not_found -&gt;
+          send_error ~code:404 (&quot;Location not found: &quot; ^ id)
+        | Deriving_Yojson.Failed -&gt;
+          send_error ~code:400 &quot;Provided JSON is not valid&quot;
+        | _ -&gt; send_error ~code:500 &quot;Internal server error&quot;)
+
+let create_handler id_opt content =
+  edit_handler_aux ~create:true id_opt content
+
+let update_handler id_opt content =
+  edit_handler_aux ~create:false id_opt content</code></pre><p>We need a fourth handler to delete locations:</p><pre class="language-ocaml"><code>let%lwt db = db in
+  match id_opt with
+  | None -&gt;
+    send_error ~code:400 &quot;An id must be provided to delete a location&quot;
+  | Some id -&gt;
+    Ocsipersist.Polymorphic.remove db id &gt;&gt;= fun () -&gt;
+    send_success ()</code></pre><h2 id="registration">Services registration</h2><p>Finally we register services with the <code>Eliom_registration.Any</code> module in order to have full control on the sent response. This way, we'll be able to send an appropriate HTTP status code depending on what happens during the request processing (parsing error, resource not found...), as seen above when defining handlers.</p><pre class="language-ocaml"><code>let () =
+  Eliom_registration.Any.register read_service read_handler;
+  Eliom_registration.Any.register create_service create_handler;
+  Eliom_registration.Any.register update_service update_handler;
+  Eliom_registration.Any.register delete_service delete_handler;
+  ()</code></pre><h2 id="source">Full source</h2><pre class="language-ocaml"><code>open Lwt
+
+(**** Data types ****)
+
+type coordinates = {
+  latitude : float;
+  longitude : float;
+} [@@deriving yojson]
+
+type location = {
+  description : string option;
+  coordinates : coordinates;
+} [@@deriving yojson]
+
+(* List of pairs (identifier * location) *)
+type locations =
+  (string * location) list
+   [@@deriving yojson]
+
+type error = {
+  error_message : string;
+} [@@deriving yojson]
+
+let db : location Ocsipersist.table Lwt.t =
+  Ocsipersist.Polymorphic.open_table &quot;locations&quot;
+
+
+(**** Services ****)
+
+let path = Eliom_service.Path [&quot;&quot;]
+
+let get_params =
+  Eliom_parameter.(suffix (neopt (string &quot;id&quot;)))
+
+let read_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Get get_params)
+    ()
+
+let create_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Post (get_params, Eliom_parameter.raw_post_data))
+    ()
+
+let update_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Put get_params)
+    ()
+
+let delete_service =
+  Eliom_service.create
+    ~path
+    ~meth:(Eliom_service.Delete get_params)
+    ()
+
+(**** Handler helpers ****)
+
+let json_mime_type = &quot;application/json&quot;
+
+let send_json ~code json =
+  Eliom_registration.String.send ~code (json, json_mime_type)
+
+let send_error ~code error_message =
+  let json = Yojson.Safe.to_string (error_to_yojson {error_message}) in
+  send_json ~code json
+
+let send_success () =
+  Eliom_registration.String.send ~code:200 (&quot;&quot;, &quot;&quot;)
+
+let check_content_type ~mime_type content_type =
+  match content_type with
+  | Some ((type_, subtype), _)
+      when (type_ ^ &quot;/&quot; ^ subtype) = mime_type -&gt; true
+  | _ -&gt; false
+
+let read_raw_content ?(length = 4096) raw_content =
+  let content_stream = Ocsigen_stream.get raw_content in
+  Ocsigen_stream.string_of_stream length content_stream
+
+(**** Handlers ****)
+
+let read_handler id_opt () =
+  let%lwt db = db in
+  match id_opt with
+  | None -&gt;
+    Ocsipersist.Polymorphic.fold_step
+      (fun id loc acc -&gt; Lwt.return ((id, loc) :: acc)) db []
+    &gt;&gt;= fun locations -&gt;
+    let json = Yojson.Safe.to_string (locations_to_yojson locations) in
+    send_json ~code:200 json
+  | Some id -&gt;
+    catch
+      (fun () -&gt;
+         Ocsipersist.Polymorphic.find db  id &gt;&gt;= fun location -&gt;
+         let json =
+           Yojson.Safe.to_string (location_to_yojson location) in
+         send_json ~code:200 json)
+      (function
+        | Not_found -&gt;
+          (* [id] hasn't been found, return a &quot;Not found&quot; message *)
+          send_error ~code:404 (&quot;Resource not found: &quot; ^ id)
+        | _ -&gt; assert false)
+
+let edit_handler_aux ?(create = false) id_opt (content_type, raw_content_opt) =
+  let%lwt db = db in
+  if not (check_content_type ~mime_type:json_mime_type content_type) then
+    send_error ~code:400 &quot;Content-type is wrong, it must be JSON&quot;
+  else
+    match id_opt, raw_content_opt with
+    | None, _ -&gt;
+      send_error ~code:400 &quot;Location identifier is missing&quot;
+    | _, None -&gt;
+      send_error ~code:400 &quot;Body content is missing&quot;
+    | Some id, Some raw_content -&gt;
+      read_raw_content raw_content &gt;&gt;= fun location_str -&gt;
+      catch (fun () -&gt;
+          (if create then
+            Lwt.return_unit
+           else
+            Ocsipersist.Polymorphic.find db id &gt;&gt;= fun _ -&gt; Lwt.return_unit)
+          &gt;&gt;= fun () -&gt;
+          let location =
+            (let open Result in
+            let loc_result = location_of_yojson (Yojson.Safe.from_string location_str) in
+            (function
+              Ok loc-&gt; loc
+            | Error _ -&gt; raise Deriving_Yojson.Failed ) loc_result)  in
+          Ocsipersist.Polymorphic.add db  id location &gt;&gt;= fun () -&gt;
+          send_success ())
+      (function
+        | Not_found -&gt;
+          send_error ~code:404 (&quot;Location not found: &quot; ^ id)
+        | Deriving_Yojson.Failed -&gt;
+          send_error ~code:400 &quot;Provided JSON is not valid&quot;
+        | _ -&gt; assert false)
+
+let create_handler id_opt content =
+  edit_handler_aux ~create:true id_opt content
+
+let update_handler id_opt content =
+  edit_handler_aux ~create:false id_opt content
+
+let delete_handler id_opt _ =
+  let%lwt db = db in
+  match id_opt with
+  | None -&gt;
+    send_error ~code:400 &quot;An id must be provided to delete a location&quot;
+  | Some id -&gt;
+    Ocsipersist.Polymorphic.remove db id &gt;&gt;= fun () -&gt;
+    send_success ()
+
+(* Register services *)
+
+let () =
+  Eliom_registration.Any.register read_service read_handler;
+  Eliom_registration.Any.register create_service create_handler;
+  Eliom_registration.Any.register update_service update_handler;
+  Eliom_registration.Any.register delete_service delete_handler;
+  ()</code></pre>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    var wodocPub = "/tuto";
+    // Switch version: keep the current page, swapping only the version segment.
+    function wodocVersion(v) {
+      if (!v) return;
+      var re = new RegExp('^(' + wodocPub + '/)[^/]+');
+      var p = location.pathname;
+      location.href =
+        re.test(p) ? p.replace(re, '$1' + v) : wodocPub + '/' + v + '/index.html';
+    }
+    // Build the version <select> from the project's versions.json (the single
+    // source of truth, refreshed on every build/release), so even older frozen
+    // pages list the current set. Falls back to the baked <option>s on failure.
+    (function () {
+      var seg = (location.pathname.match(
+        new RegExp('^' + wodocPub + '/([^/]+)')) || [])[1];
+      function select(sel) {
+        var i;
+        for (i = 0; i < sel.options.length; i++)
+          if (sel.options[i].value === seg) { sel.selectedIndex = i; return; }
+        if (seg) {
+          var o = document.createElement('option');
+          o.value = seg; o.textContent = seg; o.selected = true;
+          sel.insertBefore(o, sel.firstChild);
+        }
+      }
+      fetch(wodocPub + '/versions.json')
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (m) {
+          var list = m.list || [], latest = m.latest;
+          document.querySelectorAll('.wodoc-version').forEach(function (sel) {
+            sel.innerHTML = '';
+            list.forEach(function (v) {
+              var o = document.createElement('option');
+              if (v === latest) { o.value = 'latest'; o.textContent = v + ' (latest)'; }
+              else { o.value = v; o.textContent = v; }
+              sel.appendChild(o);
+            });
+            select(sel);
+          });
+        })
+        .catch(function () {
+          document.querySelectorAll('.wodoc-version').forEach(select);
+        });
+    })();
+  </script>
+</body>
+</html>

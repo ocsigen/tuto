@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Traditional web interaction in a client-server app — Doc</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="stylesheet" href="/css/ocsigen-odoc.css"/>
+  <script src="./highlight.pack.js"></script>
+  <script src="./wodoc-highlight.js"></script>
+</head>
+<body class="wodoc-page wodoc-doc">
+  <!-- Shared site menu — THE single source of truth for the header, top menu and
+     drawer of EVERY Ocsigen doc page (vitrine + all projects). Canonical copy
+     lives here in ocsigen.github.io; each project's build fetches it. Injected
+     by `wodoc assemble --menu`. Holes filled by the tool (braces omitted here so
+     this comment is not itself rewritten by the hole-filler):
+       subproject  the sub-project name shown next to the Ocsigen logo
+                   (empty on the vitrine), via --subproject
+       leftnav     the project's left navigation, expanded into BOTH the mobile
+                   drawer (below) and the left column (in the page template),
+                   via --leftnav
+     The current entry is highlighted by adding the `current` class to the
+     element carrying data-wodoc-page=<id>: --current on the vitrine (page id),
+     --menu-current in a project (the project id). Nothing is hardcoded here, so
+     this file is the ONLY place the menu is defined.
+
+     Links are the FINAL site paths (/<project>/, /<page>): the target layout
+     where each project is served at ocsigen.org/<project>/ — no transitional
+     /wodoc/ prefix. -->
+<div class="page-header">
+  <p class="logo-ocsigen"><a href="/"><img src="/img/ocsigen-white.svg" alt="Ocsigen"/></a></p>
+  <p class="logo-subproject">Doc</p>
+
+  <div class="mainmenu">
+    <p class="mainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></p>
+    <p class="mainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></p>
+    <p data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></p>
+    <p data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></p>
+    <p data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></p>
+    <p data-wodoc-page="lwt"><a href="/lwt/">Lwt</a></p>
+    <p data-wodoc-page="tyxml"><a href="/tyxml/">Tyxml</a></p>
+    <p data-wodoc-page="ocsigen-start"><a href="/ocsigen-start/">Start</a></p>
+  </div>
+
+  <form id="googlesearch" action="https://google.com/search">
+    <input name="q" id="gsearch-box" placeholder="Search using Google"/>
+    <label for="gsearch-box"><img src="/img/search.svg" alt="" id="gsearch-icon"/></label>
+    <input type="submit" id="gsearch-submit" onclick="document.getElementById('gsearch-box').value += ' site:ocsigen.org';"/>
+  </form>
+
+  <aside class="how-drawer">
+    <input id="how-drawer-toggle" type="checkbox"/>
+    <label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label>
+    <nav class="how-drawer-content">
+      <ul class="drawermainmenu">
+        <li class="drawermainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></li>
+        <li class="drawermainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="lwt"><a href="/lwt/">Lwt</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="tyxml"><a href="/tyxml/">Tyxml</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-toolkit"><a href="/ocsigen-toolkit/">Toolkit</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-start"><a href="/ocsigen-start/">Start</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsipersist"><a href="/ocsipersist/">Ocsipersist</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="reactiveData"><a href="/reactiveData/">ReactiveData</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-i18n"><a href="/ocsigen-i18n/">i18n</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="wodoc"><a href="/wodoc/">Wodoc</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="projects"><a href="/projects">Other projects</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="papers"><a href="/papers">Research papers</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="credits"><a href="/credits">Who does Ocsigen?</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="contributing"><a href="/contributing">Contributing</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog">Blog</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="install"><a href="/install">Installation</a></li>
+        <li class="drawermainmenu-page"><a href="https://github.com/ocsigen">Source code</a></li>
+      </ul>
+      <!-- On mobile the left column is hidden; its menu lives here in the burger
+           (.how-doctree, shown only on narrow screens), as the old site did.
+           Empty on the vitrine; the leftnav hole is filled (with the same
+           fragment as the left column) only on project pages. -->
+      <nav class="how-doctree"><div class="docversion">
+  <label>Version:
+    <select class="wodoc-version" onchange="wodocVersion(this.value)">
+      <option value="8.0">8.0</option>
+    </select>
+  </label>
+</div>
+<div class="page-toc">
+  <h3>On this page</h3>
+  <nav class="odoc-toc odoc-local-toc"><ul><li><a href="#multi-user-collaborative-drawing-application">Multi-user collaborative drawing application</a><ul><li><a href="#split-application-into-multiple-files-and-using-several-canvases">Split application into multiple files and using several canvases</a><ul><li><a href="#common.ml">common.ml</a></li><li><a href="#client.ml">client.ml</a></li><li><a href="#server.ml">server.ml</a></li><li><a href="#graffiti.eliom">graffiti.eliom</a></li></ul></li><li><a href="#mixing-client-server-application-with-traditional-web-interaction">Mixing client-server application with traditional web interaction</a></li></ul></li></ul></nav>
+</div>
+<nav class="api-nav manual-nav">
+<h3>Programmer&#x27;s guide</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="intro.html"><a href="./intro.html">Introduction. Ocsigen: where to start?</a></li>
+<li class="ml3" data-wodoc-page="basics.html"><a href="./basics.html">Client-server application programming guide</a></li>
+<li class="ml3" data-wodoc-page="basics-server.html"><a href="./basics-server.html">Server-side website programming guide</a></li>
+</ul>
+<h3>Main tutorials</h3>
+<ul class="api-section">
+<li class="ml3"><a href="/install">Install Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="start.html"><a href="./start.html">Your first app in 5 minutes</a></li>
+<li class="ml3"><a href="/talks/tutochat.html">Interactive tutorial: Writing a chat app</a></li>
+<li class="ml3" data-wodoc-page="application.html"><a href="./application.html">Client/server application: Graffiti</a></li>
+<li class="ml3" data-wodoc-page="tutowidgets.html"><a href="./tutowidgets.html">Eliom apps basics: writing client-server widgets</a></li>
+<li class="ml3" data-wodoc-page="how-to-register-session-data.html"><a href="./how-to-register-session-data.html">Session data: Eliom references</a></li>
+<li class="ml3" data-wodoc-page="tutoreact.html"><a href="./tutoreact.html">Reactive client-server Web applications</a></li>
+<li class="ml3" data-wodoc-page="interaction.html"><a href="./interaction.html">Service based Web programming</a></li>
+<li class="ml3 current" data-wodoc-page="misc.html"><a href="./misc.html">Mixing traditional Web interaction with client-server app</a></li>
+</ul>
+<h3>5-minute tutorials</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="lwt.html"><a href="./lwt.html">Lwt</a></li>
+<li class="ml3" data-wodoc-page="html.html"><a href="./html.html">HTML</a></li>
+</ul>
+<h3>Other tutorials: Miscellanous features</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
+<li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
+<li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
+</ul>
+<h3>Improving Graffiti</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
+<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
+<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
+</ul>
+<h3>HOW-TO</h3>
+<h4 class="ml3">My first steps with Ocsigen</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-hello-world-in-ocsigen.html"><a href="./how-to-make-hello-world-in-ocsigen.html">How to make &quot;hello world&quot; in Ocsigen</a></li>
+<li class="ml4" data-wodoc-page="how-to-compile-my-ocsigen-pages.html"><a href="./how-to-compile-my-ocsigen-pages.html">How to compile my Ocsigen pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-configure-and-launch-the-ocsigen-server.html"><a href="./how-to-configure-and-launch-the-ocsigen-server.html">How to configure and launch the Ocsigen Server</a></li>
+<li class="ml4" data-wodoc-page="how-does-a-page-s-source-code-look.html"><a href="./how-does-a-page-s-source-code-look.html">How does a client-server app source code look like?</a></li>
+</ul>
+<h4 class="ml3">How to put some elements in my page ?</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-page-a-skeleton.html"><a href="./how-to-make-page-a-skeleton.html">How to make a page skeleton</a></li>
+<li class="ml4" data-wodoc-page="how-to-use-get-parameters-or-parameters-in-the-url.html"><a href="./how-to-use-get-parameters-or-parameters-in-the-url.html">How to use GET parameters (parameters in the URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-css-stylesheet.html"><a href="./how-to-add-css-stylesheet.html">How to add CSS stylesheet</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-javascript-script.html"><a href="./how-to-add-a-javascript-script.html">How to add a Javascript script</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-div.html"><a href="./how-to-add-a-div.html">How to add a div</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-list.html"><a href="./how-to-add-a-list.html">How to add lists in pages?</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-an-image.html"><a href="./how-to-add-an-image.html">How to add an image</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-titles-and-paragraphs.html"><a href="./how-to-write-titles-and-paragraphs.html">How to write titles and paragraphs</a></li>
+<li class="ml4" data-wodoc-page="how-to-set-and-id-classes-or-other-attributes-to-html-elements.html"><a href="./how-to-set-and-id-classes-or-other-attributes-to-html-elements.html">How to set and id, classes or other attributes to HTML elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-select-or-other-form-element.html"><a href="./how-to-add-a-select-or-other-form-element.html">How to add select (or other form element)</a></li>
+<li class="ml4" data-wodoc-page="how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html"><a href="./how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></li>
+<li class="ml4" data-wodoc-page="how-to-make-responsive-css.html"><a href="./how-to-make-responsive-css.html">How to make responsive CSS</a></li>
+</ul>
+<h4 class="ml3">Services</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-do-links-to-other-pages.html"><a href="./how-to-do-links-to-other-pages.html">How to do links to other pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-forms.html"><a href="./how-to-write-forms.html">How to write forms</a></li>
+<li class="ml4" data-wodoc-page="how-to-register-a-service-that-decides-itself-what-to-send.html"><a href="./how-to-register-a-service-that-decides-itself-what-to-send.html">How to register a service that decides itself what to send</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-link-to-a-current-page-without-knowing-its-url.html"><a href="./how-to-create-link-to-a-current-page-without-knowing-its-url.html">How to create link to a current page (without knowing its URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html"><a href="./how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-a-json-service.html"><a href="./how-to-write-a-json-service.html">How to write a JSON service</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-download.html"><a href="./how-to-send-file-download.html">How to send a file (download)</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-upload.html"><a href="./how-to-send-file-upload.html">How to send a file (upload)</a></li>
+</ul>
+<h4 class="ml3">Js_of_ocaml</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-dom-elements.html"><a href="./how-to-attach-ocaml-values-to-dom-elements.html">How to attach OCaml values to DOM elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-know-whether-the-browser-window-has-the-focus-or-not.html"><a href="./how-to-know-whether-the-browser-window-has-the-focus-or-not.html">How to know whether the browser window has the focus or not</a></li>
+<li class="ml4" data-wodoc-page="how-to-build-js-object.html"><a href="./how-to-build-js-object.html">How to build js object</a></li>
+<li class="ml4" data-wodoc-page="how-to-stop-default-behaviour-of-events.html"><a href="./how-to-stop-default-behaviour-of-events.html">How to stop default behaviour of events</a></li>
+<li class="ml4" data-wodoc-page="how-to-call-an-ocaml-function-from-js-code.html"><a href="./how-to-call-an-ocaml-function-from-js-code.html">How to call an OCaml function from js code</a></li>
+</ul>
+<h4 class="ml3">Eliom client-server applications</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-call-a-server-side-function-from-client-side.html"><a href="./how-to-call-a-server-side-function-from-client-side.html">How to call a server-side function from the client side</a></li>
+<li class="ml4" data-wodoc-page="how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html"><a href="./how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html">How to make the client side program get an HTML element from the server and insert it in the page</a></li>
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html"><a href="./how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html">How to attach OCaml values to the HTML nodes sent to the client</a></li>
+<li class="ml4" data-wodoc-page="how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html"><a href="./how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html">How to iterate on all sessions for one user, or all tabs</a></li>
+<li class="ml4" data-wodoc-page="how-to-implement-a-notification-system.html"><a href="./how-to-implement-a-notification-system.html">How to implement a notification system</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-a-file-to-server-without-stopping-the-client-process.html"><a href="./how-to-send-a-file-to-server-without-stopping-the-client-process.html">How to send a file to server without stopping the client process</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-channel-disconnection.html"><a href="./how-to-detect-channel-disconnection.html">How to detect channel disconnection</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html"><a href="./how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html">How to detect on client side that the server side state for the process is closed</a></li>
+</ul>
+<h4 class="ml3">Eliom Server side</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-do-i-create-a-cryptographically-safe-identifier.html"><a href="./how-do-i-create-a-cryptographically-safe-identifier.html">How do I create a Cryptographically safe identifier</a></li>
+<li class="ml4" data-wodoc-page="hash-password.html"><a href="./hash-password.html">Protecting passwords</a></li>
+</ul>
+</nav>
+</nav>
+    </nav>
+  </aside>
+</div>
+
+
+  <div class="project-page">
+    <div class="twocols">
+      <nav class="leftcol">
+        <div class="docversion">
+  <label>Version:
+    <select class="wodoc-version" onchange="wodocVersion(this.value)">
+      <option value="8.0">8.0</option>
+    </select>
+  </label>
+</div>
+<div class="page-toc">
+  <h3>On this page</h3>
+  <nav class="odoc-toc odoc-local-toc"><ul><li><a href="#multi-user-collaborative-drawing-application">Multi-user collaborative drawing application</a><ul><li><a href="#split-application-into-multiple-files-and-using-several-canvases">Split application into multiple files and using several canvases</a><ul><li><a href="#common.ml">common.ml</a></li><li><a href="#client.ml">client.ml</a></li><li><a href="#server.ml">server.ml</a></li><li><a href="#graffiti.eliom">graffiti.eliom</a></li></ul></li><li><a href="#mixing-client-server-application-with-traditional-web-interaction">Mixing client-server application with traditional web interaction</a></li></ul></li></ul></nav>
+</div>
+<nav class="api-nav manual-nav">
+<h3>Programmer&#x27;s guide</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="intro.html"><a href="./intro.html">Introduction. Ocsigen: where to start?</a></li>
+<li class="ml3" data-wodoc-page="basics.html"><a href="./basics.html">Client-server application programming guide</a></li>
+<li class="ml3" data-wodoc-page="basics-server.html"><a href="./basics-server.html">Server-side website programming guide</a></li>
+</ul>
+<h3>Main tutorials</h3>
+<ul class="api-section">
+<li class="ml3"><a href="/install">Install Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="start.html"><a href="./start.html">Your first app in 5 minutes</a></li>
+<li class="ml3"><a href="/talks/tutochat.html">Interactive tutorial: Writing a chat app</a></li>
+<li class="ml3" data-wodoc-page="application.html"><a href="./application.html">Client/server application: Graffiti</a></li>
+<li class="ml3" data-wodoc-page="tutowidgets.html"><a href="./tutowidgets.html">Eliom apps basics: writing client-server widgets</a></li>
+<li class="ml3" data-wodoc-page="how-to-register-session-data.html"><a href="./how-to-register-session-data.html">Session data: Eliom references</a></li>
+<li class="ml3" data-wodoc-page="tutoreact.html"><a href="./tutoreact.html">Reactive client-server Web applications</a></li>
+<li class="ml3" data-wodoc-page="interaction.html"><a href="./interaction.html">Service based Web programming</a></li>
+<li class="ml3 current" data-wodoc-page="misc.html"><a href="./misc.html">Mixing traditional Web interaction with client-server app</a></li>
+</ul>
+<h3>5-minute tutorials</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="lwt.html"><a href="./lwt.html">Lwt</a></li>
+<li class="ml3" data-wodoc-page="html.html"><a href="./html.html">HTML</a></li>
+</ul>
+<h3>Other tutorials: Miscellanous features</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
+<li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
+<li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
+</ul>
+<h3>Improving Graffiti</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
+<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
+<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
+</ul>
+<h3>HOW-TO</h3>
+<h4 class="ml3">My first steps with Ocsigen</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-hello-world-in-ocsigen.html"><a href="./how-to-make-hello-world-in-ocsigen.html">How to make &quot;hello world&quot; in Ocsigen</a></li>
+<li class="ml4" data-wodoc-page="how-to-compile-my-ocsigen-pages.html"><a href="./how-to-compile-my-ocsigen-pages.html">How to compile my Ocsigen pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-configure-and-launch-the-ocsigen-server.html"><a href="./how-to-configure-and-launch-the-ocsigen-server.html">How to configure and launch the Ocsigen Server</a></li>
+<li class="ml4" data-wodoc-page="how-does-a-page-s-source-code-look.html"><a href="./how-does-a-page-s-source-code-look.html">How does a client-server app source code look like?</a></li>
+</ul>
+<h4 class="ml3">How to put some elements in my page ?</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-page-a-skeleton.html"><a href="./how-to-make-page-a-skeleton.html">How to make a page skeleton</a></li>
+<li class="ml4" data-wodoc-page="how-to-use-get-parameters-or-parameters-in-the-url.html"><a href="./how-to-use-get-parameters-or-parameters-in-the-url.html">How to use GET parameters (parameters in the URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-css-stylesheet.html"><a href="./how-to-add-css-stylesheet.html">How to add CSS stylesheet</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-javascript-script.html"><a href="./how-to-add-a-javascript-script.html">How to add a Javascript script</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-div.html"><a href="./how-to-add-a-div.html">How to add a div</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-list.html"><a href="./how-to-add-a-list.html">How to add lists in pages?</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-an-image.html"><a href="./how-to-add-an-image.html">How to add an image</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-titles-and-paragraphs.html"><a href="./how-to-write-titles-and-paragraphs.html">How to write titles and paragraphs</a></li>
+<li class="ml4" data-wodoc-page="how-to-set-and-id-classes-or-other-attributes-to-html-elements.html"><a href="./how-to-set-and-id-classes-or-other-attributes-to-html-elements.html">How to set and id, classes or other attributes to HTML elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-select-or-other-form-element.html"><a href="./how-to-add-a-select-or-other-form-element.html">How to add select (or other form element)</a></li>
+<li class="ml4" data-wodoc-page="how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html"><a href="./how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></li>
+<li class="ml4" data-wodoc-page="how-to-make-responsive-css.html"><a href="./how-to-make-responsive-css.html">How to make responsive CSS</a></li>
+</ul>
+<h4 class="ml3">Services</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-do-links-to-other-pages.html"><a href="./how-to-do-links-to-other-pages.html">How to do links to other pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-forms.html"><a href="./how-to-write-forms.html">How to write forms</a></li>
+<li class="ml4" data-wodoc-page="how-to-register-a-service-that-decides-itself-what-to-send.html"><a href="./how-to-register-a-service-that-decides-itself-what-to-send.html">How to register a service that decides itself what to send</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-link-to-a-current-page-without-knowing-its-url.html"><a href="./how-to-create-link-to-a-current-page-without-knowing-its-url.html">How to create link to a current page (without knowing its URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html"><a href="./how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-a-json-service.html"><a href="./how-to-write-a-json-service.html">How to write a JSON service</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-download.html"><a href="./how-to-send-file-download.html">How to send a file (download)</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-upload.html"><a href="./how-to-send-file-upload.html">How to send a file (upload)</a></li>
+</ul>
+<h4 class="ml3">Js_of_ocaml</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-dom-elements.html"><a href="./how-to-attach-ocaml-values-to-dom-elements.html">How to attach OCaml values to DOM elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-know-whether-the-browser-window-has-the-focus-or-not.html"><a href="./how-to-know-whether-the-browser-window-has-the-focus-or-not.html">How to know whether the browser window has the focus or not</a></li>
+<li class="ml4" data-wodoc-page="how-to-build-js-object.html"><a href="./how-to-build-js-object.html">How to build js object</a></li>
+<li class="ml4" data-wodoc-page="how-to-stop-default-behaviour-of-events.html"><a href="./how-to-stop-default-behaviour-of-events.html">How to stop default behaviour of events</a></li>
+<li class="ml4" data-wodoc-page="how-to-call-an-ocaml-function-from-js-code.html"><a href="./how-to-call-an-ocaml-function-from-js-code.html">How to call an OCaml function from js code</a></li>
+</ul>
+<h4 class="ml3">Eliom client-server applications</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-call-a-server-side-function-from-client-side.html"><a href="./how-to-call-a-server-side-function-from-client-side.html">How to call a server-side function from the client side</a></li>
+<li class="ml4" data-wodoc-page="how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html"><a href="./how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html">How to make the client side program get an HTML element from the server and insert it in the page</a></li>
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html"><a href="./how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html">How to attach OCaml values to the HTML nodes sent to the client</a></li>
+<li class="ml4" data-wodoc-page="how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html"><a href="./how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html">How to iterate on all sessions for one user, or all tabs</a></li>
+<li class="ml4" data-wodoc-page="how-to-implement-a-notification-system.html"><a href="./how-to-implement-a-notification-system.html">How to implement a notification system</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-a-file-to-server-without-stopping-the-client-process.html"><a href="./how-to-send-a-file-to-server-without-stopping-the-client-process.html">How to send a file to server without stopping the client process</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-channel-disconnection.html"><a href="./how-to-detect-channel-disconnection.html">How to detect channel disconnection</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html"><a href="./how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html">How to detect on client side that the server side state for the process is closed</a></li>
+</ul>
+<h4 class="ml3">Eliom Server side</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-do-i-create-a-cryptographically-safe-identifier.html"><a href="./how-do-i-create-a-cryptographically-safe-identifier.html">How do I create a Cryptographically safe identifier</a></li>
+<li class="ml4" data-wodoc-page="hash-password.html"><a href="./hash-password.html">Protecting passwords</a></li>
+</ul>
+</nav>
+
+      </nav>
+      <article class="rightcol">
+        
+        <h1 id="traditional-web-interaction-in-a-client-server-app">Traditional web interaction in a client-server app</h1><p><em>The code of this tutorial has been tested with Eliom 6.0.</em> <br/></p>
+<h2 id="multi-user-collaborative-drawing-application">Multi-user collaborative drawing application</h2><p>We now want to turn our collaborative drawing application into a multi-user one. Each user will have their own drawing, where everyone can draw.</p><p>See the <a href="https://github.com/ocsigen/graffiti/tree/master/extended/">full code of examples</a>.</p><h3 id="split-application-into-multiple-files-and-using-several-canvases">Split application into multiple files and using several canvases</h3><p><!--wodoc:unknown:aside--><b>Concepts</b></p><p>Complex eliom project<br/>Unique elements<!--wodoc:unbalanced-end--></p><p>We first build a multi-canvas drawing application. Each drawing has its own URL. Everyone can create a new drawing by going to the corresponding URL.</p><p>We need to refactor some parts. In particular, we need to handle different drawings separately. To do this, we turn all global variables, like the bus, into local ones.</p><p>When an application grows, it becomes useful to split it into multiple files. For example, we will split graffiti into 4 files.</p><ul><li><code>common.ml</code>, which will be part of both client and server, containing shared types and declarations,</li><li><code>client.ml</code>, client-only part of the application,</li><li><code>server.ml</code>, server-only part of the application, and</li><li><code>graffiti.eliom</code>, which is the only part where we need to include both client-side and server-side code</li></ul><h4 id="common.ml"><code>common.ml</code></h4><p>It contains what was previously in <code>[%shared ... ]</code></p><pre class="language-ocaml"><code>type messages =
+  ((int * int * int) * int * (int * int) * (int * int))
+  [@@deriving json]
+
+let width = 700
+let height = 400</code></pre><h4 id="client.ml"><code>client.ml</code></h4><p>It is almost the same code as what was enclosed in</p><pre>{client{ ... }}</pre><p>, with the difference that what was previously in the client value <code>init_client</code> is now in the function <code>launch_client_canvas</code>.</p><pre class="language-ocaml"><code>open Common
+open Js_of_ocaml
+open Eliom_content
+
+let draw ctx ((r, g, b), size, (x1, y1), (x2, y2)) =
+  let color = CSS.Color.string_of_t (CSS.Color.rgb r g b) in
+  ctx##.strokeStyle := (Js.string color);
+  ctx##.lineWidth := float size;
+  ctx##beginPath;
+  ctx##(moveTo (float x1) (float y1));
+  ctx##(lineTo (float x2) (float y2));
+  ctx##stroke
+
+(* type containing all informations we need to stop interaction
+   inside the page *)
+type drawing_canceller =
+    { message_thread : unit Lwt.t;
+      (* the thread reading messages from the bus *)
+      drawing_thread : unit Lwt.t;
+      (* the arrow handling mouse events *)
+    }
+
+let stop_drawing { message_thread; drawing_thread } =
+  Lwt.cancel message_thread;
+  (* cancelling this thread also close the bus *)
+  Lwt.cancel drawing_thread</code></pre><p><code>Lwt.cancel t</code> stops thread t. In this case it also closes the bus on which t is listening. For more informations see the <a href="https://ocsigen.org/lwt/latest/">Lwt programming guide</a> and <code>Eliom_bus</code>.</p><pre class="language-ocaml"><code>let launch_client_canvas bus image_elt canvas_elt slider =
+  let canvas = Html.To_dom.of_canvas canvas_elt in
+  let ctx = canvas##(getContext (Dom_html._2d_)) in
+  ctx##.lineCap := Js.string &quot;round&quot;;
+
+  let img = Html.To_dom.of_img image_elt in
+  let copy_image () = ctx##(drawImage img (0.) (0.)) in
+  if Js.to_bool (img##.complete)
+  then copy_image ()
+  else img##.onload := Dom_html.handler
+    (fun ev -&gt; copy_image (); Js._false);
+
+  (* The color palette: *)
+  let colorpicker, cp_sig = Ot_color_picker.make () in
+  Html.(Manip.appendChild (Manip.Elt.body ()) colorpicker);
+
+  let x = ref 0 and y = ref 0 in
+  let set_coord ev =
+    let x0, y0 = Dom_html.elementClientPosition canvas in
+    x := ev##.clientX - x0; y := ev##.clientY - y0 in
+  let compute_line ev =
+    let oldx = !x and oldy = !y in
+    set_coord ev;
+    let h, s, v = Eliom_shared.React.S.value cp_sig in
+    let r, g, b = Ot_color_picker.hsv_to_rgb h s v in
+    let rgb = int_of_float r, int_of_float g, int_of_float b in
+    let size_slider = Html.To_dom.of_input slider in
+    let size = int_of_string (Js.to_string size_slider##.value) in
+    (rgb, size, (oldx, oldy), (!x, !y))
+  in
+  let line ev =
+    let v = compute_line ev in
+    let _ = Eliom_bus.write bus v in
+    draw ctx v;
+    Lwt.return ()
+  in
+  let t = Lwt_stream.iter (draw ctx) (Eliom_bus.stream bus) in
+  let drawing_thread =
+    Js_of_ocaml_lwt.Lwt_js_events.(
+      mousedowns canvas (fun ev elt -&gt;
+        Dom.preventDefault ev;
+        set_coord ev;
+        let%lwt () = line ev in
+        Lwt.pick [mousemoves Dom_html.document (fun a _ -&gt; line a);
+	          let%lwt ev = mouseup Dom_html.document in line ev]))
+  in
+  { message_thread = t;
+    drawing_thread = drawing_thread }</code></pre><h4 id="server.ml"><code>server.ml</code></h4><p>It contains almost all the server parts of the code.</p><pre class="language-ocaml"><code>open Eliom_content
+open Common
+open Lwt
+
+module My_app =
+  Eliom_registration.App (struct
+    let application_name = &quot;graffiti&quot;
+    let global_data_path = None
+  end)</code></pre><p>The main difference is that the bus is now local.</p><pre class="language-ocaml"><code>let launch_server_canvas () =
+  let bus = Eliom_bus.create [%json: messages] in
+
+  let draw_server, image_string =
+    let rgb_ints_to_floats (r, g, b) =
+      float r /. 255., float g /. 255., float b /. 255. in
+    let surface = Cairo.Image.create Cairo.Image.ARGB32 ~w:width ~h:height in
+    let ctx = Cairo.create surface in
+    ((fun (rgb, size, (x1, y1), (x2, y2)) -&gt;
+
+      (* Set thickness of brush *)
+      let r, g, b = rgb_ints_to_floats rgb in
+      Cairo.set_line_width ctx (float size) ;
+      Cairo.set_line_join ctx Cairo.JOIN_ROUND ;
+      Cairo.set_line_cap ctx Cairo.ROUND ;
+      Cairo.set_source_rgb ctx r g b ;
+
+      Cairo.move_to ctx (float x1) (float y1) ;
+      Cairo.line_to ctx (float x2) (float y2) ;
+      Cairo.Path.close ctx ;
+
+      (* Apply the ink *)
+      Cairo.stroke ctx ;
+     ),
+     (fun () -&gt;
+       let b = Buffer.create 10000 in
+       (* Output a PNG in a string *)
+       Cairo.PNG.write_to_stream surface (Buffer.add_string b);
+       Buffer.contents b
+     ))
+  in
+  let _ = Lwt_stream.iter draw_server (Eliom_bus.stream bus) in
+  bus,image_string
+
+let graffiti_info = Hashtbl.create 0
+
+let imageservice =
+  Eliom_registration.String.create
+    ~path:(Eliom_service.Path [&quot;image&quot;])
+    ~headers:
+       (Cohttp.Header.add_list (Cohttp.Header.init ())
+          [(Ocsigen_header.Name.(to_string cache_control), &quot;no-cache&quot;) ;
+           (Ocsigen_header.Name.(to_string expires), string_of_int 0)])
+    ~meth:
+      (Eliom_service.Get
+         (let open Eliom_parameter in string &quot;name&quot; ** int &quot;q&quot;))
+    (* we add another parameter for the browser not to cache: at least
+       for chrome, there is no way to force the browser to reload the
+       image without leaving the application *)
+    (fun (name,_) () -&gt;
+      try%lwt
+        let _ ,image_string = Hashtbl.find graffiti_info name in
+	Lwt.return (image_string (), &quot;image/png&quot;)
+      with
+	| Not_found -&gt; Lwt.fail Eliom_common.Eliom_404)
+
+let get_bus (name:string) =
+  (* create a new bus and image_string function only if it did not exists *)
+  try
+    fst (Hashtbl.find graffiti_info name)
+  with
+    | Not_found -&gt;
+      let bus,image_string = launch_server_canvas () in
+      Hashtbl.add graffiti_info name (bus, image_string);
+      bus</code></pre><p>The main page now contains only a form to choose to which drawing you want to go. The drawing will be sent by the <code>multigraffiti_service</code> service, registered in <code>graffiti.eliom</code>.</p><pre class="language-ocaml"><code>let main_service =
+  Eliom_service.create
+    ~path:(Eliom_service.Path [&quot;&quot;])
+    ~meth:(Eliom_service.Get (Eliom_parameter.unit))
+    ()
+
+let multigraffiti_service =
+  Eliom_service.create
+    ~path:(Eliom_service.Path [&quot;&quot;])
+    ~meth:(Eliom_service.Get (Eliom_parameter.(suffix (string &quot;name&quot;))))
+    ()
+
+let choose_drawing_form () =
+  Html.D.Form.get_form ~service:multigraffiti_service
+    (fun (name) -&gt;
+       [Html.D.p [
+           Html.D.txt &quot;drawing name: &quot;;
+           Html.D.Form.input ~input_type:`Text ~name
+             Html.D.Form.string;
+           Html.D.br ();
+           Html.D.Form.input ~input_type:`Submit ~value:&quot;Go&quot;
+             Html.D.Form.string
+         ]])
+
+let oclosure_script =
+  Html.Id.create_global_elt
+    (Html.D.js_script
+       ~uri:(Html.D.Raw.uri_of_string &quot;./graffiti_oclosure.js&quot;) ())
+
+let make_page body =
+  Lwt.return
+    (Html.D.html
+       (Html.D.head
+	  (Html.D.title (Html.D.txt &quot;Graffiti&quot;))
+ 	  [
+	    Html.D.css_link
+	      ~uri:(Html.D.Raw.uri_of_string&quot;./css/closure/common.css&quot;) ();
+	    Html.D.css_link
+	      ~uri:(Html.D.Raw.uri_of_string&quot;./css/closure/hsvpalette.css&quot;) ();
+	    Html.D.css_link
+	      ~uri:(Html.D.Raw.uri_of_string&quot;./css/slider.css&quot;) ();
+            oclosure_script;
+	    Html.D.css_link
+	      ~uri:(Html.D.Raw.uri_of_string&quot;./css/graffiti.css&quot;) ();
+          ])
+       (Html.D.body body))
+
+let () = My_app.register ~service:main_service
+  (fun () () -&gt;
+    make_page [h1 [txt &quot;Welcome to Multigraffiti&quot;];
+	       choose_drawing_form ()])</code></pre><p><!--wodoc:unknown:aside--><b>Concept: Global node and scripts</b></p><p>Sometimes we need to control when a script is loaded and reloaded on page change. Since clicking on links in an Eliom application do not reload the entire page, already loaded libraries stay loaded. But if we simply add a script to each page, it will be loaded each time. We usually don't want that.</p><p>Using <code>val
+Eliom_content.Html.Id.create_global_elt</code> we can create an xml node manipulated 'by reference'. If a reference to a script node is included in a page, it will only be loaded the first time it appears in the header. This is the case for <code>oclosure_script</code> above. <!--wodoc:unbalanced-end--></p><h4 id="graffiti.eliom"><code>graffiti.eliom</code></h4><p>Here is the code that mixes client and server parts.</p><p>We first open the corresponding modules for each parts of the application.</p><pre class="language-ocaml"><code>[%%shared
+    open Eliom_content.Html.D
+    open Common
+]
+[%%client
+    open Client
+]
+open Server</code></pre><p>And then we define a function initializing the client application by side effects in a client value.</p><pre class="language-ocaml"><code>let start_drawing name image canvas slider =
+  let bus = get_bus name in
+  ignore [%client
+    (let canceller =
+       launch_client_canvas ~%bus ~%image ~%canvas ~%slider
+     in
+     Eliom_client.onunload (fun () -&gt; stop_drawing canceller; None)
+     : unit)
+  ]</code></pre><p>The function registered by <code>Eliom_service.onunload</code> will be called when the page change inside the application.</p><p>And we finally register the service sending a drawing:</p><pre class="language-ocaml"><code>let counter = ref 0
+
+let () =
+  My_app.register ~service:multigraffiti_service (fun name () -&gt;
+    (* Some browsers won't reload the image, so we force
+          them by changing the url each time. *)
+    incr counter;
+    let image =
+      img ~alt:name
+        ~src:(make_uri ~service:imageservice (name,!counter)) ()
+    in
+    let slider =
+      Form.input
+        ~a:[
+          a_id &quot;slider&quot;;
+          a_input_min (`Number 1);
+          a_input_max (`Number 80)
+        ]
+        ~input_type:`Range
+        Form.int
+    in
+    let canvas =
+      canvas ~a:[a_width width; a_height height]
+        [txt &quot;your browser doesn't support canvas&quot;; br (); image]
+    in
+    start_drawing name image canvas slider;
+    make_page
+      [h1 [txt name];
+       choose_drawing_form ();
+       canvas;
+       div [slider]])</code></pre><p>At this point, you can run your application on the server provided that you installed the css and images directories in the main directory of your application, build it using this <a href="https://github.com/ocsigen/graffiti/tree/master/extended/Makefile">Makefile</a> along with the appropriate <a href="https://github.com/ocsigen/graffiti/tree/master/extended/Makefile.options">Makefile.options</a>, and configured it using <a href="https://github.com/ocsigen/graffiti/tree/master/extended/graffiti.conf.in">graffiti.conf.in</a>, as the basis for your configuration file.</p><h3 id="mixing-client-server-application-with-traditional-web-interaction">Mixing client-server application with traditional web interaction</h3><p>We now want to restrict the site to connected users.</p><p>From the previous chapter, we copy the code handling users to <code>server.ml</code>:</p><pre class="language-ocaml"><code>let connection_service = Eliom_service.create
+    ~path:Eliom_service.No_path
+    ~meth:(Eliom_service.Post (
+      Eliom_parameter.unit,
+      Eliom_parameter.(string &quot;name&quot; ** string &quot;password&quot;)
+    ))
+    ()
+
+let disconnection_service = Eliom_service.create
+    ~path:Eliom_service.No_path
+    ~meth:(Eliom_service.Post (Eliom_parameter.unit, Eliom_parameter.unit))
+    ()
+
+let create_account_service =
+  Eliom_service.create
+    ~path:(Eliom_service.Path [&quot;&quot;])
+    ~meth:(Eliom_service.Post
+             (Eliom_parameter.unit,
+              Eliom_parameter.(string &quot;name&quot; ** string &quot;password&quot;)))
+
+let user_table = Ocsipersist.Polymorphic.open_table &quot;user_table&quot;
+
+let check_pwd name pwd =
+  try%lwt
+    let%lwt saved_password = Ocsipersist.Polymorphic.find user_table name in
+    Lwt.return (pwd = saved_password)
+  with Not_found -&gt; Lwt.return false
+
+let () = Eliom_registration.Action.register
+  ~service:create_account_service
+  (fun () (name, pwd) -&gt; Ocsipersist.Polymorphic.add user_table name pwd)
+
+let () = Eliom_registration.Action.register
+  ~service:connection_service
+  (fun () (name, password) -&gt;
+    match%lwt check_pwd name password with
+      | true -&gt; Eliom_state.set_volatile_data_session_group
+	~scope:Eliom_common.default_session_scope name;
+	Lwt.return ()
+      | false -&gt; Lwt.return ())
+
+let () =
+  Eliom_registration.Action.register
+    ~service:disconnection_service
+    (fun () () -&gt;
+      Eliom_state.discard ~scope:Eliom_common.default_session_scope ())
+
+let disconnect_box () =
+  Html.D.Form.post_form ~service:disconnection_service
+    (fun _ -&gt;
+       [Html.D.p [
+           Html.D.Form.input
+             ~input_type:`Submit ~value:&quot;Log out&quot;
+             Html.D.Form.string
+         ]
+       ]) ()
+
+let login_name_form service button_text =
+  Html.D.Form.post_form ~service
+    (fun (name1, name2) -&gt;
+       [Html.D.p [
+           Html.D.txt &quot;login: &quot;;
+           Html.D.Form.input ~input_type:`Text ~name:name1
+             Html.D.Form.string;
+           Html.D.br ();
+           Html.D.txt &quot;password: &quot;;
+           Html.D.Form.input ~input_type:`Password ~name:name2
+             Html.D.Form.string;
+           Html.D.br ();
+           Html.D.Form.input ~input_type:`Submit ~value:button_text
+             Html.D.Form.string
+         ]]) ()</code></pre><p>We make a customized registration module such that disconnected users (those for which the username reference is not set), are automaticaly shown a connection box. This way the other pages can assume that the username is always available.</p><pre class="language-ocaml"><code>let default_content () =
+  make_page
+    [Html.D.h1 [Html.D.txt &quot;Welcome to Multigraffiti&quot;];
+     Html.D.h2 [Html.D.txt &quot;log in&quot;];
+     login_name_form connection_service &quot;Connect&quot;;
+     Html.D.h2 [Html.D.txt &quot;create account&quot;];
+     login_name_form create_account_service &quot;Create account&quot;;]
+
+module Connected_translate =
+struct
+  type page = string -&gt; My_app.page Lwt.t
+  let translate page =
+    match Eliom_state.get_volatile_data_session_group
+      ~scope:Eliom_common.default_session_scope () with
+	| None -&gt; default_content ()
+	| Some username -&gt; page username
+end
+
+module Connected =
+  Eliom_registration.Customize (My_app) (Connected_translate)</code></pre><p>We replace the previous <code>main_service</code> registration :</p><pre class="language-ocaml"><code>let () = My_app.register ~service:main_service
+  (fun () () -&gt;
+    make_page [h1 [txt &quot;Welcome to Multigraffiti&quot;];
+	       choose_drawing_form ()])</code></pre><p>by :</p><pre class="language-ocaml"><code>let ( !% ) f = fun a b -&gt; return (fun c -&gt; f a b c)
+
+let () = Connected.register
+  ~service:main_service
+  !% (fun () () username -&gt;
+    make_page
+      [Html.D.h1 [Html.D.txt (&quot;Welcome to Multigraffiti &quot; ^ username)];
+       choose_drawing_form ()])</code></pre><p>to use that, in <code>graffiti.eliom</code> we just replace add a call to <code>disconnect_box</code></p><pre class="language-ocaml"><code>      [h1 [txt name];
+       disconnect_box ();
+       choose_drawing_form ();
+       canvas;])</code></pre><p><a href="interaction.html">prev</a></p>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    var wodocPub = "/tuto";
+    // Switch version: keep the current page, swapping only the version segment.
+    function wodocVersion(v) {
+      if (!v) return;
+      var re = new RegExp('^(' + wodocPub + '/)[^/]+');
+      var p = location.pathname;
+      location.href =
+        re.test(p) ? p.replace(re, '$1' + v) : wodocPub + '/' + v + '/index.html';
+    }
+    // Build the version <select> from the project's versions.json (the single
+    // source of truth, refreshed on every build/release), so even older frozen
+    // pages list the current set. Falls back to the baked <option>s on failure.
+    (function () {
+      var seg = (location.pathname.match(
+        new RegExp('^' + wodocPub + '/([^/]+)')) || [])[1];
+      function select(sel) {
+        var i;
+        for (i = 0; i < sel.options.length; i++)
+          if (sel.options[i].value === seg) { sel.selectedIndex = i; return; }
+        if (seg) {
+          var o = document.createElement('option');
+          o.value = seg; o.textContent = seg; o.selected = true;
+          sel.insertBefore(o, sel.firstChild);
+        }
+      }
+      fetch(wodocPub + '/versions.json')
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (m) {
+          var list = m.list || [], latest = m.latest;
+          document.querySelectorAll('.wodoc-version').forEach(function (sel) {
+            sel.innerHTML = '';
+            list.forEach(function (v) {
+              var o = document.createElement('option');
+              if (v === latest) { o.value = 'latest'; o.textContent = v + ' (latest)'; }
+              else { o.value = v; o.textContent = v; }
+              sel.appendChild(o);
+            });
+            select(sel);
+          });
+        })
+        .catch(function () {
+          document.querySelectorAll('.wodoc-version').forEach(select);
+        });
+    })();
+  </script>
+</body>
+</html>

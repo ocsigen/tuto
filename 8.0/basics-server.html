@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Server-side website programming guide — Doc</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="stylesheet" href="/css/ocsigen-odoc.css"/>
+  <script src="./highlight.pack.js"></script>
+  <script src="./wodoc-highlight.js"></script>
+</head>
+<body class="wodoc-page wodoc-doc">
+  <!-- Shared site menu — THE single source of truth for the header, top menu and
+     drawer of EVERY Ocsigen doc page (vitrine + all projects). Canonical copy
+     lives here in ocsigen.github.io; each project's build fetches it. Injected
+     by `wodoc assemble --menu`. Holes filled by the tool (braces omitted here so
+     this comment is not itself rewritten by the hole-filler):
+       subproject  the sub-project name shown next to the Ocsigen logo
+                   (empty on the vitrine), via --subproject
+       leftnav     the project's left navigation, expanded into BOTH the mobile
+                   drawer (below) and the left column (in the page template),
+                   via --leftnav
+     The current entry is highlighted by adding the `current` class to the
+     element carrying data-wodoc-page=<id>: --current on the vitrine (page id),
+     --menu-current in a project (the project id). Nothing is hardcoded here, so
+     this file is the ONLY place the menu is defined.
+
+     Links are the FINAL site paths (/<project>/, /<page>): the target layout
+     where each project is served at ocsigen.org/<project>/ — no transitional
+     /wodoc/ prefix. -->
+<div class="page-header">
+  <p class="logo-ocsigen"><a href="/"><img src="/img/ocsigen-white.svg" alt="Ocsigen"/></a></p>
+  <p class="logo-subproject">Doc</p>
+
+  <div class="mainmenu">
+    <p class="mainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></p>
+    <p class="mainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></p>
+    <p data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></p>
+    <p data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></p>
+    <p data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></p>
+    <p data-wodoc-page="lwt"><a href="/lwt/">Lwt</a></p>
+    <p data-wodoc-page="tyxml"><a href="/tyxml/">Tyxml</a></p>
+    <p data-wodoc-page="ocsigen-start"><a href="/ocsigen-start/">Start</a></p>
+  </div>
+
+  <form id="googlesearch" action="https://google.com/search">
+    <input name="q" id="gsearch-box" placeholder="Search using Google"/>
+    <label for="gsearch-box"><img src="/img/search.svg" alt="" id="gsearch-icon"/></label>
+    <input type="submit" id="gsearch-submit" onclick="document.getElementById('gsearch-box').value += ' site:ocsigen.org';"/>
+  </form>
+
+  <aside class="how-drawer">
+    <input id="how-drawer-toggle" type="checkbox"/>
+    <label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label>
+    <nav class="how-drawer-content">
+      <ul class="drawermainmenu">
+        <li class="drawermainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></li>
+        <li class="drawermainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="lwt"><a href="/lwt/">Lwt</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="tyxml"><a href="/tyxml/">Tyxml</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-toolkit"><a href="/ocsigen-toolkit/">Toolkit</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-start"><a href="/ocsigen-start/">Start</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsipersist"><a href="/ocsipersist/">Ocsipersist</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="reactiveData"><a href="/reactiveData/">ReactiveData</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-i18n"><a href="/ocsigen-i18n/">i18n</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="wodoc"><a href="/wodoc/">Wodoc</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="projects"><a href="/projects">Other projects</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="papers"><a href="/papers">Research papers</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="credits"><a href="/credits">Who does Ocsigen?</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="contributing"><a href="/contributing">Contributing</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog">Blog</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="install"><a href="/install">Installation</a></li>
+        <li class="drawermainmenu-page"><a href="https://github.com/ocsigen">Source code</a></li>
+      </ul>
+      <!-- On mobile the left column is hidden; its menu lives here in the burger
+           (.how-doctree, shown only on narrow screens), as the old site did.
+           Empty on the vitrine; the leftnav hole is filled (with the same
+           fragment as the left column) only on project pages. -->
+      <nav class="how-doctree"><div class="docversion">
+  <label>Version:
+    <select class="wodoc-version" onchange="wodocVersion(this.value)">
+      <option value="8.0">8.0</option>
+    </select>
+  </label>
+</div>
+<div class="page-toc">
+  <h3>On this page</h3>
+  <nav class="odoc-toc odoc-local-toc"><ul><li><a href="#ocaml">OCaml</a></li><li><a href="#lwt">Lwt</a><ul><li><a href="#how-it-works">How it works</a></li></ul></li><li><a href="#ocsigen-server:-a-full-featured-extensible-web-server-in-ocaml">Ocsigen Server: A full featured extensible Web server in OCaml</a><ul><li><a href="#use-as-a-library">Use as a library</a></li><li><a href="#use-as-an-executable">Use as an executable</a></li></ul></li><li><a href="#eliom:-services">Eliom: Services</a></li><li><a href="#compiling">Compiling</a><ul><li><a href="#build-an-executable">Build an executable</a></li><li><a href="#use-with-ocsigenserver">Use with ocsigenserver</a></li></ul></li><li><a href="#tyxml:-typing-html">TyXML: typing HTML</a><ul><li><a href="#how-it-works_2">How it works</a></li><li><a href="#example-of-typing-error">Example of typing error</a></li></ul></li><li><a href="#eliom:-service-returning-typed-html">Eliom: Service returning typed HTML</a><ul><li><a href="#outputs">Outputs</a></li></ul></li><li><a href="#eliom:-typing-page-parameters">Eliom: Typing page parameters</a><ul><li><a href="#parameters">Parameters</a></li></ul></li><li><a href="#eliom:-post-services">Eliom: POST services</a></li><li><a href="#eliom:-other-kinds-of-services">Eliom: Other kinds of services</a><ul><li><a href="#pathless-services">Pathless services</a></li><li><a href="#attached-services">Attached services</a></li><li><a href="#external-services">External services</a></li><li><a href="#predefined-services">Predefined services</a></li></ul></li><li><a href="#forms-and-links">Forms and links</a></li><li><a href="#sessions">Sessions</a><ul><li><a href="#scopes">Scopes</a></li></ul></li><li><a href="#browser-events">Browser events</a></li><li><a href="#database-access">Database access</a></li><li><a href="#continuation-based-web-programming">Continuation-based Web programming</a></li><li><a href="#internationalisation">Internationalisation</a></li><li><a href="#ocsigen-server">Ocsigen Server</a></li></ul></nav>
+</div>
+<nav class="api-nav manual-nav">
+<h3>Programmer&#x27;s guide</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="intro.html"><a href="./intro.html">Introduction. Ocsigen: where to start?</a></li>
+<li class="ml3" data-wodoc-page="basics.html"><a href="./basics.html">Client-server application programming guide</a></li>
+<li class="ml3 current" data-wodoc-page="basics-server.html"><a href="./basics-server.html">Server-side website programming guide</a></li>
+</ul>
+<h3>Main tutorials</h3>
+<ul class="api-section">
+<li class="ml3"><a href="/install">Install Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="start.html"><a href="./start.html">Your first app in 5 minutes</a></li>
+<li class="ml3"><a href="/talks/tutochat.html">Interactive tutorial: Writing a chat app</a></li>
+<li class="ml3" data-wodoc-page="application.html"><a href="./application.html">Client/server application: Graffiti</a></li>
+<li class="ml3" data-wodoc-page="tutowidgets.html"><a href="./tutowidgets.html">Eliom apps basics: writing client-server widgets</a></li>
+<li class="ml3" data-wodoc-page="how-to-register-session-data.html"><a href="./how-to-register-session-data.html">Session data: Eliom references</a></li>
+<li class="ml3" data-wodoc-page="tutoreact.html"><a href="./tutoreact.html">Reactive client-server Web applications</a></li>
+<li class="ml3" data-wodoc-page="interaction.html"><a href="./interaction.html">Service based Web programming</a></li>
+<li class="ml3" data-wodoc-page="misc.html"><a href="./misc.html">Mixing traditional Web interaction with client-server app</a></li>
+</ul>
+<h3>5-minute tutorials</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="lwt.html"><a href="./lwt.html">Lwt</a></li>
+<li class="ml3" data-wodoc-page="html.html"><a href="./html.html">HTML</a></li>
+</ul>
+<h3>Other tutorials: Miscellanous features</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
+<li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
+<li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
+</ul>
+<h3>Improving Graffiti</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
+<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
+<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
+</ul>
+<h3>HOW-TO</h3>
+<h4 class="ml3">My first steps with Ocsigen</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-hello-world-in-ocsigen.html"><a href="./how-to-make-hello-world-in-ocsigen.html">How to make &quot;hello world&quot; in Ocsigen</a></li>
+<li class="ml4" data-wodoc-page="how-to-compile-my-ocsigen-pages.html"><a href="./how-to-compile-my-ocsigen-pages.html">How to compile my Ocsigen pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-configure-and-launch-the-ocsigen-server.html"><a href="./how-to-configure-and-launch-the-ocsigen-server.html">How to configure and launch the Ocsigen Server</a></li>
+<li class="ml4" data-wodoc-page="how-does-a-page-s-source-code-look.html"><a href="./how-does-a-page-s-source-code-look.html">How does a client-server app source code look like?</a></li>
+</ul>
+<h4 class="ml3">How to put some elements in my page ?</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-page-a-skeleton.html"><a href="./how-to-make-page-a-skeleton.html">How to make a page skeleton</a></li>
+<li class="ml4" data-wodoc-page="how-to-use-get-parameters-or-parameters-in-the-url.html"><a href="./how-to-use-get-parameters-or-parameters-in-the-url.html">How to use GET parameters (parameters in the URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-css-stylesheet.html"><a href="./how-to-add-css-stylesheet.html">How to add CSS stylesheet</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-javascript-script.html"><a href="./how-to-add-a-javascript-script.html">How to add a Javascript script</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-div.html"><a href="./how-to-add-a-div.html">How to add a div</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-list.html"><a href="./how-to-add-a-list.html">How to add lists in pages?</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-an-image.html"><a href="./how-to-add-an-image.html">How to add an image</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-titles-and-paragraphs.html"><a href="./how-to-write-titles-and-paragraphs.html">How to write titles and paragraphs</a></li>
+<li class="ml4" data-wodoc-page="how-to-set-and-id-classes-or-other-attributes-to-html-elements.html"><a href="./how-to-set-and-id-classes-or-other-attributes-to-html-elements.html">How to set and id, classes or other attributes to HTML elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-select-or-other-form-element.html"><a href="./how-to-add-a-select-or-other-form-element.html">How to add select (or other form element)</a></li>
+<li class="ml4" data-wodoc-page="how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html"><a href="./how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></li>
+<li class="ml4" data-wodoc-page="how-to-make-responsive-css.html"><a href="./how-to-make-responsive-css.html">How to make responsive CSS</a></li>
+</ul>
+<h4 class="ml3">Services</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-do-links-to-other-pages.html"><a href="./how-to-do-links-to-other-pages.html">How to do links to other pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-forms.html"><a href="./how-to-write-forms.html">How to write forms</a></li>
+<li class="ml4" data-wodoc-page="how-to-register-a-service-that-decides-itself-what-to-send.html"><a href="./how-to-register-a-service-that-decides-itself-what-to-send.html">How to register a service that decides itself what to send</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-link-to-a-current-page-without-knowing-its-url.html"><a href="./how-to-create-link-to-a-current-page-without-knowing-its-url.html">How to create link to a current page (without knowing its URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html"><a href="./how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-a-json-service.html"><a href="./how-to-write-a-json-service.html">How to write a JSON service</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-download.html"><a href="./how-to-send-file-download.html">How to send a file (download)</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-upload.html"><a href="./how-to-send-file-upload.html">How to send a file (upload)</a></li>
+</ul>
+<h4 class="ml3">Js_of_ocaml</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-dom-elements.html"><a href="./how-to-attach-ocaml-values-to-dom-elements.html">How to attach OCaml values to DOM elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-know-whether-the-browser-window-has-the-focus-or-not.html"><a href="./how-to-know-whether-the-browser-window-has-the-focus-or-not.html">How to know whether the browser window has the focus or not</a></li>
+<li class="ml4" data-wodoc-page="how-to-build-js-object.html"><a href="./how-to-build-js-object.html">How to build js object</a></li>
+<li class="ml4" data-wodoc-page="how-to-stop-default-behaviour-of-events.html"><a href="./how-to-stop-default-behaviour-of-events.html">How to stop default behaviour of events</a></li>
+<li class="ml4" data-wodoc-page="how-to-call-an-ocaml-function-from-js-code.html"><a href="./how-to-call-an-ocaml-function-from-js-code.html">How to call an OCaml function from js code</a></li>
+</ul>
+<h4 class="ml3">Eliom client-server applications</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-call-a-server-side-function-from-client-side.html"><a href="./how-to-call-a-server-side-function-from-client-side.html">How to call a server-side function from the client side</a></li>
+<li class="ml4" data-wodoc-page="how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html"><a href="./how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html">How to make the client side program get an HTML element from the server and insert it in the page</a></li>
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html"><a href="./how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html">How to attach OCaml values to the HTML nodes sent to the client</a></li>
+<li class="ml4" data-wodoc-page="how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html"><a href="./how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html">How to iterate on all sessions for one user, or all tabs</a></li>
+<li class="ml4" data-wodoc-page="how-to-implement-a-notification-system.html"><a href="./how-to-implement-a-notification-system.html">How to implement a notification system</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-a-file-to-server-without-stopping-the-client-process.html"><a href="./how-to-send-a-file-to-server-without-stopping-the-client-process.html">How to send a file to server without stopping the client process</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-channel-disconnection.html"><a href="./how-to-detect-channel-disconnection.html">How to detect channel disconnection</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html"><a href="./how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html">How to detect on client side that the server side state for the process is closed</a></li>
+</ul>
+<h4 class="ml3">Eliom Server side</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-do-i-create-a-cryptographically-safe-identifier.html"><a href="./how-do-i-create-a-cryptographically-safe-identifier.html">How do I create a Cryptographically safe identifier</a></li>
+<li class="ml4" data-wodoc-page="hash-password.html"><a href="./hash-password.html">Protecting passwords</a></li>
+</ul>
+</nav>
+</nav>
+    </nav>
+  </aside>
+</div>
+
+
+  <div class="project-page">
+    <div class="twocols">
+      <nav class="leftcol">
+        <div class="docversion">
+  <label>Version:
+    <select class="wodoc-version" onchange="wodocVersion(this.value)">
+      <option value="8.0">8.0</option>
+    </select>
+  </label>
+</div>
+<div class="page-toc">
+  <h3>On this page</h3>
+  <nav class="odoc-toc odoc-local-toc"><ul><li><a href="#ocaml">OCaml</a></li><li><a href="#lwt">Lwt</a><ul><li><a href="#how-it-works">How it works</a></li></ul></li><li><a href="#ocsigen-server:-a-full-featured-extensible-web-server-in-ocaml">Ocsigen Server: A full featured extensible Web server in OCaml</a><ul><li><a href="#use-as-a-library">Use as a library</a></li><li><a href="#use-as-an-executable">Use as an executable</a></li></ul></li><li><a href="#eliom:-services">Eliom: Services</a></li><li><a href="#compiling">Compiling</a><ul><li><a href="#build-an-executable">Build an executable</a></li><li><a href="#use-with-ocsigenserver">Use with ocsigenserver</a></li></ul></li><li><a href="#tyxml:-typing-html">TyXML: typing HTML</a><ul><li><a href="#how-it-works_2">How it works</a></li><li><a href="#example-of-typing-error">Example of typing error</a></li></ul></li><li><a href="#eliom:-service-returning-typed-html">Eliom: Service returning typed HTML</a><ul><li><a href="#outputs">Outputs</a></li></ul></li><li><a href="#eliom:-typing-page-parameters">Eliom: Typing page parameters</a><ul><li><a href="#parameters">Parameters</a></li></ul></li><li><a href="#eliom:-post-services">Eliom: POST services</a></li><li><a href="#eliom:-other-kinds-of-services">Eliom: Other kinds of services</a><ul><li><a href="#pathless-services">Pathless services</a></li><li><a href="#attached-services">Attached services</a></li><li><a href="#external-services">External services</a></li><li><a href="#predefined-services">Predefined services</a></li></ul></li><li><a href="#forms-and-links">Forms and links</a></li><li><a href="#sessions">Sessions</a><ul><li><a href="#scopes">Scopes</a></li></ul></li><li><a href="#browser-events">Browser events</a></li><li><a href="#database-access">Database access</a></li><li><a href="#continuation-based-web-programming">Continuation-based Web programming</a></li><li><a href="#internationalisation">Internationalisation</a></li><li><a href="#ocsigen-server">Ocsigen Server</a></li></ul></nav>
+</div>
+<nav class="api-nav manual-nav">
+<h3>Programmer&#x27;s guide</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="intro.html"><a href="./intro.html">Introduction. Ocsigen: where to start?</a></li>
+<li class="ml3" data-wodoc-page="basics.html"><a href="./basics.html">Client-server application programming guide</a></li>
+<li class="ml3 current" data-wodoc-page="basics-server.html"><a href="./basics-server.html">Server-side website programming guide</a></li>
+</ul>
+<h3>Main tutorials</h3>
+<ul class="api-section">
+<li class="ml3"><a href="/install">Install Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="start.html"><a href="./start.html">Your first app in 5 minutes</a></li>
+<li class="ml3"><a href="/talks/tutochat.html">Interactive tutorial: Writing a chat app</a></li>
+<li class="ml3" data-wodoc-page="application.html"><a href="./application.html">Client/server application: Graffiti</a></li>
+<li class="ml3" data-wodoc-page="tutowidgets.html"><a href="./tutowidgets.html">Eliom apps basics: writing client-server widgets</a></li>
+<li class="ml3" data-wodoc-page="how-to-register-session-data.html"><a href="./how-to-register-session-data.html">Session data: Eliom references</a></li>
+<li class="ml3" data-wodoc-page="tutoreact.html"><a href="./tutoreact.html">Reactive client-server Web applications</a></li>
+<li class="ml3" data-wodoc-page="interaction.html"><a href="./interaction.html">Service based Web programming</a></li>
+<li class="ml3" data-wodoc-page="misc.html"><a href="./misc.html">Mixing traditional Web interaction with client-server app</a></li>
+</ul>
+<h3>5-minute tutorials</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="lwt.html"><a href="./lwt.html">Lwt</a></li>
+<li class="ml3" data-wodoc-page="html.html"><a href="./html.html">HTML</a></li>
+</ul>
+<h3>Other tutorials: Miscellanous features</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
+<li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
+<li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
+</ul>
+<h3>Improving Graffiti</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
+<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
+<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
+</ul>
+<h3>HOW-TO</h3>
+<h4 class="ml3">My first steps with Ocsigen</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-hello-world-in-ocsigen.html"><a href="./how-to-make-hello-world-in-ocsigen.html">How to make &quot;hello world&quot; in Ocsigen</a></li>
+<li class="ml4" data-wodoc-page="how-to-compile-my-ocsigen-pages.html"><a href="./how-to-compile-my-ocsigen-pages.html">How to compile my Ocsigen pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-configure-and-launch-the-ocsigen-server.html"><a href="./how-to-configure-and-launch-the-ocsigen-server.html">How to configure and launch the Ocsigen Server</a></li>
+<li class="ml4" data-wodoc-page="how-does-a-page-s-source-code-look.html"><a href="./how-does-a-page-s-source-code-look.html">How does a client-server app source code look like?</a></li>
+</ul>
+<h4 class="ml3">How to put some elements in my page ?</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-make-page-a-skeleton.html"><a href="./how-to-make-page-a-skeleton.html">How to make a page skeleton</a></li>
+<li class="ml4" data-wodoc-page="how-to-use-get-parameters-or-parameters-in-the-url.html"><a href="./how-to-use-get-parameters-or-parameters-in-the-url.html">How to use GET parameters (parameters in the URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-css-stylesheet.html"><a href="./how-to-add-css-stylesheet.html">How to add CSS stylesheet</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-javascript-script.html"><a href="./how-to-add-a-javascript-script.html">How to add a Javascript script</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-div.html"><a href="./how-to-add-a-div.html">How to add a div</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-list.html"><a href="./how-to-add-a-list.html">How to add lists in pages?</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-an-image.html"><a href="./how-to-add-an-image.html">How to add an image</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-titles-and-paragraphs.html"><a href="./how-to-write-titles-and-paragraphs.html">How to write titles and paragraphs</a></li>
+<li class="ml4" data-wodoc-page="how-to-set-and-id-classes-or-other-attributes-to-html-elements.html"><a href="./how-to-set-and-id-classes-or-other-attributes-to-html-elements.html">How to set and id, classes or other attributes to HTML elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-add-a-select-or-other-form-element.html"><a href="./how-to-add-a-select-or-other-form-element.html">How to add select (or other form element)</a></li>
+<li class="ml4" data-wodoc-page="how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html"><a href="./how-to-insert-raw-form-elements-not-belonging-to-a-form-towards-a-service.html">How to insert &quot;raw&quot; form elements (not belonging to a form towards a service)</a></li>
+<li class="ml4" data-wodoc-page="how-to-make-responsive-css.html"><a href="./how-to-make-responsive-css.html">How to make responsive CSS</a></li>
+</ul>
+<h4 class="ml3">Services</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-do-links-to-other-pages.html"><a href="./how-to-do-links-to-other-pages.html">How to do links to other pages</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-forms.html"><a href="./how-to-write-forms.html">How to write forms</a></li>
+<li class="ml4" data-wodoc-page="how-to-register-a-service-that-decides-itself-what-to-send.html"><a href="./how-to-register-a-service-that-decides-itself-what-to-send.html">How to register a service that decides itself what to send</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-link-to-a-current-page-without-knowing-its-url.html"><a href="./how-to-create-link-to-a-current-page-without-knowing-its-url.html">How to create link to a current page (without knowing its URL)</a></li>
+<li class="ml4" data-wodoc-page="how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html"><a href="./how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones.html">How to create form wizard (sequence of pages depending on data entered on previous ones)</a></li>
+<li class="ml4" data-wodoc-page="how-to-write-a-json-service.html"><a href="./how-to-write-a-json-service.html">How to write a JSON service</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-download.html"><a href="./how-to-send-file-download.html">How to send a file (download)</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-file-upload.html"><a href="./how-to-send-file-upload.html">How to send a file (upload)</a></li>
+</ul>
+<h4 class="ml3">Js_of_ocaml</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-dom-elements.html"><a href="./how-to-attach-ocaml-values-to-dom-elements.html">How to attach OCaml values to DOM elements</a></li>
+<li class="ml4" data-wodoc-page="how-to-know-whether-the-browser-window-has-the-focus-or-not.html"><a href="./how-to-know-whether-the-browser-window-has-the-focus-or-not.html">How to know whether the browser window has the focus or not</a></li>
+<li class="ml4" data-wodoc-page="how-to-build-js-object.html"><a href="./how-to-build-js-object.html">How to build js object</a></li>
+<li class="ml4" data-wodoc-page="how-to-stop-default-behaviour-of-events.html"><a href="./how-to-stop-default-behaviour-of-events.html">How to stop default behaviour of events</a></li>
+<li class="ml4" data-wodoc-page="how-to-call-an-ocaml-function-from-js-code.html"><a href="./how-to-call-an-ocaml-function-from-js-code.html">How to call an OCaml function from js code</a></li>
+</ul>
+<h4 class="ml3">Eliom client-server applications</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-to-call-a-server-side-function-from-client-side.html"><a href="./how-to-call-a-server-side-function-from-client-side.html">How to call a server-side function from the client side</a></li>
+<li class="ml4" data-wodoc-page="how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html"><a href="./how-to-make-the-client-side-program-get-an-html-element-from-the-server-and-insert-it-in-the-page.html">How to make the client side program get an HTML element from the server and insert it in the page</a></li>
+<li class="ml4" data-wodoc-page="how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html"><a href="./how-to-attach-ocaml-values-to-the-html-nodes-sent-to-the-client.html">How to attach OCaml values to the HTML nodes sent to the client</a></li>
+<li class="ml4" data-wodoc-page="how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html"><a href="./how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html">How to iterate on all sessions for one user, or all tabs</a></li>
+<li class="ml4" data-wodoc-page="how-to-implement-a-notification-system.html"><a href="./how-to-implement-a-notification-system.html">How to implement a notification system</a></li>
+<li class="ml4" data-wodoc-page="how-to-send-a-file-to-server-without-stopping-the-client-process.html"><a href="./how-to-send-a-file-to-server-without-stopping-the-client-process.html">How to send a file to server without stopping the client process</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-channel-disconnection.html"><a href="./how-to-detect-channel-disconnection.html">How to detect channel disconnection</a></li>
+<li class="ml4" data-wodoc-page="how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html"><a href="./how-to-detect-on-client-side-that-the-server-side-state-for-the-process-is-closed.html">How to detect on client side that the server side state for the process is closed</a></li>
+</ul>
+<h4 class="ml3">Eliom Server side</h4>
+<ul class="api-section">
+<li class="ml4" data-wodoc-page="how-do-i-create-a-cryptographically-safe-identifier.html"><a href="./how-do-i-create-a-cryptographically-safe-identifier.html">How do I create a Cryptographically safe identifier</a></li>
+<li class="ml4" data-wodoc-page="hash-password.html"><a href="./hash-password.html">Protecting passwords</a></li>
+</ul>
+</nav>
+
+      </nav>
+      <article class="rightcol">
+        
+        <h1 id="server-side-website-programming-guide">Server-side website programming guide</h1><p>While Eliom is well known for its unique client-server programming model, it is also perfectly suited to programming more traditional websites. This page describes how you can generate Web pages in OCaml, and handle links, forms, page parameters, sessions, etc. You will see that you can get very quickly a working Web site without having to learn innovative concepts and this might be enough for your needs.</p><p>You will then learn how Eliom is simplifying the programming of very common behaviours by introducing innovative concepts like scoped sessions or continuation-based Web programming.</p><p>Programming with Eliom will make your website ready for future evolutions by allowing you to introduce progressively client-side features like event handlers, fully in OCaml. You will even be able to turn your website into a <a href="basics.html">distributed client-server Web app</a>, and even a mobile app if needed in the future, without having to rewrite anything.</p><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p>
+<h2 id="ocaml">OCaml</h2><!--wodoc:unbalanced-end--><p>This programming guide assumes you know the <em>OCaml</em> language. Many resources and books are available online.</p><!--wodoc:unbalanced-end--><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="lwt">Lwt</h2><!--wodoc:unbalanced-end--><p><em>Lwt</em> is a concurrent programming library for OCaml, initially written by Jérôme Vouillon in 2001 for the <a href="https://github.com/bcpierce00/unison">Unison</a> file synchronizer. It provides an alternative to the more usual preemptive threads approach for programming concurrent applications, that avoids most problems of concurrent data access and deadlocks. It is used by Ocsigen Server and Eliom and has now become one of the standard ways to implement concurrent applications in OCaml. All your Web sites must be written in Lwt-compatible way!</p><div class="focused"><h3 id="how-it-works">How it works</h3><p>Instead of calling blocking functions, like <code>Unix.sleep</code> or <code>Unix.read</code>, that could block the entire program, replace them by their cooperative counterparts (<code>Lwt_unix.sleep</code>, <code>Lwt_unix.read</code>, etc.). Instead of taking time to execute, they always return immediately a <em>promise</em> of the result, of type <code>'a Lwt.t</code>. This type is abstract, and the only way to use the result is to <em>bind</em> a function to the promise. <code>Lwt.bind p f</code> means: &quot;when promise <code>p</code> is completed, give its result to function <code>f</code>&quot;.</p><p>Syntax <code>let%lwt x = p in e</code> is equivalent to <code>Lwt.bind p (fun x -&gt; e)</code> and makes it very natural to sequentialize computations without blocking the rest of the program.</p></div><p>To learn Lwt, read this <a href="lwt.html">short tutorial</a>, or its <a href="https://ocsigen.org/lwt/latest/">user manual</a>.</p><!--wodoc:unbalanced-end--><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="ocsigen-server:-a-full-featured-extensible-web-server-in-ocaml">Ocsigen Server: A full featured extensible Web server in OCaml</h2><p><!--wodoc:unbalanced-end--> Ocsigen Server can be used either as a library for you OCaml programs, or as an executable, taking its configuration from a file (and with dynamic linking).</p><p>Extensions add features to the server. For example, Staticmod makes it possible to serve static files, Deflatemod to compress the output, Redirectmod to configure redirections etc.</p><p>Install Ocsigen Server with:</p><pre>opam install ocsigenserver</pre><h3 id="use-as-a-library">Use as a library</h3><p>Let's create a new OCaml project with Dune:</p><pre>dune init project mysite</pre><p>To include a Web server in your OCaml program, just add package <code>ocsigenserver</code> to your Dune file, together with all the extensions you need. For example, modify file <code>bin/dune</code> like this:</p><pre>(executable
+ (public_name mysite)
+ (name main)
+ (libraries
+  ocsigenserver
+  ocsigenserver.ext.staticmod))</pre><p>The following command will launch a server, serving static files from directory <code>static</code>:</p><pre class="language-ocaml"><code>let () = 
+  Ocsigen_server.start [ Ocsigen_server.host [Staticmod.run ~dir:&quot;static&quot; ()]]</code></pre><p>Put this in file <code>bin/main.ml</code>, and run <code>dune exec mysite</code>.</p><p>By default, the server runs on port 8080. Create a <code>static</code> directory with some files and try to fetch them using your Web browser.</p><h3 id="use-as-an-executable">Use as an executable</h3><p>Alternatively, you can run command <code>ocsigenserver</code> with a configuration file:</p><pre>ocsigenserver -c mysite.conf</pre><p>The following configuration file corresponds to the program above:</p><pre>&lt;ocsigen&gt;
+  &lt;server&gt;
+    &lt;port&gt;8080&lt;/port&gt;
+    &lt;extension findlib-package=&quot;ocsigenserver.ext.staticmod&quot;/&gt;
+    &lt;host&gt;
+      &lt;static dir=&quot;static&quot; /&gt;
+    &lt;/host&gt;
+  &lt;/server&gt;
+&lt;/ocsigen&gt;</pre><!--wodoc:unbalanced-end--><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="eliom:-services">Eliom: Services</h2><p><!--wodoc:unbalanced-end--> The following code shows how to create a service that answers for requests at URL <code>http://.../aaa/bbb</code>, by invoking an Ocaml function <code>f</code> of type:</p><pre class="language-ocaml"><code>
+ f : (string * string) list -&gt; unit -&gt; string Lwt.t
+</code></pre><p>Function <code>f</code> generates HTML as a string, taking as first argument the list of URL parameters (GET parameters), and as second argument the list of POST parameters (here none).</p><pre class="language-ocaml"><code>
+let f _ () =
+  Lwt.return &quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;Hello world&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Welcome&lt;/body&gt;&lt;/html&gt;&quot;
+
+let myservice =
+  Eliom_service.create
+    ~path:(Eliom_service.Path [&quot;aaa&quot;; &quot;bbb&quot;])
+    ~meth:(Eliom_service.Get Eliom_parameter.any)
+    ()
+
+let () =
+  Eliom_registration.Html_text.register
+    ~service:myservice
+    f</code></pre><p><code>Eliom_service.Get Eliom_parameter.any</code> means that the service uses the GET HTTP method and takes any GET parameter. The first parameter of function <code>f</code> is an association list of GET parameters.</p><p>Module <code>Eliom_registration.Html_text</code> is used to register a service sending HTML as strings. But we recommend to used typed-HTML instead (see below).</p><!--wodoc:unbalanced-end--><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="compiling">Compiling</h2><!--wodoc:unbalanced-end--><p>In this section, we will show how to compile and run a <em>server-side only</em> Web site by creating your project manually.</p><h3 id="build-an-executable">Build an executable</h3><p>This section shows how to create a static executable for you program (without configuration file).</p><p>Run the following command:</p><pre>opam install ocsipersist-sqlite-config eliom
+dune init project --kind=lib mysite
+cd mysite</pre><p>Create the directories will we use for data (logs, etc.):</p><pre>mkdir -p local/var/log/mysite
+mkdir -p local/var/data/mysite
+mkdir -p local/var/run</pre><p>Add packages <code>ocsipersist-sqlite</code> and <code>eliom.server</code> to file <code>bin/dune</code>, in the &quot;libraries&quot; section.</p><p>Copy the definition and registration of service <code>myservice</code> at the beginning of file <code>bin/main.ml</code>, and replace the call to <code>Ocsigen_server.start</code> by the following lines:</p><pre class="language-ocaml"><code>let () = 
+  Ocsigen_server.start 
+    ~command_pipe:&quot;local/var/run/mysite-cmd&quot;
+    ~logdir:&quot;local/var/log/mysite&quot;
+    ~datadir:&quot;local/var/data/mysite&quot;
+    [
+      Ocsigen_server.host
+       [ Staticmod.run ~dir:&quot;local/var/www/mysite&quot; ()
+       ; Eliom.run () ]
+    ]</code></pre><p>Build and execute the program with:</p><pre>dune exec mysite</pre><p>Open URL <code>http://localhost:8080/aaa/bbb</code> with your browser.</p><h3 id="use-with-ocsigenserver">Use with ocsigenserver</h3><p>Alternatively, you can decide to build your Eliom app as a library and load it dynamically into ocsigenserver using a configuration file.</p><pre>opam install ocsipersist-sqlite-config eliom
+dune init proj --kind=lib mysite
+cd mysite</pre><p>Add <code>(libraries eliom.server)</code> into file <code>lib/dune</code>.</p><p>Create the directories will we use for data (logs, etc.):</p><pre>mkdir -p local/var/log/mysite
+mkdir -p local/var/data/mysite
+mkdir -p local/var/run</pre><p>Create your <code>.ml</code> files in directory <code>lib</code>. For example, copy the definition and registration of service <code>myservice</code> above.</p><p>Compile:</p><pre>dune build</pre><p>Create a configuration file <code>mysite.conf</code> with this content on your project root directory:</p><pre>&lt;ocsigen&gt;
+  &lt;server&gt;
+    &lt;port&gt;8080&lt;/port&gt;
+
+    &lt;logdir&gt;local/var/log/mysite&lt;/logdir&gt;
+    &lt;datadir&gt;local/var/data/mysite&lt;/datadir&gt;
+    &lt;charset&gt;utf-8&lt;/charset&gt;
+
+    &lt;commandpipe&gt;local/var/run/mysite-cmd&lt;/commandpipe&gt;
+    &lt;extension findlib-package=&quot;ocsigenserver.ext.staticmod&quot;/&gt;
+    &lt;extension findlib-package=&quot;ocsipersist-sqlite-config&quot;/&gt;
+    &lt;extension findlib-package=&quot;eliom.server&quot;/&gt;
+    &lt;host hostfilter=&quot;*&quot;&gt;
+      &lt;static dir=&quot;local/var/www/mysite&quot; /&gt;
+      &lt;eliommodule module=&quot;_build/default/lib/mysite.cma&quot; /&gt;
+      &lt;eliom/&gt;
+    &lt;/host&gt;
+  &lt;/server&gt;
+&lt;/ocsigen&gt;</pre><p>Launch the application:</p><pre>ocsigenserver -c mysite.conf</pre><p>Open URL <code>http://localhost:8080/aaa/bbb</code> with your browser. <!--wodoc:unbalanced-end--></p><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="tyxml:-typing-html">TyXML: typing HTML</h2><!--wodoc:unbalanced-end--><p>TyXML statically checks that your OCaml functions will never generate wrong HTML. For example a program that could generate a paragraph containing another paragraph will be rejected at compile time.</p><p>Example of use:</p><pre class="language-ocaml"><code>let open Eliom_content.Html.F in
+html
+  (head (title (txt &quot;Ex&quot;)) [])
+  (body [h1 ~a:[a_id &quot;toto&quot;; a_class [&quot;blah&quot;; &quot;blih&quot;]]
+           [txt &quot;Hallo!&quot;]])</code></pre><div class="focused"><h3 id="how-it-works_2">How it works</h3><p>TyXML builds the page as an OCaml data-structure using a construction function for each HTML tag. These functions take as parameters and return nodes of type <code>'a elt</code> where <code>'a</code> is a polymorphic variant type added in the module signature to constrain usage (phantom type).</p></div><h3 id="example-of-typing-error">Example of typing error</h3><pre class="language-ocaml"><code>p [p [txt &quot;Aïe&quot;]]
+   ^^^^^^^^^^^^^
+Error: This expression has type
+         ([&gt; Html_types.p ] as 'a) Eliom_content.Html.F.elt =
+           'a Eliom_content.Html.elt
+       but an expression was expected of type
+         ([&lt; Html_types.p_content_fun ] as 'b) Eliom_content.Html.F.elt =
+           'b Eliom_content.Html.elt
+       Type 'a = [&gt; `P ] is not compatible with type
+         'b =
+           [&lt; `A of Html_types.phrasing_without_interactive
+            | `Abbr
+            | `Audio of Html_types.phrasing_without_media
+            ...
+            | `Output
+            | `PCDATA
+            | `Progress
+            | `Q
+            ...
+            | `Wbr ]
+       The second variant type does not allow tag(s) `P</code></pre><p>Read more about TyXML in this <a href="html.html">short tutorial</a> or in its <a href="https://ocsigen.org/tyxml/latest/">user manual</a>.</p><!--wodoc:unbalanced-end--><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="eliom:-service-returning-typed-html">Eliom: Service returning typed HTML</h2><!--wodoc:unbalanced-end--><p>To use typed HTML, just replace module <code>Eliom_registration.Html_text</code> by <code>Eliom_registration.Html</code>:</p><pre class="language-ocaml"><code>
+let f _ () =
+  Lwt.return
+    Eliom_content.Html.F.(html (head (title (txt &quot;&quot;)) [])
+                               (body [h1 [txt &quot;Hello&quot;]]))
+
+let myservice =
+  Eliom_service.create
+    ~path:(Eliom_service.Path [&quot;aaa&quot;; &quot;bbb&quot;])
+    ~meth:(Eliom_service.Get Eliom_parameter.any)
+    ()
+
+let () =
+  Eliom_registration.Html.register
+    ~service:myservice
+    f</code></pre><h3 id="outputs">Outputs</h3><p>Services can return a typed HTML page as in the example above, but also any other kind of result. To choose the return type, use the register function from the corresponding submodule of <code>Eliom_registration</code>:</p><div><table class="odoc-table"><tr><td><p><span class="xref-unresolved" title="Eliom_registration.Html">Html</span></p></td><td><p>Services returning typed HTML pages</p></td></tr><tr><td><p><span class="xref-unresolved" title="Eliom_registration.Html">Html_text</span></p></td><td><p>Services returning untyped HTML pages as strings</p></td></tr><tr><td><p><span class="xref-unresolved" title="Eliom_registration.ELIOM_APPL">App</span></p></td><td><p>Apply this functor to generate registration functions for services belonging to an Eliom client/server application. These services also return typed HTML pages, but Eliom will automatically add the client-side program as a JS file, and all the data needed (values of all injections, etc.)</p></td></tr><tr><td><p><span class="xref-unresolved" title="Eliom_registration.Flow5">Flow</span></p></td><td><p>Services returning portions of HTML pages.</p></td></tr><tr><td><p><span class="xref-unresolved" title="Eliom_registration.Action">Action</span></p></td><td><p>Services performing actions (server side effects) with or without reloading the page (e.g. login, logout, payment, modification of user information...)</p></td></tr><tr><td><p><span class="xref-unresolved" title="Eliom_registration.File">Files</span></p></td><td><p>Serve files from the server hard drive</p></td></tr><tr><td><p><span class="xref-unresolved" title="Eliom_registration.Ocaml">Ocaml</span></p></td><td><p>Services returning OCaml values to be sent to a client side OCaml program (this kind of services is used as low level interface for server functions -- see below)</p></td></tr><tr><td><p><span class="xref-unresolved" title="Eliom_registration.String">String</span></p></td><td><p>Services returning any OCaml string (array of byte)</p></td></tr><tr><td><p><span class="xref-unresolved" title="Eliom_registration.Redirection">Redirection</span></p></td><td><p>Services returning an HTTP redirection to another service</p></td></tr><tr><td><p><span class="xref-unresolved" title="Eliom_registration.Any">Any</span></p></td><td><p>To be used to make the service chose what it sends. Call function <code>send</code> from the corresponding module to choose the output.</p></td></tr><tr><td><p><span class="xref-unresolved" title="Eliom_registration.Customize">Customize</span></p></td><td><p>Apply this functor to define your own registration module</p></td></tr></table></div><p><!--wodoc:unbalanced-end--></p><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="eliom:-typing-page-parameters">Eliom: Typing page parameters</h2><!--wodoc:unbalanced-end--><p>Instead of taking GET parameters as an untyped <code>string * string</code> association list, you can ask Eliom to decode and check parameter types automatically.</p><p>For example, the following code defines a service at URL <code>/foo</code>, that will use GET HTTP method, and take one parameter of type <code>string</code>, named <code>s</code>, and one of type <code>int</code>, named <code>i</code>.</p><pre class="language-ocaml server"><code>let myservice =
+  Eliom_service.create
+    ~path:(Eliom_service.Path [&quot;foo&quot;])
+    ~meth:(Eliom_service.Get (Eliom_parameter.(string &quot;s&quot; ** int &quot;i&quot;)))
+    ()</code></pre><p>Then register an OCaml function as handler on this service:</p><pre class="language-ocaml server"><code>let () =
+  Eliom_registration.Html.register ~service:myservice
+    (fun (s, i) () -&gt;
+      Lwt.return
+         Eliom_content.Html.F.(html (head (title (txt &quot;&quot;)) [])
+                                    (body [h1 [txt (s^string_of_int i)]])))</code></pre><p>The handler takes as first parameter the GET page parameters, typed according to the parameter specification given while creating the service. The second parameter is for POST parameters (see below).</p><p>Recompile you program, and to to URL <code>http://localhost:8080/foo?s=hello&amp;i=22</code> to see the result.</p><h3 id="parameters">Parameters</h3><p>Module <code>Eliom_parameter</code> is used to describe the type of service parameters.</p><p>Examples:</p><pre class="language-ocaml"><code>Eliom_parameter.(int &quot;i&quot; ** (string &quot;s&quot; ** bool &quot;b&quot;))
+   (* /path?i=42&amp;s=toto&amp;b=on *)
+
+Eliom_parameter.(int &quot;i&quot; ** opt (string &quot;s&quot;))
+   (* An integer named i, and an optional string named s *)
+
+Eliom_parameter.(int &quot;i&quot; ** any)
+   (* An integer named i, and any other parameters, as an association list
+      of type (string * string) list *)
+
+Eliom_parameter.(set string &quot;s&quot;)
+   (* /path?s=toto&amp;s=titi&amp;s=bobo *)
+
+Eliom_parameter.(list &quot;l&quot; (int &quot;i&quot;))
+   (* /path?l[0]=11&amp;l[1]=2&amp;l[2]=42 *)
+
+Eliom_parameter.(suffix (int &quot;year&quot; ** int &quot;month&quot;))
+   (* /path/2012/09 *)
+
+Eliom_parameter.(suffix_prod (int &quot;year&quot; ** int &quot;month&quot;) (int &quot;a&quot;))
+   (* /path/2012/09?a=4 *)
+</code></pre><!--wodoc:unbalanced-end--><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="eliom:-post-services">Eliom: POST services</h2><!--wodoc:unbalanced-end--><p>To define a service with POST parameters, just change the <code>~meth</code> parameter. For example the following example takes the same GET parameters as the service above, plus one POST parameter of type string, named &quot;mypostparam&quot;.</p><pre class="language-ocaml server"><code>~meth:(Eliom_service.Post (Eliom_parameter.((string &quot;s&quot; ** int &quot;i&quot;),
+                                            (string &quot;mypostparam&quot;))))</code></pre><!--wodoc:unbalanced-end--><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="eliom:-other-kinds-of-services">Eliom: Other kinds of services</h2><!--wodoc:unbalanced-end--><p>The detailed explanation of services can be found in <a href="https://ocsigen.org/eliom/latest/server-services.html">Eliom's manual</a>. Here is a summary:</p><h3 id="pathless-services">Pathless services</h3><p>Pathless services are not identified by the path in the URL, but by a name given as parameter, regardless of the path. Use this to make a functionality available from all pages (for example: log-in or log-out actions, add something in a shopping basket ...). The name can be specified manually using the <code>~name</code> optional parameter, otherwise, a random name is generated automatically. This is also used to implement server functions (see below). If you are programming a client-server Eliom app, you will often prefer remote procedure calls (`let%rpc`).</p><pre class="language-ocaml server"><code>let pathless_service =
+  Eliom_service.create
+    ~name:&quot;pathless_example&quot;
+    ~path:Eliom_service.No_path
+    ~meth:(Eliom_service.Get (Eliom_parameter.(int &quot;i&quot;)))
+    ()</code></pre><p>More information <a href="https://ocsigen.org/eliom/latest/server-services.html#pathless">in the manual</a>.</p><h3 id="attached-services">Attached services</h3><p>It is also possible to create services identified by both a path and a special parameter, using functions <code>Eliom_service.create_attached_get</code> or <code>Eliom_service.create_attached_post</code>. They take a regular service (with a path) as parameter (<code>~fallback</code>).</p><p>It is also possible to attach an existing pathless service to the URL of another service, with function <code>Eliom_service.attach</code>. This allows for example to create a link towards a pathless service, but on another path.</p><h3 id="external-services">External services</h3><p>Use <code>Eliom_service.extern</code> to create links or forms towards external Web sites as if they were Eliom services.</p><h3 id="predefined-services">Predefined services</h3><p>Use service <span class="xref-unresolved" title="Eliom_service.static_dir">(Eliom_service.static_dir ())</span> to create links towards static files (see example below for images).</p><p>Use service <code>Eliom_service.reload_action</code> and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call <code>Os_lib.reload</code> to reload the page and restart the client-side program.</p><p><a href="https://ocsigen.org/eliom/latest/server-services.html">Full documentation about services</a>, <a href="interaction.html">a tutorial about traditional service based Web programming</a>, API documentation of modules <code>Eliom_service</code> and <code>Eliom_registration</code>.</p><p>This example shows how to insert an image using <code>static_dir</code>:</p><pre class="language-ocaml"><code>img
+  ~alt:&quot;blip&quot;
+  ~src:(Eliom_content.Html.F.make_uri
+         (Eliom_service.static_dir ())
+         [&quot;dir&quot; ; &quot;image.jpg&quot;])
+  ()</code></pre><!--wodoc:unbalanced-end--><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="forms-and-links">Forms and links</h2><!--wodoc:unbalanced-end--><p>Function <span class="xref-unresolved" title="Eliom_form_sigs.LINKS.a">Eliom_content.Html.F.a</span> creates typed links to services with their parameters. For example, if <code>home_service</code> expects no parameter and <code>other_service</code> expects a string and an optional int:</p><pre class="language-ocaml"><code>Eliom_content.Html.F.a ~service:home_service [txt &quot;Home&quot;] ()
+Eliom_content.Html.F.a ~service:other_service [txt &quot;Other&quot;] (&quot;hello&quot;, Some 4)</code></pre><p>Module <code>Eliom_content.Html.F</code> defines the form's elements with the usual typed interface from TyXML. Use this for example if you have a client side program and want to manipulate the form's content from client side functions (for example do a server function call with the form's elements' content).</p><p>In contrast, module <span class="xref-unresolved" title="Eliom_content_sigs.LINKS_AND_FORMS.Form">Eliom_content.Html.F.Form</span> defines a typed interface for form elements. Use this for links (see above), or if you program traditional server-side Web interaction (with or without client-side program). This will statically check that your forms match the services. Example:</p><pre class="language-ocaml"><code>let open Eliom_content.Html.F in
+Form.post_form
+ ~service:connection_service
+   (fun (name, password) -&gt;
+     [fieldset
+       [label ~a:[a_label_for &quot;loginname&quot;] [txt &quot;Name: &quot;];
+        Form.input ~a:[a_id &quot;loginname&quot;] ~input_type:`Text ~name Form.int;
+        br ();
+        Form.input
+          ~a:[a_placeholder &quot;Password&quot;]
+          ~input_type:`Password
+          ~name:password
+          Form.string;
+        br ();
+        Form.input ~input_type:`Submit ~value:&quot;Connect&quot; Form.string
+      ]]) ()
+</code></pre><p>As you can see, function <span class="xref-unresolved" title="Eliom_content_sigs.LINKS_AND_FORMS.Form.post_form">Eliom_content.Html.F.Form.post_form</span> is used to create a form sending parameters using the POST HTTP method (and similarly, <span class="xref-unresolved" title="Eliom_content_sigs.LINKS_AND_FORMS.Form.get_form">get_form</span> for GET method). It takes the service as first parameter, and a function that will generate the form. This function takes the names of the GET or POST parameters as arguments.</p><p>Form elements (like inputs) are also built from using the <span class="xref-unresolved" title="Eliom_content_sigs.LINKS_AND_FORMS.Form">Eliom_content.Html.F.Form</span> module. They take the names as parameters, and a last parameter (like <code>Form.int</code> or <code>Form.string</code>) to match the expected type.</p><!--wodoc:unbalanced-end--><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="sessions">Sessions</h2><!--wodoc:unbalanced-end--><p>Session data is saved on server side in <em>Eliom references</em>.</p><p>The following Eliom reference will count the number of visits of a user on a page:</p><pre class="language-ocaml server"><code>let%server count_ref =
+  Eliom_reference.eref
+    ~scope:Eliom_common.default_session_scope
+    0 (* default value for everyone *)</code></pre><p>And somewhere in your service handler, increment the counter:</p><pre class="language-ocaml server"><code>let%lwt count = Eliom_reference.get count_ref in
+Eliom_reference.set count_ref (count + 1);
+Lwt.return ()</code></pre><p>With function <code>Eliom_reference.eref_from_fun</code>, you can create Eliom references without initial value. The initial value is computed for the session the first time you use it.</p><p>An Eliom reference can be persistant (value saved on hard drive) or volatile (in memory).</p><h3 id="scopes">Scopes</h3><p>Sessions are relative to a browser, and implemented using browser cookies. But Eliom allows to create Eliom references with other <em>scopes</em> than session:</p><table class="odoc-table"><tr><td><p><span class="xref-unresolved" title="Eliom_common.global_scope">global_scope</span></p></td><td><p>Global value for all the Web server</p></td></tr><tr><td><p><span class="xref-unresolved" title="Eliom_common.site_scope">site_scope</span></p></td><td><p>Global value for the Eliom app in that subsite of the Web site</p></td></tr><tr><td><p><span class="xref-unresolved" title="Eliom_common.default_group_scope">default_group_scope</span></p></td><td><p>Value for a group of sessions. For example Ocsigen Start defines a group of session for each user, making it possible to save server side data for all sessions of a user.</p></td></tr><tr><td><p><span class="xref-unresolved" title="Eliom_common.default_session_scope">default_session_scope</span></p></td><td><p>The usual session data, based on browser cookies</p></td></tr><tr><td><p><span class="xref-unresolved" title="Eliom_common.default_process_scope">default_process_scope</span></p></td><td><p>Server side data for a given client-side process (a tab of the browser or a mobile app). This is available only with a client-server Eliom app.</p></td></tr></table><p>Applications based on Ocsigen Start use these scopes for user management. Session or client process data are discarded when a user logs in or out. But Ocsigen Start also defines scopes <code>Os_session.user_indep_session_scope</code> and <code>Os_session.user_indep_process_scope</code> which remain even if a user logs in or out.</p><p>When session group is not set (for example the user is not connected), you can still use the group session scope: in that case, the group contains only one session.</p><!--wodoc:unbalanced-end--><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="browser-events">Browser events</h2><p><!--wodoc:unbalanced-end--> By default, event handlers on HTML elements are given as OCaml functions, but it works only if you have a client-server Eliom program. If not, you want to give a javascript expression (as a string) instead. To so that, use attributes functions from module <code>Raw</code>. For example <code>Eliom_content.Html.F.Raw.a_onclick</code> instead of <code>Eliom_content.Html.F.a_onclick</code>.</p><p>Example:</p><pre class="language-ocaml server"><code>Eliom_content.Html.F.(button ~a:[Raw.onclick &quot;alert(\&quot;beep\&quot;);&quot;] [txt &quot;click&quot;])</code></pre><!--wodoc:unbalanced-end--><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="database-access">Database access</h2><!--wodoc:unbalanced-end--><p>You can use your favourite database library with Ocsigen. Ocsigen Start's template uses <a href="https://github.com/darioteixeira/pgocaml">PG'OCaml</a> (typed queries for Postgresql using a PPX syntax extension).</p><p>Here is an example, taken from Ocsigen Start's demo:</p><pre class="language-ocaml server"><code>let get () =
+  full_transaction_block (fun dbh -&gt;
+    [%pgsql dbh &quot;SELECT lastname FROM ocsigen_start.users&quot;])</code></pre><!--wodoc:unbalanced-end--><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="continuation-based-web-programming">Continuation-based Web programming</h2><!--wodoc:unbalanced-end--><p>Eliom allows the dynamic creation of temporary services. This is equivalent to a programming pattern known as &quot;continuation-based Web programming&quot;. While present in very few Web frameworks, it is a very powerful feature that can save you a lot of time when programming a server-side website. A typical use case is when you have a series of pages, each of which depending on the entries made on the previous pages, for example a multi-step train ticket booking.</p><p>Implementing that without continuation-based Web programming is tedious: you must store the data previously sent by the user and find a way to get it for each step of the interaction. It is not possible to save it as session data, as you want for example to be able to have several different interactions in different tabs of your browser, or to press the back button of your browser to go back in the past. This is known as &quot;the back button problem&quot;.</p><p>With Eliom, you just need to create new temporary services especially for one user, that will depend on previous interaction with them. The form data will be recorded in the closure of the service handler function. In our example, you can implement a first page with a form (departure, destination, date, first name, last name ...). The form sends this data to another service. This second service will display a list of train tickets, each with a link to buy the ticket. Each of these links corresponds to a service that has been specifically created for this user and train, which will display the payment page for this ticket.</p><p>To implement temporary services, we usually use pathless or attached services (see above). To avoid a memory leak, you can make them temporary using optional parameters of the service creation function (<code>?max_use</code> or <code>?timeout</code>).</p><!--wodoc:unbalanced-end--><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="internationalisation">Internationalisation</h2><!--wodoc:unbalanced-end--><p><a href="https://github.com/besport/ocsigen-i18n">Ocsigen i18n</a> is an internationalisation library for your OCaml programs.</p><p>Create a .tsv file with, on each line, a key and the text in several languages:</p><pre>welcome_message Welcome everybody!        Bienvenue à tous !      Benvenuti a tutti !</pre><p>and Ocsigen i18n will automatically generate functions like this one:</p><pre class="language-ocaml shared"><code>let%shared welcome_message ?(lang = get_language ()) () () =
+  match lang with
+  | En -&gt; [txt &quot;Welcome everybody!&quot;]
+  | Fr -&gt; [txt &quot;Bienvenue à tous !&quot;]
+  | It -&gt; [txt &quot;Benvenuti a tutti !&quot;]</code></pre><p>Ocsigen i18n also defines a syntax extension to use these functions:</p><pre class="language-ocaml shared"><code>  Eliom_content.Html.F.h1 [%i18n welcome_message]</code></pre><p>Ocsigen i18n offers many other features:</p><ul><li>Text can be inserted as a TyXML node (as in the example above) or as a string (ex: <code>[%i18n S.welcome_message]</code>),</li><li>Text can be parametrizable, or contain holes (ex: <code>[%i18n welcome ~capitalize:true ~name:&quot;William&quot;]</code>)</li><li>.tsv file can be split into several modules</li></ul><p>Have a look at the <a href="https://github.com/besport/ocsigen-i18n">README file</a> to see the full documentation, and see examples in <a href="https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_i18n.eliom">Ocsigen Start's template</a>.</p><!--wodoc:unbalanced-end--><p><!--wodoc:unknown:section--> <!--wodoc:unknown:header--></p><h2 id="ocsigen-server">Ocsigen Server</h2><!--wodoc:unbalanced-end--><p><em>Ocsigen Server</em> is a full featured Web server.</p><p>It is now based on <a href="https://github.com/mirage/ocaml-cohttp">Cohttp</a>.</p><p>It has a powerful extension mechanism that makes it easy to plug your own OCaml modules for generating pages. Many extensions are already written: ;<a href="https://ocsigen.org/ocsigenserver/latest/staticmod.html">Staticmod</a> : to serve static files. ;<a href="https://ocsigen.org/eliom/latest/">Eliom</a> : to create reliable client/server Web applications or Web sites in OCaml using advanced high level concepts. ;<a href="https://ocsigen.org/ocsigenserver/latest/extendconfiguration.html">Extendconfiguration</a> : allows for more options in the configuration file. ;<a href="https://ocsigen.org/ocsigenserver/latest/accesscontrol.html">Accesscontrol</a> : restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.). ;<a href="https://ocsigen.org/ocsigenserver/latest/authbasic.html">Authbasic</a> : restricts access to the sites from the config file using Basic HTTP Authentication. ;CGImod : serves CGI scripts. It may also be used to serve PHP through CGI. ;<a href="https://ocsigen.org/ocsigenserver/latest/deflatemod.html">Deflatemod</a> : used to compress data before sending it to the client. ;<a href="https://ocsigen.org/ocsigenserver/latest/redirectmod.html">Redirectmod</a> : sets redirections towards other Web sites from the configuration file. ;<a href="https://ocsigen.org/ocsigenserver/latest/revproxy.html">Revproxy</a> : a reverse proxy for Ocsigen Server. It allows to ask another server to handle the request. ;<a href="https://ocsigen.org/ocsigenserver/latest/rewritemod.html">Rewritemod</a> : changes incoming requests before sending them to other extensions. ;<a href="https://ocsigen.org/ocsigenserver/latest/outputfilter.html">Outputfilter</a> : rewrites some parts of the output before sending it to the client. ;<a href="https://ocsigen.org/ocsigenserver/latest/userconf.html">Userconf</a> : allows users to have their own configuration files. ;Comet : facilitates server to client communications.</p><p>Ocsigen Server has a <a href="https://ocsigen.org/ocsigenserver/latest/config.html">sophisticated configuration</a> file mechanism allowing complex configurations of sites.</p><!--wodoc:unbalanced-end-->
+      </article>
+    </div>
+  </div>
+
+  <script>
+    var wodocPub = "/tuto";
+    // Switch version: keep the current page, swapping only the version segment.
+    function wodocVersion(v) {
+      if (!v) return;
+      var re = new RegExp('^(' + wodocPub + '/)[^/]+');
+      var p = location.pathname;
+      location.href =
+        re.test(p) ? p.replace(re, '$1' + v) : wodocPub + '/' + v + '/index.html';
+    }
+    // Build the version <select> from the project's versions.json (the single
+    // source of truth, refreshed on every build/release), so even older frozen
+    // pages list the current set. Falls back to the baked <option>s on failure.
+    (function () {
+      var seg = (location.pathname.match(
+        new RegExp('^' + wodocPub + '/([^/]+)')) || [])[1];
+      function select(sel) {
+        var i;
+        for (i = 0; i < sel.options.length; i++)
+          if (sel.options[i].value === seg) { sel.selectedIndex = i; return; }
+        if (seg) {
+          var o = document.createElement('option');
+          o.value = seg; o.textContent = seg; o.selected = true;
+          sel.insertBefore(o, sel.firstChild);
+        }
+      }
+      fetch(wodocPub + '/versions.json')
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (m) {
+          var list = m.list || [], latest = m.latest;
+          document.querySelectorAll('.wodoc-version').forEach(function (sel) {
+            sel.innerHTML = '';
+            list.forEach(function (v) {
+              var o = document.createElement('option');
+              if (v === latest) { o.value = 'latest'; o.textContent = v + ' (latest)'; }
+              else { o.value = v; o.textContent = v; }
+              sel.appendChild(o);
+            });
+            select(sel);
+          });
+        })
+        .catch(function () {
+          document.querySelectorAll('.wodoc-version').forEach(select);
+        });
+    })();
+  </script>
+</body>
+</html>

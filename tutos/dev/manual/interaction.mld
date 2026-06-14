@@ -156,7 +156,7 @@ let user_service =
     (fun name () -> ... )
 ]}
 
-The user pages are now available at URLs {%wodoc:span class="code"%}~http:~{e localhost:8080/users~}/username{e {%wodoc:end%}.
+The user pages are now available at URLs {%wodoc:span class="code"%}http://localhost:8080/users/{e username}{%wodoc:end%}.
 
 {%wodoc:aside class="concept"%}{b Concept: Using parts of the path as page parameters}
 
@@ -172,7 +172,7 @@ standard GET parameters. You can also accept, as parameters, parts of
 the path that are not a suffix of the path (using {!Eliom.Parameter.const}).  See more information
 on suffixes in {{:/eliom/latest/server-params.html#suffixes}Eliom's manual}.
 
-}Warning:{e  Even if it is not displayed in the URL, suffix parameters
+{e Warning:} Even if it is not displayed in the URL, suffix parameters
 have a parameter name. This allows one to make forms that point to
 those kind of services.  Actually each "suffix service" has an
 equivalent without suffix (which is by default automatically
@@ -214,8 +214,8 @@ Eliom.Content.Html.D.a} accepts the following parameters:
 
 Thus, you don't have to know the precise URL of the service you want
 to link to, and if the URL changes, all links will remain valid.
-Using this function has a wonderful consequence: }You will never have
-broken links!{e 
+Using this function has a wonderful consequence: {e You will never have
+broken links!}
 
 {%wodoc:end%} 
 
@@ -307,10 +307,10 @@ You can use any OCaml database binding (for example
 {{:http://pgocaml.forge.ocamlcore.org/}PGOcaml} to program
 database queries). We will use our own database library called
 {{:https://github.com/ocsigen/macaque}Macaque}, which implements typed requests using
-}comprehensions{e .
+{e comprehensions}.
 
-}Just remember that your query functions must be cooperative with
-Lwt!{e  For example PGOcaml is now implemented in monadic way, which
+{e Just remember that your query functions must be cooperative with
+Lwt!} For example PGOcaml is now implemented in monadic way, which
 makes it 100% compatible with Lwt. Macaque (the library we use later
 in this tutorial) is as well.
 
@@ -336,7 +336,7 @@ Fallback service
 
 Now we want to add a connection form.  First, we create a service
 for checking the name and password.  Since we don't want the username
-and password to be shown in the URL, we use }hidden parameters{e 
+and password to be shown in the URL, we use {e hidden parameters}
 (or POST parameters).  Thus, we need to create a new service taking
 these parameters:
 
@@ -358,7 +358,7 @@ or {!Eliom.Service.create_attached_post}
 As you can see, there is a major
 difference from the way we created our previous services.
 Instead of providing a path for the [~path] argument, we gave a
-}fallback{e  service. This }fallback{e  is the service that will be used
+{e fallback} service. This {e fallback} is the service that will be used
 if the POST parameters are missing (for example, the user sets a bookmark
 on the page and returns later without POST parameters).
 This way, we will not get 404 errors if this occurs.
@@ -389,7 +389,7 @@ Remember:
   server (connecting a user, add something in a database, perform a
   payment, etc.).
 
-}Warning:{e  Even if POST parameters are not shown in the URL, they
+{e Warning:} Even if POST parameters are not shown in the URL, they
 are sent as plain text. If you want to transmit private data (like a password),
 you must
 use HTTPS (see {{:/ocsigenserver/latest/config.html}the Ocsigen server manual}).  {%wodoc:end%}
@@ -580,12 +580,12 @@ let connection_box () = Eliom.Content.Html.D.(
 
 
 
-Session data is stored in what we call }Eliom references{e .
+Session data is stored in what we call {e Eliom references}.
 It is a type of reference whose value depend on the session the user
 belongs to.
 
 Eliom is making the notion of session much more powerful by adding
-other }scopes{e  for Eliom references. Instead of limiting the scope
+other {e scopes} for Eliom references. Instead of limiting the scope
 to a session (that is: one browser), it is also possible to create
 Eliom references with scope
 - "client-side process"
@@ -595,7 +595,7 @@ later) ([~scope:Eliom.Common.default_group_scope]),
 - or "current
 request" ([~scope:Eliom.Common.request_scope])
 (for example to cache the data during the request,
-or for }actions{e  to give information to subsequent service -- see below).
+or for {e actions} to give information to subsequent service -- see below).
 
 Example: Say you want to implement a game, and make possible to have several instances of the game running in several tabs of the browser. Store the score on server side, as a "client side process" Eliom reference.
 
@@ -611,7 +611,7 @@ been changed using [Eliom.Reference.set].
 
 By default, Eliom references are kept in memory and will disappear if
 you shut down the server. It is possible, however, to create
-}persistent Eliom references{e  that will survive even a server
+{e persistent Eliom references} that will survive even a server
 restart. To do that, add the optional parameter [persistent] to
 the [eref] function, with a string value corresponding to the name
 of the table that will contain the values on disk.
@@ -640,7 +640,7 @@ which is different from the main page in connected mode.  We would
 rather display the same page.  One solution is to call the same
 handler after registering session data.
 
-A cleaner solution is to use an }action{e , that is: a service which will
+A cleaner solution is to use an {e action}, that is: a service which will
 just perform a side effect.  Replace the registration
 of the connection service by:
 
@@ -659,7 +659,7 @@ Now the main page is displayed after connection.
 
 
 
-An }action{e  is a service that performs a side effect and redisplays
+An {e action} is a service that performs a side effect and redisplays
 the current page. The handler function returns [()].
 
 {%wodoc:end%}
@@ -694,9 +694,9 @@ page of a site is complicated, and is approached in one of two ways:
 With Eliom, this is more straightforward:
 
 - For the connection service, we use a kind of service called
-  }non-attached coservice{e , which means that it is not attached to
+  {e non-attached coservice}, which means that it is not attached to
   any path in particular. Calling this kind of service will not change
-  the }path{e  you see in the browser URL bar (just add parameters if
+  the {e path} you see in the browser URL bar (just add parameters if
   you use the GET method).
 - Use an action to connect the user and redisplay the page
   corresponding to the current URL.
@@ -906,7 +906,7 @@ let connection_box () = Eliom.Content.Html.D.(
 
 
 Now we want to return to the main page after account creation.  We are
-using an }attached coservice{e , that is, a service that is identified
+using an {e attached coservice}, that is, a service that is identified
 by both the path in the URL and a special coservice number (or name).
 A form to such a service will change the path and send parameters
 together with the coservice identifier (added automatically in an
@@ -940,7 +940,7 @@ Limited services
 {%wodoc:end%}
 
 Now we want to add a confirmation page before actually creating the
-account.  We }replace{e  the service [create_account_service] by a
+account.  We {e replace} the service [create_account_service] by a
 new POST attached coservice called [account_confirmation_service]:
 
 {@ocaml[
@@ -1014,8 +1014,8 @@ In this simple example, an alternative would have been to send
 registration form" example. But this solution is not possible when you
 have too much data.
 
-}Saving [name] and [pwd] as session data is a wrong
-solution!{e  If the user duplicates his browser window and fills out
+{e Saving [name] and [pwd] as session data is a wrong
+solution!} If the user duplicates his browser window and fills out
 the user creation form in both, then the confirmation link must create
 the right account!
 
@@ -1027,9 +1027,9 @@ implemented. However, Eliom's solution is much simpler.
 The ability to register new services dynamically is implemented in few
 web frameworks, even though it simplifies a lot the programmating
 involved with that type of web interaction.  This feature is a variant
-of what is called }continuation based web programming{e .  Think about
-it when you want to }create a page that depends on previous
-interaction with the user{e . Dynamic registration of services will
+of what is called {e continuation based web programming}.  Think about
+it when you want to {e create a page that depends on previous
+interaction with the user}. Dynamic registration of services will
 automatically record the "history" of the interaction, and make
 possible to use the "back button" or to have several tabs on the same
 site.
@@ -1039,11 +1039,11 @@ Examples of uses:
 - programming a "several step form" (when a form points at another
   one, etc., like our registration form with confirmation).
 
-On the other hand, if you want to implement a }shopping basket{e , you
+On the other hand, if you want to implement a {e shopping basket}, you
 want it to be shared between all tabs of your web site.  To do that,
 you will use session data.
 
-}Warning:{e  Services are kept in memory. To avoid memory leaks, you
+{e Warning:} Services are kept in memory. To avoid memory leaks, you
 probably want to put a timeout on your dynamic coservices. Just add
 the optional parameter [?timeout] to the service creation
 function.

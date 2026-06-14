@@ -118,7 +118,7 @@ CLIENT_PACKAGES := lwt_ppx ppx_deriving_yojson js_of_ocaml-ppx js_of_ocaml-ppx.d
 ]}
 
 This is due to the fact, that in the code snippet above we use a syntax extension
-provided by the [ppx_deriving_yojson] package.{e 
+provided by the [ppx_deriving_yojson] package.
 {%wodoc:end%}
 
 {1:services Services definition}

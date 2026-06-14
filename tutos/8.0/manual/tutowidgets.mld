@@ -26,7 +26,7 @@ content. Furthermore, it is possible to group some of the boxes
 together to make them behave like radio buttons: when you open one of
 them, the previously opened one is closed.
 
-{%wodoc:@ class="screenshot"%}{%wodoc:img src="files/tutorial/tutowidgets/ex-final.png" alt="screenshot"%}
+{%wodoc:div class="screenshot"%}{%wodoc:img src="files/tutorial/tutowidgets/ex-final.png" alt="screenshot"%}{%wodoc:end%}
 
 
 
@@ -98,7 +98,7 @@ Download the
 and place it in directory [static/css].
 Then open a browser window and go to URL [http://localhost:8080].
 
-{%wodoc:@ class="screenshot"%}{%wodoc:img src="files/tutorial/tutowidgets/ex1.png" alt="screenshot"%}
+{%wodoc:div class="screenshot"%}{%wodoc:img src="files/tutorial/tutowidgets/ex1.png" alt="screenshot"%}{%wodoc:end%}
 
 {2 More explanations}
 
@@ -237,7 +237,7 @@ let%shared mywidget s1 s2 =
   ...
 ]}
 
-{%wodoc:@ class="screenshot"%}{%wodoc:img src="files/tutorial/tutowidgets/ex2.png" alt="screenshot"%}
+{%wodoc:div class="screenshot"%}{%wodoc:img src="files/tutorial/tutowidgets/ex2.png" alt="screenshot"%}{%wodoc:end%}
 
 
 {1 Fifth step: close last window when opening a new one}
@@ -385,7 +385,7 @@ let%server _ = Eliom_content.Html.D.(
 )
 ]}
 
-{%wodoc:@ class="screenshot"%}{%wodoc:img src="files/tutorial/tutowidgets/ex-final.png" alt="screenshot"%}
+{%wodoc:div class="screenshot"%}{%wodoc:img src="files/tutorial/tutowidgets/ex-final.png" alt="screenshot"%}{%wodoc:end%}
 
 
 {1 And now?}

@@ -11,7 +11,7 @@ very flexible and can be used both for Web site programming (see
 their mobile counterparts.
 
 In parallel to the reading of that page,
-we recommend to generate your first {{:/ocsigen-start/latest/}Ocsigen Start} app to see
+we recommend to generate your first {{:https://ocsigen.org/ocsigen-start/latest/}Ocsigen Start} app to see
 running examples of all these concepts (see {{:start.html}that page}).
 
 {%wodoc:div class="quickstart-block"%}
@@ -72,7 +72,7 @@ and makes it very natural to sequentialize computations without blocking the res
 of the program.
 {%wodoc:end%}
 
-To learn Lwt, read this {{:lwt.html}short tutorial}, or its {{:/lwt/latest/}user manual}.
+To learn Lwt, read this {{:lwt.html}short tutorial}, or its {{:https://ocsigen.org/lwt/latest/}user manual}.
 
 {%wodoc:end%}
 
@@ -200,7 +200,7 @@ Error: This expression has type
             | `Wbr ]
        The second variant type does not allow tag(s) `P
 ]}
-Read more about TyXML in this {{:html.html}short tutorial} or in its {{:/tyxml/latest/}user manual}.
+Read more about TyXML in this {{:html.html}short tutorial} or in its {{:https://ocsigen.org/tyxml/latest/}user manual}.
 
 {%wodoc:end%}
 
@@ -329,7 +329,7 @@ let pathless_service =
 ]}
 
 More information
-{{:/eliom/latest/server-services.html#pathless}in the manual}.
+{{:https://ocsigen.org/eliom/latest/server-services.html#pathless}in the manual}.
 
 {2 External services}
 Use {!Eliom_service.extern} to create
@@ -341,7 +341,7 @@ to create links towards static files (see example below for images).
 
 Use service {!Eliom_service.reload_action} and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call {!Os_lib.reload} to reload the page and restart the client-side program.
 
-{{:/eliom/latest/server-services.html}Full documentation about services}, {{:interaction.html}a tutorial about traditional service based Web programming}, API documentation of modules {!Eliom_service} and {!Eliom_registration}.
+{{:https://ocsigen.org/eliom/latest/server-services.html}Full documentation about services}, {{:interaction.html}a tutorial about traditional service based Web programming}, API documentation of modules {!Eliom_service} and {!Eliom_registration}.
 
 This example shows how to insert an image using [static_dir]:
 {@ocaml[img
@@ -628,7 +628,7 @@ an element (and more generally if you need to inject this element using [~%]).
 
 
 Read more about [Eliom_content.Html] (D or F?) in
-{{:/eliom/latest/clientserver-html.html}this manual page}.
+{{:https://ocsigen.org/eliom/latest/clientserver-html.html}this manual page}.
 
 {%wodoc:end%}
 
@@ -847,7 +847,7 @@ the demo included in
 - {{:application.html}This page} is a step by step introduction to client-server programming with Eliom for beginners.
 - {{:tutowidgets.html}This one} is a quick introduction for more experienced OCaml developers.
 - Comprehensive documentation on client-server programming can be found in
-{{:/eliom/latest/}Eliom's user manual}.
+{{:https://ocsigen.org/eliom/latest/}Eliom's user manual}.
 {%wodoc:end%}
 
 {%wodoc:section class="docblock"%}
@@ -1007,7 +1007,7 @@ Lwt.async (mousedowns
 
 Ocsigen Toolkit defines several widgets that can be generated either
 on server or clide sides. Have look at
-{{:/ocsigen-start/latest/demo/}Ocsigen Start's demo app}
+{{:https://ocsigen.org/ocsigen-start/latest/demo/}Ocsigen Start's demo app}
 (or the {{:https://play.google.com/store/apps/details?id=com.osdemo.mobile}corresponding Android app})
 to see them in action: carousel, drawer menu, date or time picker, color picker,
 pull to refresh feature for mobile apps, etc.
@@ -1031,7 +1031,7 @@ with many common features like
 user registration, login box, notification system, etc.
 
 It also provides a demo of many features presented in this page.
-A {{:/ocsigen-start/latest/demo/}live version} is accessible online.
+A {{:https://ocsigen.org/ocsigen-start/latest/demo/}live version} is accessible online.
 Read {{:start.html}this page} to create your first Ocsigen Start
 app and take time to study the code of each example.
 
@@ -1311,36 +1311,36 @@ It is now based on {{:https://github.com/mirage/ocaml-cohttp}Cohttp}.
 It has a powerful
 extension mechanism that makes it easy to plug your own OCaml modules
 for generating pages. Many extensions are already written:
-;{{:/ocsigenserver/latest/staticmod.html}Staticmod}
+;{{:https://ocsigen.org/ocsigenserver/latest/staticmod.html}Staticmod}
 :    to serve static files.
-;{{:/eliom/latest/}Eliom}
+;{{:https://ocsigen.org/eliom/latest/}Eliom}
 :    to create reliable client/server Web applications
      or Web sites in OCaml using advanced high level concepts.
-;{{:/ocsigenserver/latest/extendconfiguration.html}Extendconfiguration}
+;{{:https://ocsigen.org/ocsigenserver/latest/extendconfiguration.html}Extendconfiguration}
 :    allows for more options in the configuration file.
-;{{:/ocsigenserver/latest/accesscontrol.html}Accesscontrol}
+;{{:https://ocsigen.org/ocsigenserver/latest/accesscontrol.html}Accesscontrol}
 :    restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.).
-;{{:/ocsigenserver/latest/authbasic.html}Authbasic}
+;{{:https://ocsigen.org/ocsigenserver/latest/authbasic.html}Authbasic}
 :    restricts access to the sites from the config file using Basic HTTP Authentication.
 ;CGImod
 :    serves CGI scripts. It may also be used to serve PHP through CGI.
-;{{:/ocsigenserver/latest/deflatemod.html}Deflatemod}
+;{{:https://ocsigen.org/ocsigenserver/latest/deflatemod.html}Deflatemod}
 :    used to compress data before sending it to the client.
-;{{:/ocsigenserver/latest/redirectmod.html}Redirectmod}
+;{{:https://ocsigen.org/ocsigenserver/latest/redirectmod.html}Redirectmod}
 :    sets redirections towards other Web sites from the configuration file.
-;{{:/ocsigenserver/latest/revproxy.html}Revproxy}
+;{{:https://ocsigen.org/ocsigenserver/latest/revproxy.html}Revproxy}
 :    a reverse proxy for Ocsigen Server.
       It allows to ask another server to handle the request.
-;{{:/ocsigenserver/latest/rewritemod.html}Rewritemod}
+;{{:https://ocsigen.org/ocsigenserver/latest/rewritemod.html}Rewritemod}
 :    changes incoming requests before sending them to other extensions.
-;{{:/ocsigenserver/latest/outputfilter.html}Outputfilter}
+;{{:https://ocsigen.org/ocsigenserver/latest/outputfilter.html}Outputfilter}
 :    rewrites some parts of the output before sending it to the client.
-;{{:/ocsigenserver/latest/userconf.html}Userconf}
+;{{:https://ocsigen.org/ocsigenserver/latest/userconf.html}Userconf}
 :    allows users to have their own configuration files.
 ;Comet
 :    facilitates server to client communications.
 
-Ocsigen Server has a {{:/ocsigenserver/latest/config.html}sophisticated configuration} file mechanism allowing
+Ocsigen Server has a {{:https://ocsigen.org/ocsigenserver/latest/config.html}sophisticated configuration} file mechanism allowing
 complex configurations of sites.
 
 {%wodoc:end%}

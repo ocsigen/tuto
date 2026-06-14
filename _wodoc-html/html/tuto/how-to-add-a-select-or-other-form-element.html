@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>how-to-add-a-select-or-other-form-element (tuto.how-to-add-a-select-or-other-form-element)</title><meta charset="utf-8"/><link rel="stylesheet" href="../odoc.css"/><meta name="generator" content="odoc 3.2.1"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><script src="../highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script></head><body class="odoc"><nav class="odoc-nav"><a href="index.html">Up</a> – <a href="../index.html">Index</a> &#x00BB; <a href="index.html">tuto</a> &#x00BB; how-to-add-a-select-or-other-form-element</nav><header class="odoc-preamble"><h1 id="how-to-add-a-select-(or-other-form-element)?"><a href="#how-to-add-a-select-(or-other-form-element)?" class="anchor"></a>How to add a select (or other form element)?</h1></header><div class="odoc-tocs"><nav class="odoc-toc odoc-local-toc"><ul><li><a href="#in-forms-towards-eliom-services:">In forms towards Eliom services:</a></li><li><a href="#basic-html5-elements-without-eliom-services">Basic HTML5 elements without Eliom services</a></li><li><a href="#links">Links</a></li></ul></nav></div><div class="odoc-content"><h3 id="in-forms-towards-eliom-services:"><a href="#in-forms-towards-eliom-services:" class="anchor"></a>In forms towards Eliom services:</h3><pre class="language-ocaml"><code>open Eliom.Content
+
+Html.D.Form.select ~name:select_name
+  Html.D.Form.string (* type of the parameter *)
+  (Html.D.Form.Option
+    ([] (* attributes *),
+     &quot;Bob&quot; (* value *),
+     None (* Content, if different from value *),
+     false (* not selected *))) (* first line *)
+    [Html.D.Form.Option ([], &quot;Marc&quot;, None, false);
+     (Html.D.Form.Optgroup
+        ([],
+         &quot;Girls&quot;,
+         ([], &quot;Karin&quot;, None, false),
+         [([a_disabled `Disabled], &quot;Juliette&quot;, None, false);
+          ([], &quot;Alice&quot;, None, true);
+          ([], &quot;Germaine&quot;, Some (txt &quot;Bob's mother&quot;), false)]))]</code></pre><h3 id="basic-html5-elements-without-eliom-services"><a href="#basic-html5-elements-without-eliom-services" class="anchor"></a>Basic HTML5 elements without Eliom services</h3><p>For example if you want to use them with client side event handler.</p><pre class="language-ocaml"><code>open Eliom.Content.Html.D
+
+Raw.select [option (txt &quot;hello&quot;);
+            option ~a:[a_value &quot;a&quot;; a_selected `Selected] (txt &quot;cool&quot;)]</code></pre><h3 id="links"><a href="#links" class="anchor"></a>Links</h3><ul><li><a href="how-to-write-forms.html">How to write forms</a></li><li><a href="https://ocsigen.org/eliom/latest/server-links.html">Eliom forms and links</a></li><li>API <code>Eliom.Content.Html.D.Form</code></li><li>signature <code>Html_sigs.T</code> (Element attributes)</li></ul></div></body></html>

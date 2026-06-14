@@ -43,7 +43,7 @@ We recommend to open this module (at the beginning of your file, or locally).
 - {b Common types}: {{:https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L121}string}, {{:https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L122}int}, {{:https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L123}int32}, {{:https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L124}float}, {{:https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L125}bool}
 - {b Some other types}: {{:https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L126}optional values}, {{:https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L158}any parameter}, {{:https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L187}list}, {{:https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L211}your own type}.
 
-- See more information on parameters in {{:/eliom/latest/server-params.html}Eliom manual} and API documentation of module {!Eliom_parameter}.
+- See more information on parameters in {{:https://ocsigen.org/eliom/latest/server-params.html}Eliom manual} and API documentation of module {!Eliom_parameter}.
 
 {3 Get these parameters}
 
@@ -82,7 +82,7 @@ To do that, add a parameter of type {b suffix} in {b get_params}:
 
 {2 Links}
 
-- Manual: {{:/eliom/latest/server-params.html}Parameters}
-- Manual: {{:/eliom/latest/server-services.html}Services}
+- Manual: {{:https://ocsigen.org/eliom/latest/server-params.html}Parameters}
+- Manual: {{:https://ocsigen.org/eliom/latest/server-services.html}Services}
 - API: {!Eliom_parameter}
 - API: {!Eliom_service}

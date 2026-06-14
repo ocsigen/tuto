@@ -14,7 +14,7 @@ time and makes difficult to generate queries at compile time.
 Macaque uses its own syntax, whereas PGOcaml uses SQL.
 Macaque supports only a small subset of Postgresql features.
 
-Warning: Macaque's syntax extension uses camlp4, which is not compatible with ppx. If you want to use macaque with Eliom's ppx, place your macaque code in an isolated file. Some details can be found in {{:/eliom/latest/ppx-migration.html}the ppx migration guide}.
+Warning: Macaque's syntax extension uses camlp4, which is not compatible with ppx. If you want to use macaque with Eliom's ppx, place your macaque code in an isolated file. Some details can be found in {{:https://ocsigen.org/eliom/latest/ppx-migration.html}the ppx migration guide}.
 
 This tutorial shows how to store the login and the password
 f users in a Postgresql

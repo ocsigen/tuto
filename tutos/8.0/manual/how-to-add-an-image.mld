@@ -27,7 +27,7 @@ The function {b img} has 3 parameters:
 
 For an internal image, the file path is generated using the {b make_uri} function. This function creates the relative URL string using the static directory configured in the configuration file and the given list.
 
-For an external image, you must convert the string url into uri using the {b uri_of_string} function. You can also create an {{:/eliom/latest/server-services.html#unregistrable_services}external service}.
+For an external image, you must convert the string url into uri using the {b uri_of_string} function. You can also create an {{:https://ocsigen.org/eliom/latest/server-services.html#unregistrable_services}external service}.
 
 {2 Download full code}
 

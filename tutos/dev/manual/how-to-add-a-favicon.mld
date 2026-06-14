@@ -12,5 +12,5 @@ Just put the file at the root of the static directory set in the configuration f
 
 {2 Links}
 
-- {{:/ocsigenserver/latest/staticmod.html}Configuring Ocsigen Server for serving static files}
+- {{:https://ocsigen.org/ocsigenserver/latest/staticmod.html}Configuring Ocsigen Server for serving static files}
 - {{:http://www.favicon.cc/}An example of a favicon generator}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>how-to-iterate-on-all-sessions-for-one-user-or-all-tabs (tuto.how-to-iterate-on-all-sessions-for-one-user-or-all-tabs)</title><meta charset="utf-8"/><link rel="stylesheet" href="../odoc.css"/><meta name="generator" content="odoc 3.2.1"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><script src="../highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script></head><body class="odoc"><nav class="odoc-nav"><a href="index.html">Up</a> – <a href="../index.html">Index</a> &#x00BB; <a href="index.html">tuto</a> &#x00BB; how-to-iterate-on-all-sessions-for-one-user-or-all-tabs</nav><header class="odoc-preamble"><h1 id="how-to-iterate-on-all-session-belonging-to-the-same-user,-or-all-tabs?"><a href="#how-to-iterate-on-all-session-belonging-to-the-same-user,-or-all-tabs?" class="anchor"></a>How to iterate on all session belonging to the same user, or all tabs?</h1><p>You must create a session group for each user, then iterate on all the sessions from this group, and possibly on all client processes for each session:</p><pre class="language-ocaml"><code>
+  (* We get the session group state for this user: *)
+  let state =
+    Eliom.State.Ext.volatile_data_group_state
+      ~scope:Eliom.Common.default_group_scope (Int64.to_string user_id)
+  in
+
+  (* We iterate on all sessions from the group: *)
+  Eliom.State.Ext.iter_volatile_sub_states
+    ~state
+    (fun state -&gt;
+      (* We iterate on all client process states in the session: *)
+      Eliom.State.Ext.iter_volatile_sub_states
+        ~state
+        (fun state -&gt;
+          let a = Eliom.Reference.Volatile.Ext.get state my_ref in
+          ...)))</code></pre></header><div class="odoc-content"></div></body></html>

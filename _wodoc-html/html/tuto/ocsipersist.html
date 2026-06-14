@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>ocsipersist (tuto.ocsipersist)</title><meta charset="utf-8"/><link rel="stylesheet" href="../odoc.css"/><meta name="generator" content="odoc 3.2.1"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><script src="../highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script></head><body class="odoc"><nav class="odoc-nav"><a href="index.html">Up</a> – <a href="../index.html">Index</a> &#x00BB; <a href="index.html">tuto</a> &#x00BB; ocsipersist</nav><header class="odoc-preamble"><h1 id="lightweight-database-using-ocsipersist"><a href="#lightweight-database-using-ocsipersist" class="anchor"></a>Lightweight database using Ocsipersist</h1><p><!--wodoc:aside class="concepts"--><b>Concepts</b></p><p>Persistent tables with Ocsipersist<!--wodoc:end--></p><p>Ocsipersist is a module for persistent references and tables.</p><p>For persistent references, Eliom has a higher level interface, called <em>Eliom references</em>, and you probably want to use it instead of using Ocsipersist directly. For example persistent Eliom references of scope session group can be used to store information about a user (if the session group corresponds to the user).</p><p>Ocsipersist can still be useful for creating persistent key-value tables, if you do not need the full power of a SQL database.</p><p>This tutorial shows how to implement a table for storing users and passwords.</p><p>We first create a table:</p><pre class="language-ocaml"><code>let user_table = Ocsipersist.Polymorphic.open_table &quot;user_table&quot;</code></pre><p>Then we can easily handle the user management code:</p><pre class="language-ocaml"><code>let check_pwd name pwd =
+  try%lwt
+    lwt saved_password = Ocsipersist.Polymorphic.find user_table name in
+    Lwt.return (pwd = saved_password)
+  with
+    Not_found -&gt; Lwt.return false
+
+let () = Eliom.Registration.Action.register
+  ~service:create_account_service
+  (fun () (name, pwd) -&gt; Ocsipersist.Polymorphic.add user_table name pwd)
+
+let () = Eliom.Registration.Action.register
+  ~service:connection_service
+  (fun () (name, password) -&gt;
+    match%lwt check_pwd name password with
+      | true -&gt; Eliom.Reference.set username (Some name)
+      | false -&gt; Lwt.return ())</code></pre><p><!--wodoc:aside class="concept"--><b>Concept: Ocsipersist</b></p><p>Ocsipersist implements simple typed key/value tables. It can use different backends (currently sqlite and dbm). For more information see <code>Ocsipersist.table</code>. <!--wodoc:end--></p></header><div class="odoc-content"></div></body></html>

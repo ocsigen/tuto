@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones (tuto.how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones)</title><meta charset="utf-8"/><link rel="stylesheet" href="../odoc.css"/><meta name="generator" content="odoc 3.2.1"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><script src="../highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script></head><body class="odoc"><nav class="odoc-nav"><a href="index.html">Up</a> – <a href="../index.html">Index</a> &#x00BB; <a href="index.html">tuto</a> &#x00BB; how-to-create-form-wizard-sequence-of-pages-depending-on-data-entered-on-previous-ones</nav><header class="odoc-preamble"><h1 id="how-to-create-a-form-wizard-(sequence-of-pages-depending-on-data-entered-on-previous-ones)?"><a href="#how-to-create-a-form-wizard-(sequence-of-pages-depending-on-data-entered-on-previous-ones)?" class="anchor"></a>How to create a form wizard (sequence of pages depending on data entered on previous ones)?</h1><p>The solution to implement wizard-like forms (that is a sequence of pages depending on data entered on previous ones) is to create dynamically new services especially for one user. If you use session data (eliom references) it won't work if you have several tabs on the same site (or if you use the back button).</p><p>Just create new anonymous (attached)-coservices that depend on the data sent by the user. In the following example (taken from Eliom's testsuite), I create a two step wizard that will add two integers. You can try to enter a first value, duplicate the tab, and both will continue working correctly.</p><p>To prevent memory leaks, use a timeout for these dynamic coservices. The scope of these service can be session or global for the site (as coservice identifiers are cryptographically safe).</p><pre class="language-ocaml"><code>open Eliom.Content.Html.F
+
+(* -------------------------------------------------------- *)
+(* We create two main services on the same URL,             *)
+(* one with a GET integer parameter:                        *)
+
+let calc = Eliom.Service.create
+    ~path:(Eliom.Service.Path [&quot;calc&quot;])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.unit) ()
+let calc_i =
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [&quot;calc&quot;])
+    ~meth:(Eliom.Service.Get (Eliom.Parameter.int &quot;i&quot;))
+    ()
+
+(* -------------------------------------------------------- *)
+(* The handler for the service without parameter.           *)
+(* It displays a form where you can write an integer value: *)
+
+let calc_handler () () =
+  let create_form intname =
+    [p [txt &quot;Write a number: &quot;;
+        Form.input ~input_type:`Text ~name:intname Form.int;
+        br ();
+        Form.input ~input_type:`Submit ~value:&quot;Send&quot; Form.string]]
+  in
+  let f = Form.get_form calc_i create_form in
+  Lwt.return (html (head (title (txt &quot;&quot;)) []) (body [f]))
+
+
+(* -------------------------------------------------------- *)
+(* The handler for the service with parameter.              *)
+(* It creates dynamically and registers a new coservice     *)
+(* with one GET integer parameter.                          *)
+(* This new coservice depends on the first value (i)        *)
+(* entered by the user.                                     *)
+
+let calc_i_handler i () =
+  let create_form is =
+    (fun entier -&gt;
+       [p [txt (is^&quot; + &quot;);
+           Form.input ~input_type:`Text ~name:entier Form.int;
+           br ();
+           Form.input ~input_type:`Submit ~value:&quot;Sum&quot; Form.string]])
+  in
+  let is = string_of_int i in
+  let calc_result =
+    Eliom.Registration.Html.attach_get
+      ~scope:Eliom.Common.default_session_scope
+      ~fallback:calc
+      ~get_params:(Eliom.Parameter.int &quot;j&quot;)
+      ~timeout:120.
+      (fun j () -&gt;
+        let js = string_of_int j in
+        let ijs = string_of_int (i+j) in
+        Lwt.return (html
+             (head (title (txt &quot;&quot;)) [])
+             (body [p [txt (is^&quot; + &quot;^js^&quot; = &quot;^ijs)]])))
+  in
+  let f = Form.get_form calc_result (create_form is) in
+  Lwt.return (html (head (title (txt &quot;&quot;)) []) (body [f]))
+
+
+(* -------------------------------------------------------- *)
+(* Registration of main services:                           *)
+
+let () =
+  Eliom.Registration.Html.register calc   calc_handler;
+  Eliom.Registration.Html.register calc_i calc_i_handler</code></pre></header><div class="odoc-content"></div></body></html>

@@ -55,6 +55,11 @@ jobs:
           ln -sfn 8.0 _doc-site/latest
           printf '<!DOCTYPE html><meta http-equiv="refresh" content="0; url=latest/index.html">\n' \
             > _doc-site/index.html
+          # versions.json drives the in-page version <select> (same mechanism as
+          # the other Ocsigen projects); .nojekyll so GitHub Pages serves the odoc
+          # output verbatim (underscored dirs, no Jekyll build).
+          printf '{"latest":"8.0","list":["dev","8.0"]}\n' > _doc-site/versions.json
+          touch _doc-site/.nojekyll
 
       - name: Deploy to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4

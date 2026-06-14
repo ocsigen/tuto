@@ -35,17 +35,17 @@ at the {{:https://www.besport.com/news}Be Sport social network} (available in
 Ocsigen consists of several quite independent projects, all
 released as open source software on {{:https://github.com/ocsigen}Github}.
 The main projects are:
-- {{:/lwt/latest/}Lwt}, a general purpose concurrent programming library for OCaml,
-- {{:/tyxml/latest/}TyXML} for generating typed XML,
-- the {{:/js_of_ocaml/latest/}Js_of_ocaml} compiler (from Ocaml bytecode to JavaScript),
-- {{:/eliom/latest/}Eliom}, the multi-tier framework for client-server
+- {{:https://ocsigen.org/lwt/latest/}Lwt}, a general purpose concurrent programming library for OCaml,
+- {{:https://ocsigen.org/tyxml/latest/}TyXML} for generating typed XML,
+- the {{:https://ocsigen.org/js_of_ocaml/latest/}Js_of_ocaml} compiler (from Ocaml bytecode to JavaScript),
+- {{:https://ocsigen.org/eliom/latest/}Eliom}, the multi-tier framework for client-server
 Web and mobile apps,
-- {{:/ocsigenserver/latest/}Ocsigen Server}, a full-featured Web server,
-- {{:/ocsigen-toolkit/latest/}Ocsigen Toolkit}, a client-server widget library written for Eliom and Js_of_ocaml,
-- {{:/ocsigen-start/latest/}Ocsigen Start}, an application template with
+- {{:https://ocsigen.org/ocsigenserver/latest/}Ocsigen Server}, a full-featured Web server,
+- {{:https://ocsigen.org/ocsigen-toolkit/latest/}Ocsigen Toolkit}, a client-server widget library written for Eliom and Js_of_ocaml,
+- {{:https://ocsigen.org/ocsigen-start/latest/}Ocsigen Start}, an application template with
 many code examples, to be used as a basis for your apps, or to learn.
 
-The {{:/install}installation is described here}.
+The {{:https://ocsigen.org/install}installation is described here}.
 
 Ocsigen originates from a research project by the CNRS, Université de Paris
 and Inria. It innovates in many aspects, and you will have to learn several
@@ -72,7 +72,7 @@ and is a good starting point for understanding Eliom's client-server features.
 application, read tutorial
 {{:application.html}Client-server application}.
 It describes step by step how to write a client/server
-{{:/graffiti/latest/}collaborative drawing application}. You will learn,
+{{:https://ocsigen.org/graffiti/latest/}collaborative drawing application}. You will learn,
 from the very beginning, how to:
 - Create new {e services}
 - Output {e valid HTML}
@@ -108,7 +108,7 @@ application.  In this chapter, you will learn how to:
 - Add an Atom feed
 - If you want to have a full application with user management
 (registration, activation emails, authentication),
-have a look at {{:/ocsigen-start/latest/}Ocsigen-start}.
+have a look at {{:https://ocsigen.org/ocsigen-start/latest/}Ocsigen-start}.
 Ocsigen-start is a library and a template for Eliom distillery that
 contains a working Eliom application with user and right
 management.

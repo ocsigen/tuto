@@ -6,11 +6,11 @@
 - If you want to create it yourself, you can have a look at the default configuration file provided with the installation of Ocsigen (usually [/etc/ocsigenserver/ocsigenserver.conf.sample]).
 - Change the port by the network port number you want your website to work on. The port {b 80} is the port used by http by default but you need to be the administrator of your server to use it.
 - Adapt paths.
-- Change other parameters that suit your needs using the {{:/ocsigenserver/latest/config.html}configuration file documentation}.
+- Change other parameters that suit your needs using the {{:https://ocsigen.org/ocsigenserver/latest/config.html}configuration file documentation}.
 
 {2 Your own configuration file}
 
-Have a look at the {{:/ocsigenserver/latest/config.html}configuration file full documentation}.
+Have a look at the {{:https://ocsigen.org/ocsigenserver/latest/config.html}configuration file full documentation}.
 
 {2 Launch the server}
 
@@ -20,4 +20,4 @@ ocsigenserver -c your_config_file.conf
 
 {2 Links}
 
-- More information about this command or the configuration file in {{:/ocsigenserver/latest/}Ocsigen Server's manual}.
+- More information about this command or the configuration file in {{:https://ocsigen.org/ocsigenserver/latest/}Ocsigen Server's manual}.

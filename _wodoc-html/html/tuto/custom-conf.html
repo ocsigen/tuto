@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>custom-conf (tuto.custom-conf)</title><meta charset="utf-8"/><link rel="stylesheet" href="../odoc.css"/><meta name="generator" content="odoc 3.2.1"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><script src="../highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script></head><body class="odoc"><nav class="odoc-nav"><a href="index.html">Up</a> – <a href="../index.html">Index</a> &#x00BB; <a href="index.html">tuto</a> &#x00BB; custom-conf</nav><header class="odoc-preamble"><h1 id="custom-configuration-options"><a href="#custom-configuration-options" class="anchor"></a>Custom configuration options</h1><p><!--wodoc:aside class="concepts"--><b>Concepts</b></p><p>Custom configuration options<!--wodoc:end--></p><p>It is not convenient to have to edit the code to change some configurations, like the location where are saved the favorite images in the Graffiti tutorial (see: <a href="pictures.html">Saving favorite pictures</a>). Fortunately Ocsigen provides a mechanism to extend its configuration file.</p></header><div class="odoc-tocs"><nav class="odoc-toc odoc-local-toc"><ul><li><a href="#basic-interface">Basic interface</a></li><li><a href="#new-interface">New interface</a></li></ul></nav></div><div class="odoc-content"><h2 id="basic-interface"><a href="#basic-interface" class="anchor"></a>Basic interface</h2><pre class="language-ocaml"><code>let static_dir =
+  match Eliom.Config.get_config () with
+    | [Simplexmlparser.Element
+     (&quot;staticdir&quot;, [], [Simplexmlparser.PCData dir])] -&gt;
+        dir
+    | [] -&gt;
+      raise (Ocsigen.Extensions.Error_in_config_file
+               (&quot;staticdir must be configured&quot;))
+    | _ -&gt;
+      raise (Ocsigen.Extensions.Error_in_config_file
+               (&quot;Unexpected content inside config&quot;))</code></pre><p>This will add a mandatory child to the eliom tag in the configuration file:</p><pre>&lt;eliom module=&quot;path/to/your/module.cma&quot;&gt;
+  &lt;staticdir&gt;/tmp/static&lt;/staticdir&gt;
+&lt;/eliom&gt;</pre><h2 id="new-interface"><a href="#new-interface" class="anchor"></a>New interface</h2><p>From Eliom 4.0 it is much easier to define configuration file extension. Have a look at module <code>Eliom.Config</code>. For instance, here is how you can add an element &quot;&lt;ldap&gt;&quot; in the configuration file to store a list of LDAP servers your application interacts with.</p><pre class="language-ocaml"><code>
+(** An LDAP server is characterized by an host and a port. *)
+type ldap_configuration = {
+  mutable host : string;
+  mutable port : int;
+  }
+
+
+(** We store a list of LDAP servers to interact with. *)
+let ldap_servers = ref []
+
+(** The user-defined extension of the configuration file. *)
+let ldap_configuration = Ocsigen.Extensions.Configuration.(
+  (** Default configuration *)
+  let config () = {
+    host = &quot;&quot;;
+    port = 339;
+  }
+  in
+  let init () =
+    ldap_servers := config () :: !ldap_servers
+  in
+  let current () =
+    List.hd !ldap_servers
+  in
+
+  (** Parsing functions. *)
+  let req_attr name = attribute ~name ~obligatory:true
+  and opt_attr name = attribute ~name ~obligatory:false
+  in
+  let name = &quot;LDAP&quot;
+  and obligatory = false
+  and attributes = [
+    req_attr &quot;host&quot; (fun h -&gt; (current ()).host &lt;- h);
+    opt_attr &quot;port&quot; (fun p -&gt; (current ()).port &lt;- int_of_string p);
+    );
+  ]
+  in
+  element ~init ~name ~obligatory ~attributes ()
+)
+
+let _ = Eliom.Config.parse_config [ldap_configuration]
+</code></pre></div></body></html>

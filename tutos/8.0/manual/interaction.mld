@@ -170,7 +170,7 @@ parameters: for example, you may access the full suffix as a string,
 as a list of string, or you may want to mix suffix parameters with
 standard GET parameters. You can also accept, as parameters, parts of
 the path that are not a suffix of the path (using {!Eliom_parameter.const}).  See more information
-on suffixes in {{:/eliom/latest/server-params.html#suffixes}Eliom's manual}.
+on suffixes in {{:https://ocsigen.org/eliom/latest/server-params.html#suffixes}Eliom's manual}.
 
 {e Warning:} Even if it is not displayed in the URL, suffix parameters
 have a parameter name. This allows one to make forms that point to
@@ -392,7 +392,7 @@ Remember:
 {e Warning:} Even if POST parameters are not shown in the URL, they
 are sent as plain text. If you want to transmit private data (like a password),
 you must
-use HTTPS (see {{:/ocsigenserver/latest/config.html}the Ocsigen server manual}).  {%wodoc:end%}
+use HTTPS (see {{:https://ocsigen.org/ocsigenserver/latest/config.html}the Ocsigen server manual}).  {%wodoc:end%}
 
 Now we can register a handler for the new service:
 
@@ -775,7 +775,7 @@ let () =
 ]}
 
 (If you want to give parameters to the service you return, use {!Eliom_service.preapply} ---
-more information in the {{:/eliom/latest/server-services.html#p3preapplied}Eliom manual}.)
+more information in the {{:https://ocsigen.org/eliom/latest/server-services.html#p3preapplied}Eliom manual}.)
 
 If you want to do a redirection towards the current page (as in our
 case), use the special service [~path] parameter {!Eliom_service.No_path}, which is some kind of POST

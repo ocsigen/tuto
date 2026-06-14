@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>how-to-make-hello-world-in-ocsigen (tuto.how-to-make-hello-world-in-ocsigen)</title><meta charset="utf-8"/><link rel="stylesheet" href="../odoc.css"/><meta name="generator" content="odoc 3.2.1"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><script src="../highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script></head><body class="odoc"><nav class="odoc-nav"><a href="index.html">Up</a> – <a href="../index.html">Index</a> &#x00BB; <a href="index.html">tuto</a> &#x00BB; how-to-make-hello-world-in-ocsigen</nav><header class="odoc-preamble"><h1 id="how-to-make-a-&quot;hello-world&quot;-in-ocsigen?"><a href="#how-to-make-a-&quot;hello-world&quot;-in-ocsigen?" class="anchor"></a>How to make a &quot;hello world&quot; in Ocsigen?</h1><p>Here it is! The famous &quot;<b>Hello World</b>&quot; for a client/server Eliom application:</p></header><div class="odoc-tocs"><nav class="odoc-toc odoc-local-toc"><ul><li><a href="#"></a></li><li><a href="#_2"></a></li><li><a href="#links">Links</a></li></ul></nav></div><div class="odoc-content"><h3 id=""><a href="#" class="anchor"></a></h3><pre class="language-ocaml"><code>open Eliom.Content
+open Html.D
+open Eliom.Parameter
+
+module Example =
+  Eliom.Registration.App
+    (struct
+      let application_name = &quot;example&quot;
+     end)
+
+let main =
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [])
+    ~meth:(Eliom.Service.Get unit)
+    ()
+
+let _ =
+
+  Example.register
+    ~service:main
+    (fun () () -&gt;
+      Lwt.return
+	(html
+	   (head (title (txt &quot;Hello World of Ocsigen&quot;)) [])
+	   (body [h1 [txt &quot;Hello World!&quot;];
+		  p [txt &quot;Welcome to my first Ocsigen website.&quot;]])))
+</code></pre><h3 id="_2"><a href="#_2" class="anchor"></a></h3><ul><li>To <em>understand</em> this code, have a look at <a href="how-does-a-page-s-source-code-look.html">How does a page's source code look?</a></li><li>Or directly continue by compiling this code: <a href="how-to-compile-my-ocsigen-pages.html">How to compile my Ocsigen pages?</a></li></ul><h3 id="links"><a href="#links" class="anchor"></a>Links</h3><ul><li><a href="application.html">Tutorial to write a client/server application</a></li><li><a href="interaction.html">Tutorial to write a server side web site</a></li></ul></div></body></html>

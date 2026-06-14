@@ -395,7 +395,7 @@ An important feature missing from this tutorial is the ability
 to call server functions from the client-side program ("server functions").
 You can find a quick description of this
 in {{:how-to-call-a-server-side-function-from-client-side.html}this mini HOWTO} or
-in {{:/eliom/latest/clientserver-communication.html#rpc}Eliom's manual}.
+in {{:https://ocsigen.org/eliom/latest/clientserver-communication.html#rpc}Eliom's manual}.
 
 {2 Services}
 
@@ -409,8 +409,8 @@ parameters), or by a session identifier (we call this kind of service
 a {e coservice}). Eliom also allows creating new (co-)services
 dynamically, for example coservices depending on previous interaction
 with a user. More information on the service identification mechanism
-in {{:/eliom/latest/server-services.html}Eliom's manual}.
+in {{:https://ocsigen.org/eliom/latest/server-services.html}Eliom's manual}.
 
 {2 Sessions}
 Eliom also offers a rich session mechanism, with {e scopes}
-(see {{:/eliom/latest/server-state.html}Eliom's manual}).
+(see {{:https://ocsigen.org/eliom/latest/server-state.html}Eliom's manual}).

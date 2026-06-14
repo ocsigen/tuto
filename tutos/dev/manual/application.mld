@@ -2,7 +2,7 @@
 {0 Writing a client/server Eliom application}
 {%wodoc:end%}
 
-In this chapter, we will write a {{:https://ocsigen.org/graffiti/latest/}collaborative
+In this chapter, we will write a {{:https://ocsigen.org/graffiti/}collaborative
 drawing application}. It is a client/server web application
 displaying an area where users can draw using the mouse, and see what
 other users are drawing at the same time and in real-time.

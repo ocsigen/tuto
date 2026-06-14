@@ -72,7 +72,7 @@ and is a good starting point for understanding Eliom's client-server features.
 application, read tutorial
 {{:application.html}Client-server application}.
 It describes step by step how to write a client/server
-{{:https://ocsigen.org/graffiti/latest/}collaborative drawing application}. You will learn,
+{{:https://ocsigen.org/graffiti/}collaborative drawing application}. You will learn,
 from the very beginning, how to:
 - Create new {e services}
 - Output {e valid HTML}

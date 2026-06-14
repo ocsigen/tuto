@@ -1,7 +1,0 @@
-=How to send a file (download)?=
-
-To serve file, you can use Ocsigen Server's module staticmod.
-But it is also possible to ask Eliom to send files using module
-<<a_api project="eliom" subproject="server"|module Eliom_registration.File>>,
-for example if you want Eliom to perform some privacy checks before sending,
-or if the answer is not always a file.

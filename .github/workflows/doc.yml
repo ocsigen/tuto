@@ -1,0 +1,69 @@
+# Build the Ocsigen tutorial with odoc, theme it with the Ocsigen chrome (wodoc),
+# and publish it on the project's gh-pages branch, served at
+# https://ocsigen.org/tuto/. See doc/README.md.
+#
+# tuto is MANUAL-ONLY (no library/API): wodoc drives odoc directly on the .mld
+# pages (direct-mld mode). Unlike the API projects, its two versions (8.0, dev)
+# are DISTINCT manuals living in master as tutos/<v>/manual/, so the CI builds
+# BOTH (passing the per-version mld-dir and nav file) rather than freezing dev.
+name: Documentation
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch: {}
+
+# Serialise gh-pages writes: a push and a manual run must never push to
+# gh-pages at the same time, or the second push fails non-fast-forward.
+concurrency:
+  group: doc-deploy-${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  build-deploy:
+    if: github.repository == 'ocsigen/tuto'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: "5.4.0"
+
+      - name: Install wodoc and odoc
+        run: |
+          opam pin add -n wodoc https://github.com/ocsigen/wodoc.git
+          opam install wodoc odoc
+
+      - name: Build documentation (8.0 + dev)
+        run: |
+          for v in 8.0 dev; do
+            opam exec -- wodoc build --config doc/wodoc \
+              --menu https://ocsigen.org/doc/menu.html \
+              --out "$PWD/_doc-site/$v" --label "$v" \
+              --mld-dir "tutos/$v/manual" --nav "tutos/$v/manual/nav"
+            # manual-only: the version landing redirects to the first page (intro)
+            printf '<!DOCTYPE html><meta http-equiv="refresh" content="0; url=intro.html">\n' \
+              > "_doc-site/$v/index.html"
+          done
+          ln -sfn 8.0 _doc-site/latest
+          printf '<!DOCTYPE html><meta http-equiv="refresh" content="0; url=latest/index.html">\n' \
+            > _doc-site/index.html
+          # versions.json drives the in-page version <select> (same mechanism as
+          # the other Ocsigen projects); .nojekyll so GitHub Pages serves the odoc
+          # output verbatim (underscored dirs, no Jekyll build).
+          printf '{"latest":"8.0","list":["dev","8.0"]}\n' > _doc-site/versions.json
+          touch _doc-site/.nojekyll
+
+      - name: Deploy to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: _doc-site
+          clean: true

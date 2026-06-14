@@ -13,6 +13,12 @@ on:
     branches: [master]
   workflow_dispatch: {}
 
+# Serialise gh-pages writes: a push and a manual run must never push to
+# gh-pages at the same time, or the second push fails non-fast-forward.
+concurrency:
+  group: doc-deploy-${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
   build-deploy:
     if: github.repository == 'ocsigen/tuto'

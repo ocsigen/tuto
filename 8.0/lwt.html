@@ -35,6 +35,7 @@
   <div class="mainmenu">
     <p class="mainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></p>
     <p class="mainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></p>
+    <p class="mainmenu-blog" data-wodoc-page="blog"><a href="/blog/">Blog</a></p>
     <p data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></p>
     <p data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></p>
     <p data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></p>
@@ -71,7 +72,7 @@
         <li class="drawermainmenu-page" data-wodoc-page="papers"><a href="/papers">Research papers</a></li>
         <li class="drawermainmenu-page" data-wodoc-page="credits"><a href="/credits">Who does Ocsigen?</a></li>
         <li class="drawermainmenu-page" data-wodoc-page="contributing"><a href="/contributing">Contributing</a></li>
-        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog">Blog</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog/">Blog</a></li>
         <li class="drawermainmenu-page" data-wodoc-page="install"><a href="/install">Installation</a></li>
         <li class="drawermainmenu-page"><a href="https://github.com/ocsigen">Source code</a></li>
       </ul>
@@ -306,7 +307,7 @@
       </nav>
       <article class="rightcol">
         
-        <!--wodoc:unknown:header--><h1 id="lwt-in-5-minutes">Lwt in 5 minutes</h1><!--wodoc:unbalanced-end-->
+        <header><h1 id="lwt-in-5-minutes">Lwt in 5 minutes</h1></header>
 <h2 id="principles">Principles</h2><p>The Lwt library implements cooperative threads for OCaml. Cooperative threads are an alternative to preemptive threads (used in many languages and in OCaml's <code>Thread</code> module) that solve most common issues with preemptive threads: with Lwt, there is very limited risk of deadlocks and very limited need for locks. Lwt threads are even usable in programs compiled to JavaScript using Js_of_ocaml.</p><p>Lwt is based on the fact that most programs spend most of their time waiting for inputs, e.g., keys, data coming from sockets, and mouse events. Instead of relying on a preemptive scheduler that switches between threads at arbitrary moments, Lwt uses these waiting times as <em>cooperation points</em>. This means that instead of blocking (for example on a <code>read</code>), Lwt resumes another waiting thread, if there is one that is ready to continue. All you have to do is to use the cooperative version of each blocking function, for example <code>Lwt_unix.sleep</code> instead of <code>Unix.sleep</code> and <code>Lwt_unix.read</code> instead of <code>Unix.read</code>. If one of your computations takes a lot of time, it is also possible to manually insert cooperation points using the function <code>Lwt_main.yield</code>.</p><h2 id="promises">Promises</h2><p>Lwt defines a type <code>'a Lwt.t</code>, which is the type of promises. For example, the function:</p><pre class="language-ocaml"><code>val f : unit -&gt; int Lwt.t</code></pre><p>immediately returns a promise of <code>int</code>, that is, something that will eventually become an integer once the computation is finished.</p><p>The following code will launch the computation of <code>f ()</code> (asynchronously). If the code reaches a cooperation point (for example when the integer is requested via the network), it will continue the program (print &quot;hello&quot;) and resume at a subsequent cooperation point, when the data is available.</p><pre class="language-ocaml"><code>let g1 () =
   let p = f () in
   print_endline &quot;hello&quot;</code></pre><h2 id="bind:-using-the-value-of-promises">Bind: Using the value of promises</h2><p>It is possible to tell Lwt to execute a function once a promise is completed, by using the function:</p><pre class="language-ocaml"><code>Lwt.bind : 'a Lwt.t -&gt; ('a -&gt; 'b Lwt.t) -&gt; 'b Lwt.t</code></pre><p>For instance <code>Lwt.bind p h</code> will call the function <code>h</code> with the return value of the promise <code>p</code> as soon as the value is known. The expression <code>(Lwt.bind p h)</code> is also a promise (it may take time to complete). Function <code>h</code> must return a promise.</p><p>To create a (terminated) promise from a value, use <code>Lwt.return</code>.</p><p>Example:</p><pre class="language-ocaml"><code>let g2 () =

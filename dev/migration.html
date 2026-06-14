@@ -35,6 +35,7 @@
   <div class="mainmenu">
     <p class="mainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></p>
     <p class="mainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></p>
+    <p class="mainmenu-blog" data-wodoc-page="blog"><a href="/blog/">Blog</a></p>
     <p data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></p>
     <p data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></p>
     <p data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></p>
@@ -71,7 +72,7 @@
         <li class="drawermainmenu-page" data-wodoc-page="papers"><a href="/papers">Research papers</a></li>
         <li class="drawermainmenu-page" data-wodoc-page="credits"><a href="/credits">Who does Ocsigen?</a></li>
         <li class="drawermainmenu-page" data-wodoc-page="contributing"><a href="/contributing">Contributing</a></li>
-        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog">Blog</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog/">Blog</a></li>
         <li class="drawermainmenu-page" data-wodoc-page="install"><a href="/install">Installation</a></li>
         <li class="drawermainmenu-page"><a href="https://github.com/ocsigen">Source code</a></li>
       </ul>
@@ -316,7 +317,7 @@
       </nav>
       <article class="rightcol">
         
-        <!--wodoc:unknown:header--><h1 id="migrating-to-new-module-names">Migrating to new module names</h1><!--wodoc:unbalanced-end--><p>Starting with Eliom 13, Ocsigen Server 8, Ocsigen Toolkit 5, and Ocsigen Start 9, all Ocsigen projects use hierarchical module names:</p><table class="odoc-table"><tr><td><p>Old name</p></td><td><p>New name</p></td></tr><tr><td><p><code>Eliom_service</code></p></td><td><p><code>Eliom.Service</code></p></td></tr><tr><td><p><code>Eliom_content</code></p></td><td><p><code>Eliom.Content</code></p></td></tr><tr><td><p><code>Eliom_registration</code></p></td><td><p><code>Eliom.Registration</code></p></td></tr><tr><td><p><code>Eliom_parameter</code></p></td><td><p><code>Eliom.Parameter</code></p></td></tr><tr><td><p><code>Ot_popup</code></p></td><td><p><code>Ot.Popup</code></p></td></tr><tr><td><p><code>Ot_carousel</code></p></td><td><p><code>Ot.Carousel</code></p></td></tr><tr><td><p><code>Os_session</code></p></td><td><p><code>Os.Session</code></p></td></tr><tr><td><p><code>Os_user</code></p></td><td><p><code>Os.User</code></p></td></tr><tr><td><p><code>Ocsigen_extensions</code></p></td><td><p><code>Ocsigen.Extensions</code></p></td></tr><tr><td><p><code>Ocsigen_config</code></p></td><td><p><code>Ocsigen.Config</code></p></td></tr><tr><td><p><code>Ocsigen_lib</code></p></td><td><p><code>Ocsigen_base.Lib</code></p></td></tr></table>
+        <header><h1 id="migrating-to-new-module-names">Migrating to new module names</h1></header><p>Starting with Eliom 13, Ocsigen Server 8, Ocsigen Toolkit 5, and Ocsigen Start 9, all Ocsigen projects use hierarchical module names:</p><table class="odoc-table"><tr><td><p>Old name</p></td><td><p>New name</p></td></tr><tr><td><p><code>Eliom_service</code></p></td><td><p><code>Eliom.Service</code></p></td></tr><tr><td><p><code>Eliom_content</code></p></td><td><p><code>Eliom.Content</code></p></td></tr><tr><td><p><code>Eliom_registration</code></p></td><td><p><code>Eliom.Registration</code></p></td></tr><tr><td><p><code>Eliom_parameter</code></p></td><td><p><code>Eliom.Parameter</code></p></td></tr><tr><td><p><code>Ot_popup</code></p></td><td><p><code>Ot.Popup</code></p></td></tr><tr><td><p><code>Ot_carousel</code></p></td><td><p><code>Ot.Carousel</code></p></td></tr><tr><td><p><code>Os_session</code></p></td><td><p><code>Os.Session</code></p></td></tr><tr><td><p><code>Os_user</code></p></td><td><p><code>Os.User</code></p></td></tr><tr><td><p><code>Ocsigen_extensions</code></p></td><td><p><code>Ocsigen.Extensions</code></p></td></tr><tr><td><p><code>Ocsigen_config</code></p></td><td><p><code>Ocsigen.Config</code></p></td></tr><tr><td><p><code>Ocsigen_lib</code></p></td><td><p><code>Ocsigen_base.Lib</code></p></td></tr></table>
 <h2 id="using-compatibility-packages">Using compatibility packages</h2><p>To migrate progressively, you can use the compatibility packages. They provide the old module names as aliases to the new ones, so your existing code compiles without changes.</p><p>Install the compat packages you need:</p><pre class="language-shell"><code>opam install eliom-compat ocsigenserver-compat \
   ocsigen-toolkit-compat ocsigen-start-compat</code></pre><p>Then add them to the <code>(libraries ...)</code> in your <code>dune</code> file:</p><pre class="language-lisp"><code>; Server library
 (libraries

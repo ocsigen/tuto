@@ -35,6 +35,7 @@
   <div class="mainmenu">
     <p class="mainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></p>
     <p class="mainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></p>
+    <p class="mainmenu-blog" data-wodoc-page="blog"><a href="/blog/">Blog</a></p>
     <p data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></p>
     <p data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></p>
     <p data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></p>
@@ -71,7 +72,7 @@
         <li class="drawermainmenu-page" data-wodoc-page="papers"><a href="/papers">Research papers</a></li>
         <li class="drawermainmenu-page" data-wodoc-page="credits"><a href="/credits">Who does Ocsigen?</a></li>
         <li class="drawermainmenu-page" data-wodoc-page="contributing"><a href="/contributing">Contributing</a></li>
-        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog">Blog</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog/">Blog</a></li>
         <li class="drawermainmenu-page" data-wodoc-page="install"><a href="/install">Installation</a></li>
         <li class="drawermainmenu-page"><a href="https://github.com/ocsigen">Source code</a></li>
       </ul>
@@ -317,7 +318,7 @@ let%shared incr_button =
   D.(button
       ~button_type:`Button
       ~a:[a_onclick [%client fun _ -&gt; set_s (succ (React.S.value s)) ]]
-      [txt &quot;Increment&quot;])</code></pre><p>The signal <code>s</code> carries an int value initialized at 0 and <code>set_s</code> is the update function generating an occurence of the signal.</p><p><code>example_div</code> is a <code>&lt;div&gt;</code> containing a string which depends on the value of s.</p><p>The magic part: we never have to explicitly update <code>example_div</code>. Its behavior is declaratively described in its own code, and not in the code of the button.</p><p><!--wodoc:unknown:aside--><b>Concept: Client node on the server</b></p><p><code>C.node</code> takes a client node and brings it to the server side. <!--wodoc:unbalanced-end--></p><p><!--wodoc:unknown:aside--><b>Concept: Step semantics</b></p><p><b>Warning</b> If you haven't read the React semantics, be aware of this: a step occurence of a signal <code>s</code> happens when the update function is called on the signal or on a other signal <code>s'</code> which <code>s</code> depends on. But moreover, this update call must at least <b>modify</b> the signal current value, otherwise it's not a step.</p><p>This can be seen when there are side effects (like print) in the code of functions mapped to the signal. If the update function does not modify the signal value, the printing does not happen.</p><p>The test equality function of a signal can be set in the <code>eq</code> optional parameters of React.S functions producing a signal (like <code>create</code>). <!--wodoc:unbalanced-end--></p><h2 id="frp_medial_player">Functional Reactive Media Player</h2><p>This part explains how to create a simple media player, similar to the <a href="music.html">Playing Music</a> tutorial but with custom controls.We will apply <a href="https://en.wikipedia.org/wiki/Functional_reactive_programming">FRP (Functional Reactive Programming)</a>.</p><p>In order to provide a short tutorial, we only create three controls: play, pause and seek/progress bar. So, let's write the corresponding type:</p><pre class="language-ocaml shared"><code>[%%shared
+      [txt &quot;Increment&quot;])</code></pre><p>The signal <code>s</code> carries an int value initialized at 0 and <code>set_s</code> is the update function generating an occurence of the signal.</p><p><code>example_div</code> is a <code>&lt;div&gt;</code> containing a string which depends on the value of s.</p><p>The magic part: we never have to explicitly update <code>example_div</code>. Its behavior is declaratively described in its own code, and not in the code of the button.</p><p><aside class="concept"><b>Concept: Client node on the server</b></p><p><code>C.node</code> takes a client node and brings it to the server side. </aside></p><p><aside class="concept"><b>Concept: Step semantics</b></p><p><b>Warning</b> If you haven't read the React semantics, be aware of this: a step occurence of a signal <code>s</code> happens when the update function is called on the signal or on a other signal <code>s'</code> which <code>s</code> depends on. But moreover, this update call must at least <b>modify</b> the signal current value, otherwise it's not a step.</p><p>This can be seen when there are side effects (like print) in the code of functions mapped to the signal. If the update function does not modify the signal value, the printing does not happen.</p><p>The test equality function of a signal can be set in the <code>eq</code> optional parameters of React.S functions producing a signal (like <code>create</code>). </aside></p><h2 id="frp_medial_player">Functional Reactive Media Player</h2><p>This part explains how to create a simple media player, similar to the <a href="music.html">Playing Music</a> tutorial but with custom controls.We will apply <a href="https://en.wikipedia.org/wiki/Functional_reactive_programming">FRP (Functional Reactive Programming)</a>.</p><p>In order to provide a short tutorial, we only create three controls: play, pause and seek/progress bar. So, let's write the corresponding type:</p><pre class="language-ocaml shared"><code>[%%shared
     open Eliom_content
     open Html
 
@@ -332,7 +333,7 @@ let play_button () =
   D.(Form.button_no_value
        ~button_type:`Button
        ~a:[a_onclick  [%client  fun _ -&gt; set_media_s Play ]]
-       [txt &quot;Play&quot;])</code></pre><p><!--wodoc:unknown:aside--><b>Concept: Abstract the Js events</b></p><p>A nice thing about FRP is that we can abstract JavaScript events and only use signals. The JS event handler is only a function raising a signal. <!--wodoc:unbalanced-end--></p><p>To use our buttons, we now create a media (audio or video) HTML element on the server side.</p><pre class="language-ocaml server"><code>let media_uri =
+       [txt &quot;Play&quot;])</code></pre><p><aside class="concept"><b>Concept: Abstract the Js events</b></p><p>A nice thing about FRP is that we can abstract JavaScript events and only use signals. The JS event handler is only a function raising a signal. </aside></p><p>To use our buttons, we now create a media (audio or video) HTML element on the server side.</p><pre class="language-ocaml server"><code>let media_uri =
   Html.D.make_uri
     ~service:(Eliom_service.static_dir ())
     [&quot;hb.mp3&quot;]
@@ -356,7 +357,7 @@ let media_tag () =
            ))
      : unit)
   ] in
-  media</code></pre><p>The function <code>media_tag</code> builds an <code>&lt;audio&gt;</code> element. The code in <code>[%client ... ]</code> is on the client part. It's an Lwt thread that maps a function <code>media_action -&gt; unit</code> to the signal <code>media_s</code>.</p><p><!--wodoc:unknown:aside--><b>Concept: Playing video</b></p><p>The code for playing video is conceptually similar. You just replace the <code>audio</code> tag by a <code>video</code> tag. But be careful, not all browsers are compatible with all formats. <!--wodoc:unbalanced-end--></p><pre class="language-ocaml server"><code>module React_Player_app =
+  media</code></pre><p>The function <code>media_tag</code> builds an <code>&lt;audio&gt;</code> element. The code in <code>[%client ... ]</code> is on the client part. It's an Lwt thread that maps a function <code>media_action -&gt; unit</code> to the signal <code>media_s</code>.</p><p><aside class="concept"><b>Concept: Playing video</b></p><p>The code for playing video is conceptually similar. You just replace the <code>audio</code> tag by a <code>video</code> tag. But be careful, not all browsers are compatible with all formats. </aside></p><pre class="language-ocaml server"><code>module React_Player_app =
   Eliom_registration.App
     (struct
       let application_name = &quot;react_player&quot;
@@ -414,7 +415,7 @@ let%client unblock_s, set_unblock_s = React.S.create true</code></pre><pre class
            ))
      : unit)
   ] in
-  d_input</code></pre><p><!--wodoc:unknown:aside--><b>Concept: Reactive attributes and React.S.on</b></p><p>The function <code>R.a_value</code> (under <code>Eliom_content.Html</code>) is a reactive attribute value. <code>React.S.on c d s</code> is equal to <code>s</code> when <code>c</code> is true, otherwise it is equal to <code>d</code> (in case <code>c</code> has never been true). Which means we update the attribute value of our input only if unblock is true.</p><!--wodoc:unbalanced-end--><p>To end this tutorial, you can add a <code>progress_bar ()</code> call inside the div containing play and pause. We also need a mechanism which emits the <code>progress_s</code> signal. We modify the media tag with an eventhandler on <code>timeupdate</code>.</p><pre class="language-ocaml server"><code>let media_tag () =
+  d_input</code></pre><p><aside class="concept"><b>Concept: Reactive attributes and React.S.on</b></p><p>The function <code>R.a_value</code> (under <code>Eliom_content.Html</code>) is a reactive attribute value. <code>React.S.on c d s</code> is equal to <code>s</code> when <code>c</code> is true, otherwise it is equal to <code>d</code> (in case <code>c</code> has never been true). Which means we update the attribute value of our input only if unblock is true.</p></aside><p>To end this tutorial, you can add a <code>progress_bar ()</code> call inside the div containing play and pause. We also need a mechanism which emits the <code>progress_s</code> signal. We modify the media tag with an eventhandler on <code>timeupdate</code>.</p><pre class="language-ocaml server"><code>let media_tag () =
   let media = D.(audio ~src:media_uri [txt &quot;alt&quot;]) in
   let _ = [%client
     (Lwt.async (fun () -&gt;

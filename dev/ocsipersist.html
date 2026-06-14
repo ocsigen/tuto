@@ -35,6 +35,7 @@
   <div class="mainmenu">
     <p class="mainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></p>
     <p class="mainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></p>
+    <p class="mainmenu-blog" data-wodoc-page="blog"><a href="/blog/">Blog</a></p>
     <p data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></p>
     <p data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></p>
     <p data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></p>
@@ -71,7 +72,7 @@
         <li class="drawermainmenu-page" data-wodoc-page="papers"><a href="/papers">Research papers</a></li>
         <li class="drawermainmenu-page" data-wodoc-page="credits"><a href="/credits">Who does Ocsigen?</a></li>
         <li class="drawermainmenu-page" data-wodoc-page="contributing"><a href="/contributing">Contributing</a></li>
-        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog">Blog</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog/">Blog</a></li>
         <li class="drawermainmenu-page" data-wodoc-page="install"><a href="/install">Installation</a></li>
         <li class="drawermainmenu-page"><a href="https://github.com/ocsigen">Source code</a></li>
       </ul>
@@ -316,7 +317,7 @@
       </nav>
       <article class="rightcol">
         
-        <h1 id="lightweight-database-using-ocsipersist">Lightweight database using Ocsipersist</h1><p><!--wodoc:unknown:aside--><b>Concepts</b></p><p>Persistent tables with Ocsipersist<!--wodoc:unbalanced-end--></p><p>Ocsipersist is a module for persistent references and tables.</p><p>For persistent references, Eliom has a higher level interface, called <em>Eliom references</em>, and you probably want to use it instead of using Ocsipersist directly. For example persistent Eliom references of scope session group can be used to store information about a user (if the session group corresponds to the user).</p><p>Ocsipersist can still be useful for creating persistent key-value tables, if you do not need the full power of a SQL database.</p><p>This tutorial shows how to implement a table for storing users and passwords.</p><p>We first create a table:</p><pre class="language-ocaml"><code>let user_table = Ocsipersist.Polymorphic.open_table &quot;user_table&quot;</code></pre><p>Then we can easily handle the user management code:</p><pre class="language-ocaml"><code>let check_pwd name pwd =
+        <h1 id="lightweight-database-using-ocsipersist">Lightweight database using Ocsipersist</h1><p><aside class="concepts"><b>Concepts</b></p><p>Persistent tables with Ocsipersist</aside></p><p>Ocsipersist is a module for persistent references and tables.</p><p>For persistent references, Eliom has a higher level interface, called <em>Eliom references</em>, and you probably want to use it instead of using Ocsipersist directly. For example persistent Eliom references of scope session group can be used to store information about a user (if the session group corresponds to the user).</p><p>Ocsipersist can still be useful for creating persistent key-value tables, if you do not need the full power of a SQL database.</p><p>This tutorial shows how to implement a table for storing users and passwords.</p><p>We first create a table:</p><pre class="language-ocaml"><code>let user_table = Ocsipersist.Polymorphic.open_table &quot;user_table&quot;</code></pre><p>Then we can easily handle the user management code:</p><pre class="language-ocaml"><code>let check_pwd name pwd =
   try%lwt
     lwt saved_password = Ocsipersist.Polymorphic.find user_table name in
     Lwt.return (pwd = saved_password)
@@ -332,7 +333,7 @@ let () = Eliom.Registration.Action.register
   (fun () (name, password) -&gt;
     match%lwt check_pwd name password with
       | true -&gt; Eliom.Reference.set username (Some name)
-      | false -&gt; Lwt.return ())</code></pre><p><!--wodoc:unknown:aside--><b>Concept: Ocsipersist</b></p><p>Ocsipersist implements simple typed key/value tables. It can use different backends (currently sqlite and dbm). For more information see <code>Ocsipersist.table</code>. <!--wodoc:unbalanced-end--></p>
+      | false -&gt; Lwt.return ())</code></pre><p><aside class="concept"><b>Concept: Ocsipersist</b></p><p>Ocsipersist implements simple typed key/value tables. It can use different backends (currently sqlite and dbm). For more information see <code>Ocsipersist.table</code>. </aside></p>
 
       </article>
     </div>

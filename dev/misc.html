@@ -35,6 +35,7 @@
   <div class="mainmenu">
     <p class="mainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></p>
     <p class="mainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></p>
+    <p class="mainmenu-blog" data-wodoc-page="blog"><a href="/blog/">Blog</a></p>
     <p data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></p>
     <p data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></p>
     <p data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></p>
@@ -71,7 +72,7 @@
         <li class="drawermainmenu-page" data-wodoc-page="papers"><a href="/papers">Research papers</a></li>
         <li class="drawermainmenu-page" data-wodoc-page="credits"><a href="/credits">Who does Ocsigen?</a></li>
         <li class="drawermainmenu-page" data-wodoc-page="contributing"><a href="/contributing">Contributing</a></li>
-        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog">Blog</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog/">Blog</a></li>
         <li class="drawermainmenu-page" data-wodoc-page="install"><a href="/install">Installation</a></li>
         <li class="drawermainmenu-page"><a href="https://github.com/ocsigen">Source code</a></li>
       </ul>
@@ -317,7 +318,7 @@
       <article class="rightcol">
         
         <h1 id="traditional-web-interaction-in-a-client-server-app">Traditional web interaction in a client-server app</h1><p><em>The code of this tutorial has been tested with Eliom 6.0.</em> <br/></p>
-<h2 id="multi-user-collaborative-drawing-application">Multi-user collaborative drawing application</h2><p>We now want to turn our collaborative drawing application into a multi-user one. Each user will have their own drawing, where everyone can draw.</p><p>See the <a href="https://github.com/ocsigen/graffiti/tree/master/extended/">full code of examples</a>.</p><h3 id="split-application-into-multiple-files-and-using-several-canvases">Split application into multiple files and using several canvases</h3><p><!--wodoc:unknown:aside--><b>Concepts</b></p><p>Complex eliom project<br/>Unique elements<!--wodoc:unbalanced-end--></p><p>We first build a multi-canvas drawing application. Each drawing has its own URL. Everyone can create a new drawing by going to the corresponding URL.</p><p>We need to refactor some parts. In particular, we need to handle different drawings separately. To do this, we turn all global variables, like the bus, into local ones.</p><p>When an application grows, it becomes useful to split it into multiple files. For example, we will split graffiti into 4 files.</p><ul><li><code>common.ml</code>, which will be part of both client and server, containing shared types and declarations,</li><li><code>client.ml</code>, client-only part of the application,</li><li><code>server.ml</code>, server-only part of the application, and</li><li><code>graffiti.eliom</code>, which is the only part where we need to include both client-side and server-side code</li></ul><h4 id="common.ml"><code>common.ml</code></h4><p>It contains what was previously in <code>[%shared ... ]</code></p><pre class="language-ocaml"><code>type messages =
+<h2 id="multi-user-collaborative-drawing-application">Multi-user collaborative drawing application</h2><p>We now want to turn our collaborative drawing application into a multi-user one. Each user will have their own drawing, where everyone can draw.</p><p>See the <a href="https://github.com/ocsigen/graffiti/tree/master/extended/">full code of examples</a>.</p><h3 id="split-application-into-multiple-files-and-using-several-canvases">Split application into multiple files and using several canvases</h3><p><aside class="concepts"><b>Concepts</b></p><p>Complex eliom project<br/>Unique elements</aside></p><p>We first build a multi-canvas drawing application. Each drawing has its own URL. Everyone can create a new drawing by going to the corresponding URL.</p><p>We need to refactor some parts. In particular, we need to handle different drawings separately. To do this, we turn all global variables, like the bus, into local ones.</p><p>When an application grows, it becomes useful to split it into multiple files. For example, we will split graffiti into 4 files.</p><ul><li><code>common.ml</code>, which will be part of both client and server, containing shared types and declarations,</li><li><code>client.ml</code>, client-only part of the application,</li><li><code>server.ml</code>, server-only part of the application, and</li><li><code>graffiti.eliom</code>, which is the only part where we need to include both client-side and server-side code</li></ul><h4 id="common.ml"><code>common.ml</code></h4><p>It contains what was previously in <code>[%shared ... ]</code></p><pre class="language-ocaml"><code>type messages =
   ((int * int * int) * int * (int * int) * (int * int))
   [@@deriving json]
 
@@ -516,8 +517,8 @@ let make_page body =
 let () = My_app.register ~service:main_service
   (fun () () -&gt;
     make_page [h1 [txt &quot;Welcome to Multigraffiti&quot;];
-	       choose_drawing_form ()])</code></pre><p><!--wodoc:unknown:aside--><b>Concept: Global node and scripts</b></p><p>Sometimes we need to control when a script is loaded and reloaded on page change. Since clicking on links in an Eliom application do not reload the entire page, already loaded libraries stay loaded. But if we simply add a script to each page, it will be loaded each time. We usually don't want that.</p><p>Using <code>val
-Eliom.Content.Html.Id.create_global_elt</code> we can create an xml node manipulated 'by reference'. If a reference to a script node is included in a page, it will only be loaded the first time it appears in the header. This is the case for <code>oclosure_script</code> above. <!--wodoc:unbalanced-end--></p><h4 id="graffiti.eliom"><code>graffiti.eliom</code></h4><p>Here is the code that mixes client and server parts.</p><p>We first open the corresponding modules for each parts of the application.</p><pre class="language-ocaml"><code>[%%shared
+	       choose_drawing_form ()])</code></pre><p><aside class="concept"><b>Concept: Global node and scripts</b></p><p>Sometimes we need to control when a script is loaded and reloaded on page change. Since clicking on links in an Eliom application do not reload the entire page, already loaded libraries stay loaded. But if we simply add a script to each page, it will be loaded each time. We usually don't want that.</p><p>Using <code>val
+Eliom.Content.Html.Id.create_global_elt</code> we can create an xml node manipulated 'by reference'. If a reference to a script node is included in a page, it will only be loaded the first time it appears in the header. This is the case for <code>oclosure_script</code> above. </aside></p><h4 id="graffiti.eliom"><code>graffiti.eliom</code></h4><p>Here is the code that mixes client and server parts.</p><p>We first open the corresponding modules for each parts of the application.</p><pre class="language-ocaml"><code>[%%shared
     open Eliom.Content.Html.D
     open Common
 ]

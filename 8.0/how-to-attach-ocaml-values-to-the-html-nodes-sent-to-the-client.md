@@ -1,0 +1,4 @@
+
+# How to attach OCaml values to the HTML nodes sent to the client?
+
+Use module `Eliom_content.Html.Custom_data`.

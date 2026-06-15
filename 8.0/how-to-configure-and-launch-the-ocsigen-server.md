@@ -1,0 +1,26 @@
+
+# How to configure and launch the Ocsigen Server?
+
+
+### Default configuration file
+
+- Eliom distillery is generating a configuration file
+- If you want to create it yourself, you can have a look at the default configuration file provided with the installation of Ocsigen (usually `/etc/ocsigenserver/ocsigenserver.conf.sample`).
+- Change the port by the network port number you want your website to work on. The port **80** is the port used by http by default but you need to be the administrator of your server to use it.
+- Adapt paths.
+- Change other parameters that suit your needs using the [configuration file documentation](https://ocsigen.org/ocsigenserver/latest/config.html).
+
+### Your own configuration file
+
+Have a look at the [configuration file full documentation](https://ocsigen.org/ocsigenserver/latest/config.html).
+
+
+### Launch the server
+
+```ocaml
+ocsigenserver -c your_config_file.conf
+```
+
+### Links
+
+- More information about this command or the configuration file in [Ocsigen Server's manual](https://ocsigen.org/ocsigenserver/latest/).

@@ -1,0 +1,119 @@
+<!--wodoc:header-->
+
+# HTML in 5 minutes
+
+<!--wodoc:end-->
+The Tyxml library makes it possible to type-check HTML pages. This means that your Ocsigen program will never generate pages which do not follow the recommendations from the W3C. For example a program that could generate a page with a paragraph inside another paragraph will be rejected at compile time.
+
+
+## Typed HTML
+
+
+### Tags
+
+Tyxml (or modules obtained by applying Tyxml functor, like `Eliom.Content.Html.D`) defines a contructor function for each HTML tag, and for each attribute.
+
+Example:
+
+```ocaml
+   html
+     (head (title (txt "Hello")) [])
+     (body [ h1 [txt "Hello"] ;
+             p [txt "Blah"] ])
+```
+As tag `<html>` contains a tag `<head>` and `<body>`, function `html` takes two parameters:
+
+```ocaml
+val html : [`Head] elt -> [`Body] elt -> [`Html] elt
+```
+The only way to create a value of type `[`Head] elt` is to use function `head`, and the only way to create a value of type `[`Body] elt` is to use function `body`.
+
+As a `<title>` tag is mandatory inside `<head>`, function `head` takes a `[`Title] elt` as first argument (that can be created using function `title`), then the list of other children.
+
+Function `txt` is used to include raw text.
+
+
+### Error messages
+
+If you write an invalid page, for example:
+
+```ocaml
+(html
+   (head (title (txt "")) [txt ""])
+   (body [txt "Hallo"]))
+```
+You will get an error message similar to the following, referring to the end of line 2:
+
+```
+Error: This expression has type ([> `TXT ] as 'a) Html.elt
+       but an expression was expected of type
+         Html_types.head_content_fun Html.elt
+       Type 'a is not compatible with type Html_types.head_content_fun =
+           [ `Base
+           | `Command
+           | `Link
+           | `Meta
+           | `Noscript of [ `Link | `Meta | `Style ]
+           | `Script
+           | `Style ]
+       The second variant type does not allow tag(s) `TXT
+```
+where `Html_types.head_content_fun` is the type of content allowed inside `<head>` (`<base>`, `<command>`, `<link>`, `<meta>`, etc.). Notice that ``TXT` (i.e. raw text) is not included in this polymorphic variant type, which means that `<head>` cannot contain raw text.
+
+
+### Attributes
+
+Attributes are given to functions using optional argument `?a`.
+
+Example:
+
+```ocaml
+div ~a:[a_id "the_id"; a_class ["firstclass"; "secondclass"]]
+  [ txt "blah" ]
+```
+
+## OCaml node and DOM nodes
+
+
+### Conversions
+
+Tyxml builds OCaml nodes. If you are using it server side, they are serialized as an XML text before being sent to the browser. On client side, if you want to get the DOM node corresponding to an OCaml node, use functions from module `Eliom.Content.Html.To_dom`, for example `Eliom.Content.Html.To_dom.of_element`, or `Eliom.Content.Html.To_dom.of_input`, `Eliom.Content.Html.To_dom.of_textarea`, etc.
+
+If the node has been created with `Eliom.Content.Html.F` (functional nodes), a new DOM node will be created every time you call such a conversion function.
+
+If the node has been created with `Eliom.Content.Html.D`, the conversion function will return the exact DOM node that exists in the page (and always the same one). If this "D" node is created server-side, Eliom will automatically add a identifier in the HTML page to be able to find it back.
+
+Example:
+
+```ocaml
+[%%shared
+  open Eliom.Content.Html
+]
+
+let%server create_widget () =
+  let d = D.div [ ... ] in
+  ignore [%client
+    Lwt.async (fun () ->
+      Lwt_js_events.clicks (To_dom.of_element ~%d) (fun _ _ -> ... )) ];
+  d
+```
+Here, `d` must be a "D" node, as I want to bind click events on the actual node (that is already in the page), not create a new one.
+
+Remember to use "D" nodes if you want to use it in a injection (`~%d`). If you don't to bother about "D" or "F" nodes, use "D" nodes by default (even if it will generate too much identifiers in the page). But remember that, the DOM semantics implies that "D" nodes cannot be inserted twice in a page.
+
+
+### Manip
+
+Module `Eliom.Content.Html.Manip` makes it possible to manipulate OCaml nodes without conversions (add them in a page, replace a node, add as child of another node, add a class, etc.).
+
+
+### Reactive nodes
+
+Module `Eliom.Content.Html.R` makes it possible to create reactive nodes, that is, nodes that will be updated automatically when the data on which they depend change.
+
+It is based on module [React](http://erratique.ch/software/react/doc/React), which implements functional reactive programming for OCaml.
+
+
+## More documentation
+
+Have a look at [Tyxml's manual](https://ocsigen.org/tyxml/latest/tyxml/intro.html) and [Eliom's manual](https://ocsigen.org/eliom/latest/clientserver-html.html) for more documentation about HTML manipulation in OCaml.

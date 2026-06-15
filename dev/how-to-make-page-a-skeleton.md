@@ -1,0 +1,33 @@
+
+# How to make a page skeleton?
+
+
+### The same header for all your pages
+
+When your site will grow, you will have several different services for pages which will often contain the same header information.
+
+A great solution to avoid code copy-pasting of this recurrent information is to make a page skeleton function:
+
+```ocaml
+let skeleton body_content =
+  Lwt.return
+    (html
+       (head (title (txt "Page Title")) [])
+       (body body_content)))
+```
+So when you define your pages, you just call this skeleton with the content of the page as an argument:
+
+```ocaml
+  Example.register ~service:main
+    (fun () () -> skeleton [p [txt "Hello World!"]])
+```
+This method can also be adapted to add elements on all your pages, like a header, a footer and a menu.
+
+Module `Eliom.Tools` has a predefined function for this:
+
+```ocaml
+Eliom.Tools.D.html
+  ~title:"ex"
+  ~css:[["css"; "ex.css"]]
+  (body [h2 [txt "Welcome to Ocsigen!"]]
+```

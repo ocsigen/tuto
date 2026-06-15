@@ -1,0 +1,4 @@
+
+# How do I create a cryptographically safe identifier?
+
+`Ocsigen_lib.make_cryptographic_safe_string`

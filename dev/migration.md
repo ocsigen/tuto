@@ -1,0 +1,106 @@
+<!--wodoc:header-->
+
+# Migrating to new module names
+
+<!--wodoc:end-->
+Starting with Eliom 13, Ocsigen Server 8, Ocsigen Toolkit 5, and Ocsigen Start 9, all Ocsigen projects use hierarchical module names:
+
+| --- | --- |
+| Old name | New name |
+| `Eliom_service` | `Eliom.Service` |
+| `Eliom_content` | `Eliom.Content` |
+| `Eliom_registration` | `Eliom.Registration` |
+| `Eliom_parameter` | `Eliom.Parameter` |
+| `Ot_popup` | `Ot.Popup` |
+| `Ot_carousel` | `Ot.Carousel` |
+| `Os_session` | `Os.Session` |
+| `Os_user` | `Os.User` |
+| `Ocsigen_extensions` | `Ocsigen.Extensions` |
+| `Ocsigen_config` | `Ocsigen.Config` |
+| `Ocsigen_lib` | `Ocsigen_base.Lib` |
+
+## Using compatibility packages
+
+To migrate progressively, you can use the compatibility packages. They provide the old module names as aliases to the new ones, so your existing code compiles without changes.
+
+Install the compat packages you need:
+
+```shell
+opam install eliom-compat ocsigenserver-compat \
+  ocsigen-toolkit-compat ocsigen-start-compat
+```
+Then add them to the `(libraries ...)` in your `dune` file:
+
+```lisp
+; Server library
+(libraries
+  eliom.server
+  eliom-compat.server
+  ocsigenserver-compat
+  ocsigenserver-compat.baselib
+  ocsigen-start.server
+  ocsigen-start-compat.server
+  ocsigen-toolkit-compat.server
+  ...)
+
+; Client executable or library
+(libraries
+  eliom.client
+  eliom-compat.client
+  ocsigen-start-compat.client
+  ocsigen-toolkit-compat.client
+  ...)
+```
+Your code will compile as before, using the old module names.
+
+
+## Migrating your code
+
+Once the compat packages are in place, you can migrate your code file by file, replacing old names with new ones. When a file is fully migrated, you can remove the compat libraries it depended on.
+
+The following renaming patterns apply:
+
+- **Eliom**: `Eliom_xxx` becomes `Eliom.Xxx` (e.g. `Eliom_content.Html.F` → `Eliom.Content.Html.F`)
+- **Ocsigen Server**: `Ocsigen_xxx` becomes `Ocsigen.Xxx` (e.g. `Ocsigen_extensions.Configuration` → `Ocsigen.Extensions.Configuration`)
+- **Ocsigen Server baselib**: `Ocsigen_lib` becomes `Ocsigen_base.Lib`, `Ocsigen_cache` becomes `Ocsigen_base.Cache`
+- **Ocsigen Toolkit**: `Ot_xxx` becomes `Ot.Xxx` (e.g. `Ot_popup.popup` → `Ot.Popup.popup`)
+- **Ocsigen Start**: `Os_xxx` becomes `Os.Xxx` (e.g. `Os_session.connected_fun` → `Os.Session.connected_fun`)
+A few modules keep their old name because of conflicts with other libraries:
+
+- `Eliom.Eliom_react` (conflict with `react` library)
+- `Eliom.Eliom_form` (conflict with `js_of_ocaml`)
+- `Eliom.Eliom_lazy` (conflict with `Stdlib.Lazy`)
+- `Eliom.Eliom_uri` (conflict with `uri` library)
+
+### `module type of` on wrapped modules
+
+Because the new module names live inside a dune-wrapped library, OCaml's type strengthening exposes the internal mangled prefix (`Eliom__Content.Html.D` rather than `Eliom.Content.Html.D`) when you use `module type of`. As a consequence, code like
+
+```ocaml
+module Make (A : module type of Eliom_content.Html.F) = struct ... end
+module D = Make (Eliom_content.Html.D)
+```
+stops type-checking, even with `eliom-compat` installed: the functor parameter type and the application argument become incompatible, with errors mentioning `Eliom__Content.Html...`.
+
+To work around this, Eliom now exposes named module types that `eliom-compat` re-exports under the legacy paths:
+
+- `Eliom.Content.Html.T` (alias: `Eliom_content.Html.T`)
+Use them instead of `module type of`:
+
+```ocaml
+module Make (A : Eliom_content.Html.T) = struct ... end
+module D = Make (Eliom_content.Html.D)
+```
+This is the same pattern adopted internally by `Ot.Icons.Make`.
+
+
+### Top-level values cannot be shimmed
+
+`eliom-compat` can re-export legacy module names but not top-level values of the wrapper module itself: dune's auto-generated wrapper module can only contain submodules, not `val` declarations. You must update such call sites by hand:
+
+- `Eliom.run ()` → `Eliom.App.run ()`
+
+### Other changes
+
+- `ocsigen-i18n` 5\.0 now adds `[@@deriving json]` automatically in `--eliom` mode. Remove any `sed` hack that was adding it manually.
+- `ocsigen-i18n-generator` reads its TSV input from stdin in `--eliom` mode. In `dune` rules, pipe the input via `(with-stdin-from %{deps} (run ocsigen-i18n-generator --eliom ...))` rather than passing it as a positional argument.

@@ -3,7 +3,7 @@
 
 *The code of this tutorial has been tested with Eliom 6\.0.* <br/>
 
-This chapter of the tutorial explains how to create a small web site with several pages, users, sessions, and other elements of classical web development. Then, in [another tutorial](misc.html), we will incorporate the features of this site into our Graffiti application, to demonstrate that we can combine this kind of interaction with client-side programs.
+This chapter of the tutorial explains how to create a small web site with several pages, users, sessions, and other elements of classical web development. Then, in `another tutorial`, we will incorporate the features of this site into our Graffiti application, to demonstrate that we can combine this kind of interaction with client-side programs.
 
 We assume you have read at least the first section of the previous chapter, which explained how to create a service and constuct valid HTML pages.
 
@@ -237,7 +237,7 @@ Services using the POST HTTP method are created using the function `Eliom_servic
 
 If the fallback has GET parameters, your service will have both GET and POST parameters. In that case, GET parameters will be in the URL and POST parameters will probably come from a form. In HTML, it is not possible to mix GET and POST parameters in the same form.
 
-See also [the cheat-sheet](basics.html) for an comprehensive overview on the different types of services.
+See also [the cheat-sheet](./basics.md) for an comprehensive overview on the different types of services.
 
 <!--wodoc:end-->
 <!--wodoc:aside class="concept"-->**Concept: POST or GET?**
@@ -876,4 +876,4 @@ let () = Eliom_content.Html.D.(
               (body [h1 [txt ("Hello " ^ username) ]]))))
 )
 ```
-[prev](application.html) [next](misc.html)
+[prev](./application.md) `next`

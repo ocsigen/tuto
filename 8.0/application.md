@@ -725,7 +725,7 @@ For example, `Ot_color_picker.make` returns both the element and a *reactive sig
 
 Eliom makes it possible to create reactive (client side) page elements from server side, through module Eliom\_shared.
 
-This basic program does not show the full power of reactive programming, however. See [this tutorial](tutoreact.html) for a better introduction to reactive programming with Eliom.
+This basic program does not show the full power of reactive programming, however. See `this tutorial` for a better introduction to reactive programming with Eliom.
 
 <!--wodoc:end-->
 
@@ -836,4 +836,4 @@ The first version of the program is now complete.
 - Add a button that allows download the current image, and saving it to the hard disk (reuse the service `imageservice`).
 - Add a button with a color picker to select a color from the drawing. Pressing the button changes the mouse cursor, and disables current mouse events until the next mouse click event on the document. Then the color palette changes to the color of the pixel clicked. (Use the function `Dom_html.pixel_get`).
 <!--wodoc:end-->
-If you want to continue learning client-server programming with Eliom and build your first application, we suggest to read [the tutorial about Ocsigen Start](start.html).
+If you want to continue learning client-server programming with Eliom and build your first application, we suggest to read `the tutorial about Ocsigen Start`.

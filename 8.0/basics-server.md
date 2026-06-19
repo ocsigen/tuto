@@ -5,7 +5,7 @@ While Eliom is well known for its unique client-server programming model, it is 
 
 You will then learn how Eliom is simplifying the programming of very common behaviours by introducing innovative concepts like scoped sessions or continuation-based Web programming.
 
-Programming with Eliom will make your website ready for future evolutions by allowing you to introduce progressively client-side features like event handlers, fully in OCaml. You will even be able to turn your website into a [distributed client-server Web app](basics.html), and even a mobile app if needed in the future, without having to rewrite anything.
+Programming with Eliom will make your website ready for future evolutions by allowing you to introduce progressively client-side features like event handlers, fully in OCaml. You will even be able to turn your website into a `distributed client-server Web app`, and even a mobile app if needed in the future, without having to rewrite anything.
 
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
 
@@ -32,7 +32,7 @@ Instead of calling blocking functions, like `Unix.sleep` or `Unix.read`, that co
 
 Syntax `let%lwt x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program. <!--wodoc:end-->
 
-To learn Lwt, read this [short tutorial](lwt.html), or its [user manual](https://ocsigen.org/lwt/latest/).
+To learn Lwt, read this `short tutorial`, or its [user manual](https://ocsigen.org/lwt/latest/).
 
 <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
@@ -289,7 +289,7 @@ Error: This expression has type
             | `Wbr ]
        The second variant type does not allow tag(s) `P
 ```
-Read more about TyXML in this [short tutorial](html.html) or in its [user manual](https://ocsigen.org/tyxml/latest/).
+Read more about TyXML in this `short tutorial` or in its [user manual](https://ocsigen.org/tyxml/latest/).
 
 <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
@@ -458,7 +458,7 @@ Use service `(Eliom_service.static_dir ())` to create links towards static files
 
 Use service `Eliom_service.reload_action` and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call `Os_lib.reload` to reload the page and restart the client-side program.
 
-[Full documentation about services](https://ocsigen.org/eliom/latest/server-services.html), [a tutorial about traditional service based Web programming](interaction.html), API documentation of modules `Eliom_service` and `Eliom_registration`.
+[Full documentation about services](https://ocsigen.org/eliom/latest/server-services.html), `a tutorial about traditional service based Web programming`, API documentation of modules `Eliom_service` and `Eliom_registration`.
 
 This example shows how to insert an image using `static_dir`:
 

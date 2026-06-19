@@ -3,7 +3,7 @@
 
 This short tutorial is an example of client-server Eliom application. It gives an example of client-server widgets.
 
-It is probably a good starting point if you know OCaml well, and want to quickly learn how to write a client-server Eliom application with a short example and concise explanations. For more detailed explanations, see the ["graffiti" tutorial](application.html), or read the manuals.
+It is probably a good starting point if you know OCaml well, and want to quickly learn how to write a client-server Eliom application with a short example and concise explanations. For more detailed explanations, see the ["graffiti" tutorial](./application.md), or read the manuals.
 
 The goal is to show that, unlike many JavaScript libraries that build their widgets programmatically (by instantiating classes or calling functions), Eliom enables server-side widget generation, before sending them to the client. Pages can thus be indexed by search engines.
 
@@ -319,7 +319,7 @@ let%server _ = Eliom_content.Html.D.(
 
 ### Calling server functions
 
-An important feature missing from this tutorial is the ability to call server functions from the client-side program ("server functions"). You can find a quick description of this in [this mini HOWTO](how-to-call-a-server-side-function-from-client-side.html) or in [Eliom's manual](https://ocsigen.org/eliom/latest/clientserver-communication.html#rpc).
+An important feature missing from this tutorial is the ability to call server functions from the client-side program ("server functions"). You can find a quick description of this in *this mini HOWTO* or in [Eliom's manual](https://ocsigen.org/eliom/latest/clientserver-communication.html#rpc).
 
 
 ### Services

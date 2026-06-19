@@ -4,7 +4,7 @@
 
 ### Eliom client-server applications
 
-Eliom client-server applications are running in your browser for a [certain lifetime](https://ocsigen.org/eliom/latest/clientserver-applications.html) and consist of one or several pages/URLs. An application has its associated js file, which must have the same name ([generated automatically by the default makefile](how-to-compile-my-ocsigen-pages.html) and added automatically by Eliom in the page).
+Eliom client-server applications are running in your browser for a [certain lifetime](https://ocsigen.org/eliom/latest/clientserver-applications.html) and consist of one or several pages/URLs. An application has its associated js file, which must have the same name (*generated automatically by the default makefile* and added automatically by Eliom in the page).
 
 For example, we define an application called *example*:
 
@@ -34,7 +34,7 @@ If, for example, the list is `"hello";"world"`, the page will be accessed using 
 ```ocaml
 http://website.com/hello/world/
 ```
-More information about parameters: [How to use GET parameters (parameters in the URL)?](how-to-use-get-parameters-or-parameters-in-the-url.html)
+More information about parameters: *How to use GET parameters (parameters in the URL)?*
 
 Now that our service has been declared, we associate to it an OCaml function that will generate the page. We call this *service registration*. If the service belongs to the application, we use the registrations functions from module `Example` defined above.
 

@@ -5,9 +5,9 @@ This tutorial has been tested with Eliom 11\.0.0.
 
 This page describes the main concepts you need to master to become fully operational with Ocsigen. Use it as your training plan or as a cheat sheet while programming.
 
-Depending on your needs, you may not need to learn all this. Ocsigen is very flexible and can be used both for Web site programming (see [this page](basics-server.html)) or more complex client-server Web apps and their mobile counterparts.
+Depending on your needs, you may not need to learn all this. Ocsigen is very flexible and can be used both for Web site programming (see *this page*) or more complex client-server Web apps and their mobile counterparts.
 
-In parallel to the reading of that page, we recommend to generate your first [Ocsigen Start](https://ocsigen.org/ocsigen-start/latest/) app to see running examples of all these concepts (see [that page](start.html)).
+In parallel to the reading of that page, we recommend to generate your first [Ocsigen Start](https://ocsigen.org/ocsigen-start/latest/) app to see running examples of all these concepts (see [that page](./start.md)).
 
 <!--wodoc:div class="quickstart-block"--> **Too long; didn't read? Get your first app running in 3 minutes:**
 
@@ -18,7 +18,7 @@ cd myapp
 make db-init && make db-create && make db-schema
 make test.byte
 ```
-Then open `http://localhost:8080`. <br/> Requires `postgresql` and `sass` (or `sassc`). Read the [detailed instructions](start.html) if needed. <!--wodoc:end-->
+Then open `http://localhost:8080`. <br/> Requires `postgresql` and `sass` (or `sassc`). Read the [detailed instructions](./start.md) if needed. <!--wodoc:end-->
 
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
 
@@ -45,7 +45,7 @@ Instead of calling blocking functions, like `Unix.sleep` or `Unix.read`, that co
 
 Syntax `let%lwt x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program. <!--wodoc:end-->
 
-To learn Lwt, read this [short tutorial](lwt.html), or its [user manual](https://ocsigen.org/lwt/latest/).
+To learn Lwt, read this [short tutorial](./lwt.md), or its [user manual](https://ocsigen.org/lwt/latest/).
 
 <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
@@ -161,7 +161,7 @@ Error: This expression has type
             | `Wbr ]
        The second variant type does not allow tag(s) `P
 ```
-Read more about TyXML in this [short tutorial](html.html) or in its [user manual](https://ocsigen.org/tyxml/latest/).
+Read more about TyXML in this [short tutorial](./html.md) or in its [user manual](https://ocsigen.org/tyxml/latest/).
 
 <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
@@ -281,7 +281,7 @@ Use service `(Eliom.Service.static_dir ())` to create links towards static files
 
 Use service `Eliom.Service.reload_action` and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call `Os.Lib.reload` to reload the page and restart the client-side program.
 
-[Full documentation about services](https://ocsigen.org/eliom/latest/server-services.html), [a tutorial about traditional service based Web programming](interaction.html), API documentation of modules `Eliom.Service` and `Eliom.Registration`.
+[Full documentation about services](https://ocsigen.org/eliom/latest/server-services.html), [a tutorial about traditional service based Web programming](./interaction.md), API documentation of modules `Eliom.Service` and `Eliom.Registration`.
 
 This example shows how to insert an image using `static_dir`:
 
@@ -415,7 +415,7 @@ Eliom.Content.Html.D.a ~service:other_service [txt "Other"] ("hello", Some 4)
 ```
 Modules `Eliom.Content.Html.F` and `D` define the form's elements with the usual typed interface from TyXML. Use this for example if you have a client side program and want to manipulate the form's content from client side functions (for example do a server function call with the form's elements' content).
 
-In contrast, modules `Eliom.Content.Html.F.Form` and `D.Form` define a typed interface for form elements. Use this for links (see above), or if you program traditional server-side Web interaction (with or without client-side program). This will statically check that your forms match the services. See more information in the [server-side programming manual](basics-server.html).
+In contrast, modules `Eliom.Content.Html.F.Form` and `D.Form` define a typed interface for form elements. Use this for links (see above), or if you program traditional server-side Web interaction (with or without client-side program). This will statically check that your forms match the services. See more information in the *server-side programming manual*.
 
 <!--wodoc:end--> <!--wodoc:section class="docblock"--> <!--wodoc:header-->
 
@@ -571,7 +571,7 @@ If such section is reached while generating a page on client side, the client-si
 
 If such section is reached during module initialization on the server (global client section), it will be executed on client side everytime a new client side program is launched.
 
-The tutorial [Client-Server Widgets](tutowidgets.html) shows how client values can be manipulated on server side.
+The tutorial [Client-Server Widgets](./tutowidgets.md) shows how client values can be manipulated on server side.
 
 
 ### Injections
@@ -687,8 +687,8 @@ let%shared () =
 Service handlers and service registration are usually written in shared sections to enable page generation on both sides.
 
 - Examples of client sections, injections or server functions can be found in the demo included in [Ocsigen-Start's app template](https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_rpc.eliom).
-- [This page](application.html) is a step by step introduction to client-server programming with Eliom for beginners.
-- [This one](tutowidgets.html) is a quick introduction for more experienced OCaml developers.
+- [This page](./application.md) is a step by step introduction to client-server programming with Eliom for beginners.
+- [This one](./tutowidgets.md) is a quick introduction for more experienced OCaml developers.
 - Comprehensive documentation on client-server programming can be found in [Eliom's user manual](https://ocsigen.org/eliom/latest/). <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
 
@@ -825,7 +825,7 @@ For example module `Ot.Spinner` implements a widgets that you can use to display
 <!--wodoc:end-->
 *Ocsigen-start* is a library and a template of Eliom application, with many common features like user registration, login box, notification system, etc.
 
-It also provides a demo of many features presented in this page. A [live version](https://ocsigen.org/ocsigen-start/latest/demo/) is accessible online. Read [this page](start.html) to create your first Ocsigen Start app and take time to study the code of each example.
+It also provides a demo of many features presented in this page. A [live version](https://ocsigen.org/ocsigen-start/latest/demo/) is accessible online. Read [this page](./start.md) to create your first Ocsigen Start app and take time to study the code of each example.
 
 User management features are fully usable in production and will save you from implementing account creation, activation links or password recovery yourself. Module `Os.Current_user` gives you information about current user from anywhere in your program.
 
@@ -876,7 +876,7 @@ Have a look at a [running example](https://ocsigen-1.inria.fr/ocsigen-start/demo
 
 Eliom has other communication modules:
 
-- `Eliom.Bus` defines a communication bus, that you can use to share information with other client processes (see an example [here](application.html)).
+- `Eliom.Bus` defines a communication bus, that you can use to share information with other client processes (see an example [here](./application.md)).
 - `Eliom_react` defines client-server React events.
 - `Eliom.Comet` is lower level interface for server to client communication.
 <!--wodoc:end-->
@@ -959,7 +959,7 @@ Module `Eliom.Content.Html.R` also defines all TyXML nodes, which take reactive 
 
 For example `Eliom.Content.Html.R.txt` takes a value of type `string React.S.t` as parameter (string signal).
 
-Instead of taking a list signal as parameter, functions like `div` or `p` of module `Eliom.Content.Html.R` take a parameter of type [Eliom.Content.Html.F.elt ReactiveData.Rlist.t](https://github.com/ocsigen/reactiveData). This enables incremental update of the content (usually, appending an element at the end of the list, without having to redraw the whole list). See an example with `ReactiveData` in [this tutorial](tutoreact.html).
+Instead of taking a list signal as parameter, functions like `div` or `p` of module `Eliom.Content.Html.R` take a parameter of type [Eliom.Content.Html.F.elt ReactiveData.Rlist.t](https://github.com/ocsigen/reactiveData). This enables incremental update of the content (usually, appending an element at the end of the list, without having to redraw the whole list). See an example with `ReactiveData` in [this tutorial](./tutoreact.md).
 
 Node attributes can also be reactive. For example if `s` has type `string list React.S.t`, you can write `Eliom.Content.Html.F.div ~a:[R.a_class s] []`.
 

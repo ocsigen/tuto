@@ -38,10 +38,10 @@ let _ =
 
 ###
 
-- To *understand* this code, have a look at [How does a page's source code look?](how-does-a-page-s-source-code-look.html)
-- Or directly continue by compiling this code: [How to compile my Ocsigen pages?](how-to-compile-my-ocsigen-pages.html)
+- To *understand* this code, have a look at *How does a page's source code look?*
+- Or directly continue by compiling this code: *How to compile my Ocsigen pages?*
 
 ### Links
 
-- [Tutorial to write a client/server application](application.html)
-- [Tutorial to write a server side web site](interaction.html)
+- [Tutorial to write a client/server application](./application.md)
+- `Tutorial to write a server side web site`

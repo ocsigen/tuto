@@ -1,7 +1,7 @@
 
 # Reactive Media Player
 
-You should read the [Playing Music](music.html) tutorial before this one.
+You should read the [Playing Music](./music.md) tutorial before this one.
 
 Since version 4, Eliom embeds the [React](http://erratique.ch/logiciel/react) library in order to provide reactive HTML elements (`Eliom.Content.Html.R`).
 
@@ -55,7 +55,7 @@ The test equality function of a signal can be set in the `eq` optional parameter
 
 ## Functional Reactive Media Player
 
-This part explains how to create a simple media player, similar to the [Playing Music](music.html) tutorial but with custom controls.We will apply [FRP (Functional Reactive Programming)](https://en.wikipedia.org/wiki/Functional_reactive_programming).
+This part explains how to create a simple media player, similar to the [Playing Music](./music.md) tutorial but with custom controls.We will apply [FRP (Functional Reactive Programming)](https://en.wikipedia.org/wiki/Functional_reactive_programming).
 
 In order to provide a short tutorial, we only create three controls: play, pause and seek/progress bar. So, let's write the corresponding type:
 

@@ -21,11 +21,11 @@ The [installation is described here](https://ocsigen.org/install).
 
 Ocsigen originates from a research project by the CNRS, Université de Paris and Inria. It innovates in many aspects, and you will have to learn several new programming techniques to become autonomous. Depending on your level and goals, we suggest to continue by reading some of the following chapters:
 
-- Chapter [Client-server application programming guide](basics.html) can be used as your training plan. It provides a wide overview of each main concept, with links to more detailed documentation.
-- If you want to start with a server-side only Web site, read [Server-side website programming guide](basics-server.html) instead.
-- Then, a good starting point is this [Ocsigen Start tutorial](start.html), if you plan to build a client-server Web (and/or mobile) app. It will help you to build your first app very quickly, with many code samples to study.
-- If you are fluent in OCaml and want a quick introduction to client-server Web programming with Eliom, read tutorial [Eliom apps basics: writing client server widgets](tutowidgets.html). It illusrates the client-server syntax with an example, and is a good starting point for understanding Eliom's client-server features.
-- If you want a full step-by-step tutorial on how to write a client-server Web application, read tutorial [Client-server application](application.html). It describes step by step how to write a client/server [collaborative drawing application](https://ocsigen.org/graffiti/). You will learn, from the very beginning, how to:
+- Chapter [Client-server application programming guide](./basics.md) can be used as your training plan. It provides a wide overview of each main concept, with links to more detailed documentation.
+- If you want to start with a server-side only Web site, read *Server-side website programming guide* instead.
+- Then, a good starting point is this `Ocsigen Start tutorial`, if you plan to build a client-server Web (and/or mobile) app. It will help you to build your first app very quickly, with many code samples to study.
+- If you are fluent in OCaml and want a quick introduction to client-server Web programming with Eliom, read tutorial `Eliom apps basics: writing client server widgets`. It illusrates the client-server syntax with an example, and is a good starting point for understanding Eliom's client-server features.
+- If you want a full step-by-step tutorial on how to write a client-server Web application, read tutorial [Client-server application](./application.md). It describes step by step how to write a client/server [collaborative drawing application](https://ocsigen.org/graffiti/). You will learn, from the very beginning, how to:
 - Create new *services*
 - Output *valid HTML*
 - Send *OCaml code* to be executed *on the client*
@@ -33,14 +33,14 @@ Ocsigen originates from a research project by the CNRS, Université de Paris and
 - Catch *mouse events*
 - *Communicate* with the server, in both directions
 - Create services with *non-HTML output*
-- If you want to build mobile applications, read tutorial [Mobile applications with Ocsigen](mobile.html). It describes how to build a mobile app (e.g., for Android) with the same codebase as for your Web application.
-- If you want to write a more traditional Web site, with pages, forms, and sessions, read tutorial [Service based Web programming](interaction.html). It is devoted to server side programming. It shows how to create a new Web site with several pages and user connections. You will learn how to:
+- If you want to build mobile applications, read tutorial `Mobile applications with Ocsigen`. It describes how to build a mobile app (e.g., for Android) with the same codebase as for your Web application.
+- If you want to write a more traditional Web site, with pages, forms, and sessions, read tutorial [Service based Web programming](./interaction.md). It is devoted to server side programming. It shows how to create a new Web site with several pages and user connections. You will learn how to:
 - Create a *link* towards another service
 - Create *forms*
 - Register *session data* or *session services*
 - Create services performing *actions* (with no output)
 - Dynamically register new services (*continuation based* Web programming)
-- If you want to learn more details about Ocsigen read tutorial [Miscellaneous features](misc.html). It will mix the client-server drawing application with the session mechanism and user management to produce a multi-user collaborative drawing application. In this chapter, you will learn how to:
+- If you want to learn more details about Ocsigen read tutorial `Miscellaneous features`. It will mix the client-server drawing application with the session mechanism and user management to produce a multi-user collaborative drawing application. In this chapter, you will learn how to:
 - Integrate a typical Web interaction (links, forms,~ …) with a client side program.
 - Add *sounds or videos* to your application
 - Change pages *without stopping the client side program*
@@ -51,4 +51,4 @@ Ocsigen originates from a research project by the CNRS, Université de Paris and
 - You will also find more tutorials in the menu on the left.
 We recommend to ask your questions on [discuss.ocaml.org](https://discuss.ocaml.org) with tag `ocsigen`. You can also come and chat with us on IRC in channel `#ocsigen` on `freenode.net` (e.g. by using their [webchat](http://webchat.freenode.net/?channels=ocsigen))\!
 
-Now, we recommend to read, chapter [All Ocsigen in one page](basics.html) for a wide and complete overview.
+Now, we recommend to read, chapter [All Ocsigen in one page](./basics.md) for a wide and complete overview.

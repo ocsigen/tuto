@@ -19,7 +19,7 @@ To declare that you are listening on one piece of data `i`, call `My_notif.liste
 
 To notify all the clients listening on data `i`, call `My_notif.notify i (fun userid_o -> Lwt.return (Some notif))`. `userid_o` is the id of the user who will be notified, if he is connected (`None` otherwise). This make possible to customize the notifications. Return `None` if you don't want him to be notified.
 
-For more information, have a look at [the tutorial about client-server reactive applications](tutoreact.html).
+For more information, have a look at [the tutorial about client-server reactive applications](./tutoreact.md).
 
 
 ## Without `Os.Notif` (manual implementation)
@@ -53,7 +53,7 @@ in
 ```
 And call function `notify` on the channel (from server side) when you want to notify the client.
 
-To get back the `notify` functions for one user, you may want to [iterate on all client process states](how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.html). To do that, create a session group for each user (see [How to register session data](how-to-register-session-data.html)). Here we suppose that the session group name is the user\_id, as a string. Then iterate on all sessions from this group, and on all client processes for each session.
+To get back the `notify` functions for one user, you may want to *iterate on all client process states*. To do that, create a session group for each user (see *How to register session data*). Here we suppose that the session group name is the user\_id, as a string. Then iterate on all sessions from this group, and on all client processes for each session.
 
 For example:
 

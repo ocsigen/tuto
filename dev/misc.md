@@ -479,4 +479,4 @@ to use that, in `graffiti.eliom` we just replace add a call to `disconnect_box`
        choose_drawing_form ();
        canvas;])
 ```
-[prev](interaction.html)
+[prev](./interaction.md)

@@ -1013,7 +1013,7 @@ You can then test your application ([make test.byte]).
   from server side, through module Eliom_shared.
 
   This basic program does not show the full power of reactive
-  programming, however. See {{:tutoreact.html}this tutorial}
+  programming, however. See {{!page-tutoreact}this tutorial}
   for a better introduction to reactive programming with Eliom.
 
 {%wodoc:end%}
@@ -1169,4 +1169,4 @@ The first version of the program is now complete.
 
 If you want to continue learning client-server programming with Eliom
 and build your first application, we suggest to read
-{{:start.html}the tutorial about Ocsigen Start}.
+{{!page-start}the tutorial about Ocsigen Start}.

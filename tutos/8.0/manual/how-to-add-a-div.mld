@@ -8,7 +8,7 @@ div ~a:[a_class ["firstclass"; "secondclass"]] [txt "Hello!"]
 (Details of available elements in type
 {!Html_types.flow5}).
 
-{b Optional parameter} for attributes "a" ({{:how-to-set-and-id-classes-or-other-attributes-to-html-elements.html}How to set and id, classes or other attributes to HTML elements?}).
+{b Optional parameter} for attributes "a" ({{!page-how-to-set-and-id-classes-or-other-attributes-to-html-elements}How to set and id, classes or other attributes to HTML elements?}).
 
 {2 Download full code}
 

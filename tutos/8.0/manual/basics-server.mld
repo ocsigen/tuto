@@ -14,7 +14,7 @@ sessions or continuation-based Web programming.
 Programming with Eliom will make your website ready for future
 evolutions by allowing you to introduce progressively client-side
 features like event handlers, fully in OCaml. You will even be able to
-turn your website into a {{:basics.html}distributed client-server Web app},
+turn your website into a {{!page-basics}distributed client-server Web app},
 and even a mobile app if needed in the future, without having to rewrite
 anything.
 
@@ -62,7 +62,7 @@ and makes it very natural to sequentialize computations without blocking the res
 of the program.
 {%wodoc:end%}
 
-To learn Lwt, read this {{:lwt.html}short tutorial}, or its {{:https://ocsigen.org/lwt/latest/}user manual}.
+To learn Lwt, read this {{!page-lwt}short tutorial}, or its {{:https://ocsigen.org/lwt/latest/}user manual}.
 
 {%wodoc:end%}
 
@@ -343,7 +343,7 @@ Error: This expression has type
             | `Wbr ]
        The second variant type does not allow tag(s) `P
 ]}
-Read more about TyXML in this {{:html.html}short tutorial} or in its {{:https://ocsigen.org/tyxml/latest/}user manual}.
+Read more about TyXML in this {{!page-html}short tutorial} or in its {{:https://ocsigen.org/tyxml/latest/}user manual}.
 
 {%wodoc:end%}
 
@@ -542,7 +542,7 @@ to create links towards static files (see example below for images).
 
 Use service {!Eliom_service.reload_action} and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call {!Os_lib.reload} to reload the page and restart the client-side program.
 
-{{:https://ocsigen.org/eliom/latest/server-services.html}Full documentation about services}, {{:interaction.html}a tutorial about traditional service based Web programming}, API documentation of modules {!Eliom_service} and {!Eliom_registration}.
+{{:https://ocsigen.org/eliom/latest/server-services.html}Full documentation about services}, {{!page-interaction}a tutorial about traditional service based Web programming}, API documentation of modules {!Eliom_service} and {!Eliom_registration}.
 
 This example shows how to insert an image using [static_dir]:
 {@ocaml[img

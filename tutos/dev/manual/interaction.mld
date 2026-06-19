@@ -7,7 +7,7 @@
 This chapter of the tutorial explains how to create a small web site
 with several pages, users, sessions, and other elements of classical
 web development.  Then, in
-{{:misc.html}another tutorial}, we will incorporate the
+{{!page-misc}another tutorial}, we will incorporate the
 features of this site into our Graffiti application, to
 demonstrate that we can combine this kind of interaction with client-side
 programs.
@@ -368,7 +368,7 @@ and POST parameters. In that case, GET parameters will be in the URL
 and POST parameters will probably come from a form. In HTML, it is not
 possible to mix GET and POST parameters in the same form.
 
-See also {{:basics.html}the cheat-sheet} for an
+See also {{!page-basics}the cheat-sheet} for an
 comprehensive overview on the different types of services.
 
 {%wodoc:end%}
@@ -1257,5 +1257,5 @@ let () = Eliom.Content.Html.D.(
 )
 ]}
 
-{{:application.html}prev}
-{{:misc.html}next}
+{{!page-application}prev}
+{{!page-misc}next}

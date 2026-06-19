@@ -37,13 +37,13 @@ let _ =
 {2 }
 
 - To {e understand} this code, have a look at
-{{:how-does-a-page-s-source-code-look.html}How does a page's source code look?}
+{{!page-how-does-a-page-s-source-code-look}How does a page's source code look?}
 - Or directly continue by compiling this code:
-{{:how-to-compile-my-ocsigen-pages.html}How to compile my Ocsigen pages?}
+{{!page-how-to-compile-my-ocsigen-pages}How to compile my Ocsigen pages?}
 
 
 
 {2 Links}
 
-- {{:application.html}Tutorial to write a client/server application}
-- {{:interaction.html}Tutorial to write a server side web site}
+- {{!page-application}Tutorial to write a client/server application}
+- {{!page-interaction}Tutorial to write a server side web site}

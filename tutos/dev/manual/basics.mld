@@ -7,12 +7,12 @@ with Ocsigen. Use it as your training plan or as a cheat sheet while programming
 
 Depending on your needs, you may not need to learn all this. Ocsigen is
 very flexible and can be used both for Web site programming (see
-{{:basics-server.html}this page}) or more complex client-server Web apps and
+{{!page-basics-server}this page}) or more complex client-server Web apps and
 their mobile counterparts.
 
 In parallel to the reading of that page,
 we recommend to generate your first {{:https://ocsigen.org/ocsigen-start/latest/}Ocsigen Start} app to see
-running examples of all these concepts (see {{:start.html}that page}).
+running examples of all these concepts (see {{!page-start}that page}).
 
 {%wodoc:div class="quickstart-block"%}
 {b Too long; didn't read? Get your first app running in 3 minutes:}
@@ -25,7 +25,7 @@ make test.byte
 v}
 Then open [http://localhost:8080]. {%html:<br/>%}
 Requires [postgresql] and [sass] (or [sassc]).
-Read the {{:start.html}detailed instructions} if needed.
+Read the {{!page-start}detailed instructions} if needed.
 {%wodoc:end%}
 
 
@@ -72,7 +72,7 @@ and makes it very natural to sequentialize computations without blocking the res
 of the program.
 {%wodoc:end%}
 
-To learn Lwt, read this {{:lwt.html}short tutorial}, or its {{:https://ocsigen.org/lwt/latest/}user manual}.
+To learn Lwt, read this {{!page-lwt}short tutorial}, or its {{:https://ocsigen.org/lwt/latest/}user manual}.
 
 {%wodoc:end%}
 
@@ -200,7 +200,7 @@ Error: This expression has type
             | `Wbr ]
        The second variant type does not allow tag(s) `P
 ]}
-Read more about TyXML in this {{:html.html}short tutorial} or in its {{:https://ocsigen.org/tyxml/latest/}user manual}.
+Read more about TyXML in this {{!page-html}short tutorial} or in its {{:https://ocsigen.org/tyxml/latest/}user manual}.
 
 {%wodoc:end%}
 
@@ -341,7 +341,7 @@ to create links towards static files (see example below for images).
 
 Use service {!Eliom.Service.reload_action} and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call {!Os.Lib.reload} to reload the page and restart the client-side program.
 
-{{:https://ocsigen.org/eliom/latest/server-services.html}Full documentation about services}, {{:interaction.html}a tutorial about traditional service based Web programming}, API documentation of modules {!Eliom.Service} and {!Eliom.Registration}.
+{{:https://ocsigen.org/eliom/latest/server-services.html}Full documentation about services}, {{!page-interaction}a tutorial about traditional service based Web programming}, API documentation of modules {!Eliom.Service} and {!Eliom.Registration}.
 
 This example shows how to insert an image using [static_dir]:
 {@ocaml[img
@@ -493,7 +493,7 @@ define a typed interface
 for form elements. Use this for links (see above), or if you program traditional
 server-side Web interaction (with or without client-side program). This will statically check that your forms
 match the services. See more information in the
-{{:basics-server.html}server-side programming manual}.
+{{!page-basics-server}server-side programming manual}.
 
 {%wodoc:end%}
 {%wodoc:section class="docblock"%}
@@ -704,7 +704,7 @@ If such section is reached during module initialization on the server
 (global client section), it will be executed on client side everytime
 a new client side program is launched.
 
-The tutorial {{:tutowidgets.html}Client-Server Widgets}
+The tutorial {{!page-tutowidgets}Client-Server Widgets}
 shows how client values can be manipulated
 on server side.
 
@@ -844,8 +844,8 @@ page generation on both sides.
 - Examples of client sections, injections or server functions can be found in
 the demo included in
 {{:https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_rpc.eliom}Ocsigen-Start's app template}.
-- {{:application.html}This page} is a step by step introduction to client-server programming with Eliom for beginners.
-- {{:tutowidgets.html}This one} is a quick introduction for more experienced OCaml developers.
+- {{!page-application}This page} is a step by step introduction to client-server programming with Eliom for beginners.
+- {{!page-tutowidgets}This one} is a quick introduction for more experienced OCaml developers.
 - Comprehensive documentation on client-server programming can be found in
 {{:https://ocsigen.org/eliom/latest/}Eliom's user manual}.
 {%wodoc:end%}
@@ -1032,7 +1032,7 @@ user registration, login box, notification system, etc.
 
 It also provides a demo of many features presented in this page.
 A {{:https://ocsigen.org/ocsigen-start/latest/demo/}live version} is accessible online.
-Read {{:start.html}this page} to create your first Ocsigen Start
+Read {{!page-start}this page} to create your first Ocsigen Start
 app and take time to study the code of each example.
 
 User management features are fully usable in production and
@@ -1104,7 +1104,7 @@ Have a look at a {{:https://ocsigen-1.inria.fr/ocsigen-start/demo/demo-notif}run
 Eliom has other communication modules:
 - {!Eliom.Bus} defines a communication bus,
 that you can use to share information with other client processes
-(see an example {{:application.html}here}).
+(see an example {{!page-application}here}).
 - {!Eliom_react} defines client-server React events.
 - {!Eliom.Comet} is lower level interface for
 server to client communication.
@@ -1215,7 +1215,7 @@ take a parameter of type
 This enables incremental update of the content
 (usually, appending an element at the end of the list,
 without having to redraw the whole list).
-See an example with [ReactiveData] in {{:tutoreact.html}this tutorial}.
+See an example with [ReactiveData] in {{!page-tutoreact}this tutorial}.
 
 Node attributes can also be reactive. For example if [s] has type [string list React.S.t],
 you can write [Eliom.Content.Html.F.div ~a:[R.a_class s] []].

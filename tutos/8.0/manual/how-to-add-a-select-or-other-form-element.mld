@@ -35,8 +35,8 @@ Raw.select [option (txt "hello");
 
 {2 Links}
 
-- {{!page-how-to-write-forms}How to write forms}
-- {{:https://ocsigen.org/eliom/latest/server-links.html}Eliom forms and links}
+- {{!page-"how-to-write-forms"}How to write forms}
+- {{!/eliom/page-"server-links"}Eliom forms and links}
 - API
   {!Eliom_content.Html.D.Form}
 - signature {!Html_sigs.T} (Element attributes)

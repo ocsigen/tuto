@@ -16,7 +16,7 @@ p [txt "Some text, blah blah blah"]
 
 {b Required parameter}: list containing other elements (content: {!Html_types.flow5} elements).
 
-{b Optional parameter} for attributes "a" ({{!page-how-to-set-and-id-classes-or-other-attributes-to-html-elements}How to set and id, classes or other attributes to HTML elements?}).
+{b Optional parameter} for attributes "a" ({{!page-"how-to-set-and-id-classes-or-other-attributes-to-html-elements"}How to set and id, classes or other attributes to HTML elements?}).
 
 {2 Download full code}
 

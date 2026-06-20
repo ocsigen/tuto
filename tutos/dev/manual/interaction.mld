@@ -392,7 +392,7 @@ Remember:
 {e Warning:} Even if POST parameters are not shown in the URL, they
 are sent as plain text. If you want to transmit private data (like a password),
 you must
-use HTTPS (see {{:https://ocsigen.org/ocsigenserver/latest/config.html}the Ocsigen server manual}).  {%wodoc:end%}
+use HTTPS (see {{!/ocsigenserver/page-config}the Ocsigen server manual}).  {%wodoc:end%}
 
 Now we can register a handler for the new service:
 

@@ -23,7 +23,7 @@
 
 {b Required parameter}: list containing {b li} elements ({{:https://ocsigen.org/tyxml/latest/tyxml/Html_types/index.html#type-li_attrib}Details of li content}).
 
-{b Optional parameter} for attributes "a" ({{!page-how-to-set-and-id-classes-or-other-attributes-to-html-elements}How to set and id, classes or other attributes to HTML elements?}).
+{b Optional parameter} for attributes "a" ({{!page-"how-to-set-and-id-classes-or-other-attributes-to-html-elements"}How to set and id, classes or other attributes to HTML elements?}).
 
 {3 Definition list}
 
@@ -53,7 +53,7 @@ Details:
 - {{:https://ocsigen.org/tyxml/latest/tyxml/Html_types/index.html#type-phrasing}dd content}
 - {{:https://ocsigen.org/tyxml/latest/tyxml/Html_types/index.html#type-flow5}dt content}
 
-{b Optional parameter} for attributes "a" ({{!page-how-to-set-and-id-classes-or-other-attributes-to-html-elements}How to set and id, classes or other attributes to HTML elements?}).
+{b Optional parameter} for attributes "a" ({{!page-"how-to-set-and-id-classes-or-other-attributes-to-html-elements"}How to set and id, classes or other attributes to HTML elements?}).
 
 {2 Download full code}
 

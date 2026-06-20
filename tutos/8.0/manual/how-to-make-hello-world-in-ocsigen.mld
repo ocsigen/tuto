@@ -37,9 +37,9 @@ let _ =
 {2 }
 
 - To {e understand} this code, have a look at
-{{!page-how-does-a-page-s-source-code-look}How does a page's source code look?}
+{{!page-"how-does-a-page-s-source-code-look"}How does a page's source code look?}
 - Or directly continue by compiling this code:
-{{!page-how-to-compile-my-ocsigen-pages}How to compile my Ocsigen pages?}
+{{!page-"how-to-compile-my-ocsigen-pages"}How to compile my Ocsigen pages?}
 
 
 

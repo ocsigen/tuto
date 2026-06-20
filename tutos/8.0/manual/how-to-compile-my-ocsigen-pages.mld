@@ -15,10 +15,10 @@ Eliom distillery will also create a default configuration file for Ocsigen
 Server.
 
 More information on Eliom distillery in
-{{:https://ocsigen.org/eliom/latest/workflow-distillery.html}Eliom's manual}.
+{{!/eliom/page-"workflow-distillery"}Eliom's manual}.
 
 More information on how client-server Eliom project are compiled on
-{{:https://ocsigen.org/eliom/latest/workflow-configuration.html}this page}.
+{{!/eliom/page-"workflow-configuration"}this page}.
 
 If you don't need client-server features, the compilation process is very
 simple and without surprise. Compile with [ocamlc] or [ocamlopt]
@@ -38,4 +38,4 @@ Read manuals for mor information about these compilers.
 
 {2 Links}
 
-- {{:https://ocsigen.org/eliom/latest/workflow-configuration.html}Full documentation about Ocsigen compilation}
+- {{!/eliom/page-"workflow-configuration"}Full documentation about Ocsigen compilation}

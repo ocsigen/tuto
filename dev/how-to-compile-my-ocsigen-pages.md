@@ -11,9 +11,9 @@ $ eliom-distillery -name <name> -template client-server.basic [-target-directory
 ```
 Eliom distillery will also create a default configuration file for Ocsigen Server.
 
-More information on Eliom distillery in [Eliom's manual](https://ocsigen.org/eliom/latest/workflow-distillery.html).
+More information on Eliom distillery in `Eliom's manual`.
 
-More information on how client-server Eliom project are compiled on [this page](https://ocsigen.org/eliom/latest/workflow-configuration.html).
+More information on how client-server Eliom project are compiled on `this page`.
 
 If you don't need client-server features, the compilation process is very simple and without surprise. Compile with `ocamlc` or `ocamlopt` using `ocamlfind`, with package `eliom.server`. You will have to create your configuration file manually. But you can still use Eliom distillery, which will make easier the inclusion of client side features, later.
 
@@ -30,4 +30,4 @@ Read manuals for mor information about these compilers.
 
 ### Links
 
-- [Full documentation about Ocsigen compilation](https://ocsigen.org/eliom/latest/workflow-configuration.html)
+- `Full documentation about Ocsigen compilation`

@@ -61,5 +61,5 @@ Module `Eliom.Reference` also defines an interface for persistent references, th
 
 ## Links
 
-- [More information on session data](https://ocsigen.org/eliom/latest/server-state.html)
+- `More information on session data`
 - module `Eliom.Reference`

@@ -248,7 +248,7 @@ Remember:
 
 - Use GET parameters when you want your page to be bookmarkable.
 - Use POST parameters when you do not want the page to be bookmarkable, for example, because it performs a side effect on the server (connecting a user, add something in a database, perform a payment, etc.).
-*Warning:* Even if POST parameters are not shown in the URL, they are sent as plain text. If you want to transmit private data (like a password), you must use HTTPS (see [the Ocsigen server manual](https://ocsigen.org/ocsigenserver/latest/config.html)). <!--wodoc:end-->
+*Warning:* Even if POST parameters are not shown in the URL, they are sent as plain text. If you want to transmit private data (like a password), you must use HTTPS (see `the Ocsigen server manual`). <!--wodoc:end-->
 
 Now we can register a handler for the new service:
 

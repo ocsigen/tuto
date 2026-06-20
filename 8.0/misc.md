@@ -78,7 +78,7 @@ let stop_drawing { message_thread; drawing_thread } =
   (* cancelling this thread also close the bus *)
   Lwt.cancel drawing_thread
 ```
-`Lwt.cancel t` stops thread t. In this case it also closes the bus on which t is listening. For more informations see the [Lwt programming guide](https://ocsigen.org/lwt/latest/) and `Eliom_bus`.
+`Lwt.cancel t` stops thread t. In this case it also closes the bus on which t is listening. For more informations see the `Lwt programming guide` and `Eliom_bus`.
 
 ```ocaml
 let launch_client_canvas bus image_elt canvas_elt slider =

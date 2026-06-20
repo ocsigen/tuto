@@ -92,4 +92,4 @@ Use module [Eliom\_content.Html.D.Raw](https://ocsigen.org/eliom/latest/eliom.se
 
 ### Links
 
-- *How to write a select (or other form element)?*
+- [How to write a select (or other form element)?](./how-to-add-a-select-or-other-form-element.md)

@@ -38,8 +38,8 @@ let _ =
 
 ###
 
-- To *understand* this code, have a look at *How does a page's source code look?*
-- Or directly continue by compiling this code: *How to compile my Ocsigen pages?*
+- To *understand* this code, have a look at [How does a page's source code look?](./how-does-a-page-s-source-code-look.md)
+- Or directly continue by compiling this code: [How to compile my Ocsigen pages?](./how-to-compile-my-ocsigen-pages.md)
 
 ### Links
 

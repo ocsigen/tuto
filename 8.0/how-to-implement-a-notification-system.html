@@ -329,7 +329,7 @@ let _ =
     : unit)
   ]
 in
-...</code></pre><p>And call function <code>notify</code> on the channel (from server side) when you want to notify the client.</p><p>To get back the <code>notify</code> functions for one user, you may want to <em>iterate on all client process states</em>. To do that, create a session group for each user (see <em>How to register session data</em>). Here we suppose that the session group name is the user_id, as a string. Then iterate on all sessions from this group, and on all client processes for each session.</p><p>For example:</p><pre class="language-ocaml"><code>
+...</code></pre><p>And call function <code>notify</code> on the channel (from server side) when you want to notify the client.</p><p>To get back the <code>notify</code> functions for one user, you may want to <span class="xref-unresolved" title="how-to-iterate-on-all-sessions-for-one-user-or-all-tabs">iterate on all client process states</span>. To do that, create a session group for each user (see <span class="xref-unresolved" title="how-to-register-session-data">How to register session data</span>). Here we suppose that the session group name is the user_id, as a string. Then iterate on all sessions from this group, and on all client processes for each session.</p><p>For example:</p><pre class="language-ocaml"><code>
 let notify user_id v =
   (* We get the session group state for this user: *)
   let state =

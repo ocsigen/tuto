@@ -10,19 +10,19 @@ To see some examples of mobile or Web apps written with Ocsigen, have a look at 
 
 Ocsigen consists of several quite independent projects, all released as open source software on [Github](https://github.com/ocsigen). The main projects are:
 
-- [Lwt](https://ocsigen.org/lwt/latest/), a general purpose concurrent programming library for OCaml,
-- [TyXML](https://ocsigen.org/tyxml/latest/) for generating typed XML,
-- the [Js\_of\_ocaml](https://ocsigen.org/js_of_ocaml/latest/) compiler (from Ocaml bytecode to JavaScript),
-- [Eliom](https://ocsigen.org/eliom/latest/), the multi-tier framework for client-server Web and mobile apps,
-- [Ocsigen Server](https://ocsigen.org/ocsigenserver/latest/), a full-featured Web server,
-- [Ocsigen Toolkit](https://ocsigen.org/ocsigen-toolkit/latest/), a client-server widget library written for Eliom and Js\_of\_ocaml,
-- [Ocsigen Start](https://ocsigen.org/ocsigen-start/latest/), an application template with many code examples, to be used as a basis for your apps, or to learn.
+- `Lwt`, a general purpose concurrent programming library for OCaml,
+- `TyXML` for generating typed XML,
+- the `Js_of_ocaml` compiler (from Ocaml bytecode to JavaScript),
+- `Eliom`, the multi-tier framework for client-server Web and mobile apps,
+- `Ocsigen Server`, a full-featured Web server,
+- `Ocsigen Toolkit`, a client-server widget library written for Eliom and Js\_of\_ocaml,
+- `Ocsigen Start`, an application template with many code examples, to be used as a basis for your apps, or to learn.
 The [installation is described here](https://ocsigen.org/install).
 
 Ocsigen originates from a research project by the CNRS, Université de Paris and Inria. It innovates in many aspects, and you will have to learn several new programming techniques to become autonomous. Depending on your level and goals, we suggest to continue by reading some of the following chapters:
 
 - Chapter [Client-server application programming guide](./basics.md) can be used as your training plan. It provides a wide overview of each main concept, with links to more detailed documentation.
-- If you want to start with a server-side only Web site, read *Server-side website programming guide* instead.
+- If you want to start with a server-side only Web site, read [Server-side website programming guide](./basics-server.md) instead.
 - Then, a good starting point is this [Ocsigen Start tutorial](./start.md), if you plan to build a client-server Web (and/or mobile) app. It will help you to build your first app very quickly, with many code samples to study.
 - If you are fluent in OCaml and want a quick introduction to client-server Web programming with Eliom, read tutorial [Eliom apps basics: writing client server widgets](./tutowidgets.md). It illusrates the client-server syntax with an example, and is a good starting point for understanding Eliom's client-server features.
 - If you want a full step-by-step tutorial on how to write a client-server Web application, read tutorial [Client-server application](./application.md). It describes step by step how to write a client/server [collaborative drawing application](https://ocsigen.org/graffiti/). You will learn, from the very beginning, how to:
@@ -46,7 +46,7 @@ Ocsigen originates from a research project by the CNRS, Université de Paris and
 - Change pages *without stopping the client side program*
 - Connect with external accounts (*openID*)
 - Add an Atom feed
-- If you want to have a full application with user management (registration, activation emails, authentication), have a look at [Ocsigen-start](https://ocsigen.org/ocsigen-start/latest/). Ocsigen-start is a library and a template for Eliom distillery that contains a working Eliom application with user and right management.
+- If you want to have a full application with user management (registration, activation emails, authentication), have a look at `Ocsigen-start`. Ocsigen-start is a library and a template for Eliom distillery that contains a working Eliom application with user and right management.
 - For a more comprehensive understanding refer to the manual of each project, and/or the API documentation.
 - You will also find more tutorials in the menu on the left.
 We recommend to ask your questions on [discuss.ocaml.org](https://discuss.ocaml.org) with tag `ocsigen`. You can also come and chat with us on IRC in channel `#ocsigen` on `freenode.net` (e.g. by using their [webchat](http://webchat.freenode.net/?channels=ocsigen))\!

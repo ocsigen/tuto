@@ -338,7 +338,7 @@ let%lwt () = p2 in
   | v :: r -&gt;
       let%lwt v' = f v in
       let%lwt l' = map_serial f r in
-      Lwt.return (v' :: l')</code></pre><h2 id="more-documentation">More documentation</h2><p>Have a look at <a href="https://ocsigen.org/lwt/latest/">Lwt's manual</a> for more details about Lwt. You will learn how to handle exceptions (using <code>Lwt.fail</code> and <code>Lwt.catch</code> or <code>try%lwt</code>). You will also learn for example how to create a thread that waits until it is awaken (using <code>Lwt.wait</code> and <code>Lwt.wakeup</code>).</p>
+      Lwt.return (v' :: l')</code></pre><h2 id="more-documentation">More documentation</h2><p>Have a look at <span class="xref-unresolved" title="/lwt/index">Lwt's manual</span> for more details about Lwt. You will learn how to handle exceptions (using <code>Lwt.fail</code> and <code>Lwt.catch</code> or <code>try%lwt</code>). You will also learn for example how to create a thread that waits until it is awaken (using <code>Lwt.wait</code> and <code>Lwt.wakeup</code>).</p>
       </article>
     </div>
   </div>

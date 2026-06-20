@@ -55,7 +55,7 @@ Description of parameters (names and types) is done using module `Eliom_paramete
 
 - **Common types**: [string](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L121), [int](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L122), [int32](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L123), [float](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L124), [bool](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L125)
 - **Some other types**: [optional values](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L126), [any parameter](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L158), [list](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L187), [your own type](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L211).
-- See more information on parameters in [Eliom manual](https://ocsigen.org/eliom/latest/server-params.html) and API documentation of module `Eliom_parameter`.
+- See more information on parameters in `Eliom manual` and API documentation of module `Eliom_parameter`.
 
 #### Get these parameters
 
@@ -101,7 +101,7 @@ To do that, add a parameter of type **suffix** in **get\_params**:
 
 ### Links
 
-- Manual: [Parameters](https://ocsigen.org/eliom/latest/server-params.html)
-- Manual: [Services](https://ocsigen.org/eliom/latest/server-services.html)
+- Manual: `Parameters`
+- Manual: `Services`
 - API: `Eliom_parameter`
 - API: `Eliom_service`

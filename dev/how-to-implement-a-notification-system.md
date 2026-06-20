@@ -53,7 +53,7 @@ in
 ```
 And call function `notify` on the channel (from server side) when you want to notify the client.
 
-To get back the `notify` functions for one user, you may want to *iterate on all client process states*. To do that, create a session group for each user (see *How to register session data*). Here we suppose that the session group name is the user\_id, as a string. Then iterate on all sessions from this group, and on all client processes for each session.
+To get back the `notify` functions for one user, you may want to [iterate on all client process states](./how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.md). To do that, create a session group for each user (see [How to register session data](./how-to-register-session-data.md)). Here we suppose that the session group name is the user\_id, as a string. Then iterate on all sessions from this group, and on all client processes for each session.
 
 For example:
 

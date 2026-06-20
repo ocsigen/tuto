@@ -32,7 +32,7 @@ Instead of calling blocking functions, like `Unix.sleep` or `Unix.read`, that co
 
 Syntax `let%lwt x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program. <!--wodoc:end-->
 
-To learn Lwt, read this `short tutorial`, or its [user manual](https://ocsigen.org/lwt/latest/).
+To learn Lwt, read this `short tutorial`, or its `user manual`.
 
 <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
@@ -289,7 +289,7 @@ Error: This expression has type
             | `Wbr ]
        The second variant type does not allow tag(s) `P
 ```
-Read more about TyXML in this `short tutorial` or in its [user manual](https://ocsigen.org/tyxml/latest/).
+Read more about TyXML in this `short tutorial` or in its `user manual`.
 
 <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
@@ -421,7 +421,7 @@ To define a service with POST parameters, just change the `~meth` parameter. For
 ## Eliom: Other kinds of services
 
 <!--wodoc:end-->
-The detailed explanation of services can be found in [Eliom's manual](https://ocsigen.org/eliom/latest/server-services.html). Here is a summary:
+The detailed explanation of services can be found in `Eliom's manual`. Here is a summary:
 
 
 ### Pathless services
@@ -458,7 +458,7 @@ Use service `(Eliom_service.static_dir ())` to create links towards static files
 
 Use service `Eliom_service.reload_action` and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call `Os_lib.reload` to reload the page and restart the client-side program.
 
-[Full documentation about services](https://ocsigen.org/eliom/latest/server-services.html), `a tutorial about traditional service based Web programming`, API documentation of modules `Eliom_service` and `Eliom_registration`.
+`Full documentation about services`, `a tutorial about traditional service based Web programming`, API documentation of modules `Eliom_service` and `Eliom_registration`.
 
 This example shows how to insert an image using `static_dir`:
 
@@ -644,8 +644,8 @@ Have a look at the [README file](https://github.com/besport/ocsigen-i18n) to see
 
 It is now based on [Cohttp](https://github.com/mirage/ocaml-cohttp).
 
-It has a powerful extension mechanism that makes it easy to plug your own OCaml modules for generating pages. Many extensions are already written: ;[Staticmod](https://ocsigen.org/ocsigenserver/latest/staticmod.html) : to serve static files. ;[Eliom](https://ocsigen.org/eliom/latest/) : to create reliable client/server Web applications or Web sites in OCaml using advanced high level concepts. ;[Extendconfiguration](https://ocsigen.org/ocsigenserver/latest/extendconfiguration.html) : allows for more options in the configuration file. ;[Accesscontrol](https://ocsigen.org/ocsigenserver/latest/accesscontrol.html) : restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.). ;[Authbasic](https://ocsigen.org/ocsigenserver/latest/authbasic.html) : restricts access to the sites from the config file using Basic HTTP Authentication. ;CGImod : serves CGI scripts. It may also be used to serve PHP through CGI. ;[Deflatemod](https://ocsigen.org/ocsigenserver/latest/deflatemod.html) : used to compress data before sending it to the client. ;[Redirectmod](https://ocsigen.org/ocsigenserver/latest/redirectmod.html) : sets redirections towards other Web sites from the configuration file. ;[Revproxy](https://ocsigen.org/ocsigenserver/latest/revproxy.html) : a reverse proxy for Ocsigen Server. It allows to ask another server to handle the request. ;[Rewritemod](https://ocsigen.org/ocsigenserver/latest/rewritemod.html) : changes incoming requests before sending them to other extensions. ;[Outputfilter](https://ocsigen.org/ocsigenserver/latest/outputfilter.html) : rewrites some parts of the output before sending it to the client. ;[Userconf](https://ocsigen.org/ocsigenserver/latest/userconf.html) : allows users to have their own configuration files. ;Comet : facilitates server to client communications.
+It has a powerful extension mechanism that makes it easy to plug your own OCaml modules for generating pages. Many extensions are already written: ;`Staticmod` : to serve static files. ;`Eliom` : to create reliable client/server Web applications or Web sites in OCaml using advanced high level concepts. ;`Extendconfiguration` : allows for more options in the configuration file. ;`Accesscontrol` : restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.). ;`Authbasic` : restricts access to the sites from the config file using Basic HTTP Authentication. ;CGImod : serves CGI scripts. It may also be used to serve PHP through CGI. ;`Deflatemod` : used to compress data before sending it to the client. ;`Redirectmod` : sets redirections towards other Web sites from the configuration file. ;`Revproxy` : a reverse proxy for Ocsigen Server. It allows to ask another server to handle the request. ;`Rewritemod` : changes incoming requests before sending them to other extensions. ;`Outputfilter` : rewrites some parts of the output before sending it to the client. ;`Userconf` : allows users to have their own configuration files. ;Comet : facilitates server to client communications.
 
-Ocsigen Server has a [sophisticated configuration](https://ocsigen.org/ocsigenserver/latest/config.html) file mechanism allowing complex configurations of sites.
+Ocsigen Server has a `sophisticated configuration` file mechanism allowing complex configurations of sites.
 
 <!--wodoc:end-->

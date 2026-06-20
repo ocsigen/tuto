@@ -7,7 +7,7 @@
 
 This tutorial describes how to get started with Ocsigen quickly. Thanks to an application template provided by the Ocsigen team, you will get to a working application with standard functionality like users and notifications in only a few minutes. This template can be used for learning purposes, or even as a starting point for your own product.
 
-The template you will use comes from [Ocsigen Start](https://ocsigen.org/ocsigen-start/latest/). Ocsigen Start provides a complete mechanism for adding and managing users, including activation links and password reset. It additionally contains a module for displaying tips, a module for sending notifications to your users, and other utilities typically needed in modern Web applications.
+The template you will use comes from `Ocsigen Start`. Ocsigen Start provides a complete mechanism for adding and managing users, including activation links and password reset. It additionally contains a module for displaying tips, a module for sending notifications to your users, and other utilities typically needed in modern Web applications.
 
 The template comes with a default style (developed with SASS) that follows modern Web practices, e.g., it is responsive and thus mobile-friendly. Of course, you are free to modify the style to match your own brand or personality.
 
@@ -64,7 +64,7 @@ It is now time to learn Ocsigen\! The template is a great way to get started, be
 - How to save session data (in *Eliom references*);
 - How to use the notification system;
 - How to create reactive pages;
-- Many examples of widgets from [Ocsigen Toolkit](https://ocsigen.org/ocsigen-toolkit/latest/):
+- Many examples of widgets from `Ocsigen Toolkit`:
 - Carousel
 - Pages with several tabs
 - Time and date pickers

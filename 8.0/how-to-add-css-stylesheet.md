@@ -39,6 +39,6 @@ Or you can use: `Eliom_tools.F.head`
 
 ### Links
 
-- [About images, css and javascript](https://ocsigen.org/eliom/latest/misc.html)
+- `About images, css and javascript`
 - `Eliom_content.Html.D.make_uri`
-- [Configuring Ocsigen Server for serving static files](https://ocsigen.org/ocsigenserver/latest/staticmod.html)
+- `Configuring Ocsigen Server for serving static files`

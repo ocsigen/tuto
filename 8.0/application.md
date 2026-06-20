@@ -17,7 +17,7 @@ If not already done, install Eliom first:
 ```
 opam install ocsipersist-sqlite eliom ocsigen-ppx-rpc
 ```
-To get started, we recommend using [Eliom distillery](https://ocsigen.org/eliom/latest/workflow-distillery.html), a program which creates scaffolds for Eliom projects. The following command creates a very simple project called `graffiti` in the directory `graffiti`:
+To get started, we recommend using `Eliom distillery`, a program which creates scaffolds for Eliom projects. The following command creates a very simple project called `graffiti` in the directory `graffiti`:
 
 ```shell
 $ eliom-distillery -name graffiti -template client-server.basic -target-directory graffiti
@@ -123,7 +123,7 @@ Extensions `<static ... />` (staticmod) and `<eliom />` are called successively:
 <!--wodoc:end-->
 <!--wodoc:aside class="concept"-->**Concept: Static validation of HTML**
 
-There are several ways to create pages for Eliom. You can generate pages as strings (as in other web frameworks). However, it is preferable to generate HTML in a way that provides compile-time HTML correctness guarantees. This tutorial achieves this by using the module `Eliom_content.Html.D`, which is implemented using the [TyXML](https://ocsigen.org/tyxml/latest/) library. The module defines a construction function for each HTML tag.
+There are several ways to create pages for Eliom. You can generate pages as strings (as in other web frameworks). However, it is preferable to generate HTML in a way that provides compile-time HTML correctness guarantees. This tutorial achieves this by using the module `Eliom_content.Html.D`, which is implemented using the `TyXML` library. The module defines a construction function for each HTML tag.
 
 *Note that it is also possible to use the usual HTML syntax directly in OCaml, cf. `Pa_tyxml`.*
 
@@ -160,7 +160,7 @@ Most functions take as parameter the list representing its contents. See other e
 
 **Important warning:** All the functions you write must be written in a cooperative manner using Lwt. Lwt is a convenient way to implement concurrent programs in OCaml, and is now also widely used for applications unrelated to Ocsigen.
 
-For now we will just use the `Lwt.return` function as above. We will come back to Lwt programming later. You can also have a look at the [Lwt programming guide](https://ocsigen.org/lwt/latest/).
+For now we will just use the `Lwt.return` function as above. We will come back to Lwt programming later. You can also have a look at the `Lwt programming guide`.
 
 <!--wodoc:end-->
 
@@ -598,7 +598,7 @@ Eliom_comet.Configuration`.
 
 Widgets with Ocsigen Toolkit<br/> Functional Reactive Programming<br/> <!--wodoc:end-->
 
-In this section, we add a color picker and slider to choose the size of the brush. For the colorpicker we used a widget available in [Ocsigen Toolkit](https://ocsigen.org/ocsigen-toolkit/latest/intro.html).
+In this section, we add a color picker and slider to choose the size of the brush. For the colorpicker we used a widget available in `Ocsigen Toolkit`.
 
 To install Ocsigen Toolkit, do:
 
@@ -714,7 +714,7 @@ You can then test your application (`make test.byte`).
 
 <!--wodoc:aside class="concept"-->**Concept: Ocsigen Toolkit**
 
-Ocsigen Toolkit is a Js\_of\_ocaml library providing useful client-server widgets for your Eliom applications. You can use it for building complex user interfaces. The full documentation is available ([Ocsigen Toolkit](https://ocsigen.org/ocsigen-toolkit/latest/)).
+Ocsigen Toolkit is a Js\_of\_ocaml library providing useful client-server widgets for your Eliom applications. You can use it for building complex user interfaces. The full documentation is available (`Ocsigen Toolkit`).
 
 <!--wodoc:end-->
 <!--wodoc:aside class="concept"-->**Concept: Functional Reactive Programming**

@@ -6,7 +6,7 @@ div ~a:[a_class ["firstclass"; "secondclass"]] [txt "Hello!"]
 ```
 **Required parameter**: list containing other elements (Details of available elements in type `Html_types.flow5`).
 
-**Optional parameter** for attributes "a" (*How to set and id, classes or other attributes to HTML elements?*).
+**Optional parameter** for attributes "a" (`How to set and id, classes or other attributes to HTML elements?`).
 
 
 ### Download full code

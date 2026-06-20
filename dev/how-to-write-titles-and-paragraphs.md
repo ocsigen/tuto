@@ -13,7 +13,7 @@ p [txt "Some text, blah blah blah"]
 ```
 **Required parameter**: list containing other elements (content: `Html_types.flow5` elements).
 
-**Optional parameter** for attributes "a" (*How to set and id, classes or other attributes to HTML elements?*).
+**Optional parameter** for attributes "a" ([How to set and id, classes or other attributes to HTML elements?](./how-to-set-and-id-classes-or-other-attributes-to-html-elements.md)).
 
 
 ### Download full code

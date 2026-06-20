@@ -349,7 +349,7 @@ type drawing_canceller =
 let stop_drawing { message_thread; drawing_thread } =
   Lwt.cancel message_thread;
   (* cancelling this thread also close the bus *)
-  Lwt.cancel drawing_thread</code></pre><p><code>Lwt.cancel t</code> stops thread t. In this case it also closes the bus on which t is listening. For more informations see the <a href="https://ocsigen.org/lwt/latest/">Lwt programming guide</a> and <code>Eliom.Bus</code>.</p><pre class="language-ocaml"><code>let launch_client_canvas bus image_elt canvas_elt slider =
+  Lwt.cancel drawing_thread</code></pre><p><code>Lwt.cancel t</code> stops thread t. In this case it also closes the bus on which t is listening. For more informations see the <span class="xref-unresolved" title="/lwt/index">Lwt programming guide</span> and <code>Eliom.Bus</code>.</p><pre class="language-ocaml"><code>let launch_client_canvas bus image_elt canvas_elt slider =
   let canvas = Html.To_dom.of_canvas canvas_elt in
   let ctx = canvas##(getContext (Dom_html._2d_)) in
   ctx##.lineCap := Js.string &quot;round&quot;;

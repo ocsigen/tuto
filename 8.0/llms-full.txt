@@ -16,19 +16,19 @@ To see some examples of mobile or Web apps written with Ocsigen, have a look at 
 
 Ocsigen consists of several quite independent projects, all released as open source software on [Github](https://github.com/ocsigen). The main projects are:
 
-- [Lwt](https://ocsigen.org/lwt/latest/), a general purpose concurrent programming library for OCaml,
-- [TyXML](https://ocsigen.org/tyxml/latest/) for generating typed XML,
-- the [Js\_of\_ocaml](https://ocsigen.org/js_of_ocaml/latest/) compiler (from Ocaml bytecode to JavaScript),
-- [Eliom](https://ocsigen.org/eliom/latest/), the multi-tier framework for client-server Web and mobile apps,
-- [Ocsigen Server](https://ocsigen.org/ocsigenserver/latest/), a full-featured Web server,
-- [Ocsigen Toolkit](https://ocsigen.org/ocsigen-toolkit/latest/), a client-server widget library written for Eliom and Js\_of\_ocaml,
-- [Ocsigen Start](https://ocsigen.org/ocsigen-start/latest/), an application template with many code examples, to be used as a basis for your apps, or to learn.
+- `Lwt`, a general purpose concurrent programming library for OCaml,
+- `TyXML` for generating typed XML,
+- the `Js_of_ocaml` compiler (from Ocaml bytecode to JavaScript),
+- `Eliom`, the multi-tier framework for client-server Web and mobile apps,
+- `Ocsigen Server`, a full-featured Web server,
+- `Ocsigen Toolkit`, a client-server widget library written for Eliom and Js\_of\_ocaml,
+- `Ocsigen Start`, an application template with many code examples, to be used as a basis for your apps, or to learn.
 The [installation is described here](https://ocsigen.org/install).
 
 Ocsigen originates from a research project by the CNRS, Université de Paris and Inria. It innovates in many aspects, and you will have to learn several new programming techniques to become autonomous. Depending on your level and goals, we suggest to continue by reading some of the following chapters:
 
 - Chapter [Client-server application programming guide](./basics.md) can be used as your training plan. It provides a wide overview of each main concept, with links to more detailed documentation.
-- If you want to start with a server-side only Web site, read *Server-side website programming guide* instead.
+- If you want to start with a server-side only Web site, read [Server-side website programming guide](./basics-server.md) instead.
 - Then, a good starting point is this `Ocsigen Start tutorial`, if you plan to build a client-server Web (and/or mobile) app. It will help you to build your first app very quickly, with many code samples to study.
 - If you are fluent in OCaml and want a quick introduction to client-server Web programming with Eliom, read tutorial `Eliom apps basics: writing client server widgets`. It illusrates the client-server syntax with an example, and is a good starting point for understanding Eliom's client-server features.
 - If you want a full step-by-step tutorial on how to write a client-server Web application, read tutorial [Client-server application](./application.md). It describes step by step how to write a client/server [collaborative drawing application](https://ocsigen.org/graffiti/). You will learn, from the very beginning, how to:
@@ -52,7 +52,7 @@ Ocsigen originates from a research project by the CNRS, Université de Paris and
 - Change pages *without stopping the client side program*
 - Connect with external accounts (*openID*)
 - Add an Atom feed
-- If you want to have a full application with user management (registration, activation emails, authentication), have a look at [Ocsigen-start](https://ocsigen.org/ocsigen-start/latest/). Ocsigen-start is a library and a template for Eliom distillery that contains a working Eliom application with user and right management.
+- If you want to have a full application with user management (registration, activation emails, authentication), have a look at `Ocsigen-start`. Ocsigen-start is a library and a template for Eliom distillery that contains a working Eliom application with user and right management.
 - For a more comprehensive understanding refer to the manual of each project, and/or the API documentation.
 - You will also find more tutorials in the menu on the left.
 We recommend to ask your questions on [discuss.ocaml.org](https://discuss.ocaml.org) with tag `ocsigen`. You can also come and chat with us on IRC in channel `#ocsigen` on `freenode.net` (e.g. by using their [webchat](http://webchat.freenode.net/?channels=ocsigen))\!
@@ -68,9 +68,9 @@ This tutorial has been tested with Eliom 11\.0.0.
 
 This page describes the main concepts you need to master to become fully operational with Ocsigen. Use it as your training plan or as a cheat sheet while programming.
 
-Depending on your needs, you may not need to learn all this. Ocsigen is very flexible and can be used both for Web site programming (see *this page*) or more complex client-server Web apps and their mobile counterparts.
+Depending on your needs, you may not need to learn all this. Ocsigen is very flexible and can be used both for Web site programming (see [this page](./basics-server.md)) or more complex client-server Web apps and their mobile counterparts.
 
-In parallel to the reading of that page, we recommend to generate your first [Ocsigen Start](https://ocsigen.org/ocsigen-start/latest/) app to see running examples of all these concepts (see `that page`).
+In parallel to the reading of that page, we recommend to generate your first `Ocsigen Start` app to see running examples of all these concepts (see `that page`).
 
 <!--wodoc:div class="quickstart-block"--> **Too long; didn't read? Get your first app running in 3 minutes:**
 
@@ -108,7 +108,7 @@ Instead of calling blocking functions, like `Unix.sleep` or `Unix.read`, that co
 
 Syntax `let%lwt x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program. <!--wodoc:end-->
 
-To learn Lwt, read this `short tutorial`, or its [user manual](https://ocsigen.org/lwt/latest/).
+To learn Lwt, read this `short tutorial`, or its `user manual`.
 
 <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
@@ -224,7 +224,7 @@ Error: This expression has type
             | `Wbr ]
        The second variant type does not allow tag(s) `P
 ```
-Read more about TyXML in this `short tutorial` or in its [user manual](https://ocsigen.org/tyxml/latest/).
+Read more about TyXML in this `short tutorial` or in its `user manual`.
 
 <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
@@ -344,7 +344,7 @@ Use service `(Eliom_service.static_dir ())` to create links towards static files
 
 Use service `Eliom_service.reload_action` and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call `Os_lib.reload` to reload the page and restart the client-side program.
 
-[Full documentation about services](https://ocsigen.org/eliom/latest/server-services.html), `a tutorial about traditional service based Web programming`, API documentation of modules `Eliom_service` and `Eliom_registration`.
+`Full documentation about services`, `a tutorial about traditional service based Web programming`, API documentation of modules `Eliom_service` and `Eliom_registration`.
 
 This example shows how to insert an image using `static_dir`:
 
@@ -478,7 +478,7 @@ Eliom_content.Html.D.a ~service:other_service [txt "Other"] ("hello", Some 4)
 ```
 Modules `Eliom_content.Html.F` and `D` define the form's elements with the usual typed interface from TyXML. Use this for example if you have a client side program and want to manipulate the form's content from client side functions (for example do a server function call with the form's elements' content).
 
-In contrast, modules `Eliom_content.Html.F.Form` and `D.Form` define a typed interface for form elements. Use this for links (see above), or if you program traditional server-side Web interaction (with or without client-side program). This will statically check that your forms match the services. See more information in the *server-side programming manual*.
+In contrast, modules `Eliom_content.Html.F.Form` and `D.Form` define a typed interface for form elements. Use this for links (see above), or if you program traditional server-side Web interaction (with or without client-side program). This will statically check that your forms match the services. See more information in the [server-side programming manual](./basics-server.md).
 
 <!--wodoc:end--> <!--wodoc:section class="docblock"--> <!--wodoc:header-->
 
@@ -580,7 +580,7 @@ Module `Eliom_content.Html.D` will automatically insert an id in the attributes 
 
 In a client server Eliom app, you probably always want to use `Eliom_content.Html.D` each time you want to bind events on an element (and more generally if you need to inject this element using `~%`).
 
-Read more about `Eliom_content.Html` (D or F?) in [this manual page](https://ocsigen.org/eliom/latest/clientserver-html.html).
+Read more about `Eliom_content.Html` (D or F?) in `this manual page`.
 
 <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
@@ -752,7 +752,7 @@ Service handlers and service registration are usually written in shared sections
 - Examples of client sections, injections or server functions can be found in the demo included in [Ocsigen-Start's app template](https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_rpc.eliom).
 - [This page](./application.md) is a step by step introduction to client-server programming with Eliom for beginners.
 - `This one` is a quick introduction for more experienced OCaml developers.
-- Comprehensive documentation on client-server programming can be found in [Eliom's user manual](https://ocsigen.org/eliom/latest/). <!--wodoc:end-->
+- Comprehensive documentation on client-server programming can be found in `Eliom's user manual`. <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
 
 
@@ -1101,9 +1101,9 @@ Download [Ocsigen Start's demo app](https://play.google.com/store/apps/details?i
 
 It is now based on [Cohttp](https://github.com/mirage/ocaml-cohttp).
 
-It has a powerful extension mechanism that makes it easy to plug your own OCaml modules for generating pages. Many extensions are already written: ;[Staticmod](https://ocsigen.org/ocsigenserver/latest/staticmod.html) : to serve static files. ;[Eliom](https://ocsigen.org/eliom/latest/) : to create reliable client/server Web applications or Web sites in OCaml using advanced high level concepts. ;[Extendconfiguration](https://ocsigen.org/ocsigenserver/latest/extendconfiguration.html) : allows for more options in the configuration file. ;[Accesscontrol](https://ocsigen.org/ocsigenserver/latest/accesscontrol.html) : restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.). ;[Authbasic](https://ocsigen.org/ocsigenserver/latest/authbasic.html) : restricts access to the sites from the config file using Basic HTTP Authentication. ;CGImod : serves CGI scripts. It may also be used to serve PHP through CGI. ;[Deflatemod](https://ocsigen.org/ocsigenserver/latest/deflatemod.html) : used to compress data before sending it to the client. ;[Redirectmod](https://ocsigen.org/ocsigenserver/latest/redirectmod.html) : sets redirections towards other Web sites from the configuration file. ;[Revproxy](https://ocsigen.org/ocsigenserver/latest/revproxy.html) : a reverse proxy for Ocsigen Server. It allows to ask another server to handle the request. ;[Rewritemod](https://ocsigen.org/ocsigenserver/latest/rewritemod.html) : changes incoming requests before sending them to other extensions. ;[Outputfilter](https://ocsigen.org/ocsigenserver/latest/outputfilter.html) : rewrites some parts of the output before sending it to the client. ;[Userconf](https://ocsigen.org/ocsigenserver/latest/userconf.html) : allows users to have their own configuration files. ;Comet : facilitates server to client communications.
+It has a powerful extension mechanism that makes it easy to plug your own OCaml modules for generating pages. Many extensions are already written: ;`Staticmod` : to serve static files. ;`Eliom` : to create reliable client/server Web applications or Web sites in OCaml using advanced high level concepts. ;`Extendconfiguration` : allows for more options in the configuration file. ;`Accesscontrol` : restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.). ;`Authbasic` : restricts access to the sites from the config file using Basic HTTP Authentication. ;CGImod : serves CGI scripts. It may also be used to serve PHP through CGI. ;`Deflatemod` : used to compress data before sending it to the client. ;`Redirectmod` : sets redirections towards other Web sites from the configuration file. ;`Revproxy` : a reverse proxy for Ocsigen Server. It allows to ask another server to handle the request. ;`Rewritemod` : changes incoming requests before sending them to other extensions. ;`Outputfilter` : rewrites some parts of the output before sending it to the client. ;`Userconf` : allows users to have their own configuration files. ;Comet : facilitates server to client communications.
 
-Ocsigen Server has a [sophisticated configuration](https://ocsigen.org/ocsigenserver/latest/config.html) file mechanism allowing complex configurations of sites.
+Ocsigen Server has a `sophisticated configuration` file mechanism allowing complex configurations of sites.
 
 <!--wodoc:end-->
 
@@ -1143,7 +1143,7 @@ Instead of calling blocking functions, like `Unix.sleep` or `Unix.read`, that co
 
 Syntax `let%lwt x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program. <!--wodoc:end-->
 
-To learn Lwt, read this `short tutorial`, or its [user manual](https://ocsigen.org/lwt/latest/).
+To learn Lwt, read this `short tutorial`, or its `user manual`.
 
 <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
@@ -1400,7 +1400,7 @@ Error: This expression has type
             | `Wbr ]
        The second variant type does not allow tag(s) `P
 ```
-Read more about TyXML in this `short tutorial` or in its [user manual](https://ocsigen.org/tyxml/latest/).
+Read more about TyXML in this `short tutorial` or in its `user manual`.
 
 <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
@@ -1532,7 +1532,7 @@ To define a service with POST parameters, just change the `~meth` parameter. For
 ## Eliom: Other kinds of services
 
 <!--wodoc:end-->
-The detailed explanation of services can be found in [Eliom's manual](https://ocsigen.org/eliom/latest/server-services.html). Here is a summary:
+The detailed explanation of services can be found in `Eliom's manual`. Here is a summary:
 
 
 ### Pathless services
@@ -1569,7 +1569,7 @@ Use service `(Eliom_service.static_dir ())` to create links towards static files
 
 Use service `Eliom_service.reload_action` and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call `Os_lib.reload` to reload the page and restart the client-side program.
 
-[Full documentation about services](https://ocsigen.org/eliom/latest/server-services.html), `a tutorial about traditional service based Web programming`, API documentation of modules `Eliom_service` and `Eliom_registration`.
+`Full documentation about services`, `a tutorial about traditional service based Web programming`, API documentation of modules `Eliom_service` and `Eliom_registration`.
 
 This example shows how to insert an image using `static_dir`:
 
@@ -1755,9 +1755,9 @@ Have a look at the [README file](https://github.com/besport/ocsigen-i18n) to see
 
 It is now based on [Cohttp](https://github.com/mirage/ocaml-cohttp).
 
-It has a powerful extension mechanism that makes it easy to plug your own OCaml modules for generating pages. Many extensions are already written: ;[Staticmod](https://ocsigen.org/ocsigenserver/latest/staticmod.html) : to serve static files. ;[Eliom](https://ocsigen.org/eliom/latest/) : to create reliable client/server Web applications or Web sites in OCaml using advanced high level concepts. ;[Extendconfiguration](https://ocsigen.org/ocsigenserver/latest/extendconfiguration.html) : allows for more options in the configuration file. ;[Accesscontrol](https://ocsigen.org/ocsigenserver/latest/accesscontrol.html) : restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.). ;[Authbasic](https://ocsigen.org/ocsigenserver/latest/authbasic.html) : restricts access to the sites from the config file using Basic HTTP Authentication. ;CGImod : serves CGI scripts. It may also be used to serve PHP through CGI. ;[Deflatemod](https://ocsigen.org/ocsigenserver/latest/deflatemod.html) : used to compress data before sending it to the client. ;[Redirectmod](https://ocsigen.org/ocsigenserver/latest/redirectmod.html) : sets redirections towards other Web sites from the configuration file. ;[Revproxy](https://ocsigen.org/ocsigenserver/latest/revproxy.html) : a reverse proxy for Ocsigen Server. It allows to ask another server to handle the request. ;[Rewritemod](https://ocsigen.org/ocsigenserver/latest/rewritemod.html) : changes incoming requests before sending them to other extensions. ;[Outputfilter](https://ocsigen.org/ocsigenserver/latest/outputfilter.html) : rewrites some parts of the output before sending it to the client. ;[Userconf](https://ocsigen.org/ocsigenserver/latest/userconf.html) : allows users to have their own configuration files. ;Comet : facilitates server to client communications.
+It has a powerful extension mechanism that makes it easy to plug your own OCaml modules for generating pages. Many extensions are already written: ;`Staticmod` : to serve static files. ;`Eliom` : to create reliable client/server Web applications or Web sites in OCaml using advanced high level concepts. ;`Extendconfiguration` : allows for more options in the configuration file. ;`Accesscontrol` : restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.). ;`Authbasic` : restricts access to the sites from the config file using Basic HTTP Authentication. ;CGImod : serves CGI scripts. It may also be used to serve PHP through CGI. ;`Deflatemod` : used to compress data before sending it to the client. ;`Redirectmod` : sets redirections towards other Web sites from the configuration file. ;`Revproxy` : a reverse proxy for Ocsigen Server. It allows to ask another server to handle the request. ;`Rewritemod` : changes incoming requests before sending them to other extensions. ;`Outputfilter` : rewrites some parts of the output before sending it to the client. ;`Userconf` : allows users to have their own configuration files. ;Comet : facilitates server to client communications.
 
-Ocsigen Server has a [sophisticated configuration](https://ocsigen.org/ocsigenserver/latest/config.html) file mechanism allowing complex configurations of sites.
+Ocsigen Server has a `sophisticated configuration` file mechanism allowing complex configurations of sites.
 
 <!--wodoc:end-->
 
@@ -1773,7 +1773,7 @@ Ocsigen Server has a [sophisticated configuration](https://ocsigen.org/ocsigense
 
 This tutorial describes how to get started with Ocsigen quickly. Thanks to an application template provided by the Ocsigen team, you will get to a working application with standard functionality like users and notifications in only a few minutes. This template can be used for learning purposes, or even as a starting point for your own product.
 
-The template you will use comes from [Ocsigen Start](https://ocsigen.org/ocsigen-start/latest/). Ocsigen Start provides a complete mechanism for adding and managing users, including activation links and password reset. It additionally contains a module for displaying tips, a module for sending notifications to your users, and other utilities typically needed in modern Web applications.
+The template you will use comes from `Ocsigen Start`. Ocsigen Start provides a complete mechanism for adding and managing users, including activation links and password reset. It additionally contains a module for displaying tips, a module for sending notifications to your users, and other utilities typically needed in modern Web applications.
 
 The template comes with a default style (developed with SASS) that follows modern Web practices, e.g., it is responsive and thus mobile-friendly. Of course, you are free to modify the style to match your own brand or personality.
 
@@ -1830,7 +1830,7 @@ It is now time to learn Ocsigen\! The template is a great way to get started, be
 - How to save session data (in *Eliom references*);
 - How to use the notification system;
 - How to create reactive pages;
-- Many examples of widgets from [Ocsigen Toolkit](https://ocsigen.org/ocsigen-toolkit/latest/):
+- Many examples of widgets from `Ocsigen Toolkit`:
 - Carousel
 - Pages with several tabs
 - Time and date pickers
@@ -1895,7 +1895,7 @@ If not already done, install Eliom first:
 ```
 opam install ocsipersist-sqlite eliom ocsigen-ppx-rpc
 ```
-To get started, we recommend using [Eliom distillery](https://ocsigen.org/eliom/latest/workflow-distillery.html), a program which creates scaffolds for Eliom projects. The following command creates a very simple project called `graffiti` in the directory `graffiti`:
+To get started, we recommend using `Eliom distillery`, a program which creates scaffolds for Eliom projects. The following command creates a very simple project called `graffiti` in the directory `graffiti`:
 
 ```shell
 $ eliom-distillery -name graffiti -template client-server.basic -target-directory graffiti
@@ -2001,7 +2001,7 @@ Extensions `<static ... />` (staticmod) and `<eliom />` are called successively:
 <!--wodoc:end-->
 <!--wodoc:aside class="concept"-->**Concept: Static validation of HTML**
 
-There are several ways to create pages for Eliom. You can generate pages as strings (as in other web frameworks). However, it is preferable to generate HTML in a way that provides compile-time HTML correctness guarantees. This tutorial achieves this by using the module `Eliom_content.Html.D`, which is implemented using the [TyXML](https://ocsigen.org/tyxml/latest/) library. The module defines a construction function for each HTML tag.
+There are several ways to create pages for Eliom. You can generate pages as strings (as in other web frameworks). However, it is preferable to generate HTML in a way that provides compile-time HTML correctness guarantees. This tutorial achieves this by using the module `Eliom_content.Html.D`, which is implemented using the `TyXML` library. The module defines a construction function for each HTML tag.
 
 *Note that it is also possible to use the usual HTML syntax directly in OCaml, cf. `Pa_tyxml`.*
 
@@ -2038,7 +2038,7 @@ Most functions take as parameter the list representing its contents. See other e
 
 **Important warning:** All the functions you write must be written in a cooperative manner using Lwt. Lwt is a convenient way to implement concurrent programs in OCaml, and is now also widely used for applications unrelated to Ocsigen.
 
-For now we will just use the `Lwt.return` function as above. We will come back to Lwt programming later. You can also have a look at the [Lwt programming guide](https://ocsigen.org/lwt/latest/).
+For now we will just use the `Lwt.return` function as above. We will come back to Lwt programming later. You can also have a look at the `Lwt programming guide`.
 
 <!--wodoc:end-->
 
@@ -2476,7 +2476,7 @@ Eliom_comet.Configuration`.
 
 Widgets with Ocsigen Toolkit<br/> Functional Reactive Programming<br/> <!--wodoc:end-->
 
-In this section, we add a color picker and slider to choose the size of the brush. For the colorpicker we used a widget available in [Ocsigen Toolkit](https://ocsigen.org/ocsigen-toolkit/latest/intro.html).
+In this section, we add a color picker and slider to choose the size of the brush. For the colorpicker we used a widget available in `Ocsigen Toolkit`.
 
 To install Ocsigen Toolkit, do:
 
@@ -2592,7 +2592,7 @@ You can then test your application (`make test.byte`).
 
 <!--wodoc:aside class="concept"-->**Concept: Ocsigen Toolkit**
 
-Ocsigen Toolkit is a Js\_of\_ocaml library providing useful client-server widgets for your Eliom applications. You can use it for building complex user interfaces. The full documentation is available ([Ocsigen Toolkit](https://ocsigen.org/ocsigen-toolkit/latest/)).
+Ocsigen Toolkit is a Js\_of\_ocaml library providing useful client-server widgets for your Eliom applications. You can use it for building complex user interfaces. The full documentation is available (`Ocsigen Toolkit`).
 
 <!--wodoc:end-->
 <!--wodoc:aside class="concept"-->**Concept: Functional Reactive Programming**
@@ -3039,17 +3039,17 @@ let%server _ = Eliom_content.Html.D.(
 
 ### Calling server functions
 
-An important feature missing from this tutorial is the ability to call server functions from the client-side program ("server functions"). You can find a quick description of this in *this mini HOWTO* or in [Eliom's manual](https://ocsigen.org/eliom/latest/clientserver-communication.html#rpc).
+An important feature missing from this tutorial is the ability to call server functions from the client-side program ("server functions"). You can find a quick description of this in [this mini HOWTO](./how-to-call-a-server-side-function-from-client-side.md) or in [Eliom's manual](https://ocsigen.org/eliom/latest/clientserver-communication.html#rpc).
 
 
 ### Services
 
-For many applications, you will need several services. By default, client-side Eliom programs do not stop when you follow a link or send a form. This enables combining rich client side features (playing music, animations, stateful applications~ ...) with traditional Web interaction (links, forms, bookmarks, back button~ ...). Eliom proposes several ways to identify services, either by the URL (and parameters), or by a session identifier (we call this kind of service a *coservice*). Eliom also allows creating new (co-)services dynamically, for example coservices depending on previous interaction with a user. More information on the service identification mechanism in [Eliom's manual](https://ocsigen.org/eliom/latest/server-services.html).
+For many applications, you will need several services. By default, client-side Eliom programs do not stop when you follow a link or send a form. This enables combining rich client side features (playing music, animations, stateful applications~ ...) with traditional Web interaction (links, forms, bookmarks, back button~ ...). Eliom proposes several ways to identify services, either by the URL (and parameters), or by a session identifier (we call this kind of service a *coservice*). Eliom also allows creating new (co-)services dynamically, for example coservices depending on previous interaction with a user. More information on the service identification mechanism in `Eliom's manual`.
 
 
 ### Sessions
 
-Eliom also offers a rich session mechanism, with *scopes* (see [Eliom's manual](https://ocsigen.org/eliom/latest/server-state.html)).
+Eliom also offers a rich session mechanism, with *scopes* (see `Eliom's manual`).
 
 
 ---
@@ -3116,7 +3116,7 @@ Module `Eliom_reference` also defines an interface for persistent references, th
 
 ## Links
 
-- [More information on session data](https://ocsigen.org/eliom/latest/server-state.html)
+- `More information on session data`
 - module `Eliom_reference`
 
 
@@ -4167,7 +4167,7 @@ Remember:
 
 - Use GET parameters when you want your page to be bookmarkable.
 - Use POST parameters when you do not want the page to be bookmarkable, for example, because it performs a side effect on the server (connecting a user, add something in a database, perform a payment, etc.).
-*Warning:* Even if POST parameters are not shown in the URL, they are sent as plain text. If you want to transmit private data (like a password), you must use HTTPS (see [the Ocsigen server manual](https://ocsigen.org/ocsigenserver/latest/config.html)). <!--wodoc:end-->
+*Warning:* Even if POST parameters are not shown in the URL, they are sent as plain text. If you want to transmit private data (like a password), you must use HTTPS (see `the Ocsigen server manual`). <!--wodoc:end-->
 
 Now we can register a handler for the new service:
 
@@ -4879,7 +4879,7 @@ let stop_drawing { message_thread; drawing_thread } =
   (* cancelling this thread also close the bus *)
   Lwt.cancel drawing_thread
 ```
-`Lwt.cancel t` stops thread t. In this case it also closes the bus on which t is listening. For more informations see the [Lwt programming guide](https://ocsigen.org/lwt/latest/) and `Eliom_bus`.
+`Lwt.cancel t` stops thread t. In this case it also closes the bus on which t is listening. For more informations see the `Lwt programming guide` and `Eliom_bus`.
 
 ```ocaml
 let launch_client_canvas bus image_elt canvas_elt slider =
@@ -5430,7 +5430,7 @@ let rec map_serial f l =
 
 ## More documentation
 
-Have a look at [Lwt's manual](https://ocsigen.org/lwt/latest/) for more details about Lwt. You will learn how to handle exceptions (using `Lwt.fail` and `Lwt.catch` or `try%lwt`). You will also learn for example how to create a thread that waits until it is awaken (using `Lwt.wait` and `Lwt.wakeup`).
+Have a look at `Lwt's manual` for more details about Lwt. You will learn how to handle exceptions (using `Lwt.fail` and `Lwt.catch` or `try%lwt`). You will also learn for example how to create a thread that waits until it is awaken (using `Lwt.wait` and `Lwt.wakeup`).
 
 
 ---
@@ -5553,7 +5553,7 @@ It is based on module [React](http://erratique.ch/software/react/doc/React), whi
 
 ## More documentation
 
-Have a look at [Tyxml's manual](https://ocsigen.org/tyxml/latest/tyxml/index.html) and [Eliom's manual](https://ocsigen.org/eliom/latest/clientserver-html.html) for more documentation about HTML manipulation in OCaml.
+Have a look at [Tyxml's manual](https://ocsigen.org/tyxml/latest/tyxml/index.html) and `Eliom's manual` for more documentation about HTML manipulation in OCaml.
 
 
 ---
@@ -5562,17 +5562,17 @@ Have a look at [Tyxml's manual](https://ocsigen.org/tyxml/latest/tyxml/index.htm
 
 Since Eliom 6\.0, the Ocsigen framework provides infrastructure for building mobile applications. This enables rapid development of Android, iOS, and Windows Mobile apps with the same APIs and programming style as for a regular client-server Web application. In fact, one single codebase can be used to produce all these applications simultaneously.
 
-The easiest way to get started with Ocsigen-based mobile development is to use [Ocsigen-start](https://ocsigen.org/ocsigen-start/latest/). Ocsigen-start is a library and skeleton for building "minimum viable product" Web applications with standard functionality like users, notifications, etc. This skeleton is immediately usable as a mobile application. You can install `ocsigen-start` via OPAM ( `opam install ocsigen-start` ) and instantiate its template with the command `eliom-distillery -name ocsimobile -template os.pgocaml`. For launching the mobile application, follow the instructions in the template's `README.md`.
+The easiest way to get started with Ocsigen-based mobile development is to use `Ocsigen-start`. Ocsigen-start is a library and skeleton for building "minimum viable product" Web applications with standard functionality like users, notifications, etc. This skeleton is immediately usable as a mobile application. You can install `ocsigen-start` via OPAM ( `opam install ocsigen-start` ) and instantiate its template with the command `eliom-distillery -name ocsimobile -template os.pgocaml`. For launching the mobile application, follow the instructions in the template's `README.md`.
 
 
 ## Programming style
 
-You need to follow a certain programming style for your Eliom code to work flawlessly inside an Ocsigen-start mobile app. This style is described in the [chapter on client services](https://ocsigen.org/eliom/latest/clientserver-services.html) from the Eliom manual. The idea is that you implement as much of your application as possible in shared sections (`[%%shared ...]` or `let%shared ... = ...`), and that you register handlers for your Eliom services on both the client and the server. The Ocsigen-start template already uses the above programming style, so refer to the files generated by `eliom-distillery` for inspiration.
+You need to follow a certain programming style for your Eliom code to work flawlessly inside an Ocsigen-start mobile app. This style is described in the `chapter on client services` from the Eliom manual. The idea is that you implement as much of your application as possible in shared sections (`[%%shared ...]` or `let%shared ... = ...`), and that you register handlers for your Eliom services on both the client and the server. The Ocsigen-start template already uses the above programming style, so refer to the files generated by `eliom-distillery` for inspiration.
 
 
 ## Going further
 
-- [Ocsigen-toolkit](https://ocsigen.org/ocsigen-toolkit/latest/) provides a set of user interface widgets that are particularly useful for mobile applications.
+- `Ocsigen-toolkit` provides a set of user interface widgets that are particularly useful for mobile applications.
 - Danny Willems provides a comprehensive set of [OCaml bindings to Cordova plugins](https://github.com/dannywillems/ocaml-cordova-plugin-list). These can readily be used for your Eliom mobile application.
 
 
@@ -6642,8 +6642,8 @@ let _ =
 
 ###
 
-- To *understand* this code, have a look at *How does a page's source code look?*
-- Or directly continue by compiling this code: *How to compile my Ocsigen pages?*
+- To *understand* this code, have a look at [How does a page's source code look?](./how-does-a-page-s-source-code-look.md)
+- Or directly continue by compiling this code: [How to compile my Ocsigen pages?](./how-to-compile-my-ocsigen-pages.md)
 
 ### Links
 
@@ -6665,9 +6665,9 @@ $ eliom-distillery -name <name> -template client-server.basic [-target-directory
 ```
 Eliom distillery will also create a default configuration file for Ocsigen Server.
 
-More information on Eliom distillery in [Eliom's manual](https://ocsigen.org/eliom/latest/workflow-distillery.html).
+More information on Eliom distillery in `Eliom's manual`.
 
-More information on how client-server Eliom project are compiled on [this page](https://ocsigen.org/eliom/latest/workflow-configuration.html).
+More information on how client-server Eliom project are compiled on `this page`.
 
 If you don't need client-server features, the compilation process is very simple and without surprise. Compile with `ocamlc` or `ocamlopt` using `ocamlfind`, with package `eliom.server`. You will have to create your configuration file manually. But you can still use Eliom distillery, which will make easier the inclusion of client side features, later.
 
@@ -6682,7 +6682,7 @@ Read manuals for mor information about these compilers.
 
 ### Links
 
-- [Full documentation about Ocsigen compilation](https://ocsigen.org/eliom/latest/workflow-configuration.html)
+- `Full documentation about Ocsigen compilation`
 
 
 ---
@@ -6696,11 +6696,11 @@ Read manuals for mor information about these compilers.
 - If you want to create it yourself, you can have a look at the default configuration file provided with the installation of Ocsigen (usually `/etc/ocsigenserver/ocsigenserver.conf.sample`).
 - Change the port by the network port number you want your website to work on. The port **80** is the port used by http by default but you need to be the administrator of your server to use it.
 - Adapt paths.
-- Change other parameters that suit your needs using the [configuration file documentation](https://ocsigen.org/ocsigenserver/latest/config.html).
+- Change other parameters that suit your needs using the `configuration file documentation`.
 
 ### Your own configuration file
 
-Have a look at the [configuration file full documentation](https://ocsigen.org/ocsigenserver/latest/config.html).
+Have a look at the `configuration file full documentation`.
 
 
 ### Launch the server
@@ -6711,7 +6711,7 @@ ocsigenserver -c your_config_file.conf
 
 ### Links
 
-- More information about this command or the configuration file in [Ocsigen Server's manual](https://ocsigen.org/ocsigenserver/latest/).
+- More information about this command or the configuration file in `Ocsigen Server's manual`.
 
 
 ---
@@ -6721,7 +6721,7 @@ ocsigenserver -c your_config_file.conf
 
 ### Eliom client-server applications
 
-Eliom client-server applications are running in your browser for a [certain lifetime](https://ocsigen.org/eliom/latest/clientserver-applications.html) and consist of one or several pages/URLs. An application has its associated js file, which must have the same name (*generated automatically by the default makefile* and added automatically by Eliom in the page).
+Eliom client-server applications are running in your browser for a `certain lifetime` and consist of one or several pages/URLs. An application has its associated js file, which must have the same name (`generated automatically by the default makefile` and added automatically by Eliom in the page).
 
 For example, we define an application called *example*:
 
@@ -6751,7 +6751,7 @@ If, for example, the list is `"hello";"world"`, the page will be accessed using 
 ```ocaml
 http://website.com/hello/world/
 ```
-More information about parameters: *How to use GET parameters (parameters in the URL)?*
+More information about parameters: `How to use GET parameters (parameters in the URL)?`
 
 Now that our service has been declared, we associate to it an OCaml function that will generate the page. We call this *service registration*. If the service belongs to the application, we use the registrations functions from module `Example` defined above.
 
@@ -6789,8 +6789,8 @@ Validity of HTML is checked at compile time, which means that a program that may
 
 ### Links
 
-- [About services](https://ocsigen.org/eliom/latest/server-services.html)
-- [About html generation](https://ocsigen.org/tyxml/latest/)
+- `About services`
+- `About html generation`
 
 
 ---
@@ -6887,7 +6887,7 @@ Description of parameters (names and types) is done using module `Eliom_paramete
 
 - **Common types**: [string](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L121), [int](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L122), [int32](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L123), [float](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L124), [bool](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L125)
 - **Some other types**: [optional values](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L126), [any parameter](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L158), [list](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L187), [your own type](https://github.com/db0company/Ocsigen-Quick-Howto/blob/master/parameters/example.eliom#L211).
-- See more information on parameters in [Eliom manual](https://ocsigen.org/eliom/latest/server-params.html) and API documentation of module `Eliom_parameter`.
+- See more information on parameters in `Eliom manual` and API documentation of module `Eliom_parameter`.
 
 #### Get these parameters
 
@@ -6933,8 +6933,8 @@ To do that, add a parameter of type **suffix** in **get\_params**:
 
 ### Links
 
-- Manual: [Parameters](https://ocsigen.org/eliom/latest/server-params.html)
-- Manual: [Services](https://ocsigen.org/eliom/latest/server-services.html)
+- Manual: `Parameters`
+- Manual: `Services`
 - API: `Eliom_parameter`
 - API: `Eliom_service`
 
@@ -6981,9 +6981,9 @@ Or you can use: `Eliom_tools.F.head`
 
 ### Links
 
-- [About images, css and javascript](https://ocsigen.org/eliom/latest/misc.html)
+- `About images, css and javascript`
 - `Eliom_content.Html.D.make_uri`
-- [Configuring Ocsigen Server for serving static files](https://ocsigen.org/ocsigenserver/latest/staticmod.html)
+- `Configuring Ocsigen Server for serving static files`
 
 
 ---
@@ -7028,7 +7028,7 @@ div ~a:[a_class ["firstclass"; "secondclass"]] [txt "Hello!"]
 ```
 **Required parameter**: list containing other elements (Details of available elements in type `Html_types.flow5`).
 
-**Optional parameter** for attributes "a" (*How to set and id, classes or other attributes to HTML elements?*).
+**Optional parameter** for attributes "a" (`How to set and id, classes or other attributes to HTML elements?`).
 
 
 ### Download full code
@@ -7071,7 +7071,7 @@ div ~a:[a_class ["firstclass"; "secondclass"]] [txt "Hello!"]
 ```
 **Required parameter**: list containing **li** elements ([Details of li content](https://ocsigen.org/tyxml/latest/tyxml/Html_types/index.html#type-li_attrib)).
 
-**Optional parameter** for attributes "a" (*How to set and id, classes or other attributes to HTML elements?*).
+**Optional parameter** for attributes "a" (`How to set and id, classes or other attributes to HTML elements?`).
 
 
 #### Definition list
@@ -7100,7 +7100,7 @@ Details:
 
 - [dd content](https://ocsigen.org/tyxml/latest/tyxml/Html_types/index.html#type-phrasing)
 - [dt content](https://ocsigen.org/tyxml/latest/tyxml/Html_types/index.html#type-flow5)
-**Optional parameter** for attributes "a" (*How to set and id, classes or other attributes to HTML elements?*).
+**Optional parameter** for attributes "a" (`How to set and id, classes or other attributes to HTML elements?`).
 
 
 ### Download full code
@@ -7176,7 +7176,7 @@ p [txt "Some text, blah blah blah"]
 ```
 **Required parameter**: list containing other elements (content: `Html_types.flow5` elements).
 
-**Optional parameter** for attributes "a" (*How to set and id, classes or other attributes to HTML elements?*).
+**Optional parameter** for attributes "a" ([How to set and id, classes or other attributes to HTML elements?](./how-to-set-and-id-classes-or-other-attributes-to-html-elements.md)).
 
 
 ### Download full code
@@ -7237,7 +7237,7 @@ An element can have several classes. Class attribute is generated by function `a
 
 The style attribute specifies an inline style for an element. The style attribute will override any style set globally, e.g. styles specified in the header of the page.
 
-Using this attribute to stylish elements is not a good practice. You should rather use *an external CSS file*.
+Using this attribute to stylish elements is not a good practice. You should rather use [an external CSS file](./how-to-add-css-stylesheet.md).
 
 Its parameter is a string.
 
@@ -7315,8 +7315,8 @@ Raw.select [option (txt "hello");
 
 ### Links
 
-- *How to write forms*
-- [Eliom forms and links](https://ocsigen.org/eliom/latest/server-links.html)
+- `How to write forms`
+- `Eliom forms and links`
 - API `Eliom_content.Html.D.Form`
 - signature `Html_sigs.T` (Element attributes)
 
@@ -7484,7 +7484,7 @@ Use module [Eliom\_content.Html.D.Raw](https://ocsigen.org/eliom/latest/eliom.se
 
 ### Links
 
-- *How to write a select (or other form element)?*
+- [How to write a select (or other form element)?](./how-to-add-a-select-or-other-form-element.md)
 
 
 ---
@@ -7935,7 +7935,7 @@ in
 ```
 And call function `notify` on the channel (from server side) when you want to notify the client.
 
-To get back the `notify` functions for one user, you may want to *iterate on all client process states*. To do that, create a session group for each user (see *How to register session data*). Here we suppose that the session group name is the user\_id, as a string. Then iterate on all sessions from this group, and on all client processes for each session.
+To get back the `notify` functions for one user, you may want to `iterate on all client process states`. To do that, create a session group for each user (see `How to register session data`). Here we suppose that the session group name is the user\_id, as a string. Then iterate on all sessions from this group, and on all client processes for each session.
 
 For example:
 
@@ -8106,7 +8106,7 @@ Just put the file at the root of the static directory set in the configuration f
 
 ### Links
 
-- [Configuring Ocsigen Server for serving static files](https://ocsigen.org/ocsigenserver/latest/staticmod.html)
+- `Configuring Ocsigen Server for serving static files`
 - [An example of a favicon generator](http://www.favicon.cc/)
 
 
@@ -8122,7 +8122,7 @@ The Macaque library allows easy manipulation of Postgresql database fully compat
 
 Macaque is fuly compatible with PGOcaml, and both can be used in the same application. PGOcaml requires database access at compile time and makes difficult to generate queries at compile time. Macaque uses its own syntax, whereas PGOcaml uses SQL. Macaque supports only a small subset of Postgresql features.
 
-Warning: Macaque's syntax extension uses camlp4, which is not compatible with ppx. If you want to use macaque with Eliom's ppx, place your macaque code in an isolated file. Some details can be found in [the ppx migration guide](https://ocsigen.org/eliom/latest/ppx-migration.html).
+Warning: Macaque's syntax extension uses camlp4, which is not compatible with ppx. If you want to use macaque with Eliom's ppx, place your macaque code in an isolated file. Some details can be found in `the ppx migration guide`.
 
 This tutorial shows how to store the login and the password f users in a Postgresql database. For more information on how to set up and run it, see [Postgresql manual](http://www.postgresql.org/docs/9.0/static/index.html).
 

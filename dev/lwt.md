@@ -143,4 +143,4 @@ let rec map_serial f l =
 
 ## More documentation
 
-Have a look at [Lwt's manual](https://ocsigen.org/lwt/latest/) for more details about Lwt. You will learn how to handle exceptions (using `Lwt.fail` and `Lwt.catch` or `try%lwt`). You will also learn for example how to create a thread that waits until it is awaken (using `Lwt.wait` and `Lwt.wakeup`).
+Have a look at `Lwt's manual` for more details about Lwt. You will learn how to handle exceptions (using `Lwt.fail` and `Lwt.catch` or `try%lwt`). You will also learn for example how to create a thread that waits until it is awaken (using `Lwt.wait` and `Lwt.wakeup`).

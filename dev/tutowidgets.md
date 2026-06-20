@@ -319,14 +319,14 @@ let%server _ = Eliom.Content.Html.D.(
 
 ### Calling server functions
 
-An important feature missing from this tutorial is the ability to call server functions from the client-side program ("server functions"). You can find a quick description of this in *this mini HOWTO* or in [Eliom's manual](https://ocsigen.org/eliom/latest/clientserver-communication.html#rpc).
+An important feature missing from this tutorial is the ability to call server functions from the client-side program ("server functions"). You can find a quick description of this in [this mini HOWTO](./how-to-call-a-server-side-function-from-client-side.md) or in [Eliom's manual](https://ocsigen.org/eliom/latest/clientserver-communication.html#rpc).
 
 
 ### Services
 
-For many applications, you will need several services. By default, client-side Eliom programs do not stop when you follow a link or send a form. This enables combining rich client side features (playing music, animations, stateful applications~ ...) with traditional Web interaction (links, forms, bookmarks, back button~ ...). Eliom proposes several ways to identify services, either by the URL (and parameters), or by a session identifier (we call this kind of service a *coservice*). Eliom also allows creating new (co-)services dynamically, for example coservices depending on previous interaction with a user. More information on the service identification mechanism in [Eliom's manual](https://ocsigen.org/eliom/latest/server-services.html).
+For many applications, you will need several services. By default, client-side Eliom programs do not stop when you follow a link or send a form. This enables combining rich client side features (playing music, animations, stateful applications~ ...) with traditional Web interaction (links, forms, bookmarks, back button~ ...). Eliom proposes several ways to identify services, either by the URL (and parameters), or by a session identifier (we call this kind of service a *coservice*). Eliom also allows creating new (co-)services dynamically, for example coservices depending on previous interaction with a user. More information on the service identification mechanism in `Eliom's manual`.
 
 
 ### Sessions
 
-Eliom also offers a rich session mechanism, with *scopes* (see [Eliom's manual](https://ocsigen.org/eliom/latest/server-state.html)).
+Eliom also offers a rich session mechanism, with *scopes* (see `Eliom's manual`).

@@ -172,7 +172,7 @@ let rec map_serial f l =
 
 {1 More documentation}
 
-Have a look at {{:https://ocsigen.org/lwt/latest/}Lwt's manual}
+Have a look at {{!/lwt/page-index}Lwt's manual}
 for more details about Lwt.
 You will learn how to handle exceptions (using [Lwt.fail]
 and [Lwt.catch] or [try%lwt]).

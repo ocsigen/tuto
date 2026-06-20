@@ -70,5 +70,5 @@ if you restart the server.
 
 {1 Links}
 
-- {{:https://ocsigen.org/eliom/latest/server-state.html}More information on session data}
+- {{!/eliom/page-"server-state"}More information on session data}
 - module {!Eliom.Reference}

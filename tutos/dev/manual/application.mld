@@ -23,7 +23,7 @@ If not already done, install Eliom first:
 opam install ocsipersist-sqlite eliom ocsigen-ppx-rpc
 v}
 
-To get started, we recommend using {{:https://ocsigen.org/eliom/latest/workflow-distillery.html}Eliom distillery}, a program which
+To get started, we recommend using {{!/eliom/page-"workflow-distillery"}Eliom distillery}, a program which
 creates scaffolds for Eliom projects. The following command creates a
 very simple project called [graffiti] in the directory
 [graffiti]:
@@ -146,7 +146,7 @@ pages as strings (as in other web frameworks). However, it is
 preferable to generate HTML in a way that provides compile-time HTML
 correctness guarantees. This tutorial achieves this by using the
 module {!Eliom.Content.Html.D},
-which is implemented using the {{:https://ocsigen.org/tyxml/latest/}TyXML}
+which is implemented using the {{!/tyxml/page-index}TyXML}
 library.  The module defines a construction function for each HTML
 tag.
 
@@ -208,7 +208,7 @@ applications unrelated to Ocsigen.
 
 For now we will just use the [Lwt.return] function as above.  We
 will come back to Lwt programming later. You can also have a look at
-the {{:https://ocsigen.org/lwt/latest/}Lwt programming guide}.
+the {{!/lwt/page-index}Lwt programming guide}.
 
 {%wodoc:end%}
 
@@ -848,7 +848,7 @@ Functional Reactive Programming{%html:<br/>%}
 
 In this section, we add a color picker and slider to choose the size
 of the brush. For the colorpicker we used a widget available in
-{{:https://ocsigen.org/ocsigen-toolkit/latest/intro.html}Ocsigen Toolkit}.
+{{!/ocsigen-toolkit/page-intro}Ocsigen Toolkit}.
 
 To install Ocsigen Toolkit, do:
 {v
@@ -992,7 +992,7 @@ You can then test your application ([make test.byte]).
   client-server widgets
   for your Eliom applications. You can use it for building complex
   user interfaces. The full documentation is available
-  ({{:https://ocsigen.org/ocsigen-toolkit/latest/}Ocsigen Toolkit}).
+  ({{!/ocsigen-toolkit/page-index}Ocsigen Toolkit}).
 
 {%wodoc:end%}
 

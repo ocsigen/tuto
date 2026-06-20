@@ -35,14 +35,14 @@ at the {{:https://www.besport.com/news}Be Sport social network} (available in
 Ocsigen consists of several quite independent projects, all
 released as open source software on {{:https://github.com/ocsigen}Github}.
 The main projects are:
-- {{:https://ocsigen.org/lwt/latest/}Lwt}, a general purpose concurrent programming library for OCaml,
-- {{:https://ocsigen.org/tyxml/latest/}TyXML} for generating typed XML,
-- the {{:https://ocsigen.org/js_of_ocaml/latest/}Js_of_ocaml} compiler (from Ocaml bytecode to JavaScript),
-- {{:https://ocsigen.org/eliom/latest/}Eliom}, the multi-tier framework for client-server
+- {{!/lwt/page-index}Lwt}, a general purpose concurrent programming library for OCaml,
+- {{!/tyxml/page-index}TyXML} for generating typed XML,
+- the {{!/js_of_ocaml/page-index}Js_of_ocaml} compiler (from Ocaml bytecode to JavaScript),
+- {{!/eliom/page-index}Eliom}, the multi-tier framework for client-server
 Web and mobile apps,
-- {{:https://ocsigen.org/ocsigenserver/latest/}Ocsigen Server}, a full-featured Web server,
-- {{:https://ocsigen.org/ocsigen-toolkit/latest/}Ocsigen Toolkit}, a client-server widget library written for Eliom and Js_of_ocaml,
-- {{:https://ocsigen.org/ocsigen-start/latest/}Ocsigen Start}, an application template with
+- {{!/ocsigenserver/page-index}Ocsigen Server}, a full-featured Web server,
+- {{!/ocsigen-toolkit/page-index}Ocsigen Toolkit}, a client-server widget library written for Eliom and Js_of_ocaml,
+- {{!/ocsigen-start/page-index}Ocsigen Start}, an application template with
 many code examples, to be used as a basis for your apps, or to learn.
 
 The {{:https://ocsigen.org/install}installation is described here}.
@@ -56,7 +56,7 @@ some of the following chapters:
 - Chapter {{!page-basics}Client-server application programming guide} can be used as your training plan.
 It provides a wide overview of each main concept, with links to more detailed
 documentation.
-- If you want to start with a server-side only Web site, read {{!page-basics-server}Server-side website programming guide} instead.
+- If you want to start with a server-side only Web site, read {{!page-"basics-server"}Server-side website programming guide} instead.
 - Then, a good starting point is this
 {{!page-start}Ocsigen Start tutorial},
 if you plan to build a client-server Web (and/or mobile) app.
@@ -108,7 +108,7 @@ application.  In this chapter, you will learn how to:
 - Add an Atom feed
 - If you want to have a full application with user management
 (registration, activation emails, authentication),
-have a look at {{:https://ocsigen.org/ocsigen-start/latest/}Ocsigen-start}.
+have a look at {{!/ocsigen-start/page-index}Ocsigen-start}.
 Ocsigen-start is a library and a template for Eliom distillery that
 contains a working Eliom application with user and right
 management.

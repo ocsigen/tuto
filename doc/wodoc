@@ -5,7 +5,8 @@
 ;; the CLI (--mld-dir / --nav tutos/<v>/manual/nav) rather than hardcoded here.
 (project tuto)
 (title Doc)
-(pub /tuto)
+(url-prefix /tuto)
+(css /css/style.css /css/ocsigen-odoc.css)  ; shared Ocsigen theme (wodoc css default changed)
 (menu-current tuto)
 (mld-package tuto)
 (flat)

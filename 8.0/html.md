@@ -116,4 +116,4 @@ It is based on module [React](http://erratique.ch/software/react/doc/React), whi
 
 ## More documentation
 
-Have a look at [Tyxml's manual](https://ocsigen.org/tyxml/latest/tyxml/intro.html) and [Eliom's manual](https://ocsigen.org/eliom/latest/clientserver-html.html) for more documentation about HTML manipulation in OCaml.
+Have a look at [Tyxml's manual](https://ocsigen.org/tyxml/latest/tyxml/index.html) and [Eliom's manual](https://ocsigen.org/eliom/latest/clientserver-html.html) for more documentation about HTML manipulation in OCaml.

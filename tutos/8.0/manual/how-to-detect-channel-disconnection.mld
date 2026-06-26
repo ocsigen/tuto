@@ -28,12 +28,9 @@ information through an exception when you try to read from the
 Lwt_stream. The different exceptions you have to handle depending on the
 case are:
 
-;[Eliom_comet.Channel_full]
-:For global channel. Those are never closed on server side and are not attached to a particular session. The server maintains a limited buffer of previous values to avoid memory leak. If a client reconnects to the network and too many messages have been sent to the channel since its last update, it will receive that exception.
-;[Eliom_comet.Process_closed] (Eliom < 5)
-:For a channel associated to a client process. If the process is explicitly closed on the server, the server is rebooted, it timed out, ...
-;[Eliom_comet.Channel_closed]
-:The channel was not maintained alive on the server (garbage collected).
+- [Eliom_comet.Channel_full]: For global channel. Those are never closed on server side and are not attached to a particular session. The server maintains a limited buffer of previous values to avoid memory leak. If a client reconnects to the network and too many messages have been sent to the channel since its last update, it will receive that exception.
+- [Eliom_comet.Process_closed] (Eliom < 5): For a channel associated to a client process. If the process is explicitly closed on the server, the server is rebooted, it timed out, ...
+- [Eliom_comet.Channel_closed]: The channel was not maintained alive on the server (garbage collected).
 
 Usually it is just simpler to not distinguish and just catch all those
 exceptions and consider their meaning to be 'disconnected'.

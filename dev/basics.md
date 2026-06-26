@@ -1038,8 +1038,21 @@ Download [Ocsigen Start's demo app](https://play.google.com/store/apps/details?i
 
 It is now based on [Cohttp](https://github.com/mirage/ocaml-cohttp).
 
-It has a powerful extension mechanism that makes it easy to plug your own OCaml modules for generating pages. Many extensions are already written: ;`Staticmod` : to serve static files. ;`Eliom` : to create reliable client/server Web applications or Web sites in OCaml using advanced high level concepts. ;`Extendconfiguration` : allows for more options in the configuration file. ;`Accesscontrol` : restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.). ;`Authbasic` : restricts access to the sites from the config file using Basic HTTP Authentication. ;CGImod : serves CGI scripts. It may also be used to serve PHP through CGI. ;`Deflatemod` : used to compress data before sending it to the client. ;`Redirectmod` : sets redirections towards other Web sites from the configuration file. ;`Revproxy` : a reverse proxy for Ocsigen Server. It allows to ask another server to handle the request. ;`Rewritemod` : changes incoming requests before sending them to other extensions. ;`Outputfilter` : rewrites some parts of the output before sending it to the client. ;`Userconf` : allows users to have their own configuration files. ;Comet : facilitates server to client communications.
+It has a powerful extension mechanism that makes it easy to plug your own OCaml modules for generating pages. Many extensions are already written:
 
+- `Staticmod`: to serve static files.
+- `Eliom`: to create reliable client/server Web applications or Web sites in OCaml using advanced high level concepts.
+- `Extendconfiguration`: allows for more options in the configuration file.
+- `Accesscontrol`: restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.).
+- `Authbasic`: restricts access to the sites from the config file using Basic HTTP Authentication.
+- CGImod: serves CGI scripts. It may also be used to serve PHP through CGI.
+- `Deflatemod`: used to compress data before sending it to the client.
+- `Redirectmod`: sets redirections towards other Web sites from the configuration file.
+- `Revproxy`: a reverse proxy for Ocsigen Server. It allows to ask another server to handle the request.
+- `Rewritemod`: changes incoming requests before sending them to other extensions.
+- `Outputfilter`: rewrites some parts of the output before sending it to the client.
+- `Userconf`: allows users to have their own configuration files.
+- Comet: facilitates server to client communications.
 Ocsigen Server has a `sophisticated configuration` file mechanism allowing complex configurations of sites.
 
 <!--wodoc:end-->

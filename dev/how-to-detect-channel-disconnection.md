@@ -17,8 +17,9 @@ If you are not using Ocsigen-start, you must catch exceptions `Eliom.Comet.Chann
 
 I assume that you want to know that from client side (it is also possible to know that on server side). Since there are quite a lot of different kinds of channels, there are different variations of 'disconnected' for them. You receive this information through an exception when you try to read from the Lwt\_stream. The different exceptions you have to handle depending on the case are:
 
-;`Eliom.Comet.Channel_full` :For global channel. Those are never closed on server side and are not attached to a particular session. The server maintains a limited buffer of previous values to avoid memory leak. If a client reconnects to the network and too many messages have been sent to the channel since its last update, it will receive that exception. ;`Eliom.Comet.Process_closed` (Eliom \< 5\) :For a channel associated to a client process. If the process is explicitly closed on the server, the server is rebooted, it timed out, ... ;`Eliom.Comet.Channel_closed` :The channel was not maintained alive on the server (garbage collected).
-
+- `Eliom.Comet.Channel_full`: For global channel. Those are never closed on server side and are not attached to a particular session. The server maintains a limited buffer of previous values to avoid memory leak. If a client reconnects to the network and too many messages have been sent to the channel since its last update, it will receive that exception.
+- `Eliom.Comet.Process_closed` (Eliom \< 5\): For a channel associated to a client process. If the process is explicitly closed on the server, the server is rebooted, it timed out, ...
+- `Eliom.Comet.Channel_closed`: The channel was not maintained alive on the server (garbage collected).
 Usually it is just simpler to not distinguish and just catch all those exceptions and consider their meaning to be 'disconnected'.
 
 To handle that reliably, you must be careful: an Lwt\_stream raises an exception only once. One way to ensure that you can't miss an exception is to map your channel through Lwt\_stream.map\_exn and handle the exceptions at that point.

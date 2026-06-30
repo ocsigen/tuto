@@ -36,7 +36,24 @@ jobs:
         with:
           ocaml-compiler: "5.4.0"
 
+      # tuto is manual-only: the whole install is just wodoc + odoc, compiled from
+      # source (~3.5 min) on every push, while the actual doc build takes seconds.
+      # setup-ocaml only caches the base switch (the compiler), so cache the whole
+      # _opam switch keyed on wodoc's HEAD commit; a cache hit skips the install,
+      # and the key changes (rebuild once) only when wodoc moves.
+      - name: Resolve wodoc HEAD commit
+        id: wodoc
+        run: echo "sha=$(git ls-remote https://github.com/ocsigen/wodoc.git HEAD | cut -f1)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache the opam switch (wodoc + odoc)
+        id: switch-cache
+        uses: actions/cache@v4
+        with:
+          path: _opam
+          key: opam-switch-${{ runner.os }}-ocaml5.4.0-wodoc-${{ steps.wodoc.outputs.sha }}
+
       - name: Install wodoc and odoc
+        if: steps.switch-cache.outputs.cache-hit != 'true'
         run: |
           opam pin add -n wodoc https://github.com/ocsigen/wodoc.git
           opam install wodoc odoc

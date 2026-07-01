@@ -1026,7 +1026,7 @@ Your CSS must be fully responsive to adapt to all screen sizes.
 
 Ocsigen Start's template comes with a Makefile which will automatically download the required NPM modules for Cordova and build your Android or iOS apps. Read the [README](https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/README.md) file to learn how to do that.
 
-Download [Ocsigen Start's demo app](https://play.google.com/store/apps/details?id=com.osdemo.mobile) from Google Play store to see an example. [Be Sport](https://www.besport.com/news) mobile apps are also generated like this (available in [Google Play Store](https://play.google.com/store/apps/details?id=com.besport.www.mobile) and [Apple app store](https://apps.apple.com/fr/app/be-sport/id1104216922)). <!--wodoc:end-->
+Download [Ocsigen Start's demo app](https://play.google.com/store/apps/details?id=com.osdemo.mobile) from Google Play store to see an example. [Be Sport](https://www.dailymotion.com/video/x82alm8) mobile apps are also generated like this (available in [Google Play Store](https://play.google.com/store/apps/details?id=com.besport.www.mobile) and [Apple app store](https://apps.apple.com/fr/app/be-sport/id1104216922)). <!--wodoc:end-->
 
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
 

@@ -27,4 +27,4 @@ Or you can use: `Eliom_tools.F.head`
 
 ### Call an external function
 
-Have a look at [this page of Js\_of\_ocaml's manual](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/bindings.html) to understand how to call JS function from your OCaml program.
+Have a look at [this page of Js\_of\_ocaml's manual](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/javascript-interop.html) to understand how to call JS function from your OCaml program.

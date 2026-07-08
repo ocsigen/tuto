@@ -324,7 +324,7 @@
 js_script
      ~uri:(make_uri (Eliom.Service.static_dir ())
               [&quot;hello.js&quot;])
-     ()</code></pre><p>This function has 2 parameters: the file path and unit.</p><p>The file path is generated using the <b>make_uri</b> function (from <code>Eliom.Content.Html.D</code> module). This function creates the relative URL string using the static directory (which is a service) configured in the configuration file and the given list.</p><p>Insert this piece of code on the list given in parameter to the <b>head</b> function.</p><p>Or you can use: <code>Eliom.Tools.F.head</code></p><h3 id="call-an-external-function">Call an external function</h3><p>Have a look at <a href="https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/bindings.html">this page of Js_of_ocaml's manual</a> to understand how to call JS function from your OCaml program.</p>
+     ()</code></pre><p>This function has 2 parameters: the file path and unit.</p><p>The file path is generated using the <b>make_uri</b> function (from <code>Eliom.Content.Html.D</code> module). This function creates the relative URL string using the static directory (which is a service) configured in the configuration file and the given list.</p><p>Insert this piece of code on the list given in parameter to the <b>head</b> function.</p><p>Or you can use: <code>Eliom.Tools.F.head</code></p><h3 id="call-an-external-function">Call an external function</h3><p>Have a look at <a href="https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/javascript-interop.html">this page of Js_of_ocaml's manual</a> to understand how to call JS function from your OCaml program.</p>
       </article>
     </div>
   </div>

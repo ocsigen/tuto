@@ -2144,7 +2144,7 @@ where `typ` is the type of an expression `expr` on the client. Note, that such a
 <!--wodoc:end-->
 <!--wodoc:aside class="concept"-->**Concept: Js\_of\_ocaml**
 
-The client-side parts of the program are compiled to JavaScript by `js_of_ocaml`. (Technically, `js_of_ocaml` compiles OCaml bytecode to JavaScript.) It is easy [to bind JavaScript libraries](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/bindings.html) so that OCaml programs can call JavaScript functions. In the example, we are using the `Js_of_ocaml.Dom_html` module, which is a binding that allows the manipulation of an HTML page.
+The client-side parts of the program are compiled to JavaScript by `js_of_ocaml`. (Technically, `js_of_ocaml` compiles OCaml bytecode to JavaScript.) It is easy [to bind JavaScript libraries](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/javascript-interop.html) so that OCaml programs can call JavaScript functions. In the example, we are using the `Js_of_ocaml.Dom_html` module, which is a binding that allows the manipulation of an HTML page.
 
 Js\_of\_ocaml is using a syntax extension to call JavaScript methods:
 
@@ -7042,7 +7042,7 @@ Or you can use: `Eliom_tools.F.head`
 
 ### Call an external function
 
-Have a look at [this page of Js\_of\_ocaml's manual](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/bindings.html) to understand how to call JS function from your OCaml program.
+Have a look at [this page of Js\_of\_ocaml's manual](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/javascript-interop.html) to understand how to call JS function from your OCaml program.
 
 
 ---

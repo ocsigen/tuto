@@ -64,7 +64,8 @@ jobs:
             opam exec -- wodoc build --config doc/wodoc \
               --menu https://ocsigen.org/doc/menu.html \
               --out "$PWD/_doc-site/$v" --label "$v" \
-              --mld-dir "tutos/$v/manual" --nav "tutos/$v/manual/nav"
+              --mld-dir "tutos/$v/manual" --nav "tutos/$v/manual/nav" \
+              --strict-refs
             # manual-only: the version landing redirects to the first page (intro)
             printf '<!DOCTYPE html><meta http-equiv="refresh" content="0; url=intro.html">\n' \
               > "_doc-site/$v/index.html"

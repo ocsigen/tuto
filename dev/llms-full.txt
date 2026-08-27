@@ -2072,7 +2072,7 @@ At the very toplevel of your source file (i.e. *not* inside modules or other ser
 - `[%%client.start]`, `[%%server.start]`, `[%%shared.start]`: these set the default location for all definitions that follow, and which do not use the preceding constructs.
 If no location is specified, the code is assumed to be for the server.
 
-The above constructs are implemented by means of PPX, OCaml's new mechanism for implementing syntax extensions. See `Ppx_eliom` for details.
+The above constructs are implemented by means of PPX, OCaml's new mechanism for implementing syntax extensions. See `the Eliom language extensions` for details.
 
 **Client parts are executed once, when the client side process is launched.** The client process is not restarted after each page change.
 

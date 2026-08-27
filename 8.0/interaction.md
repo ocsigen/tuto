@@ -3,7 +3,7 @@
 
 *The code of this tutorial has been tested with Eliom 6\.0.* <br/>
 
-This chapter of the tutorial explains how to create a small web site with several pages, users, sessions, and other elements of classical web development. Then, in `another tutorial`, we will incorporate the features of this site into our Graffiti application, to demonstrate that we can combine this kind of interaction with client-side programs.
+This chapter of the tutorial explains how to create a small web site with several pages, users, sessions, and other elements of classical web development. Then, in [another tutorial](./misc.md), we will incorporate the features of this site into our Graffiti application, to demonstrate that we can combine this kind of interaction with client-side programs.
 
 We assume you have read at least the first section of the previous chapter, which explained how to create a service and constuct valid HTML pages.
 
@@ -876,4 +876,4 @@ let () = Eliom_content.Html.D.(
               (body [h1 [txt ("Hello " ^ username) ]]))))
 )
 ```
-[prev](./application.md) `next`
+[prev](./application.md) [next](./misc.md)

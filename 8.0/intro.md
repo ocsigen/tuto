@@ -23,8 +23,8 @@ Ocsigen originates from a research project by the CNRS, Université de Paris and
 
 - Chapter [Client-server application programming guide](./basics.md) can be used as your training plan. It provides a wide overview of each main concept, with links to more detailed documentation.
 - If you want to start with a server-side only Web site, read [Server-side website programming guide](./basics-server.md) instead.
-- Then, a good starting point is this `Ocsigen Start tutorial`, if you plan to build a client-server Web (and/or mobile) app. It will help you to build your first app very quickly, with many code samples to study.
-- If you are fluent in OCaml and want a quick introduction to client-server Web programming with Eliom, read tutorial `Eliom apps basics: writing client server widgets`. It illusrates the client-server syntax with an example, and is a good starting point for understanding Eliom's client-server features.
+- Then, a good starting point is this [Ocsigen Start tutorial](./start.md), if you plan to build a client-server Web (and/or mobile) app. It will help you to build your first app very quickly, with many code samples to study.
+- If you are fluent in OCaml and want a quick introduction to client-server Web programming with Eliom, read tutorial [Eliom apps basics: writing client server widgets](./tutowidgets.md). It illusrates the client-server syntax with an example, and is a good starting point for understanding Eliom's client-server features.
 - If you want a full step-by-step tutorial on how to write a client-server Web application, read tutorial [Client-server application](./application.md). It describes step by step how to write a client/server [collaborative drawing application](https://ocsigen.org/graffiti/). You will learn, from the very beginning, how to:
 - Create new *services*
 - Output *valid HTML*
@@ -33,14 +33,14 @@ Ocsigen originates from a research project by the CNRS, Université de Paris and
 - Catch *mouse events*
 - *Communicate* with the server, in both directions
 - Create services with *non-HTML output*
-- If you want to build mobile applications, read tutorial `Mobile applications with Ocsigen`. It describes how to build a mobile app (e.g., for Android) with the same codebase as for your Web application.
+- If you want to build mobile applications, read tutorial [Mobile applications with Ocsigen](./mobile.md). It describes how to build a mobile app (e.g., for Android) with the same codebase as for your Web application.
 - If you want to write a more traditional Web site, with pages, forms, and sessions, read tutorial [Service based Web programming](./interaction.md). It is devoted to server side programming. It shows how to create a new Web site with several pages and user connections. You will learn how to:
 - Create a *link* towards another service
 - Create *forms*
 - Register *session data* or *session services*
 - Create services performing *actions* (with no output)
 - Dynamically register new services (*continuation based* Web programming)
-- If you want to learn more details about Ocsigen read tutorial `Miscellaneous features`. It will mix the client-server drawing application with the session mechanism and user management to produce a multi-user collaborative drawing application. In this chapter, you will learn how to:
+- If you want to learn more details about Ocsigen read tutorial [Miscellaneous features](./misc.md). It will mix the client-server drawing application with the session mechanism and user management to produce a multi-user collaborative drawing application. In this chapter, you will learn how to:
 - Integrate a typical Web interaction (links, forms,~ …) with a client side program.
 - Add *sounds or videos* to your application
 - Change pages *without stopping the client side program*

@@ -29,8 +29,8 @@ Ocsigen originates from a research project by the CNRS, Université de Paris and
 
 - Chapter [Client-server application programming guide](./basics.md) can be used as your training plan. It provides a wide overview of each main concept, with links to more detailed documentation.
 - If you want to start with a server-side only Web site, read [Server-side website programming guide](./basics-server.md) instead.
-- Then, a good starting point is this `Ocsigen Start tutorial`, if you plan to build a client-server Web (and/or mobile) app. It will help you to build your first app very quickly, with many code samples to study.
-- If you are fluent in OCaml and want a quick introduction to client-server Web programming with Eliom, read tutorial `Eliom apps basics: writing client server widgets`. It illusrates the client-server syntax with an example, and is a good starting point for understanding Eliom's client-server features.
+- Then, a good starting point is this [Ocsigen Start tutorial](./start.md), if you plan to build a client-server Web (and/or mobile) app. It will help you to build your first app very quickly, with many code samples to study.
+- If you are fluent in OCaml and want a quick introduction to client-server Web programming with Eliom, read tutorial [Eliom apps basics: writing client server widgets](./tutowidgets.md). It illusrates the client-server syntax with an example, and is a good starting point for understanding Eliom's client-server features.
 - If you want a full step-by-step tutorial on how to write a client-server Web application, read tutorial [Client-server application](./application.md). It describes step by step how to write a client/server [collaborative drawing application](https://ocsigen.org/graffiti/). You will learn, from the very beginning, how to:
 - Create new *services*
 - Output *valid HTML*
@@ -39,14 +39,14 @@ Ocsigen originates from a research project by the CNRS, Université de Paris and
 - Catch *mouse events*
 - *Communicate* with the server, in both directions
 - Create services with *non-HTML output*
-- If you want to build mobile applications, read tutorial `Mobile applications with Ocsigen`. It describes how to build a mobile app (e.g., for Android) with the same codebase as for your Web application.
+- If you want to build mobile applications, read tutorial [Mobile applications with Ocsigen](./mobile.md). It describes how to build a mobile app (e.g., for Android) with the same codebase as for your Web application.
 - If you want to write a more traditional Web site, with pages, forms, and sessions, read tutorial [Service based Web programming](./interaction.md). It is devoted to server side programming. It shows how to create a new Web site with several pages and user connections. You will learn how to:
 - Create a *link* towards another service
 - Create *forms*
 - Register *session data* or *session services*
 - Create services performing *actions* (with no output)
 - Dynamically register new services (*continuation based* Web programming)
-- If you want to learn more details about Ocsigen read tutorial `Miscellaneous features`. It will mix the client-server drawing application with the session mechanism and user management to produce a multi-user collaborative drawing application. In this chapter, you will learn how to:
+- If you want to learn more details about Ocsigen read tutorial [Miscellaneous features](./misc.md). It will mix the client-server drawing application with the session mechanism and user management to produce a multi-user collaborative drawing application. In this chapter, you will learn how to:
 - Integrate a typical Web interaction (links, forms,~ …) with a client side program.
 - Add *sounds or videos* to your application
 - Change pages *without stopping the client side program*
@@ -70,7 +70,7 @@ This page describes the main concepts you need to master to become fully operati
 
 Depending on your needs, you may not need to learn all this. Ocsigen is very flexible and can be used both for Web site programming (see [this page](./basics-server.md)) or more complex client-server Web apps and their mobile counterparts.
 
-In parallel to the reading of that page, we recommend to generate your first `Ocsigen Start` app to see running examples of all these concepts (see `that page`).
+In parallel to the reading of that page, we recommend to generate your first `Ocsigen Start` app to see running examples of all these concepts (see [that page](./start.md)).
 
 <!--wodoc:div class="quickstart-block"--> **Too long; didn't read? Get your first app running in 3 minutes:**
 
@@ -81,7 +81,7 @@ cd myapp
 make db-init && make db-create && make db-schema
 make test.byte
 ```
-Then open `http://localhost:8080`. <br/> Requires `postgresql` and `sass` (or `sassc`). Read the `detailed instructions` if needed. <!--wodoc:end-->
+Then open `http://localhost:8080`. <br/> Requires `postgresql` and `sass` (or `sassc`). Read the [detailed instructions](./start.md) if needed. <!--wodoc:end-->
 
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
 
@@ -108,7 +108,7 @@ Instead of calling blocking functions, like `Unix.sleep` or `Unix.read`, that co
 
 Syntax `let%lwt x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program. <!--wodoc:end-->
 
-To learn Lwt, read this `short tutorial`, or its `user manual`.
+To learn Lwt, read this [short tutorial](./lwt.md), or its `user manual`.
 
 <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
@@ -224,7 +224,7 @@ Error: This expression has type
             | `Wbr ]
        The second variant type does not allow tag(s) `P
 ```
-Read more about TyXML in this `short tutorial` or in its `user manual`.
+Read more about TyXML in this [short tutorial](./html.md) or in its `user manual`.
 
 <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
@@ -344,7 +344,7 @@ Use service `(Eliom_service.static_dir ())` to create links towards static files
 
 Use service `Eliom_service.reload_action` and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call `Os_lib.reload` to reload the page and restart the client-side program.
 
-`Full documentation about services`, `a tutorial about traditional service based Web programming`, API documentation of modules `Eliom_service` and `Eliom_registration`.
+`Full documentation about services`, [a tutorial about traditional service based Web programming](./interaction.md), API documentation of modules `Eliom_service` and `Eliom_registration`.
 
 This example shows how to insert an image using `static_dir`:
 
@@ -634,7 +634,7 @@ If such section is reached while generating a page on client side, the client-si
 
 If such section is reached during module initialization on the server (global client section), it will be executed on client side everytime a new client side program is launched.
 
-The tutorial `Client-Server Widgets` shows how client values can be manipulated on server side.
+The tutorial [Client-Server Widgets](./tutowidgets.md) shows how client values can be manipulated on server side.
 
 
 ### Injections
@@ -751,7 +751,7 @@ Service handlers and service registration are usually written in shared sections
 
 - Examples of client sections, injections or server functions can be found in the demo included in [Ocsigen-Start's app template](https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_rpc.eliom).
 - [This page](./application.md) is a step by step introduction to client-server programming with Eliom for beginners.
-- `This one` is a quick introduction for more experienced OCaml developers.
+- [This one](./tutowidgets.md) is a quick introduction for more experienced OCaml developers.
 - Comprehensive documentation on client-server programming can be found in `Eliom's user manual`. <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
 
@@ -888,7 +888,7 @@ For example module `Ot_spinner` implements a widgets that you can use to display
 <!--wodoc:end-->
 *Ocsigen-start* is a library and a template of Eliom application, with many common features like user registration, login box, notification system, etc.
 
-It also provides a demo of many features presented in this page. A [live version](https://ocsigen.org/ocsigen-start/latest/demo/) is accessible online. Read `this page` to create your first Ocsigen Start app and take time to study the code of each example.
+It also provides a demo of many features presented in this page. A [live version](https://ocsigen.org/ocsigen-start/latest/demo/) is accessible online. Read [this page](./start.md) to create your first Ocsigen Start app and take time to study the code of each example.
 
 User management features are fully usable in production and will save you from implementing account creation, activation links or password recovery yourself. Module `Os_current_user` gives you information about current user from anywhere in your program.
 
@@ -1022,7 +1022,7 @@ Module `Eliom_content.Html.R` also defines all TyXML nodes, which take reactive 
 
 For example `Eliom_content.Html.R.txt` takes a value of type `string React.S.t` as parameter (string signal).
 
-Instead of taking a list signal as parameter, functions like `div` or `p` of module `Eliom_content.Html.R` take a parameter of type [Eliom\_content.Html.F.elt ReactiveData.Rlist.t](https://github.com/ocsigen/reactiveData). This enables incremental update of the content (usually, appending an element at the end of the list, without having to redraw the whole list). See an example with `ReactiveData` in `this tutorial`.
+Instead of taking a list signal as parameter, functions like `div` or `p` of module `Eliom_content.Html.R` take a parameter of type [Eliom\_content.Html.F.elt ReactiveData.Rlist.t](https://github.com/ocsigen/reactiveData). This enables incremental update of the content (usually, appending an element at the end of the list, without having to redraw the whole list). See an example with `ReactiveData` in [this tutorial](./tutoreact.md).
 
 Node attributes can also be reactive. For example if `s` has type `string list React.S.t`, you can write `Eliom_content.Html.F.div ~a:[R.a_class s] []`.
 
@@ -1129,7 +1129,7 @@ While Eliom is well known for its unique client-server programming model, it is 
 
 You will then learn how Eliom is simplifying the programming of very common behaviours by introducing innovative concepts like scoped sessions or continuation-based Web programming.
 
-Programming with Eliom will make your website ready for future evolutions by allowing you to introduce progressively client-side features like event handlers, fully in OCaml. You will even be able to turn your website into a `distributed client-server Web app`, and even a mobile app if needed in the future, without having to rewrite anything.
+Programming with Eliom will make your website ready for future evolutions by allowing you to introduce progressively client-side features like event handlers, fully in OCaml. You will even be able to turn your website into a [distributed client-server Web app](./basics.md), and even a mobile app if needed in the future, without having to rewrite anything.
 
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
 
@@ -1156,7 +1156,7 @@ Instead of calling blocking functions, like `Unix.sleep` or `Unix.read`, that co
 
 Syntax `let%lwt x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program. <!--wodoc:end-->
 
-To learn Lwt, read this `short tutorial`, or its `user manual`.
+To learn Lwt, read this [short tutorial](./lwt.md), or its `user manual`.
 
 <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
@@ -1413,7 +1413,7 @@ Error: This expression has type
             | `Wbr ]
        The second variant type does not allow tag(s) `P
 ```
-Read more about TyXML in this `short tutorial` or in its `user manual`.
+Read more about TyXML in this [short tutorial](./html.md) or in its `user manual`.
 
 <!--wodoc:end-->
 <!--wodoc:section class="docblock"--> <!--wodoc:header-->
@@ -1582,7 +1582,7 @@ Use service `(Eliom_service.static_dir ())` to create links towards static files
 
 Use service `Eliom_service.reload_action` and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call `Os_lib.reload` to reload the page and restart the client-side program.
 
-`Full documentation about services`, `a tutorial about traditional service based Web programming`, API documentation of modules `Eliom_service` and `Eliom_registration`.
+`Full documentation about services`, [a tutorial about traditional service based Web programming](./interaction.md), API documentation of modules `Eliom_service` and `Eliom_registration`.
 
 This example shows how to insert an image using `static_dir`:
 
@@ -2072,7 +2072,7 @@ At the very toplevel of your source file (i.e. *not* inside modules or other ser
 - `[%%client.start]`, `[%%server.start]`, `[%%shared.start]`: these set the default location for all definitions that follow, and which do not use the preceding constructs.
 If no location is specified, the code is assumed to be for the server.
 
-The above constructs are implemented by means of PPX, OCaml's new mechanism for implementing syntax extensions. See `Ppx_eliom` for details.
+The above constructs are implemented by means of PPX, OCaml's new mechanism for implementing syntax extensions. See `the Eliom language extensions` for details.
 
 **Client parts are executed once, when the client side process is launched.** The client process is not restarted after each page change.
 
@@ -2581,7 +2581,7 @@ For example, `Ot_color_picker.make` returns both the element and a *reactive sig
 
 Eliom makes it possible to create reactive (client side) page elements from server side, through module Eliom\_shared.
 
-This basic program does not show the full power of reactive programming, however. See `this tutorial` for a better introduction to reactive programming with Eliom.
+This basic program does not show the full power of reactive programming, however. See [this tutorial](./tutoreact.md) for a better introduction to reactive programming with Eliom.
 
 <!--wodoc:end-->
 
@@ -2692,7 +2692,7 @@ The first version of the program is now complete.
 - Add a button that allows download the current image, and saving it to the hard disk (reuse the service `imageservice`).
 - Add a button with a color picker to select a color from the drawing. Pressing the button changes the mouse cursor, and disables current mouse events until the next mouse click event on the document. Then the color palette changes to the color of the pixel clicked. (Use the function `Dom_html.pixel_get`).
 <!--wodoc:end-->
-If you want to continue learning client-server programming with Eliom and build your first application, we suggest to read `the tutorial about Ocsigen Start`.
+If you want to continue learning client-server programming with Eliom and build your first application, we suggest to read [the tutorial about Ocsigen Start](./start.md).
 
 
 ---
@@ -3900,7 +3900,7 @@ let%server display userid_o forumid =
 
 *The code of this tutorial has been tested with Eliom 6\.0.* <br/>
 
-This chapter of the tutorial explains how to create a small web site with several pages, users, sessions, and other elements of classical web development. Then, in `another tutorial`, we will incorporate the features of this site into our Graffiti application, to demonstrate that we can combine this kind of interaction with client-side programs.
+This chapter of the tutorial explains how to create a small web site with several pages, users, sessions, and other elements of classical web development. Then, in [another tutorial](./misc.md), we will incorporate the features of this site into our Graffiti application, to demonstrate that we can combine this kind of interaction with client-side programs.
 
 We assume you have read at least the first section of the previous chapter, which explained how to create a service and constuct valid HTML pages.
 
@@ -4773,7 +4773,7 @@ let () = Eliom_content.Html.D.(
               (body [h1 [txt ("Hello " ^ username) ]]))))
 )
 ```
-[prev](./application.md) `next`
+[prev](./application.md) [next](./misc.md)
 
 
 ---
@@ -5562,7 +5562,7 @@ You need to follow a certain programming style for your Eliom code to work flawl
 
 Custom configuration options<!--wodoc:end-->
 
-It is not convenient to have to edit the code to change some configurations, like the location where are saved the favorite images in the Graffiti tutorial (see: `Saving favorite pictures`). Fortunately Ocsigen provides a mechanism to extend its configuration file.
+It is not convenient to have to edit the code to change some configurations, like the location where are saved the favorite images in the Graffiti tutorial (see: [Saving favorite pictures](./pictures.md)). Fortunately Ocsigen provides a mechanism to extend its configuration file.
 
 
 ## Basic interface
@@ -6626,7 +6626,7 @@ let _ =
 ### Links
 
 - [Tutorial to write a client/server application](./application.md)
-- `Tutorial to write a server side web site`
+- [Tutorial to write a server side web site](./interaction.md)
 
 
 ---
@@ -6699,7 +6699,7 @@ ocsigenserver -c your_config_file.conf
 
 ### Eliom client-server applications
 
-Eliom client-server applications are running in your browser for a `certain lifetime` and consist of one or several pages/URLs. An application has its associated js file, which must have the same name (`generated automatically by the default makefile` and added automatically by Eliom in the page).
+Eliom client-server applications are running in your browser for a `certain lifetime` and consist of one or several pages/URLs. An application has its associated js file, which must have the same name ([generated automatically by the default makefile](./how-to-compile-my-ocsigen-pages.md) and added automatically by Eliom in the page).
 
 For example, we define an application called *example*:
 
@@ -6729,7 +6729,7 @@ If, for example, the list is `"hello";"world"`, the page will be accessed using 
 ```ocaml
 http://website.com/hello/world/
 ```
-More information about parameters: `How to use GET parameters (parameters in the URL)?`
+More information about parameters: [How to use GET parameters (parameters in the URL)?](./how-to-use-get-parameters-or-parameters-in-the-url.md)
 
 Now that our service has been declared, we associate to it an OCaml function that will generate the page. We call this *service registration*. If the service belongs to the application, we use the registrations functions from module `Example` defined above.
 
@@ -7005,7 +7005,7 @@ div ~a:[a_class ["firstclass"; "secondclass"]] [txt "Hello!"]
 ```
 **Required parameter**: list containing other elements (Details of available elements in type `Html_types.flow5`).
 
-**Optional parameter** for attributes "a" (`How to set and id, classes or other attributes to HTML elements?`).
+**Optional parameter** for attributes "a" ([How to set and id, classes or other attributes to HTML elements?](./how-to-set-and-id-classes-or-other-attributes-to-html-elements.md)).
 
 
 ### Download full code
@@ -7048,7 +7048,7 @@ div ~a:[a_class ["firstclass"; "secondclass"]] [txt "Hello!"]
 ```
 **Required parameter**: list containing **li** elements ([Details of li content](https://ocsigen.org/tyxml/latest/tyxml/Html_types/index.html#type-li_attrib)).
 
-**Optional parameter** for attributes "a" (`How to set and id, classes or other attributes to HTML elements?`).
+**Optional parameter** for attributes "a" ([How to set and id, classes or other attributes to HTML elements?](./how-to-set-and-id-classes-or-other-attributes-to-html-elements.md)).
 
 
 #### Definition list
@@ -7077,7 +7077,7 @@ Details:
 
 - [dd content](https://ocsigen.org/tyxml/latest/tyxml/Html_types/index.html#type-phrasing)
 - [dt content](https://ocsigen.org/tyxml/latest/tyxml/Html_types/index.html#type-flow5)
-**Optional parameter** for attributes "a" (`How to set and id, classes or other attributes to HTML elements?`).
+**Optional parameter** for attributes "a" ([How to set and id, classes or other attributes to HTML elements?](./how-to-set-and-id-classes-or-other-attributes-to-html-elements.md)).
 
 
 ### Download full code
@@ -7292,7 +7292,7 @@ Raw.select [option (txt "hello");
 
 ### Links
 
-- `How to write forms`
+- [How to write forms](./how-to-write-forms.md)
 - `Eliom forms and links`
 - API `Eliom_content.Html.D.Form`
 - signature `Html_sigs.T` (Element attributes)
@@ -7878,7 +7878,7 @@ To declare that you are listening on one piece of data `i`, call `My_notif.liste
 
 To notify all the clients listening on data `i`, call `My_notif.notify i (fun userid_o -> Lwt.return (Some notif))`. `userid_o` is the id of the user who will be notified, if he is connected (`None` otherwise). This make possible to customize the notifications. Return `None` if you don't want him to be notified.
 
-For more information, have a look at `the tutorial about client-server reactive applications`.
+For more information, have a look at [the tutorial about client-server reactive applications](./tutoreact.md).
 
 
 ## Without `Os_notif` (manual implementation)
@@ -7912,7 +7912,7 @@ in
 ```
 And call function `notify` on the channel (from server side) when you want to notify the client.
 
-To get back the `notify` functions for one user, you may want to `iterate on all client process states`. To do that, create a session group for each user (see `How to register session data`). Here we suppose that the session group name is the user\_id, as a string. Then iterate on all sessions from this group, and on all client processes for each session.
+To get back the `notify` functions for one user, you may want to [iterate on all client process states](./how-to-iterate-on-all-sessions-for-one-user-or-all-tabs.md). To do that, create a session group for each user (see [How to register session data](./how-to-register-session-data.md)). Here we suppose that the session group name is the user\_id, as a string. Then iterate on all sessions from this group, and on all client processes for each session.
 
 For example:
 

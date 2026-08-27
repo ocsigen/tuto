@@ -37,7 +37,7 @@ Raw.select [option (txt "hello");
 
 ### Links
 
-- `How to write forms`
+- [How to write forms](./how-to-write-forms.md)
 - `Eliom forms and links`
 - API `Eliom_content.Html.D.Form`
 - signature `Html_sigs.T` (Element attributes)

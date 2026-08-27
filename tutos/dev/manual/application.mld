@@ -300,7 +300,7 @@ If no location is specified, the code is assumed to be for the server.
 
 The above constructs are implemented by means of PPX, OCaml's new
 mechanism for implementing syntax extensions. See
-{!Ppx_eliom} for details.
+{{!/eliom/page-"eliom-language"}the Eliom language extensions} for details.
 
 {b Client parts are executed once, when the client side process is
 launched.} The client process is not restarted after each page
@@ -427,7 +427,7 @@ on the client.
   checked: the name of the client side type must match the server side
   one. If you define a type and want it to be available on both sides,
   declare it in [[%%shared ... ]]. The Eliom manual provides more
-  information on the {{!Ppx_eliom}Eliom's syntax extension} and
+  information on the {{!/eliom/page-"eliom-language"}Eliom's syntax extension} and
   its {{:https://ocsigen.org/eliom/latest/workflow-configuration.html#compilation}compilation process}.
 
   The value of an injection into a [let%client]

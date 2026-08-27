@@ -318,14 +318,14 @@
       </nav>
       <article class="rightcol">
         
-        <h1 id="listening-music">Listening music</h1><p><aside class="concepts"><b>Concepts</b></p><p>Persistence of the client application</aside></p><p>We will add an audio player to the page that will stay when page changes. This emphasises the fact that browsing inside an application does not stop the client side code: the music keeps playing when the content of the page and the url change.</p><p>We first create the player node at toplevel.</p><pre class="language-ocaml"><code>let player =
+        <h1 id="listening-music">Listening music</h1><aside class="concepts"><p><b>Concepts</b></p><p>Persistence of the client application</p></aside><p>We will add an audio player to the page that will stay when page changes. This emphasises the fact that browsing inside an application does not stop the client side code: the music keeps playing when the content of the page and the url change.</p><p>We first create the player node at toplevel.</p><pre class="language-ocaml"><code>let player =
   Eliom.Content.Html.Id.create_global_elt
     (audio
        ~srcs:(make_uri (Eliom.Service.static_dir ())
                   [&quot;music.ogg&quot;],
               [])
        ~a:[a_autoplay (`Autoplay);a_controls (`Controls)]
-       [txt &quot;Your browser does not support audio element&quot; ])</code></pre><p>And we insert the player in the page.</p><p>And that's all! Since the <code>player</code> node is declared unique, no new player is created when the page changed: this is exact same node.</p><p><aside class="wip"><b>Work in progress</b></p><p>In fact browsers stop the player as soon as the dom element is manipulated. That happens when we change the page: to continue playing the player should not be present as an element of the page</aside></p><p>To run this example, you will need to add an ogg file in the static directory. If you can't find one, there is one here: <a href="http://www.gnu.org/music/free-software-song.html">http://www.gnu.org/music/free-software-song.html</a>.</p>
+       [txt &quot;Your browser does not support audio element&quot; ])</code></pre><p>And we insert the player in the page.</p><p>And that's all! Since the <code>player</code> node is declared unique, no new player is created when the page changed: this is exact same node.</p><aside class="wip"><p><b>Work in progress</b></p><p>In fact browsers stop the player as soon as the dom element is manipulated. That happens when we change the page: to continue playing the player should not be present as an element of the page</p></aside><p>To run this example, you will need to add an ogg file in the static directory. If you can't find one, there is one here: <a href="http://www.gnu.org/music/free-software-song.html">http://www.gnu.org/music/free-software-song.html</a>.</p>
 
       </article>
     </div>

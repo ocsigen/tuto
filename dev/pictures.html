@@ -318,7 +318,7 @@
       </nav>
       <article class="rightcol">
         
-        <h1 id="saving-favorite-pictures">Saving favorite pictures</h1><p><aside class="concepts"><b>Concepts</b></p><p>Atom feed</aside></p><p>We will now add a button to the Graffiti application to save the current image. The images will be saved to the filesystem using the module <code>Lwt_io</code>. We will then make an Atom feed with the saved images using <a href="https://github.com/Cumulus/Syndic">Syndic</a>.</p><p>To install it, do:</p><pre>opam install syndic</pre><p>We save the images in the directory containing the static contents under the directory <code>images_saved/username</code>. The <code>username</code> directory is created if needed. If it already exists <code>mkdir</code> fails and we do nothing.</p><p>We will add this code in a new file:</p>
+        <h1 id="saving-favorite-pictures">Saving favorite pictures</h1><aside class="concepts"><p><b>Concepts</b></p><p>Atom feed</p></aside><p>We will now add a button to the Graffiti application to save the current image. The images will be saved to the filesystem using the module <code>Lwt_io</code>. We will then make an Atom feed with the saved images using <a href="https://github.com/Cumulus/Syndic">Syndic</a>.</p><p>To install it, do:</p><pre>opam install syndic</pre><p>We save the images in the directory containing the static contents under the directory <code>images_saved/username</code>. The <code>username</code> directory is created if needed. If it already exists <code>mkdir</code> fails and we do nothing.</p><p>We will add this code in a new file:</p>
 <h4 id="feed.ml"><code>feed.ml</code></h4><pre class="language-ocaml"><code>open Eliom.Content
 open Lwt.Infix
 open Html.F

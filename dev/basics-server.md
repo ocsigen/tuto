@@ -361,10 +361,10 @@ Then register an OCaml function as handler on this service:
 ```ocaml
 let () =
   Eliom.Registration.Html.register ~service:myservice
-    (fun (s, i) () ->
+    (fun (name, num) () ->
       Lwt.return
          Eliom.Content.Html.F.(html (head (title (txt "")) [])
-                                    (body [h1 [txt (s^string_of_int i)]])))
+                                    (body [h1 [txt (name ^ string_of_int num)]])))
 ```
 The handler takes as first parameter the GET page parameters, typed according to the parameter specification given while creating the service. The second parameter is for POST parameters (see below).
 

@@ -428,10 +428,10 @@ let () =
     ~meth:(Eliom.Service.Get (Eliom.Parameter.(string &quot;s&quot; ** int &quot;i&quot;)))
     ()</code></pre><p>Then register an OCaml function as handler on this service:</p><pre class="language-ocaml server"><code>let () =
   Eliom.Registration.Html.register ~service:myservice
-    (fun (s, i) () -&gt;
+    (fun (name, num) () -&gt;
       Lwt.return
          Eliom.Content.Html.F.(html (head (title (txt &quot;&quot;)) [])
-                                    (body [h1 [txt (s^string_of_int i)]])))</code></pre><p>The handler takes as first parameter the GET page parameters, typed according to the parameter specification given while creating the service. The second parameter is for POST parameters (see below).</p><p>Recompile you program, and to to URL <code>http://localhost:8080/foo?s=hello&amp;i=22</code> to see the result.</p><h3 id="parameters">Parameters</h3><p>Module <code>Eliom.Parameter</code> is used to describe the type of service parameters.</p><p>Examples:</p><pre class="language-ocaml"><code>Eliom.Parameter.(int &quot;i&quot; ** (string &quot;s&quot; ** bool &quot;b&quot;))
+                                    (body [h1 [txt (name ^ string_of_int num)]])))</code></pre><p>The handler takes as first parameter the GET page parameters, typed according to the parameter specification given while creating the service. The second parameter is for POST parameters (see below).</p><p>Recompile you program, and to to URL <code>http://localhost:8080/foo?s=hello&amp;i=22</code> to see the result.</p><h3 id="parameters">Parameters</h3><p>Module <code>Eliom.Parameter</code> is used to describe the type of service parameters.</p><p>Examples:</p><pre class="language-ocaml"><code>Eliom.Parameter.(int &quot;i&quot; ** (string &quot;s&quot; ** bool &quot;b&quot;))
    (* /path?i=42&amp;s=toto&amp;b=on *)
 
 Eliom.Parameter.(int &quot;i&quot; ** opt (string &quot;s&quot;))

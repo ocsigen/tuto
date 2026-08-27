@@ -384,7 +384,7 @@ from the corresponding submodule of
 {t
  | {{!Eliom.Registration.Html}Html} | Services returning typed HTML pages |
  | {{!Eliom.Registration.Html}Html_text} | Services returning untyped HTML pages as strings |
- | {{!Eliom.Registration.ELIOM_APPL}App} | Apply this functor to generate registration functions for services belonging to an Eliom client/server application. These services also return typed HTML pages, but Eliom will automatically add the client-side program as a JS file, and all the data needed (values of all injections, etc.) |
+ | {{!Eliom.Registration.APP}App} | Apply this functor to generate registration functions for services belonging to an Eliom client/server application. These services also return typed HTML pages, but Eliom will automatically add the client-side program as a JS file, and all the data needed (values of all injections, etc.) |
  | {{!Eliom.Registration.Flow5}Flow} | Services returning portions of HTML pages. |
  | {{!Eliom.Registration.Action}Action} | Services performing actions (server side effects) with or without reloading the page (e.g. login, logout, payment, modification of user information...) |
  | {{!Eliom.Registration.File}Files} | Serve files from the server hard drive |

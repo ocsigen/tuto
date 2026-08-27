@@ -13,28 +13,10 @@ The template comes with a default style (developed with SASS) that follows moder
 
 The template is multi-platform. This means that it can run on a Web browser or as a mobile app for Android, iOS, or Windows.
 
-<!--wodoc:div class="screenshots"--> [`{files/screenshots/start1.png|Ocsigen Start`](files/screenshots/start1.png)
+<!--wodoc:div class="screenshots"--> [<!--wodoc:img src="files/screenshots/start1.png" alt="Ocsigen Start"-->](files/screenshots/start1.png) [<!--wodoc:img src="files/screenshots/start2.png" alt="Ocsigen Start"-->](files/screenshots/start2.png) <!--wodoc:end-->
 
-}
+<!--wodoc:div class="screenshots"--> [<!--wodoc:img src="files/screenshots/start-mobile-1.png" alt="Ocsigen Start"-->](files/screenshots/start-mobile-1.png) [<!--wodoc:img src="files/screenshots/start-mobile-2.png" alt="Ocsigen Start"-->](files/screenshots/start-mobile-2.png) [<!--wodoc:img src="files/screenshots/start-mobile-4.png" alt="Ocsigen Start"-->](files/screenshots/start-mobile-4.png) <!--wodoc:end-->
 
-[`{files/screenshots/start2.png|Ocsigen Start`](files/screenshots/start2.png)
-
-}
-
-<!--wodoc:end-->
-<!--wodoc:div class="screenshots"--> [`{files/screenshots/start-mobile-1.png|Ocsigen Start`](files/screenshots/start-mobile-1.png)
-
-}
-
-[`{files/screenshots/start-mobile-2.png|Ocsigen Start`](files/screenshots/start-mobile-2.png)
-
-}
-
-[`{files/screenshots/start-mobile-4.png|Ocsigen Start`](files/screenshots/start-mobile-4.png)
-
-}
-
-<!--wodoc:end-->
 
 ## Installation
 
@@ -71,38 +53,8 @@ It is now time to learn Ocsigen\! The template is a great way to get started, be
 - ...
 The corresponding files are well-commented, so you can quickly find out how things work.
 
-<!--wodoc:div class="screenshots"--> [`{files/screenshots/start3.png|Ocsigen Start`](files/screenshots/start3.png)
+<!--wodoc:div class="screenshots"--> [<!--wodoc:img src="files/screenshots/start3.png" alt="Ocsigen Start"-->](files/screenshots/start3.png) [<!--wodoc:img src="files/screenshots/start4.png" alt="Ocsigen Start"-->](files/screenshots/start4.png) [<!--wodoc:img src="files/screenshots/start5.png" alt="Ocsigen Start"-->](files/screenshots/start5.png) [<!--wodoc:img src="files/screenshots/start6.png" alt="Ocsigen Start"-->](files/screenshots/start6.png) <!--wodoc:end-->
 
-}
+<!--wodoc:div class="screenshots"--> [<!--wodoc:img src="files/screenshots/start-mobile-3.png" alt="Ocsigen Start"-->](files/screenshots/start-mobile-3.png) [<!--wodoc:img src="files/screenshots/start-mobile-6.png" alt="Ocsigen Start"-->](files/screenshots/start-mobile-6.png) [<!--wodoc:img src="files/screenshots/start-mobile-7.png" alt="Ocsigen Start"-->](files/screenshots/start-mobile-7.png) [<!--wodoc:img src="files/screenshots/start-mobile-8.png" alt="Ocsigen Start"-->](files/screenshots/start-mobile-8.png) <!--wodoc:end-->
 
-[`{files/screenshots/start4.png|Ocsigen Start`](files/screenshots/start4.png)
-
-}
-
-[`{files/screenshots/start5.png|Ocsigen Start`](files/screenshots/start5.png)
-
-}
-
-[`{files/screenshots/start6.png|Ocsigen Start`](files/screenshots/start6.png)
-
-}
-
-<!--wodoc:end-->
-<!--wodoc:div class="screenshots"--> [`{files/screenshots/start-mobile-3.png|Ocsigen Start`](files/screenshots/start-mobile-3.png)
-
-}
-
-[`{files/screenshots/start-mobile-6.png|Ocsigen Start`](files/screenshots/start-mobile-6.png)
-
-}
-
-[`{files/screenshots/start-mobile-7.png|Ocsigen Start`](files/screenshots/start-mobile-7.png)
-
-}
-
-[`{files/screenshots/start-mobile-8.png|Ocsigen Start`](files/screenshots/start-mobile-8.png)
-
-}
-
-<!--wodoc:end-->
 Have fun\!

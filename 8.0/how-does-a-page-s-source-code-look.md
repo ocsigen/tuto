@@ -59,7 +59,6 @@ The content of Eliom application pages is made using functions. The **html funct
 ```
 Most of the elements functions take a list of other elements as a parameter.
 
-<!--wodoc:img src="http://public.db0.fr/dev/ocsigen/html.png" alt="ast"-->
 Validity of HTML is checked at compile time, which means that a program that may generate a page that does not respect the recommendations of the W3C will be rejected at compile time.
 
 

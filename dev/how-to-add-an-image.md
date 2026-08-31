@@ -1,4 +1,3 @@
-
 # How to add an image?
 
 1. Internal image
@@ -24,7 +23,6 @@ The function **img** has 3 parameters:
 For an internal image, the file path is generated using the **make\_uri** function. This function creates the relative URL string using the static directory configured in the configuration file and the given list.
 
 For an external image, you must convert the string url into uri using the **uri\_of\_string** function. You can also create an [external service](https://ocsigen.org/eliom/latest/server-services.html#unregistrable_services).
-
 
 ### Download full code
 

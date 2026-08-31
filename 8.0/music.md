@@ -1,9 +1,8 @@
-
 # Listening music
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
-Persistence of the client application<!--wodoc:end-->
+Persistence of the client application
 
 We will add an audio player to the page that will stay when page changes. This emphasises the fact that browsing inside an application does not stop the client side code: the music keeps playing when the content of the page and the url change.
 
@@ -23,8 +22,8 @@ And we insert the player in the page.
 
 And that's all\! Since the `player` node is declared unique, no new player is created when the page changed: this is exact same node.
 
-<!--wodoc:aside class="wip"-->**Work in progress**
+**Work in progress**
 
-In fact browsers stop the player as soon as the dom element is manipulated. That happens when we change the page: to continue playing the player should not be present as an element of the page<!--wodoc:end-->
+In fact browsers stop the player as soon as the dom element is manipulated. That happens when we change the page: to continue playing the player should not be present as an element of the page
 
 To run this example, you will need to add an ogg file in the static directory. If you can't find one, there is one here: [http://www.gnu.org/music/free-software-song.html](http://www.gnu.org/music/free-software-song.html).

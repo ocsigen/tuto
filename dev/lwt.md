@@ -1,15 +1,10 @@
-<!--wodoc:header-->
-
 # Lwt in 5 minutes
-
-<!--wodoc:end-->
 
 ## Principles
 
 The Lwt library implements cooperative threads for OCaml. Cooperative threads are an alternative to preemptive threads (used in many languages and in OCaml's `Thread` module) that solve most common issues with preemptive threads: with Lwt, there is very limited risk of deadlocks and very limited need for locks. Lwt threads are even usable in programs compiled to JavaScript using Js\_of\_ocaml.
 
 Lwt is based on the fact that most programs spend most of their time waiting for inputs, e.g., keys, data coming from sockets, and mouse events. Instead of relying on a preemptive scheduler that switches between threads at arbitrary moments, Lwt uses these waiting times as *cooperation points*. This means that instead of blocking (for example on a `read`), Lwt resumes another waiting thread, if there is one that is ready to continue. All you have to do is to use the cooperative version of each blocking function, for example `Lwt_unix.sleep` instead of `Unix.sleep` and `Lwt_unix.read` instead of `Unix.read`. If one of your computations takes a lot of time, it is also possible to manually insert cooperation points using the function `Lwt_main.yield`.
-
 
 ## Promises
 
@@ -48,7 +43,6 @@ let g2 () =
 ```
 Function `g2` calls function `f` to create a promise. Then it waits (in a cooperative manner) for the result, and prints the result. The expression `g2 ()` has type `unit Lwt.t`.
 
-
 ## Syntax extension
 
 A PPX (and also camlp4) syntax extension is available.
@@ -65,7 +59,6 @@ Lwt.bind (f ()) (fun i -> ...)
 
 ## Examples
 
-
 ### A function that prints "tic" every second forever, without blocking the rest of the program
 
 ```ocaml
@@ -75,7 +68,6 @@ let rec tic () =
     tic ()
 ```
 Replace `Lwt_unix.sleep` by `Lwt_js.sleep` if your program is running in a browser.
-
 
 ### Launching concurrent threads and waiting for their results
 
@@ -112,7 +104,6 @@ instead of
 ignore (f ())
 ```
 to catch exceptions properly.
-
 
 ### Serial and concurrent map on lists
 

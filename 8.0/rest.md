@@ -1,9 +1,8 @@
-
 # RESTful JSON API using Eliom
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
-RESTful API<br/>PUT and DELETE services<!--wodoc:end-->
+RESTful API<br/>PUT and DELETE services
 
 This tutorial will show you how to create a simple, yet complete, REST API using JSON as the serialization format.
 
@@ -38,7 +37,6 @@ will store this location in the database.
 `PUT http://localhost/ID`, with some content, will update the location associated to `ID`.
 
 `DELETE http://localhost/ID` will delete the location associated to `ID`.
-
 
 ## Requirements
 
@@ -85,7 +83,7 @@ type error = {
 let db : location Ocsipersist.table Lwt.t =
   Ocsipersist.Polymorphic.open_table "locations"
 ```
-<!--wodoc:aside class="concept"-->**Concept: Syntax extensions**
+**Concept: Syntax extensions**
 
 In order to successfully build this tutorial's source code, your `Makefile.options` must contain the following settings:
 
@@ -95,8 +93,7 @@ SERVER_PACKAGES := ppx_deriving_yojson lwt_ppx js_of_ocaml-ppx.deriving
 # OCamlfind packages for the client
 CLIENT_PACKAGES := lwt_ppx ppx_deriving_yojson js_of_ocaml-ppx js_of_ocaml-ppx.deriving
 ```
-This is due to the fact, that in the code snippet above we use a syntax extension provided by the `ppx_deriving_yojson` package. <!--wodoc:end-->
-
+This is due to the fact, that in the code snippet above we use a syntax extension provided by the `ppx_deriving_yojson` package.
 
 ## Services definition
 

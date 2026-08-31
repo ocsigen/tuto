@@ -1,9 +1,6 @@
-
 # How to add lists in a page?
 
-
 #### Simple list and ordered list
-
 
 ##### Simple list
 
@@ -25,7 +22,6 @@
 **Required parameter**: list containing **li** elements ([Details of li content](https://ocsigen.org/tyxml/latest/tyxml/Html_types/index.html#type-li_attrib)).
 
 **Optional parameter** for attributes "a" ([How to set and id, classes or other attributes to HTML elements?](./how-to-set-and-id-classes-or-other-attributes-to-html-elements.md)).
-
 
 #### Definition list
 
@@ -54,7 +50,6 @@ Details:
 - [dd content](https://ocsigen.org/tyxml/latest/tyxml/Html_types/index.html#type-phrasing)
 - [dt content](https://ocsigen.org/tyxml/latest/tyxml/Html_types/index.html#type-flow5)
 **Optional parameter** for attributes "a" ([How to set and id, classes or other attributes to HTML elements?](./how-to-set-and-id-classes-or-other-attributes-to-html-elements.md)).
-
 
 ### Download full code
 

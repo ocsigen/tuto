@@ -1,14 +1,12 @@
-
 # How to call a server-side function from client-side?
 
 It is possible to call server-side functions from client-side. For security reasons, these functions must first be declared explicitly as RPCs (with the type of their argument).
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 let%rpc f (x : int) : string Lwt.t = ...
 ...
 ```
-<!--wodoc:@ class=client-->
+
 ```ocaml
 [%client ... f 4 ... ]
 ```

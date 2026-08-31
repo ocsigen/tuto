@@ -1,14 +1,11 @@
-
 # How to implement a notification system?
 
 The easiest way for the server to send notifications to the client is to use module `Os_notif` from Ocsigen-start (OS), but it requires to use OS's user management system. If you are not using OS, we recommend to get inspiration from the code of this module, to implement your notification system conveniently and without memory leak.
-
 
 ## With `Os_notif`
 
 For each type of data on which you want to receive updates, instanciate functor `Os_notif.Make_Simple` on server side:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 module My_notif = Os_notif.Make_Simple (struct
   type key = ... (* The type of the identifier of the data we want listen on. *)
@@ -20,7 +17,6 @@ To declare that you are listening on one piece of data `i`, call `My_notif.liste
 To notify all the clients listening on data `i`, call `My_notif.notify i (fun userid_o -> Lwt.return (Some notif))`. `userid_o` is the id of the user who will be notified, if he is connected (`None` otherwise). This make possible to customize the notifications. Return `None` if you don't want him to be notified.
 
 For more information, have a look at [the tutorial about client-server reactive applications](./tutoreact.md).
-
 
 ## Without `Os_notif` (manual implementation)
 

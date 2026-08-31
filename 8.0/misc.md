@@ -1,8 +1,6 @@
-
 # Traditional web interaction in a client-server app
 
 *The code of this tutorial has been tested with Eliom 6\.0.* <br/>
-
 
 ## Multi-user collaborative drawing application
 
@@ -10,12 +8,11 @@ We now want to turn our collaborative drawing application into a multi-user one.
 
 See the [full code of examples](https://github.com/ocsigen/graffiti/tree/master/extended/).
 
-
 ### Split application into multiple files and using several canvases
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
-Complex eliom project<br/>Unique elements<!--wodoc:end-->
+Complex eliom project<br/>Unique elements
 
 We first build a multi-canvas drawing application. Each drawing has its own URL. Everyone can create a new drawing by going to the corresponding URL.
 
@@ -43,7 +40,7 @@ let height = 400
 
 #### `client.ml`
 
-It is almost the same code as what was enclosed in 
+It is almost the same code as what was enclosed in
 
 ```
 {client{ ... }}
@@ -270,13 +267,12 @@ let () = My_app.register ~service:main_service
     make_page [h1 [txt "Welcome to Multigraffiti"];
 	       choose_drawing_form ()])
 ```
-<!--wodoc:aside class="concept"-->**Concept: Global node and scripts**
+**Concept: Global node and scripts**
 
 Sometimes we need to control when a script is loaded and reloaded on page change. Since clicking on links in an Eliom application do not reload the entire page, already loaded libraries stay loaded. But if we simply add a script to each page, it will be loaded each time. We usually don't want that.
 
 Using `val
-Eliom_content.Html.Id.create_global_elt` we can create an xml node manipulated 'by reference'. If a reference to a script node is included in a page, it will only be loaded the first time it appears in the header. This is the case for `oclosure_script` above. <!--wodoc:end-->
-
+Eliom_content.Html.Id.create_global_elt` we can create an xml node manipulated 'by reference'. If a reference to a script node is included in a page, it will only be loaded the first time it appears in the header. This is the case for `oclosure_script` above.
 
 #### `graffiti.eliom`
 
@@ -345,7 +341,6 @@ let () =
        div [slider]])
 ```
 At this point, you can run your application on the server provided that you installed the css and images directories in the main directory of your application, build it using this [Makefile](https://github.com/ocsigen/graffiti/tree/master/extended/Makefile) along with the appropriate [Makefile.options](https://github.com/ocsigen/graffiti/tree/master/extended/Makefile.options), and configured it using [graffiti.conf.in](https://github.com/ocsigen/graffiti/tree/master/extended/graffiti.conf.in), as the basis for your configuration file.
-
 
 ### Mixing client-server application with traditional web interaction
 

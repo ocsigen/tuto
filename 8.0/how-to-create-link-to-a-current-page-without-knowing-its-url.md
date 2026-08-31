@@ -1,4 +1,3 @@
-
 # How to create a link to the current page (without knowing its URL)?
 
 Void coservices are here for that:

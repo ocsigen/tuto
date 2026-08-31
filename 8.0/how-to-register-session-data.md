@@ -1,4 +1,3 @@
-
 # How to register session data?
 
 It is very easy to register session data using *Eliom references*. Just create an Eliom reference of *scope* session and its value will be different for each session (one session \= one browser process).
@@ -44,7 +43,6 @@ The value of this reference is different for each user:
 ```
 It is possible to create *persistent* Eliom references (see module `Eliom_reference`).
 
-
 ## Other scopes
 
 If you want to store server side data for one browser (one session), use scope `Eliom_common.default_session_scope`.
@@ -53,11 +51,9 @@ If you want to store server side data for one tab of your browser (one client pr
 
 If you want to store server side data during one request, use scope `Eliom_common.request_scope`.
 
-
 ## Persistent references
 
 Module `Eliom_reference` also defines an interface for persistent references, that will survive if you restart the server.
-
 
 ## Links
 

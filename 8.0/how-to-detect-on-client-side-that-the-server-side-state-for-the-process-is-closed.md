@@ -1,4 +1,3 @@
-
 # How to detect on client side that the server side state for the process is closed?
 
 If you are using Ocsigen-start, you probably have nothing to do. Ocsigen-start will monitor the life of sessions and close the process when needed.

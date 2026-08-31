@@ -1,6 +1,4 @@
-
 # How to make a page skeleton?
-
 
 ### The same header for all your pages
 

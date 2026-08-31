@@ -1,4 +1,3 @@
-
 # Server-side website programming guide
 
 While Eliom is well known for its unique client-server programming model, it is also perfectly suited to programming more traditional websites. This page describes how you can generate Web pages in OCaml, and handle links, forms, page parameters, sessions, etc. You will see that you can get very quickly a working Web site without having to learn innovative concepts and this might be enough for your needs.
@@ -7,40 +6,25 @@ You will then learn how Eliom is simplifying the programming of very common beha
 
 Programming with Eliom will make your website ready for future evolutions by allowing you to introduce progressively client-side features like event handlers, fully in OCaml. You will even be able to turn your website into a [distributed client-server Web app](./basics.md), and even a mobile app if needed in the future, without having to rewrite anything.
 
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
-
 ## OCaml
 
-<!--wodoc:end-->
 This programming guide assumes you know the *OCaml* language. Many resources and books are available online.
-
-<!--wodoc:end-->
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
 
 ## Lwt
 
-<!--wodoc:end-->
 *Lwt* is a concurrent programming library for OCaml, initially written by Jérôme Vouillon in 2001 for the [Unison](https://github.com/bcpierce00/unison) file synchronizer. It provides an alternative to the more usual preemptive threads approach for programming concurrent applications, that avoids most problems of concurrent data access and deadlocks. It is used by Ocsigen Server and Eliom and has now become one of the standard ways to implement concurrent applications in OCaml. All your Web sites must be written in Lwt-compatible way\!
-
-<!--wodoc:div class="focused"-->
 
 ### How it works
 
 Instead of calling blocking functions, like `Unix.sleep` or `Unix.read`, that could block the entire program, replace them by their cooperative counterparts (`Lwt_unix.sleep`, `Lwt_unix.read`, etc.). Instead of taking time to execute, they always return immediately a *promise* of the result, of type `'a Lwt.t`. This type is abstract, and the only way to use the result is to *bind* a function to the promise. `Lwt.bind p f` means: "when promise `p` is completed, give its result to function `f`".
 
-Syntax `let%lwt x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program. <!--wodoc:end-->
+Syntax `let%lwt x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program.
 
 To learn Lwt, read this [short tutorial](./lwt.md), or its `user manual`.
 
-<!--wodoc:end-->
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
-
 ## Ocsigen Server: A full featured extensible Web server in OCaml
 
-<!--wodoc:end--> Ocsigen Server can be used either as a library for you OCaml programs, or as an executable, taking its configuration from a file (and with dynamic linking).
+ Ocsigen Server can be used either as a library for you OCaml programs, or as an executable, taking its configuration from a file (and with dynamic linking).
 
 Extensions add features to the server. For example, Staticmod makes it possible to serve static files, Deflatemod to compress the output, Redirectmod to configure redirections etc.
 
@@ -77,7 +61,6 @@ Put this in file `bin/main.ml`, and run `dune exec mysite`.
 
 By default, the server runs on port 8080\. Create a `static` directory with some files and try to fetch them using your Web browser.
 
-
 ### Use as an executable
 
 Alternatively, you can run command `ocsigenserver` with a configuration file:
@@ -98,13 +81,10 @@ The following configuration file corresponds to the program above:
   </server>
 </ocsigen>
 ```
-<!--wodoc:end-->
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
 
 ## Eliom: Services
 
-<!--wodoc:end--> The following code shows how to create a service that answers for requests at URL `http://.../aaa/bbb`, by invoking an Ocaml function `f` of type:
+ The following code shows how to create a service that answers for requests at URL `http://.../aaa/bbb`, by invoking an Ocaml function `f` of type:
 
 ```ocaml
 
@@ -133,15 +113,9 @@ let () =
 
 Module `Eliom.Registration.Html_text` is used to register a service sending HTML as strings. But we recommend to used typed-HTML instead (see below).
 
-<!--wodoc:end-->
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
-
 ## Compiling
 
-<!--wodoc:end-->
 In this section, we will show how to compile and run a *server-side only* Web site by creating your project manually.
-
 
 ### Build an executable
 
@@ -183,7 +157,6 @@ Build and execute the program with:
 dune exec mysite
 ```
 Open URL `http://localhost:8080/aaa/bbb` with your browser.
-
 
 ### Use with ocsigenserver
 
@@ -238,14 +211,10 @@ Launch the application:
 ```
 ocsigenserver -c mysite.conf
 ```
-Open URL `http://localhost:8080/aaa/bbb` with your browser. <!--wodoc:end-->
-
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
+Open URL `http://localhost:8080/aaa/bbb` with your browser.
 
 ## TyXML: typing HTML
 
-<!--wodoc:end-->
 TyXML statically checks that your OCaml functions will never generate wrong HTML. For example a program that could generate a paragraph containing another paragraph will be rejected at compile time.
 
 Example of use:
@@ -257,12 +226,10 @@ html
   (body [h1 ~a:[a_id "toto"; a_class ["blah"; "blih"]]
            [txt "Hallo!"]])
 ```
-<!--wodoc:div class="focused"-->
 
 ### How it works
 
-TyXML builds the page as an OCaml data-structure using a construction function for each HTML tag. These functions take as parameters and return nodes of type `'a elt` where `'a` is a polymorphic variant type added in the module signature to constrain usage (phantom type). <!--wodoc:end-->
-
+TyXML builds the page as an OCaml data-structure using a construction function for each HTML tag. These functions take as parameters and return nodes of type `'a elt` where `'a` is a polymorphic variant type added in the module signature to constrain usage (phantom type).
 
 ### Example of typing error
 
@@ -291,13 +258,8 @@ Error: This expression has type
 ```
 Read more about TyXML in this [short tutorial](./html.md) or in its `user manual`.
 
-<!--wodoc:end-->
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
-
 ## Eliom: Service returning typed HTML
 
-<!--wodoc:end-->
 To use typed HTML, just replace module `Eliom.Registration.Html_text` by `Eliom.Registration.Html`:
 
 ```ocaml
@@ -323,7 +285,6 @@ let () =
 
 Services can return a typed HTML page as in the example above, but also any other kind of result. To choose the return type, use the register function from the corresponding submodule of `Eliom.Registration`:
 
-<!--wodoc:div-->
 | --- | --- |
 | `Html` | Services returning typed HTML pages |
 | `Html_text` | Services returning untyped HTML pages as strings |
@@ -336,17 +297,12 @@ Services can return a typed HTML page as in the example above, but also any othe
 | `Redirection` | Services returning an HTTP redirection to another service |
 | `Any` | To be used to make the service chose what it sends. Call function `send` from the corresponding module to choose the output. |
 | `Customize` | Apply this functor to define your own registration module |
-<!--wodoc:end--> <!--wodoc:end-->
-
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
 
 ## Eliom: Typing page parameters
 
-<!--wodoc:end-->
 Instead of taking GET parameters as an untyped `string * string` association list, you can ask Eliom to decode and check parameter types automatically.
 
-For example, the following code defines a service at URL `/foo`, that will use GET HTTP method, and take one parameter of type `string`, named `s`, and one of type `int`, named `i`. <!--wodoc:@ class=server-->
+For example, the following code defines a service at URL `/foo`, that will use GET HTTP method, and take one parameter of type `string`, named `s`, and one of type `int`, named `i`.
 
 ```ocaml
 let myservice =
@@ -357,7 +313,6 @@ let myservice =
 ```
 Then register an OCaml function as handler on this service:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let () =
   Eliom.Registration.Html.register ~service:myservice
@@ -369,7 +324,6 @@ let () =
 The handler takes as first parameter the GET page parameters, typed according to the parameter specification given while creating the service. The second parameter is for POST parameters (see below).
 
 Recompile you program, and to to URL `http://localhost:8080/foo?s=hello&i=22` to see the result.
-
 
 ### Parameters
 
@@ -401,34 +355,24 @@ Eliom.Parameter.(suffix_prod (int "year" ** int "month") (int "a"))
    (* /path/2012/09?a=4 *)
 
 ```
-<!--wodoc:end-->
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
 
 ## Eliom: POST services
 
-<!--wodoc:end-->
-To define a service with POST parameters, just change the `~meth` parameter. For example the following example takes the same GET parameters as the service above, plus one POST parameter of type string, named "mypostparam". <!--wodoc:@ class=server-->
+To define a service with POST parameters, just change the `~meth` parameter. For example the following example takes the same GET parameters as the service above, plus one POST parameter of type string, named "mypostparam".
 
 ```ocaml
 ~meth:(Eliom.Service.Post (Eliom.Parameter.((string "s" ** int "i"),
                                             (string "mypostparam"))))
 ```
-<!--wodoc:end-->
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
 
 ## Eliom: Other kinds of services
 
-<!--wodoc:end-->
 The detailed explanation of services can be found in `Eliom's manual`. Here is a summary:
-
 
 ### Pathless services
 
 Pathless services are not identified by the path in the URL, but by a name given as parameter, regardless of the path. Use this to make a functionality available from all pages (for example: log-in or log-out actions, add something in a shopping basket ...). The name can be specified manually using the `~name` optional parameter, otherwise, a random name is generated automatically. This is also used to implement server functions (see below). If you are programming a client-server Eliom app, you will often prefer remote procedure calls (\`let%rpc\`).
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let pathless_service =
   Eliom.Service.create
@@ -439,18 +383,15 @@ let pathless_service =
 ```
 More information [in the manual](https://ocsigen.org/eliom/latest/server-services.html#pathless).
 
-
 ### Attached services
 
 It is also possible to create services identified by both a path and a special parameter, using functions `Eliom.Service.create_attached_get` or `Eliom.Service.create_attached_post`. They take a regular service (with a path) as parameter (`~fallback`).
 
 It is also possible to attach an existing pathless service to the URL of another service, with function `Eliom.Service.attach`. This allows for example to create a link towards a pathless service, but on another path.
 
-
 ### External services
 
 Use `Eliom.Service.extern` to create links or forms towards external Web sites as if they were Eliom services.
-
 
 ### Predefined services
 
@@ -470,13 +411,9 @@ img
          ["dir" ; "image.jpg"])
   ()
 ```
-<!--wodoc:end-->
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
 
 ## Forms and links
 
-<!--wodoc:end-->
 Function `Eliom.Content.Html.F.a` creates typed links to services with their parameters. For example, if `home_service` expects no parameter and `other_service` expects a string and an optional int:
 
 ```ocaml
@@ -510,25 +447,19 @@ As you can see, function `Eliom.Content.Html.F.Form.post_form` is used to create
 
 Form elements (like inputs) are also built from using the `Eliom.Content.Html.F.Form` module. They take the names as parameters, and a last parameter (like `Form.int` or `Form.string`) to match the expected type.
 
-<!--wodoc:end-->
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
-
 ## Sessions
 
-<!--wodoc:end-->
 Session data is saved on server side in *Eliom references*.
 
 The following Eliom reference will count the number of visits of a user on a page:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server count_ref =
   Eliom.Reference.eref
     ~scope:Eliom.Common.default_session_scope
     0 (* default value for everyone *)
 ```
-And somewhere in your service handler, increment the counter: <!--wodoc:@ class=server-->
+And somewhere in your service handler, increment the counter:
 
 ```ocaml
 let%lwt count = Eliom.Reference.get count_ref in
@@ -538,7 +469,6 @@ Lwt.return ()
 With function `Eliom.Reference.eref_from_fun`, you can create Eliom references without initial value. The initial value is computed for the session the first time you use it.
 
 An Eliom reference can be persistant (value saved on hard drive) or volatile (in memory).
-
 
 ### Scopes
 
@@ -554,42 +484,30 @@ Applications based on Ocsigen Start use these scopes for user management. Sessio
 
 When session group is not set (for example the user is not connected), you can still use the group session scope: in that case, the group contains only one session.
 
-<!--wodoc:end-->
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
-
 ## Browser events
 
-<!--wodoc:end--> By default, event handlers on HTML elements are given as OCaml functions, but it works only if you have a client-server Eliom program. If not, you want to give a javascript expression (as a string) instead. To so that, use attributes functions from module `Raw`. For example `Eliom.Content.Html.F.Raw.a_onclick` instead of `Eliom.Content.Html.F.a_onclick`.
+ By default, event handlers on HTML elements are given as OCaml functions, but it works only if you have a client-server Eliom program. If not, you want to give a javascript expression (as a string) instead. To so that, use attributes functions from module `Raw`. For example `Eliom.Content.Html.F.Raw.a_onclick` instead of `Eliom.Content.Html.F.a_onclick`.
 
-Example: <!--wodoc:@ class=server-->
+Example:
 
 ```ocaml
 Eliom.Content.Html.F.(button ~a:[Raw.onclick "alert(\"beep\");"] [txt "click"])
 ```
-<!--wodoc:end-->
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
 
 ## Database access
 
-<!--wodoc:end-->
 You can use your favourite database library with Ocsigen. Ocsigen Start's template uses [PG'OCaml](https://github.com/darioteixeira/pgocaml) (typed queries for Postgresql using a PPX syntax extension).
 
-Here is an example, taken from Ocsigen Start's demo: <!--wodoc:@ class=server-->
+Here is an example, taken from Ocsigen Start's demo:
 
 ```ocaml
 let get () =
   full_transaction_block (fun dbh ->
     [%pgsql dbh "SELECT lastname FROM ocsigen_start.users"])
 ```
-<!--wodoc:end-->
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
 
 ## Continuation-based Web programming
 
-<!--wodoc:end-->
 Eliom allows the dynamic creation of temporary services. This is equivalent to a programming pattern known as "continuation-based Web programming". While present in very few Web frameworks, it is a very powerful feature that can save you a lot of time when programming a server-side website. A typical use case is when you have a series of pages, each of which depending on the entries made on the previous pages, for example a multi-step train ticket booking.
 
 Implementing that without continuation-based Web programming is tedious: you must store the data previously sent by the user and find a way to get it for each step of the interaction. It is not possible to save it as session data, as you want for example to be able to have several different interactions in different tabs of your browser, or to press the back button of your browser to go back in the past. This is known as "the back button problem".
@@ -598,13 +516,8 @@ With Eliom, you just need to create new temporary services especially for one us
 
 To implement temporary services, we usually use pathless or attached services (see above). To avoid a memory leak, you can make them temporary using optional parameters of the service creation function (`?max_use` or `?timeout`).
 
-<!--wodoc:end-->
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
-
 ## Internationalisation
 
-<!--wodoc:end-->
 [Ocsigen i18n](https://github.com/besport/ocsigen-i18n) is an internationalisation library for your OCaml programs.
 
 Create a .tsv file with, on each line, a key and the text in several languages:
@@ -612,7 +525,7 @@ Create a .tsv file with, on each line, a key and the text in several languages:
 ```
 welcome_message Welcome everybody!        Bienvenue à tous !      Benvenuti a tutti !
 ```
-and Ocsigen i18n will automatically generate functions like this one: <!--wodoc:@ class=shared-->
+and Ocsigen i18n will automatically generate functions like this one:
 
 ```ocaml
 let%shared welcome_message ?(lang = get_language ()) () () =
@@ -621,7 +534,7 @@ let%shared welcome_message ?(lang = get_language ()) () () =
   | Fr -> [txt "Bienvenue à tous !"]
   | It -> [txt "Benvenuti a tutti !"]
 ```
-Ocsigen i18n also defines a syntax extension to use these functions: <!--wodoc:@ class=shared-->
+Ocsigen i18n also defines a syntax extension to use these functions:
 
 ```ocaml
   Eliom.Content.Html.F.h1 [%i18n welcome_message]
@@ -633,13 +546,8 @@ Ocsigen i18n offers many other features:
 - .tsv file can be split into several modules
 Have a look at the [README file](https://github.com/besport/ocsigen-i18n) to see the full documentation, and see examples in [Ocsigen Start's template](https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_i18n.eliom).
 
-<!--wodoc:end-->
-<!--wodoc:section class="docblock"--> <!--wodoc:header-->
-
-
 ## Ocsigen Server
 
-<!--wodoc:end-->
 *Ocsigen Server* is a full featured Web server.
 
 It is now based on [Cohttp](https://github.com/mirage/ocaml-cohttp).
@@ -660,5 +568,3 @@ It has a powerful extension mechanism that makes it easy to plug your own OCaml 
 - `Userconf`: allows users to have their own configuration files.
 - Comet: facilitates server to client communications.
 Ocsigen Server has a `sophisticated configuration` file mechanism allowing complex configurations of sites.
-
-<!--wodoc:end-->

@@ -1,13 +1,11 @@
-
 # How to make the client side program get an HTML element from the server and insert it in the page?
 
 A very convenient way to do that is to use RPCs :
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 let%rpc get_mydiv (() : unit) : _ Lwt.t = div [ ... ]
 ```
-<!--wodoc:@ class=client-->
+
 ```ocaml
 [%client
   ...

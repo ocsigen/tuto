@@ -1,8 +1,5 @@
-<!--wodoc:header-->
-
 # Migrating to new module names
 
-<!--wodoc:end-->
 Starting with Eliom 13, Ocsigen Server 8, Ocsigen Toolkit 5, and Ocsigen Start 9, all Ocsigen projects use hierarchical module names:
 
 | --- | --- |
@@ -53,7 +50,6 @@ Then add them to the `(libraries ...)` in your `dune` file:
 ```
 Your code will compile as before, using the old module names.
 
-
 ## Migrating your code
 
 Once the compat packages are in place, you can migrate your code file by file, replacing old names with new ones. When a file is fully migrated, you can remove the compat libraries it depended on.
@@ -92,7 +88,6 @@ module Make (A : Eliom_content.Html.T) = struct ... end
 module D = Make (Eliom_content.Html.D)
 ```
 This is the same pattern adopted internally by `Ot.Icons.Make`.
-
 
 ### Top-level values cannot be shimmed
 

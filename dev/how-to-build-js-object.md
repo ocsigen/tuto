@@ -1,4 +1,3 @@
-
 # How to build js object?
 
 Use syntax `new%js`:

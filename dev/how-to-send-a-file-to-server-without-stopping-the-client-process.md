@@ -1,4 +1,3 @@
-
 # How to send a file to the server without stopping the client process?
 
 This requires Eliom ≥ 3\.1.

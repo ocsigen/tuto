@@ -1,4 +1,3 @@
-
 # How to know whether the browser window has the focus or not?
 
 Example:

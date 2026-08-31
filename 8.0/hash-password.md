@@ -1,4 +1,3 @@
-
 # Protecting your passwords
 
 For protecting the user passwords or other sensitive data, we can use [ocaml-safepass](http://ocaml-safepass.forge.ocamlcore.org/).

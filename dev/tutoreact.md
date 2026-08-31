@@ -1,4 +1,3 @@
-
 # Client server reactive application with Ocsigen
 
 This is a short tutorial showing how to implement a simple reactive client-server application using Js\_of\_ocaml, Eliom and Ocsigen Start.
@@ -49,7 +48,6 @@ To make this example more realistic, let's suppose that we do not want to displa
 
 In this tutorial, we will not focus on the implementation details of the database part. Create a new file named `tutoreact_messages.eliom`. From now on, if not explicitly specified, the code we are going to write will go there. We are going to create a module `Db` containing these functions:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 val get_messages : unit -> int list Lwt.t
 val get_message : int -> string Lwt.t
@@ -57,7 +55,6 @@ val add_message : string -> int Lwt.t
 ```
 You can try to make your own implementation using for instance pgocaml. Here's our implementation using Ocsipersist:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 [%%server
 module Db = struct
@@ -92,13 +89,12 @@ end]
 ```
 Add the following code:
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 [%%shared
     open Eliom.Content.Html
     open Eliom.Content.Html.D]
 ```
-<!--wodoc:@ class=server-->
+
 ```ocaml
 let%server display userid_o =
   let%lwt messages = Db.get_messages () in
@@ -115,7 +111,6 @@ Depending on your database, it is probably more efficient to fetch all messages 
 
 The content of the main page is defined in the file `tutoreact_handlers.eliom`. Replace the code of `main_service_handler` by:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server main_service_handler userid_o () () =
   let%lwt content = Tutoreact_messages.display userid_o in
@@ -129,15 +124,12 @@ In the file `tutoreact.eliom`, move the registration of `main_service` from the 
 
 Try to compile in order to see if everything is fine.
 
-
 ## Adding new messages
-
 
 ### Add an input in the page, for connected users
 
 To add an input in the page for connected users, replace the function `display` by the following version:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server display_messages () =
   let%lwt messages = Db.get_messages () in
@@ -163,7 +155,7 @@ let%server display userid_o =
 
 ### Make function `Db.add_message` accessible from the client
 
-To be able to call a function from the client-side program, use `let%rpc`: <!--wodoc:@ class=shared-->
+To be able to call a function from the client-side program, use `let%rpc`:
 
 ```ocaml
 let%rpc add_message (value : string) : unit Lwt.t =
@@ -172,12 +164,11 @@ let%rpc add_message (value : string) : unit Lwt.t =
 ```
 The parameter `[%json: string]` describes the type of the function parameter. This exhibits the syntax provided by [ppx\_deriving](https://github.com/whitequark/ppx_deriving) extended with our JSON plugin. We use this for safe server-side unmarshalling of data sent by the client.
 
-
 ### Bind the input to call the function
 
 To call the function from the client program, we will define a *client value*, a client-side expression that is accessible server-side. The client value will be executed client-side after the page is loaded. The syntax for client values of type `t` is `[%client (... : t)]`.
 
-Replace the second branch of the `match` in the function `display` by: <!--wodoc:@ class=server-->
+Replace the second branch of the `match` in the function `display` by:
 
 ```ocaml
 let inp = Raw.input ~a:[a_input_type `Text; a_style "border-style:solid"] () in
@@ -203,7 +194,6 @@ This function gets the value of the input, resets the content of the input, and 
 
 Compile and run the program again. Now the messages should be added in the database whenever you use the input. However you need to refresh the page to display them.
 
-
 ## Structure of a client-server application
 
 We have seen how to send data to the server without stopping the client-side program. Now we want to automatically update the page when new messages are sent. Generally, the main difference between a web application and a website is that in the case of a web application, a client-side program runs and persists accross HTTP calls (remote procedure calls or page changes). The client process must be able to receive notifications from the server and update the page accordingly, without regenerating it entirely. It is common practice to generate the full interface client-side. But this is not suitable for all cases. It is usually better to keep the old-style web interaction and generate pages server-side, for example to enable search engine indexing. In this tutorial, we will see how to generate pages indifferently (and with the same code) from both sides.
@@ -215,7 +205,6 @@ In this section, we will see how to implement this kind of applications very con
 - Notification system
 You will be able to test once you finish the three following sections\!
 
-
 ### Client-server cache
 
 The module `Eliom.Cscache` implements a cache of data, an association table where you will put the data of your application client-side. For the sake of uniformity (as we want to use it in shared sections), the cache is also implemented server-side, with scope "request". This avoids retrieving the same data from the database twice for the same request.
@@ -224,11 +213,10 @@ We create a client-server cache by calling the function `Eliom.Cscache.create` s
 
 We implement a function `get_data` to fetch the data from the database. This function must have an implementation both server-side and client-side:
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 let%rpc get_data (id : int) : string Lwt.t = Db.get_message id
 ```
-<!--wodoc:@ class=server-->
+
 ```ocaml
 let%server cache : (int, string) Eliom.Cscache.t =
   Eliom.Cscache.create ()
@@ -244,12 +232,10 @@ The client-side module `Eliom.Content.Html.R` enables defining reactive page ele
 
 The module `Eliom.Shared` enables defining shared reactive signals server-side. In order to do that, we use *shared values*, values defined both server-side and client-side. The server-side module `Eliom.Content.Html.R` enables constructing HTML5 elements that get updated automatically based on the signals of `Eliom.Shared`. The modules `Eliom.Shared.React` and `Eliom.Shared.ReactiveData` implement interfaces very similar to `React` and `ReactiveData`, but operate on shared signals.
 
-
 ### Implementation of the reactive interface
 
 `display_message` now needs to be implemented in a shared fashion and take its data from the cache. In order to do that, we call `Eliom.Cscache.find cache get_data key` from either side to get the value associated to `key`. If the value is not present in the cache, it will be fetched using the function `get_data` and added to the cache.
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 let%shared display_message id =
   let%lwt msg = Eliom.Cscache.find ~%cache get_data id in
@@ -257,7 +243,6 @@ let%shared display_message id =
 ```
 The function `display_messages` now creates a reactive list of message identifiers, and maps page content from this reactive value using module `Eliom.Shared.ReactiveData`. Note that `rmessage` is a tuple, the first element is the list, the second element is the update function.
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server display_messages () =
   let%lwt messages = Db.get_messages () in
@@ -276,7 +261,6 @@ We now want to be notified when a message has been added. To do that easily, we 
 
 We first define a notification module for the type of data we want clients to be able to listen on (here the lists of message identifiers):
 
-<!--wodoc:@ class=server-->
 ```ocaml
 [%%server
 module Forum_notif = Os.Notif.Make_Simple (struct
@@ -289,7 +273,7 @@ end)
 
 `notification` is the type of the notifications to send. Here: the identifier of the new message to be added in the list.
 
-We define a function to handle notifications. It adds the new identifier in the reactive list of messages: <!--wodoc:@ class=client-->
+We define a function to handle notifications. It adds the new identifier in the reactive list of messages:
 
 ```ocaml
 let%client handle_notif_message_list rmessages (_, msgid) =
@@ -297,7 +281,6 @@ let%client handle_notif_message_list rmessages (_, msgid) =
 ```
 We notify the server that we are listening on this piece of data by calling `Forum_notif.listen` (server-side). Notifications are received client-side through a `React` event `Forum_notif.client_ev ()`. We map this event to the function `handle_notif_message_list`, meaning that we will execute this function when this event happens.
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server display_messages () =
   Forum_notif.listen ();
@@ -318,7 +301,6 @@ let%server display_messages () =
 ```
 When we add a message, we notify all the clients listening on this piece of data:
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 let%rpc add_message (value : string) : unit Lwt.t =
    let%lwt id = Db.add_message value in
@@ -326,7 +308,6 @@ let%rpc add_message (value : string) : unit Lwt.t =
    Lwt.return ()
 ```
 The program is now fully functional, you can now test it\! You should see the messages being added without the need to reload the page, even if messages are added by another user\! Try with several browser windows.
-
 
 ## More information on cache and client-server reactive data
 
@@ -339,12 +320,10 @@ In this section we will demonstrate additional Eliom functionality for client-se
 
 We now want a forum with several pages, located at URLs `http://localhost:8080/`*i*, where *i* represents the `forumid` as an integer.
 
-
 #### Services
 
 In the file `tutoreact_services.eliom`, we define the new following service:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server forum_service =
   Eliom.Service.create
@@ -355,7 +334,6 @@ let%server forum_service =
 ```
 In the file `tutoreact_services.eliomi`, we define its signature, do not forget to put it in a server section:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 [%%server.start]
 
@@ -375,7 +353,6 @@ val forum_service
 ```
 In the file `tutoreact_handlers.eliom`, we define the handler we will associate to our new service:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server forum_service_handler userid_o forumid () =
   let%lwt content = Tutoreact_messages.display userid_o forumid in
@@ -383,7 +360,6 @@ let%server forum_service_handler userid_o forumid () =
 ```
 In the file `tutoreact_handlers.eliomi`, we define its signature, in the server section:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 val forum_service_handler
   :  Os.Types.User.id option
@@ -393,7 +369,6 @@ val forum_service_handler
 ```
 In the file `tutoreact.eliom`, we register our handler to our new service in the server section:
 
-<!--wodoc:@ class=server-->
 ```ocaml
   Tutoreact_base.App.register ~service:Tutoreact_services.forum_service
     (Tutoreact_page.Opt.connected_page Tutoreact_handlers.forum_service_handler)
@@ -402,12 +377,11 @@ Since we have a new parameter `forumid`, we need to take it into consideration i
 
 In the file `tutoreact_messages.eliom`, the functions `display_messages` and `display` take it as a new parameter. Do not forget to also replace the latter in the call of `display_messages` in function `display`:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server display_messages forumid =
   ...
 ```
-<!--wodoc:@ class=server-->
+
 ```ocaml
 let%server display userid_o forumid =
   let%lwt messages = display_messages forumid in
@@ -415,7 +389,6 @@ let%server display userid_o forumid =
 ```
 In the file `tutoreact_handlers.eliom`, update the code of `main_service_handler`:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server main_service_handler forumid userid_o () () =
   let%lwt content = Tutoreact_messages.display userid_o forumid in
@@ -423,7 +396,6 @@ let%server main_service_handler forumid userid_o () () =
 ```
 In the file `tutoreact_handlers.eliomi`, update its signature:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 val main_service_handler
   :  int
@@ -434,7 +406,6 @@ val main_service_handler
 ```
 In the file `tutoreact.eliom`, in the `main_service`, we have to specify the forumid of the forum we want to reach when we arrive in our application. We will take 0 for instance and give it as the parameter of `main_service_handler`. We update the registration of `main_service`:
 
-<!--wodoc:@ class=server-->
 ```ocaml
   Tutoreact_base.App.register
     ~service:Os.Services.main_service
@@ -446,7 +417,6 @@ In the file `tutoreact.eliom`, in the `main_service`, we have to specify the for
 
 The functions `Db.get_messages` and `Db.add_message` now take the forum identifier:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 [%%server
 module Db = struct
@@ -494,7 +464,6 @@ end
 
 Since we are now adding besides the message, the `forumid` as well in our database, we need to specify a new type:
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 [%%shared
     type add_message_type = int * string [@@deriving json]
@@ -502,14 +471,13 @@ Since we are now adding besides the message, the `forumid` as well in our databa
 ```
 We don't forget to take that into consideration in the function `add_message`.
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%rpc add_message ((forumid, value) : add_message_type) : unit Lwt.t =
    let%lwt id = Db.add_message forumid value in
    Forum_notif.notify () id;
    Lwt.return ()
 ```
-In the function `display`, in the client section: <!--wodoc:@ class=client-->
+In the function `display`, in the client section:
 
 ```ocaml
   ...
@@ -523,7 +491,6 @@ We must send the notifications only to the clients listening on the same forum.
 
 We will create a new client-server cache to keep the reactive list of message identifiers for each forums:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server forumcache :
   (int,
@@ -539,7 +506,6 @@ In `get_data_forum`, we must find the reactive list of messages in the new cache
 
 To do that, we provide an optional argument `?default` to the function `Eliom.Shared.ReactiveData.RList.create`, a client value (optionally) containing the current reactive list. If it does not exist in the cache, a new one will be created like previously:
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 let%rpc get_data_forum (forumid : int) : _ Lwt.t =
   let%lwt messages = Db.get_messages forumid in
@@ -550,7 +516,7 @@ let%rpc get_data_forum (forumid : int) : _ Lwt.t =
   ] in
   Lwt.return (Eliom.Shared.ReactiveData.RList.create ~default messages)
 ```
-`display_messages` now takes the reactive list from the cache: <!--wodoc:@ class=server-->
+`display_messages` now takes the reactive list from the cache:
 
 ```ocaml
 let%server display_messages forumid =
@@ -565,7 +531,6 @@ let%server display_messages forumid =
 
 Since we now want to be specific about the data we want to listen to, the unit parameter we defined can't be used anymore. Indeed, notifications now depend on the identifier. We want to receive notifications only for the forums present in the client-side cache of forums. Therefore, we just change the type `key` of module `Forum_notif` to use an integer (instead of `unit`):
 
-<!--wodoc:@ class=server-->
 ```ocaml
 [%%server
 module Forum_notif = Os.Notif.Make_Simple (struct
@@ -576,7 +541,6 @@ end)
 ```
 The function `Forum_notif.notify` used in the function `add_message` now takes the `forumid` parameter.
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 let%rpc add_message ... =
   ...
@@ -585,7 +549,6 @@ let%rpc add_message ... =
 ```
 In the function `display_messages`, we need to take care of the `forumid` parameter and the type annotation of `client_ev`:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server display_messages forumid =
   Forum_notif.listen (forumid : int);
@@ -597,7 +560,6 @@ We annotate the type of `forumid` in the call of the function `listen` to help t
 
 The function `handle_notif_message` now takes the reactive list `rmessage` from the cache, therefore we no longer need it as a parameter:
 
-<!--wodoc:@ class=client-->
 ```ocaml
 let%client handle_notif_message_list (forumid, msgid) =
   try
@@ -607,7 +569,6 @@ let%client handle_notif_message_list (forumid, msgid) =
 ```
 In the function `display_messages`, do not forget to remove the injection of `rmessage` in the call of `handle_notif_message_list` in the client section:
 
-<!--wodoc:@ class=client-->
 ```ocaml
 ...
 (React.E.map handle_notif_message_list
@@ -618,7 +579,6 @@ In the function `display_messages`, do not forget to remove the injection of `rm
 
 Retrieving messages from server can take time. To display a spinner while loading the messages when you send them, replace the function `display_message` by:
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 let%shared display_message id =
   let th =
@@ -630,7 +590,6 @@ let%shared display_message id =
 ```
 To simulate network latency, you can add a `Lwt_unix.sleep` in the server-side `get_data` function.
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server get_data id =
   let%lwt () = Lwt_unix.sleep 2.0 in
@@ -639,14 +598,13 @@ let%server get_data id =
 
 ## The full code (`tutoreact_messages.eliom`):
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 [%%shared
     open Eliom.Content.Html
     open Eliom.Content.Html.D
 ]
 ```
-<!--wodoc:@ class=server-->
+
 ```ocaml
 [%%server
 module Db = struct
@@ -688,20 +646,20 @@ module Forum_notif = Os.Notif.Make_Simple (struct
 end)
 ]
 ```
-<!--wodoc:@ class=shared-->
+
 ```ocaml
 [%%shared
     type add_message_type = int * string [@@deriving json]
 ]
 ```
-<!--wodoc:@ class=shared-->
+
 ```ocaml
 let%rpc add_message ((forumid, value) : add_message_type) : unit Lwt.t =
    let%lwt id = Db.add_message forumid value in
    Forum_notif.notify forumid (id : int);
    Lwt.return ()
 ```
-<!--wodoc:@ class=server-->
+
 ```ocaml
 let%server cache : (int, string) Eliom.Cscache.t = Eliom.Cscache.create ()
 
@@ -711,13 +669,13 @@ let%server forumcache :
    int Eliom.Shared.ReactiveData.RList.handle) Eliom.Cscache.t =
   Eliom.Cscache.create ()
 ```
-<!--wodoc:@ class=shared-->
+
 ```ocaml
 ler%rpc get_data (id : int) : string Lwt.t =
   let%lwt () = Lwt_unix.sleep 2.0 in
   Db.get_message id
 ```
-<!--wodoc:@ class=shared-->
+
 ```ocaml
 let%rpc get_data_forum (forumid : int) : _ Lwt.t =
   let%lwt messages = Db.get_messages forumid in
@@ -730,7 +688,7 @@ let%rpc get_data_forum (forumid : int) : _ Lwt.t =
   ] in
   Lwt.return (Eliom.Shared.ReactiveData.RList.create ~default messages)
 ```
-<!--wodoc:@ class=shared-->
+
 ```ocaml
 let%shared display_message id =
   let th =
@@ -740,7 +698,7 @@ let%shared display_message id =
   let%lwt v = Ot.Spinner.with_spinner th in
   Lwt.return (li [v])
 ```
-<!--wodoc:@ class=client-->
+
 ```ocaml
 let%client handle_notif_message_list (forumid, msgid) =
   try
@@ -748,7 +706,7 @@ let%client handle_notif_message_list (forumid, msgid) =
     Eliom.Shared.ReactiveData.RList.cons msgid (snd rmessages)
   with Not_found | Eliom.Cscache.Not_ready -> ()
 ```
-<!--wodoc:@ class=server-->
+
 ```ocaml
 let%server display_messages forumid =
   Forum_notif.listen (forumid : int);

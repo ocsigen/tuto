@@ -1,13 +1,8 @@
-<!--wodoc:header-->
-
 # HTML in 5 minutes
 
-<!--wodoc:end-->
 The Tyxml library makes it possible to type-check HTML pages. This means that your Ocsigen program will never generate pages which do not follow the recommendations from the W3C. For example a program that could generate a page with a paragraph inside another paragraph will be rejected at compile time.
 
-
 ## Typed HTML
-
 
 ### Tags
 
@@ -31,7 +26,6 @@ The only way to create a value of type `[`Head] elt` is to use function `head`, 
 As a `<title>` tag is mandatory inside `<head>`, function `head` takes a `[`Title] elt` as first argument (that can be created using function `title`), then the list of other children.
 
 Function `txt` is used to include raw text.
-
 
 ### Error messages
 
@@ -60,7 +54,6 @@ Error: This expression has type ([> `TXT ] as 'a) Html.elt
 ```
 where `Html_types.head_content_fun` is the type of content allowed inside `<head>` (`<base>`, `<command>`, `<link>`, `<meta>`, etc.). Notice that ``TXT` (i.e. raw text) is not included in this polymorphic variant type, which means that `<head>` cannot contain raw text.
 
-
 ### Attributes
 
 Attributes are given to functions using optional argument `?a`.
@@ -73,7 +66,6 @@ div ~a:[a_id "the_id"; a_class ["firstclass"; "secondclass"]]
 ```
 
 ## OCaml node and DOM nodes
-
 
 ### Conversions
 
@@ -101,18 +93,15 @@ Here, `d` must be a "D" node, as I want to bind click events on the actual node 
 
 Remember to use "D" nodes if you want to use it in a injection (`~%d`). If you don't to bother about "D" or "F" nodes, use "D" nodes by default (even if it will generate too much identifiers in the page). But remember that, the DOM semantics implies that "D" nodes cannot be inserted twice in a page.
 
-
 ### Manip
 
 Module `Eliom_content.Html.Manip` makes it possible to manipulate OCaml nodes without conversions (add them in a page, replace a node, add as child of another node, add a class, etc.).
-
 
 ### Reactive nodes
 
 Module `Eliom_content.Html.R` makes it possible to create reactive nodes, that is, nodes that will be updated automatically when the data on which they depend change.
 
 It is based on module [React](http://erratique.ch/software/react/doc/React), which implements functional reactive programming for OCaml.
-
 
 ## More documentation
 

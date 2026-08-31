@@ -1,11 +1,8 @@
-
 # How to detect channel disconnection
-
 
 ## Question
 
 Is there a way to detect that some Eliom\_comet channel became disconnected? I would like to warn the user if the server becomes unreachable.
-
 
 ## Answer
 

@@ -1,6 +1,4 @@
-
 # How to configure and launch the Ocsigen Server?
-
 
 ### Default configuration file
 
@@ -13,7 +11,6 @@
 ### Your own configuration file
 
 Have a look at the `configuration file full documentation`.
-
 
 ### Launch the server
 

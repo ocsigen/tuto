@@ -1,9 +1,8 @@
-
 # Lightweight database using Ocsipersist
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
-Persistent tables with Ocsipersist<!--wodoc:end-->
+Persistent tables with Ocsipersist
 
 Ocsipersist is a module for persistent references and tables.
 
@@ -39,6 +38,6 @@ let () = Eliom.Registration.Action.register
       | true -> Eliom.Reference.set username (Some name)
       | false -> Lwt.return ())
 ```
-<!--wodoc:aside class="concept"-->**Concept: Ocsipersist**
+**Concept: Ocsipersist**
 
-Ocsipersist implements simple typed key/value tables. It can use different backends (currently sqlite and dbm). For more information see `Ocsipersist.table`. <!--wodoc:end-->
+Ocsipersist implements simple typed key/value tables. It can use different backends (currently sqlite and dbm). For more information see `Ocsipersist.table`.

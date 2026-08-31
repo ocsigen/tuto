@@ -1,8 +1,6 @@
-
 # How to add a JavaScript script?
 
 If you have client-side programs on your website, you can use Eliom's client-server features, that will compile client-side parts to JS using **Ocsigen Js\_of\_ocaml**, and automatically include the script in the page. But in some cases you may also want to include external JS scripts yourself.
-
 
 ### Include the script on the html header
 
@@ -23,7 +21,6 @@ The file path is generated using the **make\_uri** function (from `Eliom_content
 Insert this piece of code on the list given in parameter to the **head** function.
 
 Or you can use: `Eliom_tools.F.head`
-
 
 ### Call an external function
 

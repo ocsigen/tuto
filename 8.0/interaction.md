@@ -1,4 +1,3 @@
-
 # Implementing Web Interaction Using Eliom
 
 *The code of this tutorial has been tested with Eliom 6\.0.* <br/>
@@ -11,9 +10,7 @@ We will create a simple web site with one main page and a page for each user (as
 
 The [full code](https://github.com/ocsigen/tutorial/tree/master/files/tutorial/chapter2) of the program can be downloaded.
 
-
 ## Services
-
 
 ### The main page
 
@@ -41,11 +38,10 @@ SERVER_FILES := tuto.ml
 
 ### Adding a page for each user
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
 Services with parameters<br/> Using parts of the path as parameters
 
-<!--wodoc:end-->
 We will now create a page for each user. To do this, we will create a new service, taking the user name as parameter:
 
 ```ocaml
@@ -61,12 +57,11 @@ let user_service = Eliom_content.Html.D.(
 ```
 Add these lines to the same file, compile, start the server and verify that everything is working by trying, for example: `http://localhost:8080/?name=toto`.
 
-<!--wodoc:aside class="concept"-->**Concept: Paths**
+**Concept: Paths**
 
 Note that we are using the same path as the first service. Eliom will automatically call the right service according to the parameters given in the request.
 
-<!--wodoc:end-->
-<!--wodoc:aside class="concept"-->**Concept: Services with parameters**
+**Concept: Services with parameters**
 
 To define a service that accepts parameters in the URL (GET parameters), just add a description of the parameters you want in the `~meth` argument of the `Eliom_service.create` function. In our example, the service is expecting a parameter called `name`, of type `string`.
 
@@ -92,7 +87,6 @@ In that case, the handler function takes a pair of type `(int * string)`.
 
 The module `Eliom_parameter` also defines other parameter types: for example floats, 64 bits integers, sum types, but also more complex types, like sets or lists of values. It is also possible to define your own parameter types.
 
-<!--wodoc:end-->
 For our program, we would prefer to take one part of the URL path as the parameter describing the name of the user. To achieve this we change the definition of the previous service this way:
 
 ```ocaml
@@ -103,9 +97,9 @@ let user_service =
       Eliom_parameter.(suffix (string "name"))))
     (fun name () -> ... )
 ```
-The user pages are now available at URLs <!--wodoc:span class="code"-->http://localhost:8080/users/*username*<!--wodoc:end-->.
+The user pages are now available at URLs http://localhost:8080/users/*username*.
 
-<!--wodoc:aside class="concept"-->**Concept: Using parts of the path as page parameters**
+**Concept: Using parts of the path as page parameters**
 
 The module `Eliom_parameter` makes it possible to use parts of the path as service (GET) parameters.
 
@@ -113,13 +107,11 @@ In addition to `Eliom_parameter.suffix`, there are many other values allowing yo
 
 *Warning:* Even if it is not displayed in the URL, suffix parameters have a parameter name. This allows one to make forms that point to those kind of services. Actually each "suffix service" has an equivalent without suffix (which is by default automatically redirected towards the suffix version if it is a GET request).
 
-<!--wodoc:end-->
-
 ### Links
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
-Links <br/> Database libraries <!--wodoc:end-->
+Links <br/> Database libraries
 
 We now want to add a link on each user page to go back to the main page.
 
@@ -132,7 +124,7 @@ Change the handler of `user_service` into:
     (body [h1 [txt name];
            p [a ~service:main_service [txt "Home"] ()]])))
 ```
-<!--wodoc:aside class="concept"-->**Concept: Creating hyperlinks**
+**Concept: Creating hyperlinks**
 
 The function `val
 Eliom_content.Html.D.a` accepts the following parameters:
@@ -141,8 +133,6 @@ Eliom_content.Html.D.a` accepts the following parameters:
 - the content of the link
 - URL parameters to be given to the service
 Thus, you don't have to know the precise URL of the service you want to link to, and if the URL changes, all links will remain valid. Using this function has a wonderful consequence: *You will never have broken links\!*
-
-<!--wodoc:end-->
 
 #### Links towards services with parameters
 
@@ -193,7 +183,7 @@ let () = Eliom_content.Html.D.(
                   p [a ~service:main_service [txt "Home"] ()]])))
 )
 ```
-<!--wodoc:aside class="concept"-->**Concept: Mutually recursive services**
+**Concept: Mutually recursive services**
 
 As our two services are mutually recursive (the first one contains links towards the second one and vice versa), we split the `create` function application in two steps:
 
@@ -201,8 +191,7 @@ As our two services are mutually recursive (the first one contains links towards
 - Then we register the handlers using the `register` function from the right module.
 The function `create` we previously used is just a shortcut for these two functions (we create the service, then we register the handler).
 
-<!--wodoc:end-->
-<!--wodoc:aside class="concept"-->**Concept: Database libraries**
+**Concept: Database libraries**
 
 Ultimately we'll want to use a more sophisticated database module for managing user information, which we will write later in this tutorial. You can use any OCaml database binding (for example [PGOcaml](http://pgocaml.forge.ocamlcore.org/) to program database queries). We will use our own database library called [Macaque](https://github.com/ocsigen/macaque), which implements typed requests using *comprehensions*.
 
@@ -211,18 +200,14 @@ Ultimately we'll want to use a more sophisticated database module for managing u
 If your database module is not Lwt-cooperative but is thread-safe (for preemptive threads), you can use the `val
 Lwt_preemptive.detach` function to make the blocking function be executed by a separate preemptive thread.
 
-<!--wodoc:end-->
-
 ## Sessions
-
 
 ### Connection service
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
 Services with hidden (POST) parameters<br/> Fallback service
 
-<!--wodoc:end-->
 Now we want to add a connection form. First, we create a service for checking the name and password. Since we don't want the username and password to be shown in the URL, we use *hidden parameters* (or POST parameters). Thus, we need to create a new service taking these parameters:
 
 ```ocaml
@@ -231,7 +216,7 @@ let connection_service = Eliom_service.create_attached_post
   ~post_params:Eliom_parameter.(string "name" ** string "password")
   ()
 ```
-<!--wodoc:aside class="concept"-->**Concept: Hidden (POST) services**
+**Concept: Hidden (POST) services**
 
 Services using the POST HTTP method are created using the function `Eliom_service.create` or `Eliom_service.create_attached_post` (depending on what type of service you want to create). As you can see, there is a major difference from the way we created our previous services. Instead of providing a path for the `~path` argument, we gave a *fallback* service. This *fallback* is the service that will be used if the POST parameters are missing (for example, the user sets a bookmark on the page and returns later without POST parameters). This way, we will not get 404 errors if this occurs.
 
@@ -239,8 +224,7 @@ If the fallback has GET parameters, your service will have both GET and POST par
 
 See also [the cheat-sheet](./basics.md) for an comprehensive overview on the different types of services.
 
-<!--wodoc:end-->
-<!--wodoc:aside class="concept"-->**Concept: POST or GET?**
+**Concept: POST or GET?**
 
 POST parameters are sent in the body of the HTTP request (whereas GET parameters are sent in the URL). It is important to understand that they have very different semantics.
 
@@ -248,7 +232,7 @@ Remember:
 
 - Use GET parameters when you want your page to be bookmarkable.
 - Use POST parameters when you do not want the page to be bookmarkable, for example, because it performs a side effect on the server (connecting a user, add something in a database, perform a payment, etc.).
-*Warning:* Even if POST parameters are not shown in the URL, they are sent as plain text. If you want to transmit private data (like a password), you must use HTTPS (see `the Ocsigen server manual`). <!--wodoc:end-->
+*Warning:* Even if POST parameters are not shown in the URL, they are sent as plain text. If you want to transmit private data (like a password), you must use HTTPS (see `the Ocsigen server manual`).
 
 Now we can register a handler for the new service:
 
@@ -275,11 +259,10 @@ let check_pwd name pwd =
 
 ### Connection form
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
 Forms
 
-<!--wodoc:end-->
 For now, we will add the connection form only on the main page of the site.
 
 Let's create a function for generating the form:
@@ -307,7 +290,7 @@ let connection_box () = Eliom_content.Html.D.(
 ```
 Now, add a call to this function in the handler of the main service (for example just before the user links).
 
-<!--wodoc:aside class="concept"-->**Concept: Forms**
+**Concept: Forms**
 
 Form creation is very similar to link creation, using the functions `val Eliom_content.Html.D.Form.get_form` and `val Eliom_content.Html.D.Form.post_form`.
 
@@ -319,15 +302,12 @@ In the example, note that the service is expecting a pair `(string * string)`. T
 
 Functions building widgets, like `val Eliom_content.Html.D.Form.input`, expect an argument of type `type Eliom_content.Html.D.Form.param` (e.g., `Eliom_content.Html.D.Form.int : int Eliom_content.Html.D.Form.param`) specifying the parameter type. OCaml checks that the name you use matches the field. For example the names above need to be used with `val Eliom_content.Html.D.Form.string`.
 
-<!--wodoc:end-->
-
 ### Opening a session
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
 Session data, Eliom references
 
-<!--wodoc:end-->
 Now we want to remember that the user is successfully connected. To do that we will set a reference when the user successfully connects, and we will restrict the scope of this reference to the session (that is, to the browser).
 
 Define your Eliom reference with a default value:
@@ -394,7 +374,7 @@ let connection_box () = Eliom_content.Html.D.(
            (body [h1 [txt message];
                   user_links ()])));
 ```
-<!--wodoc:aside class="concept"-->**Concept: Eliom references and extended sessions**
+**Concept: Eliom references and extended sessions**
 
 Session data is stored in what we call *Eliom references*. It is a type of reference whose value depend on the session the user belongs to.
 
@@ -415,15 +395,12 @@ You need to rename this table every time you change the type of your Eliom refer
 
 It is not possible to create Eliom references containing functions (closures), due to limitations in OCaml's serialization mechanism.
 
-<!--wodoc:end-->
-
 ### Display the usual page after connection
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
 Actions
 
-<!--wodoc:end-->
 As you can see, our connection service is displaying a welcome page which is different from the main page in connected mode. We would rather display the same page. One solution is to call the same handler after registering session data.
 
 A cleaner solution is to use an *action*, that is: a service which will just perform a side effect. Replace the registration of the connection service by:
@@ -438,20 +415,17 @@ A cleaner solution is to use an *action*, that is: a service which will just per
 ```
 Now the main page is displayed after connection.
 
-<!--wodoc:aside class="concept"-->**Concept: Actions**
+**Concept: Actions**
 
 An *action* is a service that performs a side effect and redisplays the current page. The handler function returns `()`.
 
-<!--wodoc:end-->
-
 ### Putting a connection form on each page
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
 Non-attached coservices<br/> Redirections
 
-<!--wodoc:end-->
-<!--wodoc:aside class="concept"-->**Concept: Non-attached coservices**
+**Concept: Non-attached coservices**
 
 With many web programming frameworks, adding a connection form on each page of a site is complicated, and is approached in one of two ways:
 
@@ -463,7 +437,6 @@ With Eliom, this is more straightforward:
 - Use an action to connect the user and redisplay the page corresponding to the current URL.
 By default, a random identifier will be generated automatically by Eliom for the non-attached coservice. If you want this identifier to be fixed, you can specify it yourself while creating the service using the `?name` optional parameter. This identifier is added automatically by Eliom in each form (as hidden field) and link.
 
-<!--wodoc:end-->
 We transform the connection service into a non\_attached coservice, to do so we replace the path we specified earlier for the `~path` parameter:
 
 ```ocaml
@@ -487,7 +460,7 @@ Now you can add the connection box on user pages.
 		     cf;
                      p [a ~service:main_service [txt "Home"] ()]])));
 ```
-<!--wodoc:aside class="concept"-->**Concept: Alternative: register a redirection**
+**Concept: Alternative: register a redirection**
 
 Usually, after sending a POST form, it is good practice to do a redirection. This avoids reposting the data if the user reloads the page.
 
@@ -522,8 +495,7 @@ let () =
 ```
 (If you want to give parameters to the service you return, use `Eliom_service.preapply` \--- more information in the [Eliom manual](https://ocsigen.org/eliom/latest/server-services.html#p3preapplied).)
 
-If you want to do a redirection towards the current page (as in our case), use the special service `~path` parameter `Eliom_service.No_path`, which is some kind of POST non-attached coservice without parameter at all. <!--wodoc:end-->
-
+If you want to do a redirection towards the current page (as in our case), use the special service `~path` parameter `Eliom_service.No_path`, which is some kind of POST non-attached coservice without parameter at all.
 
 ### Disconnection
 
@@ -563,14 +535,12 @@ let connection_box () =
 
 ## Registration of users
 
-
 ### Basic registration form
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
 Attached coservice
 
-<!--wodoc:end-->
 We now add a registration form to the application. We create a new regular service, attached to the path `/registration`, that displays a registration form, and an action that will add the user to the "database":
 
 ```ocaml
@@ -634,23 +604,20 @@ let connection_box () = Eliom_content.Html.D.(
             )
 )
 ```
-<!--wodoc:aside class="concept"-->**Concept: Attached coservice**
+**Concept: Attached coservice**
 
 Now we want to return to the main page after account creation. We are using an *attached coservice*, that is, a service that is identified by both the path in the URL and a special coservice number (or name). A form to such a service will change the path and send parameters together with the coservice identifier (added automatically in an hidden field).
 
 In this particular case, We could have used a regular service, as we do not really need the coservice identifier, but in many cases, you may want to distinguish between several services registered at the same path (and with same parameters). That's what attached coservices are made for.
 
-<!--wodoc:end-->
 It looks great, but if we refresh the page after creating an account, we can see there is a problem. We are creating the same account over and over again. This is because we are calling the create\_account\_service each time we refresh the page, obviously we don't want that. To solve this issue we will implement a dynamically created and registered service with limited lifespan and number of uses.
-
 
 ### Registration form with confirmation
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
 Dynamic registration of services<br/> Session services<br/> Limited services
 
-<!--wodoc:end-->
 Now we want to add a confirmation page before actually creating the account. We *replace* the service `create_account_service` by a new POST attached coservice called `account_confirmation_service`:
 
 ```ocaml
@@ -697,7 +664,7 @@ Also remove the registration of the `create_account_service` service and modify 
 
 We created dynamically a service with a limited lifespan as specified by the `?timeout` parameter and a limited number of uses of this service defined by the `?max_use` parameter. Now if we refresh the page after creating the account, it works as intended.
 
-<!--wodoc:aside class="concept"-->**Concept: Dynamic creation of services**
+**Concept: Dynamic creation of services**
 
 In this example, we are dynamically creating a new service (here a coservice that does an action). This is done by the same `register` function as usual.
 
@@ -719,23 +686,19 @@ On the other hand, if you want to implement a *shopping basket*, you want it to 
 
 *Warning:* Services are kept in memory. To avoid memory leaks, you probably want to put a timeout on your dynamic coservices. Just add the optional parameter `?timeout` to the service creation function.
 
-<!--wodoc:end-->
-<!--wodoc:aside class="concept"-->**Concept: Session services**
+**Concept: Session services**
 
 Eliom also makes it possible to restrict the scope of services to a session, a group of sessions, or even a client side process (if you have a client side program running). It works exactly like the scope of Eliom references. To do that, just add the optional parameter `~scope` to the registration function. By default, the value is `Eliom_common.global_scope` (visible for everyone). Other possible values: `Eliom_common.default_session_scope`, `Eliom_common.default_group_scope`, or `Eliom_common.default_process_scope`.
 
 It is possible to register again for a session, tab or group, services that have already been registered with public (site) visibility. In such cases, Eliom will try first tab services, then session services, then group services, and finally site services. This makes possible to register specialized versions of a service for one user, for example when she logs in.
 
-<!--wodoc:end-->
-
 ## A few enhancements
-
 
 ### Displaying a "wrong password" message
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
-Scope "request" <!--wodoc:end-->
+Scope "request"
 
 In the current version, our web site fails silently when the password is wrong. Let's improve this behavior by displaying an error message. To do that, we need to pass information to the service occurring after the action. We record this information in an Eliom reference with scope `Eliom_common.request_scope`.
 
@@ -790,11 +753,10 @@ let connection_box () = Eliom_content.Html.D.(
 
 ### Sending 404 errors for non-existing users
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
 Sending 404<br/> `Eliom_registration.Any`
 
-<!--wodoc:end-->
 Our service `user_service` responds to any request parameter, even if the user does not exist in the database. We want to check that the user is in the database before displaying the page, and send a 404 error if the user is not. To do that, we will replace module `Eliom_registration.Html` by `module
 Eliom_registration.Any` to register the service `user_service`:
 
@@ -819,19 +781,16 @@ Eliom_registration.Any` to register the service `user_service`:
                     p [txt "That page does not exist"]]))
     );
 ```
-<!--wodoc:aside class="concept"-->**Concept: Eliom\_registration.Any**
+**Concept: Eliom\_registration.Any**
 
 The module `module
 Eliom_registration.Any` can be used to create services that are flexible to choose the kind of output they want to send.
 
 Use the `send` function from the module you want to send the output. That function also allows, for example, to specify the HTTP response code (here, we choose to use 404\) or to set HTTP headers.
 
-<!--wodoc:end-->
-<!--wodoc:aside class="wip"-->**Work in progress**
+**Work in progress**
 
 In the future, we may add functions like `set_http_code` or `set_http_header` to personalize the answer without using `Eliom_registration.Any`.
-
-<!--wodoc:end-->
 
 ### Wrapping the server handler to easily get the user data
 

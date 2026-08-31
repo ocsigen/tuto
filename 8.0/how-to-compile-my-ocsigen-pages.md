@@ -1,6 +1,4 @@
-
 # How to compile my Ocsigen pages?
-
 
 ### Eliom distillery
 
@@ -17,14 +15,12 @@ More information on how client-server Eliom project are compiled on `this page`.
 
 If you don't need client-server features, the compilation process is very simple and without surprise. Compile with `ocamlc` or `ocamlopt` using `ocamlfind`, with package `eliom.server`. You will have to create your configuration file manually. But you can still use Eliom distillery, which will make easier the inclusion of client side features, later.
 
-
 ### Compilation details
 
 - **eliomdep** helps you handle dependencies of eliom files
 - **eliomc** compile server-side eliom files (and ml files too)
 - **js\_of\_eliom** compile client-side eliom files
 Read manuals for mor information about these compilers.
-
 
 ### Links
 

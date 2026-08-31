@@ -1,14 +1,10 @@
-<!--wodoc:header-->
-
 # Writing a client/server Eliom application
 
-<!--wodoc:end-->
 In this chapter, we will write a [collaborative drawing application](https://ocsigen.org/graffiti/). It is a client/server web application displaying an area where users can draw using the mouse, and see what other users are drawing at the same time and in real-time.
 
 This tutorial is a good starting point if you want a step-by-step introduction to Eliom programming.
 
 The final eliom code is available [for download](https://github.com/ocsigen/graffiti/tree/master/simple).
-
 
 ## Basics
 
@@ -25,13 +21,12 @@ $ eliom-distillery -name graffiti -template client-server.basic -target-director
 
 ### My first page
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
-Services<br/>Configuration file<br/>Static validation of HTML<!--wodoc:end-->
+Services<br/>Configuration file<br/>Static validation of HTML
 
 Our web application consists of a single page for now. Let's start by creating a very basic page. We define the service that will implement this page by the following declaration:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 open%server Eliom.Content.Html.D (* provides functions to create HTML nodes *)
 
@@ -60,7 +55,7 @@ This will compile your application and run `ocsigenserver`.
 
 Your page is now available at URL [`http://localhost:8080/graff`](http://localhost:8080/graff).
 
-<!--wodoc:aside class="concept"-->**Concept: Services**
+**Concept: Services**
 
 Unlike typical web programming techniques (CGI, PHP,~ ...), with Eliom you do not need to write one file per URL. The application can be split into multiple files as per the developer's style. What matters is that you eventually produce a single module (\*.cmo or \*.cma) for the whole website.
 
@@ -76,25 +71,24 @@ corresponds to the URL
 ```ocaml
 foo/bar
 ```
-. 
+.
 
 ```ocaml
 ["dir"; ""]
 ```
-corresponds to the URL 
+corresponds to the URL
 
 ```ocaml
 dir/
 ```
-(that is: the default page of the directory 
+(that is: the default page of the directory
 
 ```ocaml
 dir
 ```
 ).
 
-<!--wodoc:end-->
-<!--wodoc:aside class="concept"-->**Concept: Configuration file**
+**Concept: Configuration file**
 
 In the directory of the project created by the Eliom-distillery, you can find the file `graffiti.conf.in`. This file is used in conjunction with the variables in `Makefile.options` to generate the `ocsigenserver` configuration file.
 
@@ -111,17 +105,17 @@ Once you start up your application via `make test.byte`, the configuration file 
 
 Extensions `<static ... />` (staticmod) and `<eliom />` are called successively:
 
-- If they exist, files from the directory 
-  
+- If they exist, files from the directory
+
   ```ocaml
   /path_to/graffiti/static 
   ```
   will be served,
-  
+
 - Otherwise, Server will try to generate pages with Eliom (`<eliom />`),
 - Otherwise it will generate a 404 (Not found) error (default).
-<!--wodoc:end-->
-<!--wodoc:aside class="concept"-->**Concept: Static validation of HTML**
+
+**Concept: Static validation of HTML**
 
 There are several ways to create pages for Eliom. You can generate pages as strings (as in other web frameworks). However, it is preferable to generate HTML in a way that provides compile-time HTML correctness guarantees. This tutorial achieves this by using the module `Eliom.Content.Html.D`, which is implemented using the `TyXML` library. The module defines a construction function for each HTML tag.
 
@@ -155,24 +149,20 @@ where `Html_types.head_content_fun` is the type of content allowed inside `<head
 
 Most functions take as parameter the list representing its contents. See other examples below. Each of them take an optional `?a` parameter for optional HTML attributes. Mandatory HTML attributes correspond to mandatory OCaml parameters. See below for examples.
 
-<!--wodoc:end-->
-<!--wodoc:aside class="concept"-->**Concept: Lwt**
+**Concept: Lwt**
 
 **Important warning:** All the functions you write must be written in a cooperative manner using Lwt. Lwt is a convenient way to implement concurrent programs in OCaml, and is now also widely used for applications unrelated to Ocsigen.
 
 For now we will just use the `Lwt.return` function as above. We will come back to Lwt programming later. You can also have a look at the `Lwt programming guide`.
 
-<!--wodoc:end-->
-
 ### Execute parts of the program on the client
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
-Service sending an application<br/> Client and server code<br/> Compiling a Web application with server and client parts<br/> Calling JavaScript methods with Js\_of\_ocaml<br/> <!--wodoc:end-->
+Service sending an application<br/> Client and server code<br/> Compiling a Web application with server and client parts<br/> Calling JavaScript methods with Js\_of\_ocaml<br/>
 
 To create our first service, we used the function `Eliom.Registration.Html.create`, as all we wanted to do was return HTML. But we actually want a service that corresponds to a full application with client and server parts. To do so, we need to create our own registration module by using the functor `Eliom.Registration.App`:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 module Graffiti_app =
   Eliom.Registration.App (struct
@@ -182,7 +172,6 @@ module Graffiti_app =
 ```
 It is now possible to use module `Graffiti_app` for registering our main service (now at URL `/`):
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server main_service =
   Eliom.Service.create
@@ -200,13 +189,12 @@ let%server () =
 ```
 We can now add some OCaml code to be executed by the browser. For this purpose, Eliom provides a syntax extension to distinguish between server and client code in the same file. We start by a very basic program, that will display a message to the user by calling the JavaScript function `alert`. Add the following lines to the program:
 
-<!--wodoc:@ class=client-->
 ```ocaml
 let%client _ = Eliom.Lib.alert "Hello!"
 ```
 After running again `make test.byte`, and visiting [http://localhost:8080/](http://localhost:8080/), the browser will load the file `graffiti.js`, and open an alert-box.
 
-<!--wodoc:aside class="concept"-->**Concept: Splitting the code into server and client parts**
+**Concept: Splitting the code into server and client parts**
 
 At the very toplevel of your source file (i.e. *not* inside modules or other server- /client-parts), you can use the following constructs to indicate which side the code should run on.
 
@@ -222,12 +210,10 @@ The above constructs are implemented by means of PPX, OCaml's new mechanism for 
 
 The Makefile created by `eliom-distillery` automatically splits the code into client and server parts, compiles the server part as usual, and compile the client part to a JavaScript program using `js_of_ocaml`.
 
-<!--wodoc:end-->
-<!--wodoc:aside class="concept"-->**Concept: Client values on the server**
+**Concept: Client values on the server**
 
 Additionally, it is possible to create client values within the server code by the following quotation:
 
-<!--wodoc:@ class=server-->
 ```ocaml
   [%client (expr : typ) ]
 ```
@@ -237,8 +223,7 @@ where `typ` is the type of an expression `expr` on the client. Note, that such a
 
 **Client values are executed on the client after the service returns.** You can use client values when a service wants to ask the client to run something, for example binding some event handler on some element produced by the service.
 
-<!--wodoc:end-->
-<!--wodoc:aside class="concept"-->**Concept: Js\_of\_ocaml**
+**Concept: Js\_of\_ocaml**
 
 The client-side parts of the program are compiled to JavaScript by `js_of_ocaml`. (Technically, `js_of_ocaml` compiles OCaml bytecode to JavaScript.) It is easy [to bind JavaScript libraries](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/javascript-interop.html) so that OCaml programs can call JavaScript functions. In the example, we are using the `Js_of_ocaml.Dom_html` module, which is a binding that allows the manipulation of an HTML page.
 
@@ -250,21 +235,18 @@ Js\_of\_ocaml is using a syntax extension to call JavaScript methods:
 - `new%js constr a b c` to call a JavaScript constructor.
 More information can be found in the Js\_of\_ocaml manual, in module `Ppx_js`.
 
-<!--wodoc:end-->
-
 ### Accessing server side variables on client side code
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
-Executing client side code after loading a page<br/> Sharing server side values<br/> Converting an HTML value to a portion of page (a.k.a. Dom node)<br/> Manipulating HTML node 'by reference' <!--wodoc:end-->
+Executing client side code after loading a page<br/> Sharing server side values<br/> Converting an HTML value to a portion of page (a.k.a. Dom node)<br/> Manipulating HTML node 'by reference'
 
 The client side process is not strictly separated from the server side. We can access some server variables from the client code. For instance:
 
-<!--wodoc:@ class=client-->
 ```ocaml
 open%client Js_of_ocaml
 ```
-<!--wodoc:@ class=server-->
+
 ```ocaml
 
 let%server count = ref 0
@@ -292,40 +274,35 @@ let%server () =
 ```
 Here, we are increasing the reference `count` each time the page is accessed. When the page is loaded and the document is in-place, the client program initializes the value inside `[%client ... ]`, and thus triggers an alert window. More specifically, the variable `c`, in the scope of the client value on the server is made available to the client value using the syntax extension `~%c`. In doing so, the server side value `c` is displayed in a message box on the client.
 
-<!--wodoc:aside class="concept"-->**Concept: Injections: Using server side values in client code**
+**Concept: Injections: Using server side values in client code**
 
 Client side code can reference copies of server side values using the `~%variable` syntax. Values sent that way are weakly type checked: the name of the client side type must match the server side one. If you define a type and want it to be available on both sides, declare it in `[%%shared ... ]`. The Eliom manual provides more information on the `Eliom's syntax extension` and its [compilation process](https://ocsigen.org/eliom/latest/workflow-configuration.html#compilation).
 
 The value of an injection into a `let%client` section is sent only once when starting the application in the browser. In contrast, the values of injections into client values which are created during a request are sent alongside the next response.
 
-<!--wodoc:end-->
-
 ## Collaborative drawing application
-
 
 ### Drawing on a canvas
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
 Canvas
 
-<!--wodoc:end-->
 We now want to draw something on the page using an HTML canvas. The drawing primitive is defined in the client-side function called `draw` that just draws a line between two given points in a canvas.
 
 To start our collaborative drawing application, we define another client-side function `init_client`, which just draws a single line for now.
 
 Here is the (full) new version of the program:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 open%server Eliom.Content
 open%server Eliom.Content.Html.D
 ```
-<!--wodoc:@ class=client-->
+
 ```ocaml
 open%client Js_of_ocaml
 ```
-<!--wodoc:@ class=server-->
+
 ```ocaml
 module%server Graffiti_app =
   Eliom.Registration.App (
@@ -334,12 +311,12 @@ module%server Graffiti_app =
       let global_data_path = None
     end)
 ```
-<!--wodoc:@ class=server-->
+
 ```ocaml
 let%server width  = 700
 let%server height = 400
 ```
-<!--wodoc:@ class=client-->
+
 ```ocaml
 let%client draw ctx ((r, g, b), size, (x1, y1), (x2, y2)) =
   let color = CSS.Color.string_of_t (CSS.Color.rgb r g b) in
@@ -350,7 +327,7 @@ let%client draw ctx ((r, g, b), size, (x1, y1), (x2, y2)) =
   ctx##(lineTo (float x2) (float y2));
   ctx##stroke
 ```
-<!--wodoc:@ class=server-->
+
 ```ocaml
 let%server canvas_elt =
   Html.D.canvas ~a:[Html.D.a_width width; Html.D.a_height height]
@@ -362,7 +339,7 @@ let%server page () =
      (body [h1 [txt "Graffiti"];
             canvas_elt])
 ```
-<!--wodoc:@ class=client-->
+
 ```ocaml
 let%client init_client () =
   let canvas = Eliom.Content.Html.To_dom.of_canvas ~%canvas_elt in
@@ -370,7 +347,7 @@ let%client init_client () =
   ctx##.lineCap := Js.string "round";
   draw ctx ((0, 0, 0), 12, (10, 10), (200, 100))
 ```
-<!--wodoc:@ class=server-->
+
 ```ocaml
 let%server main_service =
   Eliom.Service.create
@@ -386,13 +363,12 @@ let%server () =
        let _ = [%client (init_client () : unit) ] in
        Lwt.return (page ()))
 ```
-<!--wodoc:aside class="concept"-->**Concept: JavaScript datatypes in OCaml**
+**Concept: JavaScript datatypes in OCaml**
 
 Here we use the function `val
 Js_of_ocaml.Js.string` from Js\_of\_ocaml's library to convert an OCaml string into a JS string.
 
-<!--wodoc:end-->
-<!--wodoc:aside class="concept"-->**Concept: Client side side-effect on the server**
+**Concept: Client side side-effect on the server**
 
 If a client value is created while processing a request, it will be evaluated on the client once it receives the response and the document is created; the corresponding side effects are then executed. For example, the line
 
@@ -400,26 +376,24 @@ If a client value is created while processing a request, it will be evaluated on
   let _ = [%client (init_client () : unit) ] in
   ...
 ```
-creates a client value for the sole purpose of performing side effects on the client. The client value can also be named (as opposed to ignored via `_`), thus enabling server-side manipulation of client-side values (see below). <!--wodoc:end-->
-
+creates a client value for the sole purpose of performing side effects on the client. The client value can also be named (as opposed to ignored via `_`), thus enabling server-side manipulation of client-side values (see below).
 
 ### Single user drawing application
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
-Lwt<br/> Mouse events with Lwt <!--wodoc:end-->
+Lwt<br/> Mouse events with Lwt
 
 We now want to catch mouse events to draw lines with the mouse like with the *brush* tools of any classical drawing application. One solution would be to mimic typical JavaScript code in OCaml; for example by using the function `val
 Js_of_ocaml.Dom_events.listen` that is the Js\_of\_ocaml's equivalent of `addEventListener`. However, this solution is at least as verbose as the JavaScript equivalent, hence not satisfactory. Js\_of\_ocaml's library provides a much easier way to do that with the help of Lwt.
 
-To use this, add the following line on top of your file: <!--wodoc:@ class=client-->
+To use this, add the following line on top of your file:
 
 ```ocaml
 open%client Js_of_ocaml_lwt
 ```
 Then, replace the `init_client` of the previous example by the following piece of code, then compile and draw\!
 
-<!--wodoc:@ class=client-->
 ```ocaml
 let%client init_client () =
 
@@ -458,7 +432,7 @@ The last four lines of code implement the event-handling loop. They can be read 
 
 - For each mousemove event on the document, call `line` (never terminates)
 - If there is a mouseup event on the document, call `line`.
-<!--wodoc:aside class="concept"-->**Concept: More on Lwt**
+**Concept: More on Lwt**
 
 Functions in Eliom and Js\_of\_ocaml which do not implement just a computation or direct side effect, but rather wait for user activity, or file system access, or need a unforseeable amount of time to return are defined *with Lwt*; instead of returning a value of type `a` they return an Lwt thread of type `a Lwt.t`.
 
@@ -489,13 +463,12 @@ For more clarity, there is a syntax extension for Lwt, defining `let%lwt` to be 
 ```ocaml
  let%lwt x = f () in
 ```
-`Lwt.return` creates a terminated thread from a value: 
+`Lwt.return` creates a terminated thread from a value:
 
 ```ocaml
  Lwt.return : 'a -> 'a Lwt.t
 ```
 Use it when you must return something in the Lwt monad (for example in a service handler, or often after a `Lwt.bind`).
-
 
 ##### Why Lwt?
 
@@ -517,8 +490,8 @@ Using Lwt is very easy and does not cause trouble, provided you never use *block
 Lwt_preemptive.detach`,
 - If you want to launch a long-running computation, manually insert cooperation points using `Lwt_unix.yield`,
 - `Lwt.bind` does not introduce any cooperation point.
-<!--wodoc:end-->
-<!--wodoc:aside class="concept"-->**Concept: Handling events with Lwt**
+
+**Concept: Handling events with Lwt**
 
 Module `Js_of_ocaml_lwt.Lwt_js_events` allows easily defining event listeners using Lwt. For example, `Js_of_ocaml_lwt.Lwt_js_events.click` takes a DOM element and returns an Lwt thread that will wait until a click occures on this element.
 
@@ -528,13 +501,11 @@ Js_of_ocaml_lwt.Lwt_js_events.mousedowns`, ...) start again waiting after the ha
 
 `Lwt.pick` behaves as the first thread in the list to terminate, and cancels the others.
 
-<!--wodoc:end-->
-
 ### Collaborative drawing application
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
-Client server communication <!--wodoc:end-->
+Client server communication
 
 In order to see what other users are drawing, we now want to do the following:
 
@@ -542,7 +513,6 @@ In order to see what other users are drawing, we now want to do the following:
 - Dispatch the coordinates to all connected users.
 We first declare a type, shared by the server and the client, describing the color (as RGB values) and coordinates of drawn lines.
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 type%shared messages =
     ((int * int * int) * int * (int * int) * (int * int))
@@ -553,13 +523,11 @@ We annotate the type declaration with `[@@deriving json]` to allow type-safe des
 Then we create an Eliom bus to broadcast drawing events to all client with the function `val
 Eliom.Bus.create`. This function take as parameter the type of values carried by the bus.
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server bus = Eliom.Bus.create [%json: messages]
 ```
 To write draw commands into the bus, we just replace the function `line` in `init_client` by:
 
-<!--wodoc:@ class=client-->
 ```ocaml
 let line ev =
   let v = compute_line ev in
@@ -570,14 +538,13 @@ in
 ```
 Finally, to interpret the draw orders read on the bus, we add the following line at the end of function `init_client`:
 
-<!--wodoc:@ class=client-->
 ```ocaml
   Lwt.async (fun () ->
     Lwt_stream.iter (draw ctx) (Eliom.Bus.stream ~%(bus : (messages, messages) Eliom.Bus.t)))
 ```
 Now you can try the program using two browser windows to see that the lines are drawn on both windows.
 
-<!--wodoc:aside class="concept"-->**Concept: Communication channels**
+**Concept: Communication channels**
 
 Eliom provides multiple ways for the server to send unsolicited data to the client:
 
@@ -590,13 +557,11 @@ Eliom.Comet.Channel.t` are one-way communication channels allowing finer-grained
 It is possible to control the idle behaviour with module `module
 Eliom.Comet.Configuration`.
 
-<!--wodoc:end-->
-
 ### Color and size of the brush
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
-Widgets with Ocsigen Toolkit<br/> Functional Reactive Programming<br/> <!--wodoc:end-->
+Widgets with Ocsigen Toolkit<br/> Functional Reactive Programming<br/>
 
 In this section, we add a color picker and slider to choose the size of the brush. For the colorpicker we used a widget available in `Ocsigen Toolkit`.
 
@@ -620,7 +585,6 @@ SERVER_PACKAGES := ... ocsigen-toolkit.server
 ```
 To create the widget, we replace `page` by :
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server page () =
   let colorpicker, cp_sig =
@@ -636,7 +600,6 @@ let%server page () =
 ```
 Replace the registration of `main_service` by:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server () =
   Graffiti_app.register ~service:main_service
@@ -648,7 +611,6 @@ let%server () =
 ```
 We subsequently add a simple HTML slider to change the size of the brush. Near the `canvas_elt` definition, simply add the following code:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server slider =
   Eliom.Content.Html.D.Form.input
@@ -666,7 +628,6 @@ We then add the slider to the page body, between the canvas and the colorpicker.
 
 To change the size and the color of the brush, we add parameter `~cp_sig` to `init_client` and modify function `compute_line`:
 
-<!--wodoc:@ class=client-->
 ```ocaml
 let%client init_client ~cp_sig () =
 ...
@@ -684,7 +645,6 @@ let%client init_client ~cp_sig () =
 ```
 Finally, we need to add a stylesheet in the headers of our page with function `Eliom.Tools.D.css_link`:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server page () =
   let colorpicker, cp_sig =
@@ -712,12 +672,11 @@ You need to install the corresponding stylesheets and images into your project. 
 
 You can then test your application (`make test.byte`).
 
-<!--wodoc:aside class="concept"-->**Concept: Ocsigen Toolkit**
+**Concept: Ocsigen Toolkit**
 
 Ocsigen Toolkit is a Js\_of\_ocaml library providing useful client-server widgets for your Eliom applications. You can use it for building complex user interfaces. The full documentation is available (`Ocsigen Toolkit`).
 
-<!--wodoc:end-->
-<!--wodoc:aside class="concept"-->**Concept: Functional Reactive Programming**
+**Concept: Functional Reactive Programming**
 
 Ocsigen Toolkit is using *Functional Reactive Programming* to simplify and automatize page changes, through Daniel Bünzli's React library.
 
@@ -727,13 +686,11 @@ Eliom makes it possible to create reactive (client side) page elements from serv
 
 This basic program does not show the full power of reactive programming, however. See [this tutorial](./tutoreact.md) for a better introduction to reactive programming with Eliom.
 
-<!--wodoc:end-->
-
 ### Sending the initial image
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
-Services sending other data types<!--wodoc:end-->
+Services sending other data types
 
 To finish the first part of the tutorial, we want to save the current drawing on server side and send the current image when a new user arrives. To do that, we will use the [Cairo binding](https://github.com/Chris00/ocaml-cairo) for OCaml.
 
@@ -746,7 +703,6 @@ SERVER_PACKAGES := ... cairo2
 ```
 The `draw_server` function below is the equivalent of the `draw` function on the server side and the `image_string` function outputs the PNG image in a string.
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server draw_server, image_string =
   let rgb_ints_to_floats (r, g, b) =
@@ -777,7 +733,6 @@ let%server _ = Lwt_stream.iter draw_server (Eliom.Bus.stream bus)
 ```
 We also define a service that sends the picture:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let%server imageservice =
   Eliom.Service.create
@@ -789,7 +744,7 @@ let%server () =
   Eliom.Registration.String.register ~service:imageservice
     (fun () () -> Lwt.return (image_string (), "image/png"))
 ```
-<!--wodoc:aside class="concept"-->**Concept: Eliom.Registration**
+**Concept: Eliom.Registration**
 
 The module `Eliom.Registration` defines several modules with registration and creation functions for a variety of data types. We have already seen `Eliom.Registration.Html` and `Eliom.Registration.App`. The module `Eliom.Registration.String` sends arbitrary byte output (represented by an OCaml string). The handler function must return a pair consisting of the content and the content-type.
 
@@ -800,10 +755,9 @@ There are also several other output modules, for example:
 - `Eliom.Registration.Any` to create services that decide late what they want to send
 - `Eliom.Registration.Ocaml` to send any OCaml data to be used in a client side program
 - `Eliom.Registration.Action` to create service with no output (the handler function just performs a side effect on the server) and reload the current page (or not). We will see an example of actions in the next chapter.
-<!--wodoc:end-->
+
 We now want to load the initial image once the canvas is created. Add the following lines just after the creation of the canvas context in `init_client`:
 
-<!--wodoc:@ class=server-->
 ```ocaml
 (* The initial image: *)
 let img = Eliom.Content.Html.To_dom.of_img
@@ -816,7 +770,6 @@ img##.onload := Dom_html.handler (fun _ev ->
 ```
 As we are now using `Eliom.Content.Html.D` in both client and server sections, we need to open it in a shared section:
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 open%shared Eliom.Content.Html.D
 ```
@@ -829,11 +782,9 @@ The `Makefile` from the distillery automatically adds the packages defined in `S
 ```
 The first version of the program is now complete.
 
-<!--wodoc:div class="exercices"-->
-
 #### Exercises
 
 - Add a button that allows download the current image, and saving it to the hard disk (reuse the service `imageservice`).
 - Add a button with a color picker to select a color from the drawing. Pressing the button changes the mouse cursor, and disables current mouse events until the next mouse click event on the document. Then the color palette changes to the color of the pixel clicked. (Use the function `Dom_html.pixel_get`).
-<!--wodoc:end-->
+
 If you want to continue learning client-server programming with Eliom and build your first application, we suggest to read [the tutorial about Ocsigen Start](./start.md).

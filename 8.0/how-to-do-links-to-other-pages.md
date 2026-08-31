@@ -1,4 +1,3 @@
-
 # How to do links to other pages?
 
 Examples:

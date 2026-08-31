@@ -1,4 +1,3 @@
-
 # How to stop default behaviour of events?
 
 Example:

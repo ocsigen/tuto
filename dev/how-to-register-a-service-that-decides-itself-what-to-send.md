@@ -1,4 +1,3 @@
-
 # How to register a service that decides itself what to send?
 
 Use `Eliom.Registration.Any`.

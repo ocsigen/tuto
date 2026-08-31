@@ -1,4 +1,3 @@
-
 # How to iterate on all session belonging to the same user, or all tabs?
 
 You must create a session group for each user, then iterate on all the sessions from this group, and possibly on all client processes for each session:

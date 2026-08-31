@@ -1,4 +1,3 @@
-
 # How to create a form wizard (sequence of pages depending on data entered on previous ones)?
 
 The solution to implement wizard-like forms (that is a sequence of pages depending on data entered on previous ones) is to create dynamically new services especially for one user. If you use session data (eliom references) it won't work if you have several tabs on the same site (or if you use the back button).

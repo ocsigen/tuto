@@ -1,9 +1,8 @@
-
 # Saving favorite pictures
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
-Atom feed<!--wodoc:end-->
+Atom feed
 
 We will now add a button to the Graffiti application to save the current image. The images will be saved to the filesystem using the module `Lwt_io`. We will then make an Atom feed with the saved images using [Syndic](https://github.com/Cumulus/Syndic).
 
@@ -15,7 +14,6 @@ opam install syndic
 We save the images in the directory containing the static contents under the directory `images_saved/username`. The `username` directory is created if needed. If it already exists `mkdir` fails and we do nothing.
 
 We will add this code in a new file:
-
 
 #### `feed.ml`
 

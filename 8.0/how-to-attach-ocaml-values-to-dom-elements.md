@@ -1,4 +1,3 @@
-
 # How to attach OCaml values to DOM elements?
 
 It is often convenient to attach OCaml values to certain elements of the page. There are several ways to achieve this.

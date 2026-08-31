@@ -1,8 +1,6 @@
-
 # How to make a "hello world" in Ocsigen?
 
 Here it is\! The famous "**Hello World**" for a client/server Eliom application:
-
 
 ###
 

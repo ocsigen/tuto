@@ -1,4 +1,3 @@
-
 # How to add a CSS stylesheet?
 
 *Warning: css\_link and make\_uri come from Eliom.Content.Html.D module. This module is opened for each piece of code*
@@ -15,7 +14,6 @@ This function has 2 parameters: the file path and unit.
 
 The file path is generated using the **make\_uri** function. This function creates the relative URL string using the static directory configured in the configuration file and the given list.
 
-
 ### Where?
 
 Insert this piece of code on the list given in parameter to the **head** function:
@@ -28,7 +26,6 @@ Insert this piece of code on the list given in parameter to the **head** functio
      (body [p [txt "Hello World!"]]))))
 ```
 Or you can use: `Eliom.Tools.F.head`
-
 
 ### Download full code
 

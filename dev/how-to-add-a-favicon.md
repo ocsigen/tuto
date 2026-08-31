@@ -1,4 +1,3 @@
-
 # How to add a Favicon?
 
 A favicon is a file of type "ico" which contain a picture of size 16x16px. It is the picture that you can ususally see next to the title of the page on a browser.
@@ -9,7 +8,6 @@ By default, all browsers look for a file `favicon.ico` at the root of the websit
  http://website.com/favicon.ico
 ```
 Just put the file at the root of the static directory set in the configuration file.
-
 
 ### Links
 

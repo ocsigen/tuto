@@ -1,4 +1,3 @@
-
 # How to set and id, classes or other attributes to HTML elements?
 
 Mandatory element attributes are given as OCaml named parameters to constructions function.
@@ -69,7 +68,6 @@ Its argument is an Eliom event handler, that is a client-side function taking th
 ~a:[a_onclick {{ fun ev -> Dom_html.window##alert(Js.string "hello") }}]
 ```
 However, we recommend to use `Js_of_ocaml_lwt.Lwt_js_events` rather than these elements to set event handlers.
-
 
 ### Links
 

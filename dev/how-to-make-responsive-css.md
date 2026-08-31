@@ -1,4 +1,3 @@
-
 # How to make reponsive CSS with ocsigen?
 
 The best way to do that is to make one general css sheet plus three css sheets, small, medium and large screen using media queries, a feature introduced in CSS3.

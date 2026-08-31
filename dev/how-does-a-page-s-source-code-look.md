@@ -1,6 +1,4 @@
-
 # How does a client-server app source code look like?
-
 
 ### Eliom client-server applications
 
@@ -47,7 +45,6 @@ let _ =
 ```
 The third parameter is the function that will be called to generate the page. This function takes two parameters, corresponding respectively to GET and POST parameters. Here both are `()` because the service does not take any parameter. The function returns an element of type html (using Lwt).
 
-
 ### Page Content
 
 The content of Eliom application pages is made using functions. The **html function** takes two parameters: head and body, which are also functions that takes parameters coresponding to their content.
@@ -60,7 +57,6 @@ The content of Eliom application pages is made using functions. The **html funct
 Most of the elements functions take a list of other elements as a parameter.
 
 Validity of HTML is checked at compile time, which means that a program that may generate a page that does not respect the recommendations of the W3C will be rejected at compile time.
-
 
 ### Download full code
 

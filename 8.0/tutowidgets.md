@@ -1,4 +1,3 @@
-
 # Mini-tutorial: client-server widgets
 
 This short tutorial is an example of client-server Eliom application. It gives an example of client-server widgets.
@@ -11,8 +10,7 @@ This tutorial also shows that it is possible to use the same code to build the w
 
 We choose a very simple widget, that could be the base for example for implementing a drop-down menu. It consists of several boxes with a title and a content. Clicking on the title opens or closes the content. Furthermore, it is possible to group some of the boxes together to make them behave like radio buttons: when you open one of them, the previously opened one is closed.
 
-<!--wodoc:div class="screenshot"--><!--wodoc:img src="files/tutorial/tutowidgets/ex-final.png" alt="screenshot"--><!--wodoc:end-->
-
+![screenshot](files/tutorial/tutowidgets/ex-final.png)
 
 ## First step: define an application with a basic service
 
@@ -20,7 +18,6 @@ The following code defines a client-server Web application with only one service
 
 The code also defines a client-side application (`let%client` or section `[%%client ... ]`) that appends a client-side generated widget to the page. Section `[%%shared ... ]` is compiled on both the server and the client-side programs. Inside such a section, you can write `let%server` or `let%client` to override `[%%shared ... ]` and define a server-only or client-only value (similarly for `[%%server ... ]` and `[%%client ... ]`).
 
-<!--wodoc:@ class=server-->
 ```ocaml
 
 module%server Ex_app =
@@ -39,7 +36,7 @@ let%server _ = Eliom_content.Html.D.(
             (body [h2 [txt "Welcome to Ocsigen!"]])))
 )
 ```
-<!--wodoc:@ class=client-->
+
 ```ocaml
 
 let%client mywidget s1 s2 = Eliom_content.Html.D.(
@@ -64,8 +61,7 @@ The name of the project must match the name given to the functor `Eliom_registra
 
 After you adapt the file `ex.eliom`, you can compile by calling `make`, and run the server by calling `make test.byte`. Download the [CSS file](files/tutorial/tutowidgets/ex.css) and place it in directory `static/css`. Then open a browser window and go to URL `http://localhost:8080`.
 
-<!--wodoc:div class="screenshot"--><!--wodoc:img src="files/tutorial/tutowidgets/ex1.png" alt="screenshot"--><!--wodoc:end-->
-
+![screenshot](files/tutorial/tutowidgets/ex1.png)
 
 ### More explanations
 
@@ -78,12 +74,10 @@ This section gives very quick explanations on the rest of the program. For more 
 - `Js_of_ocaml_lwt.Lwt_js_events` defines a convenient way to program interface events (mouse, keyboard, ...).
 `Js_of_ocaml_lwt.Lwt_js_events.onload` is a Lwt thread that waits until the page is loaded. There are similar functions to wait for other events, e.g., for a click on an element of the page, or for a key press.
 
-
 ## Second step: bind the button
 
 To make the widget work, we must bind the click event. Replace function `mywidget` by the following lines:
 
-<!--wodoc:@ class=client-->
 ```ocaml
 let%client switch_visibility elt =
   let elt = Eliom_content.Html.To_dom.of_element elt in
@@ -115,7 +109,7 @@ The code is exactly the same, with the following modifications:
 - We place function `mywidget` in server section.
 - The portion of code that must be run on client side (binding the click event) is written as a *client value*, inside `[%client (... : unit) ]`. This code will be executed by the client-side program when it receives the page. Note that you must give the type (here `unit`), as the type inference for client values is currently very limited. The client section may refer to server side values, using the `~%x` syntax. These values will be serialized and sent to the client automatically with the page.
 - We include the widget on the server side generated page instead of adding it to the page from client side.
-<!--wodoc:@ class=server-->
+
 ```ocaml
 
 module%server Ex_app =
@@ -125,7 +119,7 @@ module%server Ex_app =
   end)
 
 ```
-<!--wodoc:@ class=client-->
+
 ```ocaml
 let%client switch_visibility elt =
   let elt = Eliom_content.Html.To_dom.of_element elt in
@@ -135,7 +129,7 @@ let%client switch_visibility elt =
     elt##.classList##add (Js_of_ocaml.Js.string "hidden")
 
 ```
-<!--wodoc:@ class=server-->
+
 ```ocaml
 let%server mywidget s1 s2 = Eliom_content.Html.D.(
   let button  = div ~a:[a_class ["button"]] [txt s1] in
@@ -165,19 +159,16 @@ let%server _ = Eliom_content.Html.D.(
 
 If you make function `mywidget` *shared*, it will be available both on server and client sides:
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 let%shared mywidget s1 s2 =
   ...
 ```
-<!--wodoc:div class="screenshot"--><!--wodoc:img src="files/tutorial/tutowidgets/ex2.png" alt="screenshot"--><!--wodoc:end-->
-
+![screenshot](files/tutorial/tutowidgets/ex2.png)
 
 ## Fifth step: close last window when opening a new one
 
 To implement this, we record a client-side reference to a function for closing the currently opened window.
 
-<!--wodoc:@ class=server-->
 ```ocaml
 
 module%server Ex_app =
@@ -187,7 +178,7 @@ module%server Ex_app =
   end)
 
 ```
-<!--wodoc:@ class=client-->
+
 ```ocaml
 let%client close_last = ref (fun () -> ())
 
@@ -199,7 +190,7 @@ let%client switch_visibility elt =
     elt##.classList##add (Js_of_ocaml.Js.string "hidden")
 
 ```
-<!--wodoc:@ class=shared-->
+
 ```ocaml
 let%shared mywidget s1 s2 = Eliom_content.Html.D.(
   let button  = div ~a:[a_class ["button"]] [txt s1] in
@@ -217,7 +208,7 @@ let%shared mywidget s1 s2 = Eliom_content.Html.D.(
   div ~a:[a_class ["mywidget"]] [button; content]
 )
 ```
-<!--wodoc:@ class=server-->
+
 ```ocaml
 let%server _ = Eliom_content.Html.D.(
   Ex_app.create
@@ -246,7 +237,6 @@ let%server _ = Eliom_content.Html.D.(
 
 Now we want to enable several sets of widgets in the same page. A single reference no longer suffices. In the following version, the server-side program asks the client-side program to generate two different references, by calling function `new_set`. This function returns what we call a *client value*. On server side, it is not evaluated, and it has an abstract type.
 
-<!--wodoc:@ class=server-->
 ```ocaml
 
 module%server Ex_app =
@@ -258,7 +248,7 @@ module%server Ex_app =
 let%server new_set () = [%client ( ref (fun () -> ()) : (unit -> unit) ref)]
 
 ```
-<!--wodoc:@ class=client-->
+
 ```ocaml
 let%client switch_visibility elt =
   let elt = Eliom_content.Html.To_dom.of_element elt in
@@ -268,7 +258,7 @@ let%client switch_visibility elt =
     elt##.classList##add (Js_of_ocaml.Js.string "hidden")
 
 ```
-<!--wodoc:@ class=shared-->
+
 ```ocaml
 let%shared mywidget set s1 s2 = Eliom_content.Html.D.(
   let button  = div ~a:[a_class ["button"]] [txt s1] in
@@ -286,7 +276,7 @@ let%shared mywidget set s1 s2 = Eliom_content.Html.D.(
 )
 
 ```
-<!--wodoc:@ class=server-->
+
 ```ocaml
 let%server _ = Eliom_content.Html.D.(
   Ex_app.create
@@ -311,21 +301,17 @@ let%server _ = Eliom_content.Html.D.(
            ])))
 )
 ```
-<!--wodoc:div class="screenshot"--><!--wodoc:img src="files/tutorial/tutowidgets/ex-final.png" alt="screenshot"--><!--wodoc:end-->
-
+![screenshot](files/tutorial/tutowidgets/ex-final.png)
 
 ## And now?
-
 
 ### Calling server functions
 
 An important feature missing from this tutorial is the ability to call server functions from the client-side program ("server functions"). You can find a quick description of this in [this mini HOWTO](./how-to-call-a-server-side-function-from-client-side.md) or in [Eliom's manual](https://ocsigen.org/eliom/latest/clientserver-communication.html#rpc).
 
-
 ### Services
 
 For many applications, you will need several services. By default, client-side Eliom programs do not stop when you follow a link or send a form. This enables combining rich client side features (playing music, animations, stateful applications~ ...) with traditional Web interaction (links, forms, bookmarks, back button~ ...). Eliom proposes several ways to identify services, either by the URL (and parameters), or by a session identifier (we call this kind of service a *coservice*). Eliom also allows creating new (co-)services dynamically, for example coservices depending on previous interaction with a user. More information on the service identification mechanism in `Eliom's manual`.
-
 
 ### Sessions
 

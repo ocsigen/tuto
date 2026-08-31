@@ -1,4 +1,3 @@
-
 # Introduction
 
 Ocsigen is a complete framework for developing Web and mobile apps using cutting edge techniques. It can be used to write simple server side Web sites, client-side programs, or complex client-server Web and mobile apps. Its main characteristics are:

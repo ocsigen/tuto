@@ -1,8 +1,5 @@
-<!--wodoc:header-->
-
 # Your first app in 5 minutes
 
-<!--wodoc:end-->
 *The code of this tutorial has been tested against Eliom 6\.0.* <br/>
 
 This tutorial describes how to get started with Ocsigen quickly. Thanks to an application template provided by the Ocsigen team, you will get to a working application with standard functionality like users and notifications in only a few minutes. This template can be used for learning purposes, or even as a starting point for your own product.
@@ -13,10 +10,9 @@ The template comes with a default style (developed with SASS) that follows moder
 
 The template is multi-platform. This means that it can run on a Web browser or as a mobile app for Android, iOS, or Windows.
 
-<!--wodoc:div class="screenshots"--> [<!--wodoc:img src="files/screenshots/start1.png" alt="Ocsigen Start"-->](files/screenshots/start1.png) [<!--wodoc:img src="files/screenshots/start2.png" alt="Ocsigen Start"-->](files/screenshots/start2.png) <!--wodoc:end-->
+ [![Ocsigen Start](files/screenshots/start1.png)](files/screenshots/start1.png) [![Ocsigen Start](files/screenshots/start2.png)](files/screenshots/start2.png)
 
-<!--wodoc:div class="screenshots"--> [<!--wodoc:img src="files/screenshots/start-mobile-1.png" alt="Ocsigen Start"-->](files/screenshots/start-mobile-1.png) [<!--wodoc:img src="files/screenshots/start-mobile-2.png" alt="Ocsigen Start"-->](files/screenshots/start-mobile-2.png) [<!--wodoc:img src="files/screenshots/start-mobile-4.png" alt="Ocsigen Start"-->](files/screenshots/start-mobile-4.png) <!--wodoc:end-->
-
+ [![Ocsigen Start](files/screenshots/start-mobile-1.png)](files/screenshots/start-mobile-1.png) [![Ocsigen Start](files/screenshots/start-mobile-2.png)](files/screenshots/start-mobile-2.png) [![Ocsigen Start](files/screenshots/start-mobile-4.png)](files/screenshots/start-mobile-4.png)
 
 ## Installation
 
@@ -37,7 +33,6 @@ eliom-distillery -name myapp -template os.pgocaml
 ```
 Have a look at the [README](https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/README.md) file to learn how to compile it and, possibly, to generate the mobile applications.
 
-
 ## I installed it and compiled it, what next?
 
 It is now time to learn Ocsigen\! The template is a great way to get started, because it comes with multiple runnable examples that show you:
@@ -53,8 +48,8 @@ It is now time to learn Ocsigen\! The template is a great way to get started, be
 - ...
 The corresponding files are well-commented, so you can quickly find out how things work.
 
-<!--wodoc:div class="screenshots"--> [<!--wodoc:img src="files/screenshots/start3.png" alt="Ocsigen Start"-->](files/screenshots/start3.png) [<!--wodoc:img src="files/screenshots/start4.png" alt="Ocsigen Start"-->](files/screenshots/start4.png) [<!--wodoc:img src="files/screenshots/start5.png" alt="Ocsigen Start"-->](files/screenshots/start5.png) [<!--wodoc:img src="files/screenshots/start6.png" alt="Ocsigen Start"-->](files/screenshots/start6.png) <!--wodoc:end-->
+ [![Ocsigen Start](files/screenshots/start3.png)](files/screenshots/start3.png) [![Ocsigen Start](files/screenshots/start4.png)](files/screenshots/start4.png) [![Ocsigen Start](files/screenshots/start5.png)](files/screenshots/start5.png) [![Ocsigen Start](files/screenshots/start6.png)](files/screenshots/start6.png)
 
-<!--wodoc:div class="screenshots"--> [<!--wodoc:img src="files/screenshots/start-mobile-3.png" alt="Ocsigen Start"-->](files/screenshots/start-mobile-3.png) [<!--wodoc:img src="files/screenshots/start-mobile-6.png" alt="Ocsigen Start"-->](files/screenshots/start-mobile-6.png) [<!--wodoc:img src="files/screenshots/start-mobile-7.png" alt="Ocsigen Start"-->](files/screenshots/start-mobile-7.png) [<!--wodoc:img src="files/screenshots/start-mobile-8.png" alt="Ocsigen Start"-->](files/screenshots/start-mobile-8.png) <!--wodoc:end-->
+ [![Ocsigen Start](files/screenshots/start-mobile-3.png)](files/screenshots/start-mobile-3.png) [![Ocsigen Start](files/screenshots/start-mobile-6.png)](files/screenshots/start-mobile-6.png) [![Ocsigen Start](files/screenshots/start-mobile-7.png)](files/screenshots/start-mobile-7.png) [![Ocsigen Start](files/screenshots/start-mobile-8.png)](files/screenshots/start-mobile-8.png)
 
 Have fun\!

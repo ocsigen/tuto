@@ -1,9 +1,8 @@
-
 # Type safe database requests using Macaque
 
-<!--wodoc:aside class="concepts"-->**Concepts**
+**Concepts**
 
-Type safe database requests<!--wodoc:end-->
+Type safe database requests
 
 The Macaque library allows easy manipulation of Postgresql database fully compatible with Lwt. (For more information see [Macaque manual](https://github.com/ocsigen/macaque)).
 

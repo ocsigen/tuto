@@ -1,4 +1,3 @@
-
 # How to insert "raw" form elements (not belonging to a form towards a service)?
 
 Eliom redefines most forms elements (inputs, textareas, checkboxes, etc.) to make possible to check the type of the form w.r.t. the type of the service.

@@ -1,6 +1,4 @@
-
 # How to write forms?
-
 
 ### To write an HTML form towards an Eliom service
 
@@ -88,7 +86,6 @@ Eliom.Content.Html.D.Form.post_form
 There is also a raw interface to write basic forms without Eliom, using standard tyxml constructors.
 
 Use module [Eliom.Content.Html.D.Raw](https://ocsigen.org/eliom/latest/eliom.server/Eliom/Content/Html/D/Raw/index.html).
-
 
 ### Links
 

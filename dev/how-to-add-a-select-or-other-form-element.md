@@ -1,6 +1,4 @@
-
 # How to add a select (or other form element)?
-
 
 ### In forms towards Eliom services:
 

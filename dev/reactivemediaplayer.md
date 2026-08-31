@@ -1,4 +1,3 @@
-
 # Reactive Media Player
 
 You should read the [Playing Music](./music.md) tutorial before this one.
@@ -7,23 +6,21 @@ Since version 4, Eliom embeds the [React](http://erratique.ch/logiciel/react) li
 
 The final Eliom code is available [for download](https://github.com/ocsigen/tutorial/tree/master/files/tutorial/chapter3/reactive_media_player/reactive_media_player.eliom).
 
-
 ## Basics
 
 A reactive element, or more generally a reactive value, depends on the current value of a signal. For instance :
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 [%%shared
 open Eliom.Content
 open Html
 ]
 ```
-<!--wodoc:@ class=client-->
+
 ```ocaml
 let%client s, set_s = React.S.create 0 (* signal creation *)
 ```
-<!--wodoc:@ class=shared-->
+
 ```ocaml
 let%shared example_div () =
   C.node {{R.txt (React.S.map string_of_int s)}}
@@ -40,18 +37,17 @@ The signal `s` carries an int value initialized at 0 and `set_s` is the update f
 
 The magic part: we never have to explicitly update `example_div`. Its behavior is declaratively described in its own code, and not in the code of the button.
 
-<!--wodoc:aside class="concept"-->**Concept: Client node on the server**
+**Concept: Client node on the server**
 
-`C.node` takes a client node and brings it to the server side. <!--wodoc:end-->
+`C.node` takes a client node and brings it to the server side.
 
-<!--wodoc:aside class="concept"-->**Concept: Step semantics**
+**Concept: Step semantics**
 
 **Warning** If you haven't read the React semantics, be aware of this: a step occurence of a signal `s` happens when the update function is called on the signal or on a other signal `s'` which `s` depends on. But moreover, this update call must at least **modify** the signal current value, otherwise it's not a step.
 
 This can be seen when there are side effects (like print) in the code of functions mapped to the signal. If the update function does not modify the signal value, the printing does not happen.
 
-The test equality function of a signal can be set in the `eq` optional parameters of React.S functions producing a signal (like `create`). <!--wodoc:end-->
-
+The test equality function of a signal can be set in the `eq` optional parameters of React.S functions producing a signal (like `create`).
 
 ## Functional Reactive Media Player
 
@@ -59,7 +55,6 @@ This part explains how to create a simple media player, similar to the [Playing 
 
 In order to provide a short tutorial, we only create three controls: play, pause and seek/progress bar. So, let's write the corresponding type:
 
-<!--wodoc:@ class=shared-->
 ```ocaml
 [%%shared
     open Eliom.Content
@@ -68,13 +63,12 @@ In order to provide a short tutorial, we only create three controls: play, pause
     type action = Play | Pause | Seek of float
 ]
 ```
-<!--wodoc:@ class=client-->
+
 ```ocaml
 let%client media_s, set_media_s = React.S.create Pause
 ```
 Each HTML element emits a signal value corresponding to its action. It is enough to create our "play" and "pause" inputs.
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let pause_button () =
   D.(Form.button_no_value
@@ -88,13 +82,12 @@ let play_button () =
        ~a:[a_onclick  [%client  fun _ -> set_media_s Play ]]
        [txt "Play"])
 ```
-<!--wodoc:aside class="concept"-->**Concept: Abstract the Js events**
+**Concept: Abstract the Js events**
 
-A nice thing about FRP is that we can abstract JavaScript events and only use signals. The JS event handler is only a function raising a signal. <!--wodoc:end-->
+A nice thing about FRP is that we can abstract JavaScript events and only use signals. The JS event handler is only a function raising a signal.
 
 To use our buttons, we now create a media (audio or video) HTML element on the server side.
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let media_uri =
   Html.D.make_uri
@@ -124,11 +117,10 @@ let media_tag () =
 ```
 The function `media_tag` builds an `<audio>` element. The code in `[%client ... ]` is on the client part. It's an Lwt thread that maps a function `media_action -> unit` to the signal `media_s`.
 
-<!--wodoc:aside class="concept"-->**Concept: Playing video**
+**Concept: Playing video**
 
-The code for playing video is conceptually similar. You just replace the `audio` tag by a `video` tag. But be careful, not all browsers are compatible with all formats. <!--wodoc:end-->
+The code for playing video is conceptually similar. You just replace the `audio` tag by a `video` tag. But be careful, not all browsers are compatible with all formats.
 
-<!--wodoc:@ class=server-->
 ```ocaml
 module React_Player_app =
   Eliom.Registration.App
@@ -157,13 +149,12 @@ let () =
 ```
 Now you should have an ΗΤΜL node with an audio tag, and two buttons: play and pause. The progress bar is slightly harder to understand, but thanks to FRP, very easy to write. It's basically an `input` with `range` type. In our program, the progress bar must emit the signal `media_s` with the value `Seek f` at input handling. Then, it must evolve during media playback, for which we need another signal. To conclude, we must check that the display (the value) of the progress bar is not modified when the user is seeking.
 
-<!--wodoc:@ class=client-->
 ```ocaml
 let%client progress_s, set_progress_s = React.S.create (0., 0.)
 
 let%client unblock_s, set_unblock_s = React.S.create true
 ```
-<!--wodoc:@ class=server-->
+
 ```ocaml
 let progress_bar () =
   let progress_value =
@@ -200,14 +191,12 @@ let progress_bar () =
   ] in
   d_input
 ```
-<!--wodoc:aside class="concept"-->**Concept: Reactive attributes and React.S.on**
+**Concept: Reactive attributes and React.S.on**
 
 The function `R.a_value` (under `Eliom.Content.Html`) is a reactive attribute value. `React.S.on c d s` is equal to `s` when `c` is true, otherwise it is equal to `d` (in case `c` has never been true). Which means we update the attribute value of our input only if unblock is true.
 
-<!--wodoc:end-->
 To end this tutorial, you can add a `progress_bar ()` call inside the div containing play and pause. We also need a mechanism which emits the `progress_s` signal. We modify the media tag with an eventhandler on `timeupdate`.
 
-<!--wodoc:@ class=server-->
 ```ocaml
 let media_tag () =
   let media = D.(audio ~src:media_uri [txt "alt"]) in

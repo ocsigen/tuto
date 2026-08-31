@@ -1,4 +1,3 @@
-
 # How to send a file (upload)?
 
 To upload a file, use `Eliom.Parameter.file` as service parameter type.

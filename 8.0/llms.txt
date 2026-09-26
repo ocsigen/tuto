@@ -1,6 +1,6 @@
 # Doc
 
-> Doc — part of the Ocsigen Web framework (OCaml).
+> Doc, part of the Ocsigen Web framework (OCaml).
 
 ## Manual
 - [Introduction](intro.md)

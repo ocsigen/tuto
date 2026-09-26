@@ -46,11 +46,13 @@ versions** and publishes the whole site to the project's **`gh-pages`** branch
 (served at `ocsigen.org/tuto/`), triggered on every push to `master`:
 
 - builds `8.0/` and `dev/`, each with a `index.html` redirect to its first page;
-- symlinks `latest` → `8.0` and writes the root `index.html` redirect to `latest`;
-- writes `versions.json` (`{"latest":"8.0","list":["dev","8.0"]}`) for the in-page
-  version selector, and `.nojekyll`.
+- builds `8.0/` with `--latest`, so that wodoc symlinks `latest` → `8.0` and
+  writes the project-root files: the `index.html` redirect to `latest`, the
+  `404.html` that sends a missing page to the index of its version, and
+  `versions.json` for the in-page version selector (the `dev` build refreshes it);
+- writes `.nojekyll`.
 
 The deploy uses `clean: true`, so each run **replaces the entire `gh-pages`
 tree** — the published site is exactly what the latest `master` builds. To add or
 retire a tutorial version, add/remove its `tutos/<v>/manual/` directory and update
-the `for v in …` list (and `versions.json`) in the workflow.
+the `for v in …` list in the workflow (and the version that gets `--latest`).

@@ -59,24 +59,25 @@ jobs:
           opam install wodoc odoc
 
       - name: Build documentation (8.0 + dev)
+        # 8.0 is the latest version: with --latest, wodoc writes the `latest`
+        # symlink and the project-root files (the index.html redirect to latest/,
+        # the 404.html that sends a missing page to its version's index, and
+        # versions.json, which drives the in-page version <select> and which the
+        # dev build refreshes). .nojekyll so GitHub Pages serves the odoc output
+        # verbatim (underscored dirs, no Jekyll build).
         run: |
           for v in 8.0 dev; do
+            latest=
+            if [ "$v" = 8.0 ]; then latest=--latest; fi
             opam exec -- wodoc build --config doc/wodoc \
               --menu https://ocsigen.org/doc/menu.html \
               --out "$PWD/_doc-site/$v" --label "$v" \
               --mld-dir "tutos/$v/manual" --nav "tutos/$v/manual/nav" \
-              --strict-refs
+              --strict-refs $latest
             # manual-only: the version landing redirects to the first page (intro)
             printf '<!DOCTYPE html><meta http-equiv="refresh" content="0; url=intro.html">\n' \
               > "_doc-site/$v/index.html"
           done
-          ln -sfn 8.0 _doc-site/latest
-          printf '<!DOCTYPE html><meta http-equiv="refresh" content="0; url=latest/index.html">\n' \
-            > _doc-site/index.html
-          # versions.json drives the in-page version <select> (same mechanism as
-          # the other Ocsigen projects); .nojekyll so GitHub Pages serves the odoc
-          # output verbatim (underscored dirs, no Jekyll build).
-          printf '{"latest":"8.0","list":["dev","8.0"]}\n' > _doc-site/versions.json
           touch _doc-site/.nojekyll
 
       - name: Deploy to gh-pages

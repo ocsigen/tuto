@@ -36,7 +36,7 @@ Raw.select [option (txt "hello");
 {2 Links}
 
 - {{!page-"how-to-write-forms"}How to write forms}
-- {{!/eliom/page-"server-links"}Eliom forms and links}
+- {{!/eliom/server/services/page-links}Eliom forms and links}
 - API
   {!Eliom.Content.Html.D.Form}
 - signature {!Html_sigs.T} (Element attributes)

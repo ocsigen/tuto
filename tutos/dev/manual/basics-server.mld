@@ -491,7 +491,7 @@ above, plus one POST parameter of type string, named "mypostparam".
 {1 Eliom: Other kinds of services}
 {%wodoc:end%}
 
-The detailed explanation of services can be found in {{!/eliom/page-"server-services"}Eliom's manual}. Here is a summary:
+The detailed explanation of services can be found in {{!/eliom/server/services/page-types}Eliom's manual}. Here is a summary:
 
 {2 Pathless services}
 
@@ -517,7 +517,7 @@ let pathless_service =
 ]}
 
 More information
-{{:https://ocsigen.org/eliom/latest/server-services.html#pathless}in the manual}.
+{{!/eliom/server/services/page-types.pathless}in the manual}.
 
 {2 Attached services}
 It is also possible to create services identified by both a path and a
@@ -542,7 +542,7 @@ to create links towards static files (see example below for images).
 
 Use service {!Eliom.Service.reload_action} and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call {!Os.Lib.reload} to reload the page and restart the client-side program.
 
-{{!/eliom/page-"server-services"}Full documentation about services}, {{!page-interaction}a tutorial about traditional service based Web programming}, API documentation of modules {!Eliom.Service} and {!Eliom.Registration}.
+{{!/eliom/server/services/page-types}Full documentation about services}, {{!page-interaction}a tutorial about traditional service based Web programming}, API documentation of modules {!Eliom.Service} and {!Eliom.Registration}.
 
 This example shows how to insert an image using [static_dir]:
 {@ocaml[img

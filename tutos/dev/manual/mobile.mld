@@ -23,7 +23,7 @@ template's [README.md].
 
 You need to follow a certain programming style for your Eliom code to
 work flawlessly inside an Ocsigen-start mobile app. This style is
-described in the {{!/eliom/page-"clientserver-services"}chapter on
+described in the {{!/eliom/clientserver/page-services}chapter on
 client services} from the Eliom manual. The idea is that you
 implement as much of your application as possible in shared sections
 ([[%%shared ...]] or [let%shared ... = ...]), and that you

@@ -329,7 +329,7 @@ let pathless_service =
 ]}
 
 More information
-{{:https://ocsigen.org/eliom/latest/server-services.html#pathless}in the manual}.
+{{!/eliom/server/services/page-types.pathless}in the manual}.
 
 {2 External services}
 Use {!Eliom.Service.extern} to create
@@ -341,7 +341,7 @@ to create links towards static files (see example below for images).
 
 Use service {!Eliom.Service.reload_action} and its variants to create links or forms towards the current URL (reload the page). From a client section, you can also call {!Os.Lib.reload} to reload the page and restart the client-side program.
 
-{{!/eliom/page-"server-services"}Full documentation about services}, {{!page-interaction}a tutorial about traditional service based Web programming}, API documentation of modules {!Eliom.Service} and {!Eliom.Registration}.
+{{!/eliom/server/services/page-types}Full documentation about services}, {{!page-interaction}a tutorial about traditional service based Web programming}, API documentation of modules {!Eliom.Service} and {!Eliom.Registration}.
 
 This example shows how to insert an image using [static_dir]:
 {@ocaml[img
@@ -628,7 +628,7 @@ an element (and more generally if you need to inject this element using [~%]).
 
 
 Read more about [Eliom.Content.Html] (D or F?) in
-{{!/eliom/page-"clientserver-html"}this manual page}.
+{{!/eliom/clientserver/page-html}this manual page}.
 
 {%wodoc:end%}
 

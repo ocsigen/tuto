@@ -381,7 +381,7 @@ let pathless_service =
     ~meth:(Eliom.Service.Get (Eliom.Parameter.(int "i")))
     ()
 ```
-More information [in the manual](https://ocsigen.org/eliom/latest/server-services.html#pathless).
+More information `in the manual`.
 
 ### Attached services
 

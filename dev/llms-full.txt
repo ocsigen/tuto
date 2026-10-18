@@ -298,7 +298,7 @@ let pathless_service =
     ~meth:(Eliom.Service.Get (Eliom.Parameter.(int "i")))
     ()
 ```
-More information [in the manual](https://ocsigen.org/eliom/latest/server-services.html#pathless).
+More information `in the manual`.
 
 ### External services
 
@@ -1376,7 +1376,7 @@ let pathless_service =
     ~meth:(Eliom.Service.Get (Eliom.Parameter.(int "i")))
     ()
 ```
-More information [in the manual](https://ocsigen.org/eliom/latest/server-services.html#pathless).
+More information `in the manual`.
 
 ### Attached services
 
@@ -1904,7 +1904,7 @@ Here, we are increasing the reference `count` each time the page is accessed. Wh
 
 **Concept: Injections: Using server side values in client code**
 
-Client side code can reference copies of server side values using the `~%variable` syntax. Values sent that way are weakly type checked: the name of the client side type must match the server side one. If you define a type and want it to be available on both sides, declare it in `[%%shared ... ]`. The Eliom manual provides more information on the `Eliom's syntax extension` and its [compilation process](https://ocsigen.org/eliom/latest/workflow-configuration.html#compilation).
+Client side code can reference copies of server side values using the `~%variable` syntax. Values sent that way are weakly type checked: the name of the client side type must match the server side one. If you define a type and want it to be available on both sides, declare it in `[%%shared ... ]`. The Eliom manual provides more information on the `Eliom's syntax extension` and its `compilation process`.
 
 The value of an injection into a `let%client` section is sent only once when starting the application in the browser. In contrast, the values of injections into client values which are created during a request are sent alongside the next response.
 
@@ -2729,7 +2729,7 @@ let%server _ = Eliom.Content.Html.D.(
 
 ### Calling server functions
 
-An important feature missing from this tutorial is the ability to call server functions from the client-side program ("server functions"). You can find a quick description of this in [this mini HOWTO](./how-to-call-a-server-side-function-from-client-side.md) or in [Eliom's manual](https://ocsigen.org/eliom/latest/clientserver-communication.html#rpc).
+An important feature missing from this tutorial is the ability to call server functions from the client-side program ("server functions"). You can find a quick description of this in [this mini HOWTO](./how-to-call-a-server-side-function-from-client-side.md) or in `Eliom's manual`.
 
 ### Services
 
@@ -3669,7 +3669,7 @@ The user pages are now available at URLs http://localhost:8080/users/*username*.
 
 The module `Eliom.Parameter` makes it possible to use parts of the path as service (GET) parameters.
 
-In addition to `Eliom.Parameter.suffix`, there are many other values allowing you to specify your expected parameters: for example, you may access the full suffix as a string, as a list of string, or you may want to mix suffix parameters with standard GET parameters. You can also accept, as parameters, parts of the path that are not a suffix of the path (using `Eliom.Parameter.const`). See more information on suffixes in [Eliom's manual](https://ocsigen.org/eliom/latest/server-params.html#suffixes).
+In addition to `Eliom.Parameter.suffix`, there are many other values allowing you to specify your expected parameters: for example, you may access the full suffix as a string, as a list of string, or you may want to mix suffix parameters with standard GET parameters. You can also accept, as parameters, parts of the path that are not a suffix of the path (using `Eliom.Parameter.const`). See more information on suffixes in `Eliom's manual`.
 
 *Warning:* Even if it is not displayed in the URL, suffix parameters have a parameter name. This allows one to make forms that point to those kind of services. Actually each "suffix service" has an equivalent without suffix (which is by default automatically redirected towards the suffix version if it is a GET request).
 
@@ -4059,7 +4059,7 @@ let () =
   ~service:service_to_redirect
   (fun () something -> ..... )
 ```
-(If you want to give parameters to the service you return, use `Eliom.Service.preapply` \--- more information in the [Eliom manual](https://ocsigen.org/eliom/latest/server-services.html#p3preapplied).)
+(If you want to give parameters to the service you return, use `Eliom.Service.preapply` \--- more information in the `Eliom manual`.)
 
 If you want to do a redirection towards the current page (as in our case), use the special service `~path` parameter `Eliom.Service.No_path`, which is some kind of POST non-attached coservice without parameter at all.
 
@@ -6793,7 +6793,7 @@ The function **img** has 3 parameters:
 - unit
 For an internal image, the file path is generated using the **make\_uri** function. This function creates the relative URL string using the static directory configured in the configuration file and the given list.
 
-For an external image, you must convert the string url into uri using the **uri\_of\_string** function. You can also create an [external service](https://ocsigen.org/eliom/latest/server-services.html#unregistrable_services).
+For an external image, you must convert the string url into uri using the **uri\_of\_string** function. You can also create an `external service`.
 
 ### Download full code
 
@@ -7167,7 +7167,7 @@ Void coservices are here for that:
 a ~service:Eliom.Service.reload_action
   [txt "Click to reload"] ();
 ```
-More information in [Eliom's manual](https://ocsigen.org/eliom/latest/server-services.html#void), and API documentation of `Eliom.Service.reload_action`.
+More information in `Eliom's manual`, and API documentation of `Eliom.Service.reload_action`.
 
 
 ---
@@ -7759,7 +7759,7 @@ The Macaque library allows easy manipulation of Postgresql database fully compat
 
 Macaque is fuly compatible with PGOcaml, and both can be used in the same application. PGOcaml requires database access at compile time and makes difficult to generate queries at compile time. Macaque uses its own syntax, whereas PGOcaml uses SQL. Macaque supports only a small subset of Postgresql features.
 
-Warning: Macaque's syntax extension uses camlp4, which is not compatible with ppx. If you want to use macaque with Eliom's ppx, place your macaque code in an isolated file. Some details can be found in `the ppx migration guide`.
+Warning: Macaque's syntax extension uses camlp4, which is not compatible with ppx. If you want to use macaque with Eliom's ppx, place your macaque code in an isolated file.
 
 This tutorial shows how to store the login and the password f users in a Postgresql database. For more information on how to set up and run it, see [Postgresql manual](http://www.postgresql.org/docs/9.0/static/index.html).
 

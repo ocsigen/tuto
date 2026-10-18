@@ -6,4 +6,4 @@ Void coservices are here for that:
 a ~service:Eliom.Service.reload_action
   [txt "Click to reload"] ();
 ```
-More information in [Eliom's manual](https://ocsigen.org/eliom/latest/server-services.html#void), and API documentation of `Eliom.Service.reload_action`.
+More information in `Eliom's manual`, and API documentation of `Eliom.Service.reload_action`.

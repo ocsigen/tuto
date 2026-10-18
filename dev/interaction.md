@@ -103,7 +103,7 @@ The user pages are now available at URLs http://localhost:8080/users/*username*.
 
 The module `Eliom.Parameter` makes it possible to use parts of the path as service (GET) parameters.
 
-In addition to `Eliom.Parameter.suffix`, there are many other values allowing you to specify your expected parameters: for example, you may access the full suffix as a string, as a list of string, or you may want to mix suffix parameters with standard GET parameters. You can also accept, as parameters, parts of the path that are not a suffix of the path (using `Eliom.Parameter.const`). See more information on suffixes in [Eliom's manual](https://ocsigen.org/eliom/latest/server-params.html#suffixes).
+In addition to `Eliom.Parameter.suffix`, there are many other values allowing you to specify your expected parameters: for example, you may access the full suffix as a string, as a list of string, or you may want to mix suffix parameters with standard GET parameters. You can also accept, as parameters, parts of the path that are not a suffix of the path (using `Eliom.Parameter.const`). See more information on suffixes in `Eliom's manual`.
 
 *Warning:* Even if it is not displayed in the URL, suffix parameters have a parameter name. This allows one to make forms that point to those kind of services. Actually each "suffix service" has an equivalent without suffix (which is by default automatically redirected towards the suffix version if it is a GET request).
 
@@ -493,7 +493,7 @@ let () =
   ~service:service_to_redirect
   (fun () something -> ..... )
 ```
-(If you want to give parameters to the service you return, use `Eliom.Service.preapply` \--- more information in the [Eliom manual](https://ocsigen.org/eliom/latest/server-services.html#p3preapplied).)
+(If you want to give parameters to the service you return, use `Eliom.Service.preapply` \--- more information in the `Eliom manual`.)
 
 If you want to do a redirection towards the current page (as in our case), use the special service `~path` parameter `Eliom.Service.No_path`, which is some kind of POST non-attached coservice without parameter at all.
 

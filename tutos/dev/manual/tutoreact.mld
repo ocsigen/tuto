@@ -39,7 +39,7 @@ you can create the local database and start the database server:
 {v
 make db-init
 make db-create
-make db-schema
+make db-update
 v}
 
 Compile and run the program:

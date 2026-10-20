@@ -20,7 +20,7 @@ running examples of all these concepts (see {{!page-start}that page}).
 opam install ocsigen-start
 eliom-distillery -name myapp -template os
 cd myapp
-make db-init && make db-create && make db-schema
+make db-init && make db-create && make db-update
 make test.byte
 v}
 Then open [http://localhost:8080]. {%html:<br/>%}

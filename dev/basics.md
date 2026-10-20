@@ -14,7 +14,7 @@ In parallel to the reading of that page, we recommend to generate your first `Oc
 opam install ocsigen-start
 eliom-distillery -name myapp -template os
 cd myapp
-make db-init && make db-create && make db-schema
+make db-init && make db-create && make db-update
 make test.byte
 ```
 Then open `http://localhost:8080`. <br/> Requires `postgresql` and `sass` (or `sassc`). Read the [detailed instructions](./start.md) if needed.

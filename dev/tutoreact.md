@@ -22,7 +22,7 @@ This template is using PostgreSQL to store the data. You need a recent version o
 ```
 make db-init
 make db-create
-make db-schema
+make db-update
 ```
 Compile and run the program:
 

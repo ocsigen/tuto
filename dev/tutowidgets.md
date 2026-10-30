@@ -307,7 +307,7 @@ let%server _ = Eliom.Content.Html.D.(
 
 ### Calling server functions
 
-An important feature missing from this tutorial is the ability to call server functions from the client-side program ("server functions"). You can find a quick description of this in [this mini HOWTO](./how-to-call-a-server-side-function-from-client-side.md) or in `Eliom's manual`.
+An important feature missing from this tutorial is the ability to call server functions from the client-side program ("server functions"). You can find a quick description of this in [this answer](./faq.md#rpc) or in `Eliom's manual`.
 
 ### Services
 

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>How do I…? Questions and answers — Doc</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="stylesheet" href="/css/ocsigen-odoc.css"/>
+  <link rel="alternate" type="text/markdown" href="./faq.md"/>
+  <script src="./highlight.pack.js"></script>
+  <script src="./wodoc-highlight.js"></script>
+</head>
+<body class="wodoc-page wodoc-doc wodoc-project-tuto">
+  <!-- Shared site menu — THE single source of truth for the header, top menu and
+     drawer of EVERY Ocsigen doc page (vitrine + all projects). Canonical copy
+     lives here in ocsigen.github.io; each project's build fetches it. Injected
+     by `wodoc assemble --menu`. Holes filled by the tool (braces omitted here so
+     this comment is not itself rewritten by the hole-filler):
+       subproject  the sub-project name shown next to the Ocsigen logo
+                   (empty on the vitrine), via --subproject
+       leftnav     the project's left navigation, expanded into BOTH the mobile
+                   drawer (below) and the left column (in the page template),
+                   via --leftnav
+     The current entry is highlighted by adding the `current` class to the
+     element carrying data-wodoc-page=<id>: --current on the vitrine (page id),
+     --menu-current in a project (the project id). Nothing is hardcoded here, so
+     this file is the ONLY place the menu is defined.
+
+     Links are the FINAL site paths (/<project>/, /<page>): the target layout
+     where each project is served at ocsigen.org/<project>/ — no transitional
+     /wodoc/ prefix. -->
+<div class="page-header">
+  <p class="logo-ocsigen"><a href="/"><img src="/img/ocsigen-white.svg" alt="Ocsigen"/></a></p>
+  <p class="logo-subproject">Doc</p>
+
+  <div class="mainmenu">
+    <p class="mainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></p>
+    <p class="mainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></p>
+    <p class="mainmenu-blog" data-wodoc-page="blog"><a href="/blog/">Blog</a></p>
+    <p data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></p>
+    <p data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></p>
+    <p data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></p>
+    <p data-wodoc-page="lwt"><a href="/lwt/">Lwt</a></p>
+    <p data-wodoc-page="tyxml"><a href="/tyxml/">Tyxml</a></p>
+    <p data-wodoc-page="ocsigen-start"><a href="/ocsigen-start/">Start</a></p>
+  </div>
+
+  <form id="googlesearch" action="https://google.com/search">
+    <input name="q" id="gsearch-box" placeholder="Search using Google"/>
+    <label for="gsearch-box"><img src="/img/search.svg" alt="" id="gsearch-icon"/></label>
+    <input type="submit" id="gsearch-submit" onclick="document.getElementById('gsearch-box').value += ' site:ocsigen.org';"/>
+  </form>
+
+  <aside class="how-drawer">
+    <input id="how-drawer-toggle" type="checkbox"/>
+    <label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label>
+    <nav class="how-drawer-content">
+      <ul class="drawermainmenu">
+        <li class="drawermainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></li>
+        <li class="drawermainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="lwt"><a href="/lwt/">Lwt</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="tyxml"><a href="/tyxml/">Tyxml</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-toolkit"><a href="/ocsigen-toolkit/">Toolkit</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-start"><a href="/ocsigen-start/">Start</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsipersist"><a href="/ocsipersist/">Ocsipersist</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="reactiveData"><a href="/reactiveData/">ReactiveData</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-i18n"><a href="/ocsigen-i18n/">i18n</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="wodoc"><a href="/wodoc/">Wodoc</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="projects"><a href="/projects">Other projects</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="papers"><a href="/papers">Research papers</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="credits"><a href="/credits">Who does Ocsigen?</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="contributing"><a href="/contributing">Contributing</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog/">Blog</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="install"><a href="/install">Installation</a></li>
+        <li class="drawermainmenu-page"><a href="https://github.com/ocsigen">Source code</a></li>
+      </ul>
+      <!-- On mobile the left column is hidden; its menu lives here in the burger
+           (.how-doctree, shown only on narrow screens), as the old site did.
+           Empty on the vitrine; the leftnav hole is filled (with the same
+           fragment as the left column) only on project pages. -->
+      <nav class="how-doctree"><div class="docversion">
+  <label>Version:
+    <select class="wodoc-version" onchange="wodocVersion(this.value)">
+      <option value="dev">dev</option>
+      <option value="latest">8.0 (latest)</option>
+    </select>
+  </label>
+</div>
+<div class="page-toc">
+  <h3>On this page</h3>
+  <nav class="odoc-toc odoc-local-toc"><ul><li><a href="#start">Getting started</a><ul><li><a href="#first_app">How do I create my first application?</a></li><li><a href="#compile">How do I compile and run it?</a></li><li><a href="#server">How do I configure and launch Ocsigen Server?</a></li></ul></li><li><a href="#html">Pages and HTML</a><ul><li><a href="#write_html">How do I write HTML?</a></li><li><a href="#skeleton">How do I share the same layout between pages?</a></li><li><a href="#css">How do I add a stylesheet, a script or a favicon?</a></li><li><a href="#static">How do I link to an image (or another static file)?</a></li></ul></li><li><a href="#services">Services, links and forms</a><ul><li><a href="#parameters">How do I take parameters from the URL?</a></li><li><a href="#links">How do I make links?</a></li><li><a href="#forms">How do I write a form?</a></li><li><a href="#catch_all">How do I write a service that answers any path, takes any parameter and returns anything?</a></li><li><a href="#choose">How do I send a page or a file, depending on the request?</a></li><li><a href="#status">How do I set the HTTP status code (404...)?</a></li><li><a href="#json">How do I write a JSON service?</a></li><li><a href="#wizard">How do I make a sequence of forms (a wizard)?</a></li></ul></li><li><a href="#files">Files and images</a><ul><li><a href="#upload">How do I upload a file?</a></li><li><a href="#upload_image">How do I upload an image, with cropping?</a></li></ul></li><li><a href="#clientserver">Client and server</a><ul><li><a href="#rpc">How do I call a server function from the client?</a></li><li><a href="#client_code">How do I run client-side code from server-side code?</a></li><li><a href="#custom_data">How do I attach OCaml values to HTML nodes?</a></li><li><a href="#notifications">How do I send notifications from the server to the clients?</a></li><li><a href="#disconnection">How do I know that the connection to the server is lost?</a></li></ul></li><li><a href="#users">Users and sessions</a><ul><li><a href="#session_data">How do I store data for one user?</a></li><li><a href="#iterate">How do I iterate over all the sessions or tabs of a user?</a></li><li><a href="#connected">How do I restrict a page to connected users?</a></li><li><a href="#passwords">How do I store passwords?</a></li><li><a href="#random">How do I create a secret, unguessable identifier?</a></li></ul></li><li><a href="#jsoo">Js_of_ocaml</a><ul><li><a href="#events">How do I react to events?</a></li><li><a href="#js_objects">How do I create a JavaScript object, or call OCaml from JavaScript?</a></li><li><a href="#load_script">How do I load a JavaScript library?</a></li></ul></li><li><a href="#more">Going further</a><ul><li><a href="#database">How do I use a database?</a></li><li><a href="#email">How do I send an email?</a></li><li><a href="#i18n">How do I translate my application?</a></li><li><a href="#mobile">How do I make a mobile application?</a></li><li><a href="#logs">How do I write logs?</a></li></ul></li></ul></nav>
+</div>
+<nav class="api-nav manual-nav">
+<h3>Programmer&#x27;s guide</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="intro.html"><a href="./intro.html">Introduction. Ocsigen: where to start?</a></li>
+<li class="ml3" data-wodoc-page="basics.html"><a href="./basics.html">Client-server application programming guide</a></li>
+<li class="ml3" data-wodoc-page="basics-server.html"><a href="./basics-server.html">Server-side website programming guide</a></li>
+</ul>
+<h3>Main tutorials</h3>
+<ul class="api-section">
+<li class="ml3"><a href="/install">Install Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="start.html"><a href="./start.html">Your first app in 5 minutes</a></li>
+<li class="ml3"><a href="/talks/tutochat.html">Interactive tutorial: Writing a chat app</a></li>
+<li class="ml3" data-wodoc-page="application.html"><a href="./application.html">Client/server application: Graffiti</a></li>
+<li class="ml3" data-wodoc-page="tutowidgets.html"><a href="./tutowidgets.html">Eliom apps basics: writing client-server widgets</a></li>
+<li class="ml3" data-wodoc-page="how-to-register-session-data.html"><a href="./how-to-register-session-data.html">Session data: Eliom references</a></li>
+<li class="ml3" data-wodoc-page="tutoreact.html"><a href="./tutoreact.html">Reactive client-server Web applications</a></li>
+<li class="ml3" data-wodoc-page="interaction.html"><a href="./interaction.html">Service based Web programming</a></li>
+<li class="ml3" data-wodoc-page="misc.html"><a href="./misc.html">Mixing traditional Web interaction with client-server app</a></li>
+</ul>
+<h3>5-minute tutorials</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="lwt.html"><a href="./lwt.html">Lwt</a></li>
+<li class="ml3" data-wodoc-page="html.html"><a href="./html.html">HTML</a></li>
+</ul>
+<h3>Migration</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="migration.html"><a href="./migration.html">Migrating to new module names (compat packages)</a></li>
+</ul>
+<h3>Other tutorials: Miscellanous features</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
+<li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
+<li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
+</ul>
+<h3>Improving Graffiti</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
+<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
+<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
+</ul>
+<h3>HOW-TO</h3>
+<ul class="api-section">
+<li class="ml3 current" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
+</ul>
+</nav>
+</nav>
+    </nav>
+  </aside>
+</div>
+
+
+  <div class="project-page">
+    <div class="twocols">
+      <nav class="leftcol">
+        <div class="docversion">
+  <label>Version:
+    <select class="wodoc-version" onchange="wodocVersion(this.value)">
+      <option value="dev">dev</option>
+      <option value="latest">8.0 (latest)</option>
+    </select>
+  </label>
+</div>
+<div class="page-toc">
+  <h3>On this page</h3>
+  <nav class="odoc-toc odoc-local-toc"><ul><li><a href="#start">Getting started</a><ul><li><a href="#first_app">How do I create my first application?</a></li><li><a href="#compile">How do I compile and run it?</a></li><li><a href="#server">How do I configure and launch Ocsigen Server?</a></li></ul></li><li><a href="#html">Pages and HTML</a><ul><li><a href="#write_html">How do I write HTML?</a></li><li><a href="#skeleton">How do I share the same layout between pages?</a></li><li><a href="#css">How do I add a stylesheet, a script or a favicon?</a></li><li><a href="#static">How do I link to an image (or another static file)?</a></li></ul></li><li><a href="#services">Services, links and forms</a><ul><li><a href="#parameters">How do I take parameters from the URL?</a></li><li><a href="#links">How do I make links?</a></li><li><a href="#forms">How do I write a form?</a></li><li><a href="#catch_all">How do I write a service that answers any path, takes any parameter and returns anything?</a></li><li><a href="#choose">How do I send a page or a file, depending on the request?</a></li><li><a href="#status">How do I set the HTTP status code (404...)?</a></li><li><a href="#json">How do I write a JSON service?</a></li><li><a href="#wizard">How do I make a sequence of forms (a wizard)?</a></li></ul></li><li><a href="#files">Files and images</a><ul><li><a href="#upload">How do I upload a file?</a></li><li><a href="#upload_image">How do I upload an image, with cropping?</a></li></ul></li><li><a href="#clientserver">Client and server</a><ul><li><a href="#rpc">How do I call a server function from the client?</a></li><li><a href="#client_code">How do I run client-side code from server-side code?</a></li><li><a href="#custom_data">How do I attach OCaml values to HTML nodes?</a></li><li><a href="#notifications">How do I send notifications from the server to the clients?</a></li><li><a href="#disconnection">How do I know that the connection to the server is lost?</a></li></ul></li><li><a href="#users">Users and sessions</a><ul><li><a href="#session_data">How do I store data for one user?</a></li><li><a href="#iterate">How do I iterate over all the sessions or tabs of a user?</a></li><li><a href="#connected">How do I restrict a page to connected users?</a></li><li><a href="#passwords">How do I store passwords?</a></li><li><a href="#random">How do I create a secret, unguessable identifier?</a></li></ul></li><li><a href="#jsoo">Js_of_ocaml</a><ul><li><a href="#events">How do I react to events?</a></li><li><a href="#js_objects">How do I create a JavaScript object, or call OCaml from JavaScript?</a></li><li><a href="#load_script">How do I load a JavaScript library?</a></li></ul></li><li><a href="#more">Going further</a><ul><li><a href="#database">How do I use a database?</a></li><li><a href="#email">How do I send an email?</a></li><li><a href="#i18n">How do I translate my application?</a></li><li><a href="#mobile">How do I make a mobile application?</a></li><li><a href="#logs">How do I write logs?</a></li></ul></li></ul></nav>
+</div>
+<nav class="api-nav manual-nav">
+<h3>Programmer&#x27;s guide</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="intro.html"><a href="./intro.html">Introduction. Ocsigen: where to start?</a></li>
+<li class="ml3" data-wodoc-page="basics.html"><a href="./basics.html">Client-server application programming guide</a></li>
+<li class="ml3" data-wodoc-page="basics-server.html"><a href="./basics-server.html">Server-side website programming guide</a></li>
+</ul>
+<h3>Main tutorials</h3>
+<ul class="api-section">
+<li class="ml3"><a href="/install">Install Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="start.html"><a href="./start.html">Your first app in 5 minutes</a></li>
+<li class="ml3"><a href="/talks/tutochat.html">Interactive tutorial: Writing a chat app</a></li>
+<li class="ml3" data-wodoc-page="application.html"><a href="./application.html">Client/server application: Graffiti</a></li>
+<li class="ml3" data-wodoc-page="tutowidgets.html"><a href="./tutowidgets.html">Eliom apps basics: writing client-server widgets</a></li>
+<li class="ml3" data-wodoc-page="how-to-register-session-data.html"><a href="./how-to-register-session-data.html">Session data: Eliom references</a></li>
+<li class="ml3" data-wodoc-page="tutoreact.html"><a href="./tutoreact.html">Reactive client-server Web applications</a></li>
+<li class="ml3" data-wodoc-page="interaction.html"><a href="./interaction.html">Service based Web programming</a></li>
+<li class="ml3" data-wodoc-page="misc.html"><a href="./misc.html">Mixing traditional Web interaction with client-server app</a></li>
+</ul>
+<h3>5-minute tutorials</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="lwt.html"><a href="./lwt.html">Lwt</a></li>
+<li class="ml3" data-wodoc-page="html.html"><a href="./html.html">HTML</a></li>
+</ul>
+<h3>Migration</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="migration.html"><a href="./migration.html">Migrating to new module names (compat packages)</a></li>
+</ul>
+<h3>Other tutorials: Miscellanous features</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
+<li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
+<li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
+</ul>
+<h3>Improving Graffiti</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
+<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
+<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
+</ul>
+<h3>HOW-TO</h3>
+<ul class="api-section">
+<li class="ml3 current" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
+</ul>
+</nav>
+
+      </nav>
+      <article class="rightcol">
+        
+        <h1 id="how-do-i…?-questions-and-answers">How do I…? Questions and answers</h1><p>Short answers to frequent questions, with a code example and links to the manuals. The examples are client-server Eliom code (in <code>.eliom</code> files). They assume:</p><pre class="language-ocaml"><code>open%shared Eliom.Content.Html.F</code></pre><p>and use the Lwt syntax extension (<code>let%lwt</code>, see <a href="lwt.html" title="lwt">Lwt in 5 minutes</a>). Answers mentioning <code>Os</code> or <code>Ot</code> use <a href="./../../ocsigen-start/dev/index.html">Ocsigen Start</a> and <a href="./../../ocsigen-toolkit/dev/index.html">Ocsigen Toolkit</a>. Module names are those of Eliom 13 and later (<code>Eliom.Service</code> rather than <code>Eliom_service</code>, see <a href="migration.html" title="migration">the migration guide</a>).</p><p>Pages are registered with the module <code>App</code> of the application, made by <code>Eliom.Registration.App</code>: it is in <code>myapp.eliom</code> with the <code>app</code> template, and is <code>Myapp_base.App</code> with the <code>os</code> template. Do not use <code>Eliom.Registration.Html</code> for the pages of a client-server application: it sends them without the client-side program, so their client-side code does not run, and links towards them leave the application.</p>
+<h2 id="start">Getting started</h2><h3 id="first_app">How do I create my first application?</h3><p>Generate it with <code>eliom-distillery</code>:</p><pre class="language-sh"><code>eliom-distillery -name myapp -template os   # Ocsigen Start: users, database, mobile app
+eliom-distillery -name myapp -template app  # Eliom only, a smaller start</code></pre><p>The <code>os</code> template shows an example of almost every feature of Ocsigen (see <a href="start.html" title="start">Your first app in 5 minutes</a>). Then follow the <code>README.md</code> of the generated project. A page is produced by a <em>service</em>, registered with a handler:</p><pre class="language-ocaml"><code>let%server hello =
+  App.create
+    ~path:(Eliom.Service.Path [&quot;hello&quot;])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
+    (fun () () -&gt;
+       Lwt.return
+         (html
+            (head (title (txt &quot;Hello&quot;)) [])
+            (body [h1 [txt &quot;Hello, world!&quot;]])))</code></pre><p>To understand how an application is organised, read the <a href="basics.html" title="basics">client-server application programming guide</a>, or the <a href="basics-server.html" title="basics-server">server-side website programming guide</a> if you do not need client-side code.</p><h3 id="compile">How do I compile and run it?</h3><p>The generated projects build with dune. The <code>app</code> template runs with <code>dune build</code> then <code>dune exec myapp</code>; the <code>os</code> template with <code>make db-init db-create db-update</code> (once) then <code>make test.byte</code>. Details are in the <code>README.md</code> of the project and in the <a href="./../../eliom/dev/workflow/distillery.html">distillery manual</a>.</p><p>The client-side code is compiled to JavaScript, and to WebAssembly if you call <code>Eliom.Config.set_enable_wasm true</code> (the templates do): the server then sends the WebAssembly version to the browsers that support it.</p><h3 id="server">How do I configure and launch Ocsigen Server?</h3><p>Two ways, both generated by the templates:</p><ul><li>with a configuration file: <code>ocsigenserver -c myapp.conf</code> (see the <a href="./../../ocsigenserver/dev/config.html">configuration file documentation</a>);</li><li>as a library: your executable calls <code>Ocsigen.Server.start</code> with the options and the extensions to load (see <a href="./../../eliom/dev/workflow/configuration.html#no_config_file">this section of Eliom&#x27;s manual</a>).</li></ul><h2 id="html">Pages and HTML</h2><h3 id="write_html">How do I write HTML?</h3><p>One OCaml function per element. The content is a list, and attributes go in the optional <code>~a</code> argument. The compiler checks that the HTML is valid:</p><pre class="language-ocaml"><code>let%shared fruits =
+  div
+    ~a:[a_class [&quot;card&quot;]; a_id &quot;fruits&quot;]
+    [ h2 [txt &quot;Fruits&quot;]
+    ; p [txt &quot;Some &quot;; em [txt &quot;fresh&quot;]; txt &quot; fruits:&quot;]
+    ; ul [li [txt &quot;Banana&quot;]; li [txt &quot;Kiwi&quot;]]
+    ; Raw.select
+        [option (txt &quot;Small&quot;); option ~a:[a_selected ()] (txt &quot;Large&quot;)] ]</code></pre><p>Form elements towards a service are typed and come from module <code>Form</code> (see <a href="#forms" title="forms">below</a>). Their <code>Raw</code> versions are plain HTML elements, for instance for a form handled by client-side code. <code>F</code> creates functional nodes and <code>D</code> nodes that the client-side code can refer to. Everything is explained in <a href="html.html" title="html">HTML in 5 minutes</a>. The element functions are those of <a href="./../../tyxml/dev/tyxml/index.html">TyXML</a>.</p><h3 id="skeleton">How do I share the same layout between pages?</h3><p>Write a function that builds the page around its content:</p><pre class="language-ocaml"><code>let%shared static path = make_uri ~service:(Eliom.Service.static_dir ()) path
+
+let%shared skeleton ~title:t content =
+  html
+    (head
+       (title (txt t))
+       [ css_link ~uri:(static [&quot;css&quot;; &quot;app.css&quot;]) ()
+       ; js_script ~uri:(static [&quot;js&quot;; &quot;chart.js&quot;]) ()
+       ; link ~rel:[`Icon] ~href:(static [&quot;favicon.png&quot;]) () ])
+    (body [header [h1 [txt t]]; div ~a:[a_class [&quot;content&quot;]] content])</code></pre><p>The <code>os</code> template already has one: <code>Myapp_container.page</code>.</p><h3 id="css">How do I add a stylesheet, a script or a favicon?</h3><p>In the <code>head</code> of the page, as in the <a href="#skeleton" title="skeleton">skeleton above</a>: <code>css_link</code>, <code>js_script</code> and <code>link ~rel:[`Icon]</code>, with links towards the static directory (see <a href="#static" title="static">below</a>). Without the <code>link</code> element, browsers look for <code>favicon.ico</code> at the root of the site. The <code>os</code> template compiles SASS files from directory <code>sass/</code> into a CSS file.</p><p>For client-side code, you do not need to add scripts yourself: Eliom adds the program of the application to the page.</p><h3 id="static">How do I link to an image (or another static file)?</h3><p>Static files are served from the directory given in the configuration file (directory <code>static/</code> of the project with the templates). The predefined service <code>Eliom.Service.static_dir</code> builds links towards them. In a mobile application, each image is either embedded in the application or fetched from the server:</p><pre class="language-ocaml"><code>let%shared images =
+  [ (* in the static directory, embedded in the mobile app: *)
+    img ~alt:&quot;Logo&quot;
+      ~src:
+        (make_uri ~absolute:false
+           ~service:(Eliom.Service.static_dir ())
+           [&quot;images&quot;; &quot;logo.png&quot;])
+      ()
+  ; (* in the static directory, always fetched from the server: *)
+    img ~alt:&quot;Banner&quot;
+      ~src:(make_uri ~service:(Eliom.Service.static_dir ()) [&quot;images&quot;; &quot;banner.jpg&quot;])
+      ()
+  ; (* anywhere on the Web: *)
+    img ~alt:&quot;OCaml&quot; ~src:(Xml.uri_of_string &quot;https://ocaml.org/logo.svg&quot;) () ]</code></pre><p>On the Web, both <code>static_dir</code> links are relative and give the same result. In the mobile app, links are absolute by default, so they point to the server. With <code>~absolute:false</code>, the link stays relative and the image is read from the files embedded in the app: the <code>os</code> template embeds the directories <code>css</code>, <code>images</code> and <code>fonts</code> of <code>static/</code>. Use it for the images that are part of the interface (logo, icons); keep the default for the ones that change after the app is installed, such as images uploaded by users. See also <a href="./../../ocsigenserver/dev/staticmod.html">how Ocsigen Server serves static files</a>.</p><h2 id="services">Services, links and forms</h2><h3 id="parameters">How do I take parameters from the URL?</h3><p>The parameters of a service are declared with the combinators of <code>Eliom.Parameter</code>, and the handler receives them already decoded and typed. They can be in the query string or in the path (<code>suffix</code>):</p><pre class="language-ocaml"><code>(* /search?q=ocaml&amp;page=2 *)
+let%server search =
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [&quot;search&quot;])
+    ~meth:
+      (Eliom.Service.Get Eliom.Parameter.(string &quot;q&quot; ** opt (int &quot;page&quot;)))
+    ()
+
+(* /user/alice *)
+let%server user =
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [&quot;user&quot;])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.(suffix (string &quot;name&quot;)))
+    ()
+
+let%server () =
+  App.register ~service:search (fun (q, page) () -&gt;
+    let page = Option.value page ~default:1 in
+    Lwt.return
+      (skeleton ~title:&quot;Search&quot;
+         [p [txt (Printf.sprintf &quot;Results for %s, page %d&quot; q page)]]));
+  App.register ~service:user (fun name () -&gt;
+    Lwt.return (skeleton ~title:name [p [txt (&quot;Profile of &quot; ^ name)]]))</code></pre><p>Several parameters are combined with <code>**</code>, and the handler receives nested pairs: <code>(a, (b, c))</code>. The second argument of the handler is for POST parameters. Other types are <code>int32</code>, <code>int64</code>, <code>float</code>, <code>bool</code>, <code>list</code>, <code>set</code>, <code>user_type</code>, and more: see the manual on <a href="./../../eliom/dev/server/services/parameters.html">service parameters</a> and on <a href="./../../eliom/dev/server/services/types.html">services</a>.</p><h3 id="links">How do I make links?</h3><p>Links towards a service are typed: give the service and the values of its parameters.</p><pre class="language-ocaml"><code>let%server ocaml_org =
+  Eliom.Service.extern ~prefix:&quot;https://ocaml.org&quot; ~path:[&quot;docs&quot;]
+    ~meth:(Eliom.Service.Get Eliom.Parameter.unit) ()
+
+let%server links =
+  [ a ~service:search [txt &quot;Search for OCaml&quot;] (&quot;OCaml&quot;, None)
+  ; a ~service:user [txt &quot;Alice's profile&quot;] &quot;alice&quot;
+  ; a ~service:ocaml_org [txt &quot;OCaml documentation&quot;] ()
+  ; Raw.a ~a:[a_href (Xml.uri_of_string &quot;https://ocaml.org&quot;)] [txt &quot;ocaml.org&quot;]
+  ; (* the current page: *)
+    a ~service:Eliom.Service.reload_action [txt &quot;Reload&quot;] () ]</code></pre><p><code>Eliom.Service.reload_action</code> links to the current page, whatever its URL. In a client-server application, clicking a link towards a service of the application changes page without leaving the client-side program. For a service that does not send a page of the application (a file, JSON...), add <code>~xhr:false</code>: otherwise the client-side program first requests it, then is told to leave the application and load it again. See <a href="./../../eliom/dev/server/services/links.html">links and forms</a>.</p><h3 id="forms">How do I write a form?</h3><p>Like links, forms are typed. The function given to <code>Form.get_form</code> or <code>Form.post_form</code> receives the names of the parameters of the service, and each field must have the type of its parameter:</p><pre class="language-ocaml"><code>let%server search_form =
+  Form.get_form ~service:search (fun (q, page) -&gt;
+    [ Form.input ~input_type:`Text ~name:q Form.string
+    ; Form.input ~input_type:`Number ~name:page Form.int
+    ; Form.input ~input_type:`Submit ~value:&quot;Search&quot; Form.string ])
+
+let%server comment =
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [&quot;comment&quot;])
+    ~meth:
+      (Eliom.Service.Post
+         (Eliom.Parameter.int &quot;post_id&quot;, Eliom.Parameter.string &quot;text&quot;))
+    ()
+
+(* The GET parameters of a POST form come last. *)
+let%server comment_form post_id =
+  Form.post_form ~service:comment
+    (fun text -&gt;
+       [ Form.textarea ~name:text ()
+       ; Form.input ~input_type:`Submit ~value:&quot;Send&quot; Form.string ])
+    post_id</code></pre><p><code>Form</code> also has <code>select</code>, <code>checkbox</code>, <code>radio</code>, <code>file_input</code>... See <a href="./../../eliom/dev/server/services/links.html#forms">forms in Eliom&#x27;s manual</a> and the <code>demo_forms.eliom</code> file of the <code>os</code> template. The <code>os</code> template also shows how to submit a form from client-side code, without changing page.</p><h3 id="catch_all">How do I write a service that answers any path, takes any parameter and returns anything?</h3><p>Take the end of the path with <code>all_suffix</code> and all parameters with <code>any</code>, then register with <code>Eliom.Registration.String</code>, which sends a string with the content type of your choice:</p><pre class="language-ocaml"><code>let%server anything =
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [&quot;api&quot;])
+    ~meth:
+      (Eliom.Service.Get Eliom.Parameter.(suffix_prod (all_suffix &quot;path&quot;) any))
+    ()
+
+let%server () =
+  Eliom.Registration.String.register ~service:anything
+    (fun (path, params) () -&gt;
+       let params = List.map (fun (k, v) -&gt; k ^ &quot;=&quot; ^ v) params in
+       Lwt.return
+         ( Printf.sprintf &quot;path: %s\nparameters: %s\n&quot;
+             (String.concat &quot;/&quot; path) (String.concat &quot;, &quot; params)
+         , &quot;text/plain&quot; ))</code></pre><p>This service answers <code>/api/x/y?a=1&amp;b=2</code> with <code>path = [&quot;x&quot;; &quot;y&quot;]</code>, and <code>params</code> contains <code>(&quot;a&quot;, &quot;1&quot;)</code> and <code>(&quot;b&quot;, &quot;2&quot;)</code> (do not rely on their order). Services with a more specific path, such as <code>/api/users</code>, keep priority. With <code>~path:(Eliom.Service.Path [])</code>, the service answers every URL of the site that no other service takes: the extensions placed after <code>&lt;eliom/&gt;</code> in the configuration file no longer see them, so put <code>&lt;static&gt;</code> before. For POST requests, register a second service with <code>Eliom.Service.Post</code>.</p><p>To send different kinds of content depending on the request (a page, a file, a redirection...), register with <code>Eliom.Registration.Any</code>, as in the <a href="#choose" title="choose">next question</a>.</p><h3 id="choose">How do I send a page or a file, depending on the request?</h3><p>Register with <code>Eliom.Registration.Any</code>: the handler calls the <code>send</code> function of the output module of its choice. Here, a file, or a page of the application saying that it does not exist:</p><pre class="language-ocaml"><code>let%server files_dir = &quot;/var/www/files&quot;
+
+let%server download =
+  Eliom.Registration.Any.create
+    ~path:(Eliom.Service.Path [&quot;download&quot;])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.(string &quot;name&quot;))
+    (fun name () -&gt;
+       (* basename: never let a user choose a path on your disk *)
+       let file = Filename.concat files_dir (Filename.basename name) in
+       if Eliom.Registration.File.check_file file
+       then
+         (* the client-side program leaves the application to get the file *)
+         Eliom.Registration.appl_self_redirect Eliom.Registration.File.send file
+       else
+         App.send ~code:404
+           (skeleton ~title:&quot;Not found&quot; [p [txt &quot;No such file.&quot;]]))</code></pre><p>The handler sends only one kind of content: <code>Eliom.Registration.appl_self_redirect</code> turns the file into content that the application accepts. Do not use it for POST services, as the request would be made twice. To always send a file, register with <code>Eliom.Registration.File</code> directly. Files that need no check before being sent are better served as <a href="#static" title="static">static files</a>. See <a href="./../../eliom/dev/server/services/handlers.html#any">Eliom&#x27;s manual</a>.</p><h3 id="status">How do I set the HTTP status code (404...)?</h3><p>Call <code>Eliom.Registration.set_status</code> in the handler, then return the page as usual:</p><pre class="language-ocaml"><code>let%server article =
+  App.create
+    ~path:(Eliom.Service.Path [&quot;article&quot;])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.(int &quot;id&quot;))
+    (fun id () -&gt;
+       match%lwt find_article id with
+       | Some a -&gt; Lwt.return (article_page a)
+       | None -&gt;
+           Eliom.Registration.set_status `Not_found;
+           Lwt.return (skeleton ~title:&quot;Not found&quot; [p [txt &quot;No such article.&quot;]]))</code></pre><p>For URLs that match no service, and for exceptions raised by handlers, define the error page with <code>Eliom.Registration.set_exn_handler</code>:</p><pre class="language-ocaml"><code>let%server () =
+  Eliom.Registration.set_exn_handler (function
+    | Eliom.Common.Eliom_404 -&gt;
+        App.send ~code:404
+          (skeleton ~title:&quot;Not found&quot; [p [txt &quot;This page does not exist.&quot;]])
+    | e -&gt; Lwt.fail e)</code></pre><p>With <code>App.send</code>, the client-side program displays this page without leaving the application. Eliom then answers the unknown URLs itself: the extensions placed after <code>&lt;eliom/&gt;</code> in the configuration file no longer see them. The <code>os</code> template does this in <code>myapp.eliom</code>.</p><h3 id="json">How do I write a JSON service?</h3><p>Between the client and the server of an Eliom application, you do not need JSON: <a href="#rpc" title="rpc">RPCs</a> send OCaml values. For other clients, register a service with <code>Eliom.Registration.String</code> and the <code>application/json</code> content type (here with package <code>yojson</code>):</p><pre class="language-ocaml"><code>let%server version =
+  Eliom.Registration.String.create
+    ~path:(Eliom.Service.Path [&quot;version.json&quot;])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
+    (fun () () -&gt;
+       let json = `Assoc [&quot;name&quot;, `String &quot;myapp&quot;; &quot;version&quot;, `Int 2] in
+       Lwt.return (Yojson.Safe.to_string json, &quot;application/json&quot;))</code></pre><p>The tutorial <a href="rest.html" title="rest">RESTful JSON API</a> gives a complete example.</p><h3 id="wizard">How do I make a sequence of forms (a wizard)?</h3><p>Create a new service for each step, during the request, with the data of the previous steps in its closure. Unlike session data, this works with several tabs and with the back button:</p><pre class="language-ocaml"><code>let%server calc =
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [&quot;calc&quot;])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.(int &quot;i&quot;))
+    ()
+
+let%server sum_form i =
+  (* A service for this user only, which knows [i], removed after 10 minutes
+     without use. Its URL is the URL of [calc]: *)
+  let sum =
+    App.create_attached_get
+      ~scope:Eliom.Common.default_session_scope
+      ~fallback:(Eliom.Service.preapply ~service:calc 0)
+      ~get_params:Eliom.Parameter.(int &quot;j&quot;)
+      ~timeout:600.
+      (fun j () -&gt;
+         Lwt.return
+           (skeleton ~title:&quot;Sum&quot;
+              [p [txt (Printf.sprintf &quot;%d + %d = %d&quot; i j (i + j))]]))
+  in
+  skeleton ~title:&quot;Sum&quot;
+    [ Form.get_form ~service:sum (fun j -&gt;
+        [ txt (string_of_int i ^ &quot; + &quot;)
+        ; Form.input ~input_type:`Number ~name:j Form.int
+        ; Form.input ~input_type:`Submit ~value:&quot;=&quot; Form.string ]) ]
+
+let%server () =
+  App.register ~service:calc (fun i () -&gt;
+    Lwt.return (sum_form i))</code></pre><p>The fallback is used when the service no longer exists (timeout, server restarted). See <a href="./../../eliom/dev/server/services/types.html#attached_services">attached services</a> and the tutorial on <a href="interaction.html" title="interaction">service based Web programming</a>.</p><h2 id="files">Files and images</h2><h3 id="upload">How do I upload a file?</h3><p>Use a POST parameter of type <code>file</code>. Ocsigen Server writes the file in its upload directory, and removes it at the end of the request: move it before.</p><pre class="language-ocaml"><code>let%server upload_dir = &quot;/var/www/uploads&quot;
+
+let%server upload =
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path [&quot;upload&quot;])
+    ~meth:
+      (Eliom.Service.Post (Eliom.Parameter.unit, Eliom.Parameter.file &quot;file&quot;))
+    ()
+
+let%server () =
+  App.register ~service:upload (fun () file -&gt;
+    let name =
+      Filename.basename (Eliom.Request_info.get_original_filename file)
+    in
+    let%lwt () =
+      Lwt_unix.rename
+        (Eliom.Request_info.get_tmp_filename file)
+        (Filename.concat upload_dir name)
+    in
+    Lwt.return (skeleton ~title:&quot;Upload&quot; [p [txt (name ^ &quot; received.&quot;)]]))
+
+let%server upload_form () =
+  Form.post_form ~service:upload
+    (fun file -&gt;
+       [ Form.file_input ~name:file ()
+       ; Form.input ~input_type:`Submit ~value:&quot;Send&quot; Form.string ])
+    ()</code></pre><p><code>Lwt_unix.rename</code> needs the upload directory and the destination on the same file system. The generated projects use <code>/tmp</code> as upload directory, which is often another file system (a <code>tmpfs</code>): change it in the configuration file, which also sets the size limits:</p><pre class="language-xml"><code>&lt;uploaddir&gt;/var/www/tmp&lt;/uploaddir&gt;
+&lt;maxuploadfilesize&gt;2MB&lt;/maxuploadfilesize&gt;
+&lt;maxrequestbodysize&gt;100MB&lt;/maxrequestbodysize&gt;</code></pre><p>(or the <code>~uploaddir</code> argument of <code>Ocsigen.Server.start</code>). To upload a file from client-side code, without changing page, create the service with <code>Eliom.Service.create_ocaml</code>, register it with <code>Eliom.Registration.Ocaml</code>, and call it with <code>Eliom.Client.call_ocaml_service</code>, giving the <code>File.file</code> of an input element; or use the picture uploader below.</p><h3 id="upload_image">How do I upload an image, with cropping?</h3><p>Ocsigen Toolkit's picture uploader shows a preview, lets the user choose the part of the image to keep, and sends it to the server, where <code>Os.Uploader.record_image</code> crops it, saves it in JPEG (with ImageMagick) under a random name, and returns this name. This is how the <code>os</code> template sets the user's avatar (<code>Os.User_view.upload_pic_link</code>, in <code>myapp_settings.eliom</code>). The widget is client-side code:</p><pre class="language-ocaml"><code>let%server photo_dir = &quot;local/var/www/myapp/photos&quot;
+
+let%server photo_service : (unit, unit) Ot.Picture_uploader.service =
+  Ot.Picture_uploader.mk_service &quot;upload_photo&quot; [%json: unit]
+
+let%client photo_service = ~%photo_service
+
+let%server () =
+  Eliom.Registration.Ocaml.register ~service:photo_service
+    (Os.Session.connected_fun (fun myid () ((), (cropping, file)) -&gt;
+       let%lwt name = Os.Uploader.record_image photo_dir ~ratio:1. ?cropping file in
+       save_photo_name myid name))
+
+let%client photo_form () =
+  Ot.Picture_uploader.mk_form ~crop:(Some 1.)
+    (Ot.Picture_uploader.ocaml_service_upload ~service:photo_service ~arg:())</code></pre><p><code>~crop:(Some 1.)</code> asks for a square, <code>~crop:None</code> for any shape. Without cropping, <code>record_image</code> keeps the file as it is, with a hard link: the upload directory must then be on the same file system as <code>photo_dir</code>. The <code>os</code> template reads this directory from the configuration file (<code>myapp_config.eliom</code>) rather than writing it in the code. The images are in the static directory, so links towards them are built as in <a href="#static" title="static">this question</a>, without <code>~absolute:false</code>: they are not part of the mobile app.</p><h2 id="clientserver">Client and server</h2><h3 id="rpc">How do I call a server function from the client?</h3><p>Declare it with <code>let%rpc</code>, giving the types of its arguments and of its result. The client calls it like an OCaml function:</p><pre class="language-ocaml"><code>type%shared item = {id : int; label : string} [@@deriving json]
+
+let%rpc get_item (id : int) : item Lwt.t = Db.find_item id
+
+let%rpc item_view (it : item) : [`Div] Eliom.Content.Html.elt Lwt.t =
+  Lwt.return (div ~a:[a_class [&quot;item&quot;]] [txt it.label])
+
+let%client show_item container id =
+  try%lwt
+    let%lwt it = get_item id in
+    let%lwt node = item_view it in
+    Eliom.Content.Html.Manip.appendChild container node;
+    Lwt.return_unit
+  with e -&gt;
+    Logs.err (fun m -&gt; m &quot;Cannot get item %d: %s&quot; id (Printexc.to_string e));
+    Eliom.Content.Html.Manip.appendChild container
+      (p [txt &quot;This item is not available.&quot;]);
+    Lwt.return_unit</code></pre><p>The server checks the values it receives: their types must have a JSON deriver (<code>[@@deriving json]</code>, from package <code>js_of_ocaml-ppx_deriving_json</code>). The result can be any value, including HTML nodes, as <code>item_view</code> shows. The syntax comes from package <code>ocsigen-ppx-rpc</code>. An RPC is a <em>pathless service</em> that anyone can call: check the rights of the user inside (see <a href="#connected" title="connected">this question</a>). See <a href="./../../eliom/dev/clientserver/communication.html#rpc">Eliom&#x27;s manual</a>.</p><p>A call fails when the network or the server does: catch the exception, to tell the user (<code>Os.Msg.msg</code> in Ocsigen Start) and log the details. Integers are 32 bits on the client with js_of_ocaml, and 31 bits with wasm_of_ocaml: give larger values (database ids, timestamps) the type <code>int64</code>, as Ocsigen Start does for user ids.</p><h3 id="client_code">How do I run client-side code from server-side code?</h3><p>A <code>[%client ...]</code> expression in server-side code is executed by the browser, once the page has been received. It can use server-side values with <code>~%</code>:</p><pre class="language-ocaml"><code>let%server counter_page () =
+  let button = Eliom.Content.Html.D.button [txt &quot;Click&quot;] in
+  let _ : unit Eliom.Client_value.t =
+    [%client
+      Lwt.async (fun () -&gt;
+        Js_of_ocaml_lwt.Lwt_js_events.clicks
+          (Eliom.Content.Html.To_dom.of_element ~%button)
+          (fun _ _ -&gt; Lwt.return (Eliom.Lib.alert &quot;Hello&quot;)))]
+  in
+  Lwt.return (skeleton ~title:&quot;Counter&quot; [button])</code></pre><p><code>~%button</code> refers to the same node on both sides because it is created with <code>D</code>. To react to an event, an attribute taking a client-side function is simpler, and works with <code>F</code> nodes:</p><pre class="language-ocaml"><code>let%shared hello_button =
+  button ~a:[a_onclick [%client fun _ -&gt; Eliom.Lib.alert &quot;Hello&quot;]] [txt &quot;Click&quot;]</code></pre><p>A page can also be built by the client-side program, when the user follows a link. A <code>[%client ...]</code> expression then runs before the page is displayed: put the code that needs the page (setting the focus, measuring an element) in <code>Eliom.Client.onload</code>. Read the tutorial on <a href="tutowidgets.html" title="tutowidgets">client-server widgets</a> and <a href="./../../eliom/dev/clientserver/wrapping.html">Eliom&#x27;s manual</a>.</p><h3 id="custom_data">How do I attach OCaml values to HTML nodes?</h3><p>From server-side code, with <code>Eliom.Content.Html.Custom_data</code>: the value is sent in a <code>data-</code> attribute, and the client gets it back from the DOM node:</p><pre class="language-ocaml"><code>let%shared item_data =
+  Eliom.Content.Html.Custom_data.create_json ~name:&quot;item&quot; [%json: item]
+
+let%shared item_link it =
+  span ~a:[Eliom.Content.Html.Custom_data.attrib item_data it] [txt it.label]
+
+let%client item_of_element elt =
+  Eliom.Content.Html.Custom_data.get_dom elt item_data</code></pre><p><code>item_data</code> is defined on both sides (<code>let%shared</code>), and the client uses its own version: it cannot be sent with <code>~%</code>, as it contains functions. In client-side code, you usually do not need this: keep the value in the closure of the event handler, or in an OCaml map.</p><h3 id="notifications">How do I send notifications from the server to the clients?</h3><p>With <code>Os.Notif</code>: the clients listen on a key, and the server notifies all the clients listening on that key.</p><pre class="language-ocaml"><code>module%server Chat_notif = Os.Notif.Make_Simple (struct
+  type key = int64 (* the chat room *)
+  type notification = string (* the message *)
+end)
+
+(* Anyone can call an RPC: check that the user is in the room. *)
+let%server check_member myid room =
+  if%lwt Db.is_member myid room
+  then Lwt.return_unit
+  else Lwt.fail Os.Session.Permission_denied
+
+let%rpc listen (room : int64) : unit Lwt.t =
+  Os.Session.connected_rpc
+    (fun myid room -&gt;
+       let%lwt () = check_member myid room in
+       Chat_notif.listen room; Lwt.return_unit)
+    room
+
+let%rpc send (room : int64) (msg : string) : unit Lwt.t =
+  Os.Session.connected_rpc
+    (fun myid (room, msg) -&gt;
+       let%lwt () = check_member myid room in
+       Chat_notif.notify room msg; Lwt.return_unit)
+    (room, msg)
+
+let%server () =
+  Os.Session.on_start_process (fun _ -&gt;
+    (* The type is written with types known on the client: *)
+    let e : (int64 * string) Eliom.Eliom_react.Down.t =
+      Chat_notif.client_ev ()
+    in
+    ignore
+      [%client
+        (Eliom.Lib.Dom_reference.retain Js_of_ocaml.Dom_html.window
+           ~keep:(React.E.map (fun (_room, msg) -&gt; display msg) ~%e)
+         : unit)];
+    Lwt.return_unit)</code></pre><p>Call <code>Chat_notif.unlisten</code> when the user leaves the room. Without Ocsigen Start, use <code>Eliom.Notif</code>, on which <code>Os.Notif</code> is built. The <code>demo_notif.eliom</code> file of the <code>os</code> template, and the tutorial on <a href="tutoreact.html" title="tutoreact">reactive applications</a>, show complete examples. For lower level communication, see <a href="./../../eliom/dev/clientserver/communication.html">Eliom&#x27;s manual</a> (channels and buses).</p><h3 id="disconnection">How do I know that the connection to the server is lost?</h3><p>With Ocsigen Start, you have nothing to do: when the server-side state of the tab is lost (server restarted, session closed or expired), the client restarts the application.</p><p>Otherwise, reading from a channel raises <code>Eliom.Comet.Channel_full</code> or <code>Eliom.Comet.Channel_closed</code> when the server has lost it, and <code>Eliom.Comet.set_handle_exn_function</code> sets what to do for other errors. The simplest is to reload the page:</p><pre class="language-ocaml"><code>let%client () =
+  Eliom.Comet.set_handle_exn_function (fun ?exn:_ () -&gt;
+    Eliom.Client.exit_to ~service:Eliom.Service.reload_action () ();
+    Lwt.return_unit)</code></pre><p>An <code>Lwt_stream</code> raises its exception only once: handle it where you read the stream.</p><h2 id="users">Users and sessions</h2><h3 id="session_data">How do I store data for one user?</h3><p>In an <em>Eliom reference</em>, which has a different value for each session (scope <code>default_session_scope</code>), each tab (<code>default_process_scope</code>), or each user (<code>default_group_scope</code>):</p><pre class="language-ocaml"><code>let%server cart : string list Eliom.Reference.Volatile.eref =
+  Eliom.Reference.Volatile.eref ~scope:Eliom.Common.default_session_scope []
+
+let%server add_to_cart item =
+  Eliom.Reference.Volatile.set cart (item :: Eliom.Reference.Volatile.get cart)</code></pre><p><code>Eliom.Reference.eref ~persistent:(&quot;cart&quot;, [%json: string list])</code> creates a reference kept in a database (with <a href="ocsipersist.html" title="ocsipersist">Ocsipersist</a>), which survives a restart of the server; its <code>get</code> and <code>set</code> functions return promises. The scope of a user is a group of sessions, opened at login (Ocsigen Start does it). The tutorial <a href="how-to-register-session-data.html" title="how-to-register-session-data">Session data</a> explains all this, and <a href="./../../eliom/dev/server/state.html">Eliom&#x27;s manual</a> gives the details.</p><h3 id="iterate">How do I iterate over all the sessions or tabs of a user?</h3><p>Get the state of the session group of the user, then iterate on its sessions, and on the tabs of each session:</p><pre class="language-ocaml"><code>let%server iter_user_tabs userid f =
+  let state =
+    Eliom.State.Ext.volatile_data_group_state
+      ~scope:Eliom.Common.default_group_scope (Int64.to_string userid)
+  in
+  Eliom.State.Ext.iter_volatile_sub_states ~state (fun session -&gt;
+    Eliom.State.Ext.iter_volatile_sub_states ~state:session (fun tab -&gt;
+      f (Eliom.Reference.Volatile.Ext.get tab last_seen)))</code></pre><p>Here <code>last_seen</code> is an Eliom reference of scope <code>default_process_scope</code>, and the group of a user is named <code>Int64.to_string userid</code>, as in Ocsigen Start. Outside a request, these functions need the optional argument <code>~sitedata</code> (from <code>Eliom.Request_info.get_sitedata</code> during the initialisation of the module).</p><h3 id="connected">How do I restrict a page to connected users?</h3><p>With Ocsigen Start, wrap the handler with <code>Os.Session.connected_fun</code>: it receives the id of the user. RPCs use <code>Os.Session.connected_rpc</code>:</p><pre class="language-ocaml"><code>let%server () =
+  Myapp_base.App.register ~service:settings
+    (Os.Session.connected_fun (fun myid () () -&gt; settings_page myid))
+
+let%rpc delete_photo (photo : int64) : unit Lwt.t =
+  Os.Session.connected_rpc
+    (fun myid photo -&gt; Db.delete_photo ~owner:myid photo)
+    photo</code></pre><p><code>~allow</code> and <code>~deny</code> restrict access to groups of users. The <code>Opt</code> versions (<code>Os.Session.Opt.connected_fun</code>) also accept users who are not connected, with <code>None</code>. In the <code>os</code> template, pages use <code>Myapp_page.Opt.connected_page</code>, which also displays a connection form when needed.</p><h3 id="passwords">How do I store passwords?</h3><p>Ocsigen Start already does it: <code>Os.User.create</code> and the connection forms hash passwords with bcrypt. Otherwise, use <code>Bcrypt</code> from package <code>safepass</code>, and store only the hash:</p><pre class="language-ocaml"><code>let%server hash password = Bcrypt.string_of_hash (Bcrypt.hash password)
+
+let%server check password stored =
+  Bcrypt.verify password (Bcrypt.hash_of_string stored)</code></pre><h3 id="random">How do I create a secret, unguessable identifier?</h3><p><code>Eliom.Lib.make_cryptographic_safe_string</code>, for instance <code>Eliom.Lib.make_cryptographic_safe_string ~len:32 ()</code>, for an activation link or an API key.</p><h2 id="jsoo">Js_of_ocaml</h2><p>The questions below are about client-side code. See also the <a href="./../../js_of_ocaml/dev/js_of_ocaml/index.html">Js_of_ocaml manual</a>.</p><h3 id="events">How do I react to events?</h3><p>With the functions of <code>Js_of_ocaml_lwt.Lwt_js_events</code>, which return Lwt promises. For instance, to know whether the window has the focus, and to stop the default behaviour of an event:</p><pre class="language-ocaml"><code>let%client has_focus =
+  ref (Js_of_ocaml.Js.to_bool Js_of_ocaml.Dom_html.document##hasFocus)
+
+let%client () =
+  let open Js_of_ocaml_lwt.Lwt_js_events in
+  Lwt.async (fun () -&gt;
+    focuses Js_of_ocaml.Dom_html.window (fun _ _ -&gt;
+      has_focus := true;
+      Lwt.return_unit));
+  Lwt.async (fun () -&gt;
+    blurs Js_of_ocaml.Dom_html.window (fun _ _ -&gt;
+      has_focus := false;
+      Lwt.return_unit))
+
+let%client prevent_drag () =
+  let open Js_of_ocaml in
+  Lwt.async (fun () -&gt;
+    Js_of_ocaml_lwt.Lwt_js_events.dragstarts Dom_html.document (fun ev _ -&gt;
+      Dom.preventDefault ev;
+      Lwt.return_unit))</code></pre><h3 id="js_objects">How do I create a JavaScript object, or call OCaml from JavaScript?</h3><p><code>new%js</code> calls a JavaScript constructor, and <code>object%js</code> creates an object. <code>Js_of_ocaml.Js.export</code> makes OCaml functions available to JavaScript code:</p><pre class="language-ocaml"><code>let%client now () =
+  let open Js_of_ocaml in
+  let date = new%js Js.date_now in
+  date##getTime
+
+let%client () =
+  let open Js_of_ocaml in
+  Js.export &quot;myLib&quot;
+    (object%js
+       method greet name = Js.string (&quot;Hello &quot; ^ Js.to_string name)
+    end)</code></pre><p>JavaScript can then call <code>myLib.greet(&quot;Alice&quot;)</code>. To pass an OCaml function as a callback, use <code>Js_of_ocaml.Js.wrap_callback</code>. See the <a href="https://ocsigen.org/js_of_ocaml/latest/manual/bindings">manual page on bindings</a>.</p><h3 id="load_script">How do I load a JavaScript library?</h3><p>To load it in every page, add a <code>js_script</code> element to the head (<a href="#css" title="css">see above</a>). To load it only when needed, insert a <code>script</code> element and wait for its <code>load</code> event, or its <code>error</code> event if it cannot be loaded. Keep the promise, so that the library is loaded only once:</p><pre class="language-ocaml"><code>(* The scripts already loaded, or being loaded *)
+let%client scripts : (string, unit Lwt.t) Hashtbl.t = Hashtbl.create 8
+
+let%client load_script url =
+  match Hashtbl.find_opt scripts url with
+  | Some loading -&gt; loading
+  | None -&gt;
+      let open Js_of_ocaml in
+      let script = Dom_html.createScript Dom_html.document in
+      script##.src := Js.string url;
+      let loading =
+        Lwt.pick
+          [ (let%lwt _ = Js_of_ocaml_lwt.Lwt_js_events.load script in
+             Lwt.return_unit)
+          ; (let%lwt _ = Js_of_ocaml_lwt.Lwt_js_events.error script in
+             Hashtbl.remove scripts url;
+             Lwt.fail_with (&quot;Cannot load &quot; ^ url)) ]
+      in
+      Hashtbl.add scripts url loading;
+      Dom.appendChild Dom_html.document##.head script;
+      loading</code></pre><p>The library is then reached through <code>Js.Unsafe.global</code>, or, better, through typed bindings (see <a href="#js_objects" title="js_objects">the previous question</a>).</p><h2 id="more">Going further</h2><h3 id="database">How do I use a database?</h3><p>The <code>os</code> template uses PostgreSQL with PG'OCaml: the <code>[%pgsql]</code> queries are checked against the database at compile time (see <code>demo_pgocaml_db.ml</code> and <code>make db-update</code>). For a simple key-value store, use <a href="ocsipersist.html" title="ocsipersist">Ocsipersist</a>.</p><h3 id="email">How do I send an email?</h3><p>With <code>Os.Email.send</code> in Ocsigen Start, after setting the sender with <code>Os.Email.set_from_addr</code>. It uses the <code>sendmail</code> program of the system.</p><h3 id="i18n">How do I translate my application?</h3><p>With <a href="https://github.com/ocsigen/ocsigen-i18n">ocsigen-i18n</a>, used by the <code>os</code> template: translations are in a TSV file, and <code>[%i18n key]</code> inserts the text in the language of the user (see <code>demo_i18n.eliom</code>).</p><h3 id="mobile">How do I make a mobile application?</h3><p>The <code>os</code> template builds an Android and iOS app from the same code. See <a href="mobile.html" title="mobile">Mobile applications with Ocsigen</a>.</p><h3 id="logs">How do I write logs?</h3><p>With the <a href="https://erratique.ch/software/logs">Logs</a> library, one source per part of your application. On the server, Ocsigen Server writes the messages in its log files (directory set in the configuration). On the client, Eliom sends them to the console of the browser, so a source can be shared:</p><pre class="language-ocaml"><code>let%shared src = Logs.Src.create &quot;myapp:payment&quot;
+module%shared Log = (val Logs.src_log src : Logs.LOG)
+
+let%shared accept_payment amount =
+  Log.info (fun m -&gt; m &quot;payment of %d accepted&quot; amount)</code></pre><p>By default, only warnings and errors are logged. Lower the level of a source in the configuration file:</p><pre class="language-xml"><code>&lt;loglevel source=&quot;myapp:payment&quot; level=&quot;info&quot;/&gt;</code></pre><p>or for all sources with option <code>-v</code> of <code>ocsigenserver</code> (see the <a href="./../../ocsigenserver/dev/config.html">configuration file documentation</a>).</p>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    var wodocPub = "/tuto";
+    // Switch version: keep the current page, swapping only the version segment,
+    // unless that page does not exist in the target version (a renamed module,
+    // a merged manual page): then go to that version's index.
+    function wodocVersion(v) {
+      if (!v) return;
+      var re = new RegExp('^(' + wodocPub + '/)[^/]+');
+      var p = location.pathname;
+      var home = wodocPub + '/' + v + '/index.html';
+      if (!re.test(p)) { location.href = home; return; }
+      var target = p.replace(re, '$1' + v);
+      fetch(target, { method: 'HEAD' })
+        .then(function (r) { location.href = r.ok ? target : home; })
+        .catch(function () { location.href = target; });
+    }
+    // Build the version <select> from the project's versions.json (the single
+    // source of truth, refreshed on every build/release), so even older frozen
+    // pages list the current set. Falls back to the baked <option>s on failure.
+    (function () {
+      var seg = (location.pathname.match(
+        new RegExp('^' + wodocPub + '/([^/]+)')) || [])[1];
+      function select(sel) {
+        var i;
+        for (i = 0; i < sel.options.length; i++)
+          if (sel.options[i].value === seg) { sel.selectedIndex = i; return; }
+        if (seg) {
+          var o = document.createElement('option');
+          o.value = seg; o.textContent = seg; o.selected = true;
+          sel.insertBefore(o, sel.firstChild);
+        }
+      }
+      fetch(wodocPub + '/versions.json')
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (m) {
+          var list = m.list || [], latest = m.latest;
+          document.querySelectorAll('.wodoc-version').forEach(function (sel) {
+            sel.innerHTML = '';
+            list.forEach(function (v) {
+              var o = document.createElement('option');
+              if (v === latest) { o.value = 'latest'; o.textContent = v + ' (latest)'; }
+              else { o.value = v; o.textContent = v; }
+              sel.appendChild(o);
+            });
+            select(sel);
+          });
+        })
+        .catch(function () {
+          document.querySelectorAll('.wodoc-version').forEach(select);
+        });
+    })();
+  </script>
+</body>
+</html>

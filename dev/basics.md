@@ -775,7 +775,7 @@ Eliom has other communication modules:
 
 ## Internationalisation
 
-[Ocsigen i18n](https://github.com/besport/ocsigen-i18n) is an internationalisation library for your OCaml programs.
+[Ocsigen i18n](https://github.com/ocsigen/ocsigen-i18n) is an internationalisation library for your OCaml programs.
 
 Create a .tsv file with, on each line, a key and the text in several languages:
 
@@ -801,7 +801,7 @@ Ocsigen i18n offers many other features:
 - Text can be inserted as a TyXML node (as in the example above) or as a string (ex: `[%i18n S.welcome_message]`),
 - Text can be parametrizable, or contain holes (ex: `[%i18n welcome ~capitalize:true ~name:"William"]`)
 - .tsv file can be split into several modules
-Have a look at the [README file](https://github.com/besport/ocsigen-i18n) to see the full documentation, and see examples in [Ocsigen Start's template](https://github.com/ocsigen/os_template/blob/master/lib/demo_i18n.eliom).
+Have a look at the [README file](https://github.com/ocsigen/ocsigen-i18n) to see the full documentation, and see examples in [Ocsigen Start's template](https://github.com/ocsigen/os_template/blob/master/lib/demo_i18n.eliom).
 
 ## Reactive programming
 

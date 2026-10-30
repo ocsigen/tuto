@@ -843,7 +843,7 @@ page generation on both sides.
 
 - Examples of client sections, injections or server functions can be found in
 the demo included in
-{{:https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_rpc.eliom}Ocsigen-Start's app template}.
+{{:https://github.com/ocsigen/os_template/blob/master/lib/demo_rpc.eliom}Ocsigen-Start's app template}.
 - {{!page-application}This page} is a step by step introduction to client-server programming with Eliom for beginners.
 - {{!page-tutowidgets}This one} is a quick introduction for more experienced OCaml developers.
 - Comprehensive documentation on client-server programming can be found in
@@ -1099,7 +1099,7 @@ On client side, [~%(Notif.client_ev ())] is a React event of type
 {%wodoc:end%}
 
 Have a look at a {{:https://ocsigen-1.inria.fr/ocsigen-start/demo/demo-notif}running example} in Ocsigen Start's demo
-({{:https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_notif.eliom}source}).
+({{:https://github.com/ocsigen/os_template/blob/master/lib/demo_notif.eliom}source}).
 
 Eliom has other communication modules:
 - {!Eliom_bus} defines a communication bus,
@@ -1150,7 +1150,7 @@ Have a look at the
 {{:https://github.com/besport/ocsigen-i18n}README file}
 to see the full documentation,
 and see examples in
-{{:https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_i18n.eliom}Ocsigen Start's template}.
+{{:https://github.com/ocsigen/os_template/blob/master/lib/demo_i18n.eliom}Ocsigen Start's template}.
 
 {%wodoc:end%}
 

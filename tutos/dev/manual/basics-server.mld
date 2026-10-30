@@ -795,7 +795,7 @@ Have a look at the
 {{:https://github.com/besport/ocsigen-i18n}README file}
 to see the full documentation,
 and see examples in
-{{:https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_i18n.eliom}Ocsigen Start's template}.
+{{:https://github.com/ocsigen/os_template/blob/master/lib/demo_i18n.eliom}Ocsigen Start's template}.
 
 {%wodoc:end%}
 

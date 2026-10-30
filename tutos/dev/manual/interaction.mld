@@ -1146,63 +1146,57 @@ let connection_box () = Eliom.Content.Html.D.(
 
 
 Sending 404{%html:<br/>%}
-[Eliom.Registration.Any]
+[Eliom.Registration.set_status]
 
 {%wodoc:end%}
 
 Our service [user_service] responds to any request parameter, even
 if the user does not exist in the database.  We want to check that the
-user is in the database before displaying the page, and send a 404
-error if the user is not.  To do that, we will replace module
-[Eliom.Registration.Html]
-by {!module
-Eliom.Registration.Any} to register the service [user_service]:
+user is in the database before displaying the page, and send a page
+with the HTTP status 404 (Not Found) if the user is not.  To do that,
+the handler calls {!val:Eliom.Registration.set_status} before
+returning its page:
 
 {@ocaml[
-  Eliom.Registration.Any.register
+  Eliom.Registration.Html.register
     ~service:user_service
     (fun name () ->
-      if List.mem_assoc name !users then
-	begin
-	  let%lwt cf = connection_box () in
-	  Eliom.Registration.Html.send
-            (html (head (title (txt name)) [])
-               (body [h1 [txt name];
-                      cf;
-                      p [a ~service:main_service [txt "Home"] ()]]))
-	end
-      else
-	Eliom.Registration.Html.send
-          ~code:404
+      if List.mem_assoc name !users then begin
+        let%lwt cf = connection_box () in
+        Lwt.return
+          (html (head (title (txt name)) [])
+             (body [h1 [txt name];
+                    cf;
+                    p [a ~service:main_service [txt "Home"] ()]]))
+      end
+      else begin
+        Eliom.Registration.set_status `Not_found;
+        Lwt.return
           (html (head (title (txt "404")) [])
              (body [h1 [txt "404"];
                     p [txt "That page does not exist"]]))
-    );
+      end);
 ]}
 
 
 
-{%wodoc:aside class="concept"%}{b Concept: Eliom.Registration.Any}
+{%wodoc:aside class="concept"%}{b Concept: HTTP status of a page}
 
 
 
-The module {!module
-Eliom.Registration.Any} can be used to create services that are
-flexible to choose the kind of output they want to send.
+The function {!val:Eliom.Registration.set_status} sets the HTTP
+status of the answer to the current request. The handler still
+returns its page as usual, so the service keeps its registration
+module. This status takes precedence over the [?code] parameter of
+the registration function.
 
-Use the [send] function from the module you want to send the
-output.  That function also allows, for example, to specify the HTTP
-response code (here, we choose to use 404) or to set HTTP headers.
-
-{%wodoc:end%}
-
-{%wodoc:aside class="wip"%}{b Work in progress}
-
-
-
-In the future, we may add functions like [set_http_code] or
-[set_http_header] to personalize the answer without using
-[Eliom.Registration.Any].
+A service can also choose itself the kind of output it sends (for
+example an HTML page or a redirection), if it is registered with
+{!Eliom.Registration.Any}. Its handler then calls the [send] function
+of the module it wants to use, which also takes the HTTP status and
+headers as parameters. See the question
+{{!page-faq.choose}How do I send a page or a file, depending on the
+request?}
 
 {%wodoc:end%}
 

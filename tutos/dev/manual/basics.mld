@@ -1116,7 +1116,7 @@ server to client communication.
 {1 Internationalisation}
 {%wodoc:end%}
 
-{{:https://github.com/besport/ocsigen-i18n}Ocsigen i18n}
+{{:https://github.com/ocsigen/ocsigen-i18n}Ocsigen i18n}
 is an internationalisation library for your OCaml programs.
 
 Create a .tsv file with, on each line, a key and the text in several languages:
@@ -1147,7 +1147,7 @@ Ocsigen i18n offers many other features:
 - .tsv file can be split into several modules
 
 Have a look at the
-{{:https://github.com/besport/ocsigen-i18n}README file}
+{{:https://github.com/ocsigen/ocsigen-i18n}README file}
 to see the full documentation,
 and see examples in
 {{:https://github.com/ocsigen/os_template/blob/master/lib/demo_i18n.eliom}Ocsigen Start's template}.

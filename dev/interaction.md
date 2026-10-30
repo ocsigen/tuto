@@ -469,33 +469,51 @@ Eliom provides the module `Eliom.Registration.Redirection` to register services 
 Example:
 
 ```ocaml
-
-let redir_service = Eliom.Service.create
-    ~path:(Eliom.Service.Path ["redir"])
+let form_service = Eliom.Service.create
+    ~path:(Eliom.Service.Path ["form"])
     ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 
-let service_to_redirect = Eliom.Service.create_attached_post
-  ~fallback:redir_service
+let form_result_service = Eliom.Service.create_attached_post
+  ~fallback:form_service
   ~post_params:(Eliom.Parameter.string "something")
   ()
 
 let () =
-  (** redir_service registration **)
   Eliom.Registration.Redirection.register
-    ~service:redir_service
-    (fun () () ->
-    	 Lwt.return
-		(Eliom.Registration.Redirection some_service_to_redirect_to));
-
-  (** service_to_redirect registration **)
-  Eliom.Registration.Any.register
-  ~service:service_to_redirect
-  (fun () something -> ..... )
+    ~service:form_result_service
+    (fun () something ->
+      let%lwt () = save something in
+      Lwt.return (Eliom.Registration.Redirection main_service))
 ```
+where `save` is a function of your application that stores the data.
+
 (If you want to give parameters to the service you return, use `Eliom.Service.preapply` \--- more information in the `Eliom manual`.)
 
 If you want to do a redirection towards the current page (as in our case), use the special service `~path` parameter `Eliom.Service.No_path`, which is some kind of POST non-attached coservice without parameter at all.
+
+**Concept: Choosing what to send with Eliom.Registration.Any**
+
+Sometimes a service cannot know in advance what kind of answer it will send. In the example above, if the data sent with the form may be invalid, the service should redirect after a valid form, and display an error page otherwise. Register such a service with `Eliom.Registration.Any`. Its handler calls the `send` function of the output module it chooses:
+
+```ocaml
+let () =
+  Eliom.Registration.Any.register
+    ~service:form_result_service
+    (fun () something ->
+      if something = "" then
+        Eliom.Registration.Html.send
+          (html (head (title (txt "Error")) [])
+             (body [p [txt "Please fill in the field."];
+                    p [a ~service:form_service [txt "Back"] ()]]))
+      else
+        let%lwt () = save something in
+        Eliom.Registration.Redirection.send
+          (Eliom.Registration.Redirection main_service))
+```
+The `send` functions also take optional parameters to set the HTTP status code (`?code`) and the headers (`?headers`) of the answer. To change only the status of a page, `Eliom.Registration.set_status` is simpler, as we will see below.
+
+The type of the handler prevents some mixes: for instance, the same service cannot send a page of a client-server application or a plain HTML page without a conversion. See the `Eliom manual` for details.
 
 ### Disconnection
 
@@ -755,42 +773,35 @@ let connection_box () = Eliom.Content.Html.D.(
 
 **Concepts**
 
-Sending 404<br/> `Eliom.Registration.Any`
+Sending 404<br/> `Eliom.Registration.set_status`
 
-Our service `user_service` responds to any request parameter, even if the user does not exist in the database. We want to check that the user is in the database before displaying the page, and send a 404 error if the user is not. To do that, we will replace module `Eliom.Registration.Html` by `module
-Eliom.Registration.Any` to register the service `user_service`:
+Our service `user_service` responds to any request parameter, even if the user does not exist in the database. We want to check that the user is in the database before displaying the page, and send a page with the HTTP status 404 (Not Found) if the user is not. To do that, the handler calls `Eliom.Registration.set_status` before returning its page:
 
 ```ocaml
-  Eliom.Registration.Any.register
+  Eliom.Registration.Html.register
     ~service:user_service
     (fun name () ->
-      if List.mem_assoc name !users then
-	begin
-	  let%lwt cf = connection_box () in
-	  Eliom.Registration.Html.send
-            (html (head (title (txt name)) [])
-               (body [h1 [txt name];
-                      cf;
-                      p [a ~service:main_service [txt "Home"] ()]]))
-	end
-      else
-	Eliom.Registration.Html.send
-          ~code:404
+      if List.mem_assoc name !users then begin
+        let%lwt cf = connection_box () in
+        Lwt.return
+          (html (head (title (txt name)) [])
+             (body [h1 [txt name];
+                    cf;
+                    p [a ~service:main_service [txt "Home"] ()]]))
+      end
+      else begin
+        Eliom.Registration.set_status `Not_found;
+        Lwt.return
           (html (head (title (txt "404")) [])
              (body [h1 [txt "404"];
                     p [txt "That page does not exist"]]))
-    );
+      end);
 ```
-**Concept: Eliom.Registration.Any**
+**Concept: HTTP status of a page**
 
-The module `module
-Eliom.Registration.Any` can be used to create services that are flexible to choose the kind of output they want to send.
+The function `Eliom.Registration.set_status` sets the HTTP status of the answer to the current request. The handler still returns its page as usual, so the service keeps its registration module. This status takes precedence over the `?code` parameter of the registration function.
 
-Use the `send` function from the module you want to send the output. That function also allows, for example, to specify the HTTP response code (here, we choose to use 404\) or to set HTTP headers.
-
-**Work in progress**
-
-In the future, we may add functions like `set_http_code` or `set_http_header` to personalize the answer without using `Eliom.Registration.Any`.
+A service registered with `Eliom.Registration.Any`, as in the connection section above, gives the status to the `send` function it calls instead.
 
 ### Wrapping the server handler to easily get the user data
 

@@ -7,7 +7,7 @@ open%shared Eliom.Content.Html.F
 ```
 and use the Lwt syntax extension (`let%lwt`, see [Lwt in 5 minutes](./lwt.md)). Answers mentioning `Os` or `Ot` use `Ocsigen Start` and `Ocsigen Toolkit`. Module names are those of Eliom 13 and later (`Eliom.Service` rather than `Eliom_service`, see [the migration guide](./migration.md)).
 
-Pages are registered with the module `App` of the application, made by `Eliom.Registration.App`: it is in `myapp.eliom` with the `app` template, and is `Myapp_base.App` with the `os` template. Do not use `Eliom.Registration.Html` for the pages of a client-server application: it sends them without the client-side program, so their client-side code does not run, and links towards them leave the application.
+Pages are registered with the module `App` of the application, made by `Eliom.Registration.App`: it is in `myapp.eliom` with the `app` template, and is `Myapp_base.App` with the `os` template. Do not use `Eliom.Registration.Html` for the pages of a client-server application: it sends them without the client-side program, so their client-side code does not run, and links towards them leave the application. Most examples register pages on the server only; [this question](./#client_pages) shows how to let the client generate them too.
 
 ## Getting started
 
@@ -111,6 +111,23 @@ let%shared images =
 ```
 On the Web, both `static_dir` links are relative and give the same result. In the mobile app, links are absolute by default, so they point to the server. With `~absolute:false`, the link stays relative and the image is read from the files embedded in the app: the `os` template embeds the directories `css`, `images` and `fonts` of `static/`. Use it for the images that are part of the interface (logo, icons); keep the default for the ones that change after the app is installed, such as images uploaded by users. See also `how Ocsigen Server serves static files`.
 
+### How do I make pages that work on phones?
+
+Add a `viewport` element to the `head` of the page (see the [skeleton above](./#skeleton)), otherwise phones display the page as on a large screen, zoomed out:
+
+```ocaml
+let%shared viewport =
+  meta ~a:[a_name "viewport"; a_content "width=device-width, initial-scale=1"] ()
+```
+Then adapt the layout to the width of the screen with CSS media queries:
+
+```css
+@media (max-width: 600px) {
+  .content { padding: 0 8px; }
+}
+```
+The `os` template does both, and its mobile app uses the same pages.
+
 ## Services, links and forms
 
 ### How do I take parameters from the URL?
@@ -192,6 +209,55 @@ let%server comment_form post_id =
 ```
 `Form` also has `select`, `checkbox`, `radio`, `file_input`... See `forms in Eliom's manual` and the `demo_forms.eliom` file of the `os` template. The `os` template also shows how to submit a form from client-side code, without changing page.
 
+### How do I redirect to another page, or do something and stay on the same page?
+
+A service registered with `Eliom.Registration.Redirection` answers with a redirection towards another service, for instance after a POST form. A service with parameters is first given their values with `Eliom.Service.preapply`:
+
+```ocaml
+let%server new_post =
+  Eliom.Registration.Redirection.create ~options:`SeeOther
+    ~path:(Eliom.Service.Path ["new_post"])
+    ~meth:
+      (Eliom.Service.Post (Eliom.Parameter.unit, Eliom.Parameter.string "text"))
+    (fun () text ->
+       let%lwt id = Db.add_post text in
+       Lwt.return
+         (Eliom.Registration.Redirection
+            (Eliom.Service.preapply ~service:article id)))
+```
+To do something and then display the current page again, register an *action* with `Eliom.Registration.Action`. Without a path (`Eliom.Service.No_path`), the service can be called from any page, which suits a connection or disconnection form present on all pages:
+
+```ocaml
+let%server logout =
+  Eliom.Registration.Action.create ~options:`Reload
+    ~path:Eliom.Service.No_path
+    ~meth:(Eliom.Service.Post (Eliom.Parameter.unit, Eliom.Parameter.unit))
+    (fun () () ->
+       Eliom.State.discard ~scope:Eliom.Common.default_session_scope ())
+
+let%server logout_form () =
+  Form.post_form ~service:logout
+    (fun () -> [Form.input ~input_type:`Submit ~value:"Log out" Form.string])
+    ()
+```
+`Eliom.State.discard` closes the session of this user only (`Eliom.State.discard_all` would close the sessions of all users). With ``Reload`, the page is generated again after the action; with ``NoReload` (or `Eliom.Registration.Unit`), the browser keeps it as it is. Ocsigen Start already has its connection, disconnection and sign-up services, in `Os.Services`. See `redirections` and `actions` in Eliom's manual.
+
+### How do I protect a form against cross-site request forgery (CSRF)?
+
+Another site can make the browser of a user send a form to your site, with the cookies of the user. To prevent it, create the service with `~csrf_safe:true`:
+
+```ocaml
+let%server delete_account =
+  Eliom.Service.create ~csrf_safe:true ~path:Eliom.Service.No_path
+    ~meth:(Eliom.Service.Post (Eliom.Parameter.unit, Eliom.Parameter.unit))
+    ()
+
+let%server () =
+  Eliom.Registration.Action.register ~service:delete_account (fun () () ->
+    Db.delete_account ())
+```
+Each form towards it then gets a new name, valid only in the session of the user. If you register the service with a `~scope` other than the session, give the same one to `~csrf_scope`. See `how to write secure applications with Eliom`.
+
 ### How do I write a service that answers any path, takes any parameter and returns anything?
 
 Take the end of the path with `all_suffix` and all parameters with `any`, then register with `Eliom.Registration.String`, which sends a string with the content type of your choice:
@@ -268,6 +334,21 @@ let%server () =
     | e -> Lwt.fail e)
 ```
 With `App.send`, the client-side program displays this page without leaving the application. Eliom then answers the unknown URLs itself: the extensions placed after `<eliom/>` in the configuration file no longer see them. The `os` template does this in `myapp.eliom`.
+
+### How do I get information about the request (address, browser, language)?
+
+With the functions of `Eliom.Request_info`, during a request:
+
+```ocaml
+let%server request_summary () =
+  Printf.sprintf "%s, %s, %s, %s"
+    (Eliom.Request_info.get_client_conn_to_string ())
+    (Eliom.Request_info.get_user_agent ())
+    (String.concat " "
+       (List.map fst (Eliom.Request_info.get_accept_language ())))
+    (if Eliom.Request_info.get_ssl () then "HTTPS" else "HTTP")
+```
+Behind a reverse proxy, the address is the one of the proxy, unless the configuration says to trust the headers that the proxy adds (see [below](./#production)): the address of the client then comes with a prefix, as in `"forwarded:192.0.2.1"`. The same module gives the cookies, the URL, the hostname and the HTTP headers (`get_ri`).
 
 ### How do I write a JSON service?
 
@@ -443,6 +524,40 @@ let%shared hello_button =
 ```
 A page can also be built by the client-side program, when the user follows a link. A `[%client ...]` expression then runs before the page is displayed: put the code that needs the page (setting the focus, measuring an element) in `Eliom.Client.onload`. Read the tutorial on [client-server widgets](./tutowidgets.md) and `Eliom's manual`.
 
+### How do I change page without asking the server for it?
+
+Register the service on both sides: the client-side program then generates the page itself when the user follows a link, and calls the server only for the data it needs. Services are created on the server, and sent once to the client with `~%`:
+
+```ocaml
+let%server item_page =
+  Eliom.Service.create
+    ~path:(Eliom.Service.Path ["item"])
+    ~meth:(Eliom.Service.Get Eliom.Parameter.(int "id"))
+    ()
+
+let%client item_page = ~%item_page
+
+let%shared () =
+  App.register ~service:item_page (fun id () ->
+    let%lwt it = get_item id in
+    Lwt.return (skeleton ~title:it.label [p [txt it.label]]))
+```
+On the first request, the server generates the page, as usual. The handler is shared code: `get_item` is the [RPC](./#rpc) above, a function call on the server and a request on the client. The mobile app needs this for its pages, as they are all generated by its client-side program. See `client-side services` in Eliom's manual.
+
+### How do I change page from client-side code?
+
+Call `Eliom.Client.change_page` with the service and its parameters (GET then POST). It works for any service, and generates the page on the client when the service is registered there:
+
+```ocaml
+let%client go_to_item id = Eliom.Client.change_page ~service:item_page id ()
+
+let%shared next_button (id : int) =
+  button
+    ~a:[a_onclick [%client fun _ -> Lwt.async (fun () -> go_to_item (~%id + 1))]]
+    [txt "Next"]
+```
+To change page as soon as a page is displayed, do it in `Eliom.Client.onload`, which runs once the current page is in place. When the page is generated by the client, a `[%client ...]` expression runs before that: a change of page started there can end first, and the page being displayed then replaces the new one. To leave the application, for instance towards another site, use `Eliom.Client.exit_to`.
+
 ### How do I attach OCaml values to HTML nodes?
 
 From server-side code, with `Eliom.Content.Html.Custom_data`: the value is sent in a `data-` attribute, and the client gets it back from the DOM node:
@@ -517,6 +632,34 @@ let%client () =
     Lwt.return_unit)
 ```
 An `Lwt_stream` raises its exception only once: handle it where you read the stream.
+
+### How do I display a page before its data has arrived?
+
+With Ocsigen Toolkit, wrap the part that waits in `Ot.Spinner.with_spinner`:
+
+```ocaml
+let%shared item_block id =
+  Ot.Spinner.with_spinner
+    (let%lwt it = get_item id in
+     Lwt.return [txt it.label])
+```
+On the client, the rest of the page is displayed at once, with a spinner in place of this block until `get_item` answers. On the server, there is no spinner: the page is sent once the data is there. Optional arguments choose the spinner, and what to display if the promise fails.
+
+### How do I display a message to the user?
+
+With Ocsigen Start, call `Os.Msg.msg`, on the client or on the server: the message is displayed for a few seconds, in a box that the CSS of the application places. Typically, when a call to the server fails:
+
+```ocaml
+let%client save label =
+  try%lwt
+    let%lwt () = save_label label in
+    Os.Msg.msg "Saved";
+    Lwt.return_unit
+  with e ->
+    Logs.err (fun m -> m "save_label: %s" (Printexc.to_string e));
+    Os.Msg.msg ~level:`Err "Could not save, please try again";
+    Lwt.return_unit
+```
 
 ## Users and sessions
 
@@ -659,11 +802,61 @@ let%client load_script url =
 ```
 The library is then reached through `Js.Unsafe.global`, or, better, through typed bindings (see [the previous question](./#js_objects)).
 
+## Common errors
+
+### The compiler gives an error I do not understand: does it come from the server or from the client?
+
+An `.eliom` file is compiled twice: once for the server and once for the client, shared code being in both. The error message gives the same file and line in both cases, so first find out which compilation failed, which is not always the one you think. Run `dune build --always-show-command-line`: the command that compiles for the client writes in a `client` directory (`-o app/client/...` with the `app` template, `-o lib/client/...` with the `os` template). Then, for instance:
+
+- `Unbound value` in shared code: the value is defined on one side only (`let%server` or `let%client`);
+- `Unbound module Js_of_ocaml` on the server: client-side code is outside a client section;
+- a type error with `~%`: the type of the value on the server is not the one expected on the client. Write the type of client values (`[%client (e : t)]`) and of the parameters of RPCs: inference does not cross from one side to the other.
+
+### The server log says "cannot wrap functional values"
+
+A `~%` sends a value that contains functions to the client, which is impossible. Common cases: a `Custom_data.t`, or any record of functions. The request then fails: the server answers with an error 500 and writes this message in its log. Send only data with `~%`; for a value defined with `let%shared`, such as a `Custom_data.t`, use its client version, without `~%`.
+
+### My client-side code does not run
+
+Check that:
+
+- the page is registered with the `App` module of the application, not with `Eliom.Registration.Html` (see the beginning of this page);
+- the `[%client ...]` expression is evaluated while the page is generated: a client value created by a function that the handler never calls does not run;
+- the console of the browser shows no exception: an exception in an event handler of `Js_of_ocaml_lwt.Lwt_js_events` is only written there;
+- code that needs the page to be displayed is in `Eliom.Client.onload` (see [this question](./#client_code)).
+
+### My numbers are wrong in the browser only
+
+Integers have 63 bits on the server, but 32 bits on the client with js\_of\_ocaml and 31 bits with wasm\_of\_ocaml. Larger values (database ids, timestamps in milliseconds, amounts in cents) are silently corrupted on the client: give them the type `int64` (or `string`) in shared and client-side code, and in the types of RPCs.
+
 ## Going further
 
 ### How do I use a database?
 
 The `os` template uses PostgreSQL with PG'OCaml: the `[%pgsql]` queries are checked against the database at compile time (see `demo_pgocaml_db.ml` and `make db-update`). For a simple key-value store, use [Ocsipersist](./ocsipersist.md).
+
+### How do I read options from the configuration file?
+
+Put them in the element that loads your application in the configuration file (`<eliommodule>`), and read them during the initialisation of the module with `Eliom.Config.get_config`, or `Eliom.Config.parse_config`: see [Custom configuration options](./custom-conf.md). The `os` template reads this way its database settings and its directories (`myapp_config.eliom`). A program that runs Ocsigen Server as a library has no configuration file: take the options from its command line or its environment.
+
+### How do I run a task periodically on the server?
+
+Start an Lwt loop when the module is loaded:
+
+```ocaml
+let%server rec clean_sessions () =
+  let%lwt () = Lwt_unix.sleep 3600. in
+  let%lwt () =
+    try%lwt Db.remove_expired_sessions ()
+    with e ->
+      Logs.err (fun m -> m "Session cleanup: %s" (Printexc.to_string e));
+      Lwt.return_unit
+  in
+  clean_sessions ()
+
+let%server () = Lwt.async clean_sessions
+```
+Catch the exceptions inside the loop: otherwise, the first one stops it, and Ocsigen Server only writes it in the log. Do not call blocking functions in the loop: they would stop the whole server (see [Lwt in 5 minutes](./lwt.md)).
 
 ### How do I send an email?
 
@@ -694,3 +887,35 @@ By default, only warnings and errors are logged. Lower the level of a source in 
 <loglevel source="myapp:payment" level="info"/>
 ```
 or for all sources with option `-v` of `ocsigenserver` (see the `configuration file documentation`).
+
+### How do I put my application in production?
+
+A few settings of the configuration file to check.
+
+**HTTPS.** Ocsigen Server serves it with a certificate and a private key:
+
+```xml
+<port protocol="HTTPS">443</port>
+<ssl>
+  <certificate>/etc/myapp/cert.pem</certificate>
+  <privatekey>/etc/myapp/privkey.pem</privatekey>
+</ssl>
+```
+Once the site is in HTTPS only, make the sessions available to HTTPS requests only, with `<securecookies value="true"/>` in the element that loads Eliom (`<extension findlib-package="eliom.server">`), see `secure sessions`.
+
+**Reverse proxy.** A proxy (nginx, HAProxy, Caddy...) is recommended on the Internet, for certificates, slow clients and rate limiting. The address of the client and the protocol are then in headers added by the proxy: trust them only for the requests that come from the proxy, with the `accesscontrol` extension:
+
+```xml
+<if>
+  <ip value="127.0.0.1"/>
+  <then>
+    <allow-forward-for/>
+    <allow-forward-proto/>
+  </then>
+</if>
+```
+**Security headers.** The `securityheaders` extension adds the usual ones to the responses.
+
+**Logs.** Set `<logdir>` for log files, or leave it out to log to the standard output, for instance under systemd ([see above](./#logs)).
+
+See also `how to write secure applications with Eliom` and the `configuration file documentation`.

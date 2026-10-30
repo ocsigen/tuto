@@ -379,29 +379,34 @@ Lwt_preemptive.detach</code> function to make the blocking function be executed 
         (html (head (title (txt name)) [])
               (body [h1 [txt name];
 		     cf;
-                     p [a ~service:main_service [txt &quot;Home&quot;] ()]])));</code></pre><aside class="concept"><p><b>Concept: Alternative: register a redirection</b></p><p>Usually, after sending a POST form, it is good practice to do a redirection. This avoids reposting the data if the user reloads the page.</p><p>Eliom provides the module <code>Eliom.Registration.Redirection</code> to register services doing redirections. Such services return a service without parameter.</p><p>Example:</p><pre class="language-ocaml"><code>
-let redir_service = Eliom.Service.create
-    ~path:(Eliom.Service.Path [&quot;redir&quot;])
+                     p [a ~service:main_service [txt &quot;Home&quot;] ()]])));</code></pre><aside class="concept"><p><b>Concept: Alternative: register a redirection</b></p><p>Usually, after sending a POST form, it is good practice to do a redirection. This avoids reposting the data if the user reloads the page.</p><p>Eliom provides the module <code>Eliom.Registration.Redirection</code> to register services doing redirections. Such services return a service without parameter.</p><p>Example:</p><pre class="language-ocaml"><code>let form_service = Eliom.Service.create
+    ~path:(Eliom.Service.Path [&quot;form&quot;])
     ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 
-let service_to_redirect = Eliom.Service.create_attached_post
-  ~fallback:redir_service
+let form_result_service = Eliom.Service.create_attached_post
+  ~fallback:form_service
   ~post_params:(Eliom.Parameter.string &quot;something&quot;)
   ()
 
 let () =
-  (** redir_service registration **)
   Eliom.Registration.Redirection.register
-    ~service:redir_service
-    (fun () () -&gt;
-    	 Lwt.return
-		(Eliom.Registration.Redirection some_service_to_redirect_to));
-
-  (** service_to_redirect registration **)
+    ~service:form_result_service
+    (fun () something -&gt;
+      let%lwt () = save something in
+      Lwt.return (Eliom.Registration.Redirection main_service))</code></pre><p>where <code>save</code> is a function of your application that stores the data.</p><p>(If you want to give parameters to the service you return, use <code>Eliom.Service.preapply</code> --- more information in the <a href="./../../eliom/dev/server/services/types.html#preapplied">Eliom manual</a>.)</p><p>If you want to do a redirection towards the current page (as in our case), use the special service <code>~path</code> parameter <code>Eliom.Service.No_path</code>, which is some kind of POST non-attached coservice without parameter at all.</p></aside><aside class="concept"><p><b>Concept: Choosing what to send with Eliom.Registration.Any</b></p><p>Sometimes a service cannot know in advance what kind of answer it will send. In the example above, if the data sent with the form may be invalid, the service should redirect after a valid form, and display an error page otherwise. Register such a service with <code>Eliom.Registration.Any</code>. Its handler calls the <code>send</code> function of the output module it chooses:</p><pre class="language-ocaml"><code>let () =
   Eliom.Registration.Any.register
-  ~service:service_to_redirect
-  (fun () something -&gt; ..... )</code></pre><p>(If you want to give parameters to the service you return, use <code>Eliom.Service.preapply</code> --- more information in the <a href="./../../eliom/dev/server/services/types.html#preapplied">Eliom manual</a>.)</p><p>If you want to do a redirection towards the current page (as in our case), use the special service <code>~path</code> parameter <code>Eliom.Service.No_path</code>, which is some kind of POST non-attached coservice without parameter at all.</p></aside><h3 id="disconnection">Disconnection</h3><p>To create a logout/disconnection form, we create another non-attached coservice using POST method, and register another action. We call the function <code>val
+    ~service:form_result_service
+    (fun () something -&gt;
+      if something = &quot;&quot; then
+        Eliom.Registration.Html.send
+          (html (head (title (txt &quot;Error&quot;)) [])
+             (body [p [txt &quot;Please fill in the field.&quot;];
+                    p [a ~service:form_service [txt &quot;Back&quot;] ()]]))
+      else
+        let%lwt () = save something in
+        Eliom.Registration.Redirection.send
+          (Eliom.Registration.Redirection main_service))</code></pre><p>The <code>send</code> functions also take optional parameters to set the HTTP status code (<code>?code</code>) and the headers (<code>?headers</code>) of the answer. To change only the status of a page, <code>Eliom.Registration.set_status</code> is simpler, as we will see below.</p><p>The type of the handler prevents some mixes: for instance, the same service cannot send a page of a client-server application or a plain HTML page without a conversion. See the <a href="./../../eliom/dev/server/services/handlers.html#any">Eliom manual</a> for details.</p></aside><h3 id="disconnection">Disconnection</h3><p>To create a logout/disconnection form, we create another non-attached coservice using POST method, and register another action. We call the function <code>val
 Eliom.State.discard</code> with scope <code>Eliom.Common.default_session_scope</code> to remove all session data.</p><pre class="language-ocaml"><code>let disconnection_service = Eliom.Service.create
   ~path:(Eliom.Service.No_path)
   ~meth:(Eliom.Service.Post (Eliom.Parameter.unit, Eliom.Parameter.unit))
@@ -540,27 +545,24 @@ let _ = Eliom.Content.Html.D.(
     (fun () (name, password) -&gt;
       if check_pwd name password
       then Eliom.Reference.set username (Some name)
-      else Eliom.Reference.set wrong_pwd true);</code></pre><h3 id="sending-404-errors-for-non-existing-users">Sending 404 errors for non-existing users</h3><aside class="concepts"><p><b>Concepts</b></p><p>Sending 404<br/> <code>Eliom.Registration.Any</code></p></aside><p>Our service <code>user_service</code> responds to any request parameter, even if the user does not exist in the database. We want to check that the user is in the database before displaying the page, and send a 404 error if the user is not. To do that, we will replace module <code>Eliom.Registration.Html</code> by <code>module
-Eliom.Registration.Any</code> to register the service <code>user_service</code>:</p><pre class="language-ocaml"><code>  Eliom.Registration.Any.register
+      else Eliom.Reference.set wrong_pwd true);</code></pre><h3 id="sending-404-errors-for-non-existing-users">Sending 404 errors for non-existing users</h3><aside class="concepts"><p><b>Concepts</b></p><p>Sending 404<br/> <code>Eliom.Registration.set_status</code></p></aside><p>Our service <code>user_service</code> responds to any request parameter, even if the user does not exist in the database. We want to check that the user is in the database before displaying the page, and send a page with the HTTP status 404 (Not Found) if the user is not. To do that, the handler calls <code>Eliom.Registration.set_status</code> before returning its page:</p><pre class="language-ocaml"><code>  Eliom.Registration.Html.register
     ~service:user_service
     (fun name () -&gt;
-      if List.mem_assoc name !users then
-	begin
-	  let%lwt cf = connection_box () in
-	  Eliom.Registration.Html.send
-            (html (head (title (txt name)) [])
-               (body [h1 [txt name];
-                      cf;
-                      p [a ~service:main_service [txt &quot;Home&quot;] ()]]))
-	end
-      else
-	Eliom.Registration.Html.send
-          ~code:404
+      if List.mem_assoc name !users then begin
+        let%lwt cf = connection_box () in
+        Lwt.return
+          (html (head (title (txt name)) [])
+             (body [h1 [txt name];
+                    cf;
+                    p [a ~service:main_service [txt &quot;Home&quot;] ()]]))
+      end
+      else begin
+        Eliom.Registration.set_status `Not_found;
+        Lwt.return
           (html (head (title (txt &quot;404&quot;)) [])
              (body [h1 [txt &quot;404&quot;];
                     p [txt &quot;That page does not exist&quot;]]))
-    );</code></pre><aside class="concept"><p><b>Concept: Eliom.Registration.Any</b></p><p>The module <code>module
-Eliom.Registration.Any</code> can be used to create services that are flexible to choose the kind of output they want to send.</p><p>Use the <code>send</code> function from the module you want to send the output. That function also allows, for example, to specify the HTTP response code (here, we choose to use 404) or to set HTTP headers.</p></aside><aside class="wip"><p><b>Work in progress</b></p><p>In the future, we may add functions like <code>set_http_code</code> or <code>set_http_header</code> to personalize the answer without using <code>Eliom.Registration.Any</code>.</p></aside><h3 id="wrapping-the-server-handler-to-easily-get-the-user-data">Wrapping the server handler to easily get the user data</h3><p>When you want to assume that you have information available in sessions, for instance when a site is mainly available to connected users, it becomes tedious to check everywhere that a reference is not <code>None</code>. A simple way to distinguish authenticated and anonymous requests lies in the usage of <code>Eliom.Tools.wrap_handler</code>. It allows you to provide two handler functions, one is called if a certain information is not made available by the first argument, the other is called when that information is available.</p><pre class="language-ocaml"><code>
+      end);</code></pre><aside class="concept"><p><b>Concept: HTTP status of a page</b></p><p>The function <code>Eliom.Registration.set_status</code> sets the HTTP status of the answer to the current request. The handler still returns its page as usual, so the service keeps its registration module. This status takes precedence over the <code>?code</code> parameter of the registration function.</p><p>A service registered with <code>Eliom.Registration.Any</code>, as in the connection section above, gives the status to the <code>send</code> function it calls instead.</p></aside><h3 id="wrapping-the-server-handler-to-easily-get-the-user-data">Wrapping the server handler to easily get the user data</h3><p>When you want to assume that you have information available in sessions, for instance when a site is mainly available to connected users, it becomes tedious to check everywhere that a reference is not <code>None</code>. A simple way to distinguish authenticated and anonymous requests lies in the usage of <code>Eliom.Tools.wrap_handler</code>. It allows you to provide two handler functions, one is called if a certain information is not made available by the first argument, the other is called when that information is available.</p><pre class="language-ocaml"><code>
 let authenticated_handler f = Eliom.Content.Html.D.(
   let handle_anonymous _get _post =
     let connection_box =

@@ -749,30 +749,25 @@ redirections.  Such services return a service without parameter.
 Example:
 
 {@ocaml[
-
-let redir_service = Eliom.Service.create
-    ~path:(Eliom.Service.Path ["redir"])
+let form_service = Eliom.Service.create
+    ~path:(Eliom.Service.Path ["form"])
     ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 
-let service_to_redirect = Eliom.Service.create_attached_post
-  ~fallback:redir_service
+let form_result_service = Eliom.Service.create_attached_post
+  ~fallback:form_service
   ~post_params:(Eliom.Parameter.string "something")
   ()
 
 let () =
-  (** redir_service registration **)
   Eliom.Registration.Redirection.register
-    ~service:redir_service
-    (fun () () ->
-    	 Lwt.return
-		(Eliom.Registration.Redirection some_service_to_redirect_to));
-
-  (** service_to_redirect registration **)
-  Eliom.Registration.Any.register
-  ~service:service_to_redirect
-  (fun () something -> ..... )
+    ~service:form_result_service
+    (fun () something ->
+      let%lwt () = save something in
+      Lwt.return (Eliom.Registration.Redirection main_service))
 ]}
+
+where [save] is a function of your application that stores the data.
 
 (If you want to give parameters to the service you return, use {!Eliom.Service.preapply} ---
 more information in the {{!/eliom/server/services/page-types.preapplied}Eliom manual}.)
@@ -780,6 +775,45 @@ more information in the {{!/eliom/server/services/page-types.preapplied}Eliom ma
 If you want to do a redirection towards the current page (as in our
 case), use the special service [~path] parameter {!Eliom.Service.No_path}, which is some kind of POST
 non-attached coservice without parameter at all.  {%wodoc:end%}
+
+{%wodoc:aside class="concept"%}{b Concept: Choosing what to send with Eliom.Registration.Any}
+
+
+
+Sometimes a service cannot know in advance what kind of answer it
+will send.  In the example above, if the data sent with the form may
+be invalid, the service should redirect after a valid form, and
+display an error page otherwise.  Register such a service with
+{!Eliom.Registration.Any}.  Its handler calls the [send] function of
+the output module it chooses:
+
+{@ocaml[
+let () =
+  Eliom.Registration.Any.register
+    ~service:form_result_service
+    (fun () something ->
+      if something = "" then
+        Eliom.Registration.Html.send
+          (html (head (title (txt "Error")) [])
+             (body [p [txt "Please fill in the field."];
+                    p [a ~service:form_service [txt "Back"] ()]]))
+      else
+        let%lwt () = save something in
+        Eliom.Registration.Redirection.send
+          (Eliom.Registration.Redirection main_service))
+]}
+
+The [send] functions also take optional parameters to set the HTTP
+status code ([?code]) and the headers ([?headers]) of the answer.  To
+change only the status of a page, {!val:Eliom.Registration.set_status}
+is simpler, as we will see below.
+
+The type of the handler prevents some mixes: for instance, the same
+service cannot send a page of a client-server application or a plain
+HTML page without a conversion.  See the
+{{!/eliom/server/services/page-handlers.any}Eliom manual} for details.
+
+{%wodoc:end%}
 
 {2 Disconnection}
 
@@ -1190,13 +1224,9 @@ returns its page as usual, so the service keeps its registration
 module. This status takes precedence over the [?code] parameter of
 the registration function.
 
-A service can also choose itself the kind of output it sends (for
-example an HTML page or a redirection), if it is registered with
-{!Eliom.Registration.Any}. Its handler then calls the [send] function
-of the module it wants to use, which also takes the HTTP status and
-headers as parameters. See the question
-{{!page-faq.choose}How do I send a page or a file, depending on the
-request?}
+A service registered with {!Eliom.Registration.Any}, as in the
+connection section above, gives the status to the [send] function it
+calls instead.
 
 {%wodoc:end%}
 

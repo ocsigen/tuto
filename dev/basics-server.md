@@ -544,7 +544,7 @@ Ocsigen i18n offers many other features:
 - Text can be inserted as a TyXML node (as in the example above) or as a string (ex: `[%i18n S.welcome_message]`),
 - Text can be parametrizable, or contain holes (ex: `[%i18n welcome ~capitalize:true ~name:"William"]`)
 - .tsv file can be split into several modules
-Have a look at the [README file](https://github.com/besport/ocsigen-i18n) to see the full documentation, and see examples in [Ocsigen Start's template](https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_i18n.eliom).
+Have a look at the [README file](https://github.com/besport/ocsigen-i18n) to see the full documentation, and see examples in [Ocsigen Start's template](https://github.com/ocsigen/os_template/blob/master/lib/demo_i18n.eliom).
 
 ## Ocsigen Server
 

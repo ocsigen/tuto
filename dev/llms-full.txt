@@ -679,7 +679,7 @@ let%shared () =
 ```
 Service handlers and service registration are usually written in shared sections to enable page generation on both sides.
 
-- Examples of client sections, injections or server functions can be found in the demo included in [Ocsigen-Start's app template](https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_rpc.eliom).
+- Examples of client sections, injections or server functions can be found in the demo included in [Ocsigen-Start's app template](https://github.com/ocsigen/os_template/blob/master/lib/demo_rpc.eliom).
 - [This page](./application.md) is a step by step introduction to client-server programming with Eliom for beginners.
 - [This one](./tutowidgets.md) is a quick introduction for more experienced OCaml developers.
 - Comprehensive documentation on client-server programming can be found in `Eliom's user manual`.
@@ -829,7 +829,7 @@ If you want to send a message in a chat room, call function `Notif.notify` (serv
 
 On client side, `~%(Notif.client_ev ())` is a React event of type `(key, notif) React.E.t`. Use it to receive the messages.
 
-Have a look at a [running example](https://ocsigen-1.inria.fr/ocsigen-start/demo/demo-notif) in Ocsigen Start's demo ([source](https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_notif.eliom)).
+Have a look at a [running example](https://ocsigen-1.inria.fr/ocsigen-start/demo/demo-notif) in Ocsigen Start's demo ([source](https://github.com/ocsigen/os_template/blob/master/lib/demo_notif.eliom)).
 
 Eliom has other communication modules:
 
@@ -865,7 +865,7 @@ Ocsigen i18n offers many other features:
 - Text can be inserted as a TyXML node (as in the example above) or as a string (ex: `[%i18n S.welcome_message]`),
 - Text can be parametrizable, or contain holes (ex: `[%i18n welcome ~capitalize:true ~name:"William"]`)
 - .tsv file can be split into several modules
-Have a look at the [README file](https://github.com/besport/ocsigen-i18n) to see the full documentation, and see examples in [Ocsigen Start's template](https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_i18n.eliom).
+Have a look at the [README file](https://github.com/besport/ocsigen-i18n) to see the full documentation, and see examples in [Ocsigen Start's template](https://github.com/ocsigen/os_template/blob/master/lib/demo_i18n.eliom).
 
 ## Reactive programming
 
@@ -1539,7 +1539,7 @@ Ocsigen i18n offers many other features:
 - Text can be inserted as a TyXML node (as in the example above) or as a string (ex: `[%i18n S.welcome_message]`),
 - Text can be parametrizable, or contain holes (ex: `[%i18n welcome ~capitalize:true ~name:"William"]`)
 - .tsv file can be split into several modules
-Have a look at the [README file](https://github.com/besport/ocsigen-i18n) to see the full documentation, and see examples in [Ocsigen Start's template](https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/demo_i18n.eliom).
+Have a look at the [README file](https://github.com/besport/ocsigen-i18n) to see the full documentation, and see examples in [Ocsigen Start's template](https://github.com/ocsigen/os_template/blob/master/lib/demo_i18n.eliom).
 
 ## Ocsigen Server
 

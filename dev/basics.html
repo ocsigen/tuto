@@ -296,13 +296,13 @@ Eliom.Parameter.(suffix_prod (int &quot;year&quot; ** int &quot;month&quot;) (in
          [&quot;dir&quot; ; &quot;image.jpg&quot;])
   ()</code></pre></section><section class="docblock"><header><h2 id="compiling">Compiling</h2></header><p>In this section, we will show how to compile and run a <em>server-side only</em> Web site by creating your project manually.</p><h3 id="build-your-own-executable">Build your own executable</h3><p>This section shows how to build your own executable, with Ocsigen Server linked in as a library, without a configuration file.</p><p>Run the following commands:</p><pre>opam install ocsipersist-sqlite-config eliom
 dune init project --kind=executable mysite
-cd mysite</pre><p>Create the directories will we use for data (logs, etc.):</p><pre>mkdir -p local/var/log/mysite
+cd mysite</pre><p>Create the directories we will use for data (logs, etc.):</p><pre>mkdir -p local/var/log/mysite
 mkdir -p local/var/data/mysite
-mkdir -p local/var/run</pre><p>Add packages <code>ocsipersist-sqlite</code> and <code>eliom.server</code> to file <code>bin/dune</code>, in the &quot;libraries&quot; section.</p><p>Copy the definition and registration of service <code>myservice</code> at the beginning of file <code>bin/main.ml</code>, and replace the call to <code>Ocsigen.Server.start</code> by the following lines:</p><pre class="language-ocaml"><code>let () = 
-  Ocsigen.Server.start 
+mkdir -p local/var/run</pre><p>Add libraries <code>ocsipersist-sqlite</code>, <code>eliom.server</code> and <code>ocsigenserver.ext.staticmod</code> to the <code>libraries</code> field of file <code>bin/dune</code>.</p><p>Copy the definition and registration of service <code>myservice</code> at the beginning of file <code>bin/main.ml</code>, and replace the call to <code>Ocsigen.Server.start</code> by the following lines. <code>Ocsipersist_settings.set_db_file</code> gives the SQLite file where Eliom keeps its persistent data, as <code>&lt;database file=&quot;...&quot;/&gt;</code> does in a configuration file:</p><pre class="language-ocaml"><code>let () =
+  Ocsipersist_settings.set_db_file &quot;local/var/data/mysite/ocsidb&quot;;
+  Ocsigen.Server.start
     ~command_pipe:&quot;local/var/run/mysite-cmd&quot;
     ~logdir:&quot;local/var/log/mysite&quot;
-    ~datadir:&quot;local/var/data/mysite&quot;
     ~default_charset:(Some &quot;utf-8&quot;)
     [
       Ocsigen.Server.host
@@ -310,19 +310,20 @@ mkdir -p local/var/run</pre><p>Add packages <code>ocsipersist-sqlite</code> and 
        ; Eliom.App.run () ]
     ]</code></pre><p>Build and execute the program with:</p><pre>dune exec mysite</pre><p>Open URL <code>http://localhost:8080/foo?myparam=Hello&amp;i=27</code> with your browser.</p><h3 id="load-your-site-with-the-ocsigenserver-command">Load your site with the <code>ocsigenserver</code> command</h3><p>Alternatively, you can compile your site as an <em>Eliom module</em> (an OCaml library containing your services), and have the <code>ocsigenserver</code> command load it dynamically, as specified in a configuration file.</p><pre>opam install ocsipersist-sqlite-config eliom
 dune init project --kind=lib mysite
-cd mysite</pre><p>Add <code>(libraries eliom.server)</code> into file <code>lib/dune</code>.</p><p>Create your <code>.ml</code> files in directory <code>lib</code>. For example, copy the definition and registration of service <code>myservice</code> above.</p><p>Create the directories will we use for data (logs, etc.):</p><pre>mkdir -p local/var/log/mysite
+cd mysite</pre><p>Add <code>(libraries eliom.server)</code> into file <code>lib/dune</code>.</p><p>Create your <code>.ml</code> files in directory <code>lib</code>. For example, copy the definition and registration of service <code>myservice</code> above.</p><p>Create the directories we will use for data (logs, etc.):</p><pre>mkdir -p local/var/log/mysite
 mkdir -p local/var/data/mysite
-mkdir -p local/var/run</pre><p>Compile:</p><pre>dune build</pre><p>Create a configuration file <code>mysite.conf</code> with this content on your project root directory:</p><pre>&lt;ocsigen&gt;
+mkdir -p local/var/run</pre><p>Compile the library:</p><pre>dune build ./lib</pre><p>A plain <code>dune build</code> would also build the test executable that <code>dune init</code> created in directory <code>test</code>, and fail: <code>eliom.server</code> uses the virtual library <code>ocsipersist</code>, and an executable must link an implementation of it (such as <code>ocsipersist-sqlite</code>). Here, <code>ocsigenserver</code> loads the backend given in the configuration file instead. If you do not need this test, remove directory <code>test</code>, and <code>dune build</code> then works.</p><p>Create a configuration file <code>mysite.conf</code> with this content on your project root directory:</p><pre>&lt;ocsigen&gt;
   &lt;server&gt;
     &lt;port&gt;8080&lt;/port&gt;
 
     &lt;logdir&gt;local/var/log/mysite&lt;/logdir&gt;
-    &lt;datadir&gt;local/var/data/mysite&lt;/datadir&gt;
     &lt;charset&gt;utf-8&lt;/charset&gt;
 
     &lt;commandpipe&gt;local/var/run/mysite-cmd&lt;/commandpipe&gt;
     &lt;extension findlib-package=&quot;ocsigenserver.ext.staticmod&quot;/&gt;
-    &lt;extension findlib-package=&quot;ocsipersist-sqlite&quot;/&gt;
+    &lt;extension findlib-package=&quot;ocsipersist-sqlite-config&quot;&gt;
+      &lt;database file=&quot;local/var/data/mysite/ocsidb&quot;/&gt;
+    &lt;/extension&gt;
     &lt;extension findlib-package=&quot;eliom.server&quot;/&gt;
     &lt;host hostfilter=&quot;*&quot;&gt;
       &lt;static dir=&quot;local/var/www/mysite&quot; /&gt;

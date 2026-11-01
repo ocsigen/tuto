@@ -80,8 +80,9 @@ To learn Lwt, read this {{!page-lwt}short tutorial}, or its {{!/lwt/page-index}u
 {%wodoc:header%}
 {1 Ocsigen Server: A full featured extensible Web server in OCaml}
 {%wodoc:end%}
-Ocsigen Server can be used either as a library for you OCaml programs, or as
-an executable, taking its configuration from a file (and with dynamic linking).
+Ocsigen Server can be used either as a library, linked into your own
+executable, or with the [ocsigenserver] command, which takes its configuration
+from a file and loads the code of your sites dynamically.
 
 Extensions add features to the server. For example, Staticmod makes it possible
 to serve static files, Deflatemod to compress the output, Redirectmod to
@@ -123,7 +124,7 @@ Put this in file [bin/main.ml], and run [dune exec mysite].
 By default, the server runs on port 8080. Create a [static] directory
 with some files and try to fetch them using your Web browser.
 
-{2 Use as an executable}
+{2 Use the [ocsigenserver] command}
 Alternatively, you can run command [ocsigenserver] with a configuration
 file:
 {v
@@ -361,9 +362,9 @@ This example shows how to insert an image using [static_dir]:
 
 In this section, we will show how to compile and run a {e server-side only} Web site by creating your project manually.
 
-{2 Build an executable}
-This section shows how to create a static executable for you program
-(without configuration file).
+{2 Build your own executable}
+This section shows how to build your own executable, with Ocsigen Server linked
+in as a library, without a configuration file.
 
 Run the following commands:
 {v
@@ -407,9 +408,10 @@ v}
 
 Open URL [http://localhost:8080/foo?myparam=Hello&i=27] with your browser.
 
-{2 Use with ocsigenserver}
-Alternatively, you can decide to build your Eliom app as a library and 
-load it dynamically into ocsigenserver using a configuration file.
+{2 Load your site with the [ocsigenserver] command}
+Alternatively, you can compile your site as an {e Eliom module} (an OCaml
+library containing your services), and have the [ocsigenserver] command load
+it dynamically, as specified in a configuration file.
 
 {v
 opam install ocsipersist-sqlite-config eliom
@@ -877,21 +879,20 @@ v}
 It contains by default some code examples that you can remove or adapt to your own needs.
 Have a look at the [README] file.
 
-If you don't want to use Ocsigen Start, you can use one of the basic templates:
+If you don't want to use Ocsigen Start, you can use the basic template:
 {v
-eliom-distillery -template app.exe -name myapp
+eliom-distillery -template app -name myapp
 v}
-(to build a static executable without config file)
-or
-{v
-eliom-distillery -template app.lib -name myapp
-v}
-(to build your app as a library that will be loaded dynamically in Ocsigen Server using a config file).
+The generated project compiles your app as an Eliom module, which runs either
+in an executable of its own, without a configuration file, or with the
+[ocsigenserver] command and a configuration file.
 
 Have a look at the [README] file.
 
-If these templates are not available, you are probably using an old version of Eliom.
-Try to upgrade, or use old template names (see [eliom-distillery -list-templates]).
+If this template is not available, you are probably using an old version of Eliom.
+Try to upgrade, or use old template names (see [eliom-distillery -list-templates]):
+in Eliom 11 and 12, template [app.exe] built your own executable, and template
+[app.lib] built an Eliom module for the [ocsigenserver] command.
 
 {%wodoc:end%}
 

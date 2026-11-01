@@ -24,7 +24,7 @@ To learn Lwt, read this [short tutorial](./lwt.md), or its `user manual`.
 
 ## Ocsigen Server: A full featured extensible Web server in OCaml
 
- Ocsigen Server can be used either as a library for you OCaml programs, or as an executable, taking its configuration from a file (and with dynamic linking).
+ Ocsigen Server can be used either as a library, linked into your own executable, or with the `ocsigenserver` command, which takes its configuration from a file and loads the code of your sites dynamically.
 
 Extensions add features to the server. For example, Staticmod makes it possible to serve static files, Deflatemod to compress the output, Redirectmod to configure redirections etc.
 
@@ -61,7 +61,7 @@ Put this in file `bin/main.ml`, and run `dune exec mysite`.
 
 By default, the server runs on port 8080\. Create a `static` directory with some files and try to fetch them using your Web browser.
 
-### Use as an executable
+### Use the `ocsigenserver` command
 
 Alternatively, you can run command `ocsigenserver` with a configuration file:
 
@@ -117,9 +117,9 @@ Module `Eliom.Registration.Html_text` is used to register a service sending HTML
 
 In this section, we will show how to compile and run a *server-side only* Web site by creating your project manually.
 
-### Build an executable
+### Build your own executable
 
-This section shows how to create a static executable for you program (without configuration file).
+This section shows how to build your own executable, with Ocsigen Server linked in as a library, without a configuration file.
 
 Run the following command:
 
@@ -158,9 +158,9 @@ dune exec mysite
 ```
 Open URL `http://localhost:8080/aaa/bbb` with your browser.
 
-### Use with ocsigenserver
+### Load your site with the `ocsigenserver` command
 
-Alternatively, you can decide to build your Eliom app as a library and load it dynamically into ocsigenserver using a configuration file.
+Alternatively, you can compile your site as an *Eliom module* (an OCaml library containing your services), and have the `ocsigenserver` command load it dynamically, as specified in a configuration file.
 
 ```
 opam install ocsipersist-sqlite-config eliom

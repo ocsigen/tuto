@@ -64,25 +64,57 @@ jobs:
         # the 404.html that sends a missing page to its version's index, and
         # versions.json, which drives the in-page version <select> and which the
         # dev build refreshes). .nojekyll so GitHub Pages serves the odoc output
-        # verbatim (underscored dirs, no Jekyll build).
+        # verbatim (underscored dirs, no Jekyll build). The site goes to
+        # _doc-site/tuto/, as on ocsigen.org, so that the next step can lay out
+        # the other projects next to it.
         run: |
           for v in 8.0 dev; do
             latest=
             if [ "$v" = 8.0 ]; then latest=--latest; fi
             opam exec -- wodoc build --config doc/wodoc \
               --menu https://ocsigen.org/doc/menu.html \
-              --out "$PWD/_doc-site/$v" --label "$v" \
+              --out "$PWD/_doc-site/tuto/$v" --label "$v" \
               --mld-dir "tutos/$v/manual" --nav "tutos/$v/manual/nav" \
               --strict-refs $latest
             # manual-only: the version landing redirects to the first page (intro)
             printf '<!DOCTYPE html><meta http-equiv="refresh" content="0; url=intro.html">\n' \
-              > "_doc-site/$v/index.html"
+              > "_doc-site/tuto/$v/index.html"
           done
-          touch _doc-site/.nojekyll
+          touch _doc-site/tuto/.nojekyll
+
+      - name: Requalify links into wrapped projects
+        # A manual written against an older release names modules by their flat
+        # name (Eliom_registration), but the current release deploys them under
+        # its wrapper (Eliom/Registration), so these links miss. requalify-xrefs
+        # rewrites each one to the wrapped path whose target exists. It probes
+        # the target trees next to ours: lay out the deployed `latest` and `dev`
+        # of each wrapped project, as empty files since only their existence is
+        # checked, then rewrite tuto's pages in place. Any failure stops the job
+        # before the deploy, which keeps the published site as it is.
+        shell: bash
+        run: |
+          for p in eliom ocsigen-toolkit ocsigen-start ocsigenserver; do
+            g="$RUNNER_TEMP/gh-pages-$p"
+            git clone --quiet --depth 1 --filter=blob:none --no-checkout \
+              --branch gh-pages "https://github.com/ocsigen/$p.git" "$g"
+            # `latest` must be a symlink to a version directory
+            git -C "$g" ls-tree HEAD latest | grep -q '^120000 '
+            latest=$(git -C "$g" cat-file -p HEAD:latest)
+            [[ "$latest" =~ ^[0-9A-Za-z_-][0-9A-Za-z._-]*$ ]]
+            mkdir -p "_doc-site/$p"
+            ln -s "$latest" "_doc-site/$p/latest"
+            git -C "$g" ls-tree -r -z --name-only HEAD -- "$latest" dev > "$g.files"
+            (cd "_doc-site/$p" &&
+             sed -z 's|/[^/]*$||' "$g.files" | sort -zu | xargs -0 mkdir -p &&
+             xargs -0 touch < "$g.files")
+          done
+          opam exec -- wodoc requalify-xrefs --site _doc-site \
+            --wrapped eliom=Eliom --wrapped ocsigen-toolkit=Ot \
+            --wrapped ocsigen-start=Os --wrapped ocsigenserver=Ocsigen
 
       - name: Deploy to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: _doc-site
+          folder: _doc-site/tuto
           clean: true

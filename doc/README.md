@@ -37,7 +37,8 @@ for v in 8.0 dev; do
 done
 ```
 
-Add `--local` to fetch the shared `/css//img/` assets and preview offline.
+Add `--local` to fetch the shared `/css//img/` assets and preview offline. A
+local build skips the link requalification that the CI runs (see below).
 
 ## Deployment (CI)
 
@@ -50,7 +51,11 @@ versions** and publishes the whole site to the project's **`gh-pages`** branch
   writes the project-root files: the `index.html` redirect to `latest`, the
   `404.html` that sends a missing page to the index of its version, and
   `versions.json` for the in-page version selector (the `dev` build refreshes it);
-- writes `.nojekyll`.
+- writes `.nojekyll`;
+- runs `wodoc requalify-xrefs`, so that a link written with the flat module name
+  of an older release (`Eliom_registration`) reaches the page the project now
+  deploys under its wrapper (`Eliom/Registration`). It checks each rewrite
+  against the file lists of the other projects' `gh-pages`.
 
 The deploy uses `clean: true`, so each run **replaces the entire `gh-pages`
 tree** — the published site is exactly what the latest `master` builds. To add or

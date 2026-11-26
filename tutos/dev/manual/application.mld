@@ -823,13 +823,13 @@ lines are drawn on both windows.
   client and server can participate (see also {!Eliom.Bus.t} in the client
   API).
 - {!module
-  Eliom_react} allows sending
+  Eliom.Eliom_react} allows sending
   {{:http://erratique.ch/software/react/doc/React}React events} from
   the server to the client, and conversely.
 - {!type
   Eliom.Comet.Channel.t} are one-way communication channels
   allowing finer-grained control. It allows sending {!Lwt_stream} to the client.
-  [Eliom_react] and [Eliom.Bus] are implemented over
+  [Eliom.Eliom_react] and [Eliom.Bus] are implemented over
   [Eliom.Comet].
 
   It is possible to control the idle behaviour with module {!module

@@ -2,10 +2,6 @@
 {0 Your first app in 5 minutes}
 {%wodoc:end%}
 
-{e The code of this tutorial has been tested against Eliom 6.0.} {%html:<br/>%}
-
-
-
 This tutorial describes how to get started with Ocsigen
 quickly. Thanks to an application template provided by the Ocsigen
 team, you will get to a working application with standard

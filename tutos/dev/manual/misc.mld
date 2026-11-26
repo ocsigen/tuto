@@ -1,9 +1,5 @@
 {0 Traditional web interaction in a client-server app}
 
-
-
-{e The code of this tutorial has been tested with Eliom 6.0.} {%html:<br/>%}
-
 {1 Multi-user collaborative drawing application}
 
 We now want to turn our collaborative drawing application into a

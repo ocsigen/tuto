@@ -3,9 +3,10 @@
 # https://ocsigen.org/tuto/. See doc/README.md.
 #
 # tuto is MANUAL-ONLY (no library/API): wodoc drives odoc directly on the .mld
-# pages (direct-mld mode). Unlike the API projects, its two versions (8.0, dev)
+# pages (direct-mld mode). Unlike the API projects, its versions (9.0, 8.0, dev)
 # are DISTINCT manuals living in master as tutos/<v>/manual/, so the CI builds
-# BOTH (passing the per-version mld-dir and nav file) rather than freezing dev.
+# ALL of them (passing the per-version mld-dir and nav file) rather than
+# freezing dev.
 name: Documentation
 
 on:
@@ -58,8 +59,8 @@ jobs:
           opam pin add -n wodoc https://github.com/ocsigen/wodoc.git
           opam install wodoc odoc
 
-      - name: Build documentation (8.0 + dev)
-        # 8.0 is the latest version: with --latest, wodoc writes the `latest`
+      - name: Build documentation (9.0, 8.0, dev)
+        # 9.0 is the latest version: with --latest, wodoc writes the `latest`
         # symlink and the project-root files (the index.html redirect to latest/,
         # the 404.html that sends a missing page to its version's index, and
         # versions.json, which drives the in-page version <select> and which the
@@ -68,9 +69,9 @@ jobs:
         # _doc-site/tuto/, as on ocsigen.org, so that the next step can lay out
         # the other projects next to it.
         run: |
-          for v in 8.0 dev; do
+          for v in 9.0 8.0 dev; do
             latest=
-            if [ "$v" = 8.0 ]; then latest=--latest; fi
+            if [ "$v" = 9.0 ]; then latest=--latest; fi
             opam exec -- wodoc build --config doc/wodoc \
               --menu https://ocsigen.org/doc/menu.html \
               --out "$PWD/_doc-site/tuto/$v" --label "$v" \

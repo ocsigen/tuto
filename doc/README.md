@@ -16,10 +16,11 @@ Unlike the API projects, the tutorial is **manual-only** — there is no library
 | Page order (nav) | `tutos/<version>/manual/nav` | wodoc nav file |
 | Site configuration | [`doc/wodoc`](wodoc) | wodoc config (S-expression) |
 
-The two published versions — **`8.0`** and **`dev`** — are **distinct manuals**
-kept side by side in `master` under `tutos/8.0/manual/` and `tutos/dev/manual/`
-(the tutorial for the stable release and the one describing upcoming features).
-The CI builds **both**, so there is no "freeze dev" release step.
+The published versions, **`9.0`**, **`8.0`** and **`dev`**, are **distinct
+manuals** kept side by side in `master` under `tutos/<version>/manual/` (the
+tutorials for the stable releases and the one describing upcoming features).
+The CI builds **all of them**. To publish a new version, copy `tutos/dev` to
+`tutos/<version>`, and add the version to the loop of the CI (with `--latest`).
 
 Cross-references to other Ocsigen projects are written as **full
 `https://ocsigen.org/<project>/…` URLs** (not site-absolute `/<project>/…`), so
@@ -30,7 +31,7 @@ they also resolve when these `.mld` are rendered on ocaml.org.
 ```
 opam pin add -n wodoc https://github.com/ocsigen/wodoc.git
 opam install wodoc odoc
-for v in 8.0 dev; do
+for v in 9.0 8.0 dev; do
   wodoc build --config doc/wodoc --label "$v" --out _doc-site/$v \
     --mld-dir "tutos/$v/manual" --nav "tutos/$v/manual/nav" \
     --menu https://ocsigen.org/doc/menu.html
@@ -42,12 +43,12 @@ local build skips the link requalification that the CI runs (see below).
 
 ## Deployment (CI)
 
-[`.github/workflows/doc.yml`](../.github/workflows/doc.yml) builds **both
-versions** and publishes the whole site to the project's **`gh-pages`** branch
+[`.github/workflows/doc.yml`](../.github/workflows/doc.yml) builds **all
+the versions** and publishes the whole site to the project's **`gh-pages`** branch
 (served at `ocsigen.org/tuto/`), triggered on every push to `master`:
 
-- builds `8.0/` and `dev/`, each with a `index.html` redirect to its first page;
-- builds `8.0/` with `--latest`, so that wodoc symlinks `latest` → `8.0` and
+- builds `9.0/`, `8.0/` and `dev/`, each with a `index.html` redirect to its first page;
+- builds `9.0/` with `--latest`, so that wodoc symlinks `latest` → `9.0` and
   writes the project-root files: the `index.html` redirect to `latest`, the
   `404.html` that sends a missing page to the index of its version, and
   `versions.json` for the in-page version selector (the `dev` build refreshes it);

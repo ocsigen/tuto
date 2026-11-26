@@ -1,0 +1,36 @@
+;; Left-column navigation for the 9.0 tutorial, in wodoc's (nav ...) syntax.
+;; Passed to `wodoc build --nav` by the CI (this manual builds several versions
+;; from the same checkout, so the nav is per-version rather than in doc/wodoc).
+;; Pages are at the version root;
+;; `site:` links keep their absolute /path.
+(nav
+ (section "Programmer's guide"
+  (link "Introduction. Ocsigen: where to start?" intro.html intro)
+  (link "Client-server application programming guide" basics.html basics)
+  (link "Server-side website programming guide" basics-server.html basics-server))
+ (section "Main tutorials"
+  (link "Install Ocsigen" /install)
+  (link "Your first app in 5 minutes" start.html start)
+  (link "Interactive tutorial: Writing a chat app" /talks/tutochat.html)
+  (link "Client/server application: Graffiti" application.html application)
+  (link "Eliom apps basics: writing client-server widgets" tutowidgets.html tutowidgets)
+  (link "Session data: Eliom references" how-to-register-session-data.html how-to-register-session-data)
+  (link "Reactive client-server Web applications" tutoreact.html tutoreact)
+  (link "Service based Web programming" interaction.html interaction)
+  (link "Mixing traditional Web interaction with client-server app" misc.html misc))
+ (section "5-minute tutorials"
+  (link "Lwt" lwt.html lwt)
+  (link "HTML" html.html html))
+ (section "Migration"
+  (link "Migrating to new module names (compat packages)" migration.html migration))
+ (section "Other tutorials: Miscellanous features"
+  (link "Mobile applications with Ocsigen" mobile.html mobile)
+  (link "Custom configuration" custom-conf.html custom-conf)
+  (link "RESTful JSON API" rest.html rest)
+  (link "Persistent tables with Ocsipersist" ocsipersist.html ocsipersist))
+ (section "Improving Graffiti"
+  (link "Download pictures" pictures.html pictures)
+  (link "Playing music" music.html music)
+  (link "Reactive media player" reactivemediaplayer.html reactivemediaplayer))
+ (section "HOW-TO"
+  (link "How do I…? Questions and answers" faq.html faq)))

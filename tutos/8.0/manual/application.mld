@@ -848,7 +848,7 @@ Functional Reactive Programming{%html:<br/>%}
 
 In this section, we add a color picker and slider to choose the size
 of the brush. For the colorpicker we used a widget available in
-{{!/ocsigen-toolkit/page-intro}Ocsigen Toolkit}.
+{{!/ocsigen-toolkit/page-index}Ocsigen Toolkit}.
 
 To install Ocsigen Toolkit, do:
 {v

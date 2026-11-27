@@ -6941,6 +6941,12 @@ Check that:
 - the console of the browser shows no exception: an exception in an event handler of `Js_of_ocaml_lwt.Lwt_js_events` is only written there;
 - code that needs the page to be displayed is in `Eliom.Client.onload` (see [this question](./#client_code)).
 
+### My client-side code runs with JavaScript, but not with WebAssembly
+
+When the browser supports it, Eliom sends the WebAssembly version of the client-side program (`<wasm enabled="true"/>` in the configuration file, `~enable_wasm:true` for `Eliom.App.run`). The `app` and `os` templates enable it. This version usually starts after the page is loaded: code that waits for the `load` event of the window, like `Js_of_ocaml_lwt.Lwt_js_events.onload ()`, then waits forever. Use `Eliom.Client.onload`, which runs once the page is in place with both versions, or `Js_of_ocaml_lwt.Lwt_js_events.domContentLoaded ()`, which returns at once if the page is already loaded.
+
+Integers also have one bit less with WebAssembly than with JavaScript (see [the next question](./#numbers)).
+
 ### My numbers are wrong in the browser only
 
 Integers have 63 bits on the server, but 32 bits on the client with js\_of\_ocaml and 31 bits with wasm\_of\_ocaml. Larger values (database ids, timestamps in milliseconds, amounts in cents) are silently corrupted on the client: give them the type `int64` (or `string`) in shared and client-side code, and in the types of RPCs.

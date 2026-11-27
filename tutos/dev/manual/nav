@@ -28,9 +28,5 @@
   (link "Custom configuration" custom-conf.html custom-conf)
   (link "RESTful JSON API" rest.html rest)
   (link "Persistent tables with Ocsipersist" ocsipersist.html ocsipersist))
- (section "Improving Graffiti"
-  (link "Download pictures" pictures.html pictures)
-  (link "Playing music" music.html music)
-  (link "Reactive media player" reactivemediaplayer.html reactivemediaplayer))
  (section "HOW-TO"
   (link "How do I…? Questions and answers" faq.html faq)))

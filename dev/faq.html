@@ -129,12 +129,6 @@
 <li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>Improving Graffiti</h3>
-<ul class="api-section">
-<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
-<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
-<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
-</ul>
 <h3>HOW-TO</h3>
 <ul class="api-section">
 <li class="ml3 current" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
@@ -197,12 +191,6 @@
 <li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>Improving Graffiti</h3>
-<ul class="api-section">
-<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
-<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
-<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
-</ul>
 <h3>HOW-TO</h3>
 <ul class="api-section">
 <li class="ml3 current" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
@@ -212,7 +200,8 @@
       </nav>
       <article class="rightcol">
         
-        <h1 id="how-do-i…?-questions-and-answers">How do I…? Questions and answers</h1><p>Short answers to frequent questions, with a code example and links to the manuals. The examples are client-server Eliom code (in <code>.eliom</code> files). They assume:</p><pre class="language-ocaml"><code>open%shared Eliom.Content.Html.F</code></pre><p>and use the Lwt syntax extension (<code>let%lwt</code>, see <a href="lwt.html" title="lwt">Lwt in 5 minutes</a>). Answers mentioning <code>Os</code> or <code>Ot</code> use <a href="./../../ocsigen-start/dev/index.html">Ocsigen Start</a> and <a href="./../../ocsigen-toolkit/dev/index.html">Ocsigen Toolkit</a>. Module names are those of Eliom 13 and later (<code>Eliom.Service</code> rather than <code>Eliom_service</code>, see <a href="migration.html" title="migration">the migration guide</a>).</p><p>Pages are registered with the module <code>App</code> of the application, made by <code>Eliom.Registration.App</code>: it is in <code>myapp.eliom</code> with the <code>app</code> template, and is <code>Myapp_base.App</code> with the <code>os</code> template. Do not use <code>Eliom.Registration.Html</code> for the pages of a client-server application: it sends them without the client-side program, so their client-side code does not run, and links towards them leave the application. Most examples register pages on the server only; <a href="#client_pages" title="client_pages">this question</a> shows how to let the client generate them too.</p><p>Eliom supports two styles of programming, which can be mixed in the same application. In a client-server application, the client-side program handles the user's actions: it sends the data to the server with <a href="#rpc" title="rpc">RPCs</a>, and updates the page or changes page itself. On a traditional Web site, the browser follows links and sends forms to services, which answer with new pages. When the answers differ, the questions below give the client-server way first.</p>
+        <h1 id="how-do-i…?-questions-and-answers">How do I…? Questions and answers</h1><p>Short answers to frequent questions, with a code example and links to the manuals. The examples are client-server Eliom code (in <code>.eliom</code> files). They assume:</p><pre class="language-ocaml"><code>open%shared Eliom.Content.Html.F
+open%shared Lwt.Syntax</code></pre><p>(<code>Lwt.Syntax</code> provides the <code>let*</code> notation, see <a href="lwt.html" title="lwt">Lwt in 5 minutes</a>). Answers mentioning <code>Os</code> or <code>Ot</code> use <a href="./../../ocsigen-start/dev/index.html">Ocsigen Start</a> and <a href="./../../ocsigen-toolkit/dev/index.html">Ocsigen Toolkit</a>. Module names are those of Eliom 13 and later (<code>Eliom.Service</code> rather than <code>Eliom_service</code>, see <a href="migration.html" title="migration">the migration guide</a>).</p><p>Pages are registered with the module <code>App</code> of the application, made by <code>Eliom.Registration.App</code>: it is in <code>myapp.eliom</code> with the <code>app</code> template, and is <code>Myapp_base.App</code> with the <code>os</code> template. Do not use <code>Eliom.Registration.Html</code> for the pages of a client-server application: it sends them without the client-side program, so their client-side code does not run, and links towards them leave the application. Most examples register pages on the server only; <a href="#client_pages" title="client_pages">this question</a> shows how to let the client generate them too.</p><p>Eliom supports two styles of programming, which can be mixed in the same application. In a client-server application, the client-side program handles the user's actions: it sends the data to the server with <a href="#rpc" title="rpc">RPCs</a>, and updates the page or changes page itself. On a traditional Web site, the browser follows links and sends forms to services, which answer with new pages. When the answers differ, the questions below give the client-server way first.</p>
 <h2 id="start">Getting started</h2><h3 id="first_app">How do I create my first application?</h3><p>Generate it with <code>eliom-distillery</code>:</p><pre class="language-sh"><code>eliom-distillery -name myapp -template os   # Ocsigen Start: users, database, mobile app
 eliom-distillery -name myapp -template app  # Eliom only, a smaller start</code></pre><p>The <code>os</code> template shows an example of almost every feature of Ocsigen (see <a href="start.html" title="start">Your first app in 5 minutes</a>). Then follow the <code>README.md</code> of the generated project. A page is produced by a <em>service</em>, registered with a handler:</p><pre class="language-ocaml"><code>let%server hello =
   App.create
@@ -300,14 +289,15 @@ let%shared comment_box (post_id : int) =
       fun _ -&gt;
         Lwt.async (fun () -&gt;
           let field = Eliom.Content.Html.To_dom.of_textarea ~%text in
-          try%lwt
-            let%lwt () = add_comment ~%post_id (Js.to_string field##.value) in
-            field##.value := Js.string &quot;&quot;;
-            Lwt.return_unit
-          with e -&gt;
-            Logs.err (fun m -&gt; m &quot;add_comment: %s&quot; (Printexc.to_string e));
-            Eliom.Lib.alert &quot;Your comment could not be sent.&quot;;
-            Lwt.return_unit)]
+          Lwt.catch
+            (fun () -&gt;
+              let* () = add_comment ~%post_id (Js.to_string field##.value) in
+              field##.value := Js.string &quot;&quot;;
+              Lwt.return_unit)
+            (fun e -&gt;
+              Logs.err (fun m -&gt; m &quot;add_comment: %s&quot; (Printexc.to_string e));
+              Eliom.Lib.alert &quot;Your comment could not be sent.&quot;;
+              Lwt.return_unit))]
   in
   div [text; button ~a:[a_onclick send] [txt &quot;Send&quot;]]</code></pre><p>The field is created with <code>D</code>, so that the client-side code finds the same node (<a href="#client_code" title="client_code">see this question</a>); <code>Js</code> is <code>Js_of_ocaml.Js</code>. Ocsigen Toolkit's <code>Ot.Form</code> gives ready-made fields for this style: reactive inputs, validation, a button that cannot be clicked twice... The <a href="https://github.com/ocsigen/os_template/blob/master/lib/demo_forms.eliom"><code>demo_forms.eliom</code></a> file of the <code>os</code> template shows them, with a form sent with an RPC.</p><p>The other way is the one of traditional Web sites: the browser sends the form to a service, and displays the page that the service answers. Use it for pages that must work without client-side code, or when the result must have its own URL (a search form, with GET). Like links, these forms are typed. The function given to <code>Form.get_form</code> or <code>Form.post_form</code> receives the names of the parameters of the service, and each field must have the type of its parameter:</p><pre class="language-ocaml"><code>let%server search_form =
   Form.get_form ~service:search (fun (q, page) -&gt;
@@ -335,7 +325,7 @@ let%server comment_form post_id =
     ~meth:
       (Eliom.Service.Post (Eliom.Parameter.unit, Eliom.Parameter.string &quot;text&quot;))
     (fun () text -&gt;
-       let%lwt id = Db.add_post text in
+       let* id = Db.add_post text in
        Lwt.return
          (Eliom.Registration.Redirection
             (Eliom.Service.preapply ~service:article id)))</code></pre><p>To do something and then display the current page again, register an <em>action</em> with <code>Eliom.Registration.Action</code>. Without a path (<code>Eliom.Service.No_path</code>), the service can be called from any page, which suits a connection or disconnection form present on all pages:</p><pre class="language-ocaml"><code>let%server logout =
@@ -389,7 +379,8 @@ let%server download =
     ~path:(Eliom.Service.Path [&quot;article&quot;])
     ~meth:(Eliom.Service.Get Eliom.Parameter.(int &quot;id&quot;))
     (fun id () -&gt;
-       match%lwt find_article id with
+       let* a = find_article id in
+       match a with
        | Some a -&gt; Lwt.return (article_page a)
        | None -&gt;
            Eliom.Registration.set_status `Not_found;
@@ -445,7 +436,7 @@ let%server save_upload file =
     Eliom.Lib.make_cryptographic_safe_string ()
     |&gt; String.map (function '+' -&gt; '-' | '/' -&gt; '_' | c -&gt; c)
   in
-  let%lwt () =
+  let* () =
     Lwt_unix.rename
       (Eliom.Request_info.get_tmp_filename file)
       (Filename.concat upload_dir name)
@@ -462,7 +453,7 @@ let%client send_file (input : Dom_html.inputElement Js.t) =
   match Js.Opt.to_option (Js.Opt.bind input##.files (fun fs -&gt; fs##item 0)) with
   | None -&gt; Lwt.return_none
   | Some file -&gt;
-      let%lwt name =
+      let* name =
         Eliom.Client.call_ocaml_service ~service:upload_file () file
       in
       Lwt.return_some name</code></pre><p>(<code>Dom_html</code> and <code>Js</code> come from <code>Js_of_ocaml</code>.) With <code>let input = Eliom.Content.Html.D.Raw.input ~a:[a_input_type `File] ()</code> in the page, the client-side code calls <code>send_file (Eliom.Content.Html.To_dom.of_input ~%input)</code>. Like an <a href="#rpc" title="rpc">RPC</a>, anyone can call this service: check the rights of the user in the handler; and the call fails when the network or the server does: catch the exception. For images, the picture uploader <a href="#upload_image" title="upload_image">below</a> does all this, with a preview.</p><p>With a form sent by the browser, register a page instead:</p><pre class="language-ocaml"><code>let%server upload =
@@ -474,7 +465,7 @@ let%client send_file (input : Dom_html.inputElement Js.t) =
 
 let%server () =
   App.register ~service:upload (fun () file -&gt;
-    let%lwt _stored_as = save_upload file in
+    let* _stored_as = save_upload file in
     let name = Eliom.Request_info.get_original_filename file in
     Lwt.return (skeleton ~title:&quot;Upload&quot; [p [txt (name ^ &quot; received.&quot;)]]))
 
@@ -494,7 +485,7 @@ let%client photo_service = ~%photo_service
 let%server () =
   Eliom.Registration.Ocaml.register ~service:photo_service
     (Os.Session.connected_fun (fun myid () ((), (cropping, file)) -&gt;
-       let%lwt name = Os.Uploader.record_image photo_dir ~ratio:1. ?cropping file in
+       let* name = Os.Uploader.record_image photo_dir ~ratio:1. ?cropping file in
        save_photo_name myid name))
 
 let%client photo_form () =
@@ -507,16 +498,17 @@ let%rpc item_view (it : item) : [`Div] Eliom.Content.Html.elt Lwt.t =
   Lwt.return (div ~a:[a_class [&quot;item&quot;]] [txt it.label])
 
 let%client show_item container id =
-  try%lwt
-    let%lwt it = get_item id in
-    let%lwt node = item_view it in
-    Eliom.Content.Html.Manip.appendChild container node;
-    Lwt.return_unit
-  with e -&gt;
-    Logs.err (fun m -&gt; m &quot;Cannot get item %d: %s&quot; id (Printexc.to_string e));
-    Eliom.Content.Html.Manip.appendChild container
-      (p [txt &quot;This item is not available.&quot;]);
-    Lwt.return_unit</code></pre><p>The server checks the values it receives: their types must have a JSON deriver (<code>[@@deriving json]</code>, from package <code>js_of_ocaml-ppx_deriving_json</code>). The result can be any value, including HTML nodes, as <code>item_view</code> shows. The syntax comes from package <code>ocsigen-ppx-rpc</code>. An RPC is a <em>pathless service</em> that anyone can call: check the rights of the user inside (see <a href="#connected" title="connected">this question</a>). See <a href="./../../eliom/dev/clientserver/communication.html#rpc">Eliom&#x27;s manual</a>.</p><p>A call fails when the network or the server does: catch the exception, to tell the user (<code>Os.Msg.msg</code> in Ocsigen Start) and log the details. Integers are 32 bits on the client with js_of_ocaml, and 31 bits with wasm_of_ocaml: give larger values (database ids, timestamps) the type <code>int64</code>, as Ocsigen Start does for user ids.</p><h3 id="client_code">How do I run client-side code from server-side code?</h3><p>A <code>[%client ...]</code> expression in server-side code is executed by the browser, once the page has been received. It can use server-side values with <code>~%</code>:</p><pre class="language-ocaml"><code>let%server counter_page () =
+  Lwt.catch
+    (fun () -&gt;
+      let* it = get_item id in
+      let* node = item_view it in
+      Eliom.Content.Html.Manip.appendChild container node;
+      Lwt.return_unit)
+    (fun e -&gt;
+      Logs.err (fun m -&gt; m &quot;Cannot get item %d: %s&quot; id (Printexc.to_string e));
+      Eliom.Content.Html.Manip.appendChild container
+        (p [txt &quot;This item is not available.&quot;]);
+      Lwt.return_unit)</code></pre><p>The server checks the values it receives: their types must have a JSON deriver (<code>[@@deriving json]</code>, from package <code>js_of_ocaml-ppx_deriving_json</code>). The result can be any value, including HTML nodes, as <code>item_view</code> shows. The syntax comes from package <code>ocsigen-ppx-rpc</code>. An RPC is a <em>pathless service</em> that anyone can call: check the rights of the user inside (see <a href="#connected" title="connected">this question</a>). See <a href="./../../eliom/dev/clientserver/communication.html#rpc">Eliom&#x27;s manual</a>.</p><p>A call fails when the network or the server does: catch the exception, to tell the user (<code>Os.Msg.msg</code> in Ocsigen Start) and log the details. Integers are 32 bits on the client with js_of_ocaml, and 31 bits with wasm_of_ocaml: give larger values (database ids, timestamps) the type <code>int64</code>, as Ocsigen Start does for user ids.</p><h3 id="client_code">How do I run client-side code from server-side code?</h3><p>A <code>[%client ...]</code> expression in server-side code is executed by the browser, once the page has been received. It can use server-side values with <code>~%</code>:</p><pre class="language-ocaml"><code>let%server counter_page () =
   let button = Eliom.Content.Html.D.button [txt &quot;Click&quot;] in
   let _ : unit Eliom.Client_value.t =
     [%client
@@ -530,7 +522,7 @@ let%client show_item container id =
   let inp = Eliom.Content.Html.D.Raw.input () in
   Lwt.async (fun () -&gt;
     let elt = Eliom.Content.Html.To_dom.of_input inp in
-    let%lwt () = Ot.Nodeready.nodeready elt in
+    let* () = Ot.Nodeready.nodeready elt in
     elt##focus;
     Lwt.return_unit);
   inp</code></pre><p>Giving the focus to an element, or measuring its size, needs the element in the page. If the element is never inserted, the promise is fulfilled anyway when the user leaves the page, and the element stays in memory until then. When the application keeps pages in the history (<code>Eliom.Client.push_history_dom</code>), this happens only when the page is removed from it. If the element is removed and inserted again, call <code>nodeready</code> again.</p><h3 id="client_pages">How do I change page without asking the server for it?</h3><p>Register the service on both sides: the client-side program then generates the page itself when the user follows a link, and calls the server only for the data it needs. Services are created on the server, and sent once to the client with <code>~%</code>:</p><pre class="language-ocaml"><code>let%server item_page =
@@ -543,7 +535,7 @@ let%client item_page = ~%item_page
 
 let%shared () =
   App.register ~service:item_page (fun id () -&gt;
-    let%lwt it = get_item id in
+    let* it = get_item id in
     Lwt.return (skeleton ~title:it.label [p [txt it.label]]))</code></pre><p>On the first request, the server generates the page, as usual. The handler is shared code: <code>get_item</code> is the <a href="#rpc" title="rpc">RPC</a> above, a function call on the server and a request on the client. The mobile app needs this for its pages, as they are all generated by its client-side program. See <a href="./../../eliom/dev/clientserver/services.html">client-side services</a> in Eliom's manual.</p><h3 id="change_page">How do I change page from client-side code?</h3><p>Call <code>Eliom.Client.change_page</code> with the service and its parameters (GET then POST). It works for any service, and generates the page on the client when the service is registered there:</p><pre class="language-ocaml"><code>let%client go_to_item id = Eliom.Client.change_page ~service:item_page id ()
 
 let%shared next_button (id : int) =
@@ -552,7 +544,7 @@ let%shared next_button (id : int) =
     [txt &quot;Next&quot;]</code></pre><p>To change page as soon as a page is displayed, do it in <code>Eliom.Client.onload</code>, which runs once the current page is in place. When the page is generated by the client, a <code>[%client ...]</code> expression runs before that: a change of page started there can end first, and the page being displayed then replaces the new one. To leave the application, for instance towards another site, use <code>Eliom.Client.exit_to</code>.</p><h3 id="cache">How do I avoid fetching the same data twice?</h3><p>With <code>Eliom.Cscache</code>, a cache that exists on both sides. Create it once, at the top level of a server-side module, and read it with <code>Eliom.Cscache.find</code>, giving the function that fetches a missing value. That function must exist on both sides: an <a href="#rpc" title="rpc">RPC</a> does.</p><pre class="language-ocaml"><code>let%server item_cache : (int, item) Eliom.Cscache.t = Eliom.Cscache.create ()
 
 let%shared cached_item id = Eliom.Cscache.find ~%item_cache get_item id</code></pre><p>On the client, the cache keeps the values as long as the client-side program runs, that is until the page is reloaded: <code>cached_item</code> calls the server only the first time for each <code>id</code>, and simultaneous calls make a single request. On the server, the cache lasts for one request, and can be used only while answering one. When the response is a page of the application or the result of an RPC, the values fetched on the server are sent with it, and fill the client's cache. Errors are not cached.</p><p>The server can fill the client's cache in advance, to save requests: while generating a page of the application or answering an RPC, call <code>Eliom.Cscache.do_cache</code> for each value the client will need. For instance, a search returns the ids of the results, and puts the results in the cache:</p><pre class="language-ocaml"><code>let%rpc search (q : string) : int list Lwt.t =
-  let%lwt items = Db.search_items q in
+  let* items = Db.search_items q in
   List.iter (fun it -&gt; Eliom.Cscache.do_cache item_cache it.id it) items;
   Lwt.return (List.map (fun it -&gt; it.id) items)</code></pre><p>The client then displays each result with <code>cached_item</code>, without asking the server again. Call <code>do_cache</code> in the same way when the data changes: this updates the cache of the client that sent the request. Other clients keep the old value: tell them with a <a href="#notifications" title="notifications">notification</a> if they need the new one. The client can also fetch a value again with <code>Eliom.Cscache.load</code>. With Ocsigen Start, <code>Os.User_proxy.get_data_from_cache</code> gives the data of users this way. See the tutorial on <a href="tutoreact.html#client-server-cache" title="client-server-cache">reactive applications</a>.</p><h3 id="custom_data">How do I attach OCaml values to HTML nodes?</h3><p>From server-side code, with <code>Eliom.Content.Html.Custom_data</code>: the value is sent in a <code>data-</code> attribute, and the client gets it back from the DOM node:</p><pre class="language-ocaml"><code>let%shared item_data =
   Eliom.Content.Html.Custom_data.create_json ~name:&quot;item&quot; [%json: item]
@@ -575,21 +567,22 @@ end)
 
 (* Anyone can call an RPC: check that the user is in the room. *)
 let%server check_member myid room =
-  if%lwt Db.is_member myid room
+  let* member = Db.is_member myid room in
+  if member
   then Lwt.return_unit
   else Lwt.fail Os.Session.Permission_denied
 
 let%rpc listen (room : int64) : unit Lwt.t =
   Os.Session.connected_rpc
     (fun myid room -&gt;
-       let%lwt () = check_member myid room in
+       let* () = check_member myid room in
        Chat_notif.listen room; Lwt.return_unit)
     room
 
 let%rpc send (room : int64) (msg : string) : unit Lwt.t =
   Os.Session.connected_rpc
     (fun myid (room, msg) -&gt;
-       let%lwt () = check_member myid room in
+       let* () = check_member myid room in
        Chat_notif.notify room msg; Lwt.return_unit)
     (room, msg)
 
@@ -609,18 +602,21 @@ let%server () =
     Eliom.Client.exit_to ~service:Eliom.Service.reload_action () ();
     Lwt.return_unit)</code></pre><p>An <code>Lwt_stream</code> raises its exception only once: handle it where you read the stream.</p><h3 id="spinner">How do I display a page before its data has arrived?</h3><p>With Ocsigen Toolkit, wrap the part that waits in <code>Ot.Spinner.with_spinner</code>:</p><pre class="language-ocaml"><code>let%shared item_block id =
   Ot.Spinner.with_spinner
-    (let%lwt it = get_item id in
+    (let* it = get_item id in
      Lwt.return [txt it.label])</code></pre><p>On the client, the rest of the page is displayed at once, with a spinner in place of this block until <code>get_item</code> answers. On the server, there is no spinner: the page is sent once the data is there. Optional arguments choose the spinner, and what to display if the promise fails.</p><h3 id="messages">How do I display a message to the user?</h3><p>With Ocsigen Start, call <code>Os.Msg.msg</code>, on the client or on the server: the message is displayed for a few seconds, in a box that the CSS of the application places. Typically, when a call to the server fails:</p><pre class="language-ocaml"><code>let%client save label =
-  try%lwt
-    let%lwt () = save_label label in
-    Os.Msg.msg &quot;Saved&quot;;
-    Lwt.return_unit
-  with e -&gt;
-    Logs.err (fun m -&gt; m &quot;save_label: %s&quot; (Printexc.to_string e));
-    Os.Msg.msg ~level:`Err &quot;Could not save, please try again&quot;;
-    Lwt.return_unit</code></pre><h3 id="widgets">Are there ready-made widgets (popups, carousels, date pickers...)?</h3><p>Yes, in <a href="./../../ocsigen-toolkit/dev/index.html">Ocsigen Toolkit</a>, which Ocsigen Start uses: popups and confirmation boxes (<code>Ot.Popup</code>), carousels (<code>Ot.Carousel</code>), drawer menus (<code>Ot.Drawer</code>), panels that slide from an edge of the screen (<code>Ot.Tongue</code>), date and time pickers (<code>Ot.Calendar</code>, <code>Ot.Time_picker</code>), pull to refresh (<code>Ot.Pulltorefresh</code>), form elements (<code>Ot.Form</code>), and more. For instance, to ask for a confirmation:</p><pre class="language-ocaml"><code>let%client delete_with_confirmation photo =
-  if%lwt
+  Lwt.catch
+    (fun () -&gt;
+      let* () = save_label label in
+      Os.Msg.msg &quot;Saved&quot;;
+      Lwt.return_unit)
+    (fun e -&gt;
+      Logs.err (fun m -&gt; m &quot;save_label: %s&quot; (Printexc.to_string e));
+      Os.Msg.msg ~level:`Err &quot;Could not save, please try again&quot;;
+      Lwt.return_unit)</code></pre><h3 id="widgets">Are there ready-made widgets (popups, carousels, date pickers...)?</h3><p>Yes, in <a href="./../../ocsigen-toolkit/dev/index.html">Ocsigen Toolkit</a>, which Ocsigen Start uses: popups and confirmation boxes (<code>Ot.Popup</code>), carousels (<code>Ot.Carousel</code>), drawer menus (<code>Ot.Drawer</code>), panels that slide from an edge of the screen (<code>Ot.Tongue</code>), date and time pickers (<code>Ot.Calendar</code>, <code>Ot.Time_picker</code>), pull to refresh (<code>Ot.Pulltorefresh</code>), form elements (<code>Ot.Form</code>), and more. For instance, to ask for a confirmation:</p><pre class="language-ocaml"><code>let%client delete_with_confirmation photo =
+  let* ok =
     Ot.Popup.confirm [txt &quot;Delete this photo?&quot;] [txt &quot;Delete&quot;] [txt &quot;Cancel&quot;]
+  in
+  if ok
   then delete_photo photo
   else Lwt.return_unit</code></pre><p>The <code>os</code> template has a demo of most widgets (<code>demo_popup.eliom</code>, <code>demo_carousel1.eliom</code>...). Widgets need the CSS of Ocsigen Toolkit: Ocsigen Start includes it, other applications must add it.</p><h2 id="users">Users and sessions</h2><h3 id="session_data">How do I store data for one user?</h3><p>In an <em>Eliom reference</em>, which has a different value for each session (scope <code>default_session_scope</code>), each tab (<code>default_process_scope</code>), or each user (<code>default_group_scope</code>):</p><pre class="language-ocaml"><code>let%server cart : string list Eliom.Reference.Volatile.eref =
   Eliom.Reference.Volatile.eref ~scope:Eliom.Common.default_session_scope []
@@ -644,8 +640,9 @@ let%rpc delete_photo (photo : int64) : unit Lwt.t =
   match Os.Current_user.Opt.get_current_user () with
   | Some user -&gt; txt (&quot;Hello &quot; ^ Os.User.firstname_of_user user)
   | None -&gt; txt &quot;Hello&quot;</code></pre><p>On the server, they work only while answering a request that goes through a wrapper of <code>Os.Session</code>, like <code>Os.Session.connected_fun</code> or the <code>connected_page</code> functions of the template. Otherwise, they fail (with <code>Failure</code>), even the <code>Opt</code> versions. In a handler, the id that the wrapper gives is simpler.</p><p>To give more rights to some users, put them in a group. <code>Os.Group.create</code> creates a group, or returns it if it exists, <code>Os.Group.add_user_in_group</code> adds a user to it, and <code>Os.Group.in_group</code> tells whether a user belongs to it. <code>Os.Group.group_of_name</code> fails with <code>Os.Group.No_such_group</code> if the group does not exist: create it once, for instance when you set up the database.</p><pre class="language-ocaml"><code>let%server check_admin myid =
-  let%lwt admins = Os.Group.group_of_name &quot;admin&quot; in
-  if%lwt Os.Group.in_group ~group:admins ~userid:myid ()
+  let* admins = Os.Group.group_of_name &quot;admin&quot; in
+  let* is_admin = Os.Group.in_group ~group:admins ~userid:myid () in
+  if is_admin
   then Lwt.return_unit
   else Lwt.fail Os.Session.Permission_denied</code></pre><p>The <code>~allow</code> argument of the wrappers (<a href="#connected" title="connected">previous question</a>) does the same check. Check rights on the server, in each handler and RPC that needs it: the client can only hide what the user is not allowed to do.</p><h3 id="passwords">How do I store passwords?</h3><p>Ocsigen Start already does it: <code>Os.User.create</code> and the connection forms hash passwords with bcrypt. Otherwise, use <code>Bcrypt</code> from package <code>safepass</code>, and store only the hash:</p><pre class="language-ocaml"><code>let%server hash password = Bcrypt.string_of_hash (Bcrypt.hash password)
 
@@ -694,21 +691,20 @@ let%client load_script url =
       script##.src := Js.string url;
       let loading =
         Lwt.pick
-          [ (let%lwt _ = Js_of_ocaml_lwt.Lwt_js_events.load script in
+          [ (let* _ = Js_of_ocaml_lwt.Lwt_js_events.load script in
              Lwt.return_unit)
-          ; (let%lwt _ = Js_of_ocaml_lwt.Lwt_js_events.error script in
+          ; (let* _ = Js_of_ocaml_lwt.Lwt_js_events.error script in
              Hashtbl.remove scripts url;
              Lwt.fail_with (&quot;Cannot load &quot; ^ url)) ]
       in
       Hashtbl.add scripts url loading;
       Dom.appendChild Dom_html.document##.head script;
       loading</code></pre><p>The library is then reached through <code>Js.Unsafe.global</code>, or, better, through typed bindings (see <a href="#js_objects" title="js_objects">the previous question</a>).</p><h2 id="errors">Common errors</h2><h3 id="which_side">The compiler gives an error I do not understand: does it come from the server or from the client?</h3><p>An <code>.eliom</code> file is compiled twice: once for the server and once for the client, shared code being in both. The error message gives the same file and line in both cases, so first find out which compilation failed, which is not always the one you think. Run <code>dune build --always-show-command-line</code>: the command that compiles for the client writes in a <code>client</code> directory (<code>-o app/client/...</code> with the <code>app</code> template, <code>-o lib/client/...</code> with the <code>os</code> template). Then, for instance:</p><ul><li><code>Unbound value</code> in shared code: the value is defined on one side only (<code>let%server</code> or <code>let%client</code>);</li><li><code>Unbound module Js_of_ocaml</code> on the server: client-side code is outside a client section;</li><li>a type error with <code>~%</code>: the type of the value on the server is not the one expected on the client. Write the type of client values (<code>[%client (e : t)]</code>) and of the parameters of RPCs: inference does not cross from one side to the other.</li></ul><h3 id="wrap">The server log says &quot;cannot wrap functional values&quot;</h3><p>A <code>~%</code> sends a value that contains functions to the client, which is impossible. Common cases: a <code>Custom_data.t</code>, or any record of functions. The request then fails: the server answers with an error 500 and writes this message in its log. Send only data with <code>~%</code>; for a value defined with <code>let%shared</code>, such as a <code>Custom_data.t</code>, use its client version, without <code>~%</code>.</p><h3 id="client_not_running">My client-side code does not run</h3><p>Check that:</p><ul><li>the page is registered with the <code>App</code> module of the application, not with <code>Eliom.Registration.Html</code> (see the beginning of this page);</li><li>the <code>[%client ...]</code> expression is evaluated while the page is generated: a client value created by a function that the handler never calls does not run;</li><li>the console of the browser shows no exception: an exception in an event handler of <code>Js_of_ocaml_lwt.Lwt_js_events</code> is only written there;</li><li>code that needs the page to be displayed is in <code>Eliom.Client.onload</code> (see <a href="#client_code" title="client_code">this question</a>).</li></ul><h3 id="numbers">My numbers are wrong in the browser only</h3><p>Integers have 63 bits on the server, but 32 bits on the client with js_of_ocaml and 31 bits with wasm_of_ocaml. Larger values (database ids, timestamps in milliseconds, amounts in cents) are silently corrupted on the client: give them the type <code>int64</code> (or <code>string</code>) in shared and client-side code, and in the types of RPCs.</p><h2 id="more">Going further</h2><h3 id="database">How do I use a database?</h3><p>The <code>os</code> template uses PostgreSQL with PG'OCaml: the <code>[%pgsql]</code> queries are checked against the database at compile time (see <code>demo_pgocaml_db.ml</code> and <code>make db-update</code>). For a simple key-value store, use <a href="ocsipersist.html" title="ocsipersist">Ocsipersist</a>.</p><h3 id="config">How do I read options from the configuration file?</h3><p>Put them in the element that loads your application in the configuration file (<code>&lt;eliommodule&gt;</code>), and read them during the initialisation of the module with <code>Eliom.Config.get_config</code>, or <code>Eliom.Config.parse_config</code>: see <a href="custom-conf.html" title="custom-conf">Custom configuration options</a>. The <code>os</code> template reads this way its database settings and its directories (<code>myapp_config.eliom</code>). A program that runs Ocsigen Server as a library has no configuration file: take the options from its command line or its environment.</p><h3 id="periodic">How do I run a task periodically on the server?</h3><p>Start an Lwt loop when the module is loaded:</p><pre class="language-ocaml"><code>let%server rec clean_sessions () =
-  let%lwt () = Lwt_unix.sleep 3600. in
-  let%lwt () =
-    try%lwt Db.remove_expired_sessions ()
-    with e -&gt;
+  let* () = Lwt_unix.sleep 3600. in
+  let* () =
+    Lwt.catch Db.remove_expired_sessions (fun e -&gt;
       Logs.err (fun m -&gt; m &quot;Session cleanup: %s&quot; (Printexc.to_string e));
-      Lwt.return_unit
+      Lwt.return_unit)
   in
   clean_sessions ()
 

@@ -127,12 +127,6 @@
 <li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>Improving Graffiti</h3>
-<ul class="api-section">
-<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
-<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
-<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
-</ul>
 <h3>HOW-TO</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
@@ -193,12 +187,6 @@
 <li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>Improving Graffiti</h3>
-<ul class="api-section">
-<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
-<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
-<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
-</ul>
 <h3>HOW-TO</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
@@ -208,14 +196,17 @@
       </nav>
       <article class="rightcol">
         
-        <h1 id="how-to-register-session-data?">How to register session data?</h1><p>It is very easy to register session data using <em>Eliom references</em>. Just create an Eliom reference of <em>scope</em> session and its value will be different for each session (one session = one browser process).</p><p>But most of the time, what we want is to store data for one user, not for one browser instance. To do that, we group all the sessions for one user together, by creating a group of sessions. The name of the group may be for example the user id.</p><p>To create a session group, open the session by doing something like:</p><pre class="language-ocaml"><code>let open_session login password =
-  let%lwt b = check_password login password in
+        <h1 id="how-to-register-session-data?">How to register session data?</h1><p>It is very easy to register session data using <em>Eliom references</em>. Just create an Eliom reference of <em>scope</em> session and its value will be different for each session (one session = one browser process).</p><p>But most of the time, what we want is to store data for one user, not for one browser instance. To do that, we group all the sessions for one user together, by creating a group of sessions. The name of the group may be for example the user id.</p><p>To create a session group, open the session by doing something like (where <code>check_password</code> and <code>get_userid</code> are your own functions):</p><pre class="language-ocaml"><code>open Lwt.Syntax
+
+let open_session login password =
+  let* b = check_password login password in
   if b
-  then Eliom.State.set_volatile_data_session_group
+  then (
+    Eliom.State.set_volatile_data_session_group
       ~scope:Eliom.Common.default_session_scope
-      (Int64.to_string (get_userid login))
-  else ...
-</code></pre><p>If you want to store user data, just create a global Eliom reference of scope group:</p><pre class="language-ocaml"><code>
+      (Int64.to_string (get_userid login));
+    Lwt.return ())
+  else (* wrong password *) Lwt.return ()</code></pre><p>This sets the group of the <em>volatile data session</em>, which volatile Eliom references use. For persistent Eliom references, also call <code>Eliom.State.set_persistent_data_session_group</code>. If you use <a href="./../../ocsigen-start/latest/index.html">Ocsigen Start</a>, its function <code>Os.Session.connect</code> does all this for you.</p><p>If you want to store user data, just create a global Eliom reference of scope group:</p><pre class="language-ocaml"><code>
 let myref =
   Eliom.Reference.Volatile.eref
     ~scope:Eliom.Common.default_group_scope
@@ -223,7 +214,7 @@ let myref =
 </code></pre><p>And during a request, set this reference:</p><pre class="language-ocaml"><code>
   ...
   Eliom.Reference.Volatile.set myref (Some &quot;user data&quot;)
-</code></pre><p>The value of this reference is different for each user:</p><pre class="language-ocaml"><code>
+</code></pre><p>The value of this reference is different for each user, and shared by all the sessions of the same user (for example in two different browsers):</p><pre class="language-ocaml"><code>
   Eliom.Reference.Volatile.get myref
 </code></pre><p>It is possible to create <em>persistent</em> Eliom references (see module <code>Eliom.Reference</code>).</p>
 <h2 id="other-scopes">Other scopes</h2><p>If you want to store server side data for one browser (one session), use scope <code>Eliom.Common.default_session_scope</code>.</p><p>If you want to store server side data for one tab of your browser (one client process), use scope <code>Eliom.Common.default_process_scope</code> (available only if you have a client-server Eliom application).</p><p>If you want to store server side data during one request, use scope <code>Eliom.Common.request_scope</code>.</p><h2 id="persistent-references">Persistent references</h2><p>Module <code>Eliom.Reference</code> also defines an interface for persistent references, that will survive if you restart the server.</p><h2 id="links">Links</h2><ul><li><a href="./../../eliom/latest/server/state.html">More information on session data</a></li><li>module <code>Eliom.Reference</code></li></ul>

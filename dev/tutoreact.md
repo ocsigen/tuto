@@ -17,7 +17,7 @@ Ocsigen Start contains a set of higher level libraries for Eliom (user managemen
 ```
 eliom-distillery -name tutoreact -template os
 ```
-This template is using PostgreSQL to store the data. You need a recent version of Postgresql installed on your system. With that available, you can create the local database and start the database server:
+This template is using PostgreSQL to store the data. You need a recent version of Postgresql installed on your system (see [Your first app in 5 minutes](./start.md) for the other dependencies). With that available, from the new `tutoreact` directory, you can create the local database and start the database server:
 
 ```
 make db-init
@@ -46,7 +46,17 @@ make db-stop
 
 To make this example more realistic, let's suppose that we do not want to display all the messages in the database, but only a few of them.
 
-In this tutorial, we will not focus on the implementation details of the database part. Create a new file named `tutoreact_messages.eliom`. From now on, if not explicitly specified, the code we are going to write will go there. We are going to create a module `Db` containing these functions:
+In this tutorial, we will not focus on the implementation details of the database part. Create a new file named `lib/tutoreact_messages.eliom`. From now on, if not explicitly specified, the code we are going to write will go there.
+
+Start the file with:
+
+```ocaml
+open%server Eliom.Content.Html.D
+open%server Lwt.Syntax
+```
+`Eliom.Content.Html.D` provides the functions to build HTML, and `Lwt.Syntax` the `let*` notation for Lwt promises ([Lwt in 5 minutes](./lwt.md)). For now, we only use them on the server side.
+
+We are going to create a module `Db` containing these functions:
 
 ```ocaml
 val get_messages : unit -> int list Lwt.t
@@ -66,63 +76,63 @@ module Db = struct
       ~scope:Eliom.Common.global_scope (-1)
 
   let get_message id =
-    let%lwt db = db in
+    let* db = db in
     Ocsipersist.Polymorphic.find db (string_of_int id)
 
   let get_messages () =
-    let%lwt index = Eliom.Reference.get last_key in
+    let* index = Eliom.Reference.get last_key in
     let rec aux n l = if n > index then l else aux (n+1) (n::l) in
     Lwt.return (aux 0 [])
 
   let lock = Lwt_mutex.create ()
 
   let add_message v =
-    let%lwt () = Lwt_mutex.lock lock in
-    let%lwt index = Eliom.Reference.get last_key in
-    let index = index + 1 in
-    let%lwt () = Eliom.Reference.set last_key index in
-    Lwt_mutex.unlock lock;
-    let%lwt db = db in
-    let%lwt () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
-    Lwt.return index
+    Lwt_mutex.with_lock lock (fun () ->
+      let* index = Eliom.Reference.get last_key in
+      let index = index + 1 in
+      let* () = Eliom.Reference.set last_key index in
+      let* db = db in
+      let* () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
+      Lwt.return index)
 end]
 ```
 Add the following code:
 
 ```ocaml
-[%%shared
-    open Eliom.Content.Html
-    open Eliom.Content.Html.D]
-```
-
-```ocaml
-let%server display userid_o =
-  let%lwt messages = Db.get_messages () in
-  let%lwt l =
+let%server display _userid_o =
+  let* messages = Db.get_messages () in
+  let* l =
     Lwt_list.map_s
       (fun id ->
-        let%lwt msg = Db.get_message id in
+        let* msg = Db.get_message id in
         Lwt.return (li [txt msg]))
       messages
   in
   Lwt.return [ul l]
 ```
+The parameter `_userid_o` is the optional identifier of the connected user (the `_` prefix tells the compiler that it is not used yet).
+
 Depending on your database, it is probably more efficient to fetch all messages and their identifiers using only one request. Here we use `Lwt_list.map_s` to do the requests sequentially.
 
-The content of the main page is defined in the file `tutoreact_handlers.eliom`. Replace the code of `main_service_handler` by:
+The content of the main page is defined in the file `lib/tutoreact_handlers.eliom`. Add `open%server Lwt.Syntax` at the beginning of this file, and replace the code of `main_service_handler` by:
 
 ```ocaml
 let%server main_service_handler userid_o () () =
-  let%lwt content = Tutoreact_messages.display userid_o in
+  let* content = Tutoreact_messages.display userid_o in
   Tutoreact_container.page userid_o content
 ```
-The `main_service_handler` you just replaced was in a shared section. Therefore, we also need to change two other files to take into consideration this modification.
+The `main_service_handler` you just replaced was shared (defined both on the server and the client). It is now defined on the server only. Therefore, we also need to change two other files to take into consideration this modification.
 
-In the file `tutoreact_handlers.eliomi`, move the definition of `main_service_handler` from the shared section to the server section.
+In the file `lib/tutoreact_handlers.eliomi`, replace `val%shared main_service_handler` by `val%server main_service_handler`.
 
-In the file `tutoreact.eliom`, move the registration of `main_service` from the shared section to the server section.
+In the file `lib/tutoreact.eliom`, the services are registered in a `let%shared () = ...` block. Remove the registration of `Os.Services.main_service` from this block, and register it in a server-only block:
 
-Try to compile in order to see if everything is fine.
+```ocaml
+let%server () =
+  Tutoreact_base.App.register ~service:Os.Services.main_service
+    (Tutoreact_page.Opt.connected_page Tutoreact_handlers.main_service_handler)
+```
+Compile and run (`make test.byte`) to see if everything is fine. The page shows an empty list of messages for now.
 
 ## Adding new messages
 
@@ -132,18 +142,18 @@ To add an input in the page for connected users, replace the function `display` 
 
 ```ocaml
 let%server display_messages () =
-  let%lwt messages = Db.get_messages () in
-  let%lwt l =
+  let* messages = Db.get_messages () in
+  let* l =
     Lwt_list.map_s
       (fun id ->
-        let%lwt msg = Db.get_message id in
+        let* msg = Db.get_message id in
         Lwt.return (li [txt msg]))
       messages
   in
   Lwt.return (ul l)
 
 let%server display userid_o =
-  let%lwt messages = display_messages () in
+  let* messages = display_messages () in
   let l =
     match userid_o with
     | None -> []
@@ -155,14 +165,14 @@ let%server display userid_o =
 
 ### Make function `Db.add_message` accessible from the client
 
-To be able to call a function from the client-side program, use `let%rpc`:
+To be able to call a function from the client-side program, use `let%rpc`. Add this function before `display`:
 
 ```ocaml
-let%rpc add_message (value : string) : unit Lwt.t =
-  let%lwt _ = Os.Current_user.get_current_userid () (* fails if not connected *) in
-  Db.add_message value
+let%rpc add_message myid (value : string) : unit Lwt.t =
+  let* _ = Db.add_message value in
+  Lwt.return ()
 ```
-The parameter `[%json: string]` describes the type of the function parameter. This exhibits the syntax provided by [ppx\_deriving](https://github.com/whitequark/ppx_deriving) extended with our JSON plugin. We use this for safe server-side unmarshalling of data sent by the client.
+The first parameter, `myid`, follows a convention of Ocsigen Start: it is the identifier of the connected user, and the function fails if nobody is connected. The caller does not give it: the client-side program calls `add_message value`. The type annotations of the other parameters describe the data sent by the client. They are used to check this data on the server side before using it.
 
 ### Bind the input to call the function
 
@@ -171,22 +181,22 @@ To call the function from the client program, we will define a *client value*, a
 Replace the second branch of the `match` in the function `display` by:
 
 ```ocaml
-let inp = Raw.input ~a:[a_input_type `Text; a_style "border-style:solid"] () in
-let _ = [%client
-  (let open Js_of_ocaml_lwt.Lwt_js_events in
-   let inp = To_dom.of_input ~%inp in
-   async (fun () -> changes inp (fun _ _ ->
-     let value = Js_of_ocaml.Js.to_string inp##.value in
-     inp##.value := Js_of_ocaml.Js.string "";
-     let%lwt _ = add_message value in
-     Lwt.return ()))
-   : unit)
-] in
-[inp]
+| _ ->
+    let inp = Raw.input ~a:[a_input_type `Text; a_style "border-style:solid"] () in
+    let _ = [%client
+      (let open Js_of_ocaml_lwt.Lwt_js_events in
+       let inp = Eliom.Content.Html.To_dom.of_input ~%inp in
+       async (fun () -> changes inp (fun _ _ ->
+         let value = Js_of_ocaml.Js.to_string inp##.value in
+         inp##.value := Js_of_ocaml.Js.string "";
+         add_message value))
+       : unit)
+    ] in
+    [inp]
 ```
 - We use module `Lwt_js_events` to manage events.
 - The syntax `~%v` allows using a server-side value `v` client-side.
-- `To_dom.of_input` returns the JS element corresponding to the OCaml value `~%inp`.
+- `Eliom.Content.Html.To_dom.of_input` returns the JS element corresponding to the OCaml value `~%inp`.
 - `Lwt_js_events.async` is similar to `Lwt.async`.
 - `obj##.a` allows the access to the field `a` of the JavaScript object `obj` (see Js\_of\_ocaml PPX extension).
 - `changes` takes a JS element and a function that will be executed every time a "change" event is received on this element.
@@ -196,7 +206,7 @@ Compile and run the program again. Now the messages should be added in the datab
 
 ## Structure of a client-server application
 
-We have seen how to send data to the server without stopping the client-side program. Now we want to automatically update the page when new messages are sent. Generally, the main difference between a web application and a website is that in the case of a web application, a client-side program runs and persists accross HTTP calls (remote procedure calls or page changes). The client process must be able to receive notifications from the server and update the page accordingly, without regenerating it entirely. It is common practice to generate the full interface client-side. But this is not suitable for all cases. It is usually better to keep the old-style web interaction and generate pages server-side, for example to enable search engine indexing. In this tutorial, we will see how to generate pages indifferently (and with the same code) from both sides.
+We have seen how to send data to the server without stopping the client-side program. Now we want to automatically update the page when new messages are sent. Generally, the main difference between a web application and a website is that in the case of a web application, a client-side program runs and persists across HTTP calls (remote procedure calls or page changes). The client process must be able to receive notifications from the server and update the page accordingly, without regenerating it entirely. It is common practice to generate the full interface client-side. But this is not suitable for all cases. It is usually better to keep the old-style web interaction and generate pages server-side, for example to enable search engine indexing. In this tutorial, we will see how to generate pages indifferently (and with the same code) from both sides.
 
 In this section, we will see how to implement this kind of applications very concisely thanks to three notions:
 
@@ -226,11 +236,9 @@ let%server cache : (int, string) Eliom.Cscache.t =
 
 Updating the interface when some data change is usually not straightforward. This is usually done by putting identifiers on elements to find them, and manually modifying page elements using low-level JS functions.
 
-A very elegant solution to simplify this consists in using Functional Reactive Programming (FRP). In reactive programming, you define relations between different pieces of data once, and each update automatically produces the recomputation of all the dependent data. In Ocsigen we use the module [React](http://erratique.ch/logiciel/react) combined with [ReactiveData](https://github.com/ocsigen/reactiveData/), which extends `React` to deal with incremental updates in lists. Have a look at the documentation of the above modules if you are not familiar with FRP.
+A very elegant solution to simplify this consists in using Functional Reactive Programming (FRP). In reactive programming, you define relations between different pieces of data once, and each update automatically produces the recomputation of all the dependent data. In Ocsigen we use the module [React](https://erratique.ch/software/react) combined with [ReactiveData](https://github.com/ocsigen/reactiveData/), which extends `React` to deal with incremental updates in lists. Have a look at the documentation of the above modules if you are not familiar with FRP.
 
-The client-side module `Eliom.Content.Html.R` enables defining reactive page elements.
-
-The module `Eliom.Shared` enables defining shared reactive signals server-side. In order to do that, we use *shared values*, values defined both server-side and client-side. The server-side module `Eliom.Content.Html.R` enables constructing HTML5 elements that get updated automatically based on the signals of `Eliom.Shared`. The modules `Eliom.Shared.React` and `Eliom.Shared.ReactiveData` implement interfaces very similar to `React` and `ReactiveData`, but operate on shared signals.
+The module `Eliom.Shared` enables defining shared reactive signals server-side. In order to do that, we use *shared values*, values defined both server-side and client-side. The module `Eliom.Content.Html.R`, available on both sides, enables constructing HTML5 elements that get updated automatically based on the signals of `Eliom.Shared`. The modules `Eliom.Shared.React` and `Eliom.Shared.ReactiveData` implement interfaces very similar to `React` and `ReactiveData`, but operate on shared signals.
 
 ### Implementation of the reactive interface
 
@@ -238,21 +246,23 @@ The module `Eliom.Shared` enables defining shared reactive signals server-side. 
 
 ```ocaml
 let%shared display_message id =
-  let%lwt msg = Eliom.Cscache.find ~%cache get_data id in
+  let* msg = Eliom.Cscache.find ~%cache get_data id in
   Lwt.return (li [txt msg])
 ```
+This function is shared, and uses `let*` and the HTML functions on both sides: replace `open%server` by `open%shared` in the two lines at the beginning of the file.
+
 The function `display_messages` now creates a reactive list of message identifiers, and maps page content from this reactive value using module `Eliom.Shared.ReactiveData`. Note that `rmessage` is a tuple, the first element is the list, the second element is the update function.
 
 ```ocaml
 let%server display_messages () =
-  let%lwt messages = Db.get_messages () in
+  let* messages = Db.get_messages () in
   let rmessages = Eliom.Shared.ReactiveData.RList.create messages in
-  let%lwt content =
+  let* content =
     Eliom.Shared.ReactiveData.RList.Lwt.map_p
       [%shared display_message ]
       (fst rmessages)
   in
-  Lwt.return (R.ul content)
+  Lwt.return (Eliom.Content.Html.R.ul content)
 ```
 
 ## Notifications
@@ -284,7 +294,7 @@ We notify the server that we are listening on this piece of data by calling `For
 ```ocaml
 let%server display_messages () =
   Forum_notif.listen ();
-  let%lwt messages = Db.get_messages () in
+  let* messages = Db.get_messages () in
   let rmessages = Eliom.Shared.ReactiveData.RList.create messages in
   ignore [%client
     (ignore
@@ -292,18 +302,18 @@ let%server display_messages () =
           ~%(Forum_notif.client_ev () : (unit * int) Eliom.Eliom_react.Down.t))
      : unit)
   ];
-  let%lwt content =
+  let* content =
     Eliom.Shared.ReactiveData.RList.Lwt.map_p
       [%shared display_message ]
       (fst rmessages)
   in
-  Lwt.return (R.ul content)
+  Lwt.return (Eliom.Content.Html.R.ul content)
 ```
 When we add a message, we notify all the clients listening on this piece of data:
 
 ```ocaml
-let%rpc add_message (value : string) : unit Lwt.t =
-   let%lwt id = Db.add_message value in
+let%rpc add_message myid (value : string) : unit Lwt.t =
+   let* id = Db.add_message value in
    Forum_notif.notify () id;
    Lwt.return ()
 ```
@@ -355,7 +365,7 @@ In the file `tutoreact_handlers.eliom`, we define the handler we will associate 
 
 ```ocaml
 let%server forum_service_handler userid_o forumid () =
-  let%lwt content = Tutoreact_messages.display userid_o forumid in
+  let* content = Tutoreact_messages.display userid_o forumid in
   Tutoreact_container.page userid_o content
 ```
 In the file `tutoreact_handlers.eliomi`, we define its signature, in the server section:
@@ -367,7 +377,7 @@ val forum_service_handler
   -> unit
   -> Os.Page.content Lwt.t
 ```
-In the file `tutoreact.eliom`, we register our handler to our new service in the server section:
+In the file `tutoreact.eliom`, we register our handler to our new service in the `let%server () = ...` block where we registered `main_service`:
 
 ```ocaml
   Tutoreact_base.App.register ~service:Tutoreact_services.forum_service
@@ -384,14 +394,14 @@ let%server display_messages forumid =
 
 ```ocaml
 let%server display userid_o forumid =
-  let%lwt messages = display_messages forumid in
+  let* messages = display_messages forumid in
   ...
 ```
 In the file `tutoreact_handlers.eliom`, update the code of `main_service_handler`:
 
 ```ocaml
 let%server main_service_handler forumid userid_o () () =
-  let%lwt content = Tutoreact_messages.display userid_o forumid in
+  let* content = Tutoreact_messages.display userid_o forumid in
   Tutoreact_container.page userid_o content
 ```
 In the file `tutoreact_handlers.eliomi`, update its signature:
@@ -431,49 +441,42 @@ module Db = struct
       ~scope:Eliom.Common.global_scope (-1)
 
   let get_message id =
-    let%lwt db = db in
+    let* db = db in
     Ocsipersist.Polymorphic.find db (string_of_int id)
 
   let get_messages forumid =
-    let%lwt dbf = dbf in
-    try%lwt
-      Ocsipersist.Polymorphic.find dbf (string_of_int forumid)
-    with Not_found ->
-      Lwt.return []
+    let* dbf = dbf in
+    Lwt.catch
+      (fun () -> Ocsipersist.Polymorphic.find dbf (string_of_int forumid))
+      (function Not_found -> Lwt.return [] | exn -> Lwt.reraise exn)
+
+  let lock = Lwt_mutex.create ()
 
   let add_message forumid v =
-    let%lwt index = Eliom.Reference.get last_key in
-    let index = index + 1 in
-    let%lwt () = Eliom.Reference.set last_key index in
-    let%lwt db = db in
-    let%lwt () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
-    let%lwt l = get_messages forumid in
-    let%lwt dbf = dbf in
-    let%lwt () =
-      Ocsipersist.Polymorphic.add dbf
-        (string_of_int forumid)
-        (index :: l)
-    in
-    Lwt.return index
+    Lwt_mutex.with_lock lock (fun () ->
+      let* index = Eliom.Reference.get last_key in
+      let index = index + 1 in
+      let* () = Eliom.Reference.set last_key index in
+      let* db = db in
+      let* () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
+      let* l = get_messages forumid in
+      let* dbf = dbf in
+      let* () =
+        Ocsipersist.Polymorphic.add dbf (string_of_int forumid) (index :: l)
+      in
+      Lwt.return index)
 
 end
 ]
 ```
 
-#### Message type
+#### Sending the forum identifier
 
-Since we are now adding besides the message, the `forumid` as well in our database, we need to specify a new type:
-
-```ocaml
-[%%shared
-    type add_message_type = int * string [@@deriving json]
-]
-```
-We don't forget to take that into consideration in the function `add_message`.
+The RPC `add_message` now takes the forum identifier as a new parameter:
 
 ```ocaml
-let%rpc add_message ((forumid, value) : add_message_type) : unit Lwt.t =
-   let%lwt id = Db.add_message forumid value in
+let%rpc add_message myid (forumid : int) (value : string) : unit Lwt.t =
+   let* id = Db.add_message forumid value in
    Forum_notif.notify () id;
    Lwt.return ()
 ```
@@ -481,7 +484,7 @@ In the function `display`, in the client section:
 
 ```ocaml
   ...
-  add_message (~%forumid, value)
+  add_message ~%forumid value
 ...
 ```
 
@@ -502,13 +505,13 @@ We will now implement the equivalent of `get_data` for this new cache.
 
 **Be very careful:**
 
-In `get_data_forum`, we must find the reactive list of messages in the new cache —if it exists — instead of creating a new one\! Otherwise you will have several reactive data for the same forum and the page updates will fail\!
+In `get_data_forum`, we must find the reactive list of messages in the new cache (if it exists) instead of creating a new one\! Otherwise you will have several reactive data for the same forum and the page updates will fail\!
 
 To do that, we provide an optional argument `?default` to the function `Eliom.Shared.ReactiveData.RList.create`, a client value (optionally) containing the current reactive list. If it does not exist in the cache, a new one will be created like previously:
 
 ```ocaml
 let%rpc get_data_forum (forumid : int) : _ Lwt.t =
-  let%lwt messages = Db.get_messages forumid in
+  let* messages = Db.get_messages forumid in
   let default = [%client
     ((try Some (Eliom.Cscache.find_if_ready ~%forumcache ~%forumid)
       with _ -> None)
@@ -521,7 +524,7 @@ let%rpc get_data_forum (forumid : int) : _ Lwt.t =
 ```ocaml
 let%server display_messages forumid =
   Forum_notif.listen ();
-  let%lwt rmessages =
+  let* rmessages =
     Eliom.Cscache.find forumcache get_data_forum forumid
   in
   ...
@@ -582,27 +585,26 @@ Retrieving messages from server can take time. To display a spinner while loadin
 ```ocaml
 let%shared display_message id =
   let th =
-    let%lwt msg = Eliom.Cscache.find ~%cache get_data id in
+    let* msg = Eliom.Cscache.find ~%cache get_data id in
     Lwt.return [div [txt msg]]
   in
-  let%lwt v = Ot.Spinner.with_spinner th in
+  let* v = Ot.Spinner.with_spinner th in
   Lwt.return (li [v])
 ```
-To simulate network latency, you can add a `Lwt_unix.sleep` in the server-side `get_data` function.
+To simulate network latency, you can add a `Lwt_unix.sleep` in the RPC `get_data`, which runs on the server.
 
 ```ocaml
-let%server get_data id =
-  let%lwt () = Lwt_unix.sleep 2.0 in
+let%rpc get_data (id : int) : string Lwt.t =
+  let* () = Lwt_unix.sleep 2.0 in
   Db.get_message id
 ```
+The spinner is displayed only when the page is updated on the client side: on the server side, `with_spinner` waits for the message before sending the page.
 
 ## The full code (`tutoreact_messages.eliom`):
 
 ```ocaml
-[%%shared
-    open Eliom.Content.Html
-    open Eliom.Content.Html.D
-]
+open%shared Eliom.Content.Html.D
+open%shared Lwt.Syntax
 ```
 
 ```ocaml
@@ -617,26 +619,30 @@ module Db = struct
       ~scope:Eliom.Common.global_scope (-1)
 
   let get_message id =
-    let%lwt db = db in
+    let* db = db in
     Ocsipersist.Polymorphic.find db (string_of_int id)
 
   let get_messages forumid =
-    let%lwt dbf = dbf in
-    try%lwt Ocsipersist.Polymorphic.find dbf (string_of_int forumid)
-    with Not_found -> Lwt.return []
+    let* dbf = dbf in
+    Lwt.catch
+      (fun () -> Ocsipersist.Polymorphic.find dbf (string_of_int forumid))
+      (function Not_found -> Lwt.return [] | exn -> Lwt.reraise exn)
+
+  let lock = Lwt_mutex.create ()
 
   let add_message forumid v =
-    let%lwt index = Eliom.Reference.get last_key in
-    let index = index + 1 in
-    let%lwt () = Eliom.Reference.set last_key index in
-    let%lwt db = db in
-    let%lwt () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
-    let%lwt l = get_messages forumid in
-    let%lwt dbf = dbf in
-    let%lwt () =
-      Ocsipersist.Polymorphic.add dbf (string_of_int forumid) (index :: l)
-    in
-    Lwt.return index
+    Lwt_mutex.with_lock lock (fun () ->
+      let* index = Eliom.Reference.get last_key in
+      let index = index + 1 in
+      let* () = Eliom.Reference.set last_key index in
+      let* db = db in
+      let* () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
+      let* l = get_messages forumid in
+      let* dbf = dbf in
+      let* () =
+        Ocsipersist.Polymorphic.add dbf (string_of_int forumid) (index :: l)
+      in
+      Lwt.return index)
 
 end
 
@@ -648,14 +654,8 @@ end)
 ```
 
 ```ocaml
-[%%shared
-    type add_message_type = int * string [@@deriving json]
-]
-```
-
-```ocaml
-let%rpc add_message ((forumid, value) : add_message_type) : unit Lwt.t =
-   let%lwt id = Db.add_message forumid value in
+let%rpc add_message myid (forumid : int) (value : string) : unit Lwt.t =
+   let* id = Db.add_message forumid value in
    Forum_notif.notify forumid (id : int);
    Lwt.return ()
 ```
@@ -671,14 +671,14 @@ let%server forumcache :
 ```
 
 ```ocaml
-ler%rpc get_data (id : int) : string Lwt.t =
-  let%lwt () = Lwt_unix.sleep 2.0 in
+let%rpc get_data (id : int) : string Lwt.t =
+  let* () = Lwt_unix.sleep 2.0 in
   Db.get_message id
 ```
 
 ```ocaml
 let%rpc get_data_forum (forumid : int) : _ Lwt.t =
-  let%lwt messages = Db.get_messages forumid in
+  let* messages = Db.get_messages forumid in
   let default = [%client
     (try
        Some (Eliom.Cscache.find_if_ready ~%forumcache ~%forumid)
@@ -692,10 +692,10 @@ let%rpc get_data_forum (forumid : int) : _ Lwt.t =
 ```ocaml
 let%shared display_message id =
   let th =
-    let%lwt msg = Eliom.Cscache.find ~%cache get_data id in
+    let* msg = Eliom.Cscache.find ~%cache get_data id in
     Lwt.return [div [txt msg]]
   in
-  let%lwt v = Ot.Spinner.with_spinner th in
+  let* v = Ot.Spinner.with_spinner th in
   Lwt.return (li [v])
 ```
 
@@ -710,7 +710,7 @@ let%client handle_notif_message_list (forumid, msgid) =
 ```ocaml
 let%server display_messages forumid =
   Forum_notif.listen (forumid : int);
-  let%lwt rmessages =
+  let* rmessages =
     Eliom.Cscache.find forumcache get_data_forum forumid
   in
   ignore [%client
@@ -719,15 +719,15 @@ let%server display_messages forumid =
           ~%(Forum_notif.client_ev () : (int * int) Eliom.Eliom_react.Down.t))
      : unit)
   ];
-  let%lwt content =
+  let* content =
     Eliom.Shared.ReactiveData.RList.Lwt.map_p
       [%shared display_message]
       (fst rmessages)
   in
-  Lwt.return (R.ul content)
+  Lwt.return (Eliom.Content.Html.R.ul content)
 
 let%server display userid_o forumid =
-  let%lwt messages = display_messages forumid in
+  let* messages = display_messages forumid in
   let l =
     match userid_o with
     | None -> []
@@ -738,13 +738,12 @@ let%server display userid_o forumid =
         let _ =
           [%client
             (let open Js_of_ocaml_lwt.Lwt_js_events in
-             let inp = To_dom.of_input ~%inp in
+             let inp = Eliom.Content.Html.To_dom.of_input ~%inp in
              async (fun () ->
                  changes inp (fun _ _ ->
                      let value = Js_of_ocaml.Js.to_string inp##.value in
                      inp##.value := Js_of_ocaml.Js.string "";
-                     let%lwt _ = add_message (~%forumid, value) in
-                     Lwt.return ()))
+                     add_message ~%forumid value))
               : unit)]
         in
         [inp]

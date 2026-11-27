@@ -44,7 +44,6 @@ will store this location in the database.
 - an ocsipersist backend, such as ocsipersist-sqlite
 - yojson
 - ppx\_deriving\_yojson
-- lwt\_ppx
 - cohttp-lwt
 You need some knowledge about Eliom to be able to fully understand this tutorial. It's not meant to be an Eliom introduction.
 
@@ -93,11 +92,11 @@ let db : location Ocsipersist.table Lwt.t =
 ```
 **Concept: Syntax extensions**
 
-The code snippet above uses a syntax extension provided by the `ppx_deriving_yojson` package, and the handlers below use `let%lwt` from `lwt_ppx`. In order to build this tutorial's source code, the `dune` file of your server code must contain the following lines. `ocsipersist` is a virtual library: an executable must also link a backend (such as `ocsipersist-sqlite`), and a module loaded by the `ocsigenserver` command gets it from the configuration file (see the [server-side programming guide](./basics-server.md)).
+The code snippet above uses a syntax extension provided by the `ppx_deriving_yojson` package, and the handlers below use `let*` from `Lwt.Syntax` (add `open Lwt.Syntax` at the beginning of the file). In order to build this tutorial's source code, the `dune` file of your server code must contain the following lines. `ocsipersist` is a virtual library: an executable must also link a backend (such as `ocsipersist-sqlite`), and a module loaded by the `ocsigenserver` command gets it from the configuration file (see the [server-side programming guide](./basics-server.md)).
 
 ```lisp
  (libraries eliom.server ocsipersist yojson cohttp-lwt)
- (preprocess (pps lwt_ppx ppx_deriving_yojson))
+ (preprocess (pps ppx_deriving_yojson))
 ```
 
 ## Services definition
@@ -179,7 +178,8 @@ let read_raw_content ?(max_length = 4096) raw_content =
   let stream = Cohttp_lwt.Body.to_stream raw_content in
   let buffer = Buffer.create 256 in
   let rec read () =
-    match%lwt Lwt_stream.get stream with
+    let* chunk = Lwt_stream.get stream in
+    match chunk with
     | None -> Lwt.return_some (Buffer.contents buffer)
     | Some chunk ->
       if Buffer.length buffer + String.length chunk > max_length then
@@ -210,28 +210,30 @@ The GET handler either returns a single location if an identifier is provided, o
 
 ```ocaml
 let read_handler id_opt () =
-  let%lwt db = db in
+  let* db = db in
   match id_opt with
   | None ->
-    let%lwt locations =
+    let* locations =
       Ocsipersist.Polymorphic.fold
         (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
     in
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
     send_json ~code:200 json
   | Some id ->
-    match%lwt Ocsipersist.Polymorphic.find db id with
-    | location ->
-      let json = Yojson.Safe.to_string (location_to_yojson location) in
-      send_json ~code:200 json
-    | exception Not_found ->
-      send_error ~code:404 ("Resource not found: " ^ id)
+    Lwt.try_bind
+      (fun () -> Ocsipersist.Polymorphic.find db id)
+      (fun location ->
+        let json = Yojson.Safe.to_string (location_to_yojson location) in
+        send_json ~code:200 json)
+      (function
+        | Not_found -> send_error ~code:404 ("Resource not found: " ^ id)
+        | exn -> Lwt.reraise exn)
 ```
 Next, let's create a common function for POST and PUT handlers, which have a very similar behaviour. The only difference is that a PUT request with a non-existing identifier will fail (thus only accepting update requests, and rejecting creations), whereas the same request with POST method will succeed (a new location associated to the identifier will be created). `Ocsipersist.Polymorphic.replace_if_exists` does the check and the update in one step, and fails with `Not_found` if there is no location to update.
 
 ```ocaml
 let edit_handler_aux ~create id_opt (content_type, raw_content) =
-  let%lwt db = db in
+  let* db = db in
   if not (check_content_type ~mime_type:json_mime_type content_type) then
     send_error ~code:400 "Content-type is wrong, it must be JSON"
   else
@@ -239,7 +241,8 @@ let edit_handler_aux ~create id_opt (content_type, raw_content) =
     | None ->
       send_error ~code:400 "Location identifier is missing"
     | Some id ->
-      match%lwt read_raw_content raw_content with
+      let* content = read_raw_content raw_content in
+      match content with
       | None ->
         send_error ~code:413 "Body content is too large"
       | Some location_str ->
@@ -248,15 +251,15 @@ let edit_handler_aux ~create id_opt (content_type, raw_content) =
           send_error ~code:400 "Provided JSON is not valid"
         | Ok location ->
           if create then
-            let%lwt () = Ocsipersist.Polymorphic.add db id location in
+            let* () = Ocsipersist.Polymorphic.add db id location in
             send_success ()
           else
-            match%lwt
-              Ocsipersist.Polymorphic.replace_if_exists db id location
-            with
-            | () -> send_success ()
-            | exception Not_found ->
-              send_error ~code:404 ("Location not found: " ^ id)
+            Lwt.try_bind
+              (fun () -> Ocsipersist.Polymorphic.replace_if_exists db id location)
+              (fun () -> send_success ())
+              (function
+                | Not_found -> send_error ~code:404 ("Location not found: " ^ id)
+                | exn -> Lwt.reraise exn)
 
 let create_handler id_opt content =
   edit_handler_aux ~create:true id_opt content
@@ -268,12 +271,12 @@ We need a fourth handler to delete locations:
 
 ```ocaml
 let delete_handler id_opt _body =
-  let%lwt db = db in
+  let* db = db in
   match id_opt with
   | None ->
     send_error ~code:400 "An id must be provided to delete a location"
   | Some id ->
-    let%lwt () = Ocsipersist.Polymorphic.remove db id in
+    let* () = Ocsipersist.Polymorphic.remove db id in
     send_success ()
 ```
 
@@ -292,6 +295,8 @@ let () =
 ## Full source
 
 ```ocaml
+open Lwt.Syntax
+
 (**** Data types ****)
 
 type coordinates = {
@@ -371,7 +376,8 @@ let read_raw_content ?(max_length = 4096) raw_content =
   let stream = Cohttp_lwt.Body.to_stream raw_content in
   let buffer = Buffer.create 256 in
   let rec read () =
-    match%lwt Lwt_stream.get stream with
+    let* chunk = Lwt_stream.get stream in
+    match chunk with
     | None -> Lwt.return_some (Buffer.contents buffer)
     | Some chunk ->
       if Buffer.length buffer + String.length chunk > max_length then
@@ -391,25 +397,27 @@ let parse_location location_str =
 (**** Handlers ****)
 
 let read_handler id_opt () =
-  let%lwt db = db in
+  let* db = db in
   match id_opt with
   | None ->
-    let%lwt locations =
+    let* locations =
       Ocsipersist.Polymorphic.fold
         (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
     in
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
     send_json ~code:200 json
   | Some id ->
-    match%lwt Ocsipersist.Polymorphic.find db id with
-    | location ->
-      let json = Yojson.Safe.to_string (location_to_yojson location) in
-      send_json ~code:200 json
-    | exception Not_found ->
-      send_error ~code:404 ("Resource not found: " ^ id)
+    Lwt.try_bind
+      (fun () -> Ocsipersist.Polymorphic.find db id)
+      (fun location ->
+        let json = Yojson.Safe.to_string (location_to_yojson location) in
+        send_json ~code:200 json)
+      (function
+        | Not_found -> send_error ~code:404 ("Resource not found: " ^ id)
+        | exn -> Lwt.reraise exn)
 
 let edit_handler_aux ~create id_opt (content_type, raw_content) =
-  let%lwt db = db in
+  let* db = db in
   if not (check_content_type ~mime_type:json_mime_type content_type) then
     send_error ~code:400 "Content-type is wrong, it must be JSON"
   else
@@ -417,7 +425,8 @@ let edit_handler_aux ~create id_opt (content_type, raw_content) =
     | None ->
       send_error ~code:400 "Location identifier is missing"
     | Some id ->
-      match%lwt read_raw_content raw_content with
+      let* content = read_raw_content raw_content in
+      match content with
       | None ->
         send_error ~code:413 "Body content is too large"
       | Some location_str ->
@@ -426,15 +435,15 @@ let edit_handler_aux ~create id_opt (content_type, raw_content) =
           send_error ~code:400 "Provided JSON is not valid"
         | Ok location ->
           if create then
-            let%lwt () = Ocsipersist.Polymorphic.add db id location in
+            let* () = Ocsipersist.Polymorphic.add db id location in
             send_success ()
           else
-            match%lwt
-              Ocsipersist.Polymorphic.replace_if_exists db id location
-            with
-            | () -> send_success ()
-            | exception Not_found ->
-              send_error ~code:404 ("Location not found: " ^ id)
+            Lwt.try_bind
+              (fun () -> Ocsipersist.Polymorphic.replace_if_exists db id location)
+              (fun () -> send_success ())
+              (function
+                | Not_found -> send_error ~code:404 ("Location not found: " ^ id)
+                | exn -> Lwt.reraise exn)
 
 let create_handler id_opt content =
   edit_handler_aux ~create:true id_opt content
@@ -443,12 +452,12 @@ let update_handler id_opt content =
   edit_handler_aux ~create:false id_opt content
 
 let delete_handler id_opt _body =
-  let%lwt db = db in
+  let* db = db in
   match id_opt with
   | None ->
     send_error ~code:400 "An id must be provided to delete a location"
   | Some id ->
-    let%lwt () = Ocsipersist.Polymorphic.remove db id in
+    let* () = Ocsipersist.Polymorphic.remove db id in
     send_success ()
 
 (**** Services registration ****)

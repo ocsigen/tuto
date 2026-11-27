@@ -4,7 +4,7 @@
 
 Custom configuration options
 
-It is not convenient to have to edit the code to change some configurations, like the location where are saved the favorite images in the Graffiti tutorial (see: [Saving favorite pictures](./pictures.md)). Fortunately Ocsigen provides a mechanism to extend its configuration file.
+It is not convenient to have to edit the code to change some configurations, like the directory where an application saves the files uploaded by its users. Fortunately Ocsigen provides a mechanism to extend its configuration file.
 
 ## Basic interface
 

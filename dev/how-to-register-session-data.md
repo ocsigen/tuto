@@ -4,18 +4,23 @@ It is very easy to register session data using *Eliom references*. Just create a
 
 But most of the time, what we want is to store data for one user, not for one browser instance. To do that, we group all the sessions for one user together, by creating a group of sessions. The name of the group may be for example the user id.
 
-To create a session group, open the session by doing something like:
+To create a session group, open the session by doing something like (where `check_password` and `get_userid` are your own functions):
 
 ```ocaml
-let open_session login password =
-  let%lwt b = check_password login password in
-  if b
-  then Eliom.State.set_volatile_data_session_group
-      ~scope:Eliom.Common.default_session_scope
-      (Int64.to_string (get_userid login))
-  else ...
+open Lwt.Syntax
 
+let open_session login password =
+  let* b = check_password login password in
+  if b
+  then (
+    Eliom.State.set_volatile_data_session_group
+      ~scope:Eliom.Common.default_session_scope
+      (Int64.to_string (get_userid login));
+    Lwt.return ())
+  else (* wrong password *) Lwt.return ()
 ```
+This sets the group of the *volatile data session*, which volatile Eliom references use. For persistent Eliom references, also call `Eliom.State.set_persistent_data_session_group`. If you use `Ocsigen Start`, its function `Os.Session.connect` does all this for you.
+
 If you want to store user data, just create a global Eliom reference of scope group:
 
 ```ocaml
@@ -34,7 +39,7 @@ And during a request, set this reference:
   Eliom.Reference.Volatile.set myref (Some "user data")
 
 ```
-The value of this reference is different for each user:
+The value of this reference is different for each user, and shared by all the sessions of the same user (for example in two different browsers):
 
 ```ocaml
 

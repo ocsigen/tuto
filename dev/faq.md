@@ -4,8 +4,9 @@ Short answers to frequent questions, with a code example and links to the manual
 
 ```ocaml
 open%shared Eliom.Content.Html.F
+open%shared Lwt.Syntax
 ```
-and use the Lwt syntax extension (`let%lwt`, see [Lwt in 5 minutes](./lwt.md)). Answers mentioning `Os` or `Ot` use `Ocsigen Start` and `Ocsigen Toolkit`. Module names are those of Eliom 13 and later (`Eliom.Service` rather than `Eliom_service`, see [the migration guide](./migration.md)).
+(`Lwt.Syntax` provides the `let*` notation, see [Lwt in 5 minutes](./lwt.md)). Answers mentioning `Os` or `Ot` use `Ocsigen Start` and `Ocsigen Toolkit`. Module names are those of Eliom 13 and later (`Eliom.Service` rather than `Eliom_service`, see [the migration guide](./migration.md)).
 
 Pages are registered with the module `App` of the application, made by `Eliom.Registration.App`: it is in `myapp.eliom` with the `app` template, and is `Myapp_base.App` with the `os` template. Do not use `Eliom.Registration.Html` for the pages of a client-server application: it sends them without the client-side program, so their client-side code does not run, and links towards them leave the application. Most examples register pages on the server only; [this question](./#client_pages) shows how to let the client generate them too.
 
@@ -201,14 +202,15 @@ let%shared comment_box (post_id : int) =
       fun _ ->
         Lwt.async (fun () ->
           let field = Eliom.Content.Html.To_dom.of_textarea ~%text in
-          try%lwt
-            let%lwt () = add_comment ~%post_id (Js.to_string field##.value) in
-            field##.value := Js.string "";
-            Lwt.return_unit
-          with e ->
-            Logs.err (fun m -> m "add_comment: %s" (Printexc.to_string e));
-            Eliom.Lib.alert "Your comment could not be sent.";
-            Lwt.return_unit)]
+          Lwt.catch
+            (fun () ->
+              let* () = add_comment ~%post_id (Js.to_string field##.value) in
+              field##.value := Js.string "";
+              Lwt.return_unit)
+            (fun e ->
+              Logs.err (fun m -> m "add_comment: %s" (Printexc.to_string e));
+              Eliom.Lib.alert "Your comment could not be sent.";
+              Lwt.return_unit))]
   in
   div [text; button ~a:[a_onclick send] [txt "Send"]]
 ```
@@ -254,7 +256,7 @@ let%server new_post =
     ~meth:
       (Eliom.Service.Post (Eliom.Parameter.unit, Eliom.Parameter.string "text"))
     (fun () text ->
-       let%lwt id = Db.add_post text in
+       let* id = Db.add_post text in
        Lwt.return
          (Eliom.Registration.Redirection
             (Eliom.Service.preapply ~service:article id)))
@@ -351,7 +353,8 @@ let%server article =
     ~path:(Eliom.Service.Path ["article"])
     ~meth:(Eliom.Service.Get Eliom.Parameter.(int "id"))
     (fun id () ->
-       match%lwt find_article id with
+       let* a = find_article id in
+       match a with
        | Some a -> Lwt.return (article_page a)
        | None ->
            Eliom.Registration.set_status `Not_found;
@@ -452,7 +455,7 @@ let%server save_upload file =
     Eliom.Lib.make_cryptographic_safe_string ()
     |> String.map (function '+' -> '-' | '/' -> '_' | c -> c)
   in
-  let%lwt () =
+  let* () =
     Lwt_unix.rename
       (Eliom.Request_info.get_tmp_filename file)
       (Filename.concat upload_dir name)
@@ -474,7 +477,7 @@ let%client send_file (input : Dom_html.inputElement Js.t) =
   match Js.Opt.to_option (Js.Opt.bind input##.files (fun fs -> fs##item 0)) with
   | None -> Lwt.return_none
   | Some file ->
-      let%lwt name =
+      let* name =
         Eliom.Client.call_ocaml_service ~service:upload_file () file
       in
       Lwt.return_some name
@@ -493,7 +496,7 @@ let%server upload =
 
 let%server () =
   App.register ~service:upload (fun () file ->
-    let%lwt _stored_as = save_upload file in
+    let* _stored_as = save_upload file in
     let name = Eliom.Request_info.get_original_filename file in
     Lwt.return (skeleton ~title:"Upload" [p [txt (name ^ " received.")]]))
 
@@ -527,7 +530,7 @@ let%client photo_service = ~%photo_service
 let%server () =
   Eliom.Registration.Ocaml.register ~service:photo_service
     (Os.Session.connected_fun (fun myid () ((), (cropping, file)) ->
-       let%lwt name = Os.Uploader.record_image photo_dir ~ratio:1. ?cropping file in
+       let* name = Os.Uploader.record_image photo_dir ~ratio:1. ?cropping file in
        save_photo_name myid name))
 
 let%client photo_form () =
@@ -551,16 +554,17 @@ let%rpc item_view (it : item) : [`Div] Eliom.Content.Html.elt Lwt.t =
   Lwt.return (div ~a:[a_class ["item"]] [txt it.label])
 
 let%client show_item container id =
-  try%lwt
-    let%lwt it = get_item id in
-    let%lwt node = item_view it in
-    Eliom.Content.Html.Manip.appendChild container node;
-    Lwt.return_unit
-  with e ->
-    Logs.err (fun m -> m "Cannot get item %d: %s" id (Printexc.to_string e));
-    Eliom.Content.Html.Manip.appendChild container
-      (p [txt "This item is not available."]);
-    Lwt.return_unit
+  Lwt.catch
+    (fun () ->
+      let* it = get_item id in
+      let* node = item_view it in
+      Eliom.Content.Html.Manip.appendChild container node;
+      Lwt.return_unit)
+    (fun e ->
+      Logs.err (fun m -> m "Cannot get item %d: %s" id (Printexc.to_string e));
+      Eliom.Content.Html.Manip.appendChild container
+        (p [txt "This item is not available."]);
+      Lwt.return_unit)
 ```
 The server checks the values it receives: their types must have a JSON deriver (`[@@deriving json]`, from package `js_of_ocaml-ppx_deriving_json`). The result can be any value, including HTML nodes, as `item_view` shows. The syntax comes from package `ocsigen-ppx-rpc`. An RPC is a *pathless service* that anyone can call: check the rights of the user inside (see [this question](./#connected)). See `Eliom's manual`.
 
@@ -599,7 +603,7 @@ let%client focused_input () =
   let inp = Eliom.Content.Html.D.Raw.input () in
   Lwt.async (fun () ->
     let elt = Eliom.Content.Html.To_dom.of_input inp in
-    let%lwt () = Ot.Nodeready.nodeready elt in
+    let* () = Ot.Nodeready.nodeready elt in
     elt##focus;
     Lwt.return_unit);
   inp
@@ -621,7 +625,7 @@ let%client item_page = ~%item_page
 
 let%shared () =
   App.register ~service:item_page (fun id () ->
-    let%lwt it = get_item id in
+    let* it = get_item id in
     Lwt.return (skeleton ~title:it.label [p [txt it.label]]))
 ```
 On the first request, the server generates the page, as usual. The handler is shared code: `get_item` is the [RPC](./#rpc) above, a function call on the server and a request on the client. The mobile app needs this for its pages, as they are all generated by its client-side program. See `client-side services` in Eliom's manual.
@@ -655,7 +659,7 @@ The server can fill the client's cache in advance, to save requests: while gener
 
 ```ocaml
 let%rpc search (q : string) : int list Lwt.t =
-  let%lwt items = Db.search_items q in
+  let* items = Db.search_items q in
   List.iter (fun it -> Eliom.Cscache.do_cache item_cache it.id it) items;
   Lwt.return (List.map (fun it -> it.id) items)
 ```
@@ -705,21 +709,22 @@ end)
 
 (* Anyone can call an RPC: check that the user is in the room. *)
 let%server check_member myid room =
-  if%lwt Db.is_member myid room
+  let* member = Db.is_member myid room in
+  if member
   then Lwt.return_unit
   else Lwt.fail Os.Session.Permission_denied
 
 let%rpc listen (room : int64) : unit Lwt.t =
   Os.Session.connected_rpc
     (fun myid room ->
-       let%lwt () = check_member myid room in
+       let* () = check_member myid room in
        Chat_notif.listen room; Lwt.return_unit)
     room
 
 let%rpc send (room : int64) (msg : string) : unit Lwt.t =
   Os.Session.connected_rpc
     (fun myid (room, msg) ->
-       let%lwt () = check_member myid room in
+       let* () = check_member myid room in
        Chat_notif.notify room msg; Lwt.return_unit)
     (room, msg)
 
@@ -759,7 +764,7 @@ With Ocsigen Toolkit, wrap the part that waits in `Ot.Spinner.with_spinner`:
 ```ocaml
 let%shared item_block id =
   Ot.Spinner.with_spinner
-    (let%lwt it = get_item id in
+    (let* it = get_item id in
      Lwt.return [txt it.label])
 ```
 On the client, the rest of the page is displayed at once, with a spinner in place of this block until `get_item` answers. On the server, there is no spinner: the page is sent once the data is there. Optional arguments choose the spinner, and what to display if the promise fails.
@@ -770,14 +775,15 @@ With Ocsigen Start, call `Os.Msg.msg`, on the client or on the server: the messa
 
 ```ocaml
 let%client save label =
-  try%lwt
-    let%lwt () = save_label label in
-    Os.Msg.msg "Saved";
-    Lwt.return_unit
-  with e ->
-    Logs.err (fun m -> m "save_label: %s" (Printexc.to_string e));
-    Os.Msg.msg ~level:`Err "Could not save, please try again";
-    Lwt.return_unit
+  Lwt.catch
+    (fun () ->
+      let* () = save_label label in
+      Os.Msg.msg "Saved";
+      Lwt.return_unit)
+    (fun e ->
+      Logs.err (fun m -> m "save_label: %s" (Printexc.to_string e));
+      Os.Msg.msg ~level:`Err "Could not save, please try again";
+      Lwt.return_unit)
 ```
 
 ### Are there ready-made widgets (popups, carousels, date pickers...)?
@@ -786,8 +792,10 @@ Yes, in `Ocsigen Toolkit`, which Ocsigen Start uses: popups and confirmation box
 
 ```ocaml
 let%client delete_with_confirmation photo =
-  if%lwt
+  let* ok =
     Ot.Popup.confirm [txt "Delete this photo?"] [txt "Delete"] [txt "Cancel"]
+  in
+  if ok
   then delete_photo photo
   else Lwt.return_unit
 ```
@@ -856,8 +864,9 @@ To give more rights to some users, put them in a group. `Os.Group.create` create
 
 ```ocaml
 let%server check_admin myid =
-  let%lwt admins = Os.Group.group_of_name "admin" in
-  if%lwt Os.Group.in_group ~group:admins ~userid:myid ()
+  let* admins = Os.Group.group_of_name "admin" in
+  let* is_admin = Os.Group.in_group ~group:admins ~userid:myid () in
+  if is_admin
   then Lwt.return_unit
   else Lwt.fail Os.Session.Permission_denied
 ```
@@ -957,9 +966,9 @@ let%client load_script url =
       script##.src := Js.string url;
       let loading =
         Lwt.pick
-          [ (let%lwt _ = Js_of_ocaml_lwt.Lwt_js_events.load script in
+          [ (let* _ = Js_of_ocaml_lwt.Lwt_js_events.load script in
              Lwt.return_unit)
-          ; (let%lwt _ = Js_of_ocaml_lwt.Lwt_js_events.error script in
+          ; (let* _ = Js_of_ocaml_lwt.Lwt_js_events.error script in
              Hashtbl.remove scripts url;
              Lwt.fail_with ("Cannot load " ^ url)) ]
       in
@@ -1012,12 +1021,11 @@ Start an Lwt loop when the module is loaded:
 
 ```ocaml
 let%server rec clean_sessions () =
-  let%lwt () = Lwt_unix.sleep 3600. in
-  let%lwt () =
-    try%lwt Db.remove_expired_sessions ()
-    with e ->
+  let* () = Lwt_unix.sleep 3600. in
+  let* () =
+    Lwt.catch Db.remove_expired_sessions (fun e ->
       Logs.err (fun m -> m "Session cleanup: %s" (Printexc.to_string e));
-      Lwt.return_unit
+      Lwt.return_unit)
   in
   clean_sessions ()
 

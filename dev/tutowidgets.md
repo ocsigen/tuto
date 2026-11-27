@@ -45,21 +45,20 @@ let%client mywidget s1 s2 = Eliom.Content.Html.D.(
   div ~a:[a_class ["mywidget"]] [button; content]
 )
 
-let%client _ =
-  let%lwt _ = Js_of_ocaml_lwt.Lwt_js_events.onload () in
-  Js_of_ocaml.Dom.appendChild
-    (Js_of_ocaml.Dom_html.document##.body)
-    (Eliom.Content.Html.To_dom.of_element (mywidget "Click me" "Hello!"));
-  Lwt.return ()
+let%client () =
+  Eliom.Client.onload (fun () ->
+    Js_of_ocaml.Dom.appendChild
+      Js_of_ocaml.Dom_html.document##.body
+      (Eliom.Content.Html.To_dom.of_element (mywidget "Click me" "Hello!")))
 ```
 To compile it, first create a project by calling
 
 ```
-  eliom-distillery -name ex -template client-server.basic
+  eliom-distillery -name ex -template app -target-directory ex
 ```
 The name of the project must match the name given to the functor `Eliom.Registration.App`.
 
-After you adapt the file `ex.eliom`, you can compile by calling `make`, and run the server by calling `make test.byte`. Download the [CSS file](files/tutorial/tutowidgets/ex.css) and place it in directory `static/css`. Then open a browser window and go to URL `http://localhost:8080`.
+Replace the content of file `app/ex.eliom` by the code above. Download the [CSS file](files/tutorial/tutowidgets/ex.css) and place it in directory `static/css` (it replaces the file `ex.css` created by Eliom distillery). You can then compile by calling `dune build`, and run the server by calling `dune exec ex`. Then open a browser window and go to URL `http://localhost:8080`.
 
 ![screenshot](files/tutorial/tutowidgets/ex1.png)
 
@@ -68,11 +67,11 @@ After you adapt the file `ex.eliom`, you can compile by calling `make`, and run 
 This section gives very quick explanations on the rest of the program. For more detailed explanations, see the tutorial for the graffiti app or the manual of each of the projects.
 
 - The client side program is sent with the first page belonging to the application (registered through module `Ex_app`).
-- The `##` is used to call a JS method from OCaml and `##.` to access a JS object field (See Js\_of\_ocaml's documentation: `Ppx_js`).
+- The `##` is used to call a JS method from OCaml and `##.` to access a JS object field (See [Js\_of\_ocaml's documentation](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/ppx.html)).
 - If there are several services in your application, the client-side program will be sent only with the first page, and will not stop if you go to another page of the application.
-- `Lwt` is the concurrent library used to program threads on both client and server sides. The syntax `let%lwt a = e1 in e2` allows waiting (without blocking the rest of the program) for an Lwt thread to terminate before continuing. `e2` must ben a Lwt thread itself. `Lwt.return` enables creating an already-terminated Lwt thread.
-- `Js_of_ocaml_lwt.Lwt_js_events` defines a convenient way to program interface events (mouse, keyboard, ...).
-`Js_of_ocaml_lwt.Lwt_js_events.onload` is a Lwt thread that waits until the page is loaded. There are similar functions to wait for other events, e.g., for a click on an element of the page, or for a key press.
+- `Eliom.Client.onload f` calls `f` once the page is in place. The client-side program may start before the page is completely loaded, so this is how it can modify the page safely.
+- `Lwt` is the concurrent library used to program threads on both client and server sides. A function that waits for something (an event, a network answer, ...) returns a *promise*, of type `'a Lwt.t`, without blocking the rest of the program. `Lwt.return` enables creating an already-fulfilled promise.
+- `Js_of_ocaml_lwt.Lwt_js_events` defines a convenient way to program interface events (mouse, keyboard, ...) with Lwt. We will use it in the next step.
 
 ## Second step: bind the button
 
@@ -107,7 +106,7 @@ The following version of the program shows how to generate the widget on server 
 The code is exactly the same, with the following modifications:
 
 - We place function `mywidget` in server section.
-- The portion of code that must be run on client side (binding the click event) is written as a *client value*, inside `[%client (... : unit) ]`. This code will be executed by the client-side program when it receives the page. Note that you must give the type (here `unit`), as the type inference for client values is currently very limited. The client section may refer to server side values, using the `~%x` syntax. These values will be serialized and sent to the client automatically with the page.
+- The portion of code that must be run on client side (binding the click event) is written as a *client value*, inside `[%client (... : unit) ]`. This code will be executed by the client-side program when it receives the page. Note that you must give the type (here `unit`): this client value is not used on the server side, so its type cannot be inferred. The client section may refer to server side values, using the `~%x` syntax. These values will be serialized and sent to the client automatically with the page.
 - We include the widget on the server side generated page instead of adding it to the page from client side.
 
 ```ocaml
@@ -163,11 +162,13 @@ If you make function `mywidget` *shared*, it will be available both on server an
 let%shared mywidget s1 s2 =
   ...
 ```
+Until the client-side program uses it, the compiler reports the client-side version of `mywidget` as an unused value (an error in dune's default development profile). The next step uses it on both sides.
+
 ![screenshot](files/tutorial/tutowidgets/ex2.png)
 
 ## Fifth step: close last window when opening a new one
 
-To implement this, we record a client-side reference to a function for closing the currently opened window.
+To implement this, we record a client-side reference to a function for closing the currently opened window. The contents are now hidden at the beginning (class `hidden`).
 
 ```ocaml
 
@@ -194,7 +195,7 @@ let%client switch_visibility elt =
 ```ocaml
 let%shared mywidget s1 s2 = Eliom.Content.Html.D.(
   let button  = div ~a:[a_class ["button"]] [txt s1] in
-  let content = div ~a:[a_class ["content"]] [txt s2] in
+  let content = div ~a:[a_class ["content"; "hidden"]] [txt s2] in
   let _ = [%client
     (Lwt.async (fun () ->
        Js_of_ocaml_lwt.Lwt_js_events.clicks (Eliom.Content.Html.To_dom.of_element ~%button) (fun _ _ ->
@@ -311,7 +312,7 @@ An important feature missing from this tutorial is the ability to call server fu
 
 ### Services
 
-For many applications, you will need several services. By default, client-side Eliom programs do not stop when you follow a link or send a form. This enables combining rich client side features (playing music, animations, stateful applications~ ...) with traditional Web interaction (links, forms, bookmarks, back button~ ...). Eliom proposes several ways to identify services, either by the URL (and parameters), or by a session identifier (we call this kind of service a *coservice*). Eliom also allows creating new (co-)services dynamically, for example coservices depending on previous interaction with a user. More information on the service identification mechanism in `Eliom's manual`.
+For many applications, you will need several services. By default, client-side Eliom programs do not stop when you follow a link or send a form. This enables combining rich client side features (playing music, animations, stateful applications, ...) with traditional Web interaction (links, forms, bookmarks, back button, ...). Eliom proposes several ways to identify services, either by the URL (and parameters), or by a session identifier (we call this kind of service a *coservice*). Eliom also allows creating new (co-)services dynamically, for example coservices depending on previous interaction with a user. More information on the service identification mechanism in `Eliom's manual`.
 
 ### Sessions
 

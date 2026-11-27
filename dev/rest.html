@@ -129,12 +129,6 @@
 <li class="ml3 current" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>Improving Graffiti</h3>
-<ul class="api-section">
-<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
-<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
-<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
-</ul>
 <h3>HOW-TO</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
@@ -197,12 +191,6 @@
 <li class="ml3 current" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>Improving Graffiti</h3>
-<ul class="api-section">
-<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
-<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
-<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
-</ul>
 <h3>HOW-TO</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
@@ -219,7 +207,7 @@
     &quot;longitude&quot;: 2.3508
   }
 }</code></pre><p>will store this location in the database.</p><p><code>PUT http://localhost/ID</code>, with some content, will update the location associated to <code>ID</code>.</p><p><code>DELETE http://localhost/ID</code> will delete the location associated to <code>ID</code>.</p>
-<h2 id="requirements">Requirements</h2><ul><li>eliom &gt;= 13.0</li><li>an ocsipersist backend, such as ocsipersist-sqlite</li><li>yojson</li><li>ppx_deriving_yojson</li><li>lwt_ppx</li><li>cohttp-lwt</li></ul><p>You need some knowledge about Eliom to be able to fully understand this tutorial. It's not meant to be an Eliom introduction.</p><p>You can test your REST API from the command line with <code>curl</code>, for example:</p><pre>curl -X POST -H &quot;Content-Type: application/json&quot; \
+<h2 id="requirements">Requirements</h2><ul><li>eliom &gt;= 13.0</li><li>an ocsipersist backend, such as ocsipersist-sqlite</li><li>yojson</li><li>ppx_deriving_yojson</li><li>cohttp-lwt</li></ul><p>You need some knowledge about Eliom to be able to fully understand this tutorial. It's not meant to be an Eliom introduction.</p><p>You can test your REST API from the command line with <code>curl</code>, for example:</p><pre>curl -X POST -H &quot;Content-Type: application/json&quot; \
   -d '{&quot;description&quot;: &quot;Paris&quot;, &quot;coordinates&quot;: {&quot;latitude&quot;: 48.8567, &quot;longitude&quot;: 2.3508}}' \
   http://localhost:8080/paris
 curl http://localhost:8080/paris
@@ -243,8 +231,8 @@ type error = {
 } [@@deriving yojson]
 
 let db : location Ocsipersist.table Lwt.t =
-  Ocsipersist.Polymorphic.open_table &quot;locations&quot;</code></pre><aside class="concept"><p><b>Concept: Syntax extensions</b></p><p>The code snippet above uses a syntax extension provided by the <code>ppx_deriving_yojson</code> package, and the handlers below use <code>let%lwt</code> from <code>lwt_ppx</code>. In order to build this tutorial's source code, the <code>dune</code> file of your server code must contain the following lines. <code>ocsipersist</code> is a virtual library: an executable must also link a backend (such as <code>ocsipersist-sqlite</code>), and a module loaded by the <code>ocsigenserver</code> command gets it from the configuration file (see the <a href="basics-server.html" title="basics-server">server-side programming guide</a>).</p><pre class="language-lisp"><code> (libraries eliom.server ocsipersist yojson cohttp-lwt)
- (preprocess (pps lwt_ppx ppx_deriving_yojson))</code></pre></aside><h2 id="services">Services definition</h2><p>First, let's define common service parameters:</p><ul><li>The <code>path</code> of the API: it's the same for all services.</li></ul><ul><li>The GET parameter, which is an optional identifier given as a URL suffix. We set it as optional so we can distinguish GET requests for all resources or a single one, and return a detailed error if the identifier is missing in POST, PUT and DELETE requests. An alternative would be to use two services at the same path (one with id and the other without).</li></ul><pre class="language-ocaml"><code>let path = Eliom.Service.Path [&quot;&quot;]
+  Ocsipersist.Polymorphic.open_table &quot;locations&quot;</code></pre><aside class="concept"><p><b>Concept: Syntax extensions</b></p><p>The code snippet above uses a syntax extension provided by the <code>ppx_deriving_yojson</code> package, and the handlers below use <code>let*</code> from <code>Lwt.Syntax</code> (add <code>open Lwt.Syntax</code> at the beginning of the file). In order to build this tutorial's source code, the <code>dune</code> file of your server code must contain the following lines. <code>ocsipersist</code> is a virtual library: an executable must also link a backend (such as <code>ocsipersist-sqlite</code>), and a module loaded by the <code>ocsigenserver</code> command gets it from the configuration file (see the <a href="basics-server.html" title="basics-server">server-side programming guide</a>).</p><pre class="language-lisp"><code> (libraries eliom.server ocsipersist yojson cohttp-lwt)
+ (preprocess (pps ppx_deriving_yojson))</code></pre></aside><h2 id="services">Services definition</h2><p>First, let's define common service parameters:</p><ul><li>The <code>path</code> of the API: it's the same for all services.</li></ul><ul><li>The GET parameter, which is an optional identifier given as a URL suffix. We set it as optional so we can distinguish GET requests for all resources or a single one, and return a detailed error if the identifier is missing in POST, PUT and DELETE requests. An alternative would be to use two services at the same path (one with id and the other without).</li></ul><pre class="language-ocaml"><code>let path = Eliom.Service.Path [&quot;&quot;]
 
 let get_params =
   Eliom.Parameter.(suffix (neopt (string &quot;id&quot;)))</code></pre><p>Next step is to define our API services. We define four of them with the same path, using the four HTTP methods at our disposal:</p><ul><li>GET method will be used to access the database, either all of it if no identifier is provided, or a single resource otherwise. An error will be returned if no resource matches the identifier.</li></ul><ul><li>POST method will be used to create a new resource (or update it if it already exists). We set a single POST parameter: <code>Eliom.Parameter.raw_post_data</code>, in order to retrieve raw JSON and bypass POST parameters decoding.</li></ul><ul><li>PUT method will be used to update an existing resource. An error will be returned if no resource matches the identifier. We don't need to define POST parameters: PUT services take <code>Eliom.Parameter.raw_post_data</code> as default content.</li></ul><ul><li>DELETE method will be used to delete a resource. Deleting a location that does not exist also succeeds: DELETE is idempotent.</li></ul><pre class="language-ocaml"><code>let read_service =
@@ -291,7 +279,8 @@ let read_raw_content ?(max_length = 4096) raw_content =
   let stream = Cohttp_lwt.Body.to_stream raw_content in
   let buffer = Buffer.create 256 in
   let rec read () =
-    match%lwt Lwt_stream.get stream with
+    let* chunk = Lwt_stream.get stream in
+    match chunk with
     | None -&gt; Lwt.return_some (Buffer.contents buffer)
     | Some chunk -&gt;
       if Buffer.length buffer + String.length chunk &gt; max_length then
@@ -307,23 +296,25 @@ let parse_location location_str =
   match Yojson.Safe.from_string location_str with
   | json -&gt; location_of_yojson json
   | exception Yojson.Json_error message -&gt; Error message</code></pre><p>Then we define our handlers in order to perform the required actions and return a response.</p><p>POST and PUT handlers will read raw body content as JSON and convert it to our types with the functions generated by <code>ppx_deriving_yojson</code>.</p><p>We use HTTP status codes in responses, with these meanings:</p><ul><li>200 (OK): the request succeeded.</li><li>400 (Bad request): something is wrong with the request (missing parameter, parsing error...).</li><li>404 (Not found): no resource matches the provided identifier.</li><li>413 (Content too large): the body of the request is longer than we accept.</li></ul><p>The GET handler either returns a single location if an identifier is provided, or a list of all existing locations otherwise.</p><pre class="language-ocaml"><code>let read_handler id_opt () =
-  let%lwt db = db in
+  let* db = db in
   match id_opt with
   | None -&gt;
-    let%lwt locations =
+    let* locations =
       Ocsipersist.Polymorphic.fold
         (fun id loc acc -&gt; Lwt.return ((id, loc) :: acc)) db []
     in
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
     send_json ~code:200 json
   | Some id -&gt;
-    match%lwt Ocsipersist.Polymorphic.find db id with
-    | location -&gt;
-      let json = Yojson.Safe.to_string (location_to_yojson location) in
-      send_json ~code:200 json
-    | exception Not_found -&gt;
-      send_error ~code:404 (&quot;Resource not found: &quot; ^ id)</code></pre><p>Next, let's create a common function for POST and PUT handlers, which have a very similar behaviour. The only difference is that a PUT request with a non-existing identifier will fail (thus only accepting update requests, and rejecting creations), whereas the same request with POST method will succeed (a new location associated to the identifier will be created). <code>Ocsipersist.Polymorphic.replace_if_exists</code> does the check and the update in one step, and fails with <code>Not_found</code> if there is no location to update.</p><pre class="language-ocaml"><code>let edit_handler_aux ~create id_opt (content_type, raw_content) =
-  let%lwt db = db in
+    Lwt.try_bind
+      (fun () -&gt; Ocsipersist.Polymorphic.find db id)
+      (fun location -&gt;
+        let json = Yojson.Safe.to_string (location_to_yojson location) in
+        send_json ~code:200 json)
+      (function
+        | Not_found -&gt; send_error ~code:404 (&quot;Resource not found: &quot; ^ id)
+        | exn -&gt; Lwt.reraise exn)</code></pre><p>Next, let's create a common function for POST and PUT handlers, which have a very similar behaviour. The only difference is that a PUT request with a non-existing identifier will fail (thus only accepting update requests, and rejecting creations), whereas the same request with POST method will succeed (a new location associated to the identifier will be created). <code>Ocsipersist.Polymorphic.replace_if_exists</code> does the check and the update in one step, and fails with <code>Not_found</code> if there is no location to update.</p><pre class="language-ocaml"><code>let edit_handler_aux ~create id_opt (content_type, raw_content) =
+  let* db = db in
   if not (check_content_type ~mime_type:json_mime_type content_type) then
     send_error ~code:400 &quot;Content-type is wrong, it must be JSON&quot;
   else
@@ -331,7 +322,8 @@ let parse_location location_str =
     | None -&gt;
       send_error ~code:400 &quot;Location identifier is missing&quot;
     | Some id -&gt;
-      match%lwt read_raw_content raw_content with
+      let* content = read_raw_content raw_content in
+      match content with
       | None -&gt;
         send_error ~code:413 &quot;Body content is too large&quot;
       | Some location_str -&gt;
@@ -340,32 +332,34 @@ let parse_location location_str =
           send_error ~code:400 &quot;Provided JSON is not valid&quot;
         | Ok location -&gt;
           if create then
-            let%lwt () = Ocsipersist.Polymorphic.add db id location in
+            let* () = Ocsipersist.Polymorphic.add db id location in
             send_success ()
           else
-            match%lwt
-              Ocsipersist.Polymorphic.replace_if_exists db id location
-            with
-            | () -&gt; send_success ()
-            | exception Not_found -&gt;
-              send_error ~code:404 (&quot;Location not found: &quot; ^ id)
+            Lwt.try_bind
+              (fun () -&gt; Ocsipersist.Polymorphic.replace_if_exists db id location)
+              (fun () -&gt; send_success ())
+              (function
+                | Not_found -&gt; send_error ~code:404 (&quot;Location not found: &quot; ^ id)
+                | exn -&gt; Lwt.reraise exn)
 
 let create_handler id_opt content =
   edit_handler_aux ~create:true id_opt content
 
 let update_handler id_opt content =
   edit_handler_aux ~create:false id_opt content</code></pre><p>We need a fourth handler to delete locations:</p><pre class="language-ocaml"><code>let delete_handler id_opt _body =
-  let%lwt db = db in
+  let* db = db in
   match id_opt with
   | None -&gt;
     send_error ~code:400 &quot;An id must be provided to delete a location&quot;
   | Some id -&gt;
-    let%lwt () = Ocsipersist.Polymorphic.remove db id in
+    let* () = Ocsipersist.Polymorphic.remove db id in
     send_success ()</code></pre><h2 id="registration">Services registration</h2><p>Finally we register services with the <code>Eliom.Registration.Any</code> module in order to have full control on the sent response. This way, we'll be able to send an appropriate HTTP status code depending on what happens during the request processing (parsing error, resource not found...), as seen above when defining handlers.</p><pre class="language-ocaml"><code>let () =
   Eliom.Registration.Any.register ~service:read_service read_handler;
   Eliom.Registration.Any.register ~service:create_service create_handler;
   Eliom.Registration.Any.register ~service:update_service update_handler;
-  Eliom.Registration.Any.register ~service:delete_service delete_handler</code></pre><h2 id="source">Full source</h2><pre class="language-ocaml"><code>(**** Data types ****)
+  Eliom.Registration.Any.register ~service:delete_service delete_handler</code></pre><h2 id="source">Full source</h2><pre class="language-ocaml"><code>open Lwt.Syntax
+
+(**** Data types ****)
 
 type coordinates = {
   latitude : float;
@@ -444,7 +438,8 @@ let read_raw_content ?(max_length = 4096) raw_content =
   let stream = Cohttp_lwt.Body.to_stream raw_content in
   let buffer = Buffer.create 256 in
   let rec read () =
-    match%lwt Lwt_stream.get stream with
+    let* chunk = Lwt_stream.get stream in
+    match chunk with
     | None -&gt; Lwt.return_some (Buffer.contents buffer)
     | Some chunk -&gt;
       if Buffer.length buffer + String.length chunk &gt; max_length then
@@ -464,25 +459,27 @@ let parse_location location_str =
 (**** Handlers ****)
 
 let read_handler id_opt () =
-  let%lwt db = db in
+  let* db = db in
   match id_opt with
   | None -&gt;
-    let%lwt locations =
+    let* locations =
       Ocsipersist.Polymorphic.fold
         (fun id loc acc -&gt; Lwt.return ((id, loc) :: acc)) db []
     in
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
     send_json ~code:200 json
   | Some id -&gt;
-    match%lwt Ocsipersist.Polymorphic.find db id with
-    | location -&gt;
-      let json = Yojson.Safe.to_string (location_to_yojson location) in
-      send_json ~code:200 json
-    | exception Not_found -&gt;
-      send_error ~code:404 (&quot;Resource not found: &quot; ^ id)
+    Lwt.try_bind
+      (fun () -&gt; Ocsipersist.Polymorphic.find db id)
+      (fun location -&gt;
+        let json = Yojson.Safe.to_string (location_to_yojson location) in
+        send_json ~code:200 json)
+      (function
+        | Not_found -&gt; send_error ~code:404 (&quot;Resource not found: &quot; ^ id)
+        | exn -&gt; Lwt.reraise exn)
 
 let edit_handler_aux ~create id_opt (content_type, raw_content) =
-  let%lwt db = db in
+  let* db = db in
   if not (check_content_type ~mime_type:json_mime_type content_type) then
     send_error ~code:400 &quot;Content-type is wrong, it must be JSON&quot;
   else
@@ -490,7 +487,8 @@ let edit_handler_aux ~create id_opt (content_type, raw_content) =
     | None -&gt;
       send_error ~code:400 &quot;Location identifier is missing&quot;
     | Some id -&gt;
-      match%lwt read_raw_content raw_content with
+      let* content = read_raw_content raw_content in
+      match content with
       | None -&gt;
         send_error ~code:413 &quot;Body content is too large&quot;
       | Some location_str -&gt;
@@ -499,15 +497,15 @@ let edit_handler_aux ~create id_opt (content_type, raw_content) =
           send_error ~code:400 &quot;Provided JSON is not valid&quot;
         | Ok location -&gt;
           if create then
-            let%lwt () = Ocsipersist.Polymorphic.add db id location in
+            let* () = Ocsipersist.Polymorphic.add db id location in
             send_success ()
           else
-            match%lwt
-              Ocsipersist.Polymorphic.replace_if_exists db id location
-            with
-            | () -&gt; send_success ()
-            | exception Not_found -&gt;
-              send_error ~code:404 (&quot;Location not found: &quot; ^ id)
+            Lwt.try_bind
+              (fun () -&gt; Ocsipersist.Polymorphic.replace_if_exists db id location)
+              (fun () -&gt; send_success ())
+              (function
+                | Not_found -&gt; send_error ~code:404 (&quot;Location not found: &quot; ^ id)
+                | exn -&gt; Lwt.reraise exn)
 
 let create_handler id_opt content =
   edit_handler_aux ~create:true id_opt content
@@ -516,12 +514,12 @@ let update_handler id_opt content =
   edit_handler_aux ~create:false id_opt content
 
 let delete_handler id_opt _body =
-  let%lwt db = db in
+  let* db = db in
   match id_opt with
   | None -&gt;
     send_error ~code:400 &quot;An id must be provided to delete a location&quot;
   | Some id -&gt;
-    let%lwt () = Ocsipersist.Polymorphic.remove db id in
+    let* () = Ocsipersist.Polymorphic.remove db id in
     send_success ()
 
 (**** Services registration ****)

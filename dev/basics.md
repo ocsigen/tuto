@@ -15,7 +15,7 @@ cd myapp
 make db-init && make db-create && make db-update
 make test.byte
 ```
-Then open `http://localhost:8080`. <br/> Requires `postgresql` and `sass` (or `sassc`). Read the [detailed instructions](./start.md) if needed.
+Then open `http://localhost:8080`. <br/> Requires `postgresql`, `npm` and `sass` (or `sassc`). Read the [detailed instructions](./start.md) if needed.
 
 ## OCaml
 
@@ -29,7 +29,7 @@ This programming guide assumes you know the *OCaml* language. Many resources and
 
 Instead of calling blocking functions, like `Unix.sleep` or `Unix.read`, that could block the entire program, replace them by their cooperative counterparts (`Lwt_unix.sleep`, `Lwt_unix.read`, etc.). Instead of taking time to execute, they always return immediately a *promise* of the result, of type `'a Lwt.t`. This type is abstract, and the only way to use the result is to *bind* a function to the promise. `Lwt.bind p f` means: "when promise `p` is completed, give its result to function `f`".
 
-Syntax `let%lwt x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program.
+After `open Lwt.Syntax`, syntax `let* x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program.
 
 To learn Lwt, read this [short tutorial](./lwt.md), or its `user manual`.
 
@@ -70,7 +70,7 @@ let () =
 ```
 Put this in file `bin/main.ml`, and run `dune exec mysite`.
 
-By default, the server runs on port 8080\. Create a `static` directory with some files and try to fetch them using your Web browser.
+By default, the server runs on port 8080\. Create a `static` directory with some files and try to fetch them using your Web browser. The server warns that it cannot create its command pipe, in a directory of its installation: you can ignore this warning, or give a path with the `~command_pipe` parameter of `Ocsigen.Server.start` (as in the example below).
 
 ### Use the `ocsigenserver` command
 
@@ -216,8 +216,8 @@ Eliom.Parameter.(suffix_prod (int "year" ** int "month") (int "a"))
 To define a service with POST parameters, just change the `~meth` parameter. For example the following example takes the same GET parameters as the service above, plus one POST parameter of type string, named "mypostparam".
 
 ```ocaml
-~meth:(Eliom.Service.Post (Eliom.Parameter.((string "myparam" ** int "i"),
-                                            (string "mypostparam"))))
+~meth:(Eliom.Service.Post (Eliom.Parameter.(string "myparam" ** int "i"),
+                           Eliom.Parameter.string "mypostparam"))
 ```
 
 ### Pathless services
@@ -252,7 +252,7 @@ This example shows how to insert an image using `static_dir`:
 img
   ~alt:"blip"
   ~src:(Eliom.Content.Html.F.make_uri
-         (Eliom.Service.static_dir ())
+         ~service:(Eliom.Service.static_dir ())
          ["dir" ; "image.jpg"])
   ()
 ```
@@ -394,7 +394,7 @@ The latter is used for the default Javascript library. Here is how it works:
 | `obj##.m := e` | change a JS property (when `obj : <m : u prop> Js.t` and `e:u`) |
 | `obj##m e_1 ... e_n` | call a JS method (has type `u` when `obj : <m : t_1 -> ... -> t_n -> u meth; ..> Js.t` and `e_i : t_i`) |
 | `new%js constr e1 ... en` | create a JS object (has type `u Js.t` when `constr : (t_1 -> ... -> t_n -> u Js.t) Js.constr` and `e_i : t_i`) |
-Module `Js_of_ocaml.Js` defines the base JS types and conversion functions from/to OCaml types. Example: `Js.Opt` to take into account nullable values, `Js.Optdef` for undefined values, or functions like `Js.to_string` and `Js.string` for consersions to and from OCaml strings.
+Module `Js_of_ocaml.Js` defines the base JS types and conversion functions from/to OCaml types. Example: `Js.Opt` to take into account nullable values, `Js.Optdef` for undefined values, or functions like `Js.to_string` and `Js.string` for conversions to and from OCaml strings.
 
 Use modules `Js_of_ocaml.Dom` and `Js_of_ocaml.Dom_html` to interact with the DOM, or more specifically with HTML.
 
@@ -436,11 +436,11 @@ val fsth3 :
 # Dom.appendChild Dom_html.document##.body (Eliom.Content.Html.(To_dom.of_p (F.p [F.txt "Salut"])));;
   (* Append a paragraph generated with TyXML to the page *)
 - : unit = ()
-# Firebug.console##log (Js.string "toto");;
+# Console.console##log (Js.string "toto");;
 - : unit = ()
-# Firebug.console##log [1;2];;
+# Console.console##log [1;2];;
 - : unit = ()
-# Firebug.console##log (Dom_html.document##.body);;
+# Console.console##log (Dom_html.document##.body);;
 - : unit = ()
 ```
 
@@ -495,7 +495,7 @@ Example:
 ```ocaml
   button ~a:[a_onclick [%client fun ev -> ... ]] [ ... ]
 ```
-The syntax is `[%client (<value> : <type>)]`. Type annotation is almost always required.
+The syntax is `[%client (<value> : <type>)]`. The type annotation is required when the type cannot be inferred from the way the value is used on the server side.
 
 These client fragments can be manipulated as server side OCaml values:
 
@@ -518,7 +518,7 @@ Server side values can be injected in client code by prefixing them with `~%` as
 let%server ... =
   ...
   let x = ... in
-  [%client[ ... ~%x ... ]]
+  [%client ... ~%x ... ]
   ...
 ```
 The value will automatically be sent with the page by Eliom.
@@ -541,7 +541,7 @@ Eliom makes it possible to call server side OCaml functions from your client-sid
 let%rpc g (i : int) : string Lwt.t =
   Lwt.return (string_of_int (i + Random.int 1000))
 ```
-Warning: type annotations are mandatory here so that the ppx can automatically inject the right conversion functions. These functions are generated automatically by [Deriving](https://github.com/ocsigen/deriving), as long as it knows a deriver for each subtype. To create a deriver for your own types just append `[@@deriving json]` after your type declaration. Example:
+Warning: type annotations are mandatory here so that the ppx can automatically inject the right conversion functions. These functions are generated automatically by the JSON deriver of Js\_of\_ocaml, as long as it knows a deriver for each subtype. To create a deriver for your own types just append `[@@deriving json]` after your type declaration. Example:
 
 ```ocaml
 type%shared t = A | B
@@ -555,7 +555,7 @@ The following picture shows two examples of requests:
 
 - First, the browser asks for a new page, and the server generates the page
 - then the user clicks on a link in the page, and the page is generated by the client-side program (because the service is registered on both sides). In this example, while generating the page, the client does a RPC to the server.
-In both cases (first request or RPC), the server returns the expected value, but also the value of injections and an order for the client-side program to execute the client-values met during te server-side computation.
+In both cases (first request or RPC), the server returns the expected value, but also the value of injections and an order for the client-side program to execute the client-values met during the server-side computation.
 
 ![Example of requests](files/tutorial/client-server-req.svg)
 
@@ -586,7 +586,7 @@ open%shared Eliom.Content.Html.F
 ```ocaml
 let%server theservice =
   Eliom.Service.create
-    ~path:["ex"]
+    ~path:(Eliom.Service.Path ["ex"])
     ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 ```
@@ -614,6 +614,8 @@ let%shared () =
       Lwt.return (html (head (title (txt "Example")) [])
                        (body [h1 [txt aa]; b])))
 ```
+`My_app` is the registration module of your application, created with functor `Eliom.Registration.App` in a shared section (it is called `App` in the projects created by Eliom distillery).
+
 Service handlers and service registration are usually written in shared sections to enable page generation on both sides.
 
 - Examples of client sections, injections or server functions can be found in the demo included in [Ocsigen-Start's app template](https://github.com/ocsigen/os_template/blob/master/lib/demo_rpc.eliom).
@@ -665,9 +667,9 @@ let%server count_ref =
 And somewhere in your service handler, increment the counter:
 
 ```ocaml
-let%lwt count = Eliom.Reference.get count_ref in
-Eliom.Reference.set count_ref (count + 1);
-Lwt.return ()
+let* count = Eliom.Reference.get count_ref in
+let* () = Eliom.Reference.set count_ref (count + 1) in
+...
 ```
 With function `Eliom.Reference.eref_from_fun`, you can create Eliom references without initial value. The initial value is computed for the session the first time you use it.
 
@@ -699,7 +701,7 @@ Module `Lwt_js_events` of Js\_of\_ocaml defines a way to bind browser events usi
 For example, the following code will wait for a click on element `d` before continuing:
 
 ```ocaml
-let%lwt ev = Lwt_js_events.click (Eliom.Content.Html.To_dom.of_element ~%d) in
+let* ev = Lwt_js_events.click (Eliom.Content.Html.To_dom.of_element ~%d) in
 ...
 ```
 Functions like `Lwt_js_events.clicks` or `Lwt_js_events.mousedowns` (ending with "s") will call the function given as second parameter **for each** `click` or `mousedown` events on their first parameter.
@@ -708,16 +710,15 @@ For example, the following code (inspired from [this tutorial](./application.md)
 
 ```ocaml
 let open Lwt_js_events in
-Lwt.async (mousedowns
-            (Eliom.Content.Html.To_dom.of_element ~%canvas)
-            (fun ev _ ->
-               Lwt.pick [mousemoves Dom_html.document f;
-                         mouseup Dom_html.document]))
+Lwt.async (fun () ->
+  mousedowns (Eliom.Content.Html.To_dom.of_element ~%canvas) (fun _ _ ->
+    Lwt.pick [mousemoves Dom_html.document f;
+              (let* _ = mouseup Dom_html.document in Lwt.return ())]))
 ```
 
 ## Ocsigen Toolkit
 
-Ocsigen Toolkit defines several widgets that can be generated either on server or clide sides. Have look at [Ocsigen Start's demo app](https://ocsigen-1.inria.fr/ocsigen-start/demo/) (or the [corresponding Android app](https://play.google.com/store/apps/details?id=com.osdemo.mobile)) to see them in action: carousel, drawer menu, date or time picker, color picker, pull to refresh feature for mobile apps, etc.
+Ocsigen Toolkit defines several widgets that can be generated either on server or client sides. Have a look at [Ocsigen Start's demo app](https://ocsigen-1.inria.fr/ocsigen-start/demo/) (or the [corresponding Android app](https://play.google.com/store/apps/details?id=com.osdemo.mobile)) to see them in action: carousel, drawer menu, date or time picker, color picker, pull to refresh feature for mobile apps, etc.
 
 For example module `Ot.Spinner` implements a widgets that you can use to display a spinner (or fake elements) when some parts of your page take time to appear. It can be used in shared sections and gives you precise control of the delays and the feeling of responsiveness of your app.
 
@@ -835,7 +836,7 @@ Module `Eliom.Content.Html.R` also defines all TyXML nodes, which take reactive 
 
 For example `Eliom.Content.Html.R.txt` takes a value of type `string React.S.t` as parameter (string signal).
 
-Instead of taking a list signal as parameter, functions like `div` or `p` of module `Eliom.Content.Html.R` take a parameter of type [Eliom.Content.Html.F.elt ReactiveData.Rlist.t](https://github.com/ocsigen/reactiveData). This enables incremental update of the content (usually, appending an element at the end of the list, without having to redraw the whole list). See an example with `ReactiveData` in [this tutorial](./tutoreact.md).
+Instead of taking a list signal as parameter, functions like `div` or `p` of module `Eliom.Content.Html.R` take a parameter of type [Eliom.Content.Html.F.elt ReactiveData.RList.t](https://github.com/ocsigen/reactiveData). This enables incremental update of the content (usually, appending an element at the end of the list, without having to redraw the whole list). See an example with `ReactiveData` in [this tutorial](./tutoreact.md).
 
 Node attributes can also be reactive. For example if `s` has type `string list React.S.t`, you can write `Eliom.Content.Html.F.div ~a:[R.a_class s] []`.
 
@@ -848,7 +849,7 @@ Full example:
 ```ocaml
 let%server theservice =
   Eliom.Service.create
-    ~path:["ex"]
+    ~path:(Eliom.Service.Path ["ex"])
     ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 ```
@@ -859,6 +860,7 @@ let%client theservice = ~%theservice
 
 ```ocaml
 open%client Js_of_ocaml_lwt
+open%client Lwt.Syntax
 ```
 
 ```ocaml
@@ -874,7 +876,7 @@ let%shared () =
         [%client
           (* A thread that will change the signal value every second: *)
           (let rec aux () =
-             let%lwt () = Lwt_js.sleep 1.0 in
+             let* () = Lwt_js.sleep 1.0 in
              ~%set_signal (Random.int 100);
              aux ()
            in
@@ -883,11 +885,11 @@ let%shared () =
       in
       Lwt.return
         (html
-           (head (title (txt s)) [])
-           (body [h1 [txt s];
+           (head (title (txt "Example")) [])
+           (body [h1 [txt "Example"];
                   p [Eliom.Content.Html.R.txt s_string]])))
 ```
-Function `Eliom.Shared.React.S.map` (and `Eliom.Shared.React.S.l2`, etc) takes a *shared function* as parameter (syntax `@@class="shared"@@[%shared f]`). This can be seen as a couple containing both the server a client side implementation of the function.
+Function `Eliom.Shared.React.S.map` (and `Eliom.Shared.React.S.l2`, etc) takes a *shared function* as parameter (syntax `[%shared f]`). This can be seen as a couple containing both the server a client side implementation of the function.
 
 ## Mobile apps
 
@@ -912,12 +914,12 @@ It has a powerful extension mechanism that makes it easy to plug your own OCaml 
 - `Extendconfiguration`: allows for more options in the configuration file.
 - `Accesscontrol`: restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.).
 - `Authbasic`: restricts access to the sites from the config file using Basic HTTP Authentication.
-- CGImod: serves CGI scripts. It may also be used to serve PHP through CGI.
+- `Cors`: handles Cross-Origin Resource Sharing headers.
 - `Deflatemod`: used to compress data before sending it to the client.
 - `Redirectmod`: sets redirections towards other Web sites from the configuration file.
 - `Revproxy`: a reverse proxy for Ocsigen Server. It allows to ask another server to handle the request.
 - `Rewritemod`: changes incoming requests before sending them to other extensions.
 - `Outputfilter`: rewrites some parts of the output before sending it to the client.
+- `Securityheaders`: adds security-related HTTP headers to the responses.
 - `Userconf`: allows users to have their own configuration files.
-- Comet: facilitates server to client communications.
 Ocsigen Server has a `sophisticated configuration` file mechanism allowing complex configurations of sites.

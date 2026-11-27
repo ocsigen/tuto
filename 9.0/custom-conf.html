@@ -127,12 +127,6 @@
 <li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>Improving Graffiti</h3>
-<ul class="api-section">
-<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
-<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
-<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
-</ul>
 <h3>HOW-TO</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
@@ -193,12 +187,6 @@
 <li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>Improving Graffiti</h3>
-<ul class="api-section">
-<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
-<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
-<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
-</ul>
 <h3>HOW-TO</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
@@ -208,7 +196,7 @@
       </nav>
       <article class="rightcol">
         
-        <h1 id="custom-configuration-options">Custom configuration options</h1><aside class="concepts"><p><b>Concepts</b></p><p>Custom configuration options</p></aside><p>It is not convenient to have to edit the code to change some configurations, like the location where are saved the favorite images in the Graffiti tutorial (see: <a href="pictures.html" title="pictures">Saving favorite pictures</a>). Fortunately Ocsigen provides a mechanism to extend its configuration file.</p>
+        <h1 id="custom-configuration-options">Custom configuration options</h1><aside class="concepts"><p><b>Concepts</b></p><p>Custom configuration options</p></aside><p>It is not convenient to have to edit the code to change some configurations, like the directory where an application saves the files uploaded by its users. Fortunately Ocsigen provides a mechanism to extend its configuration file.</p>
 <h2 id="basic-interface">Basic interface</h2><p><code>Eliom.Config.get_config</code> returns the content of the <code>&lt;eliom&gt;</code> element of the configuration file, as a list of <code>Xml.xml</code> values from the <code>xml-light</code> library (add <code>xml-light</code> to the <code>libraries</code> of your <code>dune</code> file):</p><pre class="language-ocaml"><code>let static_dir =
   match Eliom.Config.get_config () with
   | [Xml.Element (&quot;staticdir&quot;, [], [Xml.PCData dir])] -&gt; dir

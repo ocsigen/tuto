@@ -18,7 +18,7 @@ This programming guide assumes you know the *OCaml* language. Many resources and
 
 Instead of calling blocking functions, like `Unix.sleep` or `Unix.read`, that could block the entire program, replace them by their cooperative counterparts (`Lwt_unix.sleep`, `Lwt_unix.read`, etc.). Instead of taking time to execute, they always return immediately a *promise* of the result, of type `'a Lwt.t`. This type is abstract, and the only way to use the result is to *bind* a function to the promise. `Lwt.bind p f` means: "when promise `p` is completed, give its result to function `f`".
 
-Syntax `let%lwt x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program.
+After `open Lwt.Syntax`, syntax `let* x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program.
 
 To learn Lwt, read this [short tutorial](./lwt.md), or its `user manual`.
 
@@ -59,7 +59,7 @@ let () =
 ```
 Put this in file `bin/main.ml`, and run `dune exec mysite`.
 
-By default, the server runs on port 8080\. Create a `static` directory with some files and try to fetch them using your Web browser.
+By default, the server runs on port 8080\. Create a `static` directory with some files and try to fetch them using your Web browser. The server warns that it cannot create its command pipe, in a directory of its installation: you can ignore this warning, or give a path with the `~command_pipe` parameter of `Ocsigen.Server.start` (as in the example below).
 
 ### Use the `ocsigenserver` command
 
@@ -111,7 +111,7 @@ let () =
 ```
 `Eliom.Service.Get Eliom.Parameter.any` means that the service uses the GET HTTP method and takes any GET parameter. The first parameter of function `f` is an association list of GET parameters.
 
-Module `Eliom.Registration.Html_text` is used to register a service sending HTML as strings. But we recommend to used typed-HTML instead (see below).
+Module `Eliom.Registration.Html_text` is used to register a service sending HTML as strings. But we recommend to use typed HTML instead (see below).
 
 ## Compiling
 
@@ -304,7 +304,7 @@ Services can return a typed HTML page as in the example above, but also any othe
 
 ## Eliom: Typing page parameters
 
-Instead of taking GET parameters as an untyped `string * string` association list, you can ask Eliom to decode and check parameter types automatically.
+Instead of taking GET parameters as an untyped `(string * string) list` association list, you can ask Eliom to decode and check parameter types automatically.
 
 For example, the following code defines a service at URL `/foo`, that will use GET HTTP method, and take one parameter of type `string`, named `s`, and one of type `int`, named `i`.
 
@@ -327,7 +327,7 @@ let () =
 ```
 The handler takes as first parameter the GET page parameters, typed according to the parameter specification given while creating the service. The second parameter is for POST parameters (see below).
 
-Recompile you program, and to to URL `http://localhost:8080/foo?s=hello&i=22` to see the result.
+Recompile your program, and go to URL `http://localhost:8080/foo?s=hello&i=22` to see the result.
 
 ### Parameters
 
@@ -365,8 +365,8 @@ Eliom.Parameter.(suffix_prod (int "year" ** int "month") (int "a"))
 To define a service with POST parameters, just change the `~meth` parameter. For example the following example takes the same GET parameters as the service above, plus one POST parameter of type string, named "mypostparam".
 
 ```ocaml
-~meth:(Eliom.Service.Post (Eliom.Parameter.((string "s" ** int "i"),
-                                            (string "mypostparam"))))
+~meth:(Eliom.Service.Post (Eliom.Parameter.(string "s" ** int "i"),
+                           Eliom.Parameter.string "mypostparam"))
 ```
 
 ## Eliom: Other kinds of services
@@ -411,7 +411,7 @@ This example shows how to insert an image using `static_dir`:
 img
   ~alt:"blip"
   ~src:(Eliom.Content.Html.F.make_uri
-         (Eliom.Service.static_dir ())
+         ~service:(Eliom.Service.static_dir ())
          ["dir" ; "image.jpg"])
   ()
 ```
@@ -426,7 +426,17 @@ Eliom.Content.Html.F.a ~service:other_service [txt "Other"] ("hello", Some 4)
 ```
 Module `Eliom.Content.Html.F` defines the form's elements with the usual typed interface from TyXML. Use this for example if you have a client side program and want to manipulate the form's content from client side functions (for example do a server function call with the form's elements' content).
 
-In contrast, module `Eliom.Content.Html.F.Form` defines a typed interface for form elements. Use this for links (see above), or if you program traditional server-side Web interaction (with or without client-side program). This will statically check that your forms match the services. Example:
+In contrast, module `Eliom.Content.Html.F.Form` defines a typed interface for form elements. Use this for links (see above), or if you program traditional server-side Web interaction (with or without client-side program). This will statically check that your forms match the services. For example, with the following service, which takes two POST parameters:
+
+```ocaml
+let connection_service =
+  Eliom.Service.create
+    ~path:Eliom.Service.No_path
+    ~meth:(Eliom.Service.Post (Eliom.Parameter.unit,
+                               Eliom.Parameter.(string "name" ** string "password")))
+    ()
+```
+the following form sends the right parameters:
 
 ```ocaml
 let open Eliom.Content.Html.F in
@@ -435,7 +445,7 @@ Form.post_form
    (fun (name, password) ->
      [fieldset
        [label ~a:[a_label_for "loginname"] [txt "Name: "];
-        Form.input ~a:[a_id "loginname"] ~input_type:`Text ~name Form.int;
+        Form.input ~a:[a_id "loginname"] ~input_type:`Text ~name Form.string;
         br ();
         Form.input
           ~a:[a_placeholder "Password"]
@@ -466,9 +476,9 @@ let%server count_ref =
 And somewhere in your service handler, increment the counter:
 
 ```ocaml
-let%lwt count = Eliom.Reference.get count_ref in
-Eliom.Reference.set count_ref (count + 1);
-Lwt.return ()
+let* count = Eliom.Reference.get count_ref in
+let* () = Eliom.Reference.set count_ref (count + 1) in
+...
 ```
 With function `Eliom.Reference.eref_from_fun`, you can create Eliom references without initial value. The initial value is computed for the session the first time you use it.
 
@@ -490,12 +500,12 @@ When session group is not set (for example the user is not connected), you can s
 
 ## Browser events
 
- By default, event handlers on HTML elements are given as OCaml functions, but it works only if you have a client-server Eliom program. If not, you want to give a javascript expression (as a string) instead. To so that, use attributes functions from module `Raw`. For example `Eliom.Content.Html.F.Raw.a_onclick` instead of `Eliom.Content.Html.F.a_onclick`.
+ By default, event handlers on HTML elements are given as OCaml functions, but it works only if you have a client-server Eliom program. If not, you want to give a javascript expression (as a string) instead. To do that, use the attribute functions of module `Raw`. For example `Eliom.Content.Html.F.Raw.a_onclick` instead of `Eliom.Content.Html.F.a_onclick`.
 
 Example:
 
 ```ocaml
-Eliom.Content.Html.F.(button ~a:[Raw.onclick "alert(\"beep\");"] [txt "click"])
+Eliom.Content.Html.F.(button ~a:[Raw.a_onclick "alert(\"beep\");"] [txt "click"])
 ```
 
 ## Database access
@@ -522,7 +532,7 @@ To implement temporary services, we usually use pathless or attached services (s
 
 ## Internationalisation
 
-[Ocsigen i18n](https://github.com/besport/ocsigen-i18n) is an internationalisation library for your OCaml programs.
+[Ocsigen i18n](https://github.com/ocsigen/ocsigen-i18n) is an internationalisation library for your OCaml programs.
 
 Create a .tsv file with, on each line, a key and the text in several languages:
 
@@ -548,7 +558,7 @@ Ocsigen i18n offers many other features:
 - Text can be inserted as a TyXML node (as in the example above) or as a string (ex: `[%i18n S.welcome_message]`),
 - Text can be parametrizable, or contain holes (ex: `[%i18n welcome ~capitalize:true ~name:"William"]`)
 - .tsv file can be split into several modules
-Have a look at the [README file](https://github.com/besport/ocsigen-i18n) to see the full documentation, and see examples in [Ocsigen Start's template](https://github.com/ocsigen/os_template/blob/master/lib/demo_i18n.eliom).
+Have a look at the [README file](https://github.com/ocsigen/ocsigen-i18n) to see the full documentation, and see examples in [Ocsigen Start's template](https://github.com/ocsigen/os_template/blob/master/lib/demo_i18n.eliom).
 
 ## Ocsigen Server
 
@@ -563,12 +573,12 @@ It has a powerful extension mechanism that makes it easy to plug your own OCaml 
 - `Extendconfiguration`: allows for more options in the configuration file.
 - `Accesscontrol`: restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.).
 - `Authbasic`: restricts access to the sites from the config file using Basic HTTP Authentication.
-- CGImod: serves CGI scripts. It may also be used to serve PHP through CGI.
+- `Cors`: handles Cross-Origin Resource Sharing headers.
 - `Deflatemod`: used to compress data before sending it to the client.
 - `Redirectmod`: sets redirections towards other Web sites from the configuration file.
 - `Revproxy`: a reverse proxy for Ocsigen Server. It allows to ask another server to handle the request.
 - `Rewritemod`: changes incoming requests before sending them to other extensions.
 - `Outputfilter`: rewrites some parts of the output before sending it to the client.
+- `Securityheaders`: adds security-related HTTP headers to the responses.
 - `Userconf`: allows users to have their own configuration files.
-- Comet: facilitates server to client communications.
 Ocsigen Server has a `sophisticated configuration` file mechanism allowing complex configurations of sites.

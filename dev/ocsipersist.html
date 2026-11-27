@@ -129,12 +129,6 @@
 <li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3 current" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>Improving Graffiti</h3>
-<ul class="api-section">
-<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
-<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
-<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
-</ul>
 <h3>HOW-TO</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
@@ -197,12 +191,6 @@
 <li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3 current" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>Improving Graffiti</h3>
-<ul class="api-section">
-<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
-<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
-<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
-</ul>
 <h3>HOW-TO</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
@@ -212,23 +200,25 @@
       </nav>
       <article class="rightcol">
         
-        <h1 id="lightweight-database-using-ocsipersist">Lightweight database using Ocsipersist</h1><aside class="concepts"><p><b>Concepts</b></p><p>Persistent tables with Ocsipersist</p></aside><p>Ocsipersist is a module for persistent references and tables.</p><p>For persistent references, Eliom has a higher level interface, called <em>Eliom references</em>, and you probably want to use it instead of using Ocsipersist directly. For example persistent Eliom references of scope session group can be used to store information about a user (if the session group corresponds to the user).</p><p>Ocsipersist can still be useful for creating persistent key-value tables, if you do not need the full power of a SQL database.</p><p>This tutorial shows how to implement a table for storing users and passwords.</p><p>We first create a table:</p><pre class="language-ocaml"><code>let user_table = Ocsipersist.Polymorphic.open_table &quot;user_table&quot;</code></pre><p>Then we can easily handle the user management code:</p><pre class="language-ocaml"><code>let check_pwd name pwd =
-  try%lwt
-    lwt saved_password = Ocsipersist.Polymorphic.find user_table name in
-    Lwt.return (pwd = saved_password)
-  with
-    Not_found -&gt; Lwt.return false
+        <h1 id="lightweight-database-using-ocsipersist">Lightweight database using Ocsipersist</h1><aside class="concepts"><p><b>Concepts</b></p><p>Persistent tables with Ocsipersist</p></aside><p>Ocsipersist is a module for persistent references and tables.</p><p>For persistent references, Eliom has a higher level interface, called <em>Eliom references</em>, and you probably want to use it instead of using Ocsipersist directly. For example persistent Eliom references of scope session group can be used to store information about a user (if the session group corresponds to the user).</p><p>Ocsipersist can still be useful for creating persistent key-value tables, if you do not need the full power of a SQL database.</p><p>This tutorial shows how to implement a table for storing users and passwords.</p><p>We first create a table (<code>open_table</code> returns a promise of the table):</p><pre class="language-ocaml"><code>let user_table = Ocsipersist.Polymorphic.open_table &quot;user_table&quot;</code></pre><p>Then we can easily handle the user management code (with <code>open Lwt.Syntax</code>, and the services and the Eliom reference <code>username</code> of the <a href="interaction.html" title="interaction">service based Web programming tutorial</a>):</p><pre class="language-ocaml"><code>let check_pwd name pwd =
+  let* user_table = user_table in
+  Lwt.catch
+    (fun () -&gt;
+      let* saved_password = Ocsipersist.Polymorphic.find user_table name in
+      Lwt.return (pwd = saved_password))
+    (function Not_found -&gt; Lwt.return false | exn -&gt; Lwt.reraise exn)
 
 let () = Eliom.Registration.Action.register
   ~service:create_account_service
-  (fun () (name, pwd) -&gt; Ocsipersist.Polymorphic.add user_table name pwd)
+  (fun () (name, pwd) -&gt;
+    let* user_table = user_table in
+    Ocsipersist.Polymorphic.add user_table name pwd)
 
 let () = Eliom.Registration.Action.register
   ~service:connection_service
   (fun () (name, password) -&gt;
-    match%lwt check_pwd name password with
-      | true -&gt; Eliom.Reference.set username (Some name)
-      | false -&gt; Lwt.return ())</code></pre><aside class="concept"><p><b>Concept: Ocsipersist</b></p><p>Ocsipersist implements simple typed key/value tables. It can use different backends (currently sqlite and dbm). For more information see <code>Ocsipersist.table</code>.</p></aside>
+    let* ok = check_pwd name password in
+    if ok then Eliom.Reference.set username (Some name) else Lwt.return ())</code></pre><p><em>Warning:</em> for the sake of simplicity, this example stores the passwords in clear. A real application must store a hash of each password instead (<a href="./../../ocsigen-start/dev/index.html">Ocsigen Start</a> does it for you).</p><aside class="concept"><p><b>Concept: Ocsipersist</b></p><p>Ocsipersist implements simple typed key/value tables. It can use different backends (SQLite, PostgreSQL or DBM). For more information see <code>Ocsipersist.table</code>.</p></aside>
 
       </article>
     </div>

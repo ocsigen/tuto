@@ -6,7 +6,7 @@ The Tyxml library makes it possible to type-check HTML pages. This means that yo
 
 ### Tags
 
-Tyxml (or modules obtained by applying Tyxml functor, like `Eliom.Content.Html.D`) defines a contructor function for each HTML tag, and for each attribute.
+Tyxml (or modules obtained by applying Tyxml functor, like `Eliom.Content.Html.D`) defines a constructor function for each HTML tag, and for each attribute.
 
 Example:
 
@@ -39,20 +39,21 @@ If you write an invalid page, for example:
 You will get an error message similar to the following, referring to the end of line 2:
 
 ```
-Error: This expression has type ([> `TXT ] as 'a) Html.elt
-       but an expression was expected of type
-         Html_types.head_content_fun Html.elt
-       Type 'a is not compatible with type Html_types.head_content_fun =
+Error: This expression has type [> Html_types.txt ] elt
+       but an expression was expected of type Html_types.head_content_fun elt
+       Type [> Html_types.txt ] = [> `PCDATA ] is not compatible with type
+         Html_types.head_content_fun =
            [ `Base
            | `Command
            | `Link
            | `Meta
            | `Noscript of [ `Link | `Meta | `Style ]
            | `Script
-           | `Style ]
-       The second variant type does not allow tag(s) `TXT
+           | `Style
+           | `Template ]
+       The second variant type does not allow tag(s) `PCDATA
 ```
-where `Html_types.head_content_fun` is the type of content allowed inside `<head>` (`<base>`, `<command>`, `<link>`, `<meta>`, etc.). Notice that ``TXT` (i.e. raw text) is not included in this polymorphic variant type, which means that `<head>` cannot contain raw text.
+where `Html_types.head_content_fun` is the type of content allowed inside `<head>` (`<base>`, `<command>`, `<link>`, `<meta>`, etc.). Notice that ``PCDATA` (i.e. raw text) is not included in this polymorphic variant type, which means that `<head>` cannot contain raw text.
 
 ### Attributes
 
@@ -85,13 +86,14 @@ Example:
 let%server create_widget () =
   let d = D.div [ ... ] in
   ignore [%client
-    Lwt.async (fun () ->
-      Lwt_js_events.clicks (To_dom.of_element ~%d) (fun _ _ -> ... )) ];
+    (Lwt.async (fun () ->
+       Lwt_js_events.clicks (To_dom.of_element ~%d) (fun _ _ -> ... ))
+     : unit)];
   d
 ```
-Here, `d` must be a "D" node, as I want to bind click events on the actual node (that is already in the page), not create a new one.
+Here, `d` must be a "D" node, as we want to bind click events on the actual node (that is already in the page), not create a new one.
 
-Remember to use "D" nodes if you want to use it in a injection (`~%d`). If you don't to bother about "D" or "F" nodes, use "D" nodes by default (even if it will generate too much identifiers in the page). But remember that, the DOM semantics implies that "D" nodes cannot be inserted twice in a page.
+Remember to use "D" nodes if you want to use it in a injection (`~%d`). If you do not want to bother about "D" or "F" nodes, use "D" nodes by default (even if it will generate too much identifiers in the page). But remember that, the DOM semantics implies that "D" nodes cannot be inserted twice in a page.
 
 ### Manip
 
@@ -101,7 +103,7 @@ Module `Eliom.Content.Html.Manip` makes it possible to manipulate OCaml nodes wi
 
 Module `Eliom.Content.Html.R` makes it possible to create reactive nodes, that is, nodes that will be updated automatically when the data on which they depend change.
 
-It is based on module [React](http://erratique.ch/software/react/doc/React), which implements functional reactive programming for OCaml.
+It is based on module [React](https://erratique.ch/software/react/doc/React/index.html), which implements functional reactive programming for OCaml.
 
 ## More documentation
 

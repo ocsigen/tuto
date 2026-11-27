@@ -20,8 +20,4 @@
 - [Custom configuration options](custom-conf.md)
 - [RESTful JSON API using Eliom](rest.md)
 - [Lightweight database using Ocsipersist](ocsipersist.md)
-- [Saving favorite pictures](pictures.md)
-- [Listening music](music.md)
-- [Reactive Media Player](reactivemediaplayer.md)
 - [How do I…? Questions and answers](faq.md)
-- [Type safe database requests using Macaque](macaque.md)

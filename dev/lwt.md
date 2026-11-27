@@ -4,7 +4,7 @@
 
 The Lwt library implements cooperative threads for OCaml. Cooperative threads are an alternative to preemptive threads (used in many languages and in OCaml's `Thread` module) that solve most common issues with preemptive threads: with Lwt, there is very limited risk of deadlocks and very limited need for locks. Lwt threads are even usable in programs compiled to JavaScript using Js\_of\_ocaml.
 
-Lwt is based on the fact that most programs spend most of their time waiting for inputs, e.g., keys, data coming from sockets, and mouse events. Instead of relying on a preemptive scheduler that switches between threads at arbitrary moments, Lwt uses these waiting times as *cooperation points*. This means that instead of blocking (for example on a `read`), Lwt resumes another waiting thread, if there is one that is ready to continue. All you have to do is to use the cooperative version of each blocking function, for example `Lwt_unix.sleep` instead of `Unix.sleep` and `Lwt_unix.read` instead of `Unix.read`. If one of your computations takes a lot of time, it is also possible to manually insert cooperation points using the function `Lwt_main.yield`.
+Lwt is based on the fact that most programs spend most of their time waiting for inputs, e.g., keys, data coming from sockets, and mouse events. Instead of relying on a preemptive scheduler that switches between threads at arbitrary moments, Lwt uses these waiting times as *cooperation points*. This means that instead of blocking (for example on a `read`), Lwt resumes another waiting thread, if there is one that is ready to continue. All you have to do is to use the cooperative version of each blocking function, for example `Lwt_unix.sleep` instead of `Unix.sleep` and `Lwt_unix.read` instead of `Unix.read`. If one of your computations takes a lot of time, it is also possible to manually insert cooperation points using the function `Lwt.pause`.
 
 ## Promises
 
@@ -19,7 +19,7 @@ The following code will launch the computation of `f ()` (asynchronously). If th
 
 ```ocaml
 let g1 () =
-  let p = f () in
+  let _p = f () in
   print_endline "hello"
 ```
 
@@ -43,12 +43,12 @@ let g2 () =
 ```
 Function `g2` calls function `f` to create a promise. Then it waits (in a cooperative manner) for the result, and prints the result. The expression `g2 ()` has type `unit Lwt.t`.
 
-## Syntax extension
+## The `let*` syntax
 
-A PPX (and also camlp4) syntax extension is available.
+Module `Lwt.Syntax` defines binding operators. After `open Lwt.Syntax`,
 
 ```ocaml
-let%lwt i = f () in
+let* i = f () in
 ...
 ```
 is equivalent to
@@ -56,6 +56,9 @@ is equivalent to
 ```ocaml
 Lwt.bind (f ()) (fun i -> ...)
 ```
+You may also meet the syntax `let%lwt i = f () in ...`, which means the same thing. It is defined by the syntax extension `lwt_ppx`, used for example in the template of Ocsigen Start.
+
+The examples below assume `open Lwt.Syntax`.
 
 ## Examples
 
@@ -64,7 +67,7 @@ Lwt.bind (f ()) (fun i -> ...)
 ```ocaml
 let rec tic () =
     print_endline "tic";
-    let%lwt () = Lwt_unix.sleep 1.0 in
+    let* () = Lwt_unix.sleep 1.0 in
     tic ()
 ```
 Replace `Lwt_unix.sleep` by `Lwt_js.sleep` if your program is running in a browser.
@@ -80,8 +83,8 @@ val g : unit -> unit Lwt.t
 The following code runs `f ()` and `g ()` sequentially:
 
 ```ocaml
-let%lwt () = f () in
-let%lwt () = g () in
+let* () = f () in
+let* () = g () in
 ...
 ```
 The following code launches `f ()` and `g ()` concurrently, then waits for both to terminate before continuing:
@@ -89,8 +92,15 @@ The following code launches `f ()` and `g ()` concurrently, then waits for both 
 ```ocaml
 let p1 = f () in
 let p2 = g () in
-let%lwt () = p1 in
-let%lwt () = p2 in
+let* () = p1 in
+let* () = p2 in
+...
+```
+Operator `and*` does the same thing:
+
+```ocaml
+let* () = f ()
+and* () = g () in
 ...
 ```
 To detach a thread, it is recommended to use
@@ -116,8 +126,8 @@ let rec map f l =
   | v :: r ->
       let t = f v in
       let rt = map f r in
-      let%lwt v' = t in
-      let%lwt l' = rt in
+      let* v' = t in
+      let* l' = rt in
       Lwt.return (v' :: l')
 ```
 whereas the following one waits for the one to complete before launching the next one:
@@ -125,13 +135,13 @@ whereas the following one waits for the one to complete before launching the nex
 ```ocaml
 let rec map_serial f l =
   match l with
-  | [] -> return []
+  | [] -> Lwt.return []
   | v :: r ->
-      let%lwt v' = f v in
-      let%lwt l' = map_serial f r in
+      let* v' = f v in
+      let* l' = map_serial f r in
       Lwt.return (v' :: l')
 ```
 
 ## More documentation
 
-Have a look at `Lwt's manual` for more details about Lwt. You will learn how to handle exceptions (using `Lwt.fail` and `Lwt.catch` or `try%lwt`). You will also learn for example how to create a thread that waits until it is awaken (using `Lwt.wait` and `Lwt.wakeup`).
+Have a look at `Lwt's manual` for more details about Lwt. You will learn how to handle exceptions (using `Lwt.fail` and `Lwt.catch`). You will also learn for example how to create a thread that waits until it is awaken (using `Lwt.wait` and `Lwt.wakeup`).

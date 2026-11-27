@@ -6,7 +6,7 @@ The template you will use comes from `Ocsigen Start`. Ocsigen Start provides a c
 
 The template comes with a default style (developed with SASS) that follows modern Web practices, e.g., it is responsive and thus mobile-friendly. Of course, you are free to modify the style to match your own brand or personality.
 
-The template is multi-platform. This means that it can run on a Web browser or as a mobile app for Android, iOS, or Windows.
+The template is multi-platform. This means that it can run on a Web browser or as a mobile app for Android or iOS.
 
  [![Ocsigen Start](files/screenshots/start1.png)](files/screenshots/start1.png) [![Ocsigen Start](files/screenshots/start2.png)](files/screenshots/start2.png)
 
@@ -14,10 +14,10 @@ The template is multi-platform. This means that it can run on a Web browser or a
 
 ## Installation
 
-Install the dependencies (`postgresql` and one of `sass`, `sassc`). On Debian-based systems:
+Install the system dependencies: the PostgreSQL server, NPM, and a SASS compiler (`sassc` or `sass`). On Debian-based systems:
 
 ```
-apt install postgresql ruby-sass
+apt install postgresql npm sassc
 ```
 Install Ocsigen Start and all its OCaml dependencies using OPAM:
 
@@ -29,7 +29,19 @@ Create your application using Eliom distillery:
 ```
 eliom-distillery -name myapp -template os
 ```
-Have a look at the [README](https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/README.md) file to learn how to compile it and, possibly, to generate the mobile applications.
+Then, from the new `myapp` directory, create a local database (it runs as your own user, with its files in `local_db/`), and compile and run the application:
+
+```
+make db-init
+make db-create
+make db-update
+make test.byte
+```
+The application is now available at [`http://localhost:8080`](http://localhost:8080). To create your first user, sign up: if no mail server is configured on your machine, the activation link is printed in the terminal.
+
+The database server listens on port 3000\. If this port is taken, change `DB_PORT` in `Makefile.options` and `PGPORT` in `dune.config` before running `make db-init`.
+
+The `README.md` file of the generated project describes the other `make` targets and how to generate the mobile applications.
 
 ## I installed it and compiled it, what next?
 
@@ -40,11 +52,12 @@ It is now time to learn Ocsigen\! The template is a great way to get started, be
 - How to use the notification system;
 - How to create reactive pages;
 - Many examples of widgets from `Ocsigen Toolkit`:
-- Carousel
-- Pages with several tabs
-- Time and date pickers
-- ...
-The corresponding files are well-commented, so you can quickly find out how things work.
+
+  - Carousel
+  - Pages with several tabs
+  - Time and date pickers
+  - ...
+Open the demo pages from the menu of the application. Their source code is in the `lib/demo_*.eliom` files of your project. These files are well-commented, so you can quickly find out how things work.
 
  [![Ocsigen Start](files/screenshots/start3.png)](files/screenshots/start3.png) [![Ocsigen Start](files/screenshots/start4.png)](files/screenshots/start4.png) [![Ocsigen Start](files/screenshots/start5.png)](files/screenshots/start5.png) [![Ocsigen Start](files/screenshots/start6.png)](files/screenshots/start6.png)
 

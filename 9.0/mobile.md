@@ -1,6 +1,6 @@
 # Mobile applications with Ocsigen
 
-Since Eliom 6\.0, the Ocsigen framework provides infrastructure for building mobile applications. This enables rapid development of Android, iOS, and Windows Mobile apps with the same APIs and programming style as for a regular client-server Web application. In fact, one single codebase can be used to produce all these applications simultaneously.
+Since Eliom 6\.0, the Ocsigen framework provides infrastructure for building mobile applications. This enables rapid development of Android and iOS apps with the same APIs and programming style as for a regular client-server Web application. In fact, one single codebase can be used to produce all these applications simultaneously.
 
 The easiest way to get started with Ocsigen-based mobile development is to use `Ocsigen-start`. Ocsigen-start is a library and skeleton for building "minimum viable product" Web applications with standard functionality like users, notifications, etc. This skeleton is immediately usable as a mobile application. You can install `ocsigen-start` via OPAM ( `opam install ocsigen-start` ) and instantiate its template with the command `eliom-distillery -name ocsimobile -template os`. For launching the mobile application, follow the instructions in the template's `README.md`.
 

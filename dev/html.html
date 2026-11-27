@@ -129,12 +129,6 @@
 <li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>Improving Graffiti</h3>
-<ul class="api-section">
-<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
-<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
-<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
-</ul>
 <h3>HOW-TO</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
@@ -197,12 +191,6 @@
 <li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>Improving Graffiti</h3>
-<ul class="api-section">
-<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
-<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
-<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
-</ul>
 <h3>HOW-TO</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
@@ -213,23 +201,24 @@
       <article class="rightcol">
         
         <header><h1 id="html-in-5-minutes">HTML in 5 minutes</h1></header><p>The Tyxml library makes it possible to type-check HTML pages. This means that your Ocsigen program will never generate pages which do not follow the recommendations from the W3C. For example a program that could generate a page with a paragraph inside another paragraph will be rejected at compile time.</p>
-<h2 id="typed-html">Typed HTML</h2><h3 id="tags">Tags</h3><p>Tyxml (or modules obtained by applying Tyxml functor, like <code>Eliom.Content.Html.D</code>) defines a contructor function for each HTML tag, and for each attribute.</p><p>Example:</p><pre class="language-ocaml"><code>   html
+<h2 id="typed-html">Typed HTML</h2><h3 id="tags">Tags</h3><p>Tyxml (or modules obtained by applying Tyxml functor, like <code>Eliom.Content.Html.D</code>) defines a constructor function for each HTML tag, and for each attribute.</p><p>Example:</p><pre class="language-ocaml"><code>   html
      (head (title (txt &quot;Hello&quot;)) [])
      (body [ h1 [txt &quot;Hello&quot;] ;
              p [txt &quot;Blah&quot;] ])</code></pre><p>As tag <code>&lt;html&gt;</code> contains a tag <code>&lt;head&gt;</code> and <code>&lt;body&gt;</code>, function <code>html</code> takes two parameters:</p><pre class="language-ocaml"><code>val html : [`Head] elt -&gt; [`Body] elt -&gt; [`Html] elt</code></pre><p>The only way to create a value of type <code>[`Head] elt</code> is to use function <code>head</code>, and the only way to create a value of type <code>[`Body] elt</code> is to use function <code>body</code>.</p><p>As a <code>&lt;title&gt;</code> tag is mandatory inside <code>&lt;head&gt;</code>, function <code>head</code> takes a <code>[`Title] elt</code> as first argument (that can be created using function <code>title</code>), then the list of other children.</p><p>Function <code>txt</code> is used to include raw text.</p><h3 id="error-messages">Error messages</h3><p>If you write an invalid page, for example:</p><pre class="language-ocaml"><code>(html
    (head (title (txt &quot;&quot;)) [txt &quot;&quot;])
-   (body [txt &quot;Hallo&quot;]))</code></pre><p>You will get an error message similar to the following, referring to the end of line 2:</p><pre>Error: This expression has type ([&gt; `TXT ] as 'a) Html.elt
-       but an expression was expected of type
-         Html_types.head_content_fun Html.elt
-       Type 'a is not compatible with type Html_types.head_content_fun =
+   (body [txt &quot;Hallo&quot;]))</code></pre><p>You will get an error message similar to the following, referring to the end of line 2:</p><pre>Error: This expression has type [&gt; Html_types.txt ] elt
+       but an expression was expected of type Html_types.head_content_fun elt
+       Type [&gt; Html_types.txt ] = [&gt; `PCDATA ] is not compatible with type
+         Html_types.head_content_fun =
            [ `Base
            | `Command
            | `Link
            | `Meta
            | `Noscript of [ `Link | `Meta | `Style ]
            | `Script
-           | `Style ]
-       The second variant type does not allow tag(s) `TXT</pre><p>where <code>Html_types.head_content_fun</code> is the type of content allowed inside <code>&lt;head&gt;</code> (<code>&lt;base&gt;</code>, <code>&lt;command&gt;</code>, <code>&lt;link&gt;</code>, <code>&lt;meta&gt;</code>, etc.). Notice that <code>`TXT</code> (i.e. raw text) is not included in this polymorphic variant type, which means that <code>&lt;head&gt;</code> cannot contain raw text.</p><h3 id="attributes">Attributes</h3><p>Attributes are given to functions using optional argument <code>?a</code>.</p><p>Example:</p><pre class="language-ocaml"><code>div ~a:[a_id &quot;the_id&quot;; a_class [&quot;firstclass&quot;; &quot;secondclass&quot;]]
+           | `Style
+           | `Template ]
+       The second variant type does not allow tag(s) `PCDATA</pre><p>where <code>Html_types.head_content_fun</code> is the type of content allowed inside <code>&lt;head&gt;</code> (<code>&lt;base&gt;</code>, <code>&lt;command&gt;</code>, <code>&lt;link&gt;</code>, <code>&lt;meta&gt;</code>, etc.). Notice that <code>`PCDATA</code> (i.e. raw text) is not included in this polymorphic variant type, which means that <code>&lt;head&gt;</code> cannot contain raw text.</p><h3 id="attributes">Attributes</h3><p>Attributes are given to functions using optional argument <code>?a</code>.</p><p>Example:</p><pre class="language-ocaml"><code>div ~a:[a_id &quot;the_id&quot;; a_class [&quot;firstclass&quot;; &quot;secondclass&quot;]]
   [ txt &quot;blah&quot; ]</code></pre><h2 id="ocaml-node-and-dom-nodes">OCaml node and DOM nodes</h2><h3 id="conversions">Conversions</h3><p>Tyxml builds OCaml nodes. If you are using it server side, they are serialized as an XML text before being sent to the browser. On client side, if you want to get the DOM node corresponding to an OCaml node, use functions from module <code>Eliom.Content.Html.To_dom</code>, for example <code>Eliom.Content.Html.To_dom.of_element</code>, or <code>Eliom.Content.Html.To_dom.of_input</code>, <code>Eliom.Content.Html.To_dom.of_textarea</code>, etc.</p><p>If the node has been created with <code>Eliom.Content.Html.F</code> (functional nodes), a new DOM node will be created every time you call such a conversion function.</p><p>If the node has been created with <code>Eliom.Content.Html.D</code>, the conversion function will return the exact DOM node that exists in the page (and always the same one). If this &quot;D&quot; node is created server-side, Eliom will automatically add a identifier in the HTML page to be able to find it back.</p><p>Example:</p><pre class="language-ocaml"><code>[%%shared
   open Eliom.Content.Html
 ]
@@ -237,9 +226,10 @@
 let%server create_widget () =
   let d = D.div [ ... ] in
   ignore [%client
-    Lwt.async (fun () -&gt;
-      Lwt_js_events.clicks (To_dom.of_element ~%d) (fun _ _ -&gt; ... )) ];
-  d</code></pre><p>Here, <code>d</code> must be a &quot;D&quot; node, as I want to bind click events on the actual node (that is already in the page), not create a new one.</p><p>Remember to use &quot;D&quot; nodes if you want to use it in a injection (<code>~%d</code>). If you don't to bother about &quot;D&quot; or &quot;F&quot; nodes, use &quot;D&quot; nodes by default (even if it will generate too much identifiers in the page). But remember that, the DOM semantics implies that &quot;D&quot; nodes cannot be inserted twice in a page.</p><h3 id="manip">Manip</h3><p>Module <code>Eliom.Content.Html.Manip</code> makes it possible to manipulate OCaml nodes without conversions (add them in a page, replace a node, add as child of another node, add a class, etc.).</p><h3 id="reactive-nodes">Reactive nodes</h3><p>Module <code>Eliom.Content.Html.R</code> makes it possible to create reactive nodes, that is, nodes that will be updated automatically when the data on which they depend change.</p><p>It is based on module <a href="http://erratique.ch/software/react/doc/React">React</a>, which implements functional reactive programming for OCaml.</p><h2 id="more-documentation">More documentation</h2><p>Have a look at <a href="https://ocsigen.org/tyxml/latest/tyxml/index.html">Tyxml's manual</a> and <a href="./../../eliom/dev/clientserver/html.html">Eliom&#x27;s manual</a> for more documentation about HTML manipulation in OCaml.</p>
+    (Lwt.async (fun () -&gt;
+       Lwt_js_events.clicks (To_dom.of_element ~%d) (fun _ _ -&gt; ... ))
+     : unit)];
+  d</code></pre><p>Here, <code>d</code> must be a &quot;D&quot; node, as we want to bind click events on the actual node (that is already in the page), not create a new one.</p><p>Remember to use &quot;D&quot; nodes if you want to use it in a injection (<code>~%d</code>). If you do not want to bother about &quot;D&quot; or &quot;F&quot; nodes, use &quot;D&quot; nodes by default (even if it will generate too much identifiers in the page). But remember that, the DOM semantics implies that &quot;D&quot; nodes cannot be inserted twice in a page.</p><h3 id="manip">Manip</h3><p>Module <code>Eliom.Content.Html.Manip</code> makes it possible to manipulate OCaml nodes without conversions (add them in a page, replace a node, add as child of another node, add a class, etc.).</p><h3 id="reactive-nodes">Reactive nodes</h3><p>Module <code>Eliom.Content.Html.R</code> makes it possible to create reactive nodes, that is, nodes that will be updated automatically when the data on which they depend change.</p><p>It is based on module <a href="https://erratique.ch/software/react/doc/React/index.html">React</a>, which implements functional reactive programming for OCaml.</p><h2 id="more-documentation">More documentation</h2><p>Have a look at <a href="https://ocsigen.org/tyxml/latest/tyxml/index.html">Tyxml's manual</a> and <a href="./../../eliom/dev/clientserver/html.html">Eliom&#x27;s manual</a> for more documentation about HTML manipulation in OCaml.</p>
       </article>
     </div>
   </div>

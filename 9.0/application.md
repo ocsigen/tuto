@@ -11,13 +11,16 @@ The final eliom code is available [for download](https://github.com/ocsigen/graf
 If not already done, install Eliom first:
 
 ```
-opam install ocsipersist-sqlite eliom ocsigen-ppx-rpc
+opam install eliom
 ```
-To get started, we recommend using `Eliom distillery`, a program which creates scaffolds for Eliom projects. The following command creates a very simple project called `graffiti` in the directory `graffiti`:
+To get started, we recommend using `Eliom distillery`, a program which creates scaffolds for Eliom projects. The following commands create a very simple project called `graffiti` in the directory `graffiti`, and install the packages it depends on:
 
 ```shell
-$ eliom-distillery -name graffiti -template client-server.basic -target-directory graffiti
+$ eliom-distillery -name graffiti -template app -target-directory graffiti
+$ cd graffiti
+$ opam install --deps-only .
 ```
+The project is built with dune. The server side of the application is in `app/graffiti.eliom`. The project also contains a small library, in `lib/`, that we will not use in this tutorial.
 
 ### My first page
 
@@ -46,80 +49,59 @@ let%server () =
 ```
 Annotations `%server` tells the compiler that the code is going to be executed on the server (see later).
 
-Replace the content of file `graffiti.eliom` by the above lines and run:
+Replace the content of file `app/graffiti.eliom` by the above lines and run:
 
 ```shell
-$ make test.byte
+$ dune build
+$ dune exec graffiti
 ```
-This will compile your application and run `ocsigenserver`.
+The first command compiles your application. The second one runs it, in an executable that links Ocsigen Server as a library.
 
 Your page is now available at URL [`http://localhost:8080/graff`](http://localhost:8080/graff).
 
+After each change in the program, stop the server (Ctrl-C) and run these two commands again.
+
 **Concept: Services**
 
-Unlike typical web programming techniques (CGI, PHP,~ ...), with Eliom you do not need to write one file per URL. The application can be split into multiple files as per the developer's style. What matters is that you eventually produce a single module (\*.cmo or \*.cma) for the whole website.
+Unlike typical web programming techniques (CGI, PHP, ...), with Eliom you do not need to write one file per URL. The application can be split into multiple files as per the developer's style. They are compiled into an OCaml library, which the server loads.
 
 The module `Eliom.Service` allows to create new entry points to your web site, called *services*. In general, services are attached to a URL and generate a web page. Services are represented by OCaml values, through which you must register a function that will generate a page.
 
-The `~path` parameter corresponds to the URL where you want to attach your service. It is a list of strings. The value
+The `~path` parameter corresponds to the URL where you want to attach your service. It is a list of strings. The value `["foo"; "bar"]` corresponds to the URL `foo/bar`. `["dir"; ""]` corresponds to the URL `dir/` (that is: the default page of the directory `dir`).
+
+**Concept: Server configuration**
+
+The project created by Eliom distillery can run in two ways.
+
+`dune exec graffiti` runs your own executable, defined in `app/main/main.ml`. It links Ocsigen Server as a library and configures it in OCaml (port, log directory, etc.). Its last lines define the host:
 
 ```ocaml
-["foo"; "bar"]
+Ocsigen.Server.host
+  [ Staticmod.run ~dir:staticdir ()
+  ; Eliom.App.run ~enable_wasm:true () ]
 ```
-corresponds to the URL
-
-```ocaml
-foo/bar
-```
-.
-
-```ocaml
-["dir"; ""]
-```
-corresponds to the URL
-
-```ocaml
-dir/
-```
-(that is: the default page of the directory
-
-```ocaml
-dir
-```
-).
-
-**Concept: Configuration file**
-
-In the directory of the project created by the Eliom-distillery, you can find the file `graffiti.conf.in`. This file is used in conjunction with the variables in `Makefile.options` to generate the `ocsigenserver` configuration file.
-
-Once you start up your application via `make test.byte`, the configuration file becomes available at `local/etc/graffiti/graffiti-test.conf`. It contains various directives for Ocsigen server (port, log files, extensions to be loaded, etc.), taken from `Makefile.options`, and something like:
+`dune exec -- ocsigenserver -c graffiti.conf` runs the `ocsigenserver` command instead, which reads the configuration file `graffiti.conf` and loads the application dynamically. This file gives the same settings in XML, and the host:
 
 ```
-<host>
-  <static dir="static" />
-  <eliommodule module="/path_to/graffiti.cma" />
-  <eliom />
+<host hostfilter="*">
+  <static dir="local/var/www/graffiti"/>
+  <eliommodule findlib-package="graffiti"/>
+  <eliom/>
 </host>
 ```
-`<eliommodule ... />` asks the server to load Eliom module `graffiti.cma`, containing the Eliom application, at startup and attach it to this host (and site).
+`<eliommodule ... />` asks the server to load the library `graffiti`, containing the Eliom application, at startup and attach it to this host.
 
-Extensions `<static ... />` (staticmod) and `<eliom />` are called successively:
+In both cases, the two extensions Staticmod and Eliom are called successively:
 
-- If they exist, files from the directory
-
-  ```ocaml
-  /path_to/graffiti/static 
-  ```
-  will be served,
-
-- Otherwise, Server will try to generate pages with Eliom (`<eliom />`),
+- If they exist, files from the directory `local/var/www/graffiti` will be served (dune copies the static files of the project there),
+- Otherwise, the server will try to generate pages with Eliom,
 - Otherwise it will generate a 404 (Not found) error (default).
 
 **Concept: Static validation of HTML**
 
 There are several ways to create pages for Eliom. You can generate pages as strings (as in other web frameworks). However, it is preferable to generate HTML in a way that provides compile-time HTML correctness guarantees. This tutorial achieves this by using the module `Eliom.Content.Html.D`, which is implemented using the `TyXML` library. The module defines a construction function for each HTML tag.
 
-*Note that it is also possible to use the usual HTML syntax directly in OCaml, cf. `Pa_tyxml`.*
+*Note that it is also possible to use the usual HTML syntax directly in OCaml, cf. [the TyXML syntax extension](https://ocsigen.org/tyxml/latest/tyxml/ppx.html).*
 
 The TyXML library (and thus `module
 Eliom.Content.Html.D`) is very strict and compels you to respect HTML standard (with some limitations). For example if you write:
@@ -132,20 +114,21 @@ Eliom.Content.Html.D`) is very strict and compels you to respect HTML standard (
 You will get an error message similar to the following, referring to the end of line 2:
 
 ```
-Error: This expression has type ([> `TXT ] as 'a) Html.elt
-       but an expression was expected of type
-         Html_types.head_content_fun Html.elt
-       Type 'a is not compatible with type Html_types.head_content_fun =
+Error: This expression has type [> Html_types.txt ] elt
+       but an expression was expected of type Html_types.head_content_fun elt
+       Type [> Html_types.txt ] = [> `PCDATA ] is not compatible with type
+         Html_types.head_content_fun =
            [ `Base
            | `Command
            | `Link
            | `Meta
            | `Noscript of [ `Link | `Meta | `Style ]
            | `Script
-           | `Style ]
-       The second variant type does not allow tag(s) `TXT
+           | `Style
+           | `Template ]
+       The second variant type does not allow tag(s) `PCDATA
 ```
-where `Html_types.head_content_fun` is the type of content allowed inside `<head>` (`<base>`, `<command>`, `<link>`, `<meta>`, etc.). Notice that ``TXT` (i.e. raw text) is not included in this polymorphic variant type, which means that `<head>` cannot contain raw text.
+where `Html_types.head_content_fun` is the type of content allowed inside `<head>` (`<base>`, `<command>`, `<link>`, `<meta>`, etc.). Notice that ``PCDATA` (i.e. raw text) is not included in this polymorphic variant type, which means that `<head>` cannot contain raw text.
 
 Most functions take as parameter the list representing its contents. See other examples below. Each of them take an optional `?a` parameter for optional HTML attributes. Mandatory HTML attributes correspond to mandatory OCaml parameters. See below for examples.
 
@@ -161,10 +144,10 @@ For now we will just use the `Lwt.return` function as above. We will come back t
 
 Service sending an application<br/> Client and server code<br/> Compiling a Web application with server and client parts<br/> Calling JavaScript methods with Js\_of\_ocaml<br/>
 
-To create our first service, we used the function `Eliom.Registration.Html.create`, as all we wanted to do was return HTML. But we actually want a service that corresponds to a full application with client and server parts. To do so, we need to create our own registration module by using the functor `Eliom.Registration.App`:
+To register our first service, we used the function `Eliom.Registration.Html.register`, as all we wanted to do was return HTML. But we actually want a service that corresponds to a full application with client and server parts. To do so, we need to create our own registration module by using the functor `Eliom.Registration.App`:
 
 ```ocaml
-module Graffiti_app =
+module%server Graffiti_app =
   Eliom.Registration.App (struct
       let application_name = "graffiti"
       let global_data_path = None
@@ -192,23 +175,23 @@ We can now add some OCaml code to be executed by the browser. For this purpose, 
 ```ocaml
 let%client _ = Eliom.Lib.alert "Hello!"
 ```
-After running again `make test.byte`, and visiting [http://localhost:8080/](http://localhost:8080/), the browser will load the file `graffiti.js`, and open an alert-box.
+After compiling and running the program again, and visiting [http://localhost:8080/](http://localhost:8080/), the browser will load the client-side program (compiled to JavaScript, or to WebAssembly for the browsers that support it), and open an alert-box.
 
 **Concept: Splitting the code into server and client parts**
 
 At the very toplevel of your source file (i.e. *not* inside modules or other server- /client-parts), you can use the following constructs to indicate which side the code should run on.
 
-- `let%client`, `let%server`, `let%shared`: same as above for a single definition.
+- `let%client`, `let%server`, `let%shared`: the definition is client-only code, server-only code, or code used both on the server and the client.
 - other syntaxes like `module%server`, `open%client`, `type%shared` ...
 - `[%%client ... ]`: the list of enclosed definitions is client-only code (similarly for `[%%server ... ]`). With `[%%shared ... ]`, the code is used both on the server and client.
 - `[%%client.start]`, `[%%server.start]`, `[%%shared.start]`: these set the default location for all definitions that follow, and which do not use the preceding constructs.
 If no location is specified, the code is assumed to be for the server.
 
-The above constructs are implemented by means of PPX, OCaml's new mechanism for implementing syntax extensions. See `the Eliom language extensions` for details.
+The above constructs are implemented by means of PPX, OCaml's mechanism for implementing syntax extensions. See `the Eliom language extensions` for details.
 
 **Client parts are executed once, when the client side process is launched.** The client process is not restarted after each page change.
 
-The Makefile created by `eliom-distillery` automatically splits the code into client and server parts, compiles the server part as usual, and compile the client part to a JavaScript program using `js_of_ocaml`.
+The dune rules created by `eliom-distillery` automatically split the code into client and server parts, compile the server part as usual, and compile the client part to a JavaScript program using `js_of_ocaml` (and to WebAssembly using `wasm_of_ocaml`).
 
 **Concept: Client values on the server**
 
@@ -219,7 +202,7 @@ Additionally, it is possible to create client values within the server code by t
 ```
 where `typ` is the type of an expression `expr` on the client. Note, that such a client value is abstract on the server, but becomes concrete, once it is received by the client.
 
-(The `typ` can be ommitted if it can be inferred from the usage of the client value in the server code.)
+(The `typ` can be omitted if it can be inferred from the usage of the client value in the server code.)
 
 **Client values are executed on the client after the service returns.** You can use client values when a service wants to ask the client to run something, for example binding some event handler on some element produced by the service.
 
@@ -233,7 +216,7 @@ Js\_of\_ocaml is using a syntax extension to call JavaScript methods:
 - `obj##.m` to get a property,
 - `obj##.m := e` to set a property, and
 - `new%js constr a b c` to call a JavaScript constructor.
-More information can be found in the Js\_of\_ocaml manual, in module `Ppx_js`.
+More information can be found in the Js\_of\_ocaml manual, on [the syntax extension page](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/ppx.html).
 
 ### Accessing server side variables on client side code
 
@@ -260,19 +243,17 @@ let%server main_service =
 let%server () =
   Graffiti_app.register ~service:main_service
     (fun () () ->
-       let c = incr count; !count in
-       let text = Printf.sprintf "You came %i times to this page" in
+       incr count;
+       let text = Printf.sprintf "You came %i times to this page" !count in
        ignore [%client
-         (Dom_html.window##alert
-            (Js.string @@ Printf.sprintf "You came %i times to this page" ~%c)
-          : unit)
+         (Dom_html.window##alert (Js.string ~%text) : unit)
        ];
        Lwt.return
          (html
             (head (title (txt "Graffiti")) [])
-            (body [h1 [txt @@ text c]])))
+            (body [h1 [txt text]])))
 ```
-Here, we are increasing the reference `count` each time the page is accessed. When the page is loaded and the document is in-place, the client program initializes the value inside `[%client ... ]`, and thus triggers an alert window. More specifically, the variable `c`, in the scope of the client value on the server is made available to the client value using the syntax extension `~%c`. In doing so, the server side value `c` is displayed in a message box on the client.
+Here, we are increasing the reference `count` each time the page is accessed. When the page is loaded and the document is in-place, the client program initializes the value inside `[%client ... ]`, and thus triggers an alert window. More specifically, the variable `text`, in the scope of the client value on the server, is made available to the client value using the syntax extension `~%text`. In doing so, the server side value `text` is displayed in a message box on the client.
 
 **Concept: Injections: Using server side values in client code**
 
@@ -321,10 +302,10 @@ let%server height = 400
 let%client draw ctx ((r, g, b), size, (x1, y1), (x2, y2)) =
   let color = CSS.Color.string_of_t (CSS.Color.rgb r g b) in
   ctx##.strokeStyle := (Js.string color);
-  ctx##.lineWidth := float size;
+  ctx##.lineWidth := Js.float (float size);
   ctx##beginPath;
-  ctx##(moveTo (float x1) (float y1));
-  ctx##(lineTo (float x2) (float y2));
+  ctx##(moveTo (Js.float (float x1)) (Js.float (float y1)));
+  ctx##(lineTo (Js.float (float x2)) (Js.float (float y2)));
   ctx##stroke
 ```
 
@@ -351,7 +332,7 @@ let%client init_client () =
 ```ocaml
 let%server main_service =
   Eliom.Service.create
-    ~path:(Eliom.Service.Path ["graff"])
+    ~path:(Eliom.Service.Path [""])
     ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 
@@ -366,7 +347,7 @@ let%server () =
 **Concept: JavaScript datatypes in OCaml**
 
 Here we use the function `val
-Js_of_ocaml.Js.string` from Js\_of\_ocaml's library to convert an OCaml string into a JS string.
+Js_of_ocaml.Js.string` from Js\_of\_ocaml's library to convert an OCaml string into a JS string, and `valJs_of_ocaml.Js.float` to convert an OCaml float into a JS number. Conversely, `valJs_of_ocaml.Js.to_string` and `valJs_of_ocaml.Js.to_float` convert JS values to OCaml.
 
 **Concept: Client side side-effect on the server**
 
@@ -387,11 +368,14 @@ Lwt<br/> Mouse events with Lwt
 We now want to catch mouse events to draw lines with the mouse like with the *brush* tools of any classical drawing application. One solution would be to mimic typical JavaScript code in OCaml; for example by using the function `val
 Js_of_ocaml.Dom_events.listen` that is the Js\_of\_ocaml's equivalent of `addEventListener`. However, this solution is at least as verbose as the JavaScript equivalent, hence not satisfactory. Js\_of\_ocaml's library provides a much easier way to do that with the help of Lwt.
 
-To use this, add the following line on top of your file:
+To use this, add the following lines on top of your file:
 
 ```ocaml
 open%client Js_of_ocaml_lwt
+open%client Lwt.Syntax
 ```
+`Lwt.Syntax` provides the `let*` syntax used below (see the concept "More on Lwt").
+
 Then, replace the `init_client` of the previous example by the following piece of code, then compile and draw\!
 
 ```ocaml
@@ -405,7 +389,8 @@ let%client init_client () =
 
   let set_coord ev =
     let x0, y0 = Dom_html.elementClientPosition canvas in
-    x := ev##.clientX - x0; y := ev##.clientY - y0
+    x := truncate (Js.to_float ev##.clientX) - x0;
+    y := truncate (Js.to_float ev##.clientY) - y0
   in
 
   let compute_line ev =
@@ -421,54 +406,44 @@ let%client init_client () =
     mousedowns canvas
       (fun ev _ ->
          set_coord ev;
-         let%lwt () = line ev in
+         let* () = line ev in
          Lwt.pick
            [mousemoves Dom_html.document (fun x _ -> line x);
-            let%lwt ev = mouseup Dom_html.document in line ev]))
+            let* ev = mouseup Dom_html.document in line ev]))
 ```
 We use two references `x` and `y` to record the last mouse position. The function `set_coord` updates those references from mouse event data. The function `compute_line` computes the coordinates of a line from the initial (old) coordinates to the new coordinates--the event data sent as a parameter.
 
-The last four lines of code implement the event-handling loop. They can be read as follows: for each `mousedown` event on the canvas, do `set_coord`, then `line` (this will draw a dot), then behave as the `first` of the two following lines that terminates:
+The last lines of code implement the event-handling loop. They can be read as follows: for each `mousedown` event on the canvas, do `set_coord`, then `line` (this will draw a dot), then behave as the `first` of the two following lines that terminates:
 
 - For each mousemove event on the document, call `line` (never terminates)
 - If there is a mouseup event on the document, call `line`.
 **Concept: More on Lwt**
 
-Functions in Eliom and Js\_of\_ocaml which do not implement just a computation or direct side effect, but rather wait for user activity, or file system access, or need a unforseeable amount of time to return are defined *with Lwt*; instead of returning a value of type `a` they return an Lwt thread of type `a Lwt.t`.
+Functions in Eliom and Js\_of\_ocaml which do not implement just a computation or direct side effect, but rather wait for user activity, or file system access, or need an unforeseeable amount of time to return are defined *with Lwt*; instead of returning a value of type `'a` they return an Lwt promise of type `'a Lwt.t`.
 
 The only way to use the result of such functions (ones that return values in the *Lwt monad*), is to use `Lwt.bind`.
 
 ```ocaml
 Lwt.bind : 'a Lwt.t -> ('a -> 'b Lwt.t) -> 'b Lwt.t
 ```
-It is convenient to define an infix operator like this:
+Module `Lwt.Syntax` defines `let*` as a more readable notation for `Lwt.bind`. After `open Lwt.Syntax`, the code
 
 ```ocaml
- let (>>=) = Lwt.bind
+ let* x = f () in e
 ```
-Then the code
+means `Lwt.bind (f ()) (fun x -> e)`. It is conceptually similar to
 
 ```ocaml
- f () >>= fun x -> 
+ let x = f () in e
 ```
-is conceptually similar to
+but only for functions returning a value in the Lwt monad: `e` is evaluated once the promise returned by `f ()` is fulfilled, and other promises can run in the meantime.
 
-```ocaml
- let x = f () in
-```
-but only for functions returning a value in the Lwt monad.
-
-For more clarity, there is a syntax extension for Lwt, defining `let%lwt` to be used instead of `let` for Lwt functions:
-
-```ocaml
- let%lwt x = f () in
-```
-`Lwt.return` creates a terminated thread from a value:
+`Lwt.return` creates a fulfilled promise from a value:
 
 ```ocaml
  Lwt.return : 'a -> 'a Lwt.t
 ```
-Use it when you must return something in the Lwt monad (for example in a service handler, or often after a `Lwt.bind`).
+Use it when you must return something in the Lwt monad (for example in a service handler, or at the end of a sequence of `let*`).
 
 ##### Why Lwt?
 
@@ -478,22 +453,22 @@ We will use the term *cooperative functions* to identify functions implemented i
 
 `Lwt.bind` and `Lwt.return` do not introduce cooperation points.
 
-In our example, the function `Lwt_js_events.mouseup` may introduce a cooperation point, because it is unforseeable when this event happens. That's why it returns a value in the Lwt monad.
+In our example, the function `Lwt_js_events.mouseup` may introduce a cooperation point, because it is unforeseeable when this event happens. That's why it returns a value in the Lwt monad.
 
 Using cooperative threads has a huge advantage: given that you know precisely where the cooperation points are, *you need very few mutexes* and you have *very low risk of deadlocks*\!
 
-Using Lwt is very easy and does not cause trouble, provided you never use *blocking functions* (non-cooperative functions). *Blocking functions can cause the entre server to hang\!* Remember:
+Using Lwt is very easy and does not cause trouble, provided you never use *blocking functions* (non-cooperative functions). *Blocking functions can cause the entire server to hang\!* Remember:
 
 - Use the functions from module `Lwt_unix` instead of module `Unix`,
 - Use cooperative database libraries (like PG'Ocaml for Lwt),
 - If you want to use a non-cooperative function, detach it in another preemptive thread using `val
 Lwt_preemptive.detach`,
-- If you want to launch a long-running computation, manually insert cooperation points using `Lwt_unix.yield`,
+- If you want to launch a long-running computation, manually insert cooperation points using `Lwt.pause`,
 - `Lwt.bind` does not introduce any cooperation point.
 
 **Concept: Handling events with Lwt**
 
-Module `Js_of_ocaml_lwt.Lwt_js_events` allows easily defining event listeners using Lwt. For example, `Js_of_ocaml_lwt.Lwt_js_events.click` takes a DOM element and returns an Lwt thread that will wait until a click occures on this element.
+Module `Js_of_ocaml_lwt.Lwt_js_events` allows easily defining event listeners using Lwt. For example, `Js_of_ocaml_lwt.Lwt_js_events.click` takes a DOM element and returns an Lwt thread that will wait until a click occurs on this element.
 
 Functions with an ending "s" (`val
 Js_of_ocaml_lwt.Lwt_js_events.clicks`, `val
@@ -518,8 +493,13 @@ type%shared messages =
     ((int * int * int) * int * (int * int) * (int * int))
     [@@deriving json]
 ```
-We annotate the type declaration with `[@@deriving json]` to allow type-safe deserialization of this type. Eliom forces you to use this in order to avoid server crashes if a client sends corrupted data. This is defined using a JSON plugin for [ppx\_deriving](https://github.com/whitequark/ppx_deriving), which you need to install. You need to do that for each type of data sent by the client to the server. This annotation can only be added on types containing exclusively basic types, or other types annotated with `[@@deriving json]`.
+We annotate the type declaration with `[@@deriving json]` to allow type-safe deserialization of this type. Eliom forces you to use this in order to avoid server crashes if a client sends corrupted data. This annotation is provided by the [JSON deriver of Js\_of\_ocaml](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/ppx-deriving.html), which the project created by Eliom distillery already uses. You need to do that for each type of data sent by the client to the server. This annotation can only be added on types containing exclusively basic types, or other types annotated with `[@@deriving json]`.
 
+*Note:* the current version of this deriver generates code that triggers warning 39 (unused `rec` flag), which dune turns into an error in its default (development) profile. Until this is fixed, add this line to the `dune` file at the root of the project:
+
+```
+(env (dev (flags (:standard -w -39))))
+```
 Then we create an Eliom bus to broadcast drawing events to all client with the function `val
 Eliom.Bus.create`. This function take as parameter the type of values carried by the bus.
 
@@ -570,19 +550,19 @@ To install Ocsigen Toolkit, do:
 ```
 opam install ocsigen-toolkit
 ```
-Add package `ocsigen-toolkit.server` to the `libraries` section of your `dune` file, and `ocsigen-toolkit.client` to the `libraries` section of your `client/dune` file.
+The dune rules of `app/` are generated by the `ocsigen-dune-rules` command invoked at the top of `app/dune`. Ocsigen Toolkit has a server side and a client side: add it to the `--eliom-libraries` option of this invocation:
 
 ```
-  (libraries ... ocsigen-toolkit.server)
+   --eliom-libraries
+   graffiti.lib,ocsigen-toolkit
 ```
-```
-  (libraries ... ocsigen-toolkit.client)
-```
-In `Makefile.options`, created by Eliom's distillery, add `ocsigen-toolkit.server` to the `SERVER_PACKAGES`. This will be used to regenerate Ocsigen Server's configuration file.
+Then regenerate the rules:
 
-```makefile
-SERVER_PACKAGES := ... ocsigen-toolkit.server
+```shell
+$ dune runtest --auto-promote
 ```
+This command shows the changes in the generated rules as a failure, and writes them to `app/dune`: running it again succeeds.
+
 To create the widget, we replace `page` by :
 
 ```ocaml
@@ -643,7 +623,7 @@ let%client init_client ~cp_sig () =
   in
 ...
 ```
-Finally, we need to add a stylesheet in the headers of our page with function `Eliom.Tools.D.css_link`:
+Finally, we need to add a stylesheet in the headers of our page with function `Eliom.Content.Html.D.css_link`:
 
 ```ocaml
 let%server page () =
@@ -668,9 +648,28 @@ let%server page () =
       (body [canvas_elt; slider; colorpicker])
   , cp_sig )
 ```
-You need to install the corresponding stylesheets and images into your project. The stylesheet files should go to the directory `static/css`. Download file `graffiti.css` from [here](files/tutorial/static/css/graffiti.css). Copy file `ot_color_picker.css` from directory `~/.opam/<version>/share/ocsigen-toolkit/css` into `static/css`.
+You need to install the corresponding stylesheets into your project. The stylesheet files should go to the directory `static/css`. Download file `graffiti.css` from [here](files/tutorial/static/css/graffiti.css) (it replaces the file created by Eliom distillery). Copy file `ot_color_picker.css` of Ocsigen Toolkit into `static/css`:
 
-You can then test your application (`make test.byte`).
+```shell
+$ cp $(opam var share)/ocsigen-toolkit/css/ot_color_picker.css static/css/
+```
+The server does not read `static/` directly: dune copies the static files to `local/var/www/graffiti`, with one rule per file in the `dune` file at the root of the project. Add a rule for the new file, next to the one for `graffiti.css`:
+
+```
+ (subdir
+  css
+  (rule
+   (mode promote)
+   (action
+    (copy %{workspace_root}/static/css/graffiti.css graffiti.css)))
+  (rule
+   (mode promote)
+   (action
+    (copy
+     %{workspace_root}/static/css/ot_color_picker.css
+     ot_color_picker.css)))))
+```
+You can then test your application (`dune build`, then `dune exec graffiti`).
 
 **Concept: Ocsigen Toolkit**
 
@@ -694,13 +693,19 @@ Services sending other data types
 
 To finish the first part of the tutorial, we want to save the current drawing on server side and send the current image when a new user arrives. To do that, we will use the [Cairo binding](https://github.com/Chris00/ocaml-cairo) for OCaml.
 
-For using Cairo, first, make sure that it is installed (it is available as `cairo2` via OPAM). Second, add it to the `libraries` section in your `dune` file.
+For using Cairo, first, install it (it is available as `cairo2` via OPAM, and needs the Cairo C library, package `libcairo2-dev` on Debian-based systems):
 
-Second, add it to the SERVER\_PACKAGES in your Makefile.options:
-
-```makefile
-SERVER_PACKAGES := ... cairo2
 ```
+opam install cairo2
+```
+Cairo is used on the server only. Add it to the `--server-libraries` option of `ocsigen-dune-rules` in `app/dune`:
+
+```
+   --server-libraries
+   ocsipersist-sqlite,cairo2
+```
+and regenerate the rules with `dune runtest --auto-promote`.
+
 The `draw_server` function below is the equivalent of the `draw` function on the server side and the `image_string` function outputs the PNG image in a string.
 
 ```ocaml
@@ -729,7 +734,8 @@ let%server draw_server, image_string =
       Cairo.PNG.write_to_stream surface (Buffer.add_string b);
       Buffer.contents b )
 
-let%server _ = Lwt_stream.iter draw_server (Eliom.Bus.stream bus)
+let%server () =
+  Lwt.async (fun () -> Lwt_stream.iter draw_server (Eliom.Bus.stream bus))
 ```
 We also define a service that sends the picture:
 
@@ -766,20 +772,17 @@ let img = Eliom.Content.Html.To_dom.of_img
        ())
 in
 img##.onload := Dom_html.handler (fun _ev ->
-  ctx##drawImage img 0. 0.; Js._false);
+  ctx##drawImage img (Js.float 0.) (Js.float 0.); Js._false);
 ```
-As we are now using `Eliom.Content.Html.D` in both client and server sections, we need to open it in a shared section:
+As we are now using `Eliom.Content.Html.D` in both client and server sections, we need to open it in a shared section. Replace the line `open%server Eliom.Content.Html.D` at the beginning of the file by:
 
 ```ocaml
 open%shared Eliom.Content.Html.D
 ```
 Finally, we can add a new canvas where we would draw a visualisation of the current size of the brush. The complete code of this application can be found [here](https://github.com/ocsigen/graffiti/tree/master/simple).
 
-The `Makefile` from the distillery automatically adds the packages defined in `SERVER_PACKAGES` as an extension in your configuration file `local/etc/graffiti/graffiti-test.conf`:
+If you run the application with the `ocsigenserver` command and `graffiti.conf`, you do not need to change the configuration file: the server loads Ocsigen Toolkit and Cairo automatically, as dependencies of the library `graffiti`.
 
-```xml
-<extension findlib-package="cairo2" />
-```
 The first version of the program is now complete.
 
 #### Exercises

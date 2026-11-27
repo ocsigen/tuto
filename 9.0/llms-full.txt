@@ -10,9 +10,9 @@
 Ocsigen is a complete framework for developing Web and mobile apps using cutting edge techniques. It can be used to write simple server side Web sites, client-side programs, or complex client-server Web and mobile apps. Its main characteristics are:
 
 - The use of a strongly typed language, *OCaml*, and a very advanced use of its type system to check many properties of a program at compile time. This allows to drastically reduce the development time of complex apps, and makes it easier to refactor the code to follow evolutions of its features. As an example, the conformance of generated HTML is checked at compile time, which makes it almost impossible to generate invalid pages.
-- *Multi-tier programming*: client and server sides of the application are written using the same language, and as a *single code*. Annotations in the code are used indicate on which side the code is to be run. The client side parts are automatically extracted and compiled into JavaScript to be executed in the browser. This gives a lot of flexibility to the programmer, allowing for example to generate some parts of pages either on client or server code according to your needs. It also makes communication between server and client straightforward, as you can use server side variables in client code, or call a server side OCaml functions from client code.
+- *Multi-tier programming*: client and server sides of the application are written using the same language, and as a *single code*. Annotations in the code are used to indicate on which side the code is to be run. The client side parts are automatically extracted and compiled into JavaScript to be executed in the browser. This gives a lot of flexibility to the programmer, allowing for example to generate some parts of pages either on client or server code according to your needs. It also makes communication between server and client straightforward, as you can use server side variables in client code, or call a server side OCaml functions from client code.
 - *Web and mobile multi-platform apps*: Android and iOS apps are generated from the exact same code as the Web app, and run in a webview.
-To see some examples of mobile or Web apps written with Ocsigen, have a look at the [Be Sport social network](https://www.dailymotion.com/video/x82alm8) (available in [Google Play Store](https://play.google.com/store/apps/details?id=com.besport.www.mobile) and [Apple app store](https://apps.apple.com/fr/app/be-sport/id1104216922)), or [Ocsigen Start's demo app](http://ocsigen-1.inria.fr/ocsigen-start/demo/) (available on [Google Play store](https://play.google.com/store/apps/details?id=com.osdemo.mobile)).
+To see some examples of mobile or Web apps written with Ocsigen, have a look at the [Be Sport social network](https://www.dailymotion.com/video/x82alm8) (available in [Google Play Store](https://play.google.com/store/apps/details?id=com.besport.www.mobile) and [Apple app store](https://apps.apple.com/fr/app/be-sport/id1104216922)), or [Ocsigen Start's demo app](https://ocsigen-1.inria.fr/ocsigen-start/demo/) (available on [Google Play store](https://play.google.com/store/apps/details?id=com.osdemo.mobile)).
 
 Ocsigen consists of several quite independent projects, all released as open source software on [Github](https://github.com/ocsigen). The main projects are:
 
@@ -30,34 +30,36 @@ Ocsigen originates from a research project by the CNRS, Université de Paris and
 - Chapter [Client-server application programming guide](./basics.md) can be used as your training plan. It provides a wide overview of each main concept, with links to more detailed documentation.
 - If you want to start with a server-side only Web site, read [Server-side website programming guide](./basics-server.md) instead.
 - Then, a good starting point is this [Ocsigen Start tutorial](./start.md), if you plan to build a client-server Web (and/or mobile) app. It will help you to build your first app very quickly, with many code samples to study.
-- If you are fluent in OCaml and want a quick introduction to client-server Web programming with Eliom, read tutorial [Eliom apps basics: writing client server widgets](./tutowidgets.md). It illusrates the client-server syntax with an example, and is a good starting point for understanding Eliom's client-server features.
+- If you are fluent in OCaml and want a quick introduction to client-server Web programming with Eliom, read tutorial [Eliom apps basics: writing client server widgets](./tutowidgets.md). It illustrates the client-server syntax with an example, and is a good starting point for understanding Eliom's client-server features.
 - If you want a full step-by-step tutorial on how to write a client-server Web application, read tutorial [Client-server application](./application.md). It describes step by step how to write a client/server [collaborative drawing application](https://ocsigen.org/graffiti/). You will learn, from the very beginning, how to:
-- Create new *services*
-- Output *valid HTML*
-- Send *OCaml code* to be executed *on the client*
-- Call *JavaScript methods* from OCaml
-- Catch *mouse events*
-- *Communicate* with the server, in both directions
-- Create services with *non-HTML output*
+
+  - Create new *services*
+  - Output *valid HTML*
+  - Send *OCaml code* to be executed *on the client*
+  - Call *JavaScript methods* from OCaml
+  - Catch *mouse events*
+  - *Communicate* with the server, in both directions
+  - Create services with *non-HTML output*
 - If you want to build mobile applications, read tutorial [Mobile applications with Ocsigen](./mobile.md). It describes how to build a mobile app (e.g., for Android) with the same codebase as for your Web application.
 - If you want to write a more traditional Web site, with pages, forms, and sessions, read tutorial [Service based Web programming](./interaction.md). It is devoted to server side programming. It shows how to create a new Web site with several pages and user connections. You will learn how to:
-- Create a *link* towards another service
-- Create *forms*
-- Register *session data* or *session services*
-- Create services performing *actions* (with no output)
-- Dynamically register new services (*continuation based* Web programming)
-- If you want to learn more details about Ocsigen read tutorial [Miscellaneous features](./misc.md). It will mix the client-server drawing application with the session mechanism and user management to produce a multi-user collaborative drawing application. In this chapter, you will learn how to:
-- Integrate a typical Web interaction (links, forms,~ …) with a client side program.
-- Add *sounds or videos* to your application
-- Change pages *without stopping the client side program*
-- Connect with external accounts (*openID*)
-- Add an Atom feed
+
+  - Create a *link* towards another service
+  - Create *forms*
+  - Register *session data* or *session services*
+  - Create services performing *actions* (with no output)
+  - Dynamically register new services (*continuation based* Web programming)
+- Then read tutorial [Traditional web interaction in a client-server app](./misc.md). It will mix the client-server drawing application with the session mechanism and user management to produce a multi-user collaborative drawing application. In this chapter, you will learn how to:
+
+  - Split an application into several files
+  - Integrate a typical Web interaction (links, forms, …) with a client side program
+  - Change pages *without stopping the client side program*
+  - Restrict pages to connected users, with your own registration module
 - If you want to have a full application with user management (registration, activation emails, authentication), have a look at `Ocsigen-start`. Ocsigen-start is a library and a template for Eliom distillery that contains a working Eliom application with user and right management.
 - For a more comprehensive understanding refer to the manual of each project, and/or the API documentation.
 - You will also find more tutorials in the menu on the left.
-We recommend to ask your questions on [discuss.ocaml.org](https://discuss.ocaml.org) with tag `ocsigen`. You can also come and chat with us on IRC in channel `#ocsigen` on `freenode.net` (e.g. by using their [webchat](http://webchat.freenode.net/?channels=ocsigen))\!
+We recommend to ask your questions on [discuss.ocaml.org](https://discuss.ocaml.org) with tag `ocsigen`.
 
-Now, we recommend to read, chapter [All Ocsigen in one page](./basics.md) for a wide and complete overview.
+Now, we recommend to read chapter [Client-server application programming guide](./basics.md) for a wide and complete overview.
 
 
 ---
@@ -79,7 +81,7 @@ cd myapp
 make db-init && make db-create && make db-update
 make test.byte
 ```
-Then open `http://localhost:8080`. <br/> Requires `postgresql` and `sass` (or `sassc`). Read the [detailed instructions](./start.md) if needed.
+Then open `http://localhost:8080`. <br/> Requires `postgresql`, `npm` and `sass` (or `sassc`). Read the [detailed instructions](./start.md) if needed.
 
 ## OCaml
 
@@ -93,7 +95,7 @@ This programming guide assumes you know the *OCaml* language. Many resources and
 
 Instead of calling blocking functions, like `Unix.sleep` or `Unix.read`, that could block the entire program, replace them by their cooperative counterparts (`Lwt_unix.sleep`, `Lwt_unix.read`, etc.). Instead of taking time to execute, they always return immediately a *promise* of the result, of type `'a Lwt.t`. This type is abstract, and the only way to use the result is to *bind* a function to the promise. `Lwt.bind p f` means: "when promise `p` is completed, give its result to function `f`".
 
-Syntax `let%lwt x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program.
+After `open Lwt.Syntax`, syntax `let* x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program.
 
 To learn Lwt, read this [short tutorial](./lwt.md), or its `user manual`.
 
@@ -134,7 +136,7 @@ let () =
 ```
 Put this in file `bin/main.ml`, and run `dune exec mysite`.
 
-By default, the server runs on port 8080\. Create a `static` directory with some files and try to fetch them using your Web browser.
+By default, the server runs on port 8080\. Create a `static` directory with some files and try to fetch them using your Web browser. The server warns that it cannot create its command pipe, in a directory of its installation: you can ignore this warning, or give a path with the `~command_pipe` parameter of `Ocsigen.Server.start` (as in the example below).
 
 ### Use the `ocsigenserver` command
 
@@ -280,8 +282,8 @@ Eliom.Parameter.(suffix_prod (int "year" ** int "month") (int "a"))
 To define a service with POST parameters, just change the `~meth` parameter. For example the following example takes the same GET parameters as the service above, plus one POST parameter of type string, named "mypostparam".
 
 ```ocaml
-~meth:(Eliom.Service.Post (Eliom.Parameter.((string "myparam" ** int "i"),
-                                            (string "mypostparam"))))
+~meth:(Eliom.Service.Post (Eliom.Parameter.(string "myparam" ** int "i"),
+                           Eliom.Parameter.string "mypostparam"))
 ```
 
 ### Pathless services
@@ -316,7 +318,7 @@ This example shows how to insert an image using `static_dir`:
 img
   ~alt:"blip"
   ~src:(Eliom.Content.Html.F.make_uri
-         (Eliom.Service.static_dir ())
+         ~service:(Eliom.Service.static_dir ())
          ["dir" ; "image.jpg"])
   ()
 ```
@@ -458,7 +460,7 @@ The latter is used for the default Javascript library. Here is how it works:
 | `obj##.m := e` | change a JS property (when `obj : <m : u prop> Js.t` and `e:u`) |
 | `obj##m e_1 ... e_n` | call a JS method (has type `u` when `obj : <m : t_1 -> ... -> t_n -> u meth; ..> Js.t` and `e_i : t_i`) |
 | `new%js constr e1 ... en` | create a JS object (has type `u Js.t` when `constr : (t_1 -> ... -> t_n -> u Js.t) Js.constr` and `e_i : t_i`) |
-Module `Js_of_ocaml.Js` defines the base JS types and conversion functions from/to OCaml types. Example: `Js.Opt` to take into account nullable values, `Js.Optdef` for undefined values, or functions like `Js.to_string` and `Js.string` for consersions to and from OCaml strings.
+Module `Js_of_ocaml.Js` defines the base JS types and conversion functions from/to OCaml types. Example: `Js.Opt` to take into account nullable values, `Js.Optdef` for undefined values, or functions like `Js.to_string` and `Js.string` for conversions to and from OCaml strings.
 
 Use modules `Js_of_ocaml.Dom` and `Js_of_ocaml.Dom_html` to interact with the DOM, or more specifically with HTML.
 
@@ -500,11 +502,11 @@ val fsth3 :
 # Dom.appendChild Dom_html.document##.body (Eliom.Content.Html.(To_dom.of_p (F.p [F.txt "Salut"])));;
   (* Append a paragraph generated with TyXML to the page *)
 - : unit = ()
-# Firebug.console##log (Js.string "toto");;
+# Console.console##log (Js.string "toto");;
 - : unit = ()
-# Firebug.console##log [1;2];;
+# Console.console##log [1;2];;
 - : unit = ()
-# Firebug.console##log (Dom_html.document##.body);;
+# Console.console##log (Dom_html.document##.body);;
 - : unit = ()
 ```
 
@@ -559,7 +561,7 @@ Example:
 ```ocaml
   button ~a:[a_onclick [%client fun ev -> ... ]] [ ... ]
 ```
-The syntax is `[%client (<value> : <type>)]`. Type annotation is almost always required.
+The syntax is `[%client (<value> : <type>)]`. The type annotation is required when the type cannot be inferred from the way the value is used on the server side.
 
 These client fragments can be manipulated as server side OCaml values:
 
@@ -582,7 +584,7 @@ Server side values can be injected in client code by prefixing them with `~%` as
 let%server ... =
   ...
   let x = ... in
-  [%client[ ... ~%x ... ]]
+  [%client ... ~%x ... ]
   ...
 ```
 The value will automatically be sent with the page by Eliom.
@@ -605,7 +607,7 @@ Eliom makes it possible to call server side OCaml functions from your client-sid
 let%rpc g (i : int) : string Lwt.t =
   Lwt.return (string_of_int (i + Random.int 1000))
 ```
-Warning: type annotations are mandatory here so that the ppx can automatically inject the right conversion functions. These functions are generated automatically by [Deriving](https://github.com/ocsigen/deriving), as long as it knows a deriver for each subtype. To create a deriver for your own types just append `[@@deriving json]` after your type declaration. Example:
+Warning: type annotations are mandatory here so that the ppx can automatically inject the right conversion functions. These functions are generated automatically by the JSON deriver of Js\_of\_ocaml, as long as it knows a deriver for each subtype. To create a deriver for your own types just append `[@@deriving json]` after your type declaration. Example:
 
 ```ocaml
 type%shared t = A | B
@@ -619,7 +621,7 @@ The following picture shows two examples of requests:
 
 - First, the browser asks for a new page, and the server generates the page
 - then the user clicks on a link in the page, and the page is generated by the client-side program (because the service is registered on both sides). In this example, while generating the page, the client does a RPC to the server.
-In both cases (first request or RPC), the server returns the expected value, but also the value of injections and an order for the client-side program to execute the client-values met during te server-side computation.
+In both cases (first request or RPC), the server returns the expected value, but also the value of injections and an order for the client-side program to execute the client-values met during the server-side computation.
 
 ![Example of requests](files/tutorial/client-server-req.svg)
 
@@ -650,7 +652,7 @@ open%shared Eliom.Content.Html.F
 ```ocaml
 let%server theservice =
   Eliom.Service.create
-    ~path:["ex"]
+    ~path:(Eliom.Service.Path ["ex"])
     ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 ```
@@ -678,6 +680,8 @@ let%shared () =
       Lwt.return (html (head (title (txt "Example")) [])
                        (body [h1 [txt aa]; b])))
 ```
+`My_app` is the registration module of your application, created with functor `Eliom.Registration.App` in a shared section (it is called `App` in the projects created by Eliom distillery).
+
 Service handlers and service registration are usually written in shared sections to enable page generation on both sides.
 
 - Examples of client sections, injections or server functions can be found in the demo included in [Ocsigen-Start's app template](https://github.com/ocsigen/os_template/blob/master/lib/demo_rpc.eliom).
@@ -729,9 +733,9 @@ let%server count_ref =
 And somewhere in your service handler, increment the counter:
 
 ```ocaml
-let%lwt count = Eliom.Reference.get count_ref in
-Eliom.Reference.set count_ref (count + 1);
-Lwt.return ()
+let* count = Eliom.Reference.get count_ref in
+let* () = Eliom.Reference.set count_ref (count + 1) in
+...
 ```
 With function `Eliom.Reference.eref_from_fun`, you can create Eliom references without initial value. The initial value is computed for the session the first time you use it.
 
@@ -763,7 +767,7 @@ Module `Lwt_js_events` of Js\_of\_ocaml defines a way to bind browser events usi
 For example, the following code will wait for a click on element `d` before continuing:
 
 ```ocaml
-let%lwt ev = Lwt_js_events.click (Eliom.Content.Html.To_dom.of_element ~%d) in
+let* ev = Lwt_js_events.click (Eliom.Content.Html.To_dom.of_element ~%d) in
 ...
 ```
 Functions like `Lwt_js_events.clicks` or `Lwt_js_events.mousedowns` (ending with "s") will call the function given as second parameter **for each** `click` or `mousedown` events on their first parameter.
@@ -772,16 +776,15 @@ For example, the following code (inspired from [this tutorial](./application.md)
 
 ```ocaml
 let open Lwt_js_events in
-Lwt.async (mousedowns
-            (Eliom.Content.Html.To_dom.of_element ~%canvas)
-            (fun ev _ ->
-               Lwt.pick [mousemoves Dom_html.document f;
-                         mouseup Dom_html.document]))
+Lwt.async (fun () ->
+  mousedowns (Eliom.Content.Html.To_dom.of_element ~%canvas) (fun _ _ ->
+    Lwt.pick [mousemoves Dom_html.document f;
+              (let* _ = mouseup Dom_html.document in Lwt.return ())]))
 ```
 
 ## Ocsigen Toolkit
 
-Ocsigen Toolkit defines several widgets that can be generated either on server or clide sides. Have look at [Ocsigen Start's demo app](https://ocsigen-1.inria.fr/ocsigen-start/demo/) (or the [corresponding Android app](https://play.google.com/store/apps/details?id=com.osdemo.mobile)) to see them in action: carousel, drawer menu, date or time picker, color picker, pull to refresh feature for mobile apps, etc.
+Ocsigen Toolkit defines several widgets that can be generated either on server or client sides. Have a look at [Ocsigen Start's demo app](https://ocsigen-1.inria.fr/ocsigen-start/demo/) (or the [corresponding Android app](https://play.google.com/store/apps/details?id=com.osdemo.mobile)) to see them in action: carousel, drawer menu, date or time picker, color picker, pull to refresh feature for mobile apps, etc.
 
 For example module `Ot.Spinner` implements a widgets that you can use to display a spinner (or fake elements) when some parts of your page take time to appear. It can be used in shared sections and gives you precise control of the delays and the feeling of responsiveness of your app.
 
@@ -899,7 +902,7 @@ Module `Eliom.Content.Html.R` also defines all TyXML nodes, which take reactive 
 
 For example `Eliom.Content.Html.R.txt` takes a value of type `string React.S.t` as parameter (string signal).
 
-Instead of taking a list signal as parameter, functions like `div` or `p` of module `Eliom.Content.Html.R` take a parameter of type [Eliom.Content.Html.F.elt ReactiveData.Rlist.t](https://github.com/ocsigen/reactiveData). This enables incremental update of the content (usually, appending an element at the end of the list, without having to redraw the whole list). See an example with `ReactiveData` in [this tutorial](./tutoreact.md).
+Instead of taking a list signal as parameter, functions like `div` or `p` of module `Eliom.Content.Html.R` take a parameter of type [Eliom.Content.Html.F.elt ReactiveData.RList.t](https://github.com/ocsigen/reactiveData). This enables incremental update of the content (usually, appending an element at the end of the list, without having to redraw the whole list). See an example with `ReactiveData` in [this tutorial](./tutoreact.md).
 
 Node attributes can also be reactive. For example if `s` has type `string list React.S.t`, you can write `Eliom.Content.Html.F.div ~a:[R.a_class s] []`.
 
@@ -912,7 +915,7 @@ Full example:
 ```ocaml
 let%server theservice =
   Eliom.Service.create
-    ~path:["ex"]
+    ~path:(Eliom.Service.Path ["ex"])
     ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 ```
@@ -923,6 +926,7 @@ let%client theservice = ~%theservice
 
 ```ocaml
 open%client Js_of_ocaml_lwt
+open%client Lwt.Syntax
 ```
 
 ```ocaml
@@ -938,7 +942,7 @@ let%shared () =
         [%client
           (* A thread that will change the signal value every second: *)
           (let rec aux () =
-             let%lwt () = Lwt_js.sleep 1.0 in
+             let* () = Lwt_js.sleep 1.0 in
              ~%set_signal (Random.int 100);
              aux ()
            in
@@ -947,11 +951,11 @@ let%shared () =
       in
       Lwt.return
         (html
-           (head (title (txt s)) [])
-           (body [h1 [txt s];
+           (head (title (txt "Example")) [])
+           (body [h1 [txt "Example"];
                   p [Eliom.Content.Html.R.txt s_string]])))
 ```
-Function `Eliom.Shared.React.S.map` (and `Eliom.Shared.React.S.l2`, etc) takes a *shared function* as parameter (syntax `@@class="shared"@@[%shared f]`). This can be seen as a couple containing both the server a client side implementation of the function.
+Function `Eliom.Shared.React.S.map` (and `Eliom.Shared.React.S.l2`, etc) takes a *shared function* as parameter (syntax `[%shared f]`). This can be seen as a couple containing both the server a client side implementation of the function.
 
 ## Mobile apps
 
@@ -976,14 +980,14 @@ It has a powerful extension mechanism that makes it easy to plug your own OCaml 
 - `Extendconfiguration`: allows for more options in the configuration file.
 - `Accesscontrol`: restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.).
 - `Authbasic`: restricts access to the sites from the config file using Basic HTTP Authentication.
-- CGImod: serves CGI scripts. It may also be used to serve PHP through CGI.
+- `Cors`: handles Cross-Origin Resource Sharing headers.
 - `Deflatemod`: used to compress data before sending it to the client.
 - `Redirectmod`: sets redirections towards other Web sites from the configuration file.
 - `Revproxy`: a reverse proxy for Ocsigen Server. It allows to ask another server to handle the request.
 - `Rewritemod`: changes incoming requests before sending them to other extensions.
 - `Outputfilter`: rewrites some parts of the output before sending it to the client.
+- `Securityheaders`: adds security-related HTTP headers to the responses.
 - `Userconf`: allows users to have their own configuration files.
-- Comet: facilitates server to client communications.
 Ocsigen Server has a `sophisticated configuration` file mechanism allowing complex configurations of sites.
 
 
@@ -1009,7 +1013,7 @@ This programming guide assumes you know the *OCaml* language. Many resources and
 
 Instead of calling blocking functions, like `Unix.sleep` or `Unix.read`, that could block the entire program, replace them by their cooperative counterparts (`Lwt_unix.sleep`, `Lwt_unix.read`, etc.). Instead of taking time to execute, they always return immediately a *promise* of the result, of type `'a Lwt.t`. This type is abstract, and the only way to use the result is to *bind* a function to the promise. `Lwt.bind p f` means: "when promise `p` is completed, give its result to function `f`".
 
-Syntax `let%lwt x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program.
+After `open Lwt.Syntax`, syntax `let* x = p in e` is equivalent to `Lwt.bind p (fun x -> e)` and makes it very natural to sequentialize computations without blocking the rest of the program.
 
 To learn Lwt, read this [short tutorial](./lwt.md), or its `user manual`.
 
@@ -1050,7 +1054,7 @@ let () =
 ```
 Put this in file `bin/main.ml`, and run `dune exec mysite`.
 
-By default, the server runs on port 8080\. Create a `static` directory with some files and try to fetch them using your Web browser.
+By default, the server runs on port 8080\. Create a `static` directory with some files and try to fetch them using your Web browser. The server warns that it cannot create its command pipe, in a directory of its installation: you can ignore this warning, or give a path with the `~command_pipe` parameter of `Ocsigen.Server.start` (as in the example below).
 
 ### Use the `ocsigenserver` command
 
@@ -1102,7 +1106,7 @@ let () =
 ```
 `Eliom.Service.Get Eliom.Parameter.any` means that the service uses the GET HTTP method and takes any GET parameter. The first parameter of function `f` is an association list of GET parameters.
 
-Module `Eliom.Registration.Html_text` is used to register a service sending HTML as strings. But we recommend to used typed-HTML instead (see below).
+Module `Eliom.Registration.Html_text` is used to register a service sending HTML as strings. But we recommend to use typed HTML instead (see below).
 
 ## Compiling
 
@@ -1295,7 +1299,7 @@ Services can return a typed HTML page as in the example above, but also any othe
 
 ## Eliom: Typing page parameters
 
-Instead of taking GET parameters as an untyped `string * string` association list, you can ask Eliom to decode and check parameter types automatically.
+Instead of taking GET parameters as an untyped `(string * string) list` association list, you can ask Eliom to decode and check parameter types automatically.
 
 For example, the following code defines a service at URL `/foo`, that will use GET HTTP method, and take one parameter of type `string`, named `s`, and one of type `int`, named `i`.
 
@@ -1318,7 +1322,7 @@ let () =
 ```
 The handler takes as first parameter the GET page parameters, typed according to the parameter specification given while creating the service. The second parameter is for POST parameters (see below).
 
-Recompile you program, and to to URL `http://localhost:8080/foo?s=hello&i=22` to see the result.
+Recompile your program, and go to URL `http://localhost:8080/foo?s=hello&i=22` to see the result.
 
 ### Parameters
 
@@ -1356,8 +1360,8 @@ Eliom.Parameter.(suffix_prod (int "year" ** int "month") (int "a"))
 To define a service with POST parameters, just change the `~meth` parameter. For example the following example takes the same GET parameters as the service above, plus one POST parameter of type string, named "mypostparam".
 
 ```ocaml
-~meth:(Eliom.Service.Post (Eliom.Parameter.((string "s" ** int "i"),
-                                            (string "mypostparam"))))
+~meth:(Eliom.Service.Post (Eliom.Parameter.(string "s" ** int "i"),
+                           Eliom.Parameter.string "mypostparam"))
 ```
 
 ## Eliom: Other kinds of services
@@ -1402,7 +1406,7 @@ This example shows how to insert an image using `static_dir`:
 img
   ~alt:"blip"
   ~src:(Eliom.Content.Html.F.make_uri
-         (Eliom.Service.static_dir ())
+         ~service:(Eliom.Service.static_dir ())
          ["dir" ; "image.jpg"])
   ()
 ```
@@ -1417,7 +1421,17 @@ Eliom.Content.Html.F.a ~service:other_service [txt "Other"] ("hello", Some 4)
 ```
 Module `Eliom.Content.Html.F` defines the form's elements with the usual typed interface from TyXML. Use this for example if you have a client side program and want to manipulate the form's content from client side functions (for example do a server function call with the form's elements' content).
 
-In contrast, module `Eliom.Content.Html.F.Form` defines a typed interface for form elements. Use this for links (see above), or if you program traditional server-side Web interaction (with or without client-side program). This will statically check that your forms match the services. Example:
+In contrast, module `Eliom.Content.Html.F.Form` defines a typed interface for form elements. Use this for links (see above), or if you program traditional server-side Web interaction (with or without client-side program). This will statically check that your forms match the services. For example, with the following service, which takes two POST parameters:
+
+```ocaml
+let connection_service =
+  Eliom.Service.create
+    ~path:Eliom.Service.No_path
+    ~meth:(Eliom.Service.Post (Eliom.Parameter.unit,
+                               Eliom.Parameter.(string "name" ** string "password")))
+    ()
+```
+the following form sends the right parameters:
 
 ```ocaml
 let open Eliom.Content.Html.F in
@@ -1426,7 +1440,7 @@ Form.post_form
    (fun (name, password) ->
      [fieldset
        [label ~a:[a_label_for "loginname"] [txt "Name: "];
-        Form.input ~a:[a_id "loginname"] ~input_type:`Text ~name Form.int;
+        Form.input ~a:[a_id "loginname"] ~input_type:`Text ~name Form.string;
         br ();
         Form.input
           ~a:[a_placeholder "Password"]
@@ -1457,9 +1471,9 @@ let%server count_ref =
 And somewhere in your service handler, increment the counter:
 
 ```ocaml
-let%lwt count = Eliom.Reference.get count_ref in
-Eliom.Reference.set count_ref (count + 1);
-Lwt.return ()
+let* count = Eliom.Reference.get count_ref in
+let* () = Eliom.Reference.set count_ref (count + 1) in
+...
 ```
 With function `Eliom.Reference.eref_from_fun`, you can create Eliom references without initial value. The initial value is computed for the session the first time you use it.
 
@@ -1481,12 +1495,12 @@ When session group is not set (for example the user is not connected), you can s
 
 ## Browser events
 
- By default, event handlers on HTML elements are given as OCaml functions, but it works only if you have a client-server Eliom program. If not, you want to give a javascript expression (as a string) instead. To so that, use attributes functions from module `Raw`. For example `Eliom.Content.Html.F.Raw.a_onclick` instead of `Eliom.Content.Html.F.a_onclick`.
+ By default, event handlers on HTML elements are given as OCaml functions, but it works only if you have a client-server Eliom program. If not, you want to give a javascript expression (as a string) instead. To do that, use the attribute functions of module `Raw`. For example `Eliom.Content.Html.F.Raw.a_onclick` instead of `Eliom.Content.Html.F.a_onclick`.
 
 Example:
 
 ```ocaml
-Eliom.Content.Html.F.(button ~a:[Raw.onclick "alert(\"beep\");"] [txt "click"])
+Eliom.Content.Html.F.(button ~a:[Raw.a_onclick "alert(\"beep\");"] [txt "click"])
 ```
 
 ## Database access
@@ -1513,7 +1527,7 @@ To implement temporary services, we usually use pathless or attached services (s
 
 ## Internationalisation
 
-[Ocsigen i18n](https://github.com/besport/ocsigen-i18n) is an internationalisation library for your OCaml programs.
+[Ocsigen i18n](https://github.com/ocsigen/ocsigen-i18n) is an internationalisation library for your OCaml programs.
 
 Create a .tsv file with, on each line, a key and the text in several languages:
 
@@ -1539,7 +1553,7 @@ Ocsigen i18n offers many other features:
 - Text can be inserted as a TyXML node (as in the example above) or as a string (ex: `[%i18n S.welcome_message]`),
 - Text can be parametrizable, or contain holes (ex: `[%i18n welcome ~capitalize:true ~name:"William"]`)
 - .tsv file can be split into several modules
-Have a look at the [README file](https://github.com/besport/ocsigen-i18n) to see the full documentation, and see examples in [Ocsigen Start's template](https://github.com/ocsigen/os_template/blob/master/lib/demo_i18n.eliom).
+Have a look at the [README file](https://github.com/ocsigen/ocsigen-i18n) to see the full documentation, and see examples in [Ocsigen Start's template](https://github.com/ocsigen/os_template/blob/master/lib/demo_i18n.eliom).
 
 ## Ocsigen Server
 
@@ -1554,14 +1568,14 @@ It has a powerful extension mechanism that makes it easy to plug your own OCaml 
 - `Extendconfiguration`: allows for more options in the configuration file.
 - `Accesscontrol`: restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.).
 - `Authbasic`: restricts access to the sites from the config file using Basic HTTP Authentication.
-- CGImod: serves CGI scripts. It may also be used to serve PHP through CGI.
+- `Cors`: handles Cross-Origin Resource Sharing headers.
 - `Deflatemod`: used to compress data before sending it to the client.
 - `Redirectmod`: sets redirections towards other Web sites from the configuration file.
 - `Revproxy`: a reverse proxy for Ocsigen Server. It allows to ask another server to handle the request.
 - `Rewritemod`: changes incoming requests before sending them to other extensions.
 - `Outputfilter`: rewrites some parts of the output before sending it to the client.
+- `Securityheaders`: adds security-related HTTP headers to the responses.
 - `Userconf`: allows users to have their own configuration files.
-- Comet: facilitates server to client communications.
 Ocsigen Server has a `sophisticated configuration` file mechanism allowing complex configurations of sites.
 
 
@@ -1575,7 +1589,7 @@ The template you will use comes from `Ocsigen Start`. Ocsigen Start provides a c
 
 The template comes with a default style (developed with SASS) that follows modern Web practices, e.g., it is responsive and thus mobile-friendly. Of course, you are free to modify the style to match your own brand or personality.
 
-The template is multi-platform. This means that it can run on a Web browser or as a mobile app for Android, iOS, or Windows.
+The template is multi-platform. This means that it can run on a Web browser or as a mobile app for Android or iOS.
 
  [![Ocsigen Start](files/screenshots/start1.png)](files/screenshots/start1.png) [![Ocsigen Start](files/screenshots/start2.png)](files/screenshots/start2.png)
 
@@ -1583,10 +1597,10 @@ The template is multi-platform. This means that it can run on a Web browser or a
 
 ## Installation
 
-Install the dependencies (`postgresql` and one of `sass`, `sassc`). On Debian-based systems:
+Install the system dependencies: the PostgreSQL server, NPM, and a SASS compiler (`sassc` or `sass`). On Debian-based systems:
 
 ```
-apt install postgresql ruby-sass
+apt install postgresql npm sassc
 ```
 Install Ocsigen Start and all its OCaml dependencies using OPAM:
 
@@ -1598,7 +1612,19 @@ Create your application using Eliom distillery:
 ```
 eliom-distillery -name myapp -template os
 ```
-Have a look at the [README](https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/README.md) file to learn how to compile it and, possibly, to generate the mobile applications.
+Then, from the new `myapp` directory, create a local database (it runs as your own user, with its files in `local_db/`), and compile and run the application:
+
+```
+make db-init
+make db-create
+make db-update
+make test.byte
+```
+The application is now available at [`http://localhost:8080`](http://localhost:8080). To create your first user, sign up: if no mail server is configured on your machine, the activation link is printed in the terminal.
+
+The database server listens on port 3000\. If this port is taken, change `DB_PORT` in `Makefile.options` and `PGPORT` in `dune.config` before running `make db-init`.
+
+The `README.md` file of the generated project describes the other `make` targets and how to generate the mobile applications.
 
 ## I installed it and compiled it, what next?
 
@@ -1609,11 +1635,12 @@ It is now time to learn Ocsigen\! The template is a great way to get started, be
 - How to use the notification system;
 - How to create reactive pages;
 - Many examples of widgets from `Ocsigen Toolkit`:
-- Carousel
-- Pages with several tabs
-- Time and date pickers
-- ...
-The corresponding files are well-commented, so you can quickly find out how things work.
+
+  - Carousel
+  - Pages with several tabs
+  - Time and date pickers
+  - ...
+Open the demo pages from the menu of the application. Their source code is in the `lib/demo_*.eliom` files of your project. These files are well-commented, so you can quickly find out how things work.
 
  [![Ocsigen Start](files/screenshots/start3.png)](files/screenshots/start3.png) [![Ocsigen Start](files/screenshots/start4.png)](files/screenshots/start4.png) [![Ocsigen Start](files/screenshots/start5.png)](files/screenshots/start5.png) [![Ocsigen Start](files/screenshots/start6.png)](files/screenshots/start6.png)
 
@@ -1637,13 +1664,16 @@ The final eliom code is available [for download](https://github.com/ocsigen/graf
 If not already done, install Eliom first:
 
 ```
-opam install ocsipersist-sqlite eliom ocsigen-ppx-rpc
+opam install eliom
 ```
-To get started, we recommend using `Eliom distillery`, a program which creates scaffolds for Eliom projects. The following command creates a very simple project called `graffiti` in the directory `graffiti`:
+To get started, we recommend using `Eliom distillery`, a program which creates scaffolds for Eliom projects. The following commands create a very simple project called `graffiti` in the directory `graffiti`, and install the packages it depends on:
 
 ```shell
-$ eliom-distillery -name graffiti -template client-server.basic -target-directory graffiti
+$ eliom-distillery -name graffiti -template app -target-directory graffiti
+$ cd graffiti
+$ opam install --deps-only .
 ```
+The project is built with dune. The server side of the application is in `app/graffiti.eliom`. The project also contains a small library, in `lib/`, that we will not use in this tutorial.
 
 ### My first page
 
@@ -1672,80 +1702,59 @@ let%server () =
 ```
 Annotations `%server` tells the compiler that the code is going to be executed on the server (see later).
 
-Replace the content of file `graffiti.eliom` by the above lines and run:
+Replace the content of file `app/graffiti.eliom` by the above lines and run:
 
 ```shell
-$ make test.byte
+$ dune build
+$ dune exec graffiti
 ```
-This will compile your application and run `ocsigenserver`.
+The first command compiles your application. The second one runs it, in an executable that links Ocsigen Server as a library.
 
 Your page is now available at URL [`http://localhost:8080/graff`](http://localhost:8080/graff).
 
+After each change in the program, stop the server (Ctrl-C) and run these two commands again.
+
 **Concept: Services**
 
-Unlike typical web programming techniques (CGI, PHP,~ ...), with Eliom you do not need to write one file per URL. The application can be split into multiple files as per the developer's style. What matters is that you eventually produce a single module (\*.cmo or \*.cma) for the whole website.
+Unlike typical web programming techniques (CGI, PHP, ...), with Eliom you do not need to write one file per URL. The application can be split into multiple files as per the developer's style. They are compiled into an OCaml library, which the server loads.
 
 The module `Eliom.Service` allows to create new entry points to your web site, called *services*. In general, services are attached to a URL and generate a web page. Services are represented by OCaml values, through which you must register a function that will generate a page.
 
-The `~path` parameter corresponds to the URL where you want to attach your service. It is a list of strings. The value
+The `~path` parameter corresponds to the URL where you want to attach your service. It is a list of strings. The value `["foo"; "bar"]` corresponds to the URL `foo/bar`. `["dir"; ""]` corresponds to the URL `dir/` (that is: the default page of the directory `dir`).
+
+**Concept: Server configuration**
+
+The project created by Eliom distillery can run in two ways.
+
+`dune exec graffiti` runs your own executable, defined in `app/main/main.ml`. It links Ocsigen Server as a library and configures it in OCaml (port, log directory, etc.). Its last lines define the host:
 
 ```ocaml
-["foo"; "bar"]
+Ocsigen.Server.host
+  [ Staticmod.run ~dir:staticdir ()
+  ; Eliom.App.run ~enable_wasm:true () ]
 ```
-corresponds to the URL
-
-```ocaml
-foo/bar
-```
-.
-
-```ocaml
-["dir"; ""]
-```
-corresponds to the URL
-
-```ocaml
-dir/
-```
-(that is: the default page of the directory
-
-```ocaml
-dir
-```
-).
-
-**Concept: Configuration file**
-
-In the directory of the project created by the Eliom-distillery, you can find the file `graffiti.conf.in`. This file is used in conjunction with the variables in `Makefile.options` to generate the `ocsigenserver` configuration file.
-
-Once you start up your application via `make test.byte`, the configuration file becomes available at `local/etc/graffiti/graffiti-test.conf`. It contains various directives for Ocsigen server (port, log files, extensions to be loaded, etc.), taken from `Makefile.options`, and something like:
+`dune exec -- ocsigenserver -c graffiti.conf` runs the `ocsigenserver` command instead, which reads the configuration file `graffiti.conf` and loads the application dynamically. This file gives the same settings in XML, and the host:
 
 ```
-<host>
-  <static dir="static" />
-  <eliommodule module="/path_to/graffiti.cma" />
-  <eliom />
+<host hostfilter="*">
+  <static dir="local/var/www/graffiti"/>
+  <eliommodule findlib-package="graffiti"/>
+  <eliom/>
 </host>
 ```
-`<eliommodule ... />` asks the server to load Eliom module `graffiti.cma`, containing the Eliom application, at startup and attach it to this host (and site).
+`<eliommodule ... />` asks the server to load the library `graffiti`, containing the Eliom application, at startup and attach it to this host.
 
-Extensions `<static ... />` (staticmod) and `<eliom />` are called successively:
+In both cases, the two extensions Staticmod and Eliom are called successively:
 
-- If they exist, files from the directory
-
-  ```ocaml
-  /path_to/graffiti/static 
-  ```
-  will be served,
-
-- Otherwise, Server will try to generate pages with Eliom (`<eliom />`),
+- If they exist, files from the directory `local/var/www/graffiti` will be served (dune copies the static files of the project there),
+- Otherwise, the server will try to generate pages with Eliom,
 - Otherwise it will generate a 404 (Not found) error (default).
 
 **Concept: Static validation of HTML**
 
 There are several ways to create pages for Eliom. You can generate pages as strings (as in other web frameworks). However, it is preferable to generate HTML in a way that provides compile-time HTML correctness guarantees. This tutorial achieves this by using the module `Eliom.Content.Html.D`, which is implemented using the `TyXML` library. The module defines a construction function for each HTML tag.
 
-*Note that it is also possible to use the usual HTML syntax directly in OCaml, cf. `Pa_tyxml`.*
+*Note that it is also possible to use the usual HTML syntax directly in OCaml, cf. [the TyXML syntax extension](https://ocsigen.org/tyxml/latest/tyxml/ppx.html).*
 
 The TyXML library (and thus `module
 Eliom.Content.Html.D`) is very strict and compels you to respect HTML standard (with some limitations). For example if you write:
@@ -1758,20 +1767,21 @@ Eliom.Content.Html.D`) is very strict and compels you to respect HTML standard (
 You will get an error message similar to the following, referring to the end of line 2:
 
 ```
-Error: This expression has type ([> `TXT ] as 'a) Html.elt
-       but an expression was expected of type
-         Html_types.head_content_fun Html.elt
-       Type 'a is not compatible with type Html_types.head_content_fun =
+Error: This expression has type [> Html_types.txt ] elt
+       but an expression was expected of type Html_types.head_content_fun elt
+       Type [> Html_types.txt ] = [> `PCDATA ] is not compatible with type
+         Html_types.head_content_fun =
            [ `Base
            | `Command
            | `Link
            | `Meta
            | `Noscript of [ `Link | `Meta | `Style ]
            | `Script
-           | `Style ]
-       The second variant type does not allow tag(s) `TXT
+           | `Style
+           | `Template ]
+       The second variant type does not allow tag(s) `PCDATA
 ```
-where `Html_types.head_content_fun` is the type of content allowed inside `<head>` (`<base>`, `<command>`, `<link>`, `<meta>`, etc.). Notice that ``TXT` (i.e. raw text) is not included in this polymorphic variant type, which means that `<head>` cannot contain raw text.
+where `Html_types.head_content_fun` is the type of content allowed inside `<head>` (`<base>`, `<command>`, `<link>`, `<meta>`, etc.). Notice that ``PCDATA` (i.e. raw text) is not included in this polymorphic variant type, which means that `<head>` cannot contain raw text.
 
 Most functions take as parameter the list representing its contents. See other examples below. Each of them take an optional `?a` parameter for optional HTML attributes. Mandatory HTML attributes correspond to mandatory OCaml parameters. See below for examples.
 
@@ -1787,10 +1797,10 @@ For now we will just use the `Lwt.return` function as above. We will come back t
 
 Service sending an application<br/> Client and server code<br/> Compiling a Web application with server and client parts<br/> Calling JavaScript methods with Js\_of\_ocaml<br/>
 
-To create our first service, we used the function `Eliom.Registration.Html.create`, as all we wanted to do was return HTML. But we actually want a service that corresponds to a full application with client and server parts. To do so, we need to create our own registration module by using the functor `Eliom.Registration.App`:
+To register our first service, we used the function `Eliom.Registration.Html.register`, as all we wanted to do was return HTML. But we actually want a service that corresponds to a full application with client and server parts. To do so, we need to create our own registration module by using the functor `Eliom.Registration.App`:
 
 ```ocaml
-module Graffiti_app =
+module%server Graffiti_app =
   Eliom.Registration.App (struct
       let application_name = "graffiti"
       let global_data_path = None
@@ -1818,23 +1828,23 @@ We can now add some OCaml code to be executed by the browser. For this purpose, 
 ```ocaml
 let%client _ = Eliom.Lib.alert "Hello!"
 ```
-After running again `make test.byte`, and visiting [http://localhost:8080/](http://localhost:8080/), the browser will load the file `graffiti.js`, and open an alert-box.
+After compiling and running the program again, and visiting [http://localhost:8080/](http://localhost:8080/), the browser will load the client-side program (compiled to JavaScript, or to WebAssembly for the browsers that support it), and open an alert-box.
 
 **Concept: Splitting the code into server and client parts**
 
 At the very toplevel of your source file (i.e. *not* inside modules or other server- /client-parts), you can use the following constructs to indicate which side the code should run on.
 
-- `let%client`, `let%server`, `let%shared`: same as above for a single definition.
+- `let%client`, `let%server`, `let%shared`: the definition is client-only code, server-only code, or code used both on the server and the client.
 - other syntaxes like `module%server`, `open%client`, `type%shared` ...
 - `[%%client ... ]`: the list of enclosed definitions is client-only code (similarly for `[%%server ... ]`). With `[%%shared ... ]`, the code is used both on the server and client.
 - `[%%client.start]`, `[%%server.start]`, `[%%shared.start]`: these set the default location for all definitions that follow, and which do not use the preceding constructs.
 If no location is specified, the code is assumed to be for the server.
 
-The above constructs are implemented by means of PPX, OCaml's new mechanism for implementing syntax extensions. See `the Eliom language extensions` for details.
+The above constructs are implemented by means of PPX, OCaml's mechanism for implementing syntax extensions. See `the Eliom language extensions` for details.
 
 **Client parts are executed once, when the client side process is launched.** The client process is not restarted after each page change.
 
-The Makefile created by `eliom-distillery` automatically splits the code into client and server parts, compiles the server part as usual, and compile the client part to a JavaScript program using `js_of_ocaml`.
+The dune rules created by `eliom-distillery` automatically split the code into client and server parts, compile the server part as usual, and compile the client part to a JavaScript program using `js_of_ocaml` (and to WebAssembly using `wasm_of_ocaml`).
 
 **Concept: Client values on the server**
 
@@ -1845,7 +1855,7 @@ Additionally, it is possible to create client values within the server code by t
 ```
 where `typ` is the type of an expression `expr` on the client. Note, that such a client value is abstract on the server, but becomes concrete, once it is received by the client.
 
-(The `typ` can be ommitted if it can be inferred from the usage of the client value in the server code.)
+(The `typ` can be omitted if it can be inferred from the usage of the client value in the server code.)
 
 **Client values are executed on the client after the service returns.** You can use client values when a service wants to ask the client to run something, for example binding some event handler on some element produced by the service.
 
@@ -1859,7 +1869,7 @@ Js\_of\_ocaml is using a syntax extension to call JavaScript methods:
 - `obj##.m` to get a property,
 - `obj##.m := e` to set a property, and
 - `new%js constr a b c` to call a JavaScript constructor.
-More information can be found in the Js\_of\_ocaml manual, in module `Ppx_js`.
+More information can be found in the Js\_of\_ocaml manual, on [the syntax extension page](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/ppx.html).
 
 ### Accessing server side variables on client side code
 
@@ -1886,19 +1896,17 @@ let%server main_service =
 let%server () =
   Graffiti_app.register ~service:main_service
     (fun () () ->
-       let c = incr count; !count in
-       let text = Printf.sprintf "You came %i times to this page" in
+       incr count;
+       let text = Printf.sprintf "You came %i times to this page" !count in
        ignore [%client
-         (Dom_html.window##alert
-            (Js.string @@ Printf.sprintf "You came %i times to this page" ~%c)
-          : unit)
+         (Dom_html.window##alert (Js.string ~%text) : unit)
        ];
        Lwt.return
          (html
             (head (title (txt "Graffiti")) [])
-            (body [h1 [txt @@ text c]])))
+            (body [h1 [txt text]])))
 ```
-Here, we are increasing the reference `count` each time the page is accessed. When the page is loaded and the document is in-place, the client program initializes the value inside `[%client ... ]`, and thus triggers an alert window. More specifically, the variable `c`, in the scope of the client value on the server is made available to the client value using the syntax extension `~%c`. In doing so, the server side value `c` is displayed in a message box on the client.
+Here, we are increasing the reference `count` each time the page is accessed. When the page is loaded and the document is in-place, the client program initializes the value inside `[%client ... ]`, and thus triggers an alert window. More specifically, the variable `text`, in the scope of the client value on the server, is made available to the client value using the syntax extension `~%text`. In doing so, the server side value `text` is displayed in a message box on the client.
 
 **Concept: Injections: Using server side values in client code**
 
@@ -1947,10 +1955,10 @@ let%server height = 400
 let%client draw ctx ((r, g, b), size, (x1, y1), (x2, y2)) =
   let color = CSS.Color.string_of_t (CSS.Color.rgb r g b) in
   ctx##.strokeStyle := (Js.string color);
-  ctx##.lineWidth := float size;
+  ctx##.lineWidth := Js.float (float size);
   ctx##beginPath;
-  ctx##(moveTo (float x1) (float y1));
-  ctx##(lineTo (float x2) (float y2));
+  ctx##(moveTo (Js.float (float x1)) (Js.float (float y1)));
+  ctx##(lineTo (Js.float (float x2)) (Js.float (float y2)));
   ctx##stroke
 ```
 
@@ -1977,7 +1985,7 @@ let%client init_client () =
 ```ocaml
 let%server main_service =
   Eliom.Service.create
-    ~path:(Eliom.Service.Path ["graff"])
+    ~path:(Eliom.Service.Path [""])
     ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     ()
 
@@ -1992,7 +2000,7 @@ let%server () =
 **Concept: JavaScript datatypes in OCaml**
 
 Here we use the function `val
-Js_of_ocaml.Js.string` from Js\_of\_ocaml's library to convert an OCaml string into a JS string.
+Js_of_ocaml.Js.string` from Js\_of\_ocaml's library to convert an OCaml string into a JS string, and `valJs_of_ocaml.Js.float` to convert an OCaml float into a JS number. Conversely, `valJs_of_ocaml.Js.to_string` and `valJs_of_ocaml.Js.to_float` convert JS values to OCaml.
 
 **Concept: Client side side-effect on the server**
 
@@ -2013,11 +2021,14 @@ Lwt<br/> Mouse events with Lwt
 We now want to catch mouse events to draw lines with the mouse like with the *brush* tools of any classical drawing application. One solution would be to mimic typical JavaScript code in OCaml; for example by using the function `val
 Js_of_ocaml.Dom_events.listen` that is the Js\_of\_ocaml's equivalent of `addEventListener`. However, this solution is at least as verbose as the JavaScript equivalent, hence not satisfactory. Js\_of\_ocaml's library provides a much easier way to do that with the help of Lwt.
 
-To use this, add the following line on top of your file:
+To use this, add the following lines on top of your file:
 
 ```ocaml
 open%client Js_of_ocaml_lwt
+open%client Lwt.Syntax
 ```
+`Lwt.Syntax` provides the `let*` syntax used below (see the concept "More on Lwt").
+
 Then, replace the `init_client` of the previous example by the following piece of code, then compile and draw\!
 
 ```ocaml
@@ -2031,7 +2042,8 @@ let%client init_client () =
 
   let set_coord ev =
     let x0, y0 = Dom_html.elementClientPosition canvas in
-    x := ev##.clientX - x0; y := ev##.clientY - y0
+    x := truncate (Js.to_float ev##.clientX) - x0;
+    y := truncate (Js.to_float ev##.clientY) - y0
   in
 
   let compute_line ev =
@@ -2047,54 +2059,44 @@ let%client init_client () =
     mousedowns canvas
       (fun ev _ ->
          set_coord ev;
-         let%lwt () = line ev in
+         let* () = line ev in
          Lwt.pick
            [mousemoves Dom_html.document (fun x _ -> line x);
-            let%lwt ev = mouseup Dom_html.document in line ev]))
+            let* ev = mouseup Dom_html.document in line ev]))
 ```
 We use two references `x` and `y` to record the last mouse position. The function `set_coord` updates those references from mouse event data. The function `compute_line` computes the coordinates of a line from the initial (old) coordinates to the new coordinates--the event data sent as a parameter.
 
-The last four lines of code implement the event-handling loop. They can be read as follows: for each `mousedown` event on the canvas, do `set_coord`, then `line` (this will draw a dot), then behave as the `first` of the two following lines that terminates:
+The last lines of code implement the event-handling loop. They can be read as follows: for each `mousedown` event on the canvas, do `set_coord`, then `line` (this will draw a dot), then behave as the `first` of the two following lines that terminates:
 
 - For each mousemove event on the document, call `line` (never terminates)
 - If there is a mouseup event on the document, call `line`.
 **Concept: More on Lwt**
 
-Functions in Eliom and Js\_of\_ocaml which do not implement just a computation or direct side effect, but rather wait for user activity, or file system access, or need a unforseeable amount of time to return are defined *with Lwt*; instead of returning a value of type `a` they return an Lwt thread of type `a Lwt.t`.
+Functions in Eliom and Js\_of\_ocaml which do not implement just a computation or direct side effect, but rather wait for user activity, or file system access, or need an unforeseeable amount of time to return are defined *with Lwt*; instead of returning a value of type `'a` they return an Lwt promise of type `'a Lwt.t`.
 
 The only way to use the result of such functions (ones that return values in the *Lwt monad*), is to use `Lwt.bind`.
 
 ```ocaml
 Lwt.bind : 'a Lwt.t -> ('a -> 'b Lwt.t) -> 'b Lwt.t
 ```
-It is convenient to define an infix operator like this:
+Module `Lwt.Syntax` defines `let*` as a more readable notation for `Lwt.bind`. After `open Lwt.Syntax`, the code
 
 ```ocaml
- let (>>=) = Lwt.bind
+ let* x = f () in e
 ```
-Then the code
+means `Lwt.bind (f ()) (fun x -> e)`. It is conceptually similar to
 
 ```ocaml
- f () >>= fun x -> 
+ let x = f () in e
 ```
-is conceptually similar to
+but only for functions returning a value in the Lwt monad: `e` is evaluated once the promise returned by `f ()` is fulfilled, and other promises can run in the meantime.
 
-```ocaml
- let x = f () in
-```
-but only for functions returning a value in the Lwt monad.
-
-For more clarity, there is a syntax extension for Lwt, defining `let%lwt` to be used instead of `let` for Lwt functions:
-
-```ocaml
- let%lwt x = f () in
-```
-`Lwt.return` creates a terminated thread from a value:
+`Lwt.return` creates a fulfilled promise from a value:
 
 ```ocaml
  Lwt.return : 'a -> 'a Lwt.t
 ```
-Use it when you must return something in the Lwt monad (for example in a service handler, or often after a `Lwt.bind`).
+Use it when you must return something in the Lwt monad (for example in a service handler, or at the end of a sequence of `let*`).
 
 ##### Why Lwt?
 
@@ -2104,22 +2106,22 @@ We will use the term *cooperative functions* to identify functions implemented i
 
 `Lwt.bind` and `Lwt.return` do not introduce cooperation points.
 
-In our example, the function `Lwt_js_events.mouseup` may introduce a cooperation point, because it is unforseeable when this event happens. That's why it returns a value in the Lwt monad.
+In our example, the function `Lwt_js_events.mouseup` may introduce a cooperation point, because it is unforeseeable when this event happens. That's why it returns a value in the Lwt monad.
 
 Using cooperative threads has a huge advantage: given that you know precisely where the cooperation points are, *you need very few mutexes* and you have *very low risk of deadlocks*\!
 
-Using Lwt is very easy and does not cause trouble, provided you never use *blocking functions* (non-cooperative functions). *Blocking functions can cause the entre server to hang\!* Remember:
+Using Lwt is very easy and does not cause trouble, provided you never use *blocking functions* (non-cooperative functions). *Blocking functions can cause the entire server to hang\!* Remember:
 
 - Use the functions from module `Lwt_unix` instead of module `Unix`,
 - Use cooperative database libraries (like PG'Ocaml for Lwt),
 - If you want to use a non-cooperative function, detach it in another preemptive thread using `val
 Lwt_preemptive.detach`,
-- If you want to launch a long-running computation, manually insert cooperation points using `Lwt_unix.yield`,
+- If you want to launch a long-running computation, manually insert cooperation points using `Lwt.pause`,
 - `Lwt.bind` does not introduce any cooperation point.
 
 **Concept: Handling events with Lwt**
 
-Module `Js_of_ocaml_lwt.Lwt_js_events` allows easily defining event listeners using Lwt. For example, `Js_of_ocaml_lwt.Lwt_js_events.click` takes a DOM element and returns an Lwt thread that will wait until a click occures on this element.
+Module `Js_of_ocaml_lwt.Lwt_js_events` allows easily defining event listeners using Lwt. For example, `Js_of_ocaml_lwt.Lwt_js_events.click` takes a DOM element and returns an Lwt thread that will wait until a click occurs on this element.
 
 Functions with an ending "s" (`val
 Js_of_ocaml_lwt.Lwt_js_events.clicks`, `val
@@ -2144,8 +2146,13 @@ type%shared messages =
     ((int * int * int) * int * (int * int) * (int * int))
     [@@deriving json]
 ```
-We annotate the type declaration with `[@@deriving json]` to allow type-safe deserialization of this type. Eliom forces you to use this in order to avoid server crashes if a client sends corrupted data. This is defined using a JSON plugin for [ppx\_deriving](https://github.com/whitequark/ppx_deriving), which you need to install. You need to do that for each type of data sent by the client to the server. This annotation can only be added on types containing exclusively basic types, or other types annotated with `[@@deriving json]`.
+We annotate the type declaration with `[@@deriving json]` to allow type-safe deserialization of this type. Eliom forces you to use this in order to avoid server crashes if a client sends corrupted data. This annotation is provided by the [JSON deriver of Js\_of\_ocaml](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/ppx-deriving.html), which the project created by Eliom distillery already uses. You need to do that for each type of data sent by the client to the server. This annotation can only be added on types containing exclusively basic types, or other types annotated with `[@@deriving json]`.
 
+*Note:* the current version of this deriver generates code that triggers warning 39 (unused `rec` flag), which dune turns into an error in its default (development) profile. Until this is fixed, add this line to the `dune` file at the root of the project:
+
+```
+(env (dev (flags (:standard -w -39))))
+```
 Then we create an Eliom bus to broadcast drawing events to all client with the function `val
 Eliom.Bus.create`. This function take as parameter the type of values carried by the bus.
 
@@ -2196,19 +2203,19 @@ To install Ocsigen Toolkit, do:
 ```
 opam install ocsigen-toolkit
 ```
-Add package `ocsigen-toolkit.server` to the `libraries` section of your `dune` file, and `ocsigen-toolkit.client` to the `libraries` section of your `client/dune` file.
+The dune rules of `app/` are generated by the `ocsigen-dune-rules` command invoked at the top of `app/dune`. Ocsigen Toolkit has a server side and a client side: add it to the `--eliom-libraries` option of this invocation:
 
 ```
-  (libraries ... ocsigen-toolkit.server)
+   --eliom-libraries
+   graffiti.lib,ocsigen-toolkit
 ```
-```
-  (libraries ... ocsigen-toolkit.client)
-```
-In `Makefile.options`, created by Eliom's distillery, add `ocsigen-toolkit.server` to the `SERVER_PACKAGES`. This will be used to regenerate Ocsigen Server's configuration file.
+Then regenerate the rules:
 
-```makefile
-SERVER_PACKAGES := ... ocsigen-toolkit.server
+```shell
+$ dune runtest --auto-promote
 ```
+This command shows the changes in the generated rules as a failure, and writes them to `app/dune`: running it again succeeds.
+
 To create the widget, we replace `page` by :
 
 ```ocaml
@@ -2269,7 +2276,7 @@ let%client init_client ~cp_sig () =
   in
 ...
 ```
-Finally, we need to add a stylesheet in the headers of our page with function `Eliom.Tools.D.css_link`:
+Finally, we need to add a stylesheet in the headers of our page with function `Eliom.Content.Html.D.css_link`:
 
 ```ocaml
 let%server page () =
@@ -2294,9 +2301,28 @@ let%server page () =
       (body [canvas_elt; slider; colorpicker])
   , cp_sig )
 ```
-You need to install the corresponding stylesheets and images into your project. The stylesheet files should go to the directory `static/css`. Download file `graffiti.css` from [here](files/tutorial/static/css/graffiti.css). Copy file `ot_color_picker.css` from directory `~/.opam/<version>/share/ocsigen-toolkit/css` into `static/css`.
+You need to install the corresponding stylesheets into your project. The stylesheet files should go to the directory `static/css`. Download file `graffiti.css` from [here](files/tutorial/static/css/graffiti.css) (it replaces the file created by Eliom distillery). Copy file `ot_color_picker.css` of Ocsigen Toolkit into `static/css`:
 
-You can then test your application (`make test.byte`).
+```shell
+$ cp $(opam var share)/ocsigen-toolkit/css/ot_color_picker.css static/css/
+```
+The server does not read `static/` directly: dune copies the static files to `local/var/www/graffiti`, with one rule per file in the `dune` file at the root of the project. Add a rule for the new file, next to the one for `graffiti.css`:
+
+```
+ (subdir
+  css
+  (rule
+   (mode promote)
+   (action
+    (copy %{workspace_root}/static/css/graffiti.css graffiti.css)))
+  (rule
+   (mode promote)
+   (action
+    (copy
+     %{workspace_root}/static/css/ot_color_picker.css
+     ot_color_picker.css)))))
+```
+You can then test your application (`dune build`, then `dune exec graffiti`).
 
 **Concept: Ocsigen Toolkit**
 
@@ -2320,13 +2346,19 @@ Services sending other data types
 
 To finish the first part of the tutorial, we want to save the current drawing on server side and send the current image when a new user arrives. To do that, we will use the [Cairo binding](https://github.com/Chris00/ocaml-cairo) for OCaml.
 
-For using Cairo, first, make sure that it is installed (it is available as `cairo2` via OPAM). Second, add it to the `libraries` section in your `dune` file.
+For using Cairo, first, install it (it is available as `cairo2` via OPAM, and needs the Cairo C library, package `libcairo2-dev` on Debian-based systems):
 
-Second, add it to the SERVER\_PACKAGES in your Makefile.options:
-
-```makefile
-SERVER_PACKAGES := ... cairo2
 ```
+opam install cairo2
+```
+Cairo is used on the server only. Add it to the `--server-libraries` option of `ocsigen-dune-rules` in `app/dune`:
+
+```
+   --server-libraries
+   ocsipersist-sqlite,cairo2
+```
+and regenerate the rules with `dune runtest --auto-promote`.
+
 The `draw_server` function below is the equivalent of the `draw` function on the server side and the `image_string` function outputs the PNG image in a string.
 
 ```ocaml
@@ -2355,7 +2387,8 @@ let%server draw_server, image_string =
       Cairo.PNG.write_to_stream surface (Buffer.add_string b);
       Buffer.contents b )
 
-let%server _ = Lwt_stream.iter draw_server (Eliom.Bus.stream bus)
+let%server () =
+  Lwt.async (fun () -> Lwt_stream.iter draw_server (Eliom.Bus.stream bus))
 ```
 We also define a service that sends the picture:
 
@@ -2392,20 +2425,17 @@ let img = Eliom.Content.Html.To_dom.of_img
        ())
 in
 img##.onload := Dom_html.handler (fun _ev ->
-  ctx##drawImage img 0. 0.; Js._false);
+  ctx##drawImage img (Js.float 0.) (Js.float 0.); Js._false);
 ```
-As we are now using `Eliom.Content.Html.D` in both client and server sections, we need to open it in a shared section:
+As we are now using `Eliom.Content.Html.D` in both client and server sections, we need to open it in a shared section. Replace the line `open%server Eliom.Content.Html.D` at the beginning of the file by:
 
 ```ocaml
 open%shared Eliom.Content.Html.D
 ```
 Finally, we can add a new canvas where we would draw a visualisation of the current size of the brush. The complete code of this application can be found [here](https://github.com/ocsigen/graffiti/tree/master/simple).
 
-The `Makefile` from the distillery automatically adds the packages defined in `SERVER_PACKAGES` as an extension in your configuration file `local/etc/graffiti/graffiti-test.conf`:
+If you run the application with the `ocsigenserver` command and `graffiti.conf`, you do not need to change the configuration file: the server loads Ocsigen Toolkit and Cairo automatically, as dependencies of the library `graffiti`.
 
-```xml
-<extension findlib-package="cairo2" />
-```
 The first version of the program is now complete.
 
 #### Exercises
@@ -2465,21 +2495,20 @@ let%client mywidget s1 s2 = Eliom.Content.Html.D.(
   div ~a:[a_class ["mywidget"]] [button; content]
 )
 
-let%client _ =
-  let%lwt _ = Js_of_ocaml_lwt.Lwt_js_events.onload () in
-  Js_of_ocaml.Dom.appendChild
-    (Js_of_ocaml.Dom_html.document##.body)
-    (Eliom.Content.Html.To_dom.of_element (mywidget "Click me" "Hello!"));
-  Lwt.return ()
+let%client () =
+  Eliom.Client.onload (fun () ->
+    Js_of_ocaml.Dom.appendChild
+      Js_of_ocaml.Dom_html.document##.body
+      (Eliom.Content.Html.To_dom.of_element (mywidget "Click me" "Hello!")))
 ```
 To compile it, first create a project by calling
 
 ```
-  eliom-distillery -name ex -template client-server.basic
+  eliom-distillery -name ex -template app -target-directory ex
 ```
 The name of the project must match the name given to the functor `Eliom.Registration.App`.
 
-After you adapt the file `ex.eliom`, you can compile by calling `make`, and run the server by calling `make test.byte`. Download the [CSS file](files/tutorial/tutowidgets/ex.css) and place it in directory `static/css`. Then open a browser window and go to URL `http://localhost:8080`.
+Replace the content of file `app/ex.eliom` by the code above. Download the [CSS file](files/tutorial/tutowidgets/ex.css) and place it in directory `static/css` (it replaces the file `ex.css` created by Eliom distillery). You can then compile by calling `dune build`, and run the server by calling `dune exec ex`. Then open a browser window and go to URL `http://localhost:8080`.
 
 ![screenshot](files/tutorial/tutowidgets/ex1.png)
 
@@ -2488,11 +2517,11 @@ After you adapt the file `ex.eliom`, you can compile by calling `make`, and run 
 This section gives very quick explanations on the rest of the program. For more detailed explanations, see the tutorial for the graffiti app or the manual of each of the projects.
 
 - The client side program is sent with the first page belonging to the application (registered through module `Ex_app`).
-- The `##` is used to call a JS method from OCaml and `##.` to access a JS object field (See Js\_of\_ocaml's documentation: `Ppx_js`).
+- The `##` is used to call a JS method from OCaml and `##.` to access a JS object field (See [Js\_of\_ocaml's documentation](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/ppx.html)).
 - If there are several services in your application, the client-side program will be sent only with the first page, and will not stop if you go to another page of the application.
-- `Lwt` is the concurrent library used to program threads on both client and server sides. The syntax `let%lwt a = e1 in e2` allows waiting (without blocking the rest of the program) for an Lwt thread to terminate before continuing. `e2` must ben a Lwt thread itself. `Lwt.return` enables creating an already-terminated Lwt thread.
-- `Js_of_ocaml_lwt.Lwt_js_events` defines a convenient way to program interface events (mouse, keyboard, ...).
-`Js_of_ocaml_lwt.Lwt_js_events.onload` is a Lwt thread that waits until the page is loaded. There are similar functions to wait for other events, e.g., for a click on an element of the page, or for a key press.
+- `Eliom.Client.onload f` calls `f` once the page is in place. The client-side program may start before the page is completely loaded, so this is how it can modify the page safely.
+- `Lwt` is the concurrent library used to program threads on both client and server sides. A function that waits for something (an event, a network answer, ...) returns a *promise*, of type `'a Lwt.t`, without blocking the rest of the program. `Lwt.return` enables creating an already-fulfilled promise.
+- `Js_of_ocaml_lwt.Lwt_js_events` defines a convenient way to program interface events (mouse, keyboard, ...) with Lwt. We will use it in the next step.
 
 ## Second step: bind the button
 
@@ -2527,7 +2556,7 @@ The following version of the program shows how to generate the widget on server 
 The code is exactly the same, with the following modifications:
 
 - We place function `mywidget` in server section.
-- The portion of code that must be run on client side (binding the click event) is written as a *client value*, inside `[%client (... : unit) ]`. This code will be executed by the client-side program when it receives the page. Note that you must give the type (here `unit`), as the type inference for client values is currently very limited. The client section may refer to server side values, using the `~%x` syntax. These values will be serialized and sent to the client automatically with the page.
+- The portion of code that must be run on client side (binding the click event) is written as a *client value*, inside `[%client (... : unit) ]`. This code will be executed by the client-side program when it receives the page. Note that you must give the type (here `unit`): this client value is not used on the server side, so its type cannot be inferred. The client section may refer to server side values, using the `~%x` syntax. These values will be serialized and sent to the client automatically with the page.
 - We include the widget on the server side generated page instead of adding it to the page from client side.
 
 ```ocaml
@@ -2583,11 +2612,13 @@ If you make function `mywidget` *shared*, it will be available both on server an
 let%shared mywidget s1 s2 =
   ...
 ```
+Until the client-side program uses it, the compiler reports the client-side version of `mywidget` as an unused value (an error in dune's default development profile). The next step uses it on both sides.
+
 ![screenshot](files/tutorial/tutowidgets/ex2.png)
 
 ## Fifth step: close last window when opening a new one
 
-To implement this, we record a client-side reference to a function for closing the currently opened window.
+To implement this, we record a client-side reference to a function for closing the currently opened window. The contents are now hidden at the beginning (class `hidden`).
 
 ```ocaml
 
@@ -2614,7 +2645,7 @@ let%client switch_visibility elt =
 ```ocaml
 let%shared mywidget s1 s2 = Eliom.Content.Html.D.(
   let button  = div ~a:[a_class ["button"]] [txt s1] in
-  let content = div ~a:[a_class ["content"]] [txt s2] in
+  let content = div ~a:[a_class ["content"; "hidden"]] [txt s2] in
   let _ = [%client
     (Lwt.async (fun () ->
        Js_of_ocaml_lwt.Lwt_js_events.clicks (Eliom.Content.Html.To_dom.of_element ~%button) (fun _ _ ->
@@ -2731,7 +2762,7 @@ An important feature missing from this tutorial is the ability to call server fu
 
 ### Services
 
-For many applications, you will need several services. By default, client-side Eliom programs do not stop when you follow a link or send a form. This enables combining rich client side features (playing music, animations, stateful applications~ ...) with traditional Web interaction (links, forms, bookmarks, back button~ ...). Eliom proposes several ways to identify services, either by the URL (and parameters), or by a session identifier (we call this kind of service a *coservice*). Eliom also allows creating new (co-)services dynamically, for example coservices depending on previous interaction with a user. More information on the service identification mechanism in `Eliom's manual`.
+For many applications, you will need several services. By default, client-side Eliom programs do not stop when you follow a link or send a form. This enables combining rich client side features (playing music, animations, stateful applications, ...) with traditional Web interaction (links, forms, bookmarks, back button, ...). Eliom proposes several ways to identify services, either by the URL (and parameters), or by a session identifier (we call this kind of service a *coservice*). Eliom also allows creating new (co-)services dynamically, for example coservices depending on previous interaction with a user. More information on the service identification mechanism in `Eliom's manual`.
 
 ### Sessions
 
@@ -2746,18 +2777,23 @@ It is very easy to register session data using *Eliom references*. Just create a
 
 But most of the time, what we want is to store data for one user, not for one browser instance. To do that, we group all the sessions for one user together, by creating a group of sessions. The name of the group may be for example the user id.
 
-To create a session group, open the session by doing something like:
+To create a session group, open the session by doing something like (where `check_password` and `get_userid` are your own functions):
 
 ```ocaml
-let open_session login password =
-  let%lwt b = check_password login password in
-  if b
-  then Eliom.State.set_volatile_data_session_group
-      ~scope:Eliom.Common.default_session_scope
-      (Int64.to_string (get_userid login))
-  else ...
+open Lwt.Syntax
 
+let open_session login password =
+  let* b = check_password login password in
+  if b
+  then (
+    Eliom.State.set_volatile_data_session_group
+      ~scope:Eliom.Common.default_session_scope
+      (Int64.to_string (get_userid login));
+    Lwt.return ())
+  else (* wrong password *) Lwt.return ()
 ```
+This sets the group of the *volatile data session*, which volatile Eliom references use. For persistent Eliom references, also call `Eliom.State.set_persistent_data_session_group`. If you use `Ocsigen Start`, its function `Os.Session.connect` does all this for you.
+
 If you want to store user data, just create a global Eliom reference of scope group:
 
 ```ocaml
@@ -2776,7 +2812,7 @@ And during a request, set this reference:
   Eliom.Reference.Volatile.set myref (Some "user data")
 
 ```
-The value of this reference is different for each user:
+The value of this reference is different for each user, and shared by all the sessions of the same user (for example in two different browsers):
 
 ```ocaml
 
@@ -2824,7 +2860,7 @@ Ocsigen Start contains a set of higher level libraries for Eliom (user managemen
 ```
 eliom-distillery -name tutoreact -template os
 ```
-This template is using PostgreSQL to store the data. You need a recent version of Postgresql installed on your system. With that available, you can create the local database and start the database server:
+This template is using PostgreSQL to store the data. You need a recent version of Postgresql installed on your system (see [Your first app in 5 minutes](./start.md) for the other dependencies). With that available, from the new `tutoreact` directory, you can create the local database and start the database server:
 
 ```
 make db-init
@@ -2853,7 +2889,17 @@ make db-stop
 
 To make this example more realistic, let's suppose that we do not want to display all the messages in the database, but only a few of them.
 
-In this tutorial, we will not focus on the implementation details of the database part. Create a new file named `tutoreact_messages.eliom`. From now on, if not explicitly specified, the code we are going to write will go there. We are going to create a module `Db` containing these functions:
+In this tutorial, we will not focus on the implementation details of the database part. Create a new file named `lib/tutoreact_messages.eliom`. From now on, if not explicitly specified, the code we are going to write will go there.
+
+Start the file with:
+
+```ocaml
+open%server Eliom.Content.Html.D
+open%server Lwt.Syntax
+```
+`Eliom.Content.Html.D` provides the functions to build HTML, and `Lwt.Syntax` the `let*` notation for Lwt promises ([Lwt in 5 minutes](./lwt.md)). For now, we only use them on the server side.
+
+We are going to create a module `Db` containing these functions:
 
 ```ocaml
 val get_messages : unit -> int list Lwt.t
@@ -2873,63 +2919,63 @@ module Db = struct
       ~scope:Eliom.Common.global_scope (-1)
 
   let get_message id =
-    let%lwt db = db in
+    let* db = db in
     Ocsipersist.Polymorphic.find db (string_of_int id)
 
   let get_messages () =
-    let%lwt index = Eliom.Reference.get last_key in
+    let* index = Eliom.Reference.get last_key in
     let rec aux n l = if n > index then l else aux (n+1) (n::l) in
     Lwt.return (aux 0 [])
 
   let lock = Lwt_mutex.create ()
 
   let add_message v =
-    let%lwt () = Lwt_mutex.lock lock in
-    let%lwt index = Eliom.Reference.get last_key in
-    let index = index + 1 in
-    let%lwt () = Eliom.Reference.set last_key index in
-    Lwt_mutex.unlock lock;
-    let%lwt db = db in
-    let%lwt () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
-    Lwt.return index
+    Lwt_mutex.with_lock lock (fun () ->
+      let* index = Eliom.Reference.get last_key in
+      let index = index + 1 in
+      let* () = Eliom.Reference.set last_key index in
+      let* db = db in
+      let* () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
+      Lwt.return index)
 end]
 ```
 Add the following code:
 
 ```ocaml
-[%%shared
-    open Eliom.Content.Html
-    open Eliom.Content.Html.D]
-```
-
-```ocaml
-let%server display userid_o =
-  let%lwt messages = Db.get_messages () in
-  let%lwt l =
+let%server display _userid_o =
+  let* messages = Db.get_messages () in
+  let* l =
     Lwt_list.map_s
       (fun id ->
-        let%lwt msg = Db.get_message id in
+        let* msg = Db.get_message id in
         Lwt.return (li [txt msg]))
       messages
   in
   Lwt.return [ul l]
 ```
+The parameter `_userid_o` is the optional identifier of the connected user (the `_` prefix tells the compiler that it is not used yet).
+
 Depending on your database, it is probably more efficient to fetch all messages and their identifiers using only one request. Here we use `Lwt_list.map_s` to do the requests sequentially.
 
-The content of the main page is defined in the file `tutoreact_handlers.eliom`. Replace the code of `main_service_handler` by:
+The content of the main page is defined in the file `lib/tutoreact_handlers.eliom`. Add `open%server Lwt.Syntax` at the beginning of this file, and replace the code of `main_service_handler` by:
 
 ```ocaml
 let%server main_service_handler userid_o () () =
-  let%lwt content = Tutoreact_messages.display userid_o in
+  let* content = Tutoreact_messages.display userid_o in
   Tutoreact_container.page userid_o content
 ```
-The `main_service_handler` you just replaced was in a shared section. Therefore, we also need to change two other files to take into consideration this modification.
+The `main_service_handler` you just replaced was shared (defined both on the server and the client). It is now defined on the server only. Therefore, we also need to change two other files to take into consideration this modification.
 
-In the file `tutoreact_handlers.eliomi`, move the definition of `main_service_handler` from the shared section to the server section.
+In the file `lib/tutoreact_handlers.eliomi`, replace `val%shared main_service_handler` by `val%server main_service_handler`.
 
-In the file `tutoreact.eliom`, move the registration of `main_service` from the shared section to the server section.
+In the file `lib/tutoreact.eliom`, the services are registered in a `let%shared () = ...` block. Remove the registration of `Os.Services.main_service` from this block, and register it in a server-only block:
 
-Try to compile in order to see if everything is fine.
+```ocaml
+let%server () =
+  Tutoreact_base.App.register ~service:Os.Services.main_service
+    (Tutoreact_page.Opt.connected_page Tutoreact_handlers.main_service_handler)
+```
+Compile and run (`make test.byte`) to see if everything is fine. The page shows an empty list of messages for now.
 
 ## Adding new messages
 
@@ -2939,18 +2985,18 @@ To add an input in the page for connected users, replace the function `display` 
 
 ```ocaml
 let%server display_messages () =
-  let%lwt messages = Db.get_messages () in
-  let%lwt l =
+  let* messages = Db.get_messages () in
+  let* l =
     Lwt_list.map_s
       (fun id ->
-        let%lwt msg = Db.get_message id in
+        let* msg = Db.get_message id in
         Lwt.return (li [txt msg]))
       messages
   in
   Lwt.return (ul l)
 
 let%server display userid_o =
-  let%lwt messages = display_messages () in
+  let* messages = display_messages () in
   let l =
     match userid_o with
     | None -> []
@@ -2962,14 +3008,14 @@ let%server display userid_o =
 
 ### Make function `Db.add_message` accessible from the client
 
-To be able to call a function from the client-side program, use `let%rpc`:
+To be able to call a function from the client-side program, use `let%rpc`. Add this function before `display`:
 
 ```ocaml
-let%rpc add_message (value : string) : unit Lwt.t =
-  let%lwt _ = Os.Current_user.get_current_userid () (* fails if not connected *) in
-  Db.add_message value
+let%rpc add_message myid (value : string) : unit Lwt.t =
+  let* _ = Db.add_message value in
+  Lwt.return ()
 ```
-The parameter `[%json: string]` describes the type of the function parameter. This exhibits the syntax provided by [ppx\_deriving](https://github.com/whitequark/ppx_deriving) extended with our JSON plugin. We use this for safe server-side unmarshalling of data sent by the client.
+The first parameter, `myid`, follows a convention of Ocsigen Start: it is the identifier of the connected user, and the function fails if nobody is connected. The caller does not give it: the client-side program calls `add_message value`. The type annotations of the other parameters describe the data sent by the client. They are used to check this data on the server side before using it.
 
 ### Bind the input to call the function
 
@@ -2978,22 +3024,22 @@ To call the function from the client program, we will define a *client value*, a
 Replace the second branch of the `match` in the function `display` by:
 
 ```ocaml
-let inp = Raw.input ~a:[a_input_type `Text; a_style "border-style:solid"] () in
-let _ = [%client
-  (let open Js_of_ocaml_lwt.Lwt_js_events in
-   let inp = To_dom.of_input ~%inp in
-   async (fun () -> changes inp (fun _ _ ->
-     let value = Js_of_ocaml.Js.to_string inp##.value in
-     inp##.value := Js_of_ocaml.Js.string "";
-     let%lwt _ = add_message value in
-     Lwt.return ()))
-   : unit)
-] in
-[inp]
+| _ ->
+    let inp = Raw.input ~a:[a_input_type `Text; a_style "border-style:solid"] () in
+    let _ = [%client
+      (let open Js_of_ocaml_lwt.Lwt_js_events in
+       let inp = Eliom.Content.Html.To_dom.of_input ~%inp in
+       async (fun () -> changes inp (fun _ _ ->
+         let value = Js_of_ocaml.Js.to_string inp##.value in
+         inp##.value := Js_of_ocaml.Js.string "";
+         add_message value))
+       : unit)
+    ] in
+    [inp]
 ```
 - We use module `Lwt_js_events` to manage events.
 - The syntax `~%v` allows using a server-side value `v` client-side.
-- `To_dom.of_input` returns the JS element corresponding to the OCaml value `~%inp`.
+- `Eliom.Content.Html.To_dom.of_input` returns the JS element corresponding to the OCaml value `~%inp`.
 - `Lwt_js_events.async` is similar to `Lwt.async`.
 - `obj##.a` allows the access to the field `a` of the JavaScript object `obj` (see Js\_of\_ocaml PPX extension).
 - `changes` takes a JS element and a function that will be executed every time a "change" event is received on this element.
@@ -3003,7 +3049,7 @@ Compile and run the program again. Now the messages should be added in the datab
 
 ## Structure of a client-server application
 
-We have seen how to send data to the server without stopping the client-side program. Now we want to automatically update the page when new messages are sent. Generally, the main difference between a web application and a website is that in the case of a web application, a client-side program runs and persists accross HTTP calls (remote procedure calls or page changes). The client process must be able to receive notifications from the server and update the page accordingly, without regenerating it entirely. It is common practice to generate the full interface client-side. But this is not suitable for all cases. It is usually better to keep the old-style web interaction and generate pages server-side, for example to enable search engine indexing. In this tutorial, we will see how to generate pages indifferently (and with the same code) from both sides.
+We have seen how to send data to the server without stopping the client-side program. Now we want to automatically update the page when new messages are sent. Generally, the main difference between a web application and a website is that in the case of a web application, a client-side program runs and persists across HTTP calls (remote procedure calls or page changes). The client process must be able to receive notifications from the server and update the page accordingly, without regenerating it entirely. It is common practice to generate the full interface client-side. But this is not suitable for all cases. It is usually better to keep the old-style web interaction and generate pages server-side, for example to enable search engine indexing. In this tutorial, we will see how to generate pages indifferently (and with the same code) from both sides.
 
 In this section, we will see how to implement this kind of applications very concisely thanks to three notions:
 
@@ -3033,11 +3079,9 @@ let%server cache : (int, string) Eliom.Cscache.t =
 
 Updating the interface when some data change is usually not straightforward. This is usually done by putting identifiers on elements to find them, and manually modifying page elements using low-level JS functions.
 
-A very elegant solution to simplify this consists in using Functional Reactive Programming (FRP). In reactive programming, you define relations between different pieces of data once, and each update automatically produces the recomputation of all the dependent data. In Ocsigen we use the module [React](http://erratique.ch/logiciel/react) combined with [ReactiveData](https://github.com/ocsigen/reactiveData/), which extends `React` to deal with incremental updates in lists. Have a look at the documentation of the above modules if you are not familiar with FRP.
+A very elegant solution to simplify this consists in using Functional Reactive Programming (FRP). In reactive programming, you define relations between different pieces of data once, and each update automatically produces the recomputation of all the dependent data. In Ocsigen we use the module [React](https://erratique.ch/software/react) combined with [ReactiveData](https://github.com/ocsigen/reactiveData/), which extends `React` to deal with incremental updates in lists. Have a look at the documentation of the above modules if you are not familiar with FRP.
 
-The client-side module `Eliom.Content.Html.R` enables defining reactive page elements.
-
-The module `Eliom.Shared` enables defining shared reactive signals server-side. In order to do that, we use *shared values*, values defined both server-side and client-side. The server-side module `Eliom.Content.Html.R` enables constructing HTML5 elements that get updated automatically based on the signals of `Eliom.Shared`. The modules `Eliom.Shared.React` and `Eliom.Shared.ReactiveData` implement interfaces very similar to `React` and `ReactiveData`, but operate on shared signals.
+The module `Eliom.Shared` enables defining shared reactive signals server-side. In order to do that, we use *shared values*, values defined both server-side and client-side. The module `Eliom.Content.Html.R`, available on both sides, enables constructing HTML5 elements that get updated automatically based on the signals of `Eliom.Shared`. The modules `Eliom.Shared.React` and `Eliom.Shared.ReactiveData` implement interfaces very similar to `React` and `ReactiveData`, but operate on shared signals.
 
 ### Implementation of the reactive interface
 
@@ -3045,21 +3089,23 @@ The module `Eliom.Shared` enables defining shared reactive signals server-side. 
 
 ```ocaml
 let%shared display_message id =
-  let%lwt msg = Eliom.Cscache.find ~%cache get_data id in
+  let* msg = Eliom.Cscache.find ~%cache get_data id in
   Lwt.return (li [txt msg])
 ```
+This function is shared, and uses `let*` and the HTML functions on both sides: replace `open%server` by `open%shared` in the two lines at the beginning of the file.
+
 The function `display_messages` now creates a reactive list of message identifiers, and maps page content from this reactive value using module `Eliom.Shared.ReactiveData`. Note that `rmessage` is a tuple, the first element is the list, the second element is the update function.
 
 ```ocaml
 let%server display_messages () =
-  let%lwt messages = Db.get_messages () in
+  let* messages = Db.get_messages () in
   let rmessages = Eliom.Shared.ReactiveData.RList.create messages in
-  let%lwt content =
+  let* content =
     Eliom.Shared.ReactiveData.RList.Lwt.map_p
       [%shared display_message ]
       (fst rmessages)
   in
-  Lwt.return (R.ul content)
+  Lwt.return (Eliom.Content.Html.R.ul content)
 ```
 
 ## Notifications
@@ -3091,7 +3137,7 @@ We notify the server that we are listening on this piece of data by calling `For
 ```ocaml
 let%server display_messages () =
   Forum_notif.listen ();
-  let%lwt messages = Db.get_messages () in
+  let* messages = Db.get_messages () in
   let rmessages = Eliom.Shared.ReactiveData.RList.create messages in
   ignore [%client
     (ignore
@@ -3099,18 +3145,18 @@ let%server display_messages () =
           ~%(Forum_notif.client_ev () : (unit * int) Eliom.Eliom_react.Down.t))
      : unit)
   ];
-  let%lwt content =
+  let* content =
     Eliom.Shared.ReactiveData.RList.Lwt.map_p
       [%shared display_message ]
       (fst rmessages)
   in
-  Lwt.return (R.ul content)
+  Lwt.return (Eliom.Content.Html.R.ul content)
 ```
 When we add a message, we notify all the clients listening on this piece of data:
 
 ```ocaml
-let%rpc add_message (value : string) : unit Lwt.t =
-   let%lwt id = Db.add_message value in
+let%rpc add_message myid (value : string) : unit Lwt.t =
+   let* id = Db.add_message value in
    Forum_notif.notify () id;
    Lwt.return ()
 ```
@@ -3162,7 +3208,7 @@ In the file `tutoreact_handlers.eliom`, we define the handler we will associate 
 
 ```ocaml
 let%server forum_service_handler userid_o forumid () =
-  let%lwt content = Tutoreact_messages.display userid_o forumid in
+  let* content = Tutoreact_messages.display userid_o forumid in
   Tutoreact_container.page userid_o content
 ```
 In the file `tutoreact_handlers.eliomi`, we define its signature, in the server section:
@@ -3174,7 +3220,7 @@ val forum_service_handler
   -> unit
   -> Os.Page.content Lwt.t
 ```
-In the file `tutoreact.eliom`, we register our handler to our new service in the server section:
+In the file `tutoreact.eliom`, we register our handler to our new service in the `let%server () = ...` block where we registered `main_service`:
 
 ```ocaml
   Tutoreact_base.App.register ~service:Tutoreact_services.forum_service
@@ -3191,14 +3237,14 @@ let%server display_messages forumid =
 
 ```ocaml
 let%server display userid_o forumid =
-  let%lwt messages = display_messages forumid in
+  let* messages = display_messages forumid in
   ...
 ```
 In the file `tutoreact_handlers.eliom`, update the code of `main_service_handler`:
 
 ```ocaml
 let%server main_service_handler forumid userid_o () () =
-  let%lwt content = Tutoreact_messages.display userid_o forumid in
+  let* content = Tutoreact_messages.display userid_o forumid in
   Tutoreact_container.page userid_o content
 ```
 In the file `tutoreact_handlers.eliomi`, update its signature:
@@ -3238,49 +3284,42 @@ module Db = struct
       ~scope:Eliom.Common.global_scope (-1)
 
   let get_message id =
-    let%lwt db = db in
+    let* db = db in
     Ocsipersist.Polymorphic.find db (string_of_int id)
 
   let get_messages forumid =
-    let%lwt dbf = dbf in
-    try%lwt
-      Ocsipersist.Polymorphic.find dbf (string_of_int forumid)
-    with Not_found ->
-      Lwt.return []
+    let* dbf = dbf in
+    Lwt.catch
+      (fun () -> Ocsipersist.Polymorphic.find dbf (string_of_int forumid))
+      (function Not_found -> Lwt.return [] | exn -> Lwt.reraise exn)
+
+  let lock = Lwt_mutex.create ()
 
   let add_message forumid v =
-    let%lwt index = Eliom.Reference.get last_key in
-    let index = index + 1 in
-    let%lwt () = Eliom.Reference.set last_key index in
-    let%lwt db = db in
-    let%lwt () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
-    let%lwt l = get_messages forumid in
-    let%lwt dbf = dbf in
-    let%lwt () =
-      Ocsipersist.Polymorphic.add dbf
-        (string_of_int forumid)
-        (index :: l)
-    in
-    Lwt.return index
+    Lwt_mutex.with_lock lock (fun () ->
+      let* index = Eliom.Reference.get last_key in
+      let index = index + 1 in
+      let* () = Eliom.Reference.set last_key index in
+      let* db = db in
+      let* () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
+      let* l = get_messages forumid in
+      let* dbf = dbf in
+      let* () =
+        Ocsipersist.Polymorphic.add dbf (string_of_int forumid) (index :: l)
+      in
+      Lwt.return index)
 
 end
 ]
 ```
 
-#### Message type
+#### Sending the forum identifier
 
-Since we are now adding besides the message, the `forumid` as well in our database, we need to specify a new type:
-
-```ocaml
-[%%shared
-    type add_message_type = int * string [@@deriving json]
-]
-```
-We don't forget to take that into consideration in the function `add_message`.
+The RPC `add_message` now takes the forum identifier as a new parameter:
 
 ```ocaml
-let%rpc add_message ((forumid, value) : add_message_type) : unit Lwt.t =
-   let%lwt id = Db.add_message forumid value in
+let%rpc add_message myid (forumid : int) (value : string) : unit Lwt.t =
+   let* id = Db.add_message forumid value in
    Forum_notif.notify () id;
    Lwt.return ()
 ```
@@ -3288,7 +3327,7 @@ In the function `display`, in the client section:
 
 ```ocaml
   ...
-  add_message (~%forumid, value)
+  add_message ~%forumid value
 ...
 ```
 
@@ -3309,13 +3348,13 @@ We will now implement the equivalent of `get_data` for this new cache.
 
 **Be very careful:**
 
-In `get_data_forum`, we must find the reactive list of messages in the new cache —if it exists — instead of creating a new one\! Otherwise you will have several reactive data for the same forum and the page updates will fail\!
+In `get_data_forum`, we must find the reactive list of messages in the new cache (if it exists) instead of creating a new one\! Otherwise you will have several reactive data for the same forum and the page updates will fail\!
 
 To do that, we provide an optional argument `?default` to the function `Eliom.Shared.ReactiveData.RList.create`, a client value (optionally) containing the current reactive list. If it does not exist in the cache, a new one will be created like previously:
 
 ```ocaml
 let%rpc get_data_forum (forumid : int) : _ Lwt.t =
-  let%lwt messages = Db.get_messages forumid in
+  let* messages = Db.get_messages forumid in
   let default = [%client
     ((try Some (Eliom.Cscache.find_if_ready ~%forumcache ~%forumid)
       with _ -> None)
@@ -3328,7 +3367,7 @@ let%rpc get_data_forum (forumid : int) : _ Lwt.t =
 ```ocaml
 let%server display_messages forumid =
   Forum_notif.listen ();
-  let%lwt rmessages =
+  let* rmessages =
     Eliom.Cscache.find forumcache get_data_forum forumid
   in
   ...
@@ -3389,27 +3428,26 @@ Retrieving messages from server can take time. To display a spinner while loadin
 ```ocaml
 let%shared display_message id =
   let th =
-    let%lwt msg = Eliom.Cscache.find ~%cache get_data id in
+    let* msg = Eliom.Cscache.find ~%cache get_data id in
     Lwt.return [div [txt msg]]
   in
-  let%lwt v = Ot.Spinner.with_spinner th in
+  let* v = Ot.Spinner.with_spinner th in
   Lwt.return (li [v])
 ```
-To simulate network latency, you can add a `Lwt_unix.sleep` in the server-side `get_data` function.
+To simulate network latency, you can add a `Lwt_unix.sleep` in the RPC `get_data`, which runs on the server.
 
 ```ocaml
-let%server get_data id =
-  let%lwt () = Lwt_unix.sleep 2.0 in
+let%rpc get_data (id : int) : string Lwt.t =
+  let* () = Lwt_unix.sleep 2.0 in
   Db.get_message id
 ```
+The spinner is displayed only when the page is updated on the client side: on the server side, `with_spinner` waits for the message before sending the page.
 
 ## The full code (`tutoreact_messages.eliom`):
 
 ```ocaml
-[%%shared
-    open Eliom.Content.Html
-    open Eliom.Content.Html.D
-]
+open%shared Eliom.Content.Html.D
+open%shared Lwt.Syntax
 ```
 
 ```ocaml
@@ -3424,26 +3462,30 @@ module Db = struct
       ~scope:Eliom.Common.global_scope (-1)
 
   let get_message id =
-    let%lwt db = db in
+    let* db = db in
     Ocsipersist.Polymorphic.find db (string_of_int id)
 
   let get_messages forumid =
-    let%lwt dbf = dbf in
-    try%lwt Ocsipersist.Polymorphic.find dbf (string_of_int forumid)
-    with Not_found -> Lwt.return []
+    let* dbf = dbf in
+    Lwt.catch
+      (fun () -> Ocsipersist.Polymorphic.find dbf (string_of_int forumid))
+      (function Not_found -> Lwt.return [] | exn -> Lwt.reraise exn)
+
+  let lock = Lwt_mutex.create ()
 
   let add_message forumid v =
-    let%lwt index = Eliom.Reference.get last_key in
-    let index = index + 1 in
-    let%lwt () = Eliom.Reference.set last_key index in
-    let%lwt db = db in
-    let%lwt () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
-    let%lwt l = get_messages forumid in
-    let%lwt dbf = dbf in
-    let%lwt () =
-      Ocsipersist.Polymorphic.add dbf (string_of_int forumid) (index :: l)
-    in
-    Lwt.return index
+    Lwt_mutex.with_lock lock (fun () ->
+      let* index = Eliom.Reference.get last_key in
+      let index = index + 1 in
+      let* () = Eliom.Reference.set last_key index in
+      let* db = db in
+      let* () = Ocsipersist.Polymorphic.add db (string_of_int index) v in
+      let* l = get_messages forumid in
+      let* dbf = dbf in
+      let* () =
+        Ocsipersist.Polymorphic.add dbf (string_of_int forumid) (index :: l)
+      in
+      Lwt.return index)
 
 end
 
@@ -3455,14 +3497,8 @@ end)
 ```
 
 ```ocaml
-[%%shared
-    type add_message_type = int * string [@@deriving json]
-]
-```
-
-```ocaml
-let%rpc add_message ((forumid, value) : add_message_type) : unit Lwt.t =
-   let%lwt id = Db.add_message forumid value in
+let%rpc add_message myid (forumid : int) (value : string) : unit Lwt.t =
+   let* id = Db.add_message forumid value in
    Forum_notif.notify forumid (id : int);
    Lwt.return ()
 ```
@@ -3478,14 +3514,14 @@ let%server forumcache :
 ```
 
 ```ocaml
-ler%rpc get_data (id : int) : string Lwt.t =
-  let%lwt () = Lwt_unix.sleep 2.0 in
+let%rpc get_data (id : int) : string Lwt.t =
+  let* () = Lwt_unix.sleep 2.0 in
   Db.get_message id
 ```
 
 ```ocaml
 let%rpc get_data_forum (forumid : int) : _ Lwt.t =
-  let%lwt messages = Db.get_messages forumid in
+  let* messages = Db.get_messages forumid in
   let default = [%client
     (try
        Some (Eliom.Cscache.find_if_ready ~%forumcache ~%forumid)
@@ -3499,10 +3535,10 @@ let%rpc get_data_forum (forumid : int) : _ Lwt.t =
 ```ocaml
 let%shared display_message id =
   let th =
-    let%lwt msg = Eliom.Cscache.find ~%cache get_data id in
+    let* msg = Eliom.Cscache.find ~%cache get_data id in
     Lwt.return [div [txt msg]]
   in
-  let%lwt v = Ot.Spinner.with_spinner th in
+  let* v = Ot.Spinner.with_spinner th in
   Lwt.return (li [v])
 ```
 
@@ -3517,7 +3553,7 @@ let%client handle_notif_message_list (forumid, msgid) =
 ```ocaml
 let%server display_messages forumid =
   Forum_notif.listen (forumid : int);
-  let%lwt rmessages =
+  let* rmessages =
     Eliom.Cscache.find forumcache get_data_forum forumid
   in
   ignore [%client
@@ -3526,15 +3562,15 @@ let%server display_messages forumid =
           ~%(Forum_notif.client_ev () : (int * int) Eliom.Eliom_react.Down.t))
      : unit)
   ];
-  let%lwt content =
+  let* content =
     Eliom.Shared.ReactiveData.RList.Lwt.map_p
       [%shared display_message]
       (fst rmessages)
   in
-  Lwt.return (R.ul content)
+  Lwt.return (Eliom.Content.Html.R.ul content)
 
 let%server display userid_o forumid =
-  let%lwt messages = display_messages forumid in
+  let* messages = display_messages forumid in
   let l =
     match userid_o with
     | None -> []
@@ -3545,13 +3581,12 @@ let%server display userid_o forumid =
         let _ =
           [%client
             (let open Js_of_ocaml_lwt.Lwt_js_events in
-             let inp = To_dom.of_input ~%inp in
+             let inp = Eliom.Content.Html.To_dom.of_input ~%inp in
              async (fun () ->
                  changes inp (fun _ _ ->
                      let value = Js_of_ocaml.Js.to_string inp##.value in
                      inp##.value := Js_of_ocaml.Js.string "";
-                     let%lwt _ = add_message (~%forumid, value) in
-                     Lwt.return ()))
+                     add_message ~%forumid value))
               : unit)]
         in
         [inp]
@@ -3566,7 +3601,7 @@ let%server display userid_o forumid =
 
 This chapter of the tutorial explains how to create a small web site with several pages, users, sessions, and other elements of classical web development. Then, in [another tutorial](./misc.md), we will incorporate the features of this site into our Graffiti application, to demonstrate that we can combine this kind of interaction with client-side programs.
 
-We assume you have read at least the first section of the previous chapter, which explained how to create a service and constuct valid HTML pages.
+We assume you have read at least the first section of the previous chapter, which explained how to create a service and construct valid HTML pages.
 
 We will create a simple web site with one main page and a page for each user (assuming we have several users already created). Then we will add a login/connection form. We will also add a registration form, in order to learn how to create *dynamically* new services, and why it is very useful.
 
@@ -3576,7 +3611,12 @@ The [full code](https://github.com/ocsigen/tuto/tree/master/tutos/9.0/manual/fil
 
 ### The main page
 
-Let's start again from scratch with the following site.
+Let's start again from scratch, with a new project:
+
+```shell
+$ eliom-distillery -name tuto -template app -target-directory tuto
+```
+Replace the content of file `app/tuto.eliom` by the following site.
 
 ```ocaml
 
@@ -3590,13 +3630,9 @@ let main_service = Eliom.Content.Html.D.(
            (body [h1 [txt "Hello"]])))
 )
 ```
-Note that we are using `Eliom.Registration.Html`, as we are not building a client side program for now.
+Note that we are using `Eliom.Registration.Html`, as we are not building a client side program for now. For the same reason, the code has no `%server` or `%client` annotation: by default, the code of an `.eliom` file is for the server.
 
-For the same reason, you may want to remove the `.eliom`\-file generated by the distillery and put the code into an `.ml`\-file. But don't forget to add it to the server files in the `Makefile.options`:
-
-```makefile
-SERVER_FILES := tuto.ml
-```
+Compile and run the site with `dune build`, then `dune exec tuto`, and go to [http://localhost:8080/](http://localhost:8080/).
 
 ### Adding a page for each user
 
@@ -3749,15 +3785,15 @@ let () = Eliom.Content.Html.D.(
 
 As our two services are mutually recursive (the first one contains links towards the second one and vice versa), we split the `create` function application in two steps:
 
-- First we create all the services using `Eliom.Service.create` or `Eliom.Service.App.service` (depending on the type of services you want)
+- First we create all the services using `Eliom.Service.create`
 - Then we register the handlers using the `register` function from the right module.
 The function `create` we previously used is just a shortcut for these two functions (we create the service, then we register the handler).
 
 **Concept: Database libraries**
 
-Ultimately we'll want to use a more sophisticated database module for managing user information, which we will write later in this tutorial. You can use any OCaml database binding (for example [PGOcaml](http://pgocaml.forge.ocamlcore.org/) to program database queries). We will use our own database library called [Macaque](https://github.com/ocsigen/macaque), which implements typed requests using *comprehensions*.
+In a real application, user information is stored in a database. You can use any OCaml database binding, for example [PG'OCaml](https://github.com/darioteixeira/pgocaml) (typed queries for PostgreSQL, used by Ocsigen Start) or [Caqti](https://github.com/paurkedal/ocaml-caqti).
 
-*Just remember that your query functions must be cooperative with Lwt\!* For example PGOcaml is now implemented in monadic way, which makes it 100% compatible with Lwt. Macaque (the library we use later in this tutorial) is as well.
+*Just remember that your query functions must be cooperative with Lwt\!* For example PG'OCaml and Caqti have Lwt interfaces, which makes them 100% compatible with Lwt.
 
 If your database module is not Lwt-cooperative but is thread-safe (for preemptive threads), you can use the `val
 Lwt_preemptive.detach` function to make the blocking function be executed by a separate preemptive thread.
@@ -3878,11 +3914,11 @@ Define your Eliom reference with a default value:
 let username =
   Eliom.Reference.eref ~scope:Eliom.Common.default_session_scope None
 ```
-Here is the new `connection_box` function:
+Here is the new `connection_box` function. It uses `let*` to wait for Lwt promises: add `open Lwt.Syntax` at the beginning of the file (see [Lwt in 5 minutes](./lwt.md)):
 
 ```ocaml
 let connection_box () = Eliom.Content.Html.D.(
-  let%lwt u = Eliom.Reference.get username in
+  let* u = Eliom.Reference.get username in
   Lwt.return
     (match u with
       | Some s -> p [txt "You are connected as "; txt s]
@@ -3906,13 +3942,13 @@ let connection_box () = Eliom.Content.Html.D.(
                ]]) ())
 )
 ```
-...~ and replace the registration of the main service and the connection service by:
+... and replace the registration of the main service and the connection service by:
 
 ```ocaml
   Eliom.Registration.Html.register
     ~service:main_service
     (fun () () ->
-      let%lwt cf = connection_box () in
+      let* cf = connection_box () in
       Lwt.return
         (html (head (title (txt "")) [])
               (body [h1 [txt "Hello"];
@@ -3922,10 +3958,10 @@ let connection_box () = Eliom.Content.Html.D.(
   Eliom.Registration.Html.register
     ~service:connection_service
     (fun () (name, password) ->
-      let%lwt message =
+      let* message =
         if check_pwd name password then
 	  begin
-            let%lwt () = Eliom.Reference.set username (Some name) in
+            let* () = Eliom.Reference.set username (Some name) in
             Lwt.return ("Hello "^name)
 	  end
 	else
@@ -3951,11 +3987,11 @@ Example: Grouping all the sessions for one user in a group of session makes poss
 
 An Eliom reference is defined with the function `Eliom.Reference.eref`, specifying the scope of this reference and the default value. The function `Eliom.Reference.get` retrieves the value of this reference for the current scope. The default value is used for all sessions (or client process or group of sessions) for which it has not been changed using `Eliom.Reference.set`.
 
-By default, Eliom references are kept in memory and will disappear if you shut down the server. It is possible, however, to create *persistent Eliom references* that will survive even a server restart. To do that, add the optional parameter `persistent` to the `eref` function, with a string value corresponding to the name of the table that will contain the values on disk.
+By default, Eliom references are kept in memory and will disappear if you shut down the server. It is possible, however, to create *persistent Eliom references* that will survive even a server restart. To do that, add the optional parameter `persistent` to the `eref` function: a pair with the name that identifies the reference in the database, and the JSON codec of its type (for example `[%json: string option]`).
 
-You need to rename this table every time you change the type of your Eliom reference, otherwise the server will crash (we are using OCaml's `Marshal` module).
+You need to change this name every time you change the type of your Eliom reference, otherwise the values saved before cannot be read back.
 
-It is not possible to create Eliom references containing functions (closures), due to limitations in OCaml's serialization mechanism.
+Persistent Eliom references cannot contain functions (closures), as they cannot be serialized.
 
 ### Display the usual page after connection
 
@@ -4015,7 +4051,7 @@ Now you can add the connection box on user pages.
   Eliom.Registration.Html.register
     ~service:user_service
     (fun name () ->
-      let%lwt cf = connection_box () in
+      let* cf = connection_box () in
       Lwt.return
         (html (head (title (txt name)) [])
               (body [h1 [txt name];
@@ -4045,12 +4081,12 @@ let () =
   Eliom.Registration.Redirection.register
     ~service:form_result_service
     (fun () something ->
-      let%lwt () = save something in
+      let* () = save something in
       Lwt.return (Eliom.Registration.Redirection main_service))
 ```
 where `save` is a function of your application that stores the data.
 
-(If you want to give parameters to the service you return, use `Eliom.Service.preapply` \--- more information in the `Eliom manual`.)
+(If you want to give parameters to the service you return, use `Eliom.Service.preapply`: more information in the `Eliom manual`.)
 
 If you want to do a redirection towards the current page (as in our case), use the special service `~path` parameter `Eliom.Service.No_path`, which is some kind of POST non-attached coservice without parameter at all.
 
@@ -4069,7 +4105,7 @@ let () =
              (body [p [txt "Please fill in the field."];
                     p [a ~service:form_service [txt "Back"] ()]]))
       else
-        let%lwt () = save something in
+        let* () = save something in
         Eliom.Registration.Redirection.send
           (Eliom.Registration.Redirection main_service))
 ```
@@ -4089,7 +4125,7 @@ let disconnection_service = Eliom.Service.create
   ()
 
 let disconnect_box () = Eliom.Content.Html.D.(
-  Form.post_form disconnection_service
+  Form.post_form ~service:disconnection_service
     (fun _ ->
       [fieldset [Form.input ~input_type:`Submit ~value:"Log out" Form.string]]
     )
@@ -4105,7 +4141,7 @@ Then add this form in the connection box:
 
 ```ocaml
 let connection_box () =
-  let%lwt u = Eliom.Reference.get username in
+  let* u = Eliom.Reference.get username in
   Lwt.return
     (match u with
       | Some s -> div [p [txt "You are connected as "; txt s; ];
@@ -4169,7 +4205,7 @@ Then add the link to this service in the connection box:
 
 ```ocaml
 let connection_box () = Eliom.Content.Html.D.(
-  let%lwt u = Eliom.Reference.get username in
+  let* u = Eliom.Reference.get username in
   Lwt.return
     (match u with
       | Some s -> div [p [txt "You are connected as "; txt s; ];
@@ -4179,7 +4215,7 @@ let connection_box () = Eliom.Content.Html.D.(
                 (fun (name1, name2) ->
 ...
                 ) ();
-             p [a new_user_form_service
+             p [a ~service:new_user_form_service
                   [txt "Create an account"] ()]]
             )
 )
@@ -4252,11 +4288,11 @@ Dynamic creation of new services allows one to create services that depend on pr
 
 In this simple example, an alternative would have been to send `name` and `pwd` again to the same service as in the "basic registration form" example. But this solution is not possible when you have too much data.
 
-*Saving `name` and `pwd` as session data is a wrong solution\!* If the user duplicates his browser window and fills out the user creation form in both, then the confirmation link must create the right account\!
+*Saving `name` and `pwd` as session data is a wrong solution\!* If the user duplicates their browser window and fills out the user creation form in both, then the confirmation link must create the right account\!
 
 A working alternative would have been to generate a random key, and associate `name` and `pwd` with that key in a database table on the server. This is the way such kind of web interaction is usually implemented. However, Eliom's solution is much simpler.
 
-The ability to register new services dynamically is implemented in few web frameworks, even though it simplifies a lot the programmating involved with that type of web interaction. This feature is a variant of what is called *continuation based web programming*. Think about it when you want to *create a page that depends on previous interaction with the user*. Dynamic registration of services will automatically record the "history" of the interaction, and make possible to use the "back button" or to have several tabs on the same site.
+The ability to register new services dynamically is implemented in few web frameworks, even though it simplifies a lot the programming involved with that type of web interaction. This feature is a variant of what is called *continuation based web programming*. Think about it when you want to *create a page that depends on previous interaction with the user*. Dynamic registration of services will automatically record the "history" of the interaction, and make possible to use the "back button" or to have several tabs on the same site.
 
 Examples of uses:
 
@@ -4292,8 +4328,8 @@ Modify the connection box this way:
 
 ```ocaml
 let connection_box () = Eliom.Content.Html.D.(
-  let%lwt u = Eliom.Reference.get username in
-  let%lwt wp = Eliom.Reference.get wrong_pwd in
+  let* u = Eliom.Reference.get username in
+  let* wp = Eliom.Reference.get wrong_pwd in
   Lwt.return
     (match u with
       | Some s -> div [p [txt "You are connected as "; txt s; ];
@@ -4311,7 +4347,7 @@ let connection_box () = Eliom.Content.Html.D.(
                   br ();
                   Form.input ~input_type:`Submit ~value:"Connect" Form.string
                  ]]) ();
-             p [a new_user_form_service
+             p [a ~service:new_user_form_service
                   [txt "Create an account"] ()]]
         in
         if wp
@@ -4320,7 +4356,7 @@ let connection_box () = Eliom.Content.Html.D.(
     )
 )
 ```
-...~ and modify the `connection_service` handler:
+... and modify the `connection_service` handler:
 
 ```ocaml
   Eliom.Registration.Action.register
@@ -4344,7 +4380,7 @@ Our service `user_service` responds to any request parameter, even if the user d
     ~service:user_service
     (fun name () ->
       if List.mem_assoc name !users then begin
-        let%lwt cf = connection_box () in
+        let* cf = connection_box () in
         Lwt.return
           (html (head (title (txt name)) [])
              (body [h1 [txt name];
@@ -4433,16 +4469,30 @@ We need to refactor some parts. In particular, we need to handle different drawi
 
 When an application grows, it becomes useful to split it into multiple files. For example, we will split graffiti into 4 files.
 
-- `common.ml`, which will be part of both client and server, containing shared types and declarations,
-- `client.ml`, client-only part of the application,
-- `server.ml`, server-only part of the application, and
-- `graffiti.eliom`, which is the only part where we need to include both client-side and server-side code
+- `lib/common.eliom`, which will be part of both client and server, containing shared types and declarations,
+- `lib/client.eliom`, client-only part of the application,
+- `lib/server.ml`, server-only part of the application, and
+- `app/graffiti.eliom`, which is the only part where we need to include both client-side and server-side code.
+We start from the project of the [Graffiti tutorial](./application.md), with its CSS files (`graffiti.css` and `ot_color_picker.css`, and their rules in the `dune` file at the root of the project).
 
-#### `common.ml`
+The first three files go to the library in directory `lib/`, which Eliom distillery created for this purpose. Its modules have the same names on the server and the client, so that the client-side program can use the types of `Common` in values sent by the server. The library needs Ocsigen Toolkit and Cairo: add them to the invocation of `ocsigen-dune-rules` at the top of `lib/dune`, then run `dune runtest --auto-promote`:
+
+```
+   graffiti_lib
+   --eliom-libraries
+   ocsigen-toolkit
+   --server-libraries
+   cairo2
+```
+Like any `.ml` file of this library, `server.ml` is compiled for the server only. Files `common.eliom` and `client.eliom` use the annotations `[%%shared.start]` and `[%%client.start]`, which set the side of all the definitions that follow.
+
+#### `common.eliom`
 
 It contains what was previously in `[%shared ... ]`
 
 ```ocaml
+[%%shared.start]
+
 type messages =
   ((int * int * int) * int * (int * int) * (int * int))
   [@@deriving json]
@@ -4451,27 +4501,25 @@ let width = 700
 let height = 400
 ```
 
-#### `client.ml`
+#### `client.eliom`
 
-It is almost the same code as what was enclosed in
-
-```
-{client{ ... }}
-```
-, with the difference that what was previously in the client value `init_client` is now in the function `launch_client_canvas`.
+It is almost the same code as the client-side code of the previous version, with the difference that what was previously in the function `init_client` is now in the function `launch_client_canvas`.
 
 ```ocaml
-open Common
+[%%client.start]
+
 open Js_of_ocaml
+open Js_of_ocaml_lwt
 open Eliom.Content
+open Lwt.Syntax
 
 let draw ctx ((r, g, b), size, (x1, y1), (x2, y2)) =
   let color = CSS.Color.string_of_t (CSS.Color.rgb r g b) in
   ctx##.strokeStyle := (Js.string color);
-  ctx##.lineWidth := float size;
+  ctx##.lineWidth := Js.float (float size);
   ctx##beginPath;
-  ctx##(moveTo (float x1) (float y1));
-  ctx##(lineTo (float x2) (float y2));
+  ctx##(moveTo (Js.float (float x1)) (Js.float (float y1)));
+  ctx##(lineTo (Js.float (float x2)) (Js.float (float y2)));
   ctx##stroke
 
 (* type containing all informations we need to stop interaction
@@ -4480,15 +4528,14 @@ type drawing_canceller =
     { message_thread : unit Lwt.t;
       (* the thread reading messages from the bus *)
       drawing_thread : unit Lwt.t;
-      (* the arrow handling mouse events *)
+      (* the thread handling mouse events *)
     }
 
 let stop_drawing { message_thread; drawing_thread } =
   Lwt.cancel message_thread;
-  (* cancelling this thread also close the bus *)
   Lwt.cancel drawing_thread
 ```
-`Lwt.cancel t` stops thread t. In this case it also closes the bus on which t is listening. For more informations see the `Lwt programming guide` and `Eliom.Bus`.
+`Lwt.cancel t` cancels the promise `t`: here, it stops the loop reading the messages of the bus, and the loop handling mouse events. For more information, see the `Lwt programming guide` and `Eliom.Bus`.
 
 ```ocaml
 let launch_client_canvas bus image_elt canvas_elt slider =
@@ -4497,20 +4544,22 @@ let launch_client_canvas bus image_elt canvas_elt slider =
   ctx##.lineCap := Js.string "round";
 
   let img = Html.To_dom.of_img image_elt in
-  let copy_image () = ctx##(drawImage img (0.) (0.)) in
+  let copy_image () = ctx##(drawImage img (Js.float 0.) (Js.float 0.)) in
   if Js.to_bool (img##.complete)
   then copy_image ()
   else img##.onload := Dom_html.handler
-    (fun ev -> copy_image (); Js._false);
+    (fun _ -> copy_image (); Js._false);
 
   (* The color palette: *)
   let colorpicker, cp_sig = Ot.Color_picker.make () in
-  Html.(Manip.appendChild (Manip.Elt.body ()) colorpicker);
+  Html.Manip.appendChild (Html.Manip.Elt.body ()) colorpicker;
 
   let x = ref 0 and y = ref 0 in
   let set_coord ev =
     let x0, y0 = Dom_html.elementClientPosition canvas in
-    x := ev##.clientX - x0; y := ev##.clientY - y0 in
+    x := truncate (Js.to_float ev##.clientX) - x0;
+    y := truncate (Js.to_float ev##.clientY) - y0
+  in
   let compute_line ev =
     let oldx = !x and oldy = !y in
     set_coord ev;
@@ -4529,13 +4578,13 @@ let launch_client_canvas bus image_elt canvas_elt slider =
   in
   let t = Lwt_stream.iter (draw ctx) (Eliom.Bus.stream bus) in
   let drawing_thread =
-    Js_of_ocaml_lwt.Lwt_js_events.(
-      mousedowns canvas (fun ev elt ->
+    Lwt_js_events.(
+      mousedowns canvas (fun ev _ ->
         Dom.preventDefault ev;
         set_coord ev;
-        let%lwt () = line ev in
+        let* () = line ev in
         Lwt.pick [mousemoves Dom_html.document (fun a _ -> line a);
-	          let%lwt ev = mouseup Dom_html.document in line ev]))
+                  let* ev = mouseup Dom_html.document in line ev]))
   in
   { message_thread = t;
     drawing_thread = drawing_thread }
@@ -4548,7 +4597,6 @@ It contains almost all the server parts of the code.
 ```ocaml
 open Eliom.Content
 open Common
-open Lwt
 
 module My_app =
   Eliom.Registration.App (struct
@@ -4590,8 +4638,8 @@ let launch_server_canvas () =
        Buffer.contents b
      ))
   in
-  let _ = Lwt_stream.iter draw_server (Eliom.Bus.stream bus) in
-  bus,image_string
+  Lwt.async (fun () -> Lwt_stream.iter draw_server (Eliom.Bus.stream bus));
+  bus, image_string
 
 let graffiti_info = Hashtbl.create 0
 
@@ -4608,20 +4656,17 @@ let imageservice =
     (* we add another parameter for the browser not to cache: at least
        for chrome, there is no way to force the browser to reload the
        image without leaving the application *)
-    (fun (name,_) () ->
-      try%lwt
-        let _ ,image_string = Hashtbl.find graffiti_info name in
-	Lwt.return (image_string (), "image/png")
-      with
-	| Not_found -> Lwt.fail Eliom.Common.Eliom_404)
+    (fun (name, _) () ->
+      match Hashtbl.find_opt graffiti_info name with
+      | Some (_, image_string) -> Lwt.return (image_string (), "image/png")
+      | None -> Lwt.fail Eliom.Common.Eliom_404)
 
-let get_bus (name:string) =
-  (* create a new bus and image_string function only if it did not exists *)
-  try
-    fst (Hashtbl.find graffiti_info name)
-  with
-    | Not_found ->
-      let bus,image_string = launch_server_canvas () in
+let get_bus (name : string) =
+  (* create a new bus and image_string function only if it did not exist *)
+  match Hashtbl.find_opt graffiti_info name with
+  | Some (bus, _) -> bus
+  | None ->
+      let bus, image_string = launch_server_canvas () in
       Hashtbl.add graffiti_info name (bus, image_string);
       bus
 ```
@@ -4652,40 +4697,39 @@ let choose_drawing_form () =
              Html.D.Form.string
          ]])
 
-let oclosure_script =
-  Html.Id.create_global_elt
-    (Html.D.js_script
-       ~uri:(Html.D.Raw.uri_of_string "./graffiti_oclosure.js") ())
-
 let make_page body =
+  let css file =
+    Html.D.css_link
+      ~uri:(Html.D.make_uri ~service:(Eliom.Service.static_dir ()) ["css"; file])
+      ()
+  in
   Lwt.return
     (Html.D.html
        (Html.D.head
-	  (Html.D.title (Html.D.txt "Graffiti"))
- 	  [
-	    Html.D.css_link
-	      ~uri:(Html.D.Raw.uri_of_string"./css/closure/common.css") ();
-	    Html.D.css_link
-	      ~uri:(Html.D.Raw.uri_of_string"./css/closure/hsvpalette.css") ();
-	    Html.D.css_link
-	      ~uri:(Html.D.Raw.uri_of_string"./css/slider.css") ();
-            oclosure_script;
-	    Html.D.css_link
-	      ~uri:(Html.D.Raw.uri_of_string"./css/graffiti.css") ();
-          ])
+          (Html.D.title (Html.D.txt "Graffiti"))
+          [css "graffiti.css"; css "ot_color_picker.css"])
        (Html.D.body body))
 
 let () = My_app.register ~service:main_service
   (fun () () ->
-    make_page [h1 [txt "Welcome to Multigraffiti"];
-	       choose_drawing_form ()])
+    make_page [Html.D.h1 [Html.D.txt "Welcome to Multigraffiti"];
+               choose_drawing_form ()])
 ```
 **Concept: Global node and scripts**
 
 Sometimes we need to control when a script is loaded and reloaded on page change. Since clicking on links in an Eliom application do not reload the entire page, already loaded libraries stay loaded. But if we simply add a script to each page, it will be loaded each time. We usually don't want that.
 
 Using `val
-Eliom.Content.Html.Id.create_global_elt` we can create an xml node manipulated 'by reference'. If a reference to a script node is included in a page, it will only be loaded the first time it appears in the header. This is the case for `oclosure_script` above.
+Eliom.Content.Html.Id.create_global_elt` we can create an xml node manipulated 'by reference'. If a reference to a script node is included in a page, it will only be loaded the first time it appears in the header. For example:
+
+```ocaml
+let my_script =
+  Html.Id.create_global_elt
+    (Html.D.js_script
+       ~uri:(Html.D.make_uri ~service:(Eliom.Service.static_dir ())
+               ["mylib.js"])
+       ())
+```
 
 #### `graffiti.eliom`
 
@@ -4694,43 +4738,24 @@ Here is the code that mixes client and server parts.
 We first open the corresponding modules for each parts of the application.
 
 ```ocaml
-[%%shared
-    open Eliom.Content.Html.D
-    open Common
-]
-[%%client
-    open Client
-]
-open Server
+open%server Eliom.Content.Html.D
+open%server Common
+open%client Client
+open%server Server
 ```
-And then we define a function initializing the client application by side effects in a client value.
+And we register the service sending a drawing. The handler initializes the client-side program by side effects in a client value.
 
 ```ocaml
-let start_drawing name image canvas slider =
-  let bus = get_bus name in
-  ignore [%client
-    (let canceller =
-       launch_client_canvas ~%bus ~%image ~%canvas ~%slider
-     in
-     Eliom.Client.onunload (fun () -> stop_drawing canceller; None)
-     : unit)
-  ]
-```
-The function registered by `Eliom.Service.onunload` will be called when the page change inside the application.
+let%server counter = ref 0
 
-And we finally register the service sending a drawing:
-
-```ocaml
-let counter = ref 0
-
-let () =
+let%server () =
   My_app.register ~service:multigraffiti_service (fun name () ->
     (* Some browsers won't reload the image, so we force
-          them by changing the url each time. *)
+       them by changing the url each time. *)
     incr counter;
     let image =
       img ~alt:name
-        ~src:(make_uri ~service:imageservice (name,!counter)) ()
+        ~src:(make_uri ~service:imageservice (name, !counter)) ()
     in
     let slider =
       Form.input
@@ -4746,20 +4771,29 @@ let () =
       canvas ~a:[a_width width; a_height height]
         [txt "your browser doesn't support canvas"; br (); image]
     in
-    start_drawing name image canvas slider;
+    let bus = get_bus name in
+    ignore [%client
+      (let canceller =
+         launch_client_canvas ~%bus ~%image ~%canvas ~%slider
+       in
+       Eliom.Client.onunload (fun () -> stop_drawing canceller)
+       : unit)
+    ];
     make_page
       [h1 [txt name];
        choose_drawing_form ();
        canvas;
        div [slider]])
 ```
-At this point, you can run your application on the server provided that you installed the css and images directories in the main directory of your application, build it using this [Makefile](https://github.com/ocsigen/graffiti/tree/master/extended/Makefile) along with the appropriate [Makefile.options](https://github.com/ocsigen/graffiti/tree/master/extended/Makefile.options), and configured it using [graffiti.conf.in](https://github.com/ocsigen/graffiti/tree/master/extended/graffiti.conf.in), as the basis for your configuration file.
+The function registered by `Eliom.Client.onunload` will be called when the page changes inside the application: the client-side program keeps running, so we stop the loops of the previous drawing.
+
+At this point, you can compile and run your application (`dune build`, then `dune exec graffiti`), and go to [http://localhost:8080/](http://localhost:8080/).
 
 ### Mixing client-server application with traditional web interaction
 
 We now want to restrict the site to connected users.
 
-From the previous chapter, we copy the code handling users to `server.ml`:
+From the [previous tutorial](./interaction.md), we copy the code handling users to `server.ml`, after the definition of `make_page` (and add `open Lwt.Syntax` at the beginning of the file):
 
 ```ocaml
 let connection_service = Eliom.Service.create
@@ -4777,31 +4811,36 @@ let disconnection_service = Eliom.Service.create
 
 let create_account_service =
   Eliom.Service.create
-    ~path:(Eliom.Service.Path [""])
+    ~path:Eliom.Service.No_path
     ~meth:(Eliom.Service.Post
              (Eliom.Parameter.unit,
               Eliom.Parameter.(string "name" ** string "password")))
+    ()
 
 let user_table = Ocsipersist.Polymorphic.open_table "user_table"
 
 let check_pwd name pwd =
-  try%lwt
-    let%lwt saved_password = Ocsipersist.Polymorphic.find user_table name in
-    Lwt.return (pwd = saved_password)
-  with Not_found -> Lwt.return false
+  let* user_table = user_table in
+  Lwt.catch
+    (fun () ->
+      let* saved_password = Ocsipersist.Polymorphic.find user_table name in
+      Lwt.return (pwd = saved_password))
+    (function Not_found -> Lwt.return false | exn -> Lwt.reraise exn)
 
 let () = Eliom.Registration.Action.register
   ~service:create_account_service
-  (fun () (name, pwd) -> Ocsipersist.Polymorphic.add user_table name pwd)
+  (fun () (name, pwd) ->
+    let* user_table = user_table in
+    Ocsipersist.Polymorphic.add user_table name pwd)
 
 let () = Eliom.Registration.Action.register
   ~service:connection_service
   (fun () (name, password) ->
-    match%lwt check_pwd name password with
-      | true -> Eliom.State.set_volatile_data_session_group
-	~scope:Eliom.Common.default_session_scope name;
-	Lwt.return ()
-      | false -> Lwt.return ())
+    let* ok = check_pwd name password in
+    if ok
+    then Eliom.State.set_volatile_data_session_group
+        ~scope:Eliom.Common.default_session_scope name;
+    Lwt.return ())
 
 let () =
   Eliom.Registration.Action.register
@@ -4835,7 +4874,9 @@ let login_name_form service button_text =
              Html.D.Form.string
          ]]) ()
 ```
-We make a customized registration module such that disconnected users (those for which the username reference is not set), are automaticaly shown a connection box. This way the other pages can assume that the username is always available.
+*Warning:* for the sake of simplicity, this example stores the passwords in clear. A real application must store a hash of each password instead. `Ocsigen Start` does it for you, and provides the whole user management.
+
+We make a customized registration module such that disconnected users (those for which the session group is not set), are automatically shown a connection box. This way the other pages can assume that the username is always available.
 
 ```ocaml
 let default_content () =
@@ -4852,25 +4893,27 @@ struct
   let translate page =
     match Eliom.State.get_volatile_data_session_group
       ~scope:Eliom.Common.default_session_scope () with
-	| None -> default_content ()
-	| Some username -> page username
+    | None -> default_content ()
+    | Some username -> page username
 end
 
 module Connected =
   Eliom.Registration.Customize (My_app) (Connected_translate)
 ```
-We replace the previous `main_service` registration :
+The handlers registered with module `Connected` return a function taking the name of the user. Operator `!%` turns a handler taking the name as third parameter into such a handler.
+
+We replace the previous `main_service` registration:
 
 ```ocaml
 let () = My_app.register ~service:main_service
   (fun () () ->
-    make_page [h1 [txt "Welcome to Multigraffiti"];
-	       choose_drawing_form ()])
+    make_page [Html.D.h1 [Html.D.txt "Welcome to Multigraffiti"];
+               choose_drawing_form ()])
 ```
-by :
+by:
 
 ```ocaml
-let ( !% ) f = fun a b -> return (fun c -> f a b c)
+let ( !% ) f = fun a b -> Lwt.return (fun c -> f a b c)
 
 let () = Connected.register
   ~service:main_service
@@ -4879,13 +4922,17 @@ let () = Connected.register
       [Html.D.h1 [Html.D.txt ("Welcome to Multigraffiti " ^ username)];
        choose_drawing_form ()])
 ```
-to use that, in `graffiti.eliom` we just replace add a call to `disconnect_box`
+In `graffiti.eliom`, we register the drawing pages with `Connected` too, and add a call to `disconnect_box`:
 
 ```ocaml
+  Connected.register ~service:multigraffiti_service !% (fun name () _username ->
+    ...
+    make_page
       [h1 [txt name];
        disconnect_box ();
        choose_drawing_form ();
-       canvas;])
+       canvas;
+       div [slider]])
 ```
 [prev](./interaction.md)
 
@@ -4898,7 +4945,7 @@ to use that, in `graffiti.eliom` we just replace add a call to `disconnect_box`
 
 The Lwt library implements cooperative threads for OCaml. Cooperative threads are an alternative to preemptive threads (used in many languages and in OCaml's `Thread` module) that solve most common issues with preemptive threads: with Lwt, there is very limited risk of deadlocks and very limited need for locks. Lwt threads are even usable in programs compiled to JavaScript using Js\_of\_ocaml.
 
-Lwt is based on the fact that most programs spend most of their time waiting for inputs, e.g., keys, data coming from sockets, and mouse events. Instead of relying on a preemptive scheduler that switches between threads at arbitrary moments, Lwt uses these waiting times as *cooperation points*. This means that instead of blocking (for example on a `read`), Lwt resumes another waiting thread, if there is one that is ready to continue. All you have to do is to use the cooperative version of each blocking function, for example `Lwt_unix.sleep` instead of `Unix.sleep` and `Lwt_unix.read` instead of `Unix.read`. If one of your computations takes a lot of time, it is also possible to manually insert cooperation points using the function `Lwt_main.yield`.
+Lwt is based on the fact that most programs spend most of their time waiting for inputs, e.g., keys, data coming from sockets, and mouse events. Instead of relying on a preemptive scheduler that switches between threads at arbitrary moments, Lwt uses these waiting times as *cooperation points*. This means that instead of blocking (for example on a `read`), Lwt resumes another waiting thread, if there is one that is ready to continue. All you have to do is to use the cooperative version of each blocking function, for example `Lwt_unix.sleep` instead of `Unix.sleep` and `Lwt_unix.read` instead of `Unix.read`. If one of your computations takes a lot of time, it is also possible to manually insert cooperation points using the function `Lwt.pause`.
 
 ## Promises
 
@@ -4913,7 +4960,7 @@ The following code will launch the computation of `f ()` (asynchronously). If th
 
 ```ocaml
 let g1 () =
-  let p = f () in
+  let _p = f () in
   print_endline "hello"
 ```
 
@@ -4937,12 +4984,12 @@ let g2 () =
 ```
 Function `g2` calls function `f` to create a promise. Then it waits (in a cooperative manner) for the result, and prints the result. The expression `g2 ()` has type `unit Lwt.t`.
 
-## Syntax extension
+## The `let*` syntax
 
-A PPX (and also camlp4) syntax extension is available.
+Module `Lwt.Syntax` defines binding operators. After `open Lwt.Syntax`,
 
 ```ocaml
-let%lwt i = f () in
+let* i = f () in
 ...
 ```
 is equivalent to
@@ -4950,6 +4997,9 @@ is equivalent to
 ```ocaml
 Lwt.bind (f ()) (fun i -> ...)
 ```
+You may also meet the syntax `let%lwt i = f () in ...`, which means the same thing. It is defined by the syntax extension `lwt_ppx`, used for example in the template of Ocsigen Start.
+
+The examples below assume `open Lwt.Syntax`.
 
 ## Examples
 
@@ -4958,7 +5008,7 @@ Lwt.bind (f ()) (fun i -> ...)
 ```ocaml
 let rec tic () =
     print_endline "tic";
-    let%lwt () = Lwt_unix.sleep 1.0 in
+    let* () = Lwt_unix.sleep 1.0 in
     tic ()
 ```
 Replace `Lwt_unix.sleep` by `Lwt_js.sleep` if your program is running in a browser.
@@ -4974,8 +5024,8 @@ val g : unit -> unit Lwt.t
 The following code runs `f ()` and `g ()` sequentially:
 
 ```ocaml
-let%lwt () = f () in
-let%lwt () = g () in
+let* () = f () in
+let* () = g () in
 ...
 ```
 The following code launches `f ()` and `g ()` concurrently, then waits for both to terminate before continuing:
@@ -4983,8 +5033,15 @@ The following code launches `f ()` and `g ()` concurrently, then waits for both 
 ```ocaml
 let p1 = f () in
 let p2 = g () in
-let%lwt () = p1 in
-let%lwt () = p2 in
+let* () = p1 in
+let* () = p2 in
+...
+```
+Operator `and*` does the same thing:
+
+```ocaml
+let* () = f ()
+and* () = g () in
 ...
 ```
 To detach a thread, it is recommended to use
@@ -5010,8 +5067,8 @@ let rec map f l =
   | v :: r ->
       let t = f v in
       let rt = map f r in
-      let%lwt v' = t in
-      let%lwt l' = rt in
+      let* v' = t in
+      let* l' = rt in
       Lwt.return (v' :: l')
 ```
 whereas the following one waits for the one to complete before launching the next one:
@@ -5019,16 +5076,16 @@ whereas the following one waits for the one to complete before launching the nex
 ```ocaml
 let rec map_serial f l =
   match l with
-  | [] -> return []
+  | [] -> Lwt.return []
   | v :: r ->
-      let%lwt v' = f v in
-      let%lwt l' = map_serial f r in
+      let* v' = f v in
+      let* l' = map_serial f r in
       Lwt.return (v' :: l')
 ```
 
 ## More documentation
 
-Have a look at `Lwt's manual` for more details about Lwt. You will learn how to handle exceptions (using `Lwt.fail` and `Lwt.catch` or `try%lwt`). You will also learn for example how to create a thread that waits until it is awaken (using `Lwt.wait` and `Lwt.wakeup`).
+Have a look at `Lwt's manual` for more details about Lwt. You will learn how to handle exceptions (using `Lwt.fail` and `Lwt.catch`). You will also learn for example how to create a thread that waits until it is awaken (using `Lwt.wait` and `Lwt.wakeup`).
 
 
 ---
@@ -5041,7 +5098,7 @@ The Tyxml library makes it possible to type-check HTML pages. This means that yo
 
 ### Tags
 
-Tyxml (or modules obtained by applying Tyxml functor, like `Eliom.Content.Html.D`) defines a contructor function for each HTML tag, and for each attribute.
+Tyxml (or modules obtained by applying Tyxml functor, like `Eliom.Content.Html.D`) defines a constructor function for each HTML tag, and for each attribute.
 
 Example:
 
@@ -5074,20 +5131,21 @@ If you write an invalid page, for example:
 You will get an error message similar to the following, referring to the end of line 2:
 
 ```
-Error: This expression has type ([> `TXT ] as 'a) Html.elt
-       but an expression was expected of type
-         Html_types.head_content_fun Html.elt
-       Type 'a is not compatible with type Html_types.head_content_fun =
+Error: This expression has type [> Html_types.txt ] elt
+       but an expression was expected of type Html_types.head_content_fun elt
+       Type [> Html_types.txt ] = [> `PCDATA ] is not compatible with type
+         Html_types.head_content_fun =
            [ `Base
            | `Command
            | `Link
            | `Meta
            | `Noscript of [ `Link | `Meta | `Style ]
            | `Script
-           | `Style ]
-       The second variant type does not allow tag(s) `TXT
+           | `Style
+           | `Template ]
+       The second variant type does not allow tag(s) `PCDATA
 ```
-where `Html_types.head_content_fun` is the type of content allowed inside `<head>` (`<base>`, `<command>`, `<link>`, `<meta>`, etc.). Notice that ``TXT` (i.e. raw text) is not included in this polymorphic variant type, which means that `<head>` cannot contain raw text.
+where `Html_types.head_content_fun` is the type of content allowed inside `<head>` (`<base>`, `<command>`, `<link>`, `<meta>`, etc.). Notice that ``PCDATA` (i.e. raw text) is not included in this polymorphic variant type, which means that `<head>` cannot contain raw text.
 
 ### Attributes
 
@@ -5120,13 +5178,14 @@ Example:
 let%server create_widget () =
   let d = D.div [ ... ] in
   ignore [%client
-    Lwt.async (fun () ->
-      Lwt_js_events.clicks (To_dom.of_element ~%d) (fun _ _ -> ... )) ];
+    (Lwt.async (fun () ->
+       Lwt_js_events.clicks (To_dom.of_element ~%d) (fun _ _ -> ... ))
+     : unit)];
   d
 ```
-Here, `d` must be a "D" node, as I want to bind click events on the actual node (that is already in the page), not create a new one.
+Here, `d` must be a "D" node, as we want to bind click events on the actual node (that is already in the page), not create a new one.
 
-Remember to use "D" nodes if you want to use it in a injection (`~%d`). If you don't to bother about "D" or "F" nodes, use "D" nodes by default (even if it will generate too much identifiers in the page). But remember that, the DOM semantics implies that "D" nodes cannot be inserted twice in a page.
+Remember to use "D" nodes if you want to use it in a injection (`~%d`). If you do not want to bother about "D" or "F" nodes, use "D" nodes by default (even if it will generate too much identifiers in the page). But remember that, the DOM semantics implies that "D" nodes cannot be inserted twice in a page.
 
 ### Manip
 
@@ -5136,7 +5195,7 @@ Module `Eliom.Content.Html.Manip` makes it possible to manipulate OCaml nodes wi
 
 Module `Eliom.Content.Html.R` makes it possible to create reactive nodes, that is, nodes that will be updated automatically when the data on which they depend change.
 
-It is based on module [React](http://erratique.ch/software/react/doc/React), which implements functional reactive programming for OCaml.
+It is based on module [React](https://erratique.ch/software/react/doc/React/index.html), which implements functional reactive programming for OCaml.
 
 ## More documentation
 
@@ -5253,7 +5312,7 @@ This is the same pattern adopted internally by `Ot.Icons.Make`.
 
 # Mobile applications with Ocsigen
 
-Since Eliom 6\.0, the Ocsigen framework provides infrastructure for building mobile applications. This enables rapid development of Android, iOS, and Windows Mobile apps with the same APIs and programming style as for a regular client-server Web application. In fact, one single codebase can be used to produce all these applications simultaneously.
+Since Eliom 6\.0, the Ocsigen framework provides infrastructure for building mobile applications. This enables rapid development of Android and iOS apps with the same APIs and programming style as for a regular client-server Web application. In fact, one single codebase can be used to produce all these applications simultaneously.
 
 The easiest way to get started with Ocsigen-based mobile development is to use `Ocsigen-start`. Ocsigen-start is a library and skeleton for building "minimum viable product" Web applications with standard functionality like users, notifications, etc. This skeleton is immediately usable as a mobile application. You can install `ocsigen-start` via OPAM ( `opam install ocsigen-start` ) and instantiate its template with the command `eliom-distillery -name ocsimobile -template os`. For launching the mobile application, follow the instructions in the template's `README.md`.
 
@@ -5275,7 +5334,7 @@ You need to follow a certain programming style for your Eliom code to work flawl
 
 Custom configuration options
 
-It is not convenient to have to edit the code to change some configurations, like the location where are saved the favorite images in the Graffiti tutorial (see: [Saving favorite pictures](./pictures.md)). Fortunately Ocsigen provides a mechanism to extend its configuration file.
+It is not convenient to have to edit the code to change some configurations, like the directory where an application saves the files uploaded by its users. Fortunately Ocsigen provides a mechanism to extend its configuration file.
 
 ## Basic interface
 
@@ -5402,7 +5461,6 @@ will store this location in the database.
 - an ocsipersist backend, such as ocsipersist-sqlite
 - yojson
 - ppx\_deriving\_yojson
-- lwt\_ppx
 - cohttp-lwt
 You need some knowledge about Eliom to be able to fully understand this tutorial. It's not meant to be an Eliom introduction.
 
@@ -5451,11 +5509,11 @@ let db : location Ocsipersist.table Lwt.t =
 ```
 **Concept: Syntax extensions**
 
-The code snippet above uses a syntax extension provided by the `ppx_deriving_yojson` package, and the handlers below use `let%lwt` from `lwt_ppx`. In order to build this tutorial's source code, the `dune` file of your server code must contain the following lines. `ocsipersist` is a virtual library: an executable must also link a backend (such as `ocsipersist-sqlite`), and a module loaded by the `ocsigenserver` command gets it from the configuration file (see the [server-side programming guide](./basics-server.md)).
+The code snippet above uses a syntax extension provided by the `ppx_deriving_yojson` package, and the handlers below use `let*` from `Lwt.Syntax` (add `open Lwt.Syntax` at the beginning of the file). In order to build this tutorial's source code, the `dune` file of your server code must contain the following lines. `ocsipersist` is a virtual library: an executable must also link a backend (such as `ocsipersist-sqlite`), and a module loaded by the `ocsigenserver` command gets it from the configuration file (see the [server-side programming guide](./basics-server.md)).
 
 ```lisp
  (libraries eliom.server ocsipersist yojson cohttp-lwt)
- (preprocess (pps lwt_ppx ppx_deriving_yojson))
+ (preprocess (pps ppx_deriving_yojson))
 ```
 
 ## Services definition
@@ -5537,7 +5595,8 @@ let read_raw_content ?(max_length = 4096) raw_content =
   let stream = Cohttp_lwt.Body.to_stream raw_content in
   let buffer = Buffer.create 256 in
   let rec read () =
-    match%lwt Lwt_stream.get stream with
+    let* chunk = Lwt_stream.get stream in
+    match chunk with
     | None -> Lwt.return_some (Buffer.contents buffer)
     | Some chunk ->
       if Buffer.length buffer + String.length chunk > max_length then
@@ -5568,28 +5627,30 @@ The GET handler either returns a single location if an identifier is provided, o
 
 ```ocaml
 let read_handler id_opt () =
-  let%lwt db = db in
+  let* db = db in
   match id_opt with
   | None ->
-    let%lwt locations =
+    let* locations =
       Ocsipersist.Polymorphic.fold
         (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
     in
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
     send_json ~code:200 json
   | Some id ->
-    match%lwt Ocsipersist.Polymorphic.find db id with
-    | location ->
-      let json = Yojson.Safe.to_string (location_to_yojson location) in
-      send_json ~code:200 json
-    | exception Not_found ->
-      send_error ~code:404 ("Resource not found: " ^ id)
+    Lwt.try_bind
+      (fun () -> Ocsipersist.Polymorphic.find db id)
+      (fun location ->
+        let json = Yojson.Safe.to_string (location_to_yojson location) in
+        send_json ~code:200 json)
+      (function
+        | Not_found -> send_error ~code:404 ("Resource not found: " ^ id)
+        | exn -> Lwt.reraise exn)
 ```
 Next, let's create a common function for POST and PUT handlers, which have a very similar behaviour. The only difference is that a PUT request with a non-existing identifier will fail (thus only accepting update requests, and rejecting creations), whereas the same request with POST method will succeed (a new location associated to the identifier will be created). `Ocsipersist.Polymorphic.replace_if_exists` does the check and the update in one step, and fails with `Not_found` if there is no location to update.
 
 ```ocaml
 let edit_handler_aux ~create id_opt (content_type, raw_content) =
-  let%lwt db = db in
+  let* db = db in
   if not (check_content_type ~mime_type:json_mime_type content_type) then
     send_error ~code:400 "Content-type is wrong, it must be JSON"
   else
@@ -5597,7 +5658,8 @@ let edit_handler_aux ~create id_opt (content_type, raw_content) =
     | None ->
       send_error ~code:400 "Location identifier is missing"
     | Some id ->
-      match%lwt read_raw_content raw_content with
+      let* content = read_raw_content raw_content in
+      match content with
       | None ->
         send_error ~code:413 "Body content is too large"
       | Some location_str ->
@@ -5606,15 +5668,15 @@ let edit_handler_aux ~create id_opt (content_type, raw_content) =
           send_error ~code:400 "Provided JSON is not valid"
         | Ok location ->
           if create then
-            let%lwt () = Ocsipersist.Polymorphic.add db id location in
+            let* () = Ocsipersist.Polymorphic.add db id location in
             send_success ()
           else
-            match%lwt
-              Ocsipersist.Polymorphic.replace_if_exists db id location
-            with
-            | () -> send_success ()
-            | exception Not_found ->
-              send_error ~code:404 ("Location not found: " ^ id)
+            Lwt.try_bind
+              (fun () -> Ocsipersist.Polymorphic.replace_if_exists db id location)
+              (fun () -> send_success ())
+              (function
+                | Not_found -> send_error ~code:404 ("Location not found: " ^ id)
+                | exn -> Lwt.reraise exn)
 
 let create_handler id_opt content =
   edit_handler_aux ~create:true id_opt content
@@ -5626,12 +5688,12 @@ We need a fourth handler to delete locations:
 
 ```ocaml
 let delete_handler id_opt _body =
-  let%lwt db = db in
+  let* db = db in
   match id_opt with
   | None ->
     send_error ~code:400 "An id must be provided to delete a location"
   | Some id ->
-    let%lwt () = Ocsipersist.Polymorphic.remove db id in
+    let* () = Ocsipersist.Polymorphic.remove db id in
     send_success ()
 ```
 
@@ -5650,6 +5712,8 @@ let () =
 ## Full source
 
 ```ocaml
+open Lwt.Syntax
+
 (**** Data types ****)
 
 type coordinates = {
@@ -5729,7 +5793,8 @@ let read_raw_content ?(max_length = 4096) raw_content =
   let stream = Cohttp_lwt.Body.to_stream raw_content in
   let buffer = Buffer.create 256 in
   let rec read () =
-    match%lwt Lwt_stream.get stream with
+    let* chunk = Lwt_stream.get stream in
+    match chunk with
     | None -> Lwt.return_some (Buffer.contents buffer)
     | Some chunk ->
       if Buffer.length buffer + String.length chunk > max_length then
@@ -5749,25 +5814,27 @@ let parse_location location_str =
 (**** Handlers ****)
 
 let read_handler id_opt () =
-  let%lwt db = db in
+  let* db = db in
   match id_opt with
   | None ->
-    let%lwt locations =
+    let* locations =
       Ocsipersist.Polymorphic.fold
         (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
     in
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
     send_json ~code:200 json
   | Some id ->
-    match%lwt Ocsipersist.Polymorphic.find db id with
-    | location ->
-      let json = Yojson.Safe.to_string (location_to_yojson location) in
-      send_json ~code:200 json
-    | exception Not_found ->
-      send_error ~code:404 ("Resource not found: " ^ id)
+    Lwt.try_bind
+      (fun () -> Ocsipersist.Polymorphic.find db id)
+      (fun location ->
+        let json = Yojson.Safe.to_string (location_to_yojson location) in
+        send_json ~code:200 json)
+      (function
+        | Not_found -> send_error ~code:404 ("Resource not found: " ^ id)
+        | exn -> Lwt.reraise exn)
 
 let edit_handler_aux ~create id_opt (content_type, raw_content) =
-  let%lwt db = db in
+  let* db = db in
   if not (check_content_type ~mime_type:json_mime_type content_type) then
     send_error ~code:400 "Content-type is wrong, it must be JSON"
   else
@@ -5775,7 +5842,8 @@ let edit_handler_aux ~create id_opt (content_type, raw_content) =
     | None ->
       send_error ~code:400 "Location identifier is missing"
     | Some id ->
-      match%lwt read_raw_content raw_content with
+      let* content = read_raw_content raw_content in
+      match content with
       | None ->
         send_error ~code:413 "Body content is too large"
       | Some location_str ->
@@ -5784,15 +5852,15 @@ let edit_handler_aux ~create id_opt (content_type, raw_content) =
           send_error ~code:400 "Provided JSON is not valid"
         | Ok location ->
           if create then
-            let%lwt () = Ocsipersist.Polymorphic.add db id location in
+            let* () = Ocsipersist.Polymorphic.add db id location in
             send_success ()
           else
-            match%lwt
-              Ocsipersist.Polymorphic.replace_if_exists db id location
-            with
-            | () -> send_success ()
-            | exception Not_found ->
-              send_error ~code:404 ("Location not found: " ^ id)
+            Lwt.try_bind
+              (fun () -> Ocsipersist.Polymorphic.replace_if_exists db id location)
+              (fun () -> send_success ())
+              (function
+                | Not_found -> send_error ~code:404 ("Location not found: " ^ id)
+                | exn -> Lwt.reraise exn)
 
 let create_handler id_opt content =
   edit_handler_aux ~create:true id_opt content
@@ -5801,12 +5869,12 @@ let update_handler id_opt content =
   edit_handler_aux ~create:false id_opt content
 
 let delete_handler id_opt _body =
-  let%lwt db = db in
+  let* db = db in
   match id_opt with
   | None ->
     send_error ~code:400 "An id must be provided to delete a location"
   | Some id ->
-    let%lwt () = Ocsipersist.Polymorphic.remove db id in
+    let* () = Ocsipersist.Polymorphic.remove db id in
     send_success ()
 
 (**** Services registration ****)
@@ -5835,474 +5903,39 @@ Ocsipersist can still be useful for creating persistent key-value tables, if you
 
 This tutorial shows how to implement a table for storing users and passwords.
 
-We first create a table:
+We first create a table (`open_table` returns a promise of the table):
 
 ```ocaml
 let user_table = Ocsipersist.Polymorphic.open_table "user_table"
 ```
-Then we can easily handle the user management code:
+Then we can easily handle the user management code (with `open Lwt.Syntax`, and the services and the Eliom reference `username` of the [service based Web programming tutorial](./interaction.md)):
 
 ```ocaml
 let check_pwd name pwd =
-  try%lwt
-    lwt saved_password = Ocsipersist.Polymorphic.find user_table name in
-    Lwt.return (pwd = saved_password)
-  with
-    Not_found -> Lwt.return false
+  let* user_table = user_table in
+  Lwt.catch
+    (fun () ->
+      let* saved_password = Ocsipersist.Polymorphic.find user_table name in
+      Lwt.return (pwd = saved_password))
+    (function Not_found -> Lwt.return false | exn -> Lwt.reraise exn)
 
 let () = Eliom.Registration.Action.register
   ~service:create_account_service
-  (fun () (name, pwd) -> Ocsipersist.Polymorphic.add user_table name pwd)
+  (fun () (name, pwd) ->
+    let* user_table = user_table in
+    Ocsipersist.Polymorphic.add user_table name pwd)
 
 let () = Eliom.Registration.Action.register
   ~service:connection_service
   (fun () (name, password) ->
-    match%lwt check_pwd name password with
-      | true -> Eliom.Reference.set username (Some name)
-      | false -> Lwt.return ())
+    let* ok = check_pwd name password in
+    if ok then Eliom.Reference.set username (Some name) else Lwt.return ())
 ```
+*Warning:* for the sake of simplicity, this example stores the passwords in clear. A real application must store a hash of each password instead (`Ocsigen Start` does it for you).
+
 **Concept: Ocsipersist**
 
-Ocsipersist implements simple typed key/value tables. It can use different backends (currently sqlite and dbm). For more information see `Ocsipersist.table`.
-
-
----
-
-# Saving favorite pictures
-
-**Concepts**
-
-Atom feed
-
-We will now add a button to the Graffiti application to save the current image. The images will be saved to the filesystem using the module `Lwt_io`. We will then make an Atom feed with the saved images using [Syndic](https://github.com/Cumulus/Syndic).
-
-To install it, do:
-
-```
-opam install syndic
-```
-We save the images in the directory containing the static contents under the directory `images_saved/username`. The `username` directory is created if needed. If it already exists `mkdir` fails and we do nothing.
-
-We will add this code in a new file:
-
-#### `feed.ml`
-
-```ocaml
-open Eliom.Content
-open Lwt.Infix
-open Html.F
-open Server
-
-let static_dir =
-  match Eliom.Config.get_config () with
-  | [Element ("staticdir", [], [PCData dir])] ->
-    dir
-  | [] ->
-    raise (Ocsigen.Extensions.Error_in_config_file
-             ("<staticdir> option required for <graffiti>"))
-  | _ ->
-    raise (Ocsigen.Extensions.Error_in_config_file
-             ("Unexpected content inside graffiti config"))
-
-let create_dir dir =
-  try%lwt Lwt_unix.mkdir dir 0o777 with
-  | Unix.Unix_error (Unix.EEXIST, "mkdir", _) -> Lwt.return_unit
-  | _ ->
-      Eliom.Lib.debug "could not create the directory %s" dir;
-      Lwt.return_unit
-
-let image_dir name =
-  let dir = static_dir ^ "/graffiti_saved/" in
-  let%lwt () = create_dir dir in
-  let dir = dir ^ Eliom.Lib.Url.encode name in
-  let%lwt () = create_dir dir in
-  Lwt.return dir
-
-let make_filename name number =
-  image_dir name >|= ( fun dir -> (dir ^ "/" ^ (string_of_int number) ^ ".png") )
-
-let save image name number =
-  let%lwt file_name = make_filename name number in
-  let%lwt out_chan = Lwt_io.open_file ~mode:Lwt_io.output file_name in
-  Lwt_io.write out_chan image
-```
-We number images and associate to each image the time of creation. It is stocked in an `Ocsipersist` table.
-
-```ocaml
-let image_info_table = Ocsipersist.Polymorphic.open_table "image_info_table"
-```
-For each user, we stock a value of type<br/> `int * CalendarLib.Calendar.t * ((int * CalendarLib.Calendar.t) list)`. The first integer is the name under which will be saved the image, the first time is the last update for that user and the list contains the names and times of old images. We need those times to timestamp the entries of the feed.
-
-```ocaml
-let save_image username =
-  let now = CalendarLib.Calendar.now () in
-  let%lwt image_info_table = image_info_table in
-  let%lwt number,_,list =
-    try%lwt Ocsipersist.Polymorphic.find image_info_table username with
-    | Not_found -> Lwt.return (0,now,[])
-    | e -> Lwt.fail e
-  in
-  let%lwt () = Ocsipersist.Polymorphic.add image_info_table
-      username (number+1,now,(number,now)::list) in
-  let (_,image_string) = Hashtbl.find graffiti_info username in
-  save (image_string ()) username number
-
-let save_image_service =
-  Eliom.Service.create
-    ~meth:(Eliom.Service.Post
-             (Eliom.Parameter.unit, Eliom.Parameter.string "name"))
-    ~path:Eliom.Service.No_path ()
-
-let () =
-  Eliom.Registration.Action.register
-    ~service:save_image_service (fun () name -> save_image name)
-
-let save_image_box name =
-  Lwt.return
-    (Html.D.Form.post_form ~service:save_image_service
-       (fun param_name ->
-         [p [Html.D.Form.input ~input_type:`Hidden ~name:param_name
-              ~value:name Html.D.Form.string;
-             Html.D.Form.button_no_value ~button_type:`Submit [txt "save"]]])
-       ())
-```
-We find the url of the images with `Eliom.Service.static_dir`. It is a service taking file path as parameter, serving the content of the static directory. We use `val
-Eliom.Eliom_uri.make_string_uri` to get the url as a string.
-
-```ocaml
-let feed_service =
-  Eliom.Service.create
-    ~path:(Eliom.Service.Path ["feed"])
-    ~meth:(Eliom.Service.Get (Eliom.Parameter.string "name"))
-    ()
-
-let local_filename name number =
-  ["graffiti_saved"; Eliom.Lib.Url.encode name ; (string_of_int number) ^ ".png"]
-
-let rec entries name list = function
-  | 0 -> []
-  | len ->
-    match list with
-    | [] -> []
-    | (n,saved)::q ->
-      let uri =
-        Html.D.make_uri ~absolute:true
-          ~service:(Eliom.Service.static_dir ())
-          (local_filename name n)
-        |> Xml.string_of_uri
-        |> Uri.of_string in
-      let content = Syndic.Atom.Src (None, uri) in
-      let authors = (Syndic.Atom.author name), [] in
-      let title : Syndic.Atom.text_construct =
-        Syndic.Atom.Text ("graffiti " ^ name ^ " " ^ (string_of_int n)) in
-      let entry =
-        Syndic.Atom.entry ~content ~id:uri ~authors ~title ~updated:saved () in
-      entry::(entries name q (len - 1))
-
-let feed_of_string_page xml =
-  xml
-  |> Syndic.Atom.to_xml
-  |> Syndic.XML.to_string
-  |> fun string -> string, ""
-
-let feed name () =
-  let id =
-    Xml.string_of_uri
-      (Html.D.make_uri ~absolute:true ~service:feed_service name)
-    |> Uri.of_string in
-  let title : Syndic.Atom.text_construct =
-    Syndic.Atom.Text ("nice drawings of " ^ name) in
-  Lwt.catch
-    (fun () ->
-       let%lwt image_info_table = image_info_table in
-       Ocsipersist.Polymorphic.find image_info_table name >|=
-      (fun (number,updated,list) ->
-         Syndic.Atom.feed ~id ~updated ~title (entries name list 10)
-       |> feed_of_string_page))
-    ( function Not_found ->
-      let now = Option.get (Ptime.of_float_s (Unix.gettimeofday ())) in
-      Lwt.return (Syndic.Atom.feed ~id ~updated:now ~title []
-                  |> feed_of_string_page)
-             | e -> Lwt.fail e )
-
-let () = Eliom.Registration.String.register ~service:feed_service feed
-```
-And then use the new module as follow:
-
-```ocaml
-  [ a Feed.feed_service [txt "atom feed"] name;
-    div (if name = username
-      then [Feed.save_image_box name]
-      else [txt "no saving"]);
-  ]
-```
-
-
----
-
-# Listening music
-
-**Concepts**
-
-Persistence of the client application
-
-We will add an audio player to the page that will stay when page changes. This emphasises the fact that browsing inside an application does not stop the client side code: the music keeps playing when the content of the page and the url change.
-
-We first create the player node at toplevel.
-
-```ocaml
-let player =
-  Eliom.Content.Html.Id.create_global_elt
-    (audio
-       ~srcs:(make_uri (Eliom.Service.static_dir ())
-                  ["music.ogg"],
-              [])
-       ~a:[a_autoplay (`Autoplay);a_controls (`Controls)]
-       [txt "Your browser does not support audio element" ])
-```
-And we insert the player in the page.
-
-And that's all\! Since the `player` node is declared unique, no new player is created when the page changed: this is exact same node.
-
-**Work in progress**
-
-In fact browsers stop the player as soon as the dom element is manipulated. That happens when we change the page: to continue playing the player should not be present as an element of the page
-
-To run this example, you will need to add an ogg file in the static directory. If you can't find one, there is one here: [http://www.gnu.org/music/free-software-song.html](http://www.gnu.org/music/free-software-song.html).
-
-
----
-
-# Reactive Media Player
-
-You should read the [Playing Music](./music.md) tutorial before this one.
-
-Since version 4, Eliom embeds the [React](http://erratique.ch/logiciel/react) library in order to provide reactive HTML elements (`Eliom.Content.Html.R`).
-
-The final Eliom code is available [for download](files/tutorial/chapter3/reactive_media_player/reactive_media_player.eliom).
-
-## Basics
-
-A reactive element, or more generally a reactive value, depends on the current value of a signal. For instance :
-
-```ocaml
-[%%shared
-open Eliom.Content
-open Html
-]
-```
-
-```ocaml
-let%client s, set_s = React.S.create 0 (* signal creation *)
-```
-
-```ocaml
-let%shared example_div () =
-  C.node {{R.txt (React.S.map string_of_int s)}}
-
-let%shared incr_button =
-  D.(button
-      ~button_type:`Button
-      ~a:[a_onclick [%client fun _ -> set_s (succ (React.S.value s)) ]]
-      [txt "Increment"])
-```
-The signal `s` carries an int value initialized at 0 and `set_s` is the update function generating an occurence of the signal.
-
-`example_div` is a `<div>` containing a string which depends on the value of s.
-
-The magic part: we never have to explicitly update `example_div`. Its behavior is declaratively described in its own code, and not in the code of the button.
-
-**Concept: Client node on the server**
-
-`C.node` takes a client node and brings it to the server side.
-
-**Concept: Step semantics**
-
-**Warning** If you haven't read the React semantics, be aware of this: a step occurence of a signal `s` happens when the update function is called on the signal or on a other signal `s'` which `s` depends on. But moreover, this update call must at least **modify** the signal current value, otherwise it's not a step.
-
-This can be seen when there are side effects (like print) in the code of functions mapped to the signal. If the update function does not modify the signal value, the printing does not happen.
-
-The test equality function of a signal can be set in the `eq` optional parameters of React.S functions producing a signal (like `create`).
-
-## Functional Reactive Media Player
-
-This part explains how to create a simple media player, similar to the [Playing Music](./music.md) tutorial but with custom controls.We will apply [FRP (Functional Reactive Programming)](https://en.wikipedia.org/wiki/Functional_reactive_programming).
-
-In order to provide a short tutorial, we only create three controls: play, pause and seek/progress bar. So, let's write the corresponding type:
-
-```ocaml
-[%%shared
-    open Eliom.Content
-    open Html
-
-    type action = Play | Pause | Seek of float
-]
-```
-
-```ocaml
-let%client media_s, set_media_s = React.S.create Pause
-```
-Each HTML element emits a signal value corresponding to its action. It is enough to create our "play" and "pause" inputs.
-
-```ocaml
-let pause_button () =
-  D.(Form.button_no_value
-       ~button_type:`Button
-       ~a:[a_onclick  [%client  fun _ -> set_media_s Pause ]]
-       [txt "Pause"])
-
-let play_button () =
-  D.(Form.button_no_value
-       ~button_type:`Button
-       ~a:[a_onclick  [%client  fun _ -> set_media_s Play ]]
-       [txt "Play"])
-```
-**Concept: Abstract the Js events**
-
-A nice thing about FRP is that we can abstract JavaScript events and only use signals. The JS event handler is only a function raising a signal.
-
-To use our buttons, we now create a media (audio or video) HTML element on the server side.
-
-```ocaml
-let media_uri =
-  Html.D.make_uri
-    ~service:(Eliom.Service.static_dir ())
-    ["hb.mp3"]
-
-let media_tag () =
-  let media = D.(audio ~src:media_uri [txt "alt"]) in
-  let _ = [%client
-    (Lwt.async (fun () ->
-         let media = To_dom.of_audio ~%media in
-         let media_map = function
-           | Play ->
-             media##play
-           | Pause ->
-             media##pause
-           | Seek f ->
-             media##.currentTime := (f /. 100. *. media##.duration)
-         in
-         Eliom.Lib.Dom_reference.retain media
-           ~keep:(React.S.map media_map media_s) ;
-         Lwt_js_events.timeupdates media (fun _ _ ->
-             set_progress_s (media##.currentTime, media##.duration) ;
-             Lwt.return ()
-           ))
-     : unit)
-  ] in
-  media
-```
-The function `media_tag` builds an `<audio>` element. The code in `[%client ... ]` is on the client part. It's an Lwt thread that maps a function `media_action -> unit` to the signal `media_s`. React does not keep the resulting signal alive by itself: `Eliom.Lib.Dom_reference.retain` keeps it as long as the `<audio>` element exists.
-
-**Concept: Playing video**
-
-The code for playing video is conceptually similar. You just replace the `audio` tag by a `video` tag. But be careful, not all browsers are compatible with all formats.
-
-```ocaml
-module React_Player_app =
-  Eliom.Registration.App
-    (struct
-      let application_name = "react_player"
-    end)
-
-let media_service =
-  Eliom.Service.create
-    ~path:(Eliom.Service.Path [])
-    ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
-    ()
-
-let () =
-  React_Player_app.register
-    ~service:media_service
-    (fun name () ->
-       let body =
-         D.(body [
-             h2 [txt "Media"];
-             media_tag ();
-             div [play_button (); pause_button (); progress_bar ()]
-           ])
-       in
-       Lwt.return (Eliom.Tools.D.html ~title:"Media" ~css:[] body))
-```
-Now you should have an ΗΤΜL node with an audio tag, and two buttons: play and pause. The progress bar is slightly harder to understand, but thanks to FRP, very easy to write. It's basically an `input` with `range` type. In our program, the progress bar must emit the signal `media_s` with the value `Seek f` at input handling. Then, it must evolve during media playback, for which we need another signal. To conclude, we must check that the display (the value) of the progress bar is not modified when the user is seeking.
-
-```ocaml
-let%client progress_s, set_progress_s = React.S.create (0., 0.)
-
-let%client unblock_s, set_unblock_s = React.S.create true
-```
-
-```ocaml
-let progress_bar () =
-  let progress_value =
-    [%client
-      (let f (time, duration) =
-         if duration = 0. then 0. else time /. duration *. 100.
-       in
-       React.S.map f progress_s
-       : float React.signal)
-    ] in
-  let attrs = D.([
-      a_input_min 0.;
-      a_input_max 100.;
-      a_onmousedown [%client fun _ -> set_unblock_s false];
-      a_onmouseup [%client fun _ -> set_unblock_s true];
-      C.attr [%client
-        R.a_value
-          (React.S.map (Printf.sprintf "%0.f")
-             (React.S.on unblock_s 0. ~%progress_value))]
-    ])
-  in
-  let d_input =
-    D.Form.input ~input_type:`Range ~value:0. ~a:attrs
-      D.Form.float
-  in
-  let _ = [%client
-    (Lwt.async (fun () ->
-         let d_input = To_dom.of_input ~%d_input in
-         Lwt_js_events.inputs d_input (fun _ _ ->
-             set_media_s (Seek (Js.parseFloat d_input##.value)) ;
-             Lwt.return ()
-           ))
-     : unit)
-  ] in
-  d_input
-```
-**Concept: Reactive attributes and React.S.on**
-
-The function `R.a_value` (under `Eliom.Content.Html`) is a reactive attribute value. `React.S.on c d s` is equal to `s` when `c` is true, otherwise it is equal to `d` (in case `c` has never been true). Which means we update the attribute value of our input only if unblock is true.
-
-To end this tutorial, you can add a `progress_bar ()` call inside the div containing play and pause. We also need a mechanism which emits the `progress_s` signal. We modify the media tag with an eventhandler on `timeupdate`.
-
-```ocaml
-let media_tag () =
-  let media = D.(audio ~src:media_uri [txt "alt"]) in
-  let _ = [%client
-    (Lwt.async (fun () ->
-         let media = To_dom.of_audio ~%media in
-         let media_map = function
-           | Play ->
-             media##play
-           | Pause ->
-             media##pause
-           | Seek f ->
-             media##.currentTime := (f /. 100. *. media##.duration)
-         in
-         Eliom.Lib.Dom_reference.retain media
-           ~keep:(React.S.map media_map media_s) ;
-         Lwt_js_events.timeupdates media (fun _ _ ->
-             set_progress_s (media##.currentTime, media##.duration) ;
-             Lwt.return ()
-           ))
-     : unit)
-  ] in
-  media
-```
-
-#### Exercises
-
-- Add a control to set the volume
-- Add an `Eliom.Bus` to control several clients
+Ocsipersist implements simple typed key/value tables. It can use different backends (SQLite, PostgreSQL or DBM). For more information see `Ocsipersist.table`.
 
 
 ---
@@ -6313,8 +5946,9 @@ Short answers to frequent questions, with a code example and links to the manual
 
 ```ocaml
 open%shared Eliom.Content.Html.F
+open%shared Lwt.Syntax
 ```
-and use the Lwt syntax extension (`let%lwt`, see [Lwt in 5 minutes](./lwt.md)). Answers mentioning `Os` or `Ot` use `Ocsigen Start` and `Ocsigen Toolkit`. Module names are those of Eliom 13 and later (`Eliom.Service` rather than `Eliom_service`, see [the migration guide](./migration.md)).
+(`Lwt.Syntax` provides the `let*` notation, see [Lwt in 5 minutes](./lwt.md)). Answers mentioning `Os` or `Ot` use `Ocsigen Start` and `Ocsigen Toolkit`. Module names are those of Eliom 13 and later (`Eliom.Service` rather than `Eliom_service`, see [the migration guide](./migration.md)).
 
 Pages are registered with the module `App` of the application, made by `Eliom.Registration.App`: it is in `myapp.eliom` with the `app` template, and is `Myapp_base.App` with the `os` template. Do not use `Eliom.Registration.Html` for the pages of a client-server application: it sends them without the client-side program, so their client-side code does not run, and links towards them leave the application. Most examples register pages on the server only; [this question](./#client_pages) shows how to let the client generate them too.
 
@@ -6510,14 +6144,15 @@ let%shared comment_box (post_id : int) =
       fun _ ->
         Lwt.async (fun () ->
           let field = Eliom.Content.Html.To_dom.of_textarea ~%text in
-          try%lwt
-            let%lwt () = add_comment ~%post_id (Js.to_string field##.value) in
-            field##.value := Js.string "";
-            Lwt.return_unit
-          with e ->
-            Logs.err (fun m -> m "add_comment: %s" (Printexc.to_string e));
-            Eliom.Lib.alert "Your comment could not be sent.";
-            Lwt.return_unit)]
+          Lwt.catch
+            (fun () ->
+              let* () = add_comment ~%post_id (Js.to_string field##.value) in
+              field##.value := Js.string "";
+              Lwt.return_unit)
+            (fun e ->
+              Logs.err (fun m -> m "add_comment: %s" (Printexc.to_string e));
+              Eliom.Lib.alert "Your comment could not be sent.";
+              Lwt.return_unit))]
   in
   div [text; button ~a:[a_onclick send] [txt "Send"]]
 ```
@@ -6563,7 +6198,7 @@ let%server new_post =
     ~meth:
       (Eliom.Service.Post (Eliom.Parameter.unit, Eliom.Parameter.string "text"))
     (fun () text ->
-       let%lwt id = Db.add_post text in
+       let* id = Db.add_post text in
        Lwt.return
          (Eliom.Registration.Redirection
             (Eliom.Service.preapply ~service:article id)))
@@ -6660,7 +6295,8 @@ let%server article =
     ~path:(Eliom.Service.Path ["article"])
     ~meth:(Eliom.Service.Get Eliom.Parameter.(int "id"))
     (fun id () ->
-       match%lwt find_article id with
+       let* a = find_article id in
+       match a with
        | Some a -> Lwt.return (article_page a)
        | None ->
            Eliom.Registration.set_status `Not_found;
@@ -6761,7 +6397,7 @@ let%server save_upload file =
     Eliom.Lib.make_cryptographic_safe_string ()
     |> String.map (function '+' -> '-' | '/' -> '_' | c -> c)
   in
-  let%lwt () =
+  let* () =
     Lwt_unix.rename
       (Eliom.Request_info.get_tmp_filename file)
       (Filename.concat upload_dir name)
@@ -6783,7 +6419,7 @@ let%client send_file (input : Dom_html.inputElement Js.t) =
   match Js.Opt.to_option (Js.Opt.bind input##.files (fun fs -> fs##item 0)) with
   | None -> Lwt.return_none
   | Some file ->
-      let%lwt name =
+      let* name =
         Eliom.Client.call_ocaml_service ~service:upload_file () file
       in
       Lwt.return_some name
@@ -6802,7 +6438,7 @@ let%server upload =
 
 let%server () =
   App.register ~service:upload (fun () file ->
-    let%lwt _stored_as = save_upload file in
+    let* _stored_as = save_upload file in
     let name = Eliom.Request_info.get_original_filename file in
     Lwt.return (skeleton ~title:"Upload" [p [txt (name ^ " received.")]]))
 
@@ -6836,7 +6472,7 @@ let%client photo_service = ~%photo_service
 let%server () =
   Eliom.Registration.Ocaml.register ~service:photo_service
     (Os.Session.connected_fun (fun myid () ((), (cropping, file)) ->
-       let%lwt name = Os.Uploader.record_image photo_dir ~ratio:1. ?cropping file in
+       let* name = Os.Uploader.record_image photo_dir ~ratio:1. ?cropping file in
        save_photo_name myid name))
 
 let%client photo_form () =
@@ -6860,16 +6496,17 @@ let%rpc item_view (it : item) : [`Div] Eliom.Content.Html.elt Lwt.t =
   Lwt.return (div ~a:[a_class ["item"]] [txt it.label])
 
 let%client show_item container id =
-  try%lwt
-    let%lwt it = get_item id in
-    let%lwt node = item_view it in
-    Eliom.Content.Html.Manip.appendChild container node;
-    Lwt.return_unit
-  with e ->
-    Logs.err (fun m -> m "Cannot get item %d: %s" id (Printexc.to_string e));
-    Eliom.Content.Html.Manip.appendChild container
-      (p [txt "This item is not available."]);
-    Lwt.return_unit
+  Lwt.catch
+    (fun () ->
+      let* it = get_item id in
+      let* node = item_view it in
+      Eliom.Content.Html.Manip.appendChild container node;
+      Lwt.return_unit)
+    (fun e ->
+      Logs.err (fun m -> m "Cannot get item %d: %s" id (Printexc.to_string e));
+      Eliom.Content.Html.Manip.appendChild container
+        (p [txt "This item is not available."]);
+      Lwt.return_unit)
 ```
 The server checks the values it receives: their types must have a JSON deriver (`[@@deriving json]`, from package `js_of_ocaml-ppx_deriving_json`). The result can be any value, including HTML nodes, as `item_view` shows. The syntax comes from package `ocsigen-ppx-rpc`. An RPC is a *pathless service* that anyone can call: check the rights of the user inside (see [this question](./#connected)). See `Eliom's manual`.
 
@@ -6908,7 +6545,7 @@ let%client focused_input () =
   let inp = Eliom.Content.Html.D.Raw.input () in
   Lwt.async (fun () ->
     let elt = Eliom.Content.Html.To_dom.of_input inp in
-    let%lwt () = Ot.Nodeready.nodeready elt in
+    let* () = Ot.Nodeready.nodeready elt in
     elt##focus;
     Lwt.return_unit);
   inp
@@ -6930,7 +6567,7 @@ let%client item_page = ~%item_page
 
 let%shared () =
   App.register ~service:item_page (fun id () ->
-    let%lwt it = get_item id in
+    let* it = get_item id in
     Lwt.return (skeleton ~title:it.label [p [txt it.label]]))
 ```
 On the first request, the server generates the page, as usual. The handler is shared code: `get_item` is the [RPC](./#rpc) above, a function call on the server and a request on the client. The mobile app needs this for its pages, as they are all generated by its client-side program. See `client-side services` in Eliom's manual.
@@ -6964,7 +6601,7 @@ The server can fill the client's cache in advance, to save requests: while gener
 
 ```ocaml
 let%rpc search (q : string) : int list Lwt.t =
-  let%lwt items = Db.search_items q in
+  let* items = Db.search_items q in
   List.iter (fun it -> Eliom.Cscache.do_cache item_cache it.id it) items;
   Lwt.return (List.map (fun it -> it.id) items)
 ```
@@ -7014,21 +6651,22 @@ end)
 
 (* Anyone can call an RPC: check that the user is in the room. *)
 let%server check_member myid room =
-  if%lwt Db.is_member myid room
+  let* member = Db.is_member myid room in
+  if member
   then Lwt.return_unit
   else Lwt.fail Os.Session.Permission_denied
 
 let%rpc listen (room : int64) : unit Lwt.t =
   Os.Session.connected_rpc
     (fun myid room ->
-       let%lwt () = check_member myid room in
+       let* () = check_member myid room in
        Chat_notif.listen room; Lwt.return_unit)
     room
 
 let%rpc send (room : int64) (msg : string) : unit Lwt.t =
   Os.Session.connected_rpc
     (fun myid (room, msg) ->
-       let%lwt () = check_member myid room in
+       let* () = check_member myid room in
        Chat_notif.notify room msg; Lwt.return_unit)
     (room, msg)
 
@@ -7068,7 +6706,7 @@ With Ocsigen Toolkit, wrap the part that waits in `Ot.Spinner.with_spinner`:
 ```ocaml
 let%shared item_block id =
   Ot.Spinner.with_spinner
-    (let%lwt it = get_item id in
+    (let* it = get_item id in
      Lwt.return [txt it.label])
 ```
 On the client, the rest of the page is displayed at once, with a spinner in place of this block until `get_item` answers. On the server, there is no spinner: the page is sent once the data is there. Optional arguments choose the spinner, and what to display if the promise fails.
@@ -7079,14 +6717,15 @@ With Ocsigen Start, call `Os.Msg.msg`, on the client or on the server: the messa
 
 ```ocaml
 let%client save label =
-  try%lwt
-    let%lwt () = save_label label in
-    Os.Msg.msg "Saved";
-    Lwt.return_unit
-  with e ->
-    Logs.err (fun m -> m "save_label: %s" (Printexc.to_string e));
-    Os.Msg.msg ~level:`Err "Could not save, please try again";
-    Lwt.return_unit
+  Lwt.catch
+    (fun () ->
+      let* () = save_label label in
+      Os.Msg.msg "Saved";
+      Lwt.return_unit)
+    (fun e ->
+      Logs.err (fun m -> m "save_label: %s" (Printexc.to_string e));
+      Os.Msg.msg ~level:`Err "Could not save, please try again";
+      Lwt.return_unit)
 ```
 
 ### Are there ready-made widgets (popups, carousels, date pickers...)?
@@ -7095,8 +6734,10 @@ Yes, in `Ocsigen Toolkit`, which Ocsigen Start uses: popups and confirmation box
 
 ```ocaml
 let%client delete_with_confirmation photo =
-  if%lwt
+  let* ok =
     Ot.Popup.confirm [txt "Delete this photo?"] [txt "Delete"] [txt "Cancel"]
+  in
+  if ok
   then delete_photo photo
   else Lwt.return_unit
 ```
@@ -7165,8 +6806,9 @@ To give more rights to some users, put them in a group. `Os.Group.create` create
 
 ```ocaml
 let%server check_admin myid =
-  let%lwt admins = Os.Group.group_of_name "admin" in
-  if%lwt Os.Group.in_group ~group:admins ~userid:myid ()
+  let* admins = Os.Group.group_of_name "admin" in
+  let* is_admin = Os.Group.in_group ~group:admins ~userid:myid () in
+  if is_admin
   then Lwt.return_unit
   else Lwt.fail Os.Session.Permission_denied
 ```
@@ -7266,9 +6908,9 @@ let%client load_script url =
       script##.src := Js.string url;
       let loading =
         Lwt.pick
-          [ (let%lwt _ = Js_of_ocaml_lwt.Lwt_js_events.load script in
+          [ (let* _ = Js_of_ocaml_lwt.Lwt_js_events.load script in
              Lwt.return_unit)
-          ; (let%lwt _ = Js_of_ocaml_lwt.Lwt_js_events.error script in
+          ; (let* _ = Js_of_ocaml_lwt.Lwt_js_events.error script in
              Hashtbl.remove scripts url;
              Lwt.fail_with ("Cannot load " ^ url)) ]
       in
@@ -7321,12 +6963,11 @@ Start an Lwt loop when the module is loaded:
 
 ```ocaml
 let%server rec clean_sessions () =
-  let%lwt () = Lwt_unix.sleep 3600. in
-  let%lwt () =
-    try%lwt Db.remove_expired_sessions ()
-    with e ->
+  let* () = Lwt_unix.sleep 3600. in
+  let* () =
+    Lwt.catch Db.remove_expired_sessions (fun e ->
       Logs.err (fun m -> m "Session cleanup: %s" (Printexc.to_string e));
-      Lwt.return_unit
+      Lwt.return_unit)
   in
   clean_sessions ()
 
@@ -7432,119 +7073,3 @@ Once the site is in HTTPS only, make the sessions available to HTTPS requests on
 **Logs.** Set `<logdir>` for log files, or leave it out to log to the standard output, for instance under systemd ([see above](./#logs)).
 
 See also `how to write secure applications with Eliom` and the `configuration file documentation`.
-
-
----
-
-# Type safe database requests using Macaque
-
-**Concepts**
-
-Type safe database requests
-
-The Macaque library allows easy manipulation of Postgresql database fully compatible with Lwt. (For more information see [Macaque manual](https://github.com/ocsigen/macaque)).
-
-Macaque is fuly compatible with PGOcaml, and both can be used in the same application. PGOcaml requires database access at compile time and makes difficult to generate queries at compile time. Macaque uses its own syntax, whereas PGOcaml uses SQL. Macaque supports only a small subset of Postgresql features.
-
-Warning: Macaque's syntax extension uses camlp4, which is not compatible with ppx. If you want to use macaque with Eliom's ppx, place your macaque code in an isolated file.
-
-This tutorial shows how to store the login and the password f users in a Postgresql database. For more information on how to set up and run it, see [Postgresql manual](http://www.postgresql.org/docs/9.0/static/index.html).
-
-When the base is up and running, we create the base by running in a shell:
-
-```sh
-$ createdb testbase
-```
-Then we create the `users` table, by executing this sql script:
-
-```sql
- CREATE TABLE users (
-       login text NOT NULL,
-       password text NOT NULL
-);
-```
-We save it under `create_table.sql` and run
-
-```sh
-$ psql -d testbase -f create_table.sql
-```
-Macaque can use any thread library that provides a monadic interface. The default one provides simple blocking access to the database. It isn't good for us because an access to the base by one user will prevent the server from handling anything else until the request is finished. We need a version of Macaque specialised for Lwt. It is obtained by
-
-```ocaml
-module Lwt_thread = struct
-  include Lwt
-  include Lwt_chan
-end
-module Lwt_PGOCaml = PGOCaml_generic.Make(Lwt_thread)
-module Lwt_Query = Query.Make_with_Db(Lwt_thread)(Lwt_PGOCaml)
-```
-We can now open the database with our newly created `Lwt_PGOCaml.connect`.
-
-```ocaml
-let get_db : unit -> unit Lwt_PGOCaml.t Lwt.t =
-  let db_handler = ref None in
-  fun () ->
-    match !db_handler with
-      | Some h -> Lwt.return h
-      | None -> Lwt_PGOCaml.connect ~database:"testbase" ()
-```
-Then we declare the table on which we will work and the different requests we do on it.
-
-```ocaml
-let table = <:table< users (
-  login text NOT NULL,
-  password text NOT NULL
-) >>
-
-let find name =
-  (get_db () >>= fun dbh ->
-   Lwt_Query.view dbh
-   <:view< {password = user_.password} |
-            user_ in $table$;
-            user_.login = $string:name$; >>)
-
-let insert name pwd =
-  get_db () >>= fun dbh ->
-  Lwt_Query.query dbh
-  <:insert< $table$ :=
-    { login = $string:name$; password = $string:pwd$; } >>
-
-```
-Finally, we modify the handling code :
-
-```ocaml
-let check_pwd name pwd =
-  (get_db () >>= fun dbh ->
-   Lwt_Query.view dbh
-   <:view< {password = user_.password} |
-            user_ in $table$;
-            user_.login = $string:name$;
-	    user_.password = $string:pwd$ >>)
-  >|= (function [] -> false | _ -> true)
-
-let () = Eliom.Registration.Action.register
-  ~service:create_account_service
-  (fun () (name, pwd) ->
-    find name >>=
-      (function
-	| [] -> insert name pwd
-	| _ -> Lwt.return ()) )
-
-let () = Eliom.Registration.Action.register
-  ~service:connection_service
-  (fun () (name, password) ->
-    check_pwd name password >>=
-      (function
-	| true -> Eliom.Reference.set username (Some name)
-	| false -> Lwt.return ()))
-```
-We need to reference `macaque` in the `Makefile` (or in `Makefile.option` if you used `eliom-distillery`) :
-
-```
-SERVER_PACKAGE := macaque.syntax
-```
-and in `ocsigenserver.conf` (only if you don't use `eliom-distillery`) :
-
-```
-<extension findlib-package="macaque"/>
-```

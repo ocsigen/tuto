@@ -15,7 +15,7 @@ As an example, the conformance of generated HTML is checked at compile time,
 which makes it almost impossible to generate invalid pages.
 - {e Multi-tier programming}: client and server sides of the application are
 written using the same language, and as a {e single code}. Annotations in
-the code are used indicate on which side the code is to be run.
+the code are used to indicate on which side the code is to be run.
 The client side parts are automatically extracted and compiled into JavaScript
 to be executed in the browser.
 This gives a lot of flexibility to the programmer, allowing for example to
@@ -29,7 +29,7 @@ generated from the exact same code as the Web app, and run in a webview.
 To see some examples of mobile or Web apps written with Ocsigen, have a look
 at the {{:https://www.dailymotion.com/video/x82alm8}Be Sport social network} (available in
 {{:https://play.google.com/store/apps/details?id=com.besport.www.mobile}Google Play Store} and {{:https://apps.apple.com/fr/app/be-sport/id1104216922}Apple app store}), or
-{{:http://ocsigen-1.inria.fr/ocsigen-start/demo/}Ocsigen Start's demo app}
+{{:https://ocsigen-1.inria.fr/ocsigen-start/demo/}Ocsigen Start's demo app}
 (available on {{:https://play.google.com/store/apps/details?id=com.osdemo.mobile}Google Play store}).
 
 Ocsigen consists of several quite independent projects, all
@@ -53,68 +53,71 @@ new programming techniques to become autonomous.
 Depending on your level and goals, we suggest to continue by reading
 some of the following chapters:
 
-- Chapter {{!page-basics}Client-server application programming guide} can be used as your training plan.
+{ul
+{li Chapter {{!page-basics}Client-server application programming guide} can be used as your training plan.
 It provides a wide overview of each main concept, with links to more detailed
-documentation.
-- If you want to start with a server-side only Web site, read {{!page-"basics-server"}Server-side website programming guide} instead.
-- Then, a good starting point is this
+documentation.}
+{li If you want to start with a server-side only Web site, read {{!page-"basics-server"}Server-side website programming guide} instead.}
+{li Then, a good starting point is this
 {{!page-start}Ocsigen Start tutorial},
 if you plan to build a client-server Web (and/or mobile) app.
 It will help you to build your first app very quickly,
-with many code samples to study.
-- If you are fluent in OCaml and want a quick introduction to
+with many code samples to study.}
+{li If you are fluent in OCaml and want a quick introduction to
 client-server Web programming with Eliom,
 read tutorial
 {{!page-tutowidgets}Eliom apps basics: writing client server widgets}.
-It illusrates the client-server syntax with an example,
-and is a good starting point for understanding Eliom's client-server features.
-- If you want a full step-by-step tutorial on how to write a client-server Web
+It illustrates the client-server syntax with an example,
+and is a good starting point for understanding Eliom's client-server features.}
+{li If you want a full step-by-step tutorial on how to write a client-server Web
 application, read tutorial
 {{!page-application}Client-server application}.
 It describes step by step how to write a client/server
 {{:https://ocsigen.org/graffiti/}collaborative drawing application}. You will learn,
 from the very beginning, how to:
-- Create new {e services}
-- Output {e valid HTML}
-- Send {e OCaml code} to be executed {e on the client}
-- Call {e JavaScript methods} from OCaml
-- Catch {e mouse events}
-- {e Communicate} with the server, in both directions
-- Create services with {e non-HTML output}
-- If you want to build mobile applications,
+{ul
+{li Create new {e services}}
+{li Output {e valid HTML}}
+{li Send {e OCaml code} to be executed {e on the client}}
+{li Call {e JavaScript methods} from OCaml}
+{li Catch {e mouse events}}
+{li {e Communicate} with the server, in both directions}
+{li Create services with {e non-HTML output}}}}
+{li If you want to build mobile applications,
 read tutorial {{!page-mobile}Mobile applications with Ocsigen}.
 It describes how to build a mobile app (e.g., for Android)
-with the same codebase as for your Web application.
-- If you want to write a more traditional Web site, with pages, forms, and sessions, read tutorial {{!page-interaction}Service based Web programming}.
+with the same codebase as for your Web application.}
+{li If you want to write a more traditional Web site, with pages, forms, and sessions, read tutorial {{!page-interaction}Service based Web programming}.
 It is devoted to server side programming.
 It shows how to
 create a new Web site with several pages and user connections.
 You will learn how to:
-- Create a {e link} towards another service
-- Create {e forms}
-- Register {e session data} or {e session services}
-- Create services performing {e actions} (with no output)
-- Dynamically register new services ({e continuation based} Web programming)
-- If you want to learn more details about Ocsigen
-read tutorial {{!page-misc}Miscellaneous features}.
+{ul
+{li Create a {e link} towards another service}
+{li Create {e forms}}
+{li Register {e session data} or {e session services}}
+{li Create services performing {e actions} (with no output)}
+{li Dynamically register new services ({e continuation based} Web programming)}}}
+{li Then read tutorial
+{{!page-misc}Traditional web interaction in a client-server app}.
 It will mix the client-server drawing application
 with the session mechanism and user management
 to produce a multi-user collaborative drawing
 application.  In this chapter, you will learn how to:
-- Integrate a typical Web interaction (links, forms,~ …) with a client side program.
-- Add {e sounds or videos} to your application
-- Change pages {e without stopping the client side program}
-- Connect with external accounts ({e openID})
-- Add an Atom feed
-- If you want to have a full application with user management
+{ul
+{li Split an application into several files}
+{li Integrate a typical Web interaction (links, forms, …) with a client side program}
+{li Change pages {e without stopping the client side program}}
+{li Restrict pages to connected users, with your own registration module}}}
+{li If you want to have a full application with user management
 (registration, activation emails, authentication),
 have a look at {{!/ocsigen-start/page-index}Ocsigen-start}.
 Ocsigen-start is a library and a template for Eliom distillery that
 contains a working Eliom application with user and right
-management.
-- For a more comprehensive understanding refer to the manual of each project,
-and/or the API documentation.
-- You will also find more tutorials in the menu on the left.
+management.}
+{li For a more comprehensive understanding refer to the manual of each project,
+and/or the API documentation.}
+{li You will also find more tutorials in the menu on the left.}}
 
 
 
@@ -132,8 +135,8 @@ IRC in channel [#ocsigen] on [freenode.net] (e.g. by using
 their {{:http://webchat.freenode.net/?channels=ocsigen}webchat})!
 
 
-Now, we recommend to read, chapter
-{{!page-basics}All Ocsigen in one page}
+Now, we recommend to read chapter
+{{!page-basics}Client-server application programming guide}
 for a wide and complete overview.
 
 

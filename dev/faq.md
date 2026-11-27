@@ -837,7 +837,7 @@ let%client () =
        method greet name = Js.string ("Hello " ^ Js.to_string name)
     end)
 ```
-JavaScript can then call `myLib.greet("Alice")`. To pass an OCaml function as a callback, use `Js_of_ocaml.Js.wrap_callback`. See the [manual page on bindings](https://ocsigen.org/js_of_ocaml/latest/manual/bindings).
+JavaScript can then call `myLib.greet("Alice")`. To pass an OCaml function as a callback, use `Js_of_ocaml.Js.wrap_callback`. See the [manual page on bindings](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/bindings.html).
 
 ### How do I load a JavaScript library?
 

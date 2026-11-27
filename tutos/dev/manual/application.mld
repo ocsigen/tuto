@@ -172,8 +172,8 @@ tag.
  in OCaml, cf. {{:https://ocsigen.org/tyxml/latest/tyxml/ppx.html}the
  TyXML syntax extension}.}
 
-The TyXML library (and thus {!module
-Eliom.Content.Html.D}) is very strict and compels you to respect
+The TyXML library (and thus
+{!Eliom.Content.Html.D}) is very strict and compels you to respect
 HTML standard (with some limitations). For example if you write:
 
 {@ocaml[
@@ -559,11 +559,11 @@ let%server () =
 
 
 
-  Here we use the function {!val
-  Js_of_ocaml.Js.string} from Js_of_ocaml's library to convert an OCaml string
-  into a JS string, and {!val Js_of_ocaml.Js.float} to convert an OCaml
-  float into a JS number. Conversely, {!val Js_of_ocaml.Js.to_string} and
-  {!val Js_of_ocaml.Js.to_float} convert JS values to OCaml.
+  Here we use the function
+  {!Js_of_ocaml.Js.string} from Js_of_ocaml's library to convert an OCaml string
+  into a JS string, and {!Js_of_ocaml.Js.float} to convert an OCaml
+  float into a JS number. Conversely, {!Js_of_ocaml.Js.to_string} and
+  {!Js_of_ocaml.Js.to_float} convert JS values to OCaml.
 
 {%wodoc:end%}
 
@@ -598,8 +598,8 @@ Mouse events with Lwt
 We now want to catch mouse events to draw lines with the mouse like
 with the {e brush} tools of any classical drawing application. One
 solution would be to mimic typical JavaScript code in OCaml; for
-example by using the function {!val
-Js_of_ocaml.Dom_events.listen} that is the Js_of_ocaml's equivalent of
+example by using the function
+{!Js_of_ocaml.Dom_events.listen} that is the Js_of_ocaml's equivalent of
 [addEventListener]. However, this solution is at least as verbose
 as the JavaScript equivalent, hence not satisfactory. Js_of_ocaml's
 library provides a much easier way to do that with the help of Lwt.
@@ -737,8 +737,8 @@ functions can cause the entire server to hang!} Remember:
  [Unix],
 - Use cooperative database libraries (like PG'Ocaml for Lwt),
 - If you want to use a non-cooperative function, detach it in another
-  preemptive thread using {!val
-  Lwt_preemptive.detach},
+  preemptive thread using
+  {!Lwt_preemptive.detach},
 - If you want to launch a long-running computation, manually insert
   cooperation points using [Lwt.pause],
 - [Lwt.bind] does not introduce any cooperation point.
@@ -755,9 +755,9 @@ functions can cause the entire server to hang!} Remember:
   DOM element and returns an Lwt thread that will wait until a click
   occurs on this element.
 
-  Functions with an ending "s" ({!val
-  Js_of_ocaml_lwt.Lwt_js_events.clicks}, {!val
-  Js_of_ocaml_lwt.Lwt_js_events.mousedowns}, ...) start again waiting after the
+  Functions with an ending "s"
+  ({!Js_of_ocaml_lwt.Lwt_js_events.clicks},
+  {!Js_of_ocaml_lwt.Lwt_js_events.mousedowns}, ...) start again waiting after the
   handler terminates.
 
   {!Lwt.pick} behaves as the first thread
@@ -807,8 +807,8 @@ line to the [dune] file at the root of the project:
 v}
 
 Then we create an Eliom bus to broadcast drawing events to all client
-with the function {!val
-Eliom.Bus.create}. This function take as parameter the type of
+with the function
+{!Eliom.Bus.create}. This function take as parameter the type of
 values carried by the bus.
 
 {%wodoc:@ class=server%}
@@ -857,18 +857,16 @@ lines are drawn on both windows.
   broadcasting channels where
   client and server can participate (see also {!Eliom.Bus.t} in the client
   API).
-- {!module
-  Eliom.Eliom_react} allows sending
+- {!Eliom.Eliom_react} allows sending
   {{:http://erratique.ch/software/react/doc/React}React events} from
   the server to the client, and conversely.
-- {!type
-  Eliom.Comet.Channel.t} are one-way communication channels
+- {!Eliom.Comet.Channel.t} are one-way communication channels
   allowing finer-grained control. It allows sending {!Lwt_stream} to the client.
   [Eliom.Eliom_react] and [Eliom.Bus] are implemented over
   [Eliom.Comet].
 
-  It is possible to control the idle behaviour with module {!module
-  Eliom.Comet.Configuration}.
+  It is possible to control the idle behaviour with module
+  {!Eliom.Comet.Configuration}.
 
 {%wodoc:end%}
 

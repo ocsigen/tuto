@@ -353,7 +353,7 @@ RPC}, the client-side code does it itself: it changes page with
 {!Eliom.Client.change_page} ({{!change_page}see this question}), or updates
 the current page. The services below are for forms sent by the browser.
 
-A service registered with {!Eliom.Registration.Redirection} answers with a
+A service registered with {!Eliom.Registration.module-Redirection} answers with a
 redirection towards another service, for instance after a POST form. A
 service with parameters is first given their values with
 {!Eliom.Service.preapply}:

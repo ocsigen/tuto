@@ -407,7 +407,7 @@ from the corresponding submodule of
  | {{!Eliom.Registration.File}Files} | Serve files from the server hard drive |
  | {{!Eliom.Registration.Ocaml}Ocaml} | Services returning OCaml values to be sent to a client side OCaml program (this kind of services is used as low level interface for server functions -- see below) |
  | {{!Eliom.Registration.String}String} | Services returning any OCaml string (array of byte) |
- | {{!Eliom.Registration.Redirection}Redirection} | Services returning an HTTP redirection to another service |
+ | {{!Eliom.Registration.module-Redirection}Redirection} | Services returning an HTTP redirection to another service |
  | {{!Eliom.Registration.Any}Any} | To be used to make the service chose what it sends. Call function [send] from the corresponding module to choose the output. |
  | {{!Eliom.Registration.Customize}Customize} | Apply this functor to define your own registration module |
 }
@@ -680,8 +680,8 @@ Sessions are relative to a browser, and implemented using browser cookies.
 But Eliom allows to create Eliom references with other {e scopes} than session:
 
 {t
- | {{!Eliom.Common.global_scope}global_scope} | Global value for all the Web server |
- | {{!Eliom.Common.site_scope}site_scope} | Global value for the Eliom app in that subsite of the Web site |
+ | {{!Eliom.Common.val-global_scope}global_scope} | Global value for all the Web server |
+ | {{!Eliom.Common.val-site_scope}site_scope} | Global value for the Eliom app in that subsite of the Web site |
  | {{!Eliom.Common.default_group_scope}default_group_scope} | Value for a group of sessions. For example Ocsigen Start defines a group of session for each user, making it possible to save server side data for all sessions of a user. |
  | {{!Eliom.Common.default_session_scope}default_session_scope} | The usual session data, based on browser cookies |
  | {{!Eliom.Common.default_process_scope}default_process_scope} | Server side data for a given client-side process (a tab of the browser or a mobile app). This is available only with a client-server Eliom app. |

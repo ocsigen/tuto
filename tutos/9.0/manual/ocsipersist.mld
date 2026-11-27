@@ -17,37 +17,45 @@ if you do not need the full power of a SQL database.
 
 This tutorial shows how to implement a table for storing users and passwords.
 
-We first create a table:
+We first create a table ([open_table] returns a promise of the table):
 {@ocaml[
 let user_table = Ocsipersist.Polymorphic.open_table "user_table"
 ]}
 
-Then we can easily handle the user management code:
+Then we can easily handle the user management code (with [open Lwt.Syntax],
+and the services and the Eliom reference [username] of the
+{{!page-interaction}service based Web programming tutorial}):
 
 {@ocaml[
 let check_pwd name pwd =
-  try%lwt
-    lwt saved_password = Ocsipersist.Polymorphic.find user_table name in
-    Lwt.return (pwd = saved_password)
-  with
-    Not_found -> Lwt.return false
+  let* user_table = user_table in
+  Lwt.catch
+    (fun () ->
+      let* saved_password = Ocsipersist.Polymorphic.find user_table name in
+      Lwt.return (pwd = saved_password))
+    (function Not_found -> Lwt.return false | exn -> Lwt.reraise exn)
 
 let () = Eliom.Registration.Action.register
   ~service:create_account_service
-  (fun () (name, pwd) -> Ocsipersist.Polymorphic.add user_table name pwd)
+  (fun () (name, pwd) ->
+    let* user_table = user_table in
+    Ocsipersist.Polymorphic.add user_table name pwd)
 
 let () = Eliom.Registration.Action.register
   ~service:connection_service
   (fun () (name, password) ->
-    match%lwt check_pwd name password with
-      | true -> Eliom.Reference.set username (Some name)
-      | false -> Lwt.return ())
+    let* ok = check_pwd name password in
+    if ok then Eliom.Reference.set username (Some name) else Lwt.return ())
 ]}
+
+{e Warning:} for the sake of simplicity, this example stores the
+passwords in clear. A real application must store a hash of each
+password instead ({{!/ocsigen-start/page-index}Ocsigen Start} does it for you).
 
 {%wodoc:aside class="concept"%}{b Concept: Ocsipersist}
 
 
  Ocsipersist implements simple typed key/value tables.
- It can use different backends (currently sqlite and dbm).
+ It can use different backends (SQLite, PostgreSQL or DBM).
  For more information see {!Ocsipersist.table}.
 {%wodoc:end%}

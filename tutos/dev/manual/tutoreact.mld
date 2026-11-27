@@ -287,7 +287,7 @@ very concisely thanks to three notions:
 
 You will be able to test once you finish the three following sections!
 
-{2 Client-server cache}
+{2:client-server-cache Client-server cache}
 
 The module
 {!Eliom.Cscache}

@@ -22,7 +22,7 @@ thus mobile-friendly. Of course, you are free to modify the style to
 match your own brand or personality.
 
 The template is multi-platform. This means that it can run on a Web
-browser or as a mobile app for Android, iOS, or Windows.
+browser or as a mobile app for Android or iOS.
 
 {%wodoc:div class="screenshots"%}
 {{:files/screenshots/start1.png}
@@ -42,10 +42,10 @@ browser or as a mobile app for Android, iOS, or Windows.
 
 {1 Installation}
 
-Install the dependencies ([postgresql] and one of [sass], [sassc]).
-On Debian-based systems:
+Install the system dependencies: the PostgreSQL server, NPM, and a SASS
+compiler ([sassc] or [sass]). On Debian-based systems:
 {v
-apt install postgresql ruby-sass
+apt install postgresql npm sassc
 v}
 
 Install Ocsigen Start and all its OCaml dependencies using OPAM:
@@ -58,10 +58,27 @@ Create your application using Eliom distillery:
 eliom-distillery -name myapp -template os
 v}
 
-Have a look at the
-{{:https://github.com/ocsigen/ocsigen-start/blob/master/template.distillery/README.md}README}
-file to learn how to compile it
-and, possibly, to generate the mobile applications.
+Then, from the new [myapp] directory, create a local database (it runs
+as your own user, with its files in [local_db/]), and compile and run
+the application:
+{v
+make db-init
+make db-create
+make db-update
+make test.byte
+v}
+
+The application is now available at
+{{:http://localhost:8080}[http://localhost:8080]}. To create your first
+user, sign up: if no mail server is configured on your machine, the
+activation link is printed in the terminal.
+
+The database server listens on port 3000. If this port is taken, change
+[DB_PORT] in [Makefile.options] and [PGPORT] in [dune.config] before
+running [make db-init].
+
+The [README.md] file of the generated project describes the other
+[make] targets and how to generate the mobile applications.
 
 {1 I installed it and compiled it, what next?}
 
@@ -69,18 +86,21 @@ It is now time to learn Ocsigen! The template is a great way to get
 started, because it comes with multiple runnable examples that show
 you:
 
-- How to do remote procedure calls (RPCs);
-- How to save session data (in {e Eliom references});
-- How to use the notification system;
-- How to create reactive pages;
-- Many examples of widgets from {{!/ocsigen-toolkit/page-index}Ocsigen Toolkit}:
-- Carousel
-- Pages with several tabs
-- Time and date pickers
-- ...
+{ul
+{li How to do remote procedure calls (RPCs);}
+{li How to save session data (in {e Eliom references});}
+{li How to use the notification system;}
+{li How to create reactive pages;}
+{li Many examples of widgets from {{!/ocsigen-toolkit/page-index}Ocsigen Toolkit}:
+  {ul
+  {li Carousel}
+  {li Pages with several tabs}
+  {li Time and date pickers}
+  {li ...}}}}
 
-The corresponding files are well-commented, so you can quickly find
-out how things work.
+Open the demo pages from the menu of the application. Their source
+code is in the [lib/demo_*.eliom] files of your project. These files
+are well-commented, so you can quickly find out how things work.
 
 {%wodoc:div class="screenshots"%}
 {{:files/screenshots/start3.png}

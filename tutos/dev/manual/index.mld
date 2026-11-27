@@ -1,0 +1,58 @@
+@children_order intro basics basics-server start application tutowidgets how-to-register-session-data tutoreact interaction misc lwt html migration mobile custom-conf rest ocsipersist faq
+
+{0 Ocsigen tutorial}
+
+Ocsigen is a framework for client/server Web and mobile applications in
+OCaml. This tutorial shows how to use it, from a first application to
+advanced features. If you do not know where to begin, read the
+{{!page-intro}introduction}.
+
+To install Ocsigen, follow the
+{{:https://ocsigen.org/install}installation instructions}. The opam package
+[ocsigen] installs the main libraries this tutorial uses.
+
+The reference manuals and APIs of these libraries are in their own
+packages: {{!/eliom/page-index}Eliom},
+{{!/ocsigenserver/page-index}Ocsigen Server},
+{{!/ocsigen-start/page-index}Ocsigen Start},
+{{!/ocsigen-toolkit/page-index}Ocsigen Toolkit},
+{{!/js_of_ocaml/page-index}Js_of_ocaml}, {{!/tyxml/page-index}TyXML} and
+{{!/lwt/page-index}Lwt}.
+
+{1 Programmer's guide}
+
+- {{!page-intro}Introduction. Ocsigen: where to start?}
+- {{!page-basics}Client-server application programming guide}
+- {{!page-"basics-server"}Server-side website programming guide}
+
+{1 Main tutorials}
+
+- {{:https://ocsigen.org/install}Install Ocsigen}
+- {{!page-start}Your first app in 5 minutes}
+- {{:https://ocsigen.org/talks/tutochat.html}Interactive tutorial: Writing a chat app}
+- {{!page-application}Client/server application: Graffiti}
+- {{!page-tutowidgets}Eliom apps basics: writing client-server widgets}
+- {{!page-"how-to-register-session-data"}Session data: Eliom references}
+- {{!page-tutoreact}Reactive client-server Web applications}
+- {{!page-interaction}Service based Web programming}
+- {{!page-misc}Mixing traditional Web interaction with client-server app}
+
+{1 5-minute tutorials}
+
+- {{!page-lwt}Lwt}
+- {{!page-html}HTML}
+
+{1 Migration}
+
+- {{!page-migration}Migrating to new module names (compat packages)}
+
+{1 Other tutorials: miscellaneous features}
+
+- {{!page-mobile}Mobile applications with Ocsigen}
+- {{!page-"custom-conf"}Custom configuration}
+- {{!page-rest}RESTful JSON API}
+- {{!page-ocsipersist}Persistent tables with Ocsipersist}
+
+{1 How-to}
+
+- {{!page-faq}How do I…? Questions and answers}

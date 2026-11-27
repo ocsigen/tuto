@@ -1,6 +1,4 @@
-{%wodoc:header%}
 {0 HTML in 5 minutes}
-{%wodoc:end%}
 
 The Tyxml library makes it possible to type-check HTML pages.
 This means that your Ocsigen program will never generate pages

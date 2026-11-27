@@ -305,8 +305,8 @@ let () = My_app.register ~service:main_service
   we simply add a script to each page, it will be loaded each time.
   We usually don't want that.
 
-  Using {!val
-  Eliom.Content.Html.Id.create_global_elt} we can create an xml node
+  Using
+  {!Eliom.Content.Html.Id.create_global_elt} we can create an xml node
   manipulated 'by reference'. If a reference to a script node is
   included in a page, it will only be loaded the first time it appears
   in the header. For example:

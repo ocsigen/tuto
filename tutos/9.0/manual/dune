@@ -1,0 +1,35 @@
+; Tutorial pages (odoc .mld), installed with the package under odoc-pages/,
+; where odoc_driver (ocaml.org) builds them. The CI also builds them directly
+; with wodoc for ocsigen.org (see doc/README.md).
+
+(data_only_dirs files)
+
+(documentation
+ (package ocsigen))
+
+; The per-package odoc configuration must sit at the root of the installed doc
+; directory, next to odoc-pages/, for odoc_driver to find it.
+
+(install
+ (section doc)
+ (package ocsigen)
+ (files odoc-config.sexp))
+
+; The files the pages show or link to, installed next to them with the same
+; relative paths: odoc_driver makes them assets of the pages.
+
+(install
+ (section doc)
+ (package ocsigen)
+ (files
+  (glob_files
+   (files/screenshots/*.png with_prefix odoc-pages/files/screenshots))
+  (glob_files
+   (files/tutorial/*.svg with_prefix odoc-pages/files/tutorial))
+  (glob_files
+   (files/tutorial/tutowidgets/*.{png,css}
+    with_prefix
+    odoc-pages/files/tutorial/tutowidgets))
+  (files/tutorial/static/css/graffiti.css
+   as
+   odoc-pages/files/tutorial/static/css/graffiti.css)))

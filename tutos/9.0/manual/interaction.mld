@@ -167,7 +167,7 @@ In addition to {!Eliom.Parameter.suffix}, there are many other values allowing y
 parameters: for example, you may access the full suffix as a string,
 as a list of string, or you may want to mix suffix parameters with
 standard GET parameters. You can also accept, as parameters, parts of
-the path that are not a suffix of the path (using {!Eliom.Parameter.const}).  See more information
+the path that are not a suffix of the path (using {!Eliom.Parameter.suffix_const}).  See more information
 on suffixes in {{!/eliom/server/services/page-parameters.suffix}Eliom's manual}.
 
 {e Warning:} Even if it is not displayed in the URL, suffix parameters
@@ -204,8 +204,8 @@ Change the handler of [user_service] into:
 
 
 
-The function {!val
-Eliom.Content.Html.D.a} accepts the following parameters:
+The function
+{!Eliom.Content.Html.D.a} accepts the following parameters:
 - the service
 - the content of the link
 - URL parameters to be given to the service
@@ -308,8 +308,8 @@ Lwt!} For example PG'OCaml and Caqti have Lwt interfaces, which
 makes them 100% compatible with Lwt.
 
 If your database module is not Lwt-cooperative but is thread-safe (for
-preemptive threads), you can use the {!val
-Lwt_preemptive.detach} function to make the blocking function be
+preemptive threads), you can use the
+{!Lwt_preemptive.detach} function to make the blocking function be
 executed by a separate preemptive thread.
 
 {%wodoc:end%}
@@ -741,7 +741,7 @@ Usually, after sending a POST form, it is good practice to do a
 redirection.  This avoids reposting the data if the user reloads the
 page.
 
-Eliom provides the module {!Eliom.Registration.Redirection} to register services doing
+Eliom provides the module {!Eliom.Registration.module-Redirection} to register services doing
 redirections.  Such services return a service without parameter.
 
 Example:
@@ -820,8 +820,8 @@ HTML page without a conversion.  See the
 
 To create a logout/disconnection form, we create another non-attached
 coservice using POST method, and register another action.  We call the
-function {!val
-Eliom.State.discard} with scope {!Eliom.Common.default_session_scope} to remove all session
+function
+{!Eliom.State.discard} with scope {!Eliom.Common.default_session_scope} to remove all session
 data.
 
 {@ocaml[

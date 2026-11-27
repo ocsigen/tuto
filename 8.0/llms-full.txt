@@ -1,6 +1,6 @@
-# Doc
+# Ocsigen tutorials
 
-> Doc, part of the Ocsigen Web framework (OCaml).
+> Tutorials and how-to guides for Ocsigen: writing client/server Web and mobile applications in OCaml with Eliom and Ocsigen Start, from a first application to services, sessions, reactive pages and mobile apps.
 
 
 ---

@@ -64,8 +64,6 @@ Now, we recommend to read, chapter [All Ocsigen in one page](./basics.md) for a 
 
 # Client-server application programming guide
 
-This tutorial has been tested with Eliom 11\.0.0.
-
 This page describes the main concepts you need to master to become fully operational with Ocsigen. Use it as your training plan or as a cheat sheet while programming.
 
 Depending on your needs, you may not need to learn all this. Ocsigen is very flexible and can be used both for Web site programming (see [this page](./basics-server.md)) or more complex client-server Web apps and their mobile counterparts.
@@ -832,7 +830,7 @@ Have a look at a [running example](https://ocsigen-1.inria.fr/ocsigen-start/demo
 Eliom has other communication modules:
 
 - `Eliom.Bus` defines a communication bus, that you can use to share information with other client processes (see an example [here](./application.md)).
-- `Eliom_react` defines client-server React events.
+- `Eliom.Eliom_react` defines client-server React events.
 - `Eliom.Comet` is lower level interface for server to client communication.
 
 ## Internationalisation
@@ -1571,8 +1569,6 @@ Ocsigen Server has a `sophisticated configuration` file mechanism allowing compl
 
 # Your first app in 5 minutes
 
-*The code of this tutorial has been tested against Eliom 6\.0.* <br/>
-
 This tutorial describes how to get started with Ocsigen quickly. Thanks to an application template provided by the Ocsigen team, you will get to a working application with standard functionality like users and notifications in only a few minutes. This template can be used for learning purposes, or even as a starting point for your own product.
 
 The template you will use comes from `Ocsigen Start`. Ocsigen Start provides a complete mechanism for adding and managing users, including activation links and password reset. It additionally contains a module for displaying tips, a module for sending notifications to your users, and other utilities typically needed in modern Web applications.
@@ -2181,9 +2177,9 @@ Eliom provides multiple ways for the server to send unsolicited data to the clie
 - Module `Eliom.Notif` (or `Os.Notif` if you are using Ocsigen Start) provides a very simple way to send messages to clients. It's probably the solution you will use most of the times.
 - You can use `Eliom.Bus.t` instead, as in this example, in the particular case when you need to broadcast data to all connected clients. Buses are broadcasting channels where client and server can participate (see also `Eliom.Bus.t` in the client API).
 - `module
-Eliom_react` allows sending [React events](http://erratique.ch/software/react/doc/React) from the server to the client, and conversely.
+Eliom.Eliom_react` allows sending [React events](http://erratique.ch/software/react/doc/React) from the server to the client, and conversely.
 - `type
-Eliom.Comet.Channel.t` are one-way communication channels allowing finer-grained control. It allows sending `Lwt_stream` to the client. `Eliom_react` and `Eliom.Bus` are implemented over `Eliom.Comet`.
+Eliom.Comet.Channel.t` are one-way communication channels allowing finer-grained control. It allows sending `Lwt_stream` to the client. `Eliom.Eliom_react` and `Eliom.Bus` are implemented over `Eliom.Comet`.
 It is possible to control the idle behaviour with module `module
 Eliom.Comet.Configuration`.
 
@@ -3100,7 +3096,7 @@ let%server display_messages () =
   ignore [%client
     (ignore
        (React.E.map (handle_notif_message_list ~%rmessages)
-          ~%(Forum_notif.client_ev () : (unit * int) Eliom_react.Down.t))
+          ~%(Forum_notif.client_ev () : (unit * int) Eliom.Eliom_react.Down.t))
      : unit)
   ];
   let%lwt content =
@@ -3364,7 +3360,7 @@ In the function `display_messages`, we need to take care of the `forumid` parame
 let%server display_messages forumid =
   Forum_notif.listen (forumid : int);
   ...
-  ~%(Forum_notif.client_ev () : (int * int) Eliom_react.Down.t))
+  ~%(Forum_notif.client_ev () : (int * int) Eliom.Eliom_react.Down.t))
   ...
 ```
 We annotate the type of `forumid` in the call of the function `listen` to help the typing system.
@@ -3527,7 +3523,7 @@ let%server display_messages forumid =
   ignore [%client
     (ignore
        (React.E.map handle_notif_message_list
-          ~%(Forum_notif.client_ev () : (int * int) Eliom_react.Down.t))
+          ~%(Forum_notif.client_ev () : (int * int) Eliom.Eliom_react.Down.t))
      : unit)
   ];
   let%lwt content =
@@ -3567,8 +3563,6 @@ let%server display userid_o forumid =
 ---
 
 # Implementing Web Interaction Using Eliom
-
-*The code of this tutorial has been tested with Eliom 6\.0.* <br/>
 
 This chapter of the tutorial explains how to create a small web site with several pages, users, sessions, and other elements of classical web development. Then, in [another tutorial](./misc.md), we will incorporate the features of this site into our Graffiti application, to demonstrate that we can combine this kind of interaction with client-side programs.
 
@@ -4421,8 +4415,6 @@ let () = Eliom.Content.Html.D.(
 
 # Traditional web interaction in a client-server app
 
-*The code of this tutorial has been tested with Eliom 6\.0.* <br/>
-
 ## Multi-user collaborative drawing application
 
 We now want to turn our collaborative drawing application into a multi-user one. Each user will have their own drawing, where everyone can draw.
@@ -5252,7 +5244,8 @@ This is the same pattern adopted internally by `Ot.Icons.Make`.
 
 ### Other changes
 
-- `ocsigen-i18n` 5\.0 now adds `[@@deriving json]` automatically in `--eliom` mode. Remove any `sed` hack that was adding it manually.
+- With Eliom 13, use `ocsigen-i18n` 6\.0: its `--eliom` mode generates code with the new module names (`Eliom.Reference`, `Eliom.Content`...). Code generated by 5\.x uses the old names and needs `eliom-compat`. Keep `ocsigen-i18n` 5\.x for projects still on Eliom 12\.
+- Since 5\.0, `ocsigen-i18n` adds `[@@deriving json]` automatically in `--eliom` mode. Remove any `sed` hack that was adding it manually.
 - `ocsigen-i18n-generator` reads its TSV input from stdin in `--eliom` mode. In `dune` rules, pipe the input via `(with-stdin-from %{deps} (run ocsigen-i18n-generator --eliom ...))` rather than passing it as a positional argument.
 
 
@@ -5286,18 +5279,18 @@ It is not convenient to have to edit the code to change some configurations, lik
 
 ## Basic interface
 
+`Eliom.Config.get_config` returns the content of the `<eliom>` element of the configuration file, as a list of `Xml.xml` values from the `xml-light` library (add `xml-light` to the `libraries` of your `dune` file):
+
 ```ocaml
 let static_dir =
   match Eliom.Config.get_config () with
-    | [Simplexmlparser.Element
-     ("staticdir", [], [Simplexmlparser.PCData dir])] ->
-        dir
-    | [] ->
-      raise (Ocsigen.Extensions.Error_in_config_file
-               ("staticdir must be configured"))
-    | _ ->
-      raise (Ocsigen.Extensions.Error_in_config_file
-               ("Unexpected content inside config"))
+  | [Xml.Element ("staticdir", [], [Xml.PCData dir])] -> dir
+  | [] ->
+    raise (Ocsigen.Extensions.Error_in_config_file
+             "staticdir must be configured")
+  | _ ->
+    raise (Ocsigen.Extensions.Error_in_config_file
+             "Unexpected content inside config")
 ```
 This will add a mandatory child to the eliom tag in the configuration file:
 
@@ -5307,28 +5300,34 @@ This will add a mandatory child to the eliom tag in the configuration file:
 </eliom>
 ```
 
-## New interface
+## Declarative interface
 
-From Eliom 4\.0 it is much easier to define configuration file extension. Have a look at module `Eliom.Config`. For instance, here is how you can add an element "\<ldap\>" in the configuration file to store a list of LDAP servers your application interacts with.
+Module `Eliom.Config` also lets you describe the elements and attributes you expect, and parses them for you. For instance, here is how you can add an element `<LDAP>` in the configuration file to store a list of LDAP servers your application interacts with:
+
+```
+<eliom module="path/to/your/module.cma">
+  <LDAP host="ldap1.example.com"/>
+  <LDAP host="ldap2.example.com" port="636"/>
+</eliom>
+```
+`Eliom.Config.parse_config` processes the whole content of the `<eliom>` element: it rejects any other child (such as the `<staticdir>` of the previous example), unless you handle it with its `~other_elements` parameter.
 
 ```ocaml
-
-(** An LDAP server is characterized by an host and a port. *)
+(* An LDAP server is characterized by a host and a port. *)
 type ldap_configuration = {
   mutable host : string;
   mutable port : int;
-  }
+}
 
-
-(** We store a list of LDAP servers to interact with. *)
+(* We store a list of LDAP servers to interact with. *)
 let ldap_servers = ref []
 
-(** The user-defined extension of the configuration file. *)
+(* The user-defined extension of the configuration file. *)
 let ldap_configuration = Ocsigen.Extensions.Configuration.(
-  (** Default configuration *)
+  (* Default configuration *)
   let config () = {
     host = "";
-    port = 339;
+    port = 389;
   }
   in
   let init () =
@@ -5337,8 +5336,7 @@ let ldap_configuration = Ocsigen.Extensions.Configuration.(
   let current () =
     List.hd !ldap_servers
   in
-
-  (** Parsing functions. *)
+  (* Parsing functions. *)
   let req_attr name = attribute ~name ~obligatory:true
   and opt_attr name = attribute ~name ~obligatory:false
   in
@@ -5347,14 +5345,12 @@ let ldap_configuration = Ocsigen.Extensions.Configuration.(
   and attributes = [
     req_attr "host" (fun h -> (current ()).host <- h);
     opt_attr "port" (fun p -> (current ()).port <- int_of_string p);
-    );
   ]
   in
   element ~init ~name ~obligatory ~attributes ()
 )
 
-let _ = Eliom.Config.parse_config [ldap_configuration]
-
+let () = Eliom.Config.parse_config [ldap_configuration]
 ```
 
 
@@ -5402,15 +5398,23 @@ will store this location in the database.
 
 ## Requirements
 
-- eliom \>= 4\.0
+- eliom \>= 13\.0
+- an ocsipersist backend, such as ocsipersist-sqlite
 - yojson
-- ppx\_deriving
 - ppx\_deriving\_yojson
+- lwt\_ppx
+- cohttp-lwt
 You need some knowledge about Eliom to be able to fully understand this tutorial. It's not meant to be an Eliom introduction.
 
-The following browser extensions are useful to manually test your REST APIs:
+You can test your REST API from the command line with `curl`, for example:
 
-- [RESTClient](https://addons.mozilla.org/en-US/firefox/addon/restclient/) for Firefox \* [Postman](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm) for Chrome
+```
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"description": "Paris", "coordinates": {"latitude": 48.8567, "longitude": 2.3508}}' \
+  http://localhost:8080/paris
+curl http://localhost:8080/paris
+curl -X DELETE http://localhost:8080/paris
+```
 
 ## Data types
 
@@ -5447,15 +5451,12 @@ let db : location Ocsipersist.table Lwt.t =
 ```
 **Concept: Syntax extensions**
 
-In order to successfully build this tutorial's source code, your `Makefile.options` must contain the following settings:
+The code snippet above uses a syntax extension provided by the `ppx_deriving_yojson` package, and the handlers below use `let%lwt` from `lwt_ppx`. In order to build this tutorial's source code, the `dune` file of your server code must contain the following lines. `ocsipersist` is a virtual library: an executable must also link a backend (such as `ocsipersist-sqlite`), and a module loaded by the `ocsigenserver` command gets it from the configuration file (see the [server-side programming guide](./basics-server.md)).
 
-```makefile
-# OCamlfind packages for the server
-SERVER_PACKAGES := ppx_deriving_yojson lwt_ppx js_of_ocaml-ppx.deriving
-# OCamlfind packages for the client
-CLIENT_PACKAGES := lwt_ppx ppx_deriving_yojson js_of_ocaml-ppx js_of_ocaml-ppx.deriving
+```lisp
+ (libraries eliom.server ocsipersist yojson cohttp-lwt)
+ (preprocess (pps lwt_ppx ppx_deriving_yojson))
 ```
-This is due to the fact, that in the code snippet above we use a syntax extension provided by the `ppx_deriving_yojson` package.
 
 ## Services definition
 
@@ -5473,8 +5474,8 @@ Next step is to define our API services. We define four of them with the same pa
 
 - GET method will be used to access the database, either all of it if no identifier is provided, or a single resource otherwise. An error will be returned if no resource matches the identifier.
 - POST method will be used to create a new resource (or update it if it already exists). We set a single POST parameter: `Eliom.Parameter.raw_post_data`, in order to retrieve raw JSON and bypass POST parameters decoding.
-- PUT method will be used to update an existing resource. An error will be returned if no resource matches the identifier. We don't need to define POST parameter, PUT services takes `Eliom.Parameter.raw_post_data` as default content.
-- DELETE method will be used to delete an existing resource. An error will be returned if no resource matches the identifier.
+- PUT method will be used to update an existing resource. An error will be returned if no resource matches the identifier. We don't need to define POST parameters: PUT services take `Eliom.Parameter.raw_post_data` as default content.
+- DELETE method will be used to delete a resource. Deleting a location that does not exist also succeeds: DELETE is idempotent.
 ```ocaml
 let read_service =
   Eliom.Service.create
@@ -5505,11 +5506,13 @@ let delete_service =
 
 Let's start the handlers definition with a few helper values and functions used by handlers.
 
-Since we use the low-level `Eliom.Registration.String.send` function to send our response, we wrap it in three specialized functions: `send_json`, `send_error` and `send_success` (this one only send the 200 OK status code, without any content).
+Since we use the low-level `Eliom.Registration.String.send` function to send our response, we wrap it in three specialized functions: `send_json`, `send_error` and `send_success` (this one only sends the 200 OK status code, without any content).
 
 Another function helps us to check the received `Content-type` is the expected one, by matching it against a MIME type. In our example, we'll verify that we are receiving JSON.
 
-The `read_raw_content` function retrieve at most `length` characters from the `raw_content` Ocsigen stream.
+The `raw_content` of a request is a `Cohttp_lwt.Body.t`. The `read_raw_content` function reads it chunk by chunk, and gives up (returns `None`) as soon as the body exceeds `max_length` bytes, so that a client cannot make the server store a huge body in memory.
+
+The `parse_location` function decodes a location from a JSON string. Both `Yojson` parsing and the decoding into our type may fail: we turn both failures into an `Error`.
 
 ```ocaml
 let json_mime_type = "application/json"
@@ -5530,19 +5533,37 @@ let check_content_type ~mime_type content_type =
       when (type_ ^ "/" ^ subtype) = mime_type -> true
   | _ -> false
 
-let read_raw_content ?(length = 4096) raw_content =
-  let content_stream = Ocsigen_stream.get raw_content in
-  Ocsigen_stream.string_of_stream length content_stream
+let read_raw_content ?(max_length = 4096) raw_content =
+  let stream = Cohttp_lwt.Body.to_stream raw_content in
+  let buffer = Buffer.create 256 in
+  let rec read () =
+    match%lwt Lwt_stream.get stream with
+    | None -> Lwt.return_some (Buffer.contents buffer)
+    | Some chunk ->
+      if Buffer.length buffer + String.length chunk > max_length then
+        Lwt.return_none
+      else begin
+        Buffer.add_string buffer chunk;
+        read ()
+      end
+  in
+  read ()
+
+let parse_location location_str =
+  match Yojson.Safe.from_string location_str with
+  | json -> location_of_yojson json
+  | exception Yojson.Json_error message -> Error message
 ```
 Then we define our handlers in order to perform the required actions and return a response.
 
-POST and PUT handlers will read raw body content as JSON and use `Yojson` to convert it to our types.
+POST and PUT handlers will read raw body content as JSON and convert it to our types with the functions generated by `ppx_deriving_yojson`.
 
-We use HTTP status codes in responses, with these meaning:
+We use HTTP status codes in responses, with these meanings:
 
 - 200 (OK): the request succeeded.
 - 400 (Bad request): something is wrong with the request (missing parameter, parsing error...).
 - 404 (Not found): no resource matches the provided identifier.
+- 413 (Content too large): the body of the request is longer than we accept.
 The GET handler either returns a single location if an identifier is provided, or a list of all existing locations otherwise.
 
 ```ocaml
@@ -5550,59 +5571,50 @@ let read_handler id_opt () =
   let%lwt db = db in
   match id_opt with
   | None ->
-    Ocsipersist.Polymorphic.fold_step
-      (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
-    >>= fun locations ->
+    let%lwt locations =
+      Ocsipersist.Polymorphic.fold
+        (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
+    in
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
     send_json ~code:200 json
   | Some id ->
-    catch
-      (fun () ->
-         Ocsipersist.Polymorphic.find db  id >>= fun location ->
-         let json =
-           Yojson.Safe.to_string (location_to_yojson location) in
-         send_json ~code:200 json)
-      (function
-        | Not_found ->
-          (* [id] hasn't been found, return a "Not found" message *)
-          send_error ~code:404 ("Resource not found: " ^ id)
-        | _ ->  send_error ~code:500 "Internal server error" )
+    match%lwt Ocsipersist.Polymorphic.find db id with
+    | location ->
+      let json = Yojson.Safe.to_string (location_to_yojson location) in
+      send_json ~code:200 json
+    | exception Not_found ->
+      send_error ~code:404 ("Resource not found: " ^ id)
 ```
-Next, let's create a common function for POST and PUT handlers, which have a very similar behaviour. The only difference is that a PUT request with a non-existing identifier will fail (thus only accepting update requests, and rejecting creations), whereas the same request with POST method will succeed (a new location associated to the identifier will be created).
+Next, let's create a common function for POST and PUT handlers, which have a very similar behaviour. The only difference is that a PUT request with a non-existing identifier will fail (thus only accepting update requests, and rejecting creations), whereas the same request with POST method will succeed (a new location associated to the identifier will be created). `Ocsipersist.Polymorphic.replace_if_exists` does the check and the update in one step, and fails with `Not_found` if there is no location to update.
 
 ```ocaml
-let edit_handler_aux ?(create = false) id_opt (content_type, raw_content_opt) =
+let edit_handler_aux ~create id_opt (content_type, raw_content) =
   let%lwt db = db in
   if not (check_content_type ~mime_type:json_mime_type content_type) then
     send_error ~code:400 "Content-type is wrong, it must be JSON"
   else
-    match id_opt, raw_content_opt with
-    | None, _ ->
+    match id_opt with
+    | None ->
       send_error ~code:400 "Location identifier is missing"
-    | _, None ->
-      send_error ~code:400 "Body content is missing"
-    | Some id, Some raw_content ->
-      read_raw_content raw_content >>= fun location_str ->
-      catch (fun () ->
-          (if create then
-            Lwt.return_unit
-           else
-            Ocsipersist.Polymorphic.find db id >>= fun _ -> Lwt.return_unit)
-          >>= fun () ->
-          let location =
-            (let open Result in
-            let loc_result = location_of_yojson (Yojson.Safe.from_string location_str) in
-            match loc_result with
-              Ok loc-> loc
-            | Error _ -> raise Deriving_Yojson.Failed )  in
-          Ocsipersist.Polymorphic.add db  id location >>= fun () ->
-          send_success ())
-      (function
-        | Not_found ->
-          send_error ~code:404 ("Location not found: " ^ id)
-        | Deriving_Yojson.Failed ->
+    | Some id ->
+      match%lwt read_raw_content raw_content with
+      | None ->
+        send_error ~code:413 "Body content is too large"
+      | Some location_str ->
+        match parse_location location_str with
+        | Error _ ->
           send_error ~code:400 "Provided JSON is not valid"
-        | _ -> send_error ~code:500 "Internal server error")
+        | Ok location ->
+          if create then
+            let%lwt () = Ocsipersist.Polymorphic.add db id location in
+            send_success ()
+          else
+            match%lwt
+              Ocsipersist.Polymorphic.replace_if_exists db id location
+            with
+            | () -> send_success ()
+            | exception Not_found ->
+              send_error ~code:404 ("Location not found: " ^ id)
 
 let create_handler id_opt content =
   edit_handler_aux ~create:true id_opt content
@@ -5613,12 +5625,13 @@ let update_handler id_opt content =
 We need a fourth handler to delete locations:
 
 ```ocaml
-let%lwt db = db in
+let delete_handler id_opt _body =
+  let%lwt db = db in
   match id_opt with
   | None ->
     send_error ~code:400 "An id must be provided to delete a location"
   | Some id ->
-    Ocsipersist.Polymorphic.remove db id >>= fun () ->
+    let%lwt () = Ocsipersist.Polymorphic.remove db id in
     send_success ()
 ```
 
@@ -5628,18 +5641,15 @@ Finally we register services with the `Eliom.Registration.Any` module in order t
 
 ```ocaml
 let () =
-  Eliom.Registration.Any.register read_service read_handler;
-  Eliom.Registration.Any.register create_service create_handler;
-  Eliom.Registration.Any.register update_service update_handler;
-  Eliom.Registration.Any.register delete_service delete_handler;
-  ()
+  Eliom.Registration.Any.register ~service:read_service read_handler;
+  Eliom.Registration.Any.register ~service:create_service create_handler;
+  Eliom.Registration.Any.register ~service:update_service update_handler;
+  Eliom.Registration.Any.register ~service:delete_service delete_handler
 ```
 
 ## Full source
 
 ```ocaml
-open Lwt
-
 (**** Data types ****)
 
 type coordinates = {
@@ -5655,7 +5665,7 @@ type location = {
 (* List of pairs (identifier * location) *)
 type locations =
   (string * location) list
-   [@@deriving yojson]
+  [@@deriving yojson]
 
 type error = {
   error_message : string;
@@ -5663,7 +5673,6 @@ type error = {
 
 let db : location Ocsipersist.table Lwt.t =
   Ocsipersist.Polymorphic.open_table "locations"
-
 
 (**** Services ****)
 
@@ -5716,9 +5725,26 @@ let check_content_type ~mime_type content_type =
       when (type_ ^ "/" ^ subtype) = mime_type -> true
   | _ -> false
 
-let read_raw_content ?(length = 4096) raw_content =
-  let content_stream = Ocsigen_stream.get raw_content in
-  Ocsigen_stream.string_of_stream length content_stream
+let read_raw_content ?(max_length = 4096) raw_content =
+  let stream = Cohttp_lwt.Body.to_stream raw_content in
+  let buffer = Buffer.create 256 in
+  let rec read () =
+    match%lwt Lwt_stream.get stream with
+    | None -> Lwt.return_some (Buffer.contents buffer)
+    | Some chunk ->
+      if Buffer.length buffer + String.length chunk > max_length then
+        Lwt.return_none
+      else begin
+        Buffer.add_string buffer chunk;
+        read ()
+      end
+  in
+  read ()
+
+let parse_location location_str =
+  match Yojson.Safe.from_string location_str with
+  | json -> location_of_yojson json
+  | exception Yojson.Json_error message -> Error message
 
 (**** Handlers ****)
 
@@ -5726,56 +5752,47 @@ let read_handler id_opt () =
   let%lwt db = db in
   match id_opt with
   | None ->
-    Ocsipersist.Polymorphic.fold_step
-      (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
-    >>= fun locations ->
+    let%lwt locations =
+      Ocsipersist.Polymorphic.fold
+        (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
+    in
     let json = Yojson.Safe.to_string (locations_to_yojson locations) in
     send_json ~code:200 json
   | Some id ->
-    catch
-      (fun () ->
-         Ocsipersist.Polymorphic.find db  id >>= fun location ->
-         let json =
-           Yojson.Safe.to_string (location_to_yojson location) in
-         send_json ~code:200 json)
-      (function
-        | Not_found ->
-          (* [id] hasn't been found, return a "Not found" message *)
-          send_error ~code:404 ("Resource not found: " ^ id)
-        | _ -> assert false)
+    match%lwt Ocsipersist.Polymorphic.find db id with
+    | location ->
+      let json = Yojson.Safe.to_string (location_to_yojson location) in
+      send_json ~code:200 json
+    | exception Not_found ->
+      send_error ~code:404 ("Resource not found: " ^ id)
 
-let edit_handler_aux ?(create = false) id_opt (content_type, raw_content_opt) =
+let edit_handler_aux ~create id_opt (content_type, raw_content) =
   let%lwt db = db in
   if not (check_content_type ~mime_type:json_mime_type content_type) then
     send_error ~code:400 "Content-type is wrong, it must be JSON"
   else
-    match id_opt, raw_content_opt with
-    | None, _ ->
+    match id_opt with
+    | None ->
       send_error ~code:400 "Location identifier is missing"
-    | _, None ->
-      send_error ~code:400 "Body content is missing"
-    | Some id, Some raw_content ->
-      read_raw_content raw_content >>= fun location_str ->
-      catch (fun () ->
-          (if create then
-            Lwt.return_unit
-           else
-            Ocsipersist.Polymorphic.find db id >>= fun _ -> Lwt.return_unit)
-          >>= fun () ->
-          let location =
-            (let open Result in
-            let loc_result = location_of_yojson (Yojson.Safe.from_string location_str) in
-            (function
-              Ok loc-> loc
-            | Error _ -> raise Deriving_Yojson.Failed ) loc_result)  in
-          Ocsipersist.Polymorphic.add db  id location >>= fun () ->
-          send_success ())
-      (function
-        | Not_found ->
-          send_error ~code:404 ("Location not found: " ^ id)
-        | Deriving_Yojson.Failed ->
+    | Some id ->
+      match%lwt read_raw_content raw_content with
+      | None ->
+        send_error ~code:413 "Body content is too large"
+      | Some location_str ->
+        match parse_location location_str with
+        | Error _ ->
           send_error ~code:400 "Provided JSON is not valid"
-        | _ -> assert false)
+        | Ok location ->
+          if create then
+            let%lwt () = Ocsipersist.Polymorphic.add db id location in
+            send_success ()
+          else
+            match%lwt
+              Ocsipersist.Polymorphic.replace_if_exists db id location
+            with
+            | () -> send_success ()
+            | exception Not_found ->
+              send_error ~code:404 ("Location not found: " ^ id)
 
 let create_handler id_opt content =
   edit_handler_aux ~create:true id_opt content
@@ -5783,23 +5800,22 @@ let create_handler id_opt content =
 let update_handler id_opt content =
   edit_handler_aux ~create:false id_opt content
 
-let delete_handler id_opt _ =
+let delete_handler id_opt _body =
   let%lwt db = db in
   match id_opt with
   | None ->
     send_error ~code:400 "An id must be provided to delete a location"
   | Some id ->
-    Ocsipersist.Polymorphic.remove db id >>= fun () ->
+    let%lwt () = Ocsipersist.Polymorphic.remove db id in
     send_success ()
 
-(* Register services *)
+(**** Services registration ****)
 
 let () =
-  Eliom.Registration.Any.register read_service read_handler;
-  Eliom.Registration.Any.register create_service create_handler;
-  Eliom.Registration.Any.register update_service update_handler;
-  Eliom.Registration.Any.register delete_service delete_handler;
-  ()
+  Eliom.Registration.Any.register ~service:read_service read_handler;
+  Eliom.Registration.Any.register ~service:create_service create_handler;
+  Eliom.Registration.Any.register ~service:update_service update_handler;
+  Eliom.Registration.Any.register ~service:delete_service delete_handler
 ```
 
 
@@ -6165,7 +6181,9 @@ let media_tag () =
              media##pause
            | Seek f ->
              media##.currentTime := (f /. 100. *. media##.duration)
-         in Lwt_react.S.keep (React.S.map media_map media_s) ;
+         in
+         Eliom.Lib.Dom_reference.retain media
+           ~keep:(React.S.map media_map media_s) ;
          Lwt_js_events.timeupdates media (fun _ _ ->
              set_progress_s (media##.currentTime, media##.duration) ;
              Lwt.return ()
@@ -6174,7 +6192,7 @@ let media_tag () =
   ] in
   media
 ```
-The function `media_tag` builds an `<audio>` element. The code in `[%client ... ]` is on the client part. It's an Lwt thread that maps a function `media_action -> unit` to the signal `media_s`.
+The function `media_tag` builds an `<audio>` element. The code in `[%client ... ]` is on the client part. It's an Lwt thread that maps a function `media_action -> unit` to the signal `media_s`. React does not keep the resulting signal alive by itself: `Eliom.Lib.Dom_reference.retain` keeps it as long as the `<audio>` element exists.
 
 **Concept: Playing video**
 
@@ -6269,7 +6287,9 @@ let media_tag () =
              media##pause
            | Seek f ->
              media##.currentTime := (f /. 100. *. media##.duration)
-         in Lwt_react.S.keep (React.S.map media_map media_s) ;
+         in
+         Eliom.Lib.Dom_reference.retain media
+           ~keep:(React.S.map media_map media_s) ;
          Lwt_js_events.timeupdates media (fun _ _ ->
              set_progress_s (media##.currentTime, media##.duration) ;
              Lwt.return ()
@@ -6297,6 +6317,8 @@ open%shared Eliom.Content.Html.F
 and use the Lwt syntax extension (`let%lwt`, see [Lwt in 5 minutes](./lwt.md)). Answers mentioning `Os` or `Ot` use `Ocsigen Start` and `Ocsigen Toolkit`. Module names are those of Eliom 13 and later (`Eliom.Service` rather than `Eliom_service`, see [the migration guide](./migration.md)).
 
 Pages are registered with the module `App` of the application, made by `Eliom.Registration.App`: it is in `myapp.eliom` with the `app` template, and is `Myapp_base.App` with the `os` template. Do not use `Eliom.Registration.Html` for the pages of a client-server application: it sends them without the client-side program, so their client-side code does not run, and links towards them leave the application. Most examples register pages on the server only; [this question](./#client_pages) shows how to let the client generate them too.
+
+Eliom supports two styles of programming, which can be mixed in the same application. In a client-server application, the client-side program handles the user's actions: it sends the data to the server with [RPCs](./#rpc), and updates the page or changes page itself. On a traditional Web site, the browser follows links and sends forms to services, which answer with new pages. When the answers differ, the questions below give the client-server way first.
 
 ## Getting started
 
@@ -6471,7 +6493,37 @@ let%server links =
 
 ### How do I write a form?
 
-Like links, forms are typed. The function given to `Form.get_form` or `Form.post_form` receives the names of the parameters of the service, and each field must have the type of its parameter:
+In a client-server application, the form is usually handled by client-side code: plain HTML fields (`Raw`), a button, and a client-side function that reads the values and sends them to the server with an [RPC](./#rpc). The page does not change, and the client decides what to display with the answer:
+
+```ocaml
+let%rpc add_comment (post_id : int) (text : string) : unit Lwt.t =
+  (* Anyone can call an RPC, with any values: check them here, and the
+     rights of the user. *)
+  if String.length text > 2000
+  then Lwt.fail_with "add_comment: comment too long"
+  else Db.add_comment post_id text
+
+let%shared comment_box (post_id : int) =
+  let text = Eliom.Content.Html.D.Raw.textarea ~a:[a_maxlength 2000] (txt "") in
+  let send =
+    [%client
+      fun _ ->
+        Lwt.async (fun () ->
+          let field = Eliom.Content.Html.To_dom.of_textarea ~%text in
+          try%lwt
+            let%lwt () = add_comment ~%post_id (Js.to_string field##.value) in
+            field##.value := Js.string "";
+            Lwt.return_unit
+          with e ->
+            Logs.err (fun m -> m "add_comment: %s" (Printexc.to_string e));
+            Eliom.Lib.alert "Your comment could not be sent.";
+            Lwt.return_unit)]
+  in
+  div [text; button ~a:[a_onclick send] [txt "Send"]]
+```
+The field is created with `D`, so that the client-side code finds the same node ([see this question](./#client_code)); `Js` is `Js_of_ocaml.Js`. Ocsigen Toolkit's `Ot.Form` gives ready-made fields for this style: reactive inputs, validation, a button that cannot be clicked twice... The [`demo_forms.eliom`](https://github.com/ocsigen/os_template/blob/master/lib/demo_forms.eliom) file of the `os` template shows them, with a form sent with an RPC.
+
+The other way is the one of traditional Web sites: the browser sends the form to a service, and displays the page that the service answers. Use it for pages that must work without client-side code, or when the result must have its own URL (a search form, with GET). Like links, these forms are typed. The function given to `Form.get_form` or `Form.post_form` receives the names of the parameters of the service, and each field must have the type of its parameter:
 
 ```ocaml
 let%server search_form =
@@ -6496,9 +6548,11 @@ let%server comment_form post_id =
        ; Form.input ~input_type:`Submit ~value:"Send" Form.string ])
     post_id
 ```
-`Form` also has `select`, `checkbox`, `radio`, `file_input`... See `forms in Eliom's manual` and the `demo_forms.eliom` file of the `os` template. The `os` template also shows how to submit a form from client-side code, without changing page.
+`Form` also has `select`, `checkbox`, `radio`, `file_input`... See `forms in Eliom's manual`.
 
 ### How do I redirect to another page, or do something and stay on the same page?
+
+In a client-server application, after [sending a form with an RPC](./#forms), the client-side code does it itself: it changes page with `Eliom.Client.change_page` ([see this question](./#change_page)), or updates the current page. The services below are for forms sent by the browser.
 
 A service registered with `Eliom.Registration.Redirection` answers with a redirection towards another service, for instance after a POST form. A service with parameters is first given their values with `Eliom.Service.preapply`:
 
@@ -6656,7 +6710,9 @@ The tutorial [RESTful JSON API](./rest.md) gives a complete example.
 
 ### How do I make a sequence of forms (a wizard)?
 
-Create a new service for each step, during the request, with the data of the previous steps in its closure. Unlike session data, this works with several tabs and with the back button:
+In a client-server application, write it in client-side code: each step replaces the content of the form, the values of the previous steps stay in OCaml variables, and an RPC sends everything at the end ([see this question](./#forms)). Nothing is kept on the server before the last step.
+
+With forms sent by the browser, create a new service for each step, during the request, with the data of the previous steps in its closure. Unlike session data, this works with several tabs and with the back button:
 
 ```ocaml
 let%server calc =
@@ -6695,11 +6751,48 @@ The fallback is used when the service no longer exists (timeout, server restarte
 
 ### How do I upload a file?
 
-Use a POST parameter of type `file`. Ocsigen Server writes the file in its upload directory, and removes it at the end of the request: move it before.
+Use a POST parameter of type `file`. Ocsigen Server writes the file in its upload directory, and removes it at the end of the request: move it before. Do not use the name sent by the browser, which the user chooses: store the file under a random name, and keep the original name as data if you need it.
 
 ```ocaml
 let%server upload_dir = "/var/www/uploads"
 
+let%server save_upload file =
+  let name =
+    Eliom.Lib.make_cryptographic_safe_string ()
+    |> String.map (function '+' -> '-' | '/' -> '_' | c -> c)
+  in
+  let%lwt () =
+    Lwt_unix.rename
+      (Eliom.Request_info.get_tmp_filename file)
+      (Filename.concat upload_dir name)
+  in
+  Lwt.return name
+```
+In a client-server application, send the file from client-side code, without changing page, to a service registered with `Eliom.Registration.Ocaml`: its handler returns an OCaml value to the client. Call it with `Eliom.Client.call_ocaml_service`, giving the file chosen in an `<input type="file">` element:
+
+```ocaml
+let%server upload_file =
+  Eliom.Registration.Ocaml.create ~path:Eliom.Service.No_path
+    ~meth:
+      (Eliom.Service.Post (Eliom.Parameter.unit, Eliom.Parameter.file "file"))
+    (fun () file -> save_upload file)
+
+let%client upload_file = ~%upload_file
+
+let%client send_file (input : Dom_html.inputElement Js.t) =
+  match Js.Opt.to_option (Js.Opt.bind input##.files (fun fs -> fs##item 0)) with
+  | None -> Lwt.return_none
+  | Some file ->
+      let%lwt name =
+        Eliom.Client.call_ocaml_service ~service:upload_file () file
+      in
+      Lwt.return_some name
+```
+(`Dom_html` and `Js` come from `Js_of_ocaml`.) With `let input = Eliom.Content.Html.D.Raw.input ~a:[a_input_type `File] ()` in the page, the client-side code calls `send_file (Eliom.Content.Html.To_dom.of_input ~%input)`. Like an [RPC](./#rpc), anyone can call this service: check the rights of the user in the handler; and the call fails when the network or the server does: catch the exception. For images, the picture uploader [below](./#upload_image) does all this, with a preview.
+
+With a form sent by the browser, register a page instead:
+
+```ocaml
 let%server upload =
   Eliom.Service.create
     ~path:(Eliom.Service.Path ["upload"])
@@ -6709,14 +6802,8 @@ let%server upload =
 
 let%server () =
   App.register ~service:upload (fun () file ->
-    let name =
-      Filename.basename (Eliom.Request_info.get_original_filename file)
-    in
-    let%lwt () =
-      Lwt_unix.rename
-        (Eliom.Request_info.get_tmp_filename file)
-        (Filename.concat upload_dir name)
-    in
+    let%lwt _stored_as = save_upload file in
+    let name = Eliom.Request_info.get_original_filename file in
     Lwt.return (skeleton ~title:"Upload" [p [txt (name ^ " received.")]]))
 
 let%server upload_form () =
@@ -6726,14 +6813,13 @@ let%server upload_form () =
        ; Form.input ~input_type:`Submit ~value:"Send" Form.string ])
     ()
 ```
-`Lwt_unix.rename` needs the upload directory and the destination on the same file system. The generated projects use `/tmp` as upload directory, which is often another file system (a `tmpfs`): change it in the configuration file, which also sets the size limits:
+`Lwt_unix.rename` needs the upload directory and the destination on the same file system. The generated projects use `/tmp` as upload directory, which is often another file system (a `tmpfs`): change it in the configuration file, which also limits the size of the files:
 
 ```xml
 <uploaddir>/var/www/tmp</uploaddir>
 <maxuploadfilesize>2MB</maxuploadfilesize>
-<maxrequestbodysize>100MB</maxrequestbodysize>
 ```
-(or the `~uploaddir` argument of `Ocsigen.Server.start`). To upload a file from client-side code, without changing page, create the service with `Eliom.Service.create_ocaml`, register it with `Eliom.Registration.Ocaml`, and call it with `Eliom.Client.call_ocaml_service`, giving the `File.file` of an input element; or use the picture uploader below.
+When the server is run as a library, give `~uploaddir:(Some "/var/www/tmp")` to `Ocsigen.Server.host`: without an upload directory, the server refuses the files.
 
 ### How do I upload an image, with cropping?
 

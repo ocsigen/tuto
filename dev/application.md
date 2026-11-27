@@ -551,9 +551,9 @@ Eliom provides multiple ways for the server to send unsolicited data to the clie
 - Module `Eliom.Notif` (or `Os.Notif` if you are using Ocsigen Start) provides a very simple way to send messages to clients. It's probably the solution you will use most of the times.
 - You can use `Eliom.Bus.t` instead, as in this example, in the particular case when you need to broadcast data to all connected clients. Buses are broadcasting channels where client and server can participate (see also `Eliom.Bus.t` in the client API).
 - `module
-Eliom_react` allows sending [React events](http://erratique.ch/software/react/doc/React) from the server to the client, and conversely.
+Eliom.Eliom_react` allows sending [React events](http://erratique.ch/software/react/doc/React) from the server to the client, and conversely.
 - `type
-Eliom.Comet.Channel.t` are one-way communication channels allowing finer-grained control. It allows sending `Lwt_stream` to the client. `Eliom_react` and `Eliom.Bus` are implemented over `Eliom.Comet`.
+Eliom.Comet.Channel.t` are one-way communication channels allowing finer-grained control. It allows sending `Lwt_stream` to the client. `Eliom.Eliom_react` and `Eliom.Bus` are implemented over `Eliom.Comet`.
 It is possible to control the idle behaviour with module `module
 Eliom.Comet.Configuration`.
 

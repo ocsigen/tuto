@@ -106,7 +106,9 @@ let media_tag () =
              media##pause
            | Seek f ->
              media##.currentTime := (f /. 100. *. media##.duration)
-         in Lwt_react.S.keep (React.S.map media_map media_s) ;
+         in
+         Eliom.Lib.Dom_reference.retain media
+           ~keep:(React.S.map media_map media_s) ;
          Lwt_js_events.timeupdates media (fun _ _ ->
              set_progress_s (media##.currentTime, media##.duration) ;
              Lwt.return ()
@@ -115,7 +117,7 @@ let media_tag () =
   ] in
   media
 ```
-The function `media_tag` builds an `<audio>` element. The code in `[%client ... ]` is on the client part. It's an Lwt thread that maps a function `media_action -> unit` to the signal `media_s`.
+The function `media_tag` builds an `<audio>` element. The code in `[%client ... ]` is on the client part. It's an Lwt thread that maps a function `media_action -> unit` to the signal `media_s`. React does not keep the resulting signal alive by itself: `Eliom.Lib.Dom_reference.retain` keeps it as long as the `<audio>` element exists.
 
 **Concept: Playing video**
 
@@ -210,7 +212,9 @@ let media_tag () =
              media##pause
            | Seek f ->
              media##.currentTime := (f /. 100. *. media##.duration)
-         in Lwt_react.S.keep (React.S.map media_map media_s) ;
+         in
+         Eliom.Lib.Dom_reference.retain media
+           ~keep:(React.S.map media_map media_s) ;
          Lwt_js_events.timeupdates media (fun _ _ ->
              set_progress_s (media##.currentTime, media##.duration) ;
              Lwt.return ()

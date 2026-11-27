@@ -253,14 +253,16 @@ let media_tag () =
              media##pause
            | Seek f -&gt;
              media##.currentTime := (f /. 100. *. media##.duration)
-         in Lwt_react.S.keep (React.S.map media_map media_s) ;
+         in
+         Eliom.Lib.Dom_reference.retain media
+           ~keep:(React.S.map media_map media_s) ;
          Lwt_js_events.timeupdates media (fun _ _ -&gt;
              set_progress_s (media##.currentTime, media##.duration) ;
              Lwt.return ()
            ))
      : unit)
   ] in
-  media</code></pre><p>The function <code>media_tag</code> builds an <code>&lt;audio&gt;</code> element. The code in <code>[%client ... ]</code> is on the client part. It's an Lwt thread that maps a function <code>media_action -&gt; unit</code> to the signal <code>media_s</code>.</p><aside class="concept"><p><b>Concept: Playing video</b></p><p>The code for playing video is conceptually similar. You just replace the <code>audio</code> tag by a <code>video</code> tag. But be careful, not all browsers are compatible with all formats.</p></aside><pre class="language-ocaml server"><code>module React_Player_app =
+  media</code></pre><p>The function <code>media_tag</code> builds an <code>&lt;audio&gt;</code> element. The code in <code>[%client ... ]</code> is on the client part. It's an Lwt thread that maps a function <code>media_action -&gt; unit</code> to the signal <code>media_s</code>. React does not keep the resulting signal alive by itself: <code>Eliom.Lib.Dom_reference.retain</code> keeps it as long as the <code>&lt;audio&gt;</code> element exists.</p><aside class="concept"><p><b>Concept: Playing video</b></p><p>The code for playing video is conceptually similar. You just replace the <code>audio</code> tag by a <code>video</code> tag. But be careful, not all browsers are compatible with all formats.</p></aside><pre class="language-ocaml server"><code>module React_Player_app =
   Eliom.Registration.App
     (struct
       let application_name = &quot;react_player&quot;
@@ -330,7 +332,9 @@ let%client unblock_s, set_unblock_s = React.S.create true</code></pre><pre class
              media##pause
            | Seek f -&gt;
              media##.currentTime := (f /. 100. *. media##.duration)
-         in Lwt_react.S.keep (React.S.map media_map media_s) ;
+         in
+         Eliom.Lib.Dom_reference.retain media
+           ~keep:(React.S.map media_map media_s) ;
          Lwt_js_events.timeupdates media (fun _ _ -&gt;
              set_progress_s (media##.currentTime, media##.duration) ;
              Lwt.return ()

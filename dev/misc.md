@@ -1,7 +1,5 @@
 # Traditional web interaction in a client-server app
 
-*The code of this tutorial has been tested with Eliom 6\.0.* <br/>
-
 ## Multi-user collaborative drawing application
 
 We now want to turn our collaborative drawing application into a multi-user one. Each user will have their own drawing, where everyone can draw.

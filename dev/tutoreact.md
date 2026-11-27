@@ -289,7 +289,7 @@ let%server display_messages () =
   ignore [%client
     (ignore
        (React.E.map (handle_notif_message_list ~%rmessages)
-          ~%(Forum_notif.client_ev () : (unit * int) Eliom_react.Down.t))
+          ~%(Forum_notif.client_ev () : (unit * int) Eliom.Eliom_react.Down.t))
      : unit)
   ];
   let%lwt content =
@@ -553,7 +553,7 @@ In the function `display_messages`, we need to take care of the `forumid` parame
 let%server display_messages forumid =
   Forum_notif.listen (forumid : int);
   ...
-  ~%(Forum_notif.client_ev () : (int * int) Eliom_react.Down.t))
+  ~%(Forum_notif.client_ev () : (int * int) Eliom.Eliom_react.Down.t))
   ...
 ```
 We annotate the type of `forumid` in the call of the function `listen` to help the typing system.
@@ -716,7 +716,7 @@ let%server display_messages forumid =
   ignore [%client
     (ignore
        (React.E.map handle_notif_message_list
-          ~%(Forum_notif.client_ev () : (int * int) Eliom_react.Down.t))
+          ~%(Forum_notif.client_ev () : (int * int) Eliom.Eliom_react.Down.t))
      : unit)
   ];
   let%lwt content =

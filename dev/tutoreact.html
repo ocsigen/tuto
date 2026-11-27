@@ -313,7 +313,7 @@ end)
   ignore [%client
     (ignore
        (React.E.map (handle_notif_message_list ~%rmessages)
-          ~%(Forum_notif.client_ev () : (unit * int) Eliom_react.Down.t))
+          ~%(Forum_notif.client_ev () : (unit * int) Eliom.Eliom_react.Down.t))
      : unit)
   ];
   let%lwt content =
@@ -436,7 +436,7 @@ end)
   ...</code></pre><p>In the function <code>display_messages</code>, we need to take care of the <code>forumid</code> parameter and the type annotation of <code>client_ev</code>:</p><pre class="language-ocaml server"><code>let%server display_messages forumid =
   Forum_notif.listen (forumid : int);
   ...
-  ~%(Forum_notif.client_ev () : (int * int) Eliom_react.Down.t))
+  ~%(Forum_notif.client_ev () : (int * int) Eliom.Eliom_react.Down.t))
   ...</code></pre><p>We annotate the type of <code>forumid</code> in the call of the function <code>listen</code> to help the typing system.</p><p>The function <code>handle_notif_message</code> now takes the reactive list <code>rmessage</code> from the cache, therefore we no longer need it as a parameter:</p><pre class="language-ocaml client"><code>let%client handle_notif_message_list (forumid, msgid) =
   try
     let rmessages = Eliom.Cscache.find_if_ready ~%forumcache forumid in
@@ -532,7 +532,7 @@ let%server forumcache :
   ignore [%client
     (ignore
        (React.E.map handle_notif_message_list
-          ~%(Forum_notif.client_ev () : (int * int) Eliom_react.Down.t))
+          ~%(Forum_notif.client_ev () : (int * int) Eliom.Eliom_react.Down.t))
      : unit)
   ];
   let%lwt content =

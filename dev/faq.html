@@ -210,7 +210,7 @@
       </nav>
       <article class="rightcol">
         
-        <h1 id="how-do-i…?-questions-and-answers">How do I…? Questions and answers</h1><p>Short answers to frequent questions, with a code example and links to the manuals. The examples are client-server Eliom code (in <code>.eliom</code> files). They assume:</p><pre class="language-ocaml"><code>open%shared Eliom.Content.Html.F</code></pre><p>and use the Lwt syntax extension (<code>let%lwt</code>, see <a href="lwt.html" title="lwt">Lwt in 5 minutes</a>). Answers mentioning <code>Os</code> or <code>Ot</code> use <a href="./../../ocsigen-start/dev/index.html">Ocsigen Start</a> and <a href="./../../ocsigen-toolkit/dev/index.html">Ocsigen Toolkit</a>. Module names are those of Eliom 13 and later (<code>Eliom.Service</code> rather than <code>Eliom_service</code>, see <a href="migration.html" title="migration">the migration guide</a>).</p><p>Pages are registered with the module <code>App</code> of the application, made by <code>Eliom.Registration.App</code>: it is in <code>myapp.eliom</code> with the <code>app</code> template, and is <code>Myapp_base.App</code> with the <code>os</code> template. Do not use <code>Eliom.Registration.Html</code> for the pages of a client-server application: it sends them without the client-side program, so their client-side code does not run, and links towards them leave the application. Most examples register pages on the server only; <a href="#client_pages" title="client_pages">this question</a> shows how to let the client generate them too.</p>
+        <h1 id="how-do-i…?-questions-and-answers">How do I…? Questions and answers</h1><p>Short answers to frequent questions, with a code example and links to the manuals. The examples are client-server Eliom code (in <code>.eliom</code> files). They assume:</p><pre class="language-ocaml"><code>open%shared Eliom.Content.Html.F</code></pre><p>and use the Lwt syntax extension (<code>let%lwt</code>, see <a href="lwt.html" title="lwt">Lwt in 5 minutes</a>). Answers mentioning <code>Os</code> or <code>Ot</code> use <a href="./../../ocsigen-start/dev/index.html">Ocsigen Start</a> and <a href="./../../ocsigen-toolkit/dev/index.html">Ocsigen Toolkit</a>. Module names are those of Eliom 13 and later (<code>Eliom.Service</code> rather than <code>Eliom_service</code>, see <a href="migration.html" title="migration">the migration guide</a>).</p><p>Pages are registered with the module <code>App</code> of the application, made by <code>Eliom.Registration.App</code>: it is in <code>myapp.eliom</code> with the <code>app</code> template, and is <code>Myapp_base.App</code> with the <code>os</code> template. Do not use <code>Eliom.Registration.Html</code> for the pages of a client-server application: it sends them without the client-side program, so their client-side code does not run, and links towards them leave the application. Most examples register pages on the server only; <a href="#client_pages" title="client_pages">this question</a> shows how to let the client generate them too.</p><p>Eliom supports two styles of programming, which can be mixed in the same application. In a client-server application, the client-side program handles the user's actions: it sends the data to the server with <a href="#rpc" title="rpc">RPCs</a>, and updates the page or changes page itself. On a traditional Web site, the browser follows links and sends forms to services, which answer with new pages. When the answers differ, the questions below give the client-server way first.</p>
 <h2 id="start">Getting started</h2><h3 id="first_app">How do I create my first application?</h3><p>Generate it with <code>eliom-distillery</code>:</p><pre class="language-sh"><code>eliom-distillery -name myapp -template os   # Ocsigen Start: users, database, mobile app
 eliom-distillery -name myapp -template app  # Eliom only, a smaller start</code></pre><p>The <code>os</code> template shows an example of almost every feature of Ocsigen (see <a href="start.html" title="start">Your first app in 5 minutes</a>). Then follow the <code>README.md</code> of the generated project. A page is produced by a <em>service</em>, registered with a handler:</p><pre class="language-ocaml"><code>let%server hello =
   App.create
@@ -284,7 +284,30 @@ let%server links =
   ; a ~service:ocaml_org [txt &quot;OCaml documentation&quot;] ()
   ; Raw.a ~a:[a_href (Xml.uri_of_string &quot;https://ocaml.org&quot;)] [txt &quot;ocaml.org&quot;]
   ; (* the current page: *)
-    a ~service:Eliom.Service.reload_action [txt &quot;Reload&quot;] () ]</code></pre><p><code>Eliom.Service.reload_action</code> links to the current page, whatever its URL. In a client-server application, clicking a link towards a service of the application changes page without leaving the client-side program. For a service that does not send a page of the application (a file, JSON...), add <code>~xhr:false</code>: otherwise the client-side program first requests it, then is told to leave the application and load it again. See <a href="./../../eliom/dev/server/services/links.html">links and forms</a>.</p><h3 id="forms">How do I write a form?</h3><p>Like links, forms are typed. The function given to <code>Form.get_form</code> or <code>Form.post_form</code> receives the names of the parameters of the service, and each field must have the type of its parameter:</p><pre class="language-ocaml"><code>let%server search_form =
+    a ~service:Eliom.Service.reload_action [txt &quot;Reload&quot;] () ]</code></pre><p><code>Eliom.Service.reload_action</code> links to the current page, whatever its URL. In a client-server application, clicking a link towards a service of the application changes page without leaving the client-side program. For a service that does not send a page of the application (a file, JSON...), add <code>~xhr:false</code>: otherwise the client-side program first requests it, then is told to leave the application and load it again. See <a href="./../../eliom/dev/server/services/links.html">links and forms</a>.</p><h3 id="forms">How do I write a form?</h3><p>In a client-server application, the form is usually handled by client-side code: plain HTML fields (<code>Raw</code>), a button, and a client-side function that reads the values and sends them to the server with an <a href="#rpc" title="rpc">RPC</a>. The page does not change, and the client decides what to display with the answer:</p><pre class="language-ocaml"><code>let%rpc add_comment (post_id : int) (text : string) : unit Lwt.t =
+  (* Anyone can call an RPC, with any values: check them here, and the
+     rights of the user. *)
+  if String.length text &gt; 2000
+  then Lwt.fail_with &quot;add_comment: comment too long&quot;
+  else Db.add_comment post_id text
+
+let%shared comment_box (post_id : int) =
+  let text = Eliom.Content.Html.D.Raw.textarea ~a:[a_maxlength 2000] (txt &quot;&quot;) in
+  let send =
+    [%client
+      fun _ -&gt;
+        Lwt.async (fun () -&gt;
+          let field = Eliom.Content.Html.To_dom.of_textarea ~%text in
+          try%lwt
+            let%lwt () = add_comment ~%post_id (Js.to_string field##.value) in
+            field##.value := Js.string &quot;&quot;;
+            Lwt.return_unit
+          with e -&gt;
+            Logs.err (fun m -&gt; m &quot;add_comment: %s&quot; (Printexc.to_string e));
+            Eliom.Lib.alert &quot;Your comment could not be sent.&quot;;
+            Lwt.return_unit)]
+  in
+  div [text; button ~a:[a_onclick send] [txt &quot;Send&quot;]]</code></pre><p>The field is created with <code>D</code>, so that the client-side code finds the same node (<a href="#client_code" title="client_code">see this question</a>); <code>Js</code> is <code>Js_of_ocaml.Js</code>. Ocsigen Toolkit's <code>Ot.Form</code> gives ready-made fields for this style: reactive inputs, validation, a button that cannot be clicked twice... The <a href="https://github.com/ocsigen/os_template/blob/master/lib/demo_forms.eliom"><code>demo_forms.eliom</code></a> file of the <code>os</code> template shows them, with a form sent with an RPC.</p><p>The other way is the one of traditional Web sites: the browser sends the form to a service, and displays the page that the service answers. Use it for pages that must work without client-side code, or when the result must have its own URL (a search form, with GET). Like links, these forms are typed. The function given to <code>Form.get_form</code> or <code>Form.post_form</code> receives the names of the parameters of the service, and each field must have the type of its parameter:</p><pre class="language-ocaml"><code>let%server search_form =
   Form.get_form ~service:search (fun (q, page) -&gt;
     [ Form.input ~input_type:`Text ~name:q Form.string
     ; Form.input ~input_type:`Number ~name:page Form.int
@@ -304,7 +327,7 @@ let%server comment_form post_id =
     (fun text -&gt;
        [ Form.textarea ~name:text ()
        ; Form.input ~input_type:`Submit ~value:&quot;Send&quot; Form.string ])
-    post_id</code></pre><p><code>Form</code> also has <code>select</code>, <code>checkbox</code>, <code>radio</code>, <code>file_input</code>... See <a href="./../../eliom/dev/server/services/links.html#forms">forms in Eliom&#x27;s manual</a> and the <code>demo_forms.eliom</code> file of the <code>os</code> template. The <code>os</code> template also shows how to submit a form from client-side code, without changing page.</p><h3 id="redirect">How do I redirect to another page, or do something and stay on the same page?</h3><p>A service registered with <code>Eliom.Registration.Redirection</code> answers with a redirection towards another service, for instance after a POST form. A service with parameters is first given their values with <code>Eliom.Service.preapply</code>:</p><pre class="language-ocaml"><code>let%server new_post =
+    post_id</code></pre><p><code>Form</code> also has <code>select</code>, <code>checkbox</code>, <code>radio</code>, <code>file_input</code>... See <a href="./../../eliom/dev/server/services/links.html#forms">forms in Eliom&#x27;s manual</a>.</p><h3 id="redirect">How do I redirect to another page, or do something and stay on the same page?</h3><p>In a client-server application, after <a href="#forms" title="forms">sending a form with an RPC</a>, the client-side code does it itself: it changes page with <code>Eliom.Client.change_page</code> (<a href="#change_page" title="change_page">see this question</a>), or updates the current page. The services below are for forms sent by the browser.</p><p>A service registered with <code>Eliom.Registration.Redirection</code> answers with a redirection towards another service, for instance after a POST form. A service with parameters is first given their values with <code>Eliom.Service.preapply</code>:</p><pre class="language-ocaml"><code>let%server new_post =
   Eliom.Registration.Redirection.create ~options:`SeeOther
     ~path:(Eliom.Service.Path [&quot;new_post&quot;])
     ~meth:
@@ -385,7 +408,7 @@ let%server download =
     ~meth:(Eliom.Service.Get Eliom.Parameter.unit)
     (fun () () -&gt;
        let json = `Assoc [&quot;name&quot;, `String &quot;myapp&quot;; &quot;version&quot;, `Int 2] in
-       Lwt.return (Yojson.Safe.to_string json, &quot;application/json&quot;))</code></pre><p>The tutorial <a href="rest.html" title="rest">RESTful JSON API</a> gives a complete example.</p><h3 id="wizard">How do I make a sequence of forms (a wizard)?</h3><p>Create a new service for each step, during the request, with the data of the previous steps in its closure. Unlike session data, this works with several tabs and with the back button:</p><pre class="language-ocaml"><code>let%server calc =
+       Lwt.return (Yojson.Safe.to_string json, &quot;application/json&quot;))</code></pre><p>The tutorial <a href="rest.html" title="rest">RESTful JSON API</a> gives a complete example.</p><h3 id="wizard">How do I make a sequence of forms (a wizard)?</h3><p>In a client-server application, write it in client-side code: each step replaces the content of the form, the values of the previous steps stay in OCaml variables, and an RPC sends everything at the end (<a href="#forms" title="forms">see this question</a>). Nothing is kept on the server before the last step.</p><p>With forms sent by the browser, create a new service for each step, during the request, with the data of the previous steps in its closure. Unlike session data, this works with several tabs and with the back button:</p><pre class="language-ocaml"><code>let%server calc =
   Eliom.Service.create
     ~path:(Eliom.Service.Path [&quot;calc&quot;])
     ~meth:(Eliom.Service.Get Eliom.Parameter.(int &quot;i&quot;))
@@ -413,9 +436,34 @@ let%server sum_form i =
 
 let%server () =
   App.register ~service:calc (fun i () -&gt;
-    Lwt.return (sum_form i))</code></pre><p>The fallback is used when the service no longer exists (timeout, server restarted). See <a href="./../../eliom/dev/server/services/types.html#attached_services">attached services</a> and the tutorial on <a href="interaction.html" title="interaction">service based Web programming</a>.</p><h2 id="files">Files and images</h2><h3 id="upload">How do I upload a file?</h3><p>Use a POST parameter of type <code>file</code>. Ocsigen Server writes the file in its upload directory, and removes it at the end of the request: move it before.</p><pre class="language-ocaml"><code>let%server upload_dir = &quot;/var/www/uploads&quot;
+    Lwt.return (sum_form i))</code></pre><p>The fallback is used when the service no longer exists (timeout, server restarted). See <a href="./../../eliom/dev/server/services/types.html#attached_services">attached services</a> and the tutorial on <a href="interaction.html" title="interaction">service based Web programming</a>.</p><h2 id="files">Files and images</h2><h3 id="upload">How do I upload a file?</h3><p>Use a POST parameter of type <code>file</code>. Ocsigen Server writes the file in its upload directory, and removes it at the end of the request: move it before. Do not use the name sent by the browser, which the user chooses: store the file under a random name, and keep the original name as data if you need it.</p><pre class="language-ocaml"><code>let%server upload_dir = &quot;/var/www/uploads&quot;
 
-let%server upload =
+let%server save_upload file =
+  let name =
+    Eliom.Lib.make_cryptographic_safe_string ()
+    |&gt; String.map (function '+' -&gt; '-' | '/' -&gt; '_' | c -&gt; c)
+  in
+  let%lwt () =
+    Lwt_unix.rename
+      (Eliom.Request_info.get_tmp_filename file)
+      (Filename.concat upload_dir name)
+  in
+  Lwt.return name</code></pre><p>In a client-server application, send the file from client-side code, without changing page, to a service registered with <code>Eliom.Registration.Ocaml</code>: its handler returns an OCaml value to the client. Call it with <code>Eliom.Client.call_ocaml_service</code>, giving the file chosen in an <code>&lt;input type=&quot;file&quot;&gt;</code> element:</p><pre class="language-ocaml"><code>let%server upload_file =
+  Eliom.Registration.Ocaml.create ~path:Eliom.Service.No_path
+    ~meth:
+      (Eliom.Service.Post (Eliom.Parameter.unit, Eliom.Parameter.file &quot;file&quot;))
+    (fun () file -&gt; save_upload file)
+
+let%client upload_file = ~%upload_file
+
+let%client send_file (input : Dom_html.inputElement Js.t) =
+  match Js.Opt.to_option (Js.Opt.bind input##.files (fun fs -&gt; fs##item 0)) with
+  | None -&gt; Lwt.return_none
+  | Some file -&gt;
+      let%lwt name =
+        Eliom.Client.call_ocaml_service ~service:upload_file () file
+      in
+      Lwt.return_some name</code></pre><p>(<code>Dom_html</code> and <code>Js</code> come from <code>Js_of_ocaml</code>.) With <code>let input = Eliom.Content.Html.D.Raw.input ~a:[a_input_type `File] ()</code> in the page, the client-side code calls <code>send_file (Eliom.Content.Html.To_dom.of_input ~%input)</code>. Like an <a href="#rpc" title="rpc">RPC</a>, anyone can call this service: check the rights of the user in the handler; and the call fails when the network or the server does: catch the exception. For images, the picture uploader <a href="#upload_image" title="upload_image">below</a> does all this, with a preview.</p><p>With a form sent by the browser, register a page instead:</p><pre class="language-ocaml"><code>let%server upload =
   Eliom.Service.create
     ~path:(Eliom.Service.Path [&quot;upload&quot;])
     ~meth:
@@ -424,14 +472,8 @@ let%server upload =
 
 let%server () =
   App.register ~service:upload (fun () file -&gt;
-    let name =
-      Filename.basename (Eliom.Request_info.get_original_filename file)
-    in
-    let%lwt () =
-      Lwt_unix.rename
-        (Eliom.Request_info.get_tmp_filename file)
-        (Filename.concat upload_dir name)
-    in
+    let%lwt _stored_as = save_upload file in
+    let name = Eliom.Request_info.get_original_filename file in
     Lwt.return (skeleton ~title:&quot;Upload&quot; [p [txt (name ^ &quot; received.&quot;)]]))
 
 let%server upload_form () =
@@ -439,9 +481,8 @@ let%server upload_form () =
     (fun file -&gt;
        [ Form.file_input ~name:file ()
        ; Form.input ~input_type:`Submit ~value:&quot;Send&quot; Form.string ])
-    ()</code></pre><p><code>Lwt_unix.rename</code> needs the upload directory and the destination on the same file system. The generated projects use <code>/tmp</code> as upload directory, which is often another file system (a <code>tmpfs</code>): change it in the configuration file, which also sets the size limits:</p><pre class="language-xml"><code>&lt;uploaddir&gt;/var/www/tmp&lt;/uploaddir&gt;
-&lt;maxuploadfilesize&gt;2MB&lt;/maxuploadfilesize&gt;
-&lt;maxrequestbodysize&gt;100MB&lt;/maxrequestbodysize&gt;</code></pre><p>(or the <code>~uploaddir</code> argument of <code>Ocsigen.Server.start</code>). To upload a file from client-side code, without changing page, create the service with <code>Eliom.Service.create_ocaml</code>, register it with <code>Eliom.Registration.Ocaml</code>, and call it with <code>Eliom.Client.call_ocaml_service</code>, giving the <code>File.file</code> of an input element; or use the picture uploader below.</p><h3 id="upload_image">How do I upload an image, with cropping?</h3><p>Ocsigen Toolkit's picture uploader shows a preview, lets the user choose the part of the image to keep, and sends it to the server, where <code>Os.Uploader.record_image</code> crops it, saves it in JPEG (with ImageMagick) under a random name, and returns this name. This is how the <code>os</code> template sets the user's avatar (<code>Os.User_view.upload_pic_link</code>, in <code>myapp_settings.eliom</code>). The widget is client-side code:</p><pre class="language-ocaml"><code>let%server photo_dir = &quot;local/var/www/myapp/photos&quot;
+    ()</code></pre><p><code>Lwt_unix.rename</code> needs the upload directory and the destination on the same file system. The generated projects use <code>/tmp</code> as upload directory, which is often another file system (a <code>tmpfs</code>): change it in the configuration file, which also limits the size of the files:</p><pre class="language-xml"><code>&lt;uploaddir&gt;/var/www/tmp&lt;/uploaddir&gt;
+&lt;maxuploadfilesize&gt;2MB&lt;/maxuploadfilesize&gt;</code></pre><p>When the server is run as a library, give <code>~uploaddir:(Some &quot;/var/www/tmp&quot;)</code> to <code>Ocsigen.Server.host</code>: without an upload directory, the server refuses the files.</p><h3 id="upload_image">How do I upload an image, with cropping?</h3><p>Ocsigen Toolkit's picture uploader shows a preview, lets the user choose the part of the image to keep, and sends it to the server, where <code>Os.Uploader.record_image</code> crops it, saves it in JPEG (with ImageMagick) under a random name, and returns this name. This is how the <code>os</code> template sets the user's avatar (<code>Os.User_view.upload_pic_link</code>, in <code>myapp_settings.eliom</code>). The widget is client-side code:</p><pre class="language-ocaml"><code>let%server photo_dir = &quot;local/var/www/myapp/photos&quot;
 
 let%server photo_service : (unit, unit) Ot.Picture_uploader.service =
   Ot.Picture_uploader.mk_service &quot;upload_photo&quot; [%json: unit]

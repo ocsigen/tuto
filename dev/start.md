@@ -1,7 +1,5 @@
 # Your first app in 5 minutes
 
-*The code of this tutorial has been tested against Eliom 6\.0.* <br/>
-
 This tutorial describes how to get started with Ocsigen quickly. Thanks to an application template provided by the Ocsigen team, you will get to a working application with standard functionality like users and notifications in only a few minutes. This template can be used for learning purposes, or even as a starting point for your own product.
 
 The template you will use comes from `Ocsigen Start`. Ocsigen Start provides a complete mechanism for adding and managing users, including activation links and password reset. It additionally contains a module for displaying tips, a module for sending notifications to your users, and other utilities typically needed in modern Web applications.

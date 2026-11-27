@@ -1,7 +1,5 @@
 # Client-server application programming guide
 
-This tutorial has been tested with Eliom 11\.0.0.
-
 This page describes the main concepts you need to master to become fully operational with Ocsigen. Use it as your training plan or as a cheat sheet while programming.
 
 Depending on your needs, you may not need to learn all this. Ocsigen is very flexible and can be used both for Web site programming (see [this page](./basics-server.md)) or more complex client-server Web apps and their mobile counterparts.
@@ -768,7 +766,7 @@ Have a look at a [running example](https://ocsigen-1.inria.fr/ocsigen-start/demo
 Eliom has other communication modules:
 
 - `Eliom.Bus` defines a communication bus, that you can use to share information with other client processes (see an example [here](./application.md)).
-- `Eliom_react` defines client-server React events.
+- `Eliom.Eliom_react` defines client-server React events.
 - `Eliom.Comet` is lower level interface for server to client communication.
 
 ## Internationalisation

@@ -573,7 +573,7 @@ This example shows how to insert an image using [static_dir]:
 {1 Forms and links}
 {%wodoc:end%}
 
-Function {{!Eliom_form_sigs.LINKS.a}Eliom.Content.Html.F.a} creates typed links to services with their parameters.
+Function {{!Eliom.Form_sigs.LINKS.a}Eliom.Content.Html.F.a} creates typed links to services with their parameters.
 For example, if [home_service] expects no parameter
 and [other_service] expects a string and an optional int:
 {@ocaml[

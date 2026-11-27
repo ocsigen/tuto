@@ -1,7 +1,5 @@
 {0 Client-server application programming guide}
 
-This tutorial has been tested with Eliom 11.0.0.
-
 This page describes the main concepts you need to master to become fully operational
 with Ocsigen. Use it as your training plan or as a cheat sheet while programming.
 
@@ -480,8 +478,8 @@ Open URL [http://localhost:8080/foo?myparam=Hello&i=27] with your browser.
 {1 Forms and links}
 {%wodoc:end%}
 
-Functions {{!Eliom_form_sigs.LINKS.a}Eliom.Content.Html.F.a} and
-{{!Eliom_form_sigs.LINKS.a}D.a}
+Functions {{!Eliom.Form_sigs.LINKS.a}Eliom.Content.Html.F.a} and
+{{!Eliom.Form_sigs.LINKS.a}D.a}
 create typed links to services with their parameters.
 For example, if [home_service] expects no parameter
 and [other_service] expects a string and an optional int:
@@ -1115,7 +1113,7 @@ Eliom has other communication modules:
 - {!Eliom.Bus} defines a communication bus,
 that you can use to share information with other client processes
 (see an example {{!page-application}here}).
-- {!Eliom_react} defines client-server React events.
+- {!Eliom.Eliom_react} defines client-server React events.
 - {!Eliom.Comet} is lower level interface for
 server to client communication.
 

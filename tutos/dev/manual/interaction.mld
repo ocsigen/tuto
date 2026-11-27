@@ -1,9 +1,5 @@
 {0 Implementing Web Interaction Using Eliom}
 
-{e The code of this tutorial has been tested with Eliom 6.0.} {%html:<br/>%}
-
-
-
 This chapter of the tutorial explains how to create a small web site
 with several pages, users, sessions, and other elements of classical
 web development.  Then, in

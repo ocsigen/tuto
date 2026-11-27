@@ -24,6 +24,14 @@ not run, and links towards them leave the application. Most examples
 register pages on the server only; {{!client_pages}this question} shows how
 to let the client generate them too.
 
+Eliom supports two styles of programming, which can be mixed in the same
+application. In a client-server application, the client-side program
+handles the user's actions: it sends the data to the server with
+{{!rpc}RPCs}, and updates the page or changes page itself. On a
+traditional Web site, the browser follows links and sends forms to services,
+which answer with new pages. When the answers differ, the questions below give
+the client-server way first.
+
 {1:start Getting started}
 
 {2:first_app How do I create my first application?}
@@ -261,9 +269,53 @@ told to leave the application and load it again. See
 
 {2:forms How do I write a form?}
 
-Like links, forms are typed. The function given to [Form.get_form] or
-[Form.post_form] receives the names of the parameters of the service, and
-each field must have the type of its parameter:
+In a client-server application, the form is usually handled by client-side
+code: plain HTML fields ([Raw]), a button, and a client-side function that
+reads the values and sends them to the server with an {{!rpc}RPC}. The page
+does not change, and the client decides what to display with the answer:
+
+{@ocaml[
+let%rpc add_comment (post_id : int) (text : string) : unit Lwt.t =
+  (* Anyone can call an RPC, with any values: check them here, and the
+     rights of the user. *)
+  if String.length text > 2000
+  then Lwt.fail_with "add_comment: comment too long"
+  else Db.add_comment post_id text
+
+let%shared comment_box (post_id : int) =
+  let text = Eliom.Content.Html.D.Raw.textarea ~a:[a_maxlength 2000] (txt "") in
+  let send =
+    [%client
+      fun _ ->
+        Lwt.async (fun () ->
+          let field = Eliom.Content.Html.To_dom.of_textarea ~%text in
+          try%lwt
+            let%lwt () = add_comment ~%post_id (Js.to_string field##.value) in
+            field##.value := Js.string "";
+            Lwt.return_unit
+          with e ->
+            Logs.err (fun m -> m "add_comment: %s" (Printexc.to_string e));
+            Eliom.Lib.alert "Your comment could not be sent.";
+            Lwt.return_unit)]
+  in
+  div [text; button ~a:[a_onclick send] [txt "Send"]]
+]}
+
+The field is created with [D], so that the client-side code finds the same
+node ({{!client_code}see this question}); [Js] is
+[Js_of_ocaml.Js]. Ocsigen Toolkit's {!Ot.Form} gives ready-made fields for
+this style: reactive inputs, validation, a button that cannot be clicked
+twice... The
+{{:https://github.com/ocsigen/os_template/blob/master/lib/demo_forms.eliom}[demo_forms.eliom]}
+file of the [os] template shows them, with a form sent with an RPC.
+
+The other way is the one of traditional Web sites: the browser sends the
+form to a service, and displays the page that the service answers. Use it
+for pages that must work without client-side code, or when the result must
+have its own URL (a search form, with GET). Like links, these forms are
+typed. The function given to [Form.get_form] or [Form.post_form] receives
+the names of the parameters of the service, and each field must have the
+type of its parameter:
 
 {@ocaml[
 let%server search_form =
@@ -290,11 +342,14 @@ let%server comment_form post_id =
 ]}
 
 [Form] also has [select], [checkbox], [radio], [file_input]... See
-{{!/eliom/server/services/page-links.forms}forms in Eliom's manual} and the
-[demo_forms.eliom] file of the [os] template. The [os] template also
-shows how to submit a form from client-side code, without changing page.
+{{!/eliom/server/services/page-links.forms}forms in Eliom's manual}.
 
 {2:redirect How do I redirect to another page, or do something and stay on the same page?}
+
+In a client-server application, after {{!forms}sending a form with an
+RPC}, the client-side code does it itself: it changes page with
+{!Eliom.Client.change_page} ({{!change_page}see this question}), or updates
+the current page. The services below are for forms sent by the browser.
 
 A service registered with {!Eliom.Registration.Redirection} answers with a
 redirection towards another service, for instance after a POST form. A
@@ -513,9 +568,15 @@ The tutorial {{!page-rest}RESTful JSON API} gives a complete example.
 
 {2:wizard How do I make a sequence of forms (a wizard)?}
 
-Create a new service for each step, during the request, with the data of
-the previous steps in its closure. Unlike session data, this works with
-several tabs and with the back button:
+In a client-server application, write it in client-side code: each step
+replaces the content of the form, the values of the previous steps stay in
+OCaml variables, and an RPC sends everything at the end ({{!forms}see this
+question}). Nothing
+is kept on the server before the last step.
+
+With forms sent by the browser, create a new service for each step, during
+the request, with the data of the previous steps in its closure. Unlike
+session data, this works with several tabs and with the back button:
 
 {@ocaml[
 let%server calc =
@@ -560,11 +621,63 @@ programming}.
 
 Use a POST parameter of type [file]. Ocsigen Server writes the file in its
 upload directory, and removes it at the end of the request: move it
-before.
+before. Do not use the name sent by the browser, which the user chooses:
+store the file under a random name, and keep the original name as data if
+you need it.
 
 {@ocaml[
 let%server upload_dir = "/var/www/uploads"
 
+let%server save_upload file =
+  let name =
+    Eliom.Lib.make_cryptographic_safe_string ()
+    |> String.map (function '+' -> '-' | '/' -> '_' | c -> c)
+  in
+  let%lwt () =
+    Lwt_unix.rename
+      (Eliom.Request_info.get_tmp_filename file)
+      (Filename.concat upload_dir name)
+  in
+  Lwt.return name
+]}
+
+In a client-server application, send the file from client-side code,
+without changing page, to a service registered with
+{!Eliom.Registration.Ocaml}: its handler returns an OCaml value to the
+client. Call it with {!Eliom.Client.call_ocaml_service}, giving the file
+chosen in an [<input type="file">] element:
+
+{@ocaml[
+let%server upload_file =
+  Eliom.Registration.Ocaml.create ~path:Eliom.Service.No_path
+    ~meth:
+      (Eliom.Service.Post (Eliom.Parameter.unit, Eliom.Parameter.file "file"))
+    (fun () file -> save_upload file)
+
+let%client upload_file = ~%upload_file
+
+let%client send_file (input : Dom_html.inputElement Js.t) =
+  match Js.Opt.to_option (Js.Opt.bind input##.files (fun fs -> fs##item 0)) with
+  | None -> Lwt.return_none
+  | Some file ->
+      let%lwt name =
+        Eliom.Client.call_ocaml_service ~service:upload_file () file
+      in
+      Lwt.return_some name
+]}
+
+([Dom_html] and [Js] come from [Js_of_ocaml].) With
+[let input = Eliom.Content.Html.D.Raw.input ~a:[a_input_type `File] ()] in
+the page, the client-side code calls
+[send_file (Eliom.Content.Html.To_dom.of_input ~%input)]. Like an
+{{!rpc}RPC}, anyone can call this service: check the rights of the user in
+the handler; and the call fails when the network or the server does: catch
+the exception. For images, the picture uploader {{!upload_image}below}
+does all this, with a preview.
+
+With a form sent by the browser, register a page instead:
+
+{@ocaml[
 let%server upload =
   Eliom.Service.create
     ~path:(Eliom.Service.Path ["upload"])
@@ -574,14 +687,8 @@ let%server upload =
 
 let%server () =
   App.register ~service:upload (fun () file ->
-    let name =
-      Filename.basename (Eliom.Request_info.get_original_filename file)
-    in
-    let%lwt () =
-      Lwt_unix.rename
-        (Eliom.Request_info.get_tmp_filename file)
-        (Filename.concat upload_dir name)
-    in
+    let%lwt _stored_as = save_upload file in
+    let name = Eliom.Request_info.get_original_filename file in
     Lwt.return (skeleton ~title:"Upload" [p [txt (name ^ " received.")]]))
 
 let%server upload_form () =
@@ -595,20 +702,16 @@ let%server upload_form () =
 [Lwt_unix.rename] needs the upload directory and the destination on the
 same file system. The generated projects use [/tmp] as upload directory,
 which is often another file system (a [tmpfs]): change it in the
-configuration file, which also sets the size limits:
+configuration file, which also limits the size of the files:
 
 {@xml[
 <uploaddir>/var/www/tmp</uploaddir>
 <maxuploadfilesize>2MB</maxuploadfilesize>
-<maxrequestbodysize>100MB</maxrequestbodysize>
 ]}
 
-(or the [~uploaddir] argument of [Ocsigen.Server.start]). To upload a file
-from client-side code, without changing page, create the service with
-[Eliom.Service.create_ocaml], register it with
-{!Eliom.Registration.Ocaml}, and call it with
-{!Eliom.Client.call_ocaml_service}, giving the [File.file] of an input
-element; or use the picture uploader below.
+When the server is run as a library, give
+[~uploaddir:(Some "/var/www/tmp")] to [Ocsigen.Server.host]: without an
+upload directory, the server refuses the files.
 
 {2:upload_image How do I upload an image, with cropping?}
 

@@ -1,6 +1,4 @@
-{%wodoc:header%}
 {0 Writing a client/server Eliom application}
-{%wodoc:end%}
 
 In this chapter, we will write a {{:https://ocsigen.org/graffiti/}collaborative
 drawing application}. It is a client/server web application

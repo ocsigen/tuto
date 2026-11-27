@@ -1,0 +1,86 @@
+# Check the opam package `ocsigen` the way ocaml.org uses it: install it with
+# its dependencies from opam-repository, then build its documentation with
+# odoc_driver, the engine of ocaml.org's package docs. The HTML is kept as an
+# artifact, to preview the ocaml.org rendering of a change. See doc/README.md.
+name: Package
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up OCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: "5.4.0"
+          opam-pin: false
+
+      # wasm_of_ocaml (pulled in via eliom) needs binaryen's wasm-merge.
+      - name: Set up Binaryen
+        uses: Aandreba/setup-binaryen@v1.0.0
+        with:
+          token: ${{ github.token }}
+
+      # opam installs the system dependencies (libpq for ocsigen-start, ...)
+      # through apt; with the runner image's stale index, the mirror answers
+      # 404 for superseded package versions.
+      - name: Refresh the apt index
+        run: sudo apt-get update
+
+      - name: Lint the opam file
+        run: opam lint ocsigen.opam
+
+      - name: Install the package
+        run: |
+          opam pin add ocsigen . --no-action
+          opam install ocsigen odoc-driver
+
+      - name: Build the documentation like ocaml.org
+        shell: bash
+        run: opam exec -- odoc_driver ocsigen --remap 2>&1 | tee odoc_driver.log
+
+      # odoc_driver does not fail on a warning. Some are known: odoc does not
+      # reach the values of a client library whose root module has the same
+      # name as the server one (Eliom.Client.onload), see ocaml/odoc#1450.
+      - name: List the warnings of the tutorial pages
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo '## odoc warnings in the tutorial pages'
+            echo '```'
+            if [ -f odoc_driver.log ]; then
+              grep -A1 '^File ".*/doc/ocsigen/odoc-pages/' odoc_driver.log | grep -v '^--$' || true
+            else
+              echo 'odoc_driver did not run.'
+            fi
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # The pages of the package, with the shared files odoc_driver writes at
+      # the root of its output. With --remap, their links to the dependencies
+      # point to ocaml.org, so the preview needs nothing else.
+      - name: Keep the HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: ocaml-org-preview
+          path: |
+            _html/ocsigen
+            _html/*.css
+            _html/*.js
+            _html/fonts

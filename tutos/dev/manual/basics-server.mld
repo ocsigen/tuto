@@ -57,7 +57,8 @@ to use the result is to {e bind} a function to the promise.
 [Lwt.bind p f] means: "when promise [p] is completed, give its result
 to function [f]".
 
-Syntax [let%lwt x = p in e] is equivalent to [Lwt.bind p (fun x -> e)]
+After [open Lwt.Syntax], syntax [let* x = p in e] is equivalent to
+[Lwt.bind p (fun x -> e)]
 and makes it very natural to sequentialize computations without blocking the rest
 of the program.
 {%wodoc:end%}
@@ -113,6 +114,10 @@ Put this in file [bin/main.ml], and run [dune exec mysite].
 
 By default, the server runs on port 8080. Create a [static] directory
 with some files and try to fetch them using your Web browser.
+The server warns that it cannot create its command pipe, in a
+directory of its installation: you can ignore this warning, or give a
+path with the [~command_pipe] parameter of [Ocsigen.Server.start] (as
+in the example below).
 
 {2 Use the [ocsigenserver] command}
 Alternatively, you can run command [ocsigenserver] with a configuration
@@ -175,7 +180,7 @@ let () =
 and takes any GET parameter. The first parameter of function [f] is an association list of GET parameters.
 
 Module [Eliom.Registration.Html_text] is used to register a service sending
-HTML as strings. But we recommend to used typed-HTML instead (see below).
+HTML as strings. But we recommend to use typed HTML instead (see below).
 
 {%wodoc:end%}
 
@@ -396,7 +401,7 @@ from the corresponding submodule of
 {t
  | {{!Eliom.Registration.Html}Html} | Services returning typed HTML pages |
  | {{!Eliom.Registration.Html}Html_text} | Services returning untyped HTML pages as strings |
- | {{!Eliom.Registration.APP}App} | Apply this functor to generate registration functions for services belonging to an Eliom client/server application. These services also return typed HTML pages, but Eliom will automatically add the client-side program as a JS file, and all the data needed (values of all injections, etc.) |
+ | {{!Eliom.Registration.App}App} | Apply this functor to generate registration functions for services belonging to an Eliom client/server application. These services also return typed HTML pages, but Eliom will automatically add the client-side program as a JS file, and all the data needed (values of all injections, etc.) |
  | {{!Eliom.Registration.Flow5}Flow} | Services returning portions of HTML pages. |
  | {{!Eliom.Registration.Action}Action} | Services performing actions (server side effects) with or without reloading the page (e.g. login, logout, payment, modification of user information...) |
  | {{!Eliom.Registration.File}Files} | Serve files from the server hard drive |
@@ -414,7 +419,7 @@ from the corresponding submodule of
 {1 Eliom: Typing page parameters}
 {%wodoc:end%}
 
-Instead of taking GET parameters as an untyped [string * string]
+Instead of taking GET parameters as an untyped [(string * string) list]
 association list, you can ask Eliom to decode and check parameter types
 automatically.
 
@@ -446,7 +451,7 @@ The handler takes as first parameter the GET page parameters, typed according to
 the parameter specification given while creating the service.
 The second parameter is for POST parameters (see below).
 
-Recompile you program, and to to URL [http://localhost:8080/foo?s=hello&i=22]
+Recompile your program, and go to URL [http://localhost:8080/foo?s=hello&i=22]
 to see the result.
 
 {2 Parameters}
@@ -492,8 +497,8 @@ For example the following example takes the same GET parameters as the service
 above, plus one POST parameter of type string, named "mypostparam".
 {%wodoc:@ class=server%}
 {@ocaml[
-~meth:(Eliom.Service.Post (Eliom.Parameter.((string "s" ** int "i"),
-                                            (string "mypostparam"))))
+~meth:(Eliom.Service.Post (Eliom.Parameter.(string "s" ** int "i"),
+                           Eliom.Parameter.string "mypostparam"))
 ]}
 
 {%wodoc:end%}
@@ -560,7 +565,7 @@ This example shows how to insert an image using [static_dir]:
 {@ocaml[img
   ~alt:"blip"
   ~src:(Eliom.Content.Html.F.make_uri
-         (Eliom.Service.static_dir ())
+         ~service:(Eliom.Service.static_dir ())
          ["dir" ; "image.jpg"])
   ()
 ]}
@@ -591,7 +596,19 @@ In contrast,
 module {{!Eliom.Content_sigs.LINKS_AND_FORMS.Form}Eliom.Content.Html.F.Form} defines a typed interface
 for form elements. Use this for links (see above), or if you program traditional
 server-side Web interaction (with or without client-side program). This will statically check that your forms
-match the services. Example:
+match the services. For example, with the following service, which takes
+two POST parameters:
+
+{@ocaml[
+let connection_service =
+  Eliom.Service.create
+    ~path:Eliom.Service.No_path
+    ~meth:(Eliom.Service.Post (Eliom.Parameter.unit,
+                               Eliom.Parameter.(string "name" ** string "password")))
+    ()
+]}
+
+the following form sends the right parameters:
 
 {@ocaml[
 let open Eliom.Content.Html.F in
@@ -600,7 +617,7 @@ Form.post_form
    (fun (name, password) ->
      [fieldset
        [label ~a:[a_label_for "loginname"] [txt "Name: "];
-        Form.input ~a:[a_id "loginname"] ~input_type:`Text ~name Form.int;
+        Form.input ~a:[a_id "loginname"] ~input_type:`Text ~name Form.string;
         br ();
         Form.input
           ~a:[a_placeholder "Password"]
@@ -647,9 +664,9 @@ let%server count_ref =
 And somewhere in your service handler, increment the counter:
 {%wodoc:@ class=server%}
 {@ocaml[
-let%lwt count = Eliom.Reference.get count_ref in
-Eliom.Reference.set count_ref (count + 1);
-Lwt.return ()
+let* count = Eliom.Reference.get count_ref in
+let* () = Eliom.Reference.set count_ref (count + 1) in
+...
 ]}
 
 With function {!Eliom.Reference.eref_from_fun},
@@ -692,7 +709,7 @@ one session.
 By default, event handlers on HTML elements are given as OCaml functions,
 but it works only if you have a client-server Eliom program.
 If not, you want to give a javascript expression (as a string) instead.
-To so that, use attributes functions from module [Raw]. For example
+To do that, use the attribute functions of module [Raw]. For example
 {!Eliom.Content.Html.F.Raw.a_onclick}
 instead of
 {!Eliom.Content.Html.F.a_onclick}.
@@ -700,7 +717,7 @@ instead of
 Example:
 {%wodoc:@ class=server%}
 {@ocaml[
-Eliom.Content.Html.F.(button ~a:[Raw.onclick "alert(\"beep\");"] [txt "click"])
+Eliom.Content.Html.F.(button ~a:[Raw.a_onclick "alert(\"beep\");"] [txt "click"])
 ]}
 
 
@@ -773,7 +790,7 @@ optional parameters of the service creation function ([?max_use] or [?timeout]).
 {1 Internationalisation}
 {%wodoc:end%}
 
-{{:https://github.com/besport/ocsigen-i18n}Ocsigen i18n}
+{{:https://github.com/ocsigen/ocsigen-i18n}Ocsigen i18n}
 is an internationalisation library for your OCaml programs.
 
 Create a .tsv file with, on each line, a key and the text in several languages:
@@ -804,7 +821,7 @@ Ocsigen i18n offers many other features:
 - .tsv file can be split into several modules
 
 Have a look at the
-{{:https://github.com/besport/ocsigen-i18n}README file}
+{{:https://github.com/ocsigen/ocsigen-i18n}README file}
 to see the full documentation,
 and see examples in
 {{:https://github.com/ocsigen/os_template/blob/master/lib/demo_i18n.eliom}Ocsigen Start's template}.
@@ -829,15 +846,15 @@ for generating pages. Many extensions are already written:
 - {{!/ocsigenserver/page-extendconfiguration}Extendconfiguration}: allows for more options in the configuration file.
 - {{!/ocsigenserver/page-accesscontrol}Accesscontrol}: restricts access to the sites from the config file (to requests coming from a subnet, containing some headers, etc.).
 - {{!/ocsigenserver/page-authbasic}Authbasic}: restricts access to the sites from the config file using Basic HTTP Authentication.
-- CGImod: serves CGI scripts. It may also be used to serve PHP through CGI.
+- {{!/ocsigenserver/page-cors}Cors}: handles Cross-Origin Resource Sharing headers.
 - {{!/ocsigenserver/page-deflatemod}Deflatemod}: used to compress data before sending it to the client.
 - {{!/ocsigenserver/page-redirectmod}Redirectmod}: sets redirections towards other Web sites from the configuration file.
 - {{!/ocsigenserver/page-revproxy}Revproxy}: a reverse proxy for Ocsigen Server.
       It allows to ask another server to handle the request.
 - {{!/ocsigenserver/page-rewritemod}Rewritemod}: changes incoming requests before sending them to other extensions.
 - {{!/ocsigenserver/page-outputfilter}Outputfilter}: rewrites some parts of the output before sending it to the client.
+- {{!/ocsigenserver/page-securityheaders}Securityheaders}: adds security-related HTTP headers to the responses.
 - {{!/ocsigenserver/page-userconf}Userconf}: allows users to have their own configuration files.
-- Comet: facilitates server to client communications.
 
 Ocsigen Server has a {{!/ocsigenserver/page-config}sophisticated configuration} file mechanism allowing
 complex configurations of sites.

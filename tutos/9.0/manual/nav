@@ -23,10 +23,10 @@
   (link "HTML" html.html html))
  (section "Migration"
   (link "Migrating to new module names (compat packages)" migration.html migration))
- (section "Other tutorials: Miscellanous features"
+ (section "Other tutorials: miscellaneous features"
   (link "Mobile applications with Ocsigen" mobile.html mobile)
   (link "Custom configuration" custom-conf.html custom-conf)
   (link "RESTful JSON API" rest.html rest)
   (link "Persistent tables with Ocsipersist" ocsipersist.html ocsipersist))
- (section "HOW-TO"
+ (section "How-to"
   (link "How do I…? Questions and answers" faq.html faq)))

@@ -10,7 +10,7 @@ This tutorial also shows that it is possible to use the same code to build the w
 
 We choose a very simple widget, that could be the base for example for implementing a drop-down menu. It consists of several boxes with a title and a content. Clicking on the title opens or closes the content. Furthermore, it is possible to group some of the boxes together to make them behave like radio buttons: when you open one of them, the previously opened one is closed.
 
-![screenshot](files/tutorial/tutowidgets/ex-final.png)
+![Screenshot](./files/tutorial/tutowidgets/ex-final.png)
 
 ## First step: define an application with a basic service
 
@@ -60,7 +60,7 @@ The name of the project must match the name given to the functor `Eliom.Registra
 
 Replace the content of file `app/ex.eliom` by the code above. Download the [CSS file](files/tutorial/tutowidgets/ex.css) and place it in directory `static/css` (it replaces the file `ex.css` created by Eliom distillery). You can then compile by calling `dune build`, and run the server by calling `dune exec ex`. Then open a browser window and go to URL `http://localhost:8080`.
 
-![screenshot](files/tutorial/tutowidgets/ex1.png)
+![Screenshot](./files/tutorial/tutowidgets/ex1.png)
 
 ### More explanations
 
@@ -164,7 +164,7 @@ let%shared mywidget s1 s2 =
 ```
 Until the client-side program uses it, the compiler reports the client-side version of `mywidget` as an unused value (an error in dune's default development profile). The next step uses it on both sides.
 
-![screenshot](files/tutorial/tutowidgets/ex2.png)
+![Screenshot](./files/tutorial/tutowidgets/ex2.png)
 
 ## Fifth step: close last window when opening a new one
 
@@ -302,7 +302,8 @@ let%server _ = Eliom.Content.Html.D.(
            ])))
 )
 ```
-![screenshot](files/tutorial/tutowidgets/ex-final.png)
+
+![Screenshot](./files/tutorial/tutowidgets/ex-final.png)
 
 ## And now?
 

@@ -268,8 +268,7 @@ let () = My_app.register ~service:main_service
 
 Sometimes we need to control when a script is loaded and reloaded on page change. Since clicking on links in an Eliom application do not reload the entire page, already loaded libraries stay loaded. But if we simply add a script to each page, it will be loaded each time. We usually don't want that.
 
-Using `val
-Eliom.Content.Html.Id.create_global_elt` we can create an xml node manipulated 'by reference'. If a reference to a script node is included in a page, it will only be loaded the first time it appears in the header. For example:
+Using `Eliom.Content.Html.Id.create_global_elt` we can create an xml node manipulated 'by reference'. If a reference to a script node is included in a page, it will only be loaded the first time it appears in the header. For example:
 
 ```ocaml
 let my_script =

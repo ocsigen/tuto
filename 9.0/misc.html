@@ -120,14 +120,14 @@
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="migration.html"><a href="./migration.html">Migrating to new module names (compat packages)</a></li>
 </ul>
-<h3>Other tutorials: Miscellanous features</h3>
+<h3>Other tutorials: miscellaneous features</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
 <li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
 <li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>HOW-TO</h3>
+<h3>How-to</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
 </ul>
@@ -180,14 +180,14 @@
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="migration.html"><a href="./migration.html">Migrating to new module names (compat packages)</a></li>
 </ul>
-<h3>Other tutorials: Miscellanous features</h3>
+<h3>Other tutorials: miscellaneous features</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
 <li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
 <li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>HOW-TO</h3>
+<h3>How-to</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
 </ul>
@@ -392,8 +392,7 @@ let make_page body =
 let () = My_app.register ~service:main_service
   (fun () () -&gt;
     make_page [Html.D.h1 [Html.D.txt &quot;Welcome to Multigraffiti&quot;];
-               choose_drawing_form ()])</code></pre><aside class="concept"><p><b>Concept: Global node and scripts</b></p><p>Sometimes we need to control when a script is loaded and reloaded on page change. Since clicking on links in an Eliom application do not reload the entire page, already loaded libraries stay loaded. But if we simply add a script to each page, it will be loaded each time. We usually don't want that.</p><p>Using <code>val
-Eliom.Content.Html.Id.create_global_elt</code> we can create an xml node manipulated 'by reference'. If a reference to a script node is included in a page, it will only be loaded the first time it appears in the header. For example:</p><pre class="language-ocaml"><code>let my_script =
+               choose_drawing_form ()])</code></pre><aside class="concept"><p><b>Concept: Global node and scripts</b></p><p>Sometimes we need to control when a script is loaded and reloaded on page change. Since clicking on links in an Eliom application do not reload the entire page, already loaded libraries stay loaded. But if we simply add a script to each page, it will be loaded each time. We usually don't want that.</p><p>Using <code>Eliom.Content.Html.Id.create_global_elt</code> we can create an xml node manipulated 'by reference'. If a reference to a script node is included in a page, it will only be loaded the first time it appears in the header. For example:</p><pre class="language-ocaml"><code>let my_script =
   Html.Id.create_global_elt
     (Html.D.js_script
        ~uri:(Html.D.make_uri ~service:(Eliom.Service.static_dir ())

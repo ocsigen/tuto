@@ -103,8 +103,7 @@ There are several ways to create pages for Eliom. You can generate pages as stri
 
 *Note that it is also possible to use the usual HTML syntax directly in OCaml, cf. [the TyXML syntax extension](https://ocsigen.org/tyxml/latest/tyxml/ppx.html).*
 
-The TyXML library (and thus `module
-Eliom.Content.Html.D`) is very strict and compels you to respect HTML standard (with some limitations). For example if you write:
+The TyXML library (and thus `Eliom.Content.Html.D`) is very strict and compels you to respect HTML standard (with some limitations). For example if you write:
 
 ```ocaml
 (html
@@ -346,8 +345,7 @@ let%server () =
 ```
 **Concept: JavaScript datatypes in OCaml**
 
-Here we use the function `val
-Js_of_ocaml.Js.string` from Js\_of\_ocaml's library to convert an OCaml string into a JS string, and `valJs_of_ocaml.Js.float` to convert an OCaml float into a JS number. Conversely, `valJs_of_ocaml.Js.to_string` and `valJs_of_ocaml.Js.to_float` convert JS values to OCaml.
+Here we use the function `Js_of_ocaml.Js.string` from Js\_of\_ocaml's library to convert an OCaml string into a JS string, and `Js_of_ocaml.Js.float` to convert an OCaml float into a JS number. Conversely, `Js_of_ocaml.Js.to_string` and `Js_of_ocaml.Js.to_float` convert JS values to OCaml.
 
 **Concept: Client side side-effect on the server**
 
@@ -365,8 +363,7 @@ creates a client value for the sole purpose of performing side effects on the cl
 
 Lwt<br/> Mouse events with Lwt
 
-We now want to catch mouse events to draw lines with the mouse like with the *brush* tools of any classical drawing application. One solution would be to mimic typical JavaScript code in OCaml; for example by using the function `val
-Js_of_ocaml.Dom_events.listen` that is the Js\_of\_ocaml's equivalent of `addEventListener`. However, this solution is at least as verbose as the JavaScript equivalent, hence not satisfactory. Js\_of\_ocaml's library provides a much easier way to do that with the help of Lwt.
+We now want to catch mouse events to draw lines with the mouse like with the *brush* tools of any classical drawing application. One solution would be to mimic typical JavaScript code in OCaml; for example by using the function `Js_of_ocaml.Dom_events.listen` that is the Js\_of\_ocaml's equivalent of `addEventListener`. However, this solution is at least as verbose as the JavaScript equivalent, hence not satisfactory. Js\_of\_ocaml's library provides a much easier way to do that with the help of Lwt.
 
 To use this, add the following lines on top of your file:
 
@@ -461,8 +458,7 @@ Using Lwt is very easy and does not cause trouble, provided you never use *block
 
 - Use the functions from module `Lwt_unix` instead of module `Unix`,
 - Use cooperative database libraries (like PG'Ocaml for Lwt),
-- If you want to use a non-cooperative function, detach it in another preemptive thread using `val
-Lwt_preemptive.detach`,
+- If you want to use a non-cooperative function, detach it in another preemptive thread using `Lwt_preemptive.detach`,
 - If you want to launch a long-running computation, manually insert cooperation points using `Lwt.pause`,
 - `Lwt.bind` does not introduce any cooperation point.
 
@@ -470,9 +466,7 @@ Lwt_preemptive.detach`,
 
 Module `Js_of_ocaml_lwt.Lwt_js_events` allows easily defining event listeners using Lwt. For example, `Js_of_ocaml_lwt.Lwt_js_events.click` takes a DOM element and returns an Lwt thread that will wait until a click occurs on this element.
 
-Functions with an ending "s" (`val
-Js_of_ocaml_lwt.Lwt_js_events.clicks`, `val
-Js_of_ocaml_lwt.Lwt_js_events.mousedowns`, ...) start again waiting after the handler terminates.
+Functions with an ending "s" (`Js_of_ocaml_lwt.Lwt_js_events.clicks`, `Js_of_ocaml_lwt.Lwt_js_events.mousedowns`, ...) start again waiting after the handler terminates.
 
 `Lwt.pick` behaves as the first thread in the list to terminate, and cancels the others.
 
@@ -500,8 +494,7 @@ We annotate the type declaration with `[@@deriving json]` to allow type-safe des
 ```
 (env (dev (flags (:standard -w -39))))
 ```
-Then we create an Eliom bus to broadcast drawing events to all client with the function `val
-Eliom.Bus.create`. This function take as parameter the type of values carried by the bus.
+Then we create an Eliom bus to broadcast drawing events to all client with the function `Eliom.Bus.create`. This function take as parameter the type of values carried by the bus.
 
 ```ocaml
 let%server bus = Eliom.Bus.create [%json: messages]
@@ -530,12 +523,9 @@ Eliom provides multiple ways for the server to send unsolicited data to the clie
 
 - Module `Eliom.Notif` (or `Os.Notif` if you are using Ocsigen Start) provides a very simple way to send messages to clients. It's probably the solution you will use most of the times.
 - You can use `Eliom.Bus.t` instead, as in this example, in the particular case when you need to broadcast data to all connected clients. Buses are broadcasting channels where client and server can participate (see also `Eliom.Bus.t` in the client API).
-- `module
-Eliom.Eliom_react` allows sending [React events](http://erratique.ch/software/react/doc/React) from the server to the client, and conversely.
-- `type
-Eliom.Comet.Channel.t` are one-way communication channels allowing finer-grained control. It allows sending `Lwt_stream` to the client. `Eliom.Eliom_react` and `Eliom.Bus` are implemented over `Eliom.Comet`.
-It is possible to control the idle behaviour with module `module
-Eliom.Comet.Configuration`.
+- `Eliom.Eliom_react` allows sending [React events](http://erratique.ch/software/react/doc/React) from the server to the client, and conversely.
+- `Eliom.Comet.Channel.t` are one-way communication channels allowing finer-grained control. It allows sending `Lwt_stream` to the client. `Eliom.Eliom_react` and `Eliom.Bus` are implemented over `Eliom.Comet`.
+It is possible to control the idle behaviour with module `Eliom.Comet.Configuration`.
 
 ### Color and size of the brush
 

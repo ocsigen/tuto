@@ -102,7 +102,7 @@ The user pages are now available at URLs http://localhost:8080/users/*username*.
 
 The module `Eliom.Parameter` makes it possible to use parts of the path as service (GET) parameters.
 
-In addition to `Eliom.Parameter.suffix`, there are many other values allowing you to specify your expected parameters: for example, you may access the full suffix as a string, as a list of string, or you may want to mix suffix parameters with standard GET parameters. You can also accept, as parameters, parts of the path that are not a suffix of the path (using `Eliom.Parameter.const`). See more information on suffixes in `Eliom's manual`.
+In addition to `Eliom.Parameter.suffix`, there are many other values allowing you to specify your expected parameters: for example, you may access the full suffix as a string, as a list of string, or you may want to mix suffix parameters with standard GET parameters. You can also accept, as parameters, parts of the path that are not a suffix of the path (using `Eliom.Parameter.suffix_const`). See more information on suffixes in `Eliom's manual`.
 
 *Warning:* Even if it is not displayed in the URL, suffix parameters have a parameter name. This allows one to make forms that point to those kind of services. Actually each "suffix service" has an equivalent without suffix (which is by default automatically redirected towards the suffix version if it is a GET request).
 
@@ -125,8 +125,7 @@ Change the handler of `user_service` into:
 ```
 **Concept: Creating hyperlinks**
 
-The function `val
-Eliom.Content.Html.D.a` accepts the following parameters:
+The function `Eliom.Content.Html.D.a` accepts the following parameters:
 
 - the service
 - the content of the link
@@ -196,8 +195,7 @@ In a real application, user information is stored in a database. You can use any
 
 *Just remember that your query functions must be cooperative with Lwt\!* For example PG'OCaml and Caqti have Lwt interfaces, which makes them 100% compatible with Lwt.
 
-If your database module is not Lwt-cooperative but is thread-safe (for preemptive threads), you can use the `val
-Lwt_preemptive.detach` function to make the blocking function be executed by a separate preemptive thread.
+If your database module is not Lwt-cooperative but is thread-safe (for preemptive threads), you can use the `Lwt_preemptive.detach` function to make the blocking function be executed by a separate preemptive thread.
 
 ## Sessions
 
@@ -516,8 +514,7 @@ The type of the handler prevents some mixes: for instance, the same service cann
 
 ### Disconnection
 
-To create a logout/disconnection form, we create another non-attached coservice using POST method, and register another action. We call the function `val
-Eliom.State.discard` with scope `Eliom.Common.default_session_scope` to remove all session data.
+To create a logout/disconnection form, we create another non-attached coservice using POST method, and register another action. We call the function `Eliom.State.discard` with scope `Eliom.Common.default_session_scope` to remove all session data.
 
 ```ocaml
 let disconnection_service = Eliom.Service.create

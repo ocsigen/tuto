@@ -8,9 +8,12 @@ The template comes with a default style (developed with SASS) that follows moder
 
 The template is multi-platform. This means that it can run on a Web browser or as a mobile app for Android or iOS.
 
- [![Ocsigen Start](files/screenshots/start1.png)](files/screenshots/start1.png) [![Ocsigen Start](files/screenshots/start2.png)](files/screenshots/start2.png)
+![Ocsigen Start](./files/screenshots/start1.png)
+![Ocsigen Start](./files/screenshots/start2.png)
 
- [![Ocsigen Start](files/screenshots/start-mobile-1.png)](files/screenshots/start-mobile-1.png) [![Ocsigen Start](files/screenshots/start-mobile-2.png)](files/screenshots/start-mobile-2.png) [![Ocsigen Start](files/screenshots/start-mobile-4.png)](files/screenshots/start-mobile-4.png)
+![Ocsigen Start](./files/screenshots/start-mobile-1.png)
+![Ocsigen Start](./files/screenshots/start-mobile-2.png)
+![Ocsigen Start](./files/screenshots/start-mobile-4.png)
 
 ## Installation
 
@@ -59,8 +62,14 @@ It is now time to learn Ocsigen\! The template is a great way to get started, be
   - ...
 Open the demo pages from the menu of the application. Their source code is in the `lib/demo_*.eliom` files of your project. These files are well-commented, so you can quickly find out how things work.
 
- [![Ocsigen Start](files/screenshots/start3.png)](files/screenshots/start3.png) [![Ocsigen Start](files/screenshots/start4.png)](files/screenshots/start4.png) [![Ocsigen Start](files/screenshots/start5.png)](files/screenshots/start5.png) [![Ocsigen Start](files/screenshots/start6.png)](files/screenshots/start6.png)
+![Ocsigen Start](./files/screenshots/start3.png)
+![Ocsigen Start](./files/screenshots/start4.png)
+![Ocsigen Start](./files/screenshots/start5.png)
+![Ocsigen Start](./files/screenshots/start6.png)
 
- [![Ocsigen Start](files/screenshots/start-mobile-3.png)](files/screenshots/start-mobile-3.png) [![Ocsigen Start](files/screenshots/start-mobile-6.png)](files/screenshots/start-mobile-6.png) [![Ocsigen Start](files/screenshots/start-mobile-7.png)](files/screenshots/start-mobile-7.png) [![Ocsigen Start](files/screenshots/start-mobile-8.png)](files/screenshots/start-mobile-8.png)
+![Ocsigen Start](./files/screenshots/start-mobile-3.png)
+![Ocsigen Start](./files/screenshots/start-mobile-6.png)
+![Ocsigen Start](./files/screenshots/start-mobile-7.png)
+![Ocsigen Start](./files/screenshots/start-mobile-8.png)
 
 Have fun\!

@@ -120,14 +120,14 @@
 <ul class="api-section">
 <li class="ml3 current" data-wodoc-page="migration.html"><a href="./migration.html">Migrating to new module names (compat packages)</a></li>
 </ul>
-<h3>Other tutorials: Miscellanous features</h3>
+<h3>Other tutorials: miscellaneous features</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
 <li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
 <li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>HOW-TO</h3>
+<h3>How-to</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
 </ul>
@@ -180,14 +180,14 @@
 <ul class="api-section">
 <li class="ml3 current" data-wodoc-page="migration.html"><a href="./migration.html">Migrating to new module names (compat packages)</a></li>
 </ul>
-<h3>Other tutorials: Miscellanous features</h3>
+<h3>Other tutorials: miscellaneous features</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
 <li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
 <li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
 <li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
 </ul>
-<h3>HOW-TO</h3>
+<h3>How-to</h3>
 <ul class="api-section">
 <li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
 </ul>
@@ -196,7 +196,7 @@
       </nav>
       <article class="rightcol">
         
-        <header><h1 id="migrating-to-new-module-names">Migrating to new module names</h1></header><p>Starting with Eliom 13, Ocsigen Server 8, Ocsigen Toolkit 5, and Ocsigen Start 9, all Ocsigen projects use hierarchical module names:</p><table class="odoc-table"><tr><td><p>Old name</p></td><td><p>New name</p></td></tr><tr><td><p><code>Eliom_service</code></p></td><td><p><code>Eliom.Service</code></p></td></tr><tr><td><p><code>Eliom_content</code></p></td><td><p><code>Eliom.Content</code></p></td></tr><tr><td><p><code>Eliom_registration</code></p></td><td><p><code>Eliom.Registration</code></p></td></tr><tr><td><p><code>Eliom_parameter</code></p></td><td><p><code>Eliom.Parameter</code></p></td></tr><tr><td><p><code>Ot_popup</code></p></td><td><p><code>Ot.Popup</code></p></td></tr><tr><td><p><code>Ot_carousel</code></p></td><td><p><code>Ot.Carousel</code></p></td></tr><tr><td><p><code>Os_session</code></p></td><td><p><code>Os.Session</code></p></td></tr><tr><td><p><code>Os_user</code></p></td><td><p><code>Os.User</code></p></td></tr><tr><td><p><code>Ocsigen_extensions</code></p></td><td><p><code>Ocsigen.Extensions</code></p></td></tr><tr><td><p><code>Ocsigen_config</code></p></td><td><p><code>Ocsigen.Config</code></p></td></tr><tr><td><p><code>Ocsigen_lib</code></p></td><td><p><code>Ocsigen_base.Lib</code></p></td></tr></table>
+        <h1 id="migrating-to-new-module-names">Migrating to new module names</h1><p>Starting with Eliom 13, Ocsigen Server 8, Ocsigen Toolkit 5, and Ocsigen Start 9, all Ocsigen projects use hierarchical module names:</p><table class="odoc-table"><tr><td><p>Old name</p></td><td><p>New name</p></td></tr><tr><td><p><code>Eliom_service</code></p></td><td><p><code>Eliom.Service</code></p></td></tr><tr><td><p><code>Eliom_content</code></p></td><td><p><code>Eliom.Content</code></p></td></tr><tr><td><p><code>Eliom_registration</code></p></td><td><p><code>Eliom.Registration</code></p></td></tr><tr><td><p><code>Eliom_parameter</code></p></td><td><p><code>Eliom.Parameter</code></p></td></tr><tr><td><p><code>Ot_popup</code></p></td><td><p><code>Ot.Popup</code></p></td></tr><tr><td><p><code>Ot_carousel</code></p></td><td><p><code>Ot.Carousel</code></p></td></tr><tr><td><p><code>Os_session</code></p></td><td><p><code>Os.Session</code></p></td></tr><tr><td><p><code>Os_user</code></p></td><td><p><code>Os.User</code></p></td></tr><tr><td><p><code>Ocsigen_extensions</code></p></td><td><p><code>Ocsigen.Extensions</code></p></td></tr><tr><td><p><code>Ocsigen_config</code></p></td><td><p><code>Ocsigen.Config</code></p></td></tr><tr><td><p><code>Ocsigen_lib</code></p></td><td><p><code>Ocsigen_base.Lib</code></p></td></tr></table>
 <h2 id="using-compatibility-packages">Using compatibility packages</h2><p>To migrate progressively, you can use the compatibility packages. They provide the old module names as aliases to the new ones, so your existing code compiles without changes.</p><p>Install the compat packages you need:</p><pre class="language-shell"><code>opam install eliom-compat ocsigenserver-compat \
   ocsigen-toolkit-compat ocsigen-start-compat</code></pre><p>Then add them to the <code>(libraries ...)</code> in your <code>dune</code> file:</p><pre class="language-lisp"><code>; Server library
 (libraries

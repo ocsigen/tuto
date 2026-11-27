@@ -4,7 +4,7 @@ You should read the [Playing Music](./music.md) tutorial before this one.
 
 Since version 4, Eliom embeds the [React](http://erratique.ch/logiciel/react) library in order to provide reactive HTML elements (`Eliom.Content.Html.R`).
 
-The final Eliom code is available [for download](https://github.com/ocsigen/tutorial/tree/master/files/tutorial/chapter3/reactive_media_player/reactive_media_player.eliom).
+The final Eliom code is available [for download](files/tutorial/chapter3/reactive_media_player/reactive_media_player.eliom).
 
 ## Basics
 

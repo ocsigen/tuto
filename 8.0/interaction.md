@@ -8,7 +8,7 @@ We assume you have read at least the first section of the previous chapter, whic
 
 We will create a simple web site with one main page and a page for each user (assuming we have several users already created). Then we will add a login/connection form. We will also add a registration form, in order to learn how to create *dynamically* new services, and why it is very useful.
 
-The [full code](https://github.com/ocsigen/tutorial/tree/master/files/tutorial/chapter2) of the program can be downloaded.
+The [full code](https://github.com/ocsigen/tuto/tree/master/tutos/8.0/manual/files/tutorial/chapter2) of the program can be downloaded.
 
 ## Services
 

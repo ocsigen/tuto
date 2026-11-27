@@ -18,7 +18,7 @@ will add a login/connection form. We will also add a registration
 form, in order to learn how to create {e dynamically} new services,
 and why it is very useful.
 
-The {{:https://github.com/ocsigen/tutorial/tree/master/files/tutorial/chapter2}full code}
+The {{:https://github.com/ocsigen/tuto/tree/master/tutos/dev/manual/files/tutorial/chapter2}full code}
 of the program can be downloaded.
 
 {1 Services}

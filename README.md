@@ -1,7 +1,9 @@
-# Generate the HTML files locally
+# Ocsigen tutorial
 
-To generate the static HTML files locally, you have to:
-- Make sure to have [quickdop](https://ocsigen.org/html_of_wiki/latest/manual/intro#install) and [jq](https://stedolan.github.io/jq/download/) installed
-- Run the command `make local DOC=[doc folder]` (for example `make local DOC=tutos/`)
+Sources of the Ocsigen tutorial, published at <https://ocsigen.org/tuto/>.
 
-The HTML files will then be created in the _doc/\[version\]/manual folder
+- `tutos/<version>/manual/`: the pages of each published version (odoc `.mld`
+  files), with the files they use (example code, images) in `manual/files/`.
+- `doc/`: how the site is built with odoc and
+  [wodoc](https://github.com/ocsigen/wodoc), locally and in CI. See
+  [doc/README.md](doc/README.md).

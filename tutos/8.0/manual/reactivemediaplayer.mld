@@ -9,7 +9,7 @@ provide reactive HTML elements
 
 
  The final Eliom code is available
-{{:https://github.com/ocsigen/tutorial/tree/master/files/tutorial/chapter3/reactive_media_player/reactive_media_player.eliom}for download}. 
+{{:files/tutorial/chapter3/reactive_media_player/reactive_media_player.eliom}for download}.
 
 {1:basics Basics}
 

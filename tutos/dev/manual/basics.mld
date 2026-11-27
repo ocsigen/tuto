@@ -549,7 +549,7 @@ and {!Js_of_ocaml.Dom_html}
 to interact with the DOM, or more specifically with HTML.
 
 You can test Js_of_ocaml online in this
-{{:https://ocsigen.org/js_of_ocaml/latest/manual/files/toplevel/index.html}Toplevel running in the browser}
+{{:https://ocsigen.org/js_of_ocaml/toplevel/}Toplevel running in the browser}
 
 {2 Examples}
 {@ocaml[
@@ -603,7 +603,7 @@ val fsth3 :
 
 {2 DOM nodes and TyXML/Eliom.Content nodes}
 
-Functions {{:https://ocsigen.org/js_of_ocaml/latest/api/js_of_ocaml-tyxml/Js_of_ocaml_tyxml/Tyxml_cast_sigs/module-type-OF/index.html}[Eliom.Content.Html.To_dom.of_element], [Eliom.Content.Html.To_dom.of_div], etc.}
+Functions {{:https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml-tyxml/Js_of_ocaml_tyxml/Tyxml_cast_sigs/module-type-OF/index.html}[Eliom.Content.Html.To_dom.of_element], [Eliom.Content.Html.To_dom.of_div], etc.}
 help to convert TyXML/Eliom.Content nodes into the DOM/js_of_ocaml counterparts.
 
 Module {!Eliom.Content.Html.Manip}
@@ -766,7 +766,7 @@ type%shared t = A | B
 [@@deriving json]
 ]}
 
-{{:http://ocsigen.org/js_of_ocaml/latest/manual/ppx-deriving}More documentation about the JSON deriver}.
+{{:https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/ppx-deriving.html}More documentation about the JSON deriver}.
 
 {%wodoc:div class="focused"%}
 {2 How it works}
@@ -992,7 +992,7 @@ will call the function given as second parameter
 {b for each} [click] or [mousedown] events
 on their first parameter.
 
-For example, the following code (inspired from {{:https://ocsigen.org/tuto/latest/manual/application}this tutorial})
+For example, the following code (inspired from {{!page-application}this tutorial})
 will wait for all [mousedown] events on the canvas,
 then for each [mousemove] event on the document,
 it will call function [f], until [mouseup] is triggered.
@@ -1015,7 +1015,7 @@ Lwt.async (mousedowns
 
 Ocsigen Toolkit defines several widgets that can be generated either
 on server or clide sides. Have look at
-{{:https://ocsigen.org/ocsigen-start/latest/demo/}Ocsigen Start's demo app}
+{{:https://ocsigen-1.inria.fr/ocsigen-start/demo/}Ocsigen Start's demo app}
 (or the {{:https://play.google.com/store/apps/details?id=com.osdemo.mobile}corresponding Android app})
 to see them in action: carousel, drawer menu, date or time picker, color picker,
 pull to refresh feature for mobile apps, etc.
@@ -1039,7 +1039,7 @@ with many common features like
 user registration, login box, notification system, etc.
 
 It also provides a demo of many features presented in this page.
-A {{:https://ocsigen.org/ocsigen-start/latest/demo/}live version} is accessible online.
+A {{:https://ocsigen-1.inria.fr/ocsigen-start/demo/}live version} is accessible online.
 Read {{!page-start}this page} to create your first Ocsigen Start
 app and take time to study the code of each example.
 

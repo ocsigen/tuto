@@ -23,19 +23,14 @@ The template is multi-platform. This means that it can run on a Web
 browser or as a mobile app for Android or iOS.
 
 {%wodoc:div class="screenshots"%}
-{{:files/screenshots/start1.png}
-{%wodoc:img src="files/screenshots/start1.png" alt="Ocsigen Start"%}}
-{{:files/screenshots/start2.png}
-{%wodoc:img src="files/screenshots/start2.png" alt="Ocsigen Start"%}}
+{{image!files/screenshots/start1.png}Ocsigen Start}
+{{image!files/screenshots/start2.png}Ocsigen Start}
 {%wodoc:end%}
 
 {%wodoc:div class="screenshots"%}
-{{:files/screenshots/start-mobile-1.png}
-{%wodoc:img src="files/screenshots/start-mobile-1.png" alt="Ocsigen Start"%}}
-{{:files/screenshots/start-mobile-2.png}
-{%wodoc:img src="files/screenshots/start-mobile-2.png" alt="Ocsigen Start"%}}
-{{:files/screenshots/start-mobile-4.png}
-{%wodoc:img src="files/screenshots/start-mobile-4.png" alt="Ocsigen Start"%}}
+{{image!files/screenshots/start-mobile-1.png}Ocsigen Start}
+{{image!files/screenshots/start-mobile-2.png}Ocsigen Start}
+{{image!files/screenshots/start-mobile-4.png}Ocsigen Start}
 {%wodoc:end%}
 
 {1 Installation}
@@ -101,25 +96,17 @@ code is in the [lib/demo_*.eliom] files of your project. These files
 are well-commented, so you can quickly find out how things work.
 
 {%wodoc:div class="screenshots"%}
-{{:files/screenshots/start3.png}
-{%wodoc:img src="files/screenshots/start3.png" alt="Ocsigen Start"%}}
-{{:files/screenshots/start4.png}
-{%wodoc:img src="files/screenshots/start4.png" alt="Ocsigen Start"%}}
-{{:files/screenshots/start5.png}
-{%wodoc:img src="files/screenshots/start5.png" alt="Ocsigen Start"%}}
-{{:files/screenshots/start6.png}
-{%wodoc:img src="files/screenshots/start6.png" alt="Ocsigen Start"%}}
+{{image!files/screenshots/start3.png}Ocsigen Start}
+{{image!files/screenshots/start4.png}Ocsigen Start}
+{{image!files/screenshots/start5.png}Ocsigen Start}
+{{image!files/screenshots/start6.png}Ocsigen Start}
 {%wodoc:end%}
 
 {%wodoc:div class="screenshots"%}
-{{:files/screenshots/start-mobile-3.png}
-{%wodoc:img src="files/screenshots/start-mobile-3.png" alt="Ocsigen Start"%}}
-{{:files/screenshots/start-mobile-6.png}
-{%wodoc:img src="files/screenshots/start-mobile-6.png" alt="Ocsigen Start"%}}
-{{:files/screenshots/start-mobile-7.png}
-{%wodoc:img src="files/screenshots/start-mobile-7.png" alt="Ocsigen Start"%}}
-{{:files/screenshots/start-mobile-8.png}
-{%wodoc:img src="files/screenshots/start-mobile-8.png" alt="Ocsigen Start"%}}
+{{image!files/screenshots/start-mobile-3.png}Ocsigen Start}
+{{image!files/screenshots/start-mobile-6.png}Ocsigen Start}
+{{image!files/screenshots/start-mobile-7.png}Ocsigen Start}
+{{image!files/screenshots/start-mobile-8.png}Ocsigen Start}
 {%wodoc:end%}
 
 Have fun!

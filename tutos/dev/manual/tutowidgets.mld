@@ -26,7 +26,9 @@ content. Furthermore, it is possible to group some of the boxes
 together to make them behave like radio buttons: when you open one of
 them, the previously opened one is closed.
 
-{%wodoc:div class="screenshot"%}{%wodoc:img src="files/tutorial/tutowidgets/ex-final.png" alt="screenshot"%}{%wodoc:end%}
+{%wodoc:div class="screenshot"%}
+{{image!files/tutorial/tutowidgets/ex-final.png}Screenshot}
+{%wodoc:end%}
 
 
 
@@ -98,7 +100,9 @@ You can then compile by calling [dune build],
 and run the server by calling [dune exec ex].
 Then open a browser window and go to URL [http://localhost:8080].
 
-{%wodoc:div class="screenshot"%}{%wodoc:img src="files/tutorial/tutowidgets/ex1.png" alt="screenshot"%}{%wodoc:end%}
+{%wodoc:div class="screenshot"%}
+{{image!files/tutorial/tutowidgets/ex1.png}Screenshot}
+{%wodoc:end%}
 
 {2 More explanations}
 
@@ -241,7 +245,9 @@ client-side version of [mywidget] as an unused value (an error in
 dune's default development profile). The next step uses it on both
 sides.
 
-{%wodoc:div class="screenshot"%}{%wodoc:img src="files/tutorial/tutowidgets/ex2.png" alt="screenshot"%}{%wodoc:end%}
+{%wodoc:div class="screenshot"%}
+{{image!files/tutorial/tutowidgets/ex2.png}Screenshot}
+{%wodoc:end%}
 
 
 {1 Fifth step: close last window when opening a new one}
@@ -390,7 +396,9 @@ let%server _ = Eliom.Content.Html.D.(
 )
 ]}
 
-{%wodoc:div class="screenshot"%}{%wodoc:img src="files/tutorial/tutowidgets/ex-final.png" alt="screenshot"%}{%wodoc:end%}
+{%wodoc:div class="screenshot"%}
+{{image!files/tutorial/tutowidgets/ex-final.png}Screenshot}
+{%wodoc:end%}
 
 
 {1 And now?}

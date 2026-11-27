@@ -14,3 +14,22 @@
  (section doc)
  (package ocsigen)
  (files odoc-config.sexp))
+
+; The files the pages show or link to, installed next to them with the same
+; relative paths: odoc_driver makes them assets of the pages.
+
+(install
+ (section doc)
+ (package ocsigen)
+ (files
+  (glob_files
+   (files/screenshots/*.png with_prefix odoc-pages/files/screenshots))
+  (glob_files
+   (files/tutorial/*.svg with_prefix odoc-pages/files/tutorial))
+  (glob_files
+   (files/tutorial/tutowidgets/*.{png,css}
+    with_prefix
+    odoc-pages/files/tutorial/tutowidgets))
+  (files/tutorial/static/css/graffiti.css
+   as
+   odoc-pages/files/tutorial/static/css/graffiti.css)))

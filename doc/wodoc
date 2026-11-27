@@ -1,8 +1,10 @@
 ;; Declarative wodoc config for the Ocsigen tutorial (manual-only, no API).
-;; tuto has no dune package: pages are .mld compiled straight by odoc (direct-mld
-;; mode). Its versions (9.0, 8.0, dev) are DISTINCT manuals living in master as
-;; tutos/<v>/manual/, so the per-version mld-dir and left-nav file are passed on
-;; the CLI (--mld-dir / --nav tutos/<v>/manual/nav) rather than hardcoded here.
+;; The pages are .mld compiled straight by odoc from the sources (direct-mld
+;; mode), not from the installed opam package (which carries only the latest
+;; version, for ocaml.org). Its versions (9.0, 8.0, dev) are DISTINCT manuals
+;; living in master as tutos/<v>/manual/, so the per-version mld-dir and
+;; left-nav file are passed on the CLI (--mld-dir / --nav tutos/<v>/manual/nav)
+;; rather than hardcoded here.
 (project tuto)
 (title Doc)
 ; the llms.txt index (for AIs): the site label is short

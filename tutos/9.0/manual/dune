@@ -1,0 +1,16 @@
+; Tutorial pages (odoc .mld), installed with the package under odoc-pages/,
+; where odoc_driver (ocaml.org) builds them. The CI also builds them directly
+; with wodoc for ocsigen.org (see doc/README.md).
+
+(data_only_dirs files)
+
+(documentation
+ (package ocsigen))
+
+; The per-package odoc configuration must sit at the root of the installed doc
+; directory, next to odoc-pages/, for odoc_driver to find it.
+
+(install
+ (section doc)
+ (package ocsigen)
+ (files odoc-config.sexp))

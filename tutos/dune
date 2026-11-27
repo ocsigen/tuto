@@ -1,0 +1,5 @@
+; The opam package installs the latest tutorial version only. To release a new
+; version, move the dune and odoc-config.sexp files of tutos/<version>/manual
+; to the new version.
+
+(dirs 9.0)

@@ -1,0 +1,3 @@
+; Only the tutorial pages are part of the dune build.
+
+(dirs tutos)

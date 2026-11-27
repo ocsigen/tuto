@@ -461,7 +461,7 @@ Module `Js_of_ocaml.Js` defines the base JS types and conversion functions from/
 
 Use modules `Js_of_ocaml.Dom` and `Js_of_ocaml.Dom_html` to interact with the DOM, or more specifically with HTML.
 
-You can test Js\_of\_ocaml online in this [Toplevel running in the browser](https://ocsigen.org/js_of_ocaml/latest/manual/files/toplevel/index.html)
+You can test Js\_of\_ocaml online in this [Toplevel running in the browser](https://ocsigen.org/js_of_ocaml/toplevel/)
 
 ### Examples
 
@@ -511,7 +511,7 @@ val fsth3 :
 
 ### DOM nodes and TyXML/Eliom\_content nodes
 
-Functions [`Eliom_content.Html.To_dom.of_element`, `Eliom_content.Html.To_dom.of_div`, etc.](https://ocsigen.org/js_of_ocaml/latest/api/js_of_ocaml-tyxml/Js_of_ocaml_tyxml/Tyxml_cast_sigs/module-type-OF/index.html) help to convert TyXML/Eliom\_content nodes into the DOM/js\_of\_ocaml counterparts.
+Functions [`Eliom_content.Html.To_dom.of_element`, `Eliom_content.Html.To_dom.of_div`, etc.](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml-tyxml/Js_of_ocaml_tyxml/Tyxml_cast_sigs/module-type-OF/index.html) help to convert TyXML/Eliom\_content nodes into the DOM/js\_of\_ocaml counterparts.
 
 Module `Eliom_content.Html.Manip` allows direct manipulation of TyXML nodes without conversion (only for D nodes) (see for example `Eliom_content.Html.Manip.appendChild`, `Eliom_content.Html.Manip.removeSelf` `Eliom_content.Html.Manip.Class.add`).
 
@@ -610,7 +610,7 @@ Warning: type annotations are mandatory here so that the ppx can automatically i
 type%shared t = A | B
 [@@deriving json]
 ```
-[More documentation about the JSON deriver](http://ocsigen.org/js_of_ocaml/latest/manual/ppx-deriving).
+[More documentation about the JSON deriver](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/ppx-deriving.html).
 
 ### How it works
 
@@ -772,7 +772,7 @@ let%lwt ev = Lwt_js_events.click (Eliom_content.Html.To_dom.of_element ~%d) in
 ```
 Functions like `Lwt_js_events.clicks` or `Lwt_js_events.mousedowns` (ending with "s") will call the function given as second parameter **for each** `click` or `mousedown` events on their first parameter.
 
-For example, the following code (inspired from [this tutorial](https://ocsigen.org/tuto/latest/manual/application)) will wait for all `mousedown` events on the canvas, then for each `mousemove` event on the document, it will call function `f`, until `mouseup` is triggered. (See `Lwt.pick`)
+For example, the following code (inspired from [this tutorial](./application.md)) will wait for all `mousedown` events on the canvas, then for each `mousemove` event on the document, it will call function `f`, until `mouseup` is triggered. (See `Lwt.pick`)
 
 ```ocaml
 let open Lwt_js_events in
@@ -785,7 +785,7 @@ Lwt.async (mousedowns
 
 ## Ocsigen Toolkit
 
-Ocsigen Toolkit defines several widgets that can be generated either on server or clide sides. Have look at [Ocsigen Start's demo app](https://ocsigen.org/ocsigen-start/latest/demo/) (or the [corresponding Android app](https://play.google.com/store/apps/details?id=com.osdemo.mobile)) to see them in action: carousel, drawer menu, date or time picker, color picker, pull to refresh feature for mobile apps, etc.
+Ocsigen Toolkit defines several widgets that can be generated either on server or clide sides. Have look at [Ocsigen Start's demo app](https://ocsigen-1.inria.fr/ocsigen-start/demo/) (or the [corresponding Android app](https://play.google.com/store/apps/details?id=com.osdemo.mobile)) to see them in action: carousel, drawer menu, date or time picker, color picker, pull to refresh feature for mobile apps, etc.
 
 For example module `Ot_spinner` implements a widgets that you can use to display a spinner (or fake elements) when some parts of your page take time to appear. It can be used in shared sections and gives you precise control of the delays and the feeling of responsiveness of your app.
 
@@ -793,7 +793,7 @@ For example module `Ot_spinner` implements a widgets that you can use to display
 
 *Ocsigen-start* is a library and a template of Eliom application, with many common features like user registration, login box, notification system, etc.
 
-It also provides a demo of many features presented in this page. A [live version](https://ocsigen.org/ocsigen-start/latest/demo/) is accessible online. Read [this page](./start.md) to create your first Ocsigen Start app and take time to study the code of each example.
+It also provides a demo of many features presented in this page. A [live version](https://ocsigen-1.inria.fr/ocsigen-start/demo/) is accessible online. Read [this page](./start.md) to create your first Ocsigen Start app and take time to study the code of each example.
 
 User management features are fully usable in production and will save you from implementing account creation, activation links or password recovery yourself. Module `Os_current_user` gives you information about current user from anywhere in your program.
 
@@ -1904,7 +1904,7 @@ Here, we are increasing the reference `count` each time the page is accessed. Wh
 
 **Concept: Injections: Using server side values in client code**
 
-Client side code can reference copies of server side values using the `~%variable` syntax. Values sent that way are weakly type checked: the name of the client side type must match the server side one. If you define a type and want it to be available on both sides, declare it in `[%%shared ... ]`. The Eliom manual provides more information on the `Eliom's syntax extension` and its [compilation process](https://ocsigen.org/eliom/latest/workflow-configuration.html#compilation).
+Client side code can reference copies of server side values using the `~%variable` syntax. Values sent that way are weakly type checked: the name of the client side type must match the server side one. If you define a type and want it to be available on both sides, declare it in `[%%shared ... ]`. The Eliom manual provides more information on the `Eliom's syntax extension` and its `compilation process`.
 
 The value of an injection into a `let%client` section is sent only once when starting the application in the browser. In contrast, the values of injections into client values which are created during a request are sent alongside the next response.
 
@@ -3667,7 +3667,7 @@ The user pages are now available at URLs http://localhost:8080/users/*username*.
 
 The module `Eliom_parameter` makes it possible to use parts of the path as service (GET) parameters.
 
-In addition to `Eliom_parameter.suffix`, there are many other values allowing you to specify your expected parameters: for example, you may access the full suffix as a string, as a list of string, or you may want to mix suffix parameters with standard GET parameters. You can also accept, as parameters, parts of the path that are not a suffix of the path (using `Eliom_parameter.const`). See more information on suffixes in [Eliom's manual](https://ocsigen.org/eliom/latest/server-params.html#suffixes).
+In addition to `Eliom_parameter.suffix`, there are many other values allowing you to specify your expected parameters: for example, you may access the full suffix as a string, as a list of string, or you may want to mix suffix parameters with standard GET parameters. You can also accept, as parameters, parts of the path that are not a suffix of the path (using `Eliom_parameter.const`). See more information on suffixes in `Eliom's manual`.
 
 *Warning:* Even if it is not displayed in the URL, suffix parameters have a parameter name. This allows one to make forms that point to those kind of services. Actually each "suffix service" has an equivalent without suffix (which is by default automatically redirected towards the suffix version if it is a GET request).
 
@@ -4057,7 +4057,7 @@ let () =
   ~service:service_to_redirect
   (fun () something -> ..... )
 ```
-(If you want to give parameters to the service you return, use `Eliom_service.preapply` \--- more information in the [Eliom manual](https://ocsigen.org/eliom/latest/server-services.html#p3preapplied).)
+(If you want to give parameters to the service you return, use `Eliom_service.preapply` \--- more information in the `Eliom manual`.)
 
 If you want to do a redirection towards the current page (as in our case), use the special service `~path` parameter `Eliom_service.No_path`, which is some kind of POST non-attached coservice without parameter at all.
 
@@ -6811,7 +6811,7 @@ However, we recommend to use `Js_of_ocaml_lwt.Lwt_js_events` rather than these e
 - Type `Html_types.base_attrib` (attributes available for every element)
 - signature `Html_sigs.T` (Element attributes)
 - [W3Schools HTML5 reference](http://www.w3schools.com/html/default.asp)
-- [Events attributes](http://www.w3schools.com/html5/html5_ref_eventattributes.asp)
+- [Events attributes](https://www.w3schools.com/tags/ref_eventattributes.asp)
 
 
 ---
@@ -7148,7 +7148,7 @@ let () =
 
 # How to write a JSON service?
 
-\*If you want to communicate with a client side Eliom program, you do not need to serialize yourself your data to JSON. Serialization/Deserialization of any OCaml type is done automatically by Eliom. Just use OCaml services (or, simpler: server functions and call the function from your OCaml client side program). \*If you want to use your own JSON format, you need to have your own serialisation function to JSON (or for example to use some OCaml library like [yojson](http://mjambon.com/yojson.html) to generate JSON). In that case, you can register your service using `Eliom_registration.String` instead of `Eliom_registration.Html` (see example below). The handler function must return the JSON value as a string, and a the content-type. \*It is even possible to define yourself your own registration module, to be used instead of `Eliom_registration.String`. Thus, you can use an OCaml representation of the JSON value (and you don't call the serializer yourself). Have a look on how modules like `Eliom_registration.String` are implemented to know how to do that.
+\*If you want to communicate with a client side Eliom program, you do not need to serialize yourself your data to JSON. Serialization/Deserialization of any OCaml type is done automatically by Eliom. Just use OCaml services (or, simpler: server functions and call the function from your OCaml client side program). \*If you want to use your own JSON format, you need to have your own serialisation function to JSON (or for example to use some OCaml library like [yojson](https://github.com/ocaml-community/yojson) to generate JSON). In that case, you can register your service using `Eliom_registration.String` instead of `Eliom_registration.Html` (see example below). The handler function must return the JSON value as a string, and a the content-type. \*It is even possible to define yourself your own registration module, to be used instead of `Eliom_registration.String`. Thus, you can use an OCaml representation of the JSON value (and you don't call the serializer yourself). Have a look on how modules like `Eliom_registration.String` are implemented to know how to do that.
 
 ```ocaml
 

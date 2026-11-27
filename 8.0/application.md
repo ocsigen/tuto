@@ -276,7 +276,7 @@ Here, we are increasing the reference `count` each time the page is accessed. Wh
 
 **Concept: Injections: Using server side values in client code**
 
-Client side code can reference copies of server side values using the `~%variable` syntax. Values sent that way are weakly type checked: the name of the client side type must match the server side one. If you define a type and want it to be available on both sides, declare it in `[%%shared ... ]`. The Eliom manual provides more information on the `Eliom's syntax extension` and its [compilation process](https://ocsigen.org/eliom/latest/workflow-configuration.html#compilation).
+Client side code can reference copies of server side values using the `~%variable` syntax. Values sent that way are weakly type checked: the name of the client side type must match the server side one. If you define a type and want it to be available on both sides, declare it in `[%%shared ... ]`. The Eliom manual provides more information on the `Eliom's syntax extension` and its `compilation process`.
 
 The value of an injection into a `let%client` section is sent only once when starting the application in the browser. In contrast, the values of injections into client values which are created during a request are sent alongside the next response.
 

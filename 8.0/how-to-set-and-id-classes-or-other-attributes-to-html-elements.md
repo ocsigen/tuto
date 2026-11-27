@@ -74,4 +74,4 @@ However, we recommend to use `Js_of_ocaml_lwt.Lwt_js_events` rather than these e
 - Type `Html_types.base_attrib` (attributes available for every element)
 - signature `Html_sigs.T` (Element attributes)
 - [W3Schools HTML5 reference](http://www.w3schools.com/html/default.asp)
-- [Events attributes](http://www.w3schools.com/html5/html5_ref_eventattributes.asp)
+- [Events attributes](https://www.w3schools.com/tags/ref_eventattributes.asp)

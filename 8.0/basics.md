@@ -397,7 +397,7 @@ Module `Js_of_ocaml.Js` defines the base JS types and conversion functions from/
 
 Use modules `Js_of_ocaml.Dom` and `Js_of_ocaml.Dom_html` to interact with the DOM, or more specifically with HTML.
 
-You can test Js\_of\_ocaml online in this [Toplevel running in the browser](https://ocsigen.org/js_of_ocaml/latest/manual/files/toplevel/index.html)
+You can test Js\_of\_ocaml online in this [Toplevel running in the browser](https://ocsigen.org/js_of_ocaml/toplevel/)
 
 ### Examples
 
@@ -447,7 +447,7 @@ val fsth3 :
 
 ### DOM nodes and TyXML/Eliom\_content nodes
 
-Functions [`Eliom_content.Html.To_dom.of_element`, `Eliom_content.Html.To_dom.of_div`, etc.](https://ocsigen.org/js_of_ocaml/latest/api/js_of_ocaml-tyxml/Js_of_ocaml_tyxml/Tyxml_cast_sigs/module-type-OF/index.html) help to convert TyXML/Eliom\_content nodes into the DOM/js\_of\_ocaml counterparts.
+Functions [`Eliom_content.Html.To_dom.of_element`, `Eliom_content.Html.To_dom.of_div`, etc.](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml-tyxml/Js_of_ocaml_tyxml/Tyxml_cast_sigs/module-type-OF/index.html) help to convert TyXML/Eliom\_content nodes into the DOM/js\_of\_ocaml counterparts.
 
 Module `Eliom_content.Html.Manip` allows direct manipulation of TyXML nodes without conversion (only for D nodes) (see for example `Eliom_content.Html.Manip.appendChild`, `Eliom_content.Html.Manip.removeSelf` `Eliom_content.Html.Manip.Class.add`).
 
@@ -546,7 +546,7 @@ Warning: type annotations are mandatory here so that the ppx can automatically i
 type%shared t = A | B
 [@@deriving json]
 ```
-[More documentation about the JSON deriver](http://ocsigen.org/js_of_ocaml/latest/manual/ppx-deriving).
+[More documentation about the JSON deriver](https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/ppx-deriving.html).
 
 ### How it works
 
@@ -708,7 +708,7 @@ let%lwt ev = Lwt_js_events.click (Eliom_content.Html.To_dom.of_element ~%d) in
 ```
 Functions like `Lwt_js_events.clicks` or `Lwt_js_events.mousedowns` (ending with "s") will call the function given as second parameter **for each** `click` or `mousedown` events on their first parameter.
 
-For example, the following code (inspired from [this tutorial](https://ocsigen.org/tuto/latest/manual/application)) will wait for all `mousedown` events on the canvas, then for each `mousemove` event on the document, it will call function `f`, until `mouseup` is triggered. (See `Lwt.pick`)
+For example, the following code (inspired from [this tutorial](./application.md)) will wait for all `mousedown` events on the canvas, then for each `mousemove` event on the document, it will call function `f`, until `mouseup` is triggered. (See `Lwt.pick`)
 
 ```ocaml
 let open Lwt_js_events in
@@ -721,7 +721,7 @@ Lwt.async (mousedowns
 
 ## Ocsigen Toolkit
 
-Ocsigen Toolkit defines several widgets that can be generated either on server or clide sides. Have look at [Ocsigen Start's demo app](https://ocsigen.org/ocsigen-start/latest/demo/) (or the [corresponding Android app](https://play.google.com/store/apps/details?id=com.osdemo.mobile)) to see them in action: carousel, drawer menu, date or time picker, color picker, pull to refresh feature for mobile apps, etc.
+Ocsigen Toolkit defines several widgets that can be generated either on server or clide sides. Have look at [Ocsigen Start's demo app](https://ocsigen-1.inria.fr/ocsigen-start/demo/) (or the [corresponding Android app](https://play.google.com/store/apps/details?id=com.osdemo.mobile)) to see them in action: carousel, drawer menu, date or time picker, color picker, pull to refresh feature for mobile apps, etc.
 
 For example module `Ot_spinner` implements a widgets that you can use to display a spinner (or fake elements) when some parts of your page take time to appear. It can be used in shared sections and gives you precise control of the delays and the feeling of responsiveness of your app.
 
@@ -729,7 +729,7 @@ For example module `Ot_spinner` implements a widgets that you can use to display
 
 *Ocsigen-start* is a library and a template of Eliom application, with many common features like user registration, login box, notification system, etc.
 
-It also provides a demo of many features presented in this page. A [live version](https://ocsigen.org/ocsigen-start/latest/demo/) is accessible online. Read [this page](./start.md) to create your first Ocsigen Start app and take time to study the code of each example.
+It also provides a demo of many features presented in this page. A [live version](https://ocsigen-1.inria.fr/ocsigen-start/demo/) is accessible online. Read [this page](./start.md) to create your first Ocsigen Start app and take time to study the code of each example.
 
 User management features are fully usable in production and will save you from implementing account creation, activation links or password recovery yourself. Module `Os_current_user` gives you information about current user from anywhere in your program.
 

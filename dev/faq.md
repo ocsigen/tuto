@@ -604,7 +604,7 @@ let%client focused_input () =
     Lwt.return_unit);
   inp
 ```
-Giving the focus to an element, or measuring its size, needs the element in the page. If the element is not inserted, the promise is fulfilled anyway when the user leaves the page, and the element stays in memory until then. If the element is removed and inserted again, call `nodeready` again.
+Giving the focus to an element, or measuring its size, needs the element in the page. If the element is never inserted, the promise is fulfilled anyway when the user leaves the page, and the element stays in memory until then. When the application keeps pages in the history (`Eliom.Client.push_history_dom`), this happens only when the page is removed from it. If the element is removed and inserted again, call `nodeready` again.
 
 ### How do I change page without asking the server for it?
 
@@ -911,7 +911,7 @@ let%client prevent_drag () =
 
 ### How do I stop a loop when the user leaves the page?
 
-In an Eliom application, changing page does not stop the client-side program: a loop that listens to events of `Dom_html.window` or `Dom_html.document` (scroll, resize...), or that runs on a timer, keeps running on the next pages. Start it with `Eliom.Client.Page_status.while_active`, while the page is generated (not at the top level of a client module, where it would be tied to the first page). The loop runs while the page is displayed, is cancelled when the user leaves it, and starts again when the user comes back to it with the back button:
+In an Eliom application, changing page does not stop the client-side program: a loop that listens to events of `Dom_html.window` or `Dom_html.document` (scroll, resize...), or that runs on a timer, keeps running on the next pages. Write the loop as an Lwt promise (with `Lwt_js_events` or `Lwt_js.sleep`), and start it with `Eliom.Client.Page_status.while_active`, from the code of the page (not at the top level of a client module, where it would be tied to the first page). The loop runs while the page is displayed, is cancelled when the user leaves it, and starts again when the user comes back to it with the back button:
 
 ```ocaml
 let%client follow_scroll () =

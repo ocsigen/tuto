@@ -23,7 +23,7 @@ cooperative version of each blocking function, for example
 and [Lwt_unix.read] instead of [Unix.read].
 If one of your computations takes a lot of time, it is also possible
 to manually insert cooperation points using the function
-[Lwt_main.yield].
+[Lwt.pause].
 
 {1 Promises}
 
@@ -45,7 +45,7 @@ when the data is available.
 
 {@ocaml[
 let g1 () =
-  let p = f () in
+  let _p = f () in
   print_endline "hello"
 ]}
 
@@ -76,12 +76,13 @@ Then it waits (in a cooperative manner) for the result,
 and prints the result. The expression [g2 ()] has type [unit Lwt.t].
 
 
-{1 Syntax extension}
+{1 The [let*] syntax}
 
-A PPX (and also camlp4) syntax extension is available.
+Module [Lwt.Syntax] defines binding operators. After
+[open Lwt.Syntax],
 
 {@ocaml[
-let%lwt i = f () in
+let* i = f () in
 ...
 ]}
 
@@ -91,6 +92,12 @@ is equivalent to
 Lwt.bind (f ()) (fun i -> ...)
 ]}
 
+You may also meet the syntax [let%lwt i = f () in ...], which means the
+same thing. It is defined by the syntax extension [lwt_ppx], used for
+example in the template of Ocsigen Start.
+
+The examples below assume [open Lwt.Syntax].
+
 {1 Examples}
 
 {2 A function that prints "tic" every second forever, without blocking the rest of the program}
@@ -98,7 +105,7 @@ Lwt.bind (f ()) (fun i -> ...)
 {@ocaml[
 let rec tic () =
     print_endline "tic";
-    let%lwt () = Lwt_unix.sleep 1.0 in
+    let* () = Lwt_unix.sleep 1.0 in
     tic ()
 ]}
 
@@ -116,8 +123,8 @@ val g : unit -> unit Lwt.t
 
 The following code runs [f ()] and [g ()] sequentially:
 {@ocaml[
-let%lwt () = f () in
-let%lwt () = g () in
+let* () = f () in
+let* () = g () in
 ...
 ]}
 
@@ -126,8 +133,15 @@ then waits for both to terminate before continuing:
 {@ocaml[
 let p1 = f () in
 let p2 = g () in
-let%lwt () = p1 in
-let%lwt () = p2 in
+let* () = p1 in
+let* () = p2 in
+...
+]}
+
+Operator [and*] does the same thing:
+{@ocaml[
+let* () = f ()
+and* () = g () in
 ...
 ]}
 
@@ -152,8 +166,8 @@ let rec map f l =
   | v :: r ->
       let t = f v in
       let rt = map f r in
-      let%lwt v' = t in
-      let%lwt l' = rt in
+      let* v' = t in
+      let* l' = rt in
       Lwt.return (v' :: l')
 ]}
 
@@ -162,10 +176,10 @@ launching the next one:
 {@ocaml[
 let rec map_serial f l =
   match l with
-  | [] -> return []
+  | [] -> Lwt.return []
   | v :: r ->
-      let%lwt v' = f v in
-      let%lwt l' = map_serial f r in
+      let* v' = f v in
+      let* l' = map_serial f r in
       Lwt.return (v' :: l')
 ]}
 
@@ -175,6 +189,6 @@ let rec map_serial f l =
 Have a look at {{!/lwt/page-index}Lwt's manual}
 for more details about Lwt.
 You will learn how to handle exceptions (using [Lwt.fail]
-and [Lwt.catch] or [try%lwt]).
+and [Lwt.catch]).
 You will also learn for example how to create a thread that waits until it is
 awaken (using [Lwt.wait] and [Lwt.wakeup]).

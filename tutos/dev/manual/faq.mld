@@ -827,6 +827,28 @@ an element) in {!Eliom.Client.onload}. Read the tutorial on
 {{!page-tutowidgets}client-server widgets} and
 {{!/eliom/clientserver/page-wrapping}Eliom's manual}.
 
+{2:nodeready How do I run code once an element is in the page?}
+
+{!Eliom.Client.onload} runs once the page is displayed. For an element
+that client-side code inserts later (in a popup, or in a list that grows),
+wait for it with {!Ot.Nodeready.nodeready}, from Ocsigen Toolkit:
+
+{@ocaml[
+let%client focused_input () =
+  let inp = Eliom.Content.Html.D.Raw.input () in
+  Lwt.async (fun () ->
+    let elt = Eliom.Content.Html.To_dom.of_input inp in
+    let%lwt () = Ot.Nodeready.nodeready elt in
+    elt##focus;
+    Lwt.return_unit);
+  inp
+]}
+
+Giving the focus to an element, or measuring its size, needs the element in
+the page. If the element is not inserted, the promise is fulfilled anyway
+when the user leaves the page, and the element stays in memory until then.
+If the element is removed and inserted again, call [nodeready] again.
+
 {2:client_pages How do I change page without asking the server for it?}
 
 Register the service on both sides: the client-side program then generates
@@ -943,6 +965,33 @@ its own version: it cannot be sent with [~%], as it contains functions. In
 client-side code, you usually do not need this: keep the value in the
 closure of the event handler, or in an OCaml map.
 
+{2:reactive How do I update part of a page when the data changes?}
+
+With reactive values: the page is computed from signals, and changes by
+itself when they change. In shared code, {!Eliom.Shared.React.S.create}
+creates a signal and its update function, and {!Eliom.Content.Html.R}
+builds HTML from signals:
+
+{@ocaml[
+let%shared counter () =
+  let count, set_count = Eliom.Shared.React.S.create 0 in
+  let label = Eliom.Shared.React.S.map [%shared string_of_int] count in
+  div
+    [ button
+        ~a:[a_onclick [%client fun _ -> ~%set_count (React.S.value ~%count + 1)]]
+        [txt "+1"]
+    ; span [Eliom.Content.Html.R.txt label] ]
+]}
+
+[label] is computed from [count] by a shared function ([[%shared ...]]):
+once when the page is generated (on the server or on the client), then by
+the client each time [count] changes. The update function works on the
+client only.
+For lists, {!Eliom.Shared.ReactiveData.RList} updates only the elements
+that change. See [demo_react.eliom] in the [os] template, the tutorial on
+{{!page-tutoreact}reactive applications}, and
+{{!/eliom/clientserver/page-react}Eliom's manual}.
+
 {2:notifications How do I send notifications from the server to the clients?}
 
 With {!Os.Notif}: the clients listen on a key, and the server notifies all
@@ -1050,6 +1099,27 @@ let%client save label =
     Lwt.return_unit
 ]}
 
+{2:widgets Are there ready-made widgets (popups, carousels, date pickers...)?}
+
+Yes, in {{!/ocsigen-toolkit/page-index}Ocsigen Toolkit}, which Ocsigen Start
+uses: popups and confirmation boxes ({!Ot.Popup}), carousels
+({!Ot.Carousel}), drawer menus ({!Ot.Drawer}), panels that slide from an
+edge of the screen ({!Ot.Tongue}), date and time pickers ({!Ot.Calendar},
+{!Ot.Time_picker}), pull to refresh ({!Ot.Pulltorefresh}), form elements
+({!Ot.Form}), and more. For instance, to ask for a confirmation:
+
+{@ocaml[
+let%client delete_with_confirmation photo =
+  if%lwt
+    Ot.Popup.confirm [txt "Delete this photo?"] [txt "Delete"] [txt "Cancel"]
+  then delete_photo photo
+  else Lwt.return_unit
+]}
+
+The [os] template has a demo of most widgets ([demo_popup.eliom],
+[demo_carousel1.eliom]...). Widgets need the CSS of Ocsigen Toolkit:
+Ocsigen Start includes it, other applications must add it.
+
 {1:users Users and sessions}
 
 {2:session_data How do I store data for one user?}
@@ -1119,6 +1189,46 @@ not connected, with [None]. In the [os] template, pages use
 [Myapp_page.Opt.connected_page], which also displays a connection
 form when needed.
 
+{2:current_user How do I know who the current user is?}
+
+With Ocsigen Start, {!Os.Current_user.get_current_userid} returns the id of
+the connected user, and {!Os.Current_user.get_current_user} their data
+(name, avatar...). They work on both sides, and raise
+[Os.Session.Not_connected] when no user is connected. The [Opt] versions
+return an option instead:
+
+{@ocaml[
+let%shared greeting () =
+  match Os.Current_user.Opt.get_current_user () with
+  | Some user -> txt ("Hello " ^ Os.User.firstname_of_user user)
+  | None -> txt "Hello"
+]}
+
+On the server, they work only while answering a request that goes through
+a wrapper of {!Os.Session}, like {!Os.Session.connected_fun} or the
+[connected_page] functions of the template. Otherwise, they fail (with
+[Failure]), even the [Opt] versions. In a handler, the id that the wrapper
+gives is simpler.
+
+To give more rights to some users, put them in a group.
+{!Os.Group.create} creates a group, or returns it if it exists,
+{!Os.Group.add_user_in_group} adds a user to it, and {!Os.Group.in_group}
+tells whether a user belongs to it. {!Os.Group.group_of_name} fails with
+[Os.Group.No_such_group] if the group does not exist: create it once, for
+instance when you set up the database.
+
+{@ocaml[
+let%server check_admin myid =
+  let%lwt admins = Os.Group.group_of_name "admin" in
+  if%lwt Os.Group.in_group ~group:admins ~userid:myid ()
+  then Lwt.return_unit
+  else Lwt.fail Os.Session.Permission_denied
+]}
+
+The [~allow] argument of the wrappers ({{!connected}previous question})
+does the same check. Check rights on the server, in each handler and RPC
+that needs it: the client can only hide what the user is not allowed to do.
+
 {2:passwords How do I store passwords?}
 
 Ocsigen Start already does it: {!Os.User.create} and the connection forms
@@ -1171,6 +1281,33 @@ let%client prevent_drag () =
       Dom.preventDefault ev;
       Lwt.return_unit))
 ]}
+
+{2:page_lifecycle How do I stop a loop when the user leaves the page?}
+
+In an Eliom application, changing page does not stop the client-side
+program: a loop that listens to events of [Dom_html.window] or
+[Dom_html.document] (scroll, resize...), or that runs on a timer, keeps
+running on the next pages. Start it with
+{!Eliom.Client.Page_status.while_active}, while the page is generated (not
+at the top level of a client module, where it would be tied to the first
+page). The loop runs while the page is displayed, is cancelled when the
+user leaves it, and starts again when the user comes back to it with the
+back button:
+
+{@ocaml[
+let%client follow_scroll () =
+  Eliom.Client.Page_status.while_active (fun () ->
+    Js_of_ocaml_lwt.Lwt_js_events.scrolls Js_of_ocaml.Dom_html.window
+      (fun _ _ -> update_header (); Lwt.return_unit))
+]}
+
+Listeners attached to elements of the page do not need this: they only
+receive the events of their element. {!Eliom.Client.Page_status} also
+calls functions when the page is displayed or left ([onactive],
+[oninactive]...). {!Eliom.Client.onbeforeunload} asks for a confirmation
+before leaving the page, for instance when a form has not been saved. It
+applies to the next page change only, so register it from the code of the
+page.
 
 {2:js_objects How do I create a JavaScript object, or call OCaml from JavaScript?}
 
@@ -1335,6 +1472,23 @@ With {!Os.Email.send} in Ocsigen Start, after setting the sender with
 With {{:https://github.com/ocsigen/ocsigen-i18n}ocsigen-i18n}, used by the
 [os] template: translations are in a TSV file, and [[%i18n key]] inserts the
 text in the language of the user (see [demo_i18n.eliom]).
+
+{2:dates How do I display dates in the user's time zone?}
+
+With Ocsigen Start, keep dates in UTC ([CalendarLib.Calendar.t]), and
+convert them with {!Os.Date.to_local} to display them:
+
+{@ocaml[
+let%shared posted_on (date : CalendarLib.Calendar.t) =
+  span [txt (Os.Date.smart_time (Os.Date.to_local date))]
+]}
+
+{!Os.Date.smart_time} writes for instance "Yesterday at 3:12pm" (in
+English only). To store a date entered by the user, convert it to UTC with
+[Os.Date.to_utc (Os.Date.local_from_calendar d)]. The client sends its
+time zone to the server when it starts. Until then (first page of a new
+session, or after a restart of the server), the server uses UTC, and
+[smart_time] adds "GMT" after the time.
 
 {2:mobile How do I make a mobile application?}
 

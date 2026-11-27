@@ -481,7 +481,7 @@ parameters corresponding to the names of each field.
 Functions building widgets, like
 {{!Eliom.Content_sigs.LINKS_AND_FORMS.Form.input}val Eliom.Content.Html.D.Form.input},
 expect an argument of type
-{{!Eliom.Content_sigs.LINKS_AND_FORMS.Form.param}type Eliom.Content.Html.D.Form.param}
+{{!Eliom.Content_sigs.LINKS_AND_FORMS.Form.type-param}type Eliom.Content.Html.D.Form.param}
 (e.g.,
 [Eliom.Content.Html.D.Form.int : int Eliom.Content.Html.D.Form.param])
 specifying the parameter type.  OCaml checks that the name you use

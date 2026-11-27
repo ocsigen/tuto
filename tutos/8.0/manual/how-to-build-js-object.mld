@@ -10,4 +10,4 @@ let get_timestamp () =
   int_of_float (Js.to_float (date##getTime))
 ]}
 
-More details in documentation: {{!Js_of_ocaml.Js.constr}Js object constructor}
+More details in documentation: {{!Js_of_ocaml.Js.type-constr}Js object constructor}

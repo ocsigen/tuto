@@ -1499,6 +1499,51 @@ session, or after a restart of the server), the server uses UTC, and
 The [os] template builds an Android and iOS app from the same code. See
 {{!page-mobile}Mobile applications with Ocsigen}.
 
+{2:in_app How do I know whether my code runs in the mobile app?}
+
+{!Eliom.Client.is_client_app} returns [true] when the client-side program
+was not sent by a server, which is the case in the mobile app. It returns
+[false] in a browser, and on the server. In the app, [cordova.platformId]
+gives the system (["ios"] or ["android"]):
+
+{@ocaml[
+let%client mobile_platform () =
+  let open Js_of_ocaml in
+  if Eliom.Client.is_client_app ()
+  then Some (Js.to_string Js.Unsafe.global##.cordova##.platformId)
+  else None
+]}
+
+In a browser, {!Os.Platform.get} reads the platform from the user agent
+([Android], [IPhone]...). The user agent does not always tell: recent
+iPads present themselves as Macs, and [Os.Platform.get] then returns
+[Unknown]. For styling, {!Os.Platform.css_class} gives a class for each
+platform ([os-android], [os-ios]...), with the same limit. Pages made with
+[Os.Page] add it to the [html] element when they are loaded.
+
+{2:cordova How do I use a Cordova plugin in the mobile app?}
+
+Add the plugin to [mobile/config.xml.in] in the [os] template. The plugin
+defines a JavaScript object, which exists only in the app, and only once
+Cordova has sent the ["deviceready"] event. The [Myapp_mobile] module of
+the template displays the first page only after this event: the code of
+your pages can use the plugin, but code run when the program starts
+cannot. Test that the object is there:
+
+{@ocaml[
+let%client hide_status_bar () =
+  let open Js_of_ocaml in
+  let status_bar : < hide : unit Js.meth > Js.t Js.Optdef.t =
+    Js.Unsafe.get Js.Unsafe.global (Js.string "StatusBar")
+  in
+  Js.Optdef.iter status_bar (fun status_bar -> status_bar##hide)
+]}
+
+The type annotation lists the methods you call (see the
+{{:https://ocsigen.org/js_of_ocaml/latest/js_of_ocaml/bindings.html}manual
+page on bindings}). This plugin is [cordova-plugin-statusbar], which the
+template includes.
+
 {2:logs How do I write logs?}
 
 With the {{:https://erratique.ch/software/logs}Logs} library, one source

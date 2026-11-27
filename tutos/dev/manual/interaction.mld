@@ -705,8 +705,10 @@ automatically by Eliom in each form (as hidden field) and link.
 
 {%wodoc:end%}
 
-We transform the connection service into a non_attached coservice,
-to do so we replace the path we specified earlier for the [~path] parameter:
+We transform the connection service into a non-attached coservice.
+To do so, instead of attaching it to the path of [main_service] with
+[Eliom.Service.create_attached_post], we create it with
+[Eliom.Service.create] and give [Eliom.Service.No_path] as [~path] parameter:
 
 {@ocaml[
 let connection_service = Eliom.Service.create
@@ -769,8 +771,11 @@ where [save] is a function of your application that stores the data.
 more information in the {{!/eliom/server/services/page-types.preapplied}Eliom manual}.)
 
 If you want to do a redirection towards the current page (as in our
-case), use the special service [~path] parameter {!Eliom.Service.No_path}, which is some kind of POST
-non-attached coservice without parameter at all.  {%wodoc:end%}
+case), return
+[Eliom.Registration.Redirection Eliom.Service.reload_action].
+The predefined service {!Eliom.Service.reload_action} is a
+non-attached coservice without any parameter, which redisplays the
+current page.  {%wodoc:end%}
 
 {%wodoc:aside class="concept"%}{b Concept: Choosing what to send with Eliom.Registration.Any}
 
@@ -1259,13 +1264,19 @@ let authenticated_handler f = Eliom.Content.Html.D.(
         (head (title (txt "")) [])
         (body [h1 [txt "Please connect"];
 	       connection_box;]))
-    in
-    Eliom.Tools.wrap_handler
-      (fun () -> Eliom.Reference.get username)
-      handle_anonymous (* Called when [username] is [None] *)
-      f (* Called [username] contains something *)
+  in
+  Eliom.Tools.wrap_handler
+    (fun () -> Eliom.Reference.get username)
+    handle_anonymous (* Called when [username] is [None] *)
+    f (* Called when [username] contains something *)
 )
+]}
 
+Then replace the registration of [main_service] with the following
+one. Do not keep both: Eliom refuses to register the same service
+twice.
+
+{@ocaml[
 let () = Eliom.Content.Html.D.(
   Eliom.Registration.Html.register ~service:main_service
     (authenticated_handler

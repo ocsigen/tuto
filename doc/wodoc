@@ -5,6 +5,11 @@
 ;; the CLI (--mld-dir / --nav tutos/<v>/manual/nav) rather than hardcoded here.
 (project tuto)
 (title Doc)
+; the llms.txt index (for AIs): the site label is short
+(llms
+ (title "Ocsigen tutorials")
+ (summary
+  "Tutorials and how-to guides for Ocsigen: writing client/server Web and mobile applications in OCaml with Eliom and Ocsigen Start, from a first application to services, sessions, reactive pages and mobile apps."))
 (url-prefix /tuto)
 (css /css/style.css /css/ocsigen-odoc.css)  ; shared Ocsigen theme (wodoc css default changed)
 (menu-current tuto)

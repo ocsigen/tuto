@@ -2,7 +2,7 @@
 
 Since Eliom 6.0, the Ocsigen framework provides infrastructure for
 building mobile applications. This enables rapid development of
-Android, iOS, and Windows Mobile apps with the same APIs and
+Android and iOS apps with the same APIs and
 programming style as for a regular client-server Web application. In
 fact, one single codebase can be used to produce all these
 applications simultaneously.

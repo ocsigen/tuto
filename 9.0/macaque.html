@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Type safe database requests using Macaque — Doc</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="stylesheet" href="/css/ocsigen-odoc.css"/>
+  <link rel="alternate" type="text/markdown" href="./macaque.md"/>
+  <script src="./highlight.pack.js"></script>
+  <script src="./wodoc-highlight.js"></script>
+</head>
+<body class="wodoc-page wodoc-doc wodoc-project-tuto">
+  <!-- Shared site menu — THE single source of truth for the header, top menu and
+     drawer of EVERY Ocsigen doc page (vitrine + all projects). Canonical copy
+     lives here in ocsigen.github.io; each project's build fetches it. Injected
+     by `wodoc assemble --menu`. Holes filled by the tool (braces omitted here so
+     this comment is not itself rewritten by the hole-filler):
+       subproject  the sub-project name shown next to the Ocsigen logo
+                   (empty on the vitrine), via --subproject
+       leftnav     the project's left navigation, expanded into BOTH the mobile
+                   drawer (below) and the left column (in the page template),
+                   via --leftnav
+     The current entry is highlighted by adding the `current` class to the
+     element carrying data-wodoc-page=<id>: --current on the vitrine (page id),
+     --menu-current in a project (the project id). Nothing is hardcoded here, so
+     this file is the ONLY place the menu is defined.
+
+     Links are the FINAL site paths (/<project>/, /<page>): the target layout
+     where each project is served at ocsigen.org/<project>/ — no transitional
+     /wodoc/ prefix. -->
+<div class="page-header">
+  <p class="logo-ocsigen"><a href="/"><img src="/img/ocsigen-white.svg" alt="Ocsigen"/></a></p>
+  <p class="logo-subproject">Doc</p>
+
+  <div class="mainmenu">
+    <p class="mainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></p>
+    <p class="mainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></p>
+    <p class="mainmenu-blog" data-wodoc-page="blog"><a href="/blog/">Blog</a></p>
+    <p data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></p>
+    <p data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></p>
+    <p data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></p>
+    <p data-wodoc-page="lwt"><a href="/lwt/">Lwt</a></p>
+    <p data-wodoc-page="tyxml"><a href="/tyxml/">Tyxml</a></p>
+    <p data-wodoc-page="ocsigen-start"><a href="/ocsigen-start/">Start</a></p>
+  </div>
+
+  <form id="googlesearch" action="https://google.com/search">
+    <input name="q" id="gsearch-box" placeholder="Search using Google"/>
+    <label for="gsearch-box"><img src="/img/search.svg" alt="" id="gsearch-icon"/></label>
+    <input type="submit" id="gsearch-submit" onclick="document.getElementById('gsearch-box').value += ' site:ocsigen.org';"/>
+  </form>
+
+  <aside class="how-drawer">
+    <input id="how-drawer-toggle" type="checkbox"/>
+    <label for="how-drawer-toggle" id="how-drawer-label"><span class="how-drawer-icon"></span></label>
+    <nav class="how-drawer-content">
+      <ul class="drawermainmenu">
+        <li class="drawermainmenu-home" data-wodoc-page="githubio"><a href="/">Home</a></li>
+        <li class="drawermainmenu-doc current" data-wodoc-page="tuto"><a href="/tuto/">Doc</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="eliom"><a href="/eliom/">Eliom</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="js_of_ocaml"><a href="/js_of_ocaml/">Js_of_ocaml</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigenserver"><a href="/ocsigenserver/">Server</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="lwt"><a href="/lwt/">Lwt</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="tyxml"><a href="/tyxml/">Tyxml</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-toolkit"><a href="/ocsigen-toolkit/">Toolkit</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-start"><a href="/ocsigen-start/">Start</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsipersist"><a href="/ocsipersist/">Ocsipersist</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="reactiveData"><a href="/reactiveData/">ReactiveData</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="ocsigen-i18n"><a href="/ocsigen-i18n/">i18n</a></li>
+        <li class="drawermainmenu-project" data-wodoc-page="wodoc"><a href="/wodoc/">Wodoc</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="projects"><a href="/projects">Other projects</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="papers"><a href="/papers">Research papers</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="credits"><a href="/credits">Who does Ocsigen?</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="contributing"><a href="/contributing">Contributing</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="blog"><a href="/blog/">Blog</a></li>
+        <li class="drawermainmenu-page" data-wodoc-page="install"><a href="/install">Installation</a></li>
+        <li class="drawermainmenu-page"><a href="https://github.com/ocsigen">Source code</a></li>
+      </ul>
+      <!-- On mobile the left column is hidden; its menu lives here in the burger
+           (.how-doctree, shown only on narrow screens), as the old site did.
+           Empty on the vitrine; the leftnav hole is filled (with the same
+           fragment as the left column) only on project pages. -->
+      <nav class="how-doctree"><div class="docversion">
+  <label>Version:
+    <select class="wodoc-version" onchange="wodocVersion(this.value)">
+      <option value="9.0">9.0</option>
+    </select>
+  </label>
+</div>
+<div class="page-toc">
+  <h3>On this page</h3>
+  
+</div>
+<nav class="api-nav manual-nav">
+<h3>Programmer&#x27;s guide</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="intro.html"><a href="./intro.html">Introduction. Ocsigen: where to start?</a></li>
+<li class="ml3" data-wodoc-page="basics.html"><a href="./basics.html">Client-server application programming guide</a></li>
+<li class="ml3" data-wodoc-page="basics-server.html"><a href="./basics-server.html">Server-side website programming guide</a></li>
+</ul>
+<h3>Main tutorials</h3>
+<ul class="api-section">
+<li class="ml3"><a href="/install">Install Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="start.html"><a href="./start.html">Your first app in 5 minutes</a></li>
+<li class="ml3"><a href="/talks/tutochat.html">Interactive tutorial: Writing a chat app</a></li>
+<li class="ml3" data-wodoc-page="application.html"><a href="./application.html">Client/server application: Graffiti</a></li>
+<li class="ml3" data-wodoc-page="tutowidgets.html"><a href="./tutowidgets.html">Eliom apps basics: writing client-server widgets</a></li>
+<li class="ml3" data-wodoc-page="how-to-register-session-data.html"><a href="./how-to-register-session-data.html">Session data: Eliom references</a></li>
+<li class="ml3" data-wodoc-page="tutoreact.html"><a href="./tutoreact.html">Reactive client-server Web applications</a></li>
+<li class="ml3" data-wodoc-page="interaction.html"><a href="./interaction.html">Service based Web programming</a></li>
+<li class="ml3" data-wodoc-page="misc.html"><a href="./misc.html">Mixing traditional Web interaction with client-server app</a></li>
+</ul>
+<h3>5-minute tutorials</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="lwt.html"><a href="./lwt.html">Lwt</a></li>
+<li class="ml3" data-wodoc-page="html.html"><a href="./html.html">HTML</a></li>
+</ul>
+<h3>Migration</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="migration.html"><a href="./migration.html">Migrating to new module names (compat packages)</a></li>
+</ul>
+<h3>Other tutorials: Miscellanous features</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
+<li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
+<li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
+</ul>
+<h3>Improving Graffiti</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
+<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
+<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
+</ul>
+<h3>HOW-TO</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
+</ul>
+</nav>
+</nav>
+    </nav>
+  </aside>
+</div>
+
+
+  <div class="project-page">
+    <div class="twocols">
+      <nav class="leftcol">
+        <div class="docversion">
+  <label>Version:
+    <select class="wodoc-version" onchange="wodocVersion(this.value)">
+      <option value="9.0">9.0</option>
+    </select>
+  </label>
+</div>
+<div class="page-toc">
+  <h3>On this page</h3>
+  
+</div>
+<nav class="api-nav manual-nav">
+<h3>Programmer&#x27;s guide</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="intro.html"><a href="./intro.html">Introduction. Ocsigen: where to start?</a></li>
+<li class="ml3" data-wodoc-page="basics.html"><a href="./basics.html">Client-server application programming guide</a></li>
+<li class="ml3" data-wodoc-page="basics-server.html"><a href="./basics-server.html">Server-side website programming guide</a></li>
+</ul>
+<h3>Main tutorials</h3>
+<ul class="api-section">
+<li class="ml3"><a href="/install">Install Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="start.html"><a href="./start.html">Your first app in 5 minutes</a></li>
+<li class="ml3"><a href="/talks/tutochat.html">Interactive tutorial: Writing a chat app</a></li>
+<li class="ml3" data-wodoc-page="application.html"><a href="./application.html">Client/server application: Graffiti</a></li>
+<li class="ml3" data-wodoc-page="tutowidgets.html"><a href="./tutowidgets.html">Eliom apps basics: writing client-server widgets</a></li>
+<li class="ml3" data-wodoc-page="how-to-register-session-data.html"><a href="./how-to-register-session-data.html">Session data: Eliom references</a></li>
+<li class="ml3" data-wodoc-page="tutoreact.html"><a href="./tutoreact.html">Reactive client-server Web applications</a></li>
+<li class="ml3" data-wodoc-page="interaction.html"><a href="./interaction.html">Service based Web programming</a></li>
+<li class="ml3" data-wodoc-page="misc.html"><a href="./misc.html">Mixing traditional Web interaction with client-server app</a></li>
+</ul>
+<h3>5-minute tutorials</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="lwt.html"><a href="./lwt.html">Lwt</a></li>
+<li class="ml3" data-wodoc-page="html.html"><a href="./html.html">HTML</a></li>
+</ul>
+<h3>Migration</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="migration.html"><a href="./migration.html">Migrating to new module names (compat packages)</a></li>
+</ul>
+<h3>Other tutorials: Miscellanous features</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="mobile.html"><a href="./mobile.html">Mobile applications with Ocsigen</a></li>
+<li class="ml3" data-wodoc-page="custom-conf.html"><a href="./custom-conf.html">Custom configuration</a></li>
+<li class="ml3" data-wodoc-page="rest.html"><a href="./rest.html">RESTful JSON API</a></li>
+<li class="ml3" data-wodoc-page="ocsipersist.html"><a href="./ocsipersist.html">Persistent tables with Ocsipersist</a></li>
+</ul>
+<h3>Improving Graffiti</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="pictures.html"><a href="./pictures.html">Download pictures</a></li>
+<li class="ml3" data-wodoc-page="music.html"><a href="./music.html">Playing music</a></li>
+<li class="ml3" data-wodoc-page="reactivemediaplayer.html"><a href="./reactivemediaplayer.html">Reactive media player</a></li>
+</ul>
+<h3>HOW-TO</h3>
+<ul class="api-section">
+<li class="ml3" data-wodoc-page="faq.html"><a href="./faq.html">How do I…? Questions and answers</a></li>
+</ul>
+</nav>
+
+      </nav>
+      <article class="rightcol">
+        
+        <h1 id="type-safe-database-requests-using-macaque">Type safe database requests using Macaque</h1><aside class="concepts"><p><b>Concepts</b></p><p>Type safe database requests</p></aside><p>The Macaque library allows easy manipulation of Postgresql database fully compatible with Lwt. (For more information see <a href="https://github.com/ocsigen/macaque">Macaque manual</a>).</p><p>Macaque is fuly compatible with PGOcaml, and both can be used in the same application. PGOcaml requires database access at compile time and makes difficult to generate queries at compile time. Macaque uses its own syntax, whereas PGOcaml uses SQL. Macaque supports only a small subset of Postgresql features.</p><p>Warning: Macaque's syntax extension uses camlp4, which is not compatible with ppx. If you want to use macaque with Eliom's ppx, place your macaque code in an isolated file.</p><p>This tutorial shows how to store the login and the password f users in a Postgresql database. For more information on how to set up and run it, see <a href="http://www.postgresql.org/docs/9.0/static/index.html">Postgresql manual</a>.</p><p>When the base is up and running, we create the base by running in a shell:</p><pre class="language-sh"><code>$ createdb testbase</code></pre><p>Then we create the <code>users</code> table, by executing this sql script:</p><pre class="language-sql"><code> CREATE TABLE users (
+       login text NOT NULL,
+       password text NOT NULL
+);</code></pre><p>We save it under <code>create_table.sql</code> and run</p><pre class="language-sh"><code>$ psql -d testbase -f create_table.sql</code></pre><p>Macaque can use any thread library that provides a monadic interface. The default one provides simple blocking access to the database. It isn't good for us because an access to the base by one user will prevent the server from handling anything else until the request is finished. We need a version of Macaque specialised for Lwt. It is obtained by</p><pre class="language-ocaml"><code>module Lwt_thread = struct
+  include Lwt
+  include Lwt_chan
+end
+module Lwt_PGOCaml = PGOCaml_generic.Make(Lwt_thread)
+module Lwt_Query = Query.Make_with_Db(Lwt_thread)(Lwt_PGOCaml)</code></pre><p>We can now open the database with our newly created <code>Lwt_PGOCaml.connect</code>.</p><pre class="language-ocaml"><code>let get_db : unit -&gt; unit Lwt_PGOCaml.t Lwt.t =
+  let db_handler = ref None in
+  fun () -&gt;
+    match !db_handler with
+      | Some h -&gt; Lwt.return h
+      | None -&gt; Lwt_PGOCaml.connect ~database:&quot;testbase&quot; ()</code></pre><p>Then we declare the table on which we will work and the different requests we do on it.</p><pre class="language-ocaml"><code>let table = &lt;:table&lt; users (
+  login text NOT NULL,
+  password text NOT NULL
+) &gt;&gt;
+
+let find name =
+  (get_db () &gt;&gt;= fun dbh -&gt;
+   Lwt_Query.view dbh
+   &lt;:view&lt; {password = user_.password} |
+            user_ in $table$;
+            user_.login = $string:name$; &gt;&gt;)
+
+let insert name pwd =
+  get_db () &gt;&gt;= fun dbh -&gt;
+  Lwt_Query.query dbh
+  &lt;:insert&lt; $table$ :=
+    { login = $string:name$; password = $string:pwd$; } &gt;&gt;
+</code></pre><p>Finally, we modify the handling code :</p><pre class="language-ocaml"><code>let check_pwd name pwd =
+  (get_db () &gt;&gt;= fun dbh -&gt;
+   Lwt_Query.view dbh
+   &lt;:view&lt; {password = user_.password} |
+            user_ in $table$;
+            user_.login = $string:name$;
+	    user_.password = $string:pwd$ &gt;&gt;)
+  &gt;|= (function [] -&gt; false | _ -&gt; true)
+
+let () = Eliom.Registration.Action.register
+  ~service:create_account_service
+  (fun () (name, pwd) -&gt;
+    find name &gt;&gt;=
+      (function
+	| [] -&gt; insert name pwd
+	| _ -&gt; Lwt.return ()) )
+
+let () = Eliom.Registration.Action.register
+  ~service:connection_service
+  (fun () (name, password) -&gt;
+    check_pwd name password &gt;&gt;=
+      (function
+	| true -&gt; Eliom.Reference.set username (Some name)
+	| false -&gt; Lwt.return ()))</code></pre><p>We need to reference <code>macaque</code> in the <code>Makefile</code> (or in <code>Makefile.option</code> if you used <code>eliom-distillery</code>) :</p><pre>SERVER_PACKAGE := macaque.syntax</pre><p>and in <code>ocsigenserver.conf</code> (only if you don't use <code>eliom-distillery</code>) :</p><pre>&lt;extension findlib-package=&quot;macaque&quot;/&gt;</pre>
+
+      </article>
+    </div>
+  </div>
+
+  <script>
+    var wodocPub = "/tuto";
+    // Switch version: keep the current page, swapping only the version segment,
+    // unless that page does not exist in the target version (a renamed module,
+    // a merged manual page): then go to that version's index.
+    function wodocVersion(v) {
+      if (!v) return;
+      var re = new RegExp('^(' + wodocPub + '/)[^/]+');
+      var p = location.pathname;
+      var home = wodocPub + '/' + v + '/index.html';
+      if (!re.test(p)) { location.href = home; return; }
+      var target = p.replace(re, '$1' + v);
+      fetch(target, { method: 'HEAD' })
+        .then(function (r) { location.href = r.ok ? target : home; })
+        .catch(function () { location.href = target; });
+    }
+    // Build the version <select> from the project's versions.json (the single
+    // source of truth, refreshed on every build/release), so even older frozen
+    // pages list the current set. Falls back to the baked <option>s on failure.
+    (function () {
+      var seg = (location.pathname.match(
+        new RegExp('^' + wodocPub + '/([^/]+)')) || [])[1];
+      function select(sel) {
+        var i;
+        for (i = 0; i < sel.options.length; i++)
+          if (sel.options[i].value === seg) { sel.selectedIndex = i; return; }
+        if (seg) {
+          var o = document.createElement('option');
+          o.value = seg; o.textContent = seg; o.selected = true;
+          sel.insertBefore(o, sel.firstChild);
+        }
+      }
+      fetch(wodocPub + '/versions.json')
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (m) {
+          var list = m.list || [], latest = m.latest;
+          document.querySelectorAll('.wodoc-version').forEach(function (sel) {
+            sel.innerHTML = '';
+            list.forEach(function (v) {
+              var o = document.createElement('option');
+              if (v === latest) { o.value = 'latest'; o.textContent = v + ' (latest)'; }
+              else { o.value = v; o.textContent = v; }
+              sel.appendChild(o);
+            });
+            select(sel);
+          });
+        })
+        .catch(function () {
+          document.querySelectorAll('.wodoc-version').forEach(select);
+        });
+    })();
+  </script>
+</body>
+</html>

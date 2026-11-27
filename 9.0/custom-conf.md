@@ -1,0 +1,83 @@
+# Custom configuration options
+
+**Concepts**
+
+Custom configuration options
+
+It is not convenient to have to edit the code to change some configurations, like the location where are saved the favorite images in the Graffiti tutorial (see: [Saving favorite pictures](./pictures.md)). Fortunately Ocsigen provides a mechanism to extend its configuration file.
+
+## Basic interface
+
+`Eliom.Config.get_config` returns the content of the `<eliom>` element of the configuration file, as a list of `Xml.xml` values from the `xml-light` library (add `xml-light` to the `libraries` of your `dune` file):
+
+```ocaml
+let static_dir =
+  match Eliom.Config.get_config () with
+  | [Xml.Element ("staticdir", [], [Xml.PCData dir])] -> dir
+  | [] ->
+    raise (Ocsigen.Extensions.Error_in_config_file
+             "staticdir must be configured")
+  | _ ->
+    raise (Ocsigen.Extensions.Error_in_config_file
+             "Unexpected content inside config")
+```
+This will add a mandatory child to the eliom tag in the configuration file:
+
+```
+<eliom module="path/to/your/module.cma">
+  <staticdir>/tmp/static</staticdir>
+</eliom>
+```
+
+## Declarative interface
+
+Module `Eliom.Config` also lets you describe the elements and attributes you expect, and parses them for you. For instance, here is how you can add an element `<LDAP>` in the configuration file to store a list of LDAP servers your application interacts with:
+
+```
+<eliom module="path/to/your/module.cma">
+  <LDAP host="ldap1.example.com"/>
+  <LDAP host="ldap2.example.com" port="636"/>
+</eliom>
+```
+`Eliom.Config.parse_config` processes the whole content of the `<eliom>` element: it rejects any other child (such as the `<staticdir>` of the previous example), unless you handle it with its `~other_elements` parameter.
+
+```ocaml
+(* An LDAP server is characterized by a host and a port. *)
+type ldap_configuration = {
+  mutable host : string;
+  mutable port : int;
+}
+
+(* We store a list of LDAP servers to interact with. *)
+let ldap_servers = ref []
+
+(* The user-defined extension of the configuration file. *)
+let ldap_configuration = Ocsigen.Extensions.Configuration.(
+  (* Default configuration *)
+  let config () = {
+    host = "";
+    port = 389;
+  }
+  in
+  let init () =
+    ldap_servers := config () :: !ldap_servers
+  in
+  let current () =
+    List.hd !ldap_servers
+  in
+  (* Parsing functions. *)
+  let req_attr name = attribute ~name ~obligatory:true
+  and opt_attr name = attribute ~name ~obligatory:false
+  in
+  let name = "LDAP"
+  and obligatory = false
+  and attributes = [
+    req_attr "host" (fun h -> (current ()).host <- h);
+    opt_attr "port" (fun p -> (current ()).port <- int_of_string p);
+  ]
+  in
+  element ~init ~name ~obligatory ~attributes ()
+)
+
+let () = Eliom.Config.parse_config [ldap_configuration]
+```

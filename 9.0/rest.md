@@ -1,0 +1,461 @@
+# RESTful JSON API using Eliom
+
+**Concepts**
+
+RESTful API<br/>PUT and DELETE services
+
+This tutorial will show you how to create a simple, yet complete, REST API using JSON as the serialization format.
+
+To illustrate our example, let's say we want to give access to a database of locations storing a description and coordinates (latitude and longitude).
+
+To be RESTful, our interface will comply with the following principles:
+
+- URLs and GET params identify resources
+- HTTP methods are used to define actions to perform (GET, POST, PUT, DELETE)
+- GET action is safe (no side-effect)
+- PUT and DELETE actions are idempotent
+- Requests are stateless
+With this in mind, our goal will be to implement CRUD (Create, Read, Update, Delete) functions to handle our resources. We want the following requests to be valid:
+
+`GET http://localhost/` will return all available locations.
+
+`GET http://localhost/ID` will return location associated to `ID`.
+
+`POST http://localhost/ID` with content:
+
+```json
+{
+  "description": "Paris",
+  "coordinates": {
+    "latitude": 48.8567,
+    "longitude": 2.3508
+  }
+}
+```
+will store this location in the database.
+
+`PUT http://localhost/ID`, with some content, will update the location associated to `ID`.
+
+`DELETE http://localhost/ID` will delete the location associated to `ID`.
+
+## Requirements
+
+- eliom \>= 13\.0
+- an ocsipersist backend, such as ocsipersist-sqlite
+- yojson
+- ppx\_deriving\_yojson
+- lwt\_ppx
+- cohttp-lwt
+You need some knowledge about Eliom to be able to fully understand this tutorial. It's not meant to be an Eliom introduction.
+
+You can test your REST API from the command line with `curl`, for example:
+
+```
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"description": "Paris", "coordinates": {"latitude": 48.8567, "longitude": 2.3508}}' \
+  http://localhost:8080/paris
+curl http://localhost:8080/paris
+curl -X DELETE http://localhost:8080/paris
+```
+
+## Data types
+
+We start by defining our database types, that is to say the way we will represent our locations and associated information. Each location will be associated to a unique and arbitrary identifier, and will hold the following information: a description and coordinates (made of a latitude and a longitude).
+
+We represent coordinates with decimal degrees, and use the `ppx_deriving_yojson` library to parse and generate JSON serialization of our types.
+
+We use a dedicated `error` type returned when something is wrong with the request itself or with the processing of the request.
+
+As for the database, we use a simple `Ocsipersist` table.
+
+```ocaml
+type coordinates = {
+  latitude : float;
+  longitude : float;
+} [@@deriving yojson]
+
+type location = {
+  description : string option;
+  coordinates : coordinates;
+} [@@deriving yojson]
+
+(* List of pairs (identifier * location) *)
+type locations =
+  (string * location) list
+  [@@deriving yojson]
+
+type error = {
+  error_message : string;
+} [@@deriving yojson]
+
+let db : location Ocsipersist.table Lwt.t =
+  Ocsipersist.Polymorphic.open_table "locations"
+```
+**Concept: Syntax extensions**
+
+The code snippet above uses a syntax extension provided by the `ppx_deriving_yojson` package, and the handlers below use `let%lwt` from `lwt_ppx`. In order to build this tutorial's source code, the `dune` file of your server code must contain the following lines. `ocsipersist` is a virtual library: an executable must also link a backend (such as `ocsipersist-sqlite`), and a module loaded by the `ocsigenserver` command gets it from the configuration file (see the [server-side programming guide](./basics-server.md)).
+
+```lisp
+ (libraries eliom.server ocsipersist yojson cohttp-lwt)
+ (preprocess (pps lwt_ppx ppx_deriving_yojson))
+```
+
+## Services definition
+
+First, let's define common service parameters:
+
+- The `path` of the API: it's the same for all services.
+- The GET parameter, which is an optional identifier given as a URL suffix. We set it as optional so we can distinguish GET requests for all resources or a single one, and return a detailed error if the identifier is missing in POST, PUT and DELETE requests. An alternative would be to use two services at the same path (one with id and the other without).
+```ocaml
+let path = Eliom.Service.Path [""]
+
+let get_params =
+  Eliom.Parameter.(suffix (neopt (string "id")))
+```
+Next step is to define our API services. We define four of them with the same path, using the four HTTP methods at our disposal:
+
+- GET method will be used to access the database, either all of it if no identifier is provided, or a single resource otherwise. An error will be returned if no resource matches the identifier.
+- POST method will be used to create a new resource (or update it if it already exists). We set a single POST parameter: `Eliom.Parameter.raw_post_data`, in order to retrieve raw JSON and bypass POST parameters decoding.
+- PUT method will be used to update an existing resource. An error will be returned if no resource matches the identifier. We don't need to define POST parameters: PUT services take `Eliom.Parameter.raw_post_data` as default content.
+- DELETE method will be used to delete a resource. Deleting a location that does not exist also succeeds: DELETE is idempotent.
+```ocaml
+let read_service =
+  Eliom.Service.create
+    ~path
+    ~meth:(Eliom.Service.Get get_params)
+    ()
+
+let create_service =
+  Eliom.Service.create
+    ~path
+    ~meth:(Eliom.Service.Post (get_params, Eliom.Parameter.raw_post_data))
+    ()
+
+let update_service =
+  Eliom.Service.create
+    ~path
+    ~meth:(Eliom.Service.Put get_params)
+    ()
+
+let delete_service =
+  Eliom.Service.create
+    ~path
+    ~meth:(Eliom.Service.Delete get_params)
+    ()
+```
+
+## Handlers
+
+Let's start the handlers definition with a few helper values and functions used by handlers.
+
+Since we use the low-level `Eliom.Registration.String.send` function to send our response, we wrap it in three specialized functions: `send_json`, `send_error` and `send_success` (this one only sends the 200 OK status code, without any content).
+
+Another function helps us to check the received `Content-type` is the expected one, by matching it against a MIME type. In our example, we'll verify that we are receiving JSON.
+
+The `raw_content` of a request is a `Cohttp_lwt.Body.t`. The `read_raw_content` function reads it chunk by chunk, and gives up (returns `None`) as soon as the body exceeds `max_length` bytes, so that a client cannot make the server store a huge body in memory.
+
+The `parse_location` function decodes a location from a JSON string. Both `Yojson` parsing and the decoding into our type may fail: we turn both failures into an `Error`.
+
+```ocaml
+let json_mime_type = "application/json"
+
+let send_json ~code json =
+  Eliom.Registration.String.send ~code (json, json_mime_type)
+
+let send_error ~code error_message =
+  let json = Yojson.Safe.to_string (error_to_yojson {error_message}) in
+  send_json ~code json
+
+let send_success () =
+  Eliom.Registration.String.send ~code:200 ("", "")
+
+let check_content_type ~mime_type content_type =
+  match content_type with
+  | Some ((type_, subtype), _)
+      when (type_ ^ "/" ^ subtype) = mime_type -> true
+  | _ -> false
+
+let read_raw_content ?(max_length = 4096) raw_content =
+  let stream = Cohttp_lwt.Body.to_stream raw_content in
+  let buffer = Buffer.create 256 in
+  let rec read () =
+    match%lwt Lwt_stream.get stream with
+    | None -> Lwt.return_some (Buffer.contents buffer)
+    | Some chunk ->
+      if Buffer.length buffer + String.length chunk > max_length then
+        Lwt.return_none
+      else begin
+        Buffer.add_string buffer chunk;
+        read ()
+      end
+  in
+  read ()
+
+let parse_location location_str =
+  match Yojson.Safe.from_string location_str with
+  | json -> location_of_yojson json
+  | exception Yojson.Json_error message -> Error message
+```
+Then we define our handlers in order to perform the required actions and return a response.
+
+POST and PUT handlers will read raw body content as JSON and convert it to our types with the functions generated by `ppx_deriving_yojson`.
+
+We use HTTP status codes in responses, with these meanings:
+
+- 200 (OK): the request succeeded.
+- 400 (Bad request): something is wrong with the request (missing parameter, parsing error...).
+- 404 (Not found): no resource matches the provided identifier.
+- 413 (Content too large): the body of the request is longer than we accept.
+The GET handler either returns a single location if an identifier is provided, or a list of all existing locations otherwise.
+
+```ocaml
+let read_handler id_opt () =
+  let%lwt db = db in
+  match id_opt with
+  | None ->
+    let%lwt locations =
+      Ocsipersist.Polymorphic.fold
+        (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
+    in
+    let json = Yojson.Safe.to_string (locations_to_yojson locations) in
+    send_json ~code:200 json
+  | Some id ->
+    match%lwt Ocsipersist.Polymorphic.find db id with
+    | location ->
+      let json = Yojson.Safe.to_string (location_to_yojson location) in
+      send_json ~code:200 json
+    | exception Not_found ->
+      send_error ~code:404 ("Resource not found: " ^ id)
+```
+Next, let's create a common function for POST and PUT handlers, which have a very similar behaviour. The only difference is that a PUT request with a non-existing identifier will fail (thus only accepting update requests, and rejecting creations), whereas the same request with POST method will succeed (a new location associated to the identifier will be created). `Ocsipersist.Polymorphic.replace_if_exists` does the check and the update in one step, and fails with `Not_found` if there is no location to update.
+
+```ocaml
+let edit_handler_aux ~create id_opt (content_type, raw_content) =
+  let%lwt db = db in
+  if not (check_content_type ~mime_type:json_mime_type content_type) then
+    send_error ~code:400 "Content-type is wrong, it must be JSON"
+  else
+    match id_opt with
+    | None ->
+      send_error ~code:400 "Location identifier is missing"
+    | Some id ->
+      match%lwt read_raw_content raw_content with
+      | None ->
+        send_error ~code:413 "Body content is too large"
+      | Some location_str ->
+        match parse_location location_str with
+        | Error _ ->
+          send_error ~code:400 "Provided JSON is not valid"
+        | Ok location ->
+          if create then
+            let%lwt () = Ocsipersist.Polymorphic.add db id location in
+            send_success ()
+          else
+            match%lwt
+              Ocsipersist.Polymorphic.replace_if_exists db id location
+            with
+            | () -> send_success ()
+            | exception Not_found ->
+              send_error ~code:404 ("Location not found: " ^ id)
+
+let create_handler id_opt content =
+  edit_handler_aux ~create:true id_opt content
+
+let update_handler id_opt content =
+  edit_handler_aux ~create:false id_opt content
+```
+We need a fourth handler to delete locations:
+
+```ocaml
+let delete_handler id_opt _body =
+  let%lwt db = db in
+  match id_opt with
+  | None ->
+    send_error ~code:400 "An id must be provided to delete a location"
+  | Some id ->
+    let%lwt () = Ocsipersist.Polymorphic.remove db id in
+    send_success ()
+```
+
+## Services registration
+
+Finally we register services with the `Eliom.Registration.Any` module in order to have full control on the sent response. This way, we'll be able to send an appropriate HTTP status code depending on what happens during the request processing (parsing error, resource not found...), as seen above when defining handlers.
+
+```ocaml
+let () =
+  Eliom.Registration.Any.register ~service:read_service read_handler;
+  Eliom.Registration.Any.register ~service:create_service create_handler;
+  Eliom.Registration.Any.register ~service:update_service update_handler;
+  Eliom.Registration.Any.register ~service:delete_service delete_handler
+```
+
+## Full source
+
+```ocaml
+(**** Data types ****)
+
+type coordinates = {
+  latitude : float;
+  longitude : float;
+} [@@deriving yojson]
+
+type location = {
+  description : string option;
+  coordinates : coordinates;
+} [@@deriving yojson]
+
+(* List of pairs (identifier * location) *)
+type locations =
+  (string * location) list
+  [@@deriving yojson]
+
+type error = {
+  error_message : string;
+} [@@deriving yojson]
+
+let db : location Ocsipersist.table Lwt.t =
+  Ocsipersist.Polymorphic.open_table "locations"
+
+(**** Services ****)
+
+let path = Eliom.Service.Path [""]
+
+let get_params =
+  Eliom.Parameter.(suffix (neopt (string "id")))
+
+let read_service =
+  Eliom.Service.create
+    ~path
+    ~meth:(Eliom.Service.Get get_params)
+    ()
+
+let create_service =
+  Eliom.Service.create
+    ~path
+    ~meth:(Eliom.Service.Post (get_params, Eliom.Parameter.raw_post_data))
+    ()
+
+let update_service =
+  Eliom.Service.create
+    ~path
+    ~meth:(Eliom.Service.Put get_params)
+    ()
+
+let delete_service =
+  Eliom.Service.create
+    ~path
+    ~meth:(Eliom.Service.Delete get_params)
+    ()
+
+(**** Handler helpers ****)
+
+let json_mime_type = "application/json"
+
+let send_json ~code json =
+  Eliom.Registration.String.send ~code (json, json_mime_type)
+
+let send_error ~code error_message =
+  let json = Yojson.Safe.to_string (error_to_yojson {error_message}) in
+  send_json ~code json
+
+let send_success () =
+  Eliom.Registration.String.send ~code:200 ("", "")
+
+let check_content_type ~mime_type content_type =
+  match content_type with
+  | Some ((type_, subtype), _)
+      when (type_ ^ "/" ^ subtype) = mime_type -> true
+  | _ -> false
+
+let read_raw_content ?(max_length = 4096) raw_content =
+  let stream = Cohttp_lwt.Body.to_stream raw_content in
+  let buffer = Buffer.create 256 in
+  let rec read () =
+    match%lwt Lwt_stream.get stream with
+    | None -> Lwt.return_some (Buffer.contents buffer)
+    | Some chunk ->
+      if Buffer.length buffer + String.length chunk > max_length then
+        Lwt.return_none
+      else begin
+        Buffer.add_string buffer chunk;
+        read ()
+      end
+  in
+  read ()
+
+let parse_location location_str =
+  match Yojson.Safe.from_string location_str with
+  | json -> location_of_yojson json
+  | exception Yojson.Json_error message -> Error message
+
+(**** Handlers ****)
+
+let read_handler id_opt () =
+  let%lwt db = db in
+  match id_opt with
+  | None ->
+    let%lwt locations =
+      Ocsipersist.Polymorphic.fold
+        (fun id loc acc -> Lwt.return ((id, loc) :: acc)) db []
+    in
+    let json = Yojson.Safe.to_string (locations_to_yojson locations) in
+    send_json ~code:200 json
+  | Some id ->
+    match%lwt Ocsipersist.Polymorphic.find db id with
+    | location ->
+      let json = Yojson.Safe.to_string (location_to_yojson location) in
+      send_json ~code:200 json
+    | exception Not_found ->
+      send_error ~code:404 ("Resource not found: " ^ id)
+
+let edit_handler_aux ~create id_opt (content_type, raw_content) =
+  let%lwt db = db in
+  if not (check_content_type ~mime_type:json_mime_type content_type) then
+    send_error ~code:400 "Content-type is wrong, it must be JSON"
+  else
+    match id_opt with
+    | None ->
+      send_error ~code:400 "Location identifier is missing"
+    | Some id ->
+      match%lwt read_raw_content raw_content with
+      | None ->
+        send_error ~code:413 "Body content is too large"
+      | Some location_str ->
+        match parse_location location_str with
+        | Error _ ->
+          send_error ~code:400 "Provided JSON is not valid"
+        | Ok location ->
+          if create then
+            let%lwt () = Ocsipersist.Polymorphic.add db id location in
+            send_success ()
+          else
+            match%lwt
+              Ocsipersist.Polymorphic.replace_if_exists db id location
+            with
+            | () -> send_success ()
+            | exception Not_found ->
+              send_error ~code:404 ("Location not found: " ^ id)
+
+let create_handler id_opt content =
+  edit_handler_aux ~create:true id_opt content
+
+let update_handler id_opt content =
+  edit_handler_aux ~create:false id_opt content
+
+let delete_handler id_opt _body =
+  let%lwt db = db in
+  match id_opt with
+  | None ->
+    send_error ~code:400 "An id must be provided to delete a location"
+  | Some id ->
+    let%lwt () = Ocsipersist.Polymorphic.remove db id in
+    send_success ()
+
+(**** Services registration ****)
+
+let () =
+  Eliom.Registration.Any.register ~service:read_service read_handler;
+  Eliom.Registration.Any.register ~service:create_service create_handler;
+  Eliom.Registration.Any.register ~service:update_service update_handler;
+  Eliom.Registration.Any.register ~service:delete_service delete_handler
+```

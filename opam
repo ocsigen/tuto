@@ -1,6 +1,0 @@
-opam-version: "1"
-maintainer: "dev@ocsigen.org"
-homepage: "http://ocsigen.org/tuto/manual"
-version: "dev"
-build: [ ]
-remove: [ ]

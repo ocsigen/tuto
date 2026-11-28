@@ -66,9 +66,6 @@ local build skips the link requalification that the CI runs (see below).
 Install the package, then run odoc_driver, the engine of ocaml.org's docs:
 
 ```
-# until ocsigen-start 9.0.0 is on opam, as package.yml does:
-opam pin add ocsigen-start https://github.com/ocsigen/ocsigen-start.git#9.0.0 --no-action
-
 opam pin add ocsigen . --no-action
 opam install ocsigen odoc-driver
 odoc_driver ocsigen --remap

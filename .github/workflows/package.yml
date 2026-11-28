@@ -45,11 +45,6 @@ jobs:
       - name: Lint the opam file
         run: opam lint ocsigen.opam
 
-      # TEMPORARY: ocsigen-start 9.0.0 is not in opam-repository yet
-      # (ocaml/opam-repository#31344). Remove this step once it is.
-      - name: Pin ocsigen-start 9.0.0
-        run: opam pin add ocsigen-start https://github.com/ocsigen/ocsigen-start.git#9.0.0 --no-action
-
       - name: Install the package
         run: |
           opam pin add ocsigen . --no-action
